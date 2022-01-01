@@ -7,12 +7,12 @@ class BottomSheetItemRow extends StatelessWidget {
   final bool isDisabled;
 
   const BottomSheetItemRow({
-    Key? key,
+    super.key,
     required this.title,
     required this.icon,
     this.onTap,
     required this.isDisabled,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

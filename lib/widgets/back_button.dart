@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class CustomBackButton extends StatelessWidget {
   final void Function() onTap;
 
-  CustomBackButton({
+  const CustomBackButton({
     super.key,
     required this.onTap,
   });
@@ -13,7 +13,7 @@ class CustomBackButton extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: Colors.white,
@@ -26,7 +26,7 @@ class CustomBackButton extends StatelessWidget {
             )
           ],
         ),
-        child: Icon(
+        child: const Icon(
           Icons.arrow_back_ios_new_rounded,
           size: 15,
         ),

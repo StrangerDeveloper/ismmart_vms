@@ -8,10 +8,9 @@ import 'package:ismmart_vms/helper/global_variables.dart';
 import 'package:ismmart_vms/helper/urls.dart';
 import 'package:ismmart_vms/widgets/custom_snackbar.dart';
 
-
 class ApiBaseHelper {
   final String _baseUrl = Urls.baseUrl;
-  final String token = GlobalVariable.token!;
+  final String token = GlobalVariable.token;
 
   Future<dynamic> postMethod({
     required String url,
@@ -28,7 +27,8 @@ class ApiBaseHelper {
         body = jsonEncode(body);
       }
       Uri urlValue = Uri.parse(_baseUrl + url);
-      CommonFunction.debugPrint('*********************** Request ********************************');
+      CommonFunction.debugPrint(
+          '*********************** Request ********************************');
       CommonFunction.debugPrint(urlValue);
       CommonFunction.debugPrint(body);
 
@@ -36,28 +36,34 @@ class ApiBaseHelper {
           .post(urlValue, headers: header, body: body)
           .timeout(const Duration(seconds: 30));
 
-      CommonFunction.debugPrint('*********************** Response ********************************');
-          CommonFunction.debugPrint(urlValue);
+      CommonFunction.debugPrint(
+          '*********************** Response ********************************');
+      CommonFunction.debugPrint(urlValue);
       CommonFunction.debugPrint(response.body);
-      CommonFunction.colorConsole('****************************************************************************************');
+      CommonFunction.colorConsole(
+          '****************************************************************************************');
 
       Map<String, dynamic> parsedJSON = jsonDecode(response.body);
       return parsedJSON;
     } on SocketException catch (_) {
       GlobalVariable.showLoader.value = false;
-      CustomSnackBar.showSnackBar(title : 'Error', message: Errors.noInternetError);
-     throw Errors.noInternetError;
+      CustomSnackBar.showSnackBar(
+          title: 'Error', message: Errors.noInternetError);
+      throw Errors.noInternetError;
     } on TimeoutException catch (_) {
       GlobalVariable.showLoader.value = false;
-      CustomSnackBar.showSnackBar(title : 'Error', message :  Errors.timeOutException);
+      CustomSnackBar.showSnackBar(
+          title: 'Error', message: Errors.timeOutException);
       throw Errors.timeOutException;
     } on FormatException catch (_) {
       GlobalVariable.showLoader.value = false;
-      CustomSnackBar.showSnackBar(title : 'Error', message :  Errors.formatException);
+      CustomSnackBar.showSnackBar(
+          title: 'Error', message: Errors.formatException);
       throw Errors.formatException;
     } catch (e) {
       GlobalVariable.showLoader.value = false;
-      CustomSnackBar.showSnackBar(title : 'Error', message :  Errors.generalApiError);
+      CustomSnackBar.showSnackBar(
+          title: 'Error', message: Errors.generalApiError);
       throw e.toString();
     }
   }

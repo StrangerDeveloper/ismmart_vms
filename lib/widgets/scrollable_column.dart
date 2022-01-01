@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class ScrollableColumn extends StatelessWidget {
-
   final List<Widget> children;
   final CrossAxisAlignment crossAxisAlignment;
   final TextDirection? textDirection;
@@ -11,15 +10,14 @@ class ScrollableColumn extends StatelessWidget {
   final TextBaseline? textBaseline;
 
   const ScrollableColumn(
-      {Key? key,
-        required this.children,
-        this.crossAxisAlignment = CrossAxisAlignment.center,
-        this.textDirection,
-        this.mainAxisAlignment = MainAxisAlignment.start,
-        this.mainAxisSize = MainAxisSize.max,
-        this.verticalDirection = VerticalDirection.down,
-        this.textBaseline})
-      : super(key: key);
+      {super.key,
+      required this.children,
+      this.crossAxisAlignment = CrossAxisAlignment.center,
+      this.textDirection,
+      this.mainAxisAlignment = MainAxisAlignment.start,
+      this.mainAxisSize = MainAxisSize.max,
+      this.verticalDirection = VerticalDirection.down,
+      this.textBaseline});
 
   @override
   Widget build(BuildContext context) {
@@ -27,18 +25,19 @@ class ScrollableColumn extends StatelessWidget {
       return SingleChildScrollView(
         child: ConstrainedBox(
 // Constrained box stops the column from getting too small, forcing it to be at least as tall as it's parent
-          constraints: BoxConstraints(minWidth: constraints.maxWidth, minHeight: constraints.maxHeight),
+          constraints: BoxConstraints(
+              minWidth: constraints.maxWidth, minHeight: constraints.maxHeight),
 // Intrinsic height stops the column from expanding forever when it's height becomes unbounded
 // It will always use the full height of the parent, or the natural size of the children, whichever is greater.
           child: IntrinsicHeight(
             child: Column(
-              children: children,
               crossAxisAlignment: crossAxisAlignment,
               textDirection: textDirection,
               mainAxisAlignment: mainAxisAlignment,
               mainAxisSize: mainAxisSize,
               verticalDirection: verticalDirection,
               textBaseline: textBaseline,
+              children: children,
             ),
           ),
         ),

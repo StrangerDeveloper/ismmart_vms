@@ -15,8 +15,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final void Function()? onTap;
   final bool? backBtn;
 
-  CustomAppBar(
-      {this.title,
+  const CustomAppBar(
+      {super.key,
+      required this.title,
       this.menuItem,
       this.action,
       this.leading,
@@ -50,7 +51,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                       () {
                         Get.back();
                       },
-                  child: Icon(
+                  child: const Icon(
                     Icons.arrow_back_ios,
                     color: kPrimaryColor,
                     size: 20,
