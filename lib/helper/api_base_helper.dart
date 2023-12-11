@@ -11,7 +11,7 @@ import 'package:ismmart_vms/widgets/custom_snackbar.dart';
 
 class ApiBaseHelper {
   final String _baseUrl = Urls.baseUrl;
-  final String token = GlobalVariable.token!;
+  final String token = GlobalVariable.token;
 
   Future<dynamic> postMethod({
     required String url,

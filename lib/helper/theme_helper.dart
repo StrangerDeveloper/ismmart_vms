@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ThemeHelper {
   static const primary = Color(0xffE88C43);
@@ -17,7 +18,8 @@ class ThemeHelper {
     900: Color(0xFFE2352F),
   });
   static const int _platter1PrimaryValue = 0xFFEE635B;
-
+  static const lightGrey = Color(0xff929AAB);
+  static const fadedBlue = Color(0xff5D738A);
   // static Gradient gradient1 = const LinearGradient(
   //   begin: Alignment(-1.064, -0.951),
   //   end: Alignment(1, 1),
@@ -26,3 +28,8 @@ class ThemeHelper {
   // );
 
 }
+
+var newFontStyle0 = GoogleFonts.dmSans(
+  fontWeight: FontWeight.w400,
+  fontSize: 14,
+);

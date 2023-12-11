@@ -40,11 +40,12 @@ dependencies:
   get_storage: ^2.0.3
 #  file_picker: ^6.0.0
   flutter_svg: ^2.0.1
-  image_picker: ^1.0.0
+  image_picker: ^1.0.4
   intl: ^0.18.1
   sign_in_with_apple: ^5.0.0
   flutter_image_compress: ^2.0.4
   google_fonts: ^4.0.4
+  country_code_picker: ^3.0.0
 #  http: ^0.13.1
 #  country_code_picker: ^3.0.0
 #  dialog_flowtter: ^0.3.3
@@ -90,8 +91,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  assets:
-    - assets/images/
+#  assets:
+#    - assets/images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
