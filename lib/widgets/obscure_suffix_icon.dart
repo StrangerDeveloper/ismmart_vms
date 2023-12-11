@@ -20,7 +20,7 @@ class ObscureSuffixIcon extends StatelessWidget {
         icon: Icon(
           isObscured ? CupertinoIcons.eye_slash : CupertinoIcons.eye,
           size: 20,
-          color: Colors.grey,
+          color: ThemeHelper.lightGrey,
         ),
         onPressed: onPressed,
       ),

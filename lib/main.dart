@@ -3,9 +3,17 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:ismmart_vms/screens/signup/sign_up_view.dart';
+import 'package:ismmart_vms/helper/routes.dart';
+import 'package:ismmart_vms/screens/login/login_view.dart';
+
+import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   SystemChrome.setSystemUIOverlayStyle(
@@ -28,6 +36,9 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: SignUpView(),
+      // home: LogInView(),
+      // initialRoute: Routes.initRoute,
+      // getPages: Routes.pages,
     );
   }
 }
