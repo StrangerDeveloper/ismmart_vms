@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:ismmart_vms/helper/routes.dart';
 import 'package:ismmart_vms/screens/login/login_view.dart';
 
 Future<void> main() async {
@@ -28,6 +29,8 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: LogInView(),
+      initialRoute: Routes.initRoute,
+      getPages: Routes.pages,
     );
   }
 }

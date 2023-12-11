@@ -5,6 +5,7 @@ import 'package:ismmart_vms/widgets/scrollable_column.dart';
 import 'package:ismmart_vms/helper/languages/translations_key.dart' as langKey;
 
 import '../../helper/global_variables.dart';
+import '../../helper/routes.dart';
 import '../../helper/validator.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/custom_loading.dart';
@@ -281,11 +282,11 @@ class LogInView extends StatelessWidget {
       alignment: Alignment.centerRight,
       child: InkWell(
         onTap: () {
-          // Get.toNamed(Routes.forgotPassword1, arguments: {
-          //   'email': GetUtils.isEmail(viewModel.emailController.text)
-          //       ? viewModel.emailController.text
-          //       : ''
-          // });
+          Get.toNamed(Routes.forgotPassword1, arguments: {
+            'email': GetUtils.isEmail(viewModel.emailController.text)
+                ? viewModel.emailController.text
+                : ''
+          });
         },
         child: Text(
           langKey.forgotPassword.tr,
