@@ -50,7 +50,7 @@ class LogInView extends StatelessWidget {
                   forgotPassword(),
                   logInBtn(),
                   or(),
-                  // googlelogInBtn(),
+                  googlelogInBtn(),
                   // facebooklogInBtn(),
                   // applelogInBtn(),
                   Spacer(),
@@ -136,82 +136,82 @@ class LogInView extends StatelessWidget {
     );
   }
 
-// //Google Button
-//   Widget googlelogInBtn() {
-//     return Padding(
-//       padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-//       child: CustomRoundedTextBtn(
-//         borderSide: BorderSide(
-//           color: newColorDarkBlack, // your color here
-//           width: 1,
-//         ),
-//         backgroundColor: kWhiteColor,
-//         foregroundColor: newColorDarkBlack,
-//         child: Row(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: [
-//             ClipRRect(
-//               child: Image.asset(
-//                 'assets/logo/google_logo.png',
-//                 width: 36,
-//                 height: 36,
-//               ),
-//               borderRadius: BorderRadius.circular(50.0),
-//             ),
-//             SizedBox(
-//               width: 5,
-//             ),
-//             Text(
-//               "Continue in with Google",
-//               style: newFontStyle3,
-//             ),
-//           ],
-//         ),
-//         onPressed: () {
-//           // viewModel.signInWithApple();
-//         },
-//       ),
+//Google Button
+  Widget googlelogInBtn() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+      child: CustomRoundedTextBtn(
+        borderSide: BorderSide(
+          //color: newColorDarkBlack, // your color here
+          width: 1,
+        ),
+        // backgroundColor: kWhiteColor,
+        // foregroundColor: newColorDarkBlack,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ClipRRect(
+              child: Image.asset(
+                'assets/logo/google_logo.png',
+                width: 36,
+                height: 36,
+              ),
+              borderRadius: BorderRadius.circular(50.0),
+            ),
+            SizedBox(
+              width: 5,
+            ),
+            Text(
+              "Continue in with Google",
+              //style: newFontStyle3,
+            ),
+          ],
+        ),
+        onPressed: () {
+          // viewModel.signInWithApple();
+        },
+      ),
 
-//       // Obx(
-//       //       () => GlobalVariable.showLoader.value
-//       //       ? CustomLoading(isItBtn: true)
-//       //       :
-//       //
-//       //       CustomRoundedTextBtn(
-//       //     borderSide:  BorderSide(
-//       //       color: newColorDarkBlack, // your color here
-//       //       width: 1,
-//       //     ),
-//       //     backgroundColor: kWhiteColor,
-//       //     foregroundColor: newColorDarkBlack,
-//       //     child: Row(
-//       //       mainAxisAlignment: MainAxisAlignment.center,
-//       //       children: [
-//       //         ClipRRect(
-//       //           child: Image.asset(
-//       //             'assets/logo/google_logo.png',
-//       //             width: 36,
-//       //             height: 36,
-//       //           ),
-//       //           borderRadius: BorderRadius.circular(50.0),
-//       //         ),
-//       //         SizedBox(
-//       //           width:5,
-//       //         ),
-//       //         Text(
-//       //           "Continue in with Google",
-//       //           style: newFontStyle3,
-//       //         ),
-//       //       ],),
-//       //     onPressed: () {
-//       //       viewModel.signInWithApple();
-//       //     },
-//       //   ),
-//       //
-//       // ),
-//       //
-//     );
-//   }
+      // Obx(
+      //       () => GlobalVariable.showLoader.value
+      //       ? CustomLoading(isItBtn: true)
+      //       :
+      //
+      //       CustomRoundedTextBtn(
+      //     borderSide:  BorderSide(
+      //       color: newColorDarkBlack, // your color here
+      //       width: 1,
+      //     ),
+      //     backgroundColor: kWhiteColor,
+      //     foregroundColor: newColorDarkBlack,
+      //     child: Row(
+      //       mainAxisAlignment: MainAxisAlignment.center,
+      //       children: [
+      //         ClipRRect(
+      //           child: Image.asset(
+      //             'assets/logo/google_logo.png',
+      //             width: 36,
+      //             height: 36,
+      //           ),
+      //           borderRadius: BorderRadius.circular(50.0),
+      //         ),
+      //         SizedBox(
+      //           width:5,
+      //         ),
+      //         Text(
+      //           "Continue in with Google",
+      //           style: newFontStyle3,
+      //         ),
+      //       ],),
+      //     onPressed: () {
+      //       viewModel.signInWithApple();
+      //     },
+      //   ),
+      //
+      // ),
+      //
+    );
+  }
 
 // //Apple Button
 //   Widget applelogInBtn() {
