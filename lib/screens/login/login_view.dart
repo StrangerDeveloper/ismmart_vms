@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:ismmart_vms/screens/login/login_viewmodel.dart';
 
 import '../../helper/validator.dart';
+import '../../widgets/custom_button.dart';
+import '../../widgets/custom_textfield.dart';
 import '../../widgets/no_internet_view.dart';
 import '../../widgets/scrollable_column.dart';
 
@@ -23,8 +25,8 @@ class LogInView extends StatelessWidget {
               child: ScrollableColumn(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // titleAndBackBtn(),
-                  // const Spacer(),
+                  titleAndBackBtn(),
+                  const Spacer(),
                   // Padding(
                   //   padding:
                   //       const EdgeInsets.only(top: 20, bottom: 10, left: 20),
@@ -66,48 +68,48 @@ class LogInView extends StatelessWidget {
     );
   }
 
-//   Widget titleAndBackBtn() {
-//     return Container(
-//       padding: const EdgeInsets.only(left: 20, top: 30),
-//       width: double.infinity,
-//       child: Stack(
-//         alignment: Alignment.centerLeft,
-//         children: [
-//           Align(
-//             alignment: Alignment.center,
-//             child: Text(
-//               langKey.login.tr,
-//               style: dmSerifDisplay1.copyWith(
-//                 fontSize: 32,
-//               ),
-//             ),
-//           ),
-//           CustomBackButton(
-//             onTap: () {
-//               Get.back();
-//             },
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-//
-//   Widget emailTextField() {
-//     return Padding(
-//       padding: const EdgeInsets.symmetric(horizontal: 20),
-//       child: CustomTextField3(
-//         title: langKey.email.tr,
-//         hintText: 'asha****iq11@gmail.com',
-//         controller: viewModel.emailController,
-//         autoValidateMode: AutovalidateMode.onUserInteraction,
-//         validator: (value) {
-//           return Validator().validateEmail(value);
-//         },
-//         keyboardType: TextInputType.emailAddress,
-//       ),
-//     );
-//   }
-//
+  Widget titleAndBackBtn() {
+    return Container(
+      padding: const EdgeInsets.only(left: 20, top: 30),
+      width: double.infinity,
+      child: Stack(
+        alignment: Alignment.centerLeft,
+        children: [
+          const Align(
+            alignment: Alignment.center,
+            child: Text(
+              'Login',
+              // style: dmSerifDisplay1.copyWith(
+              //   fontSize: 32,
+              // ),
+            ),
+          ),
+          CustomBackButton(
+            onTap: () {
+              Get.back();
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget emailTextField() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: CustomTextField3(
+        title: 'Email',
+        hintText: 'asha****iq11@gmail.com',
+        controller: viewModel.emailController,
+        autoValidateMode: AutovalidateMode.onUserInteraction,
+        validator: (value) {
+          return Validation.validateDefaultField(value);
+        },
+        keyboardType: TextInputType.emailAddress,
+      ),
+    );
+  }
+
 //   Widget passwordTextField() {
 //     return Obx(
 //       () => Padding(

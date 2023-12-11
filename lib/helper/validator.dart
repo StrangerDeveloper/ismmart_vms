@@ -2,7 +2,7 @@ import 'dart:core';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-class Validator {
+class Validation {
   /////////////////////  Formatters  /////////////////////////
   ///Number should start from + sign...
   final List<TextInputFormatter>? phoneNumberFormatter = [

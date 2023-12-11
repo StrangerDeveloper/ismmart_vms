@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CustomTextField1 extends StatelessWidget {
   final String? title;
@@ -250,116 +252,116 @@ class CustomTextField1 extends StatelessWidget {
 //   }
 // }
 //
-// class CustomTextField3 extends StatelessWidget {
-//   final String? title;
-//   final String? hintText;
-//   final Widget? suffixIcon;
-//   final EdgeInsetsGeometry? contentPadding;
-//   final bool obscureText;
-//   final TextEditingController? controller;
-//   final bool readOnly;
-//   final bool? showCursor;
-//   final AutovalidateMode? autoValidateMode;
-//   final FormFieldValidator<String>? validator;
-//   final List<TextInputFormatter>? inputFormatters;
-//   final TextInputType? keyboardType;
-//   final void Function(String)? onChanged;
-//   final bool required;
-//   final bool enabled;
-//
-//     CustomTextField3({
-//     Key? key,
-//     this.showCursor,
-//     this.readOnly = false,
-//     this.onChanged,
-//     this.contentPadding = EdgeInsets.zero,
-//     this.controller,
-//     this.suffixIcon,
-//     this.obscureText = false,
-//     this.hintText,
-//     this.title,
-//     this.autoValidateMode,
-//     this.validator,
-//       this.enabled = true,
-//     this.inputFormatters,
-//     this.keyboardType,
-//     this.required = true,
-//   }) : super(key: key);
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       crossAxisAlignment: CrossAxisAlignment.start,
-//       children: [
-//         if (title != null)
-//           Padding(
-//             padding: const EdgeInsets.only(bottom: 3),
-//             child: RichText(
-//               text: TextSpan(
-//                 text: title!,
-//                 style: GoogleFonts.dmSans(
-//                   fontSize: 14,
-//                   fontWeight: FontWeight.w700,
-//                   color: newColorDarkBlack2,
-//                 ),
-//                 children: [
-//                   if (required)
-//                     TextSpan(
-//                       text: ' *',
-//                       style: TextStyle(color: Colors.red),
-//                     )
-//                 ],
-//               ),
-//             ),
-//           ),
-//         TextFormField(
-//           keyboardType: keyboardType,
-//           inputFormatters: inputFormatters,
-//           validator: validator,
-//           autovalidateMode: autoValidateMode,
-//           showCursor: showCursor,
-//           enabled: enabled,
-//           readOnly: readOnly,
-//           controller: controller,
-//           obscureText: obscureText,
-//           onChanged: onChanged,
-//           style: newFontStyle0.copyWith(
-//             color: newColorDarkBlack2,
-//           ),
-//           obscuringCharacter: '●',
-//           decoration: InputDecoration(
-//             hintText: hintText,
-//             hintStyle: newFontStyle0.copyWith(
-//               color: newColorLightGrey2,
-//             ),
-//             contentPadding: EdgeInsets.only(top: 8, bottom: 10),
-//             suffixIcon: suffixIcon,
-//             suffixIconConstraints: BoxConstraints.tight(Size(40, 25)),
-//             errorStyle: GoogleFonts.dmSans(
-//               fontSize: 13,
-//               color: Colors.red.shade700,
-//             ),
-//             disabledBorder: UnderlineInputBorder(
-//               borderSide: BorderSide(color: Color(0xffEEEEEE)),
-//             ),
-//             enabledBorder: UnderlineInputBorder(
-//               borderSide: BorderSide(color: Color(0xffEEEEEE)),
-//             ),
-//             focusedBorder: UnderlineInputBorder(
-//               borderSide: BorderSide(color: Color(0xff929AAB)),
-//             ),
-//             errorBorder: UnderlineInputBorder(
-//               borderSide: BorderSide(color: Colors.red.shade700, width: 0.3),
-//             ),
-//             focusedErrorBorder: UnderlineInputBorder(
-//               borderSide: BorderSide(color: Colors.red.shade700, width: 0.6),
-//             ),
-//           ),
-//         ),
-//       ],
-//     );
-//   }
-// }
+class CustomTextField3 extends StatelessWidget {
+  final String? title;
+  final String? hintText;
+  final Widget? suffixIcon;
+  final EdgeInsetsGeometry? contentPadding;
+  final bool obscureText;
+  final TextEditingController? controller;
+  final bool readOnly;
+  final bool? showCursor;
+  final AutovalidateMode? autoValidateMode;
+  final FormFieldValidator<String>? validator;
+  final List<TextInputFormatter>? inputFormatters;
+  final TextInputType? keyboardType;
+  final void Function(String)? onChanged;
+  final bool required;
+  final bool enabled;
+
+    CustomTextField3({
+    Key? key,
+    this.showCursor,
+    this.readOnly = false,
+    this.onChanged,
+    this.contentPadding = EdgeInsets.zero,
+    this.controller,
+    this.suffixIcon,
+    this.obscureText = false,
+    this.hintText,
+    this.title,
+    this.autoValidateMode,
+    this.validator,
+      this.enabled = true,
+    this.inputFormatters,
+    this.keyboardType,
+    this.required = true,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (title != null)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 3),
+            child: RichText(
+              text: TextSpan(
+                text: title!,
+                style: GoogleFonts.dmSans(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                  // color: newColorDarkBlack2,
+                ),
+                children: [
+                  if (required)
+                    const TextSpan(
+                      text: ' *',
+                      style: TextStyle(color: Colors.red),
+                    )
+                ],
+              ),
+            ),
+          ),
+        TextFormField(
+          keyboardType: keyboardType,
+          inputFormatters: inputFormatters,
+          validator: validator,
+          autovalidateMode: autoValidateMode,
+          showCursor: showCursor,
+          enabled: enabled,
+          readOnly: readOnly,
+          controller: controller,
+          obscureText: obscureText,
+          onChanged: onChanged,
+          // style: newFontStyle0.copyWith(
+          //   color: newColorDarkBlack2,
+          // ),
+          obscuringCharacter: '●',
+          decoration: InputDecoration(
+            hintText: hintText,
+            // hintStyle: newFontStyle0.copyWith(
+            //   color: newColorLightGrey2,
+            // ),
+            contentPadding: const EdgeInsets.only(top: 8, bottom: 10),
+            suffixIcon: suffixIcon,
+            suffixIconConstraints: BoxConstraints.tight(const Size(40, 25)),
+            errorStyle: GoogleFonts.dmSans(
+              fontSize: 13,
+              color: Colors.red.shade700,
+            ),
+            disabledBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(color: Color(0xffEEEEEE)),
+            ),
+            enabledBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(color: Color(0xffEEEEEE)),
+            ),
+            focusedBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(color: Color(0xff929AAB)),
+            ),
+            errorBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.red.shade700, width: 0.3),
+            ),
+            focusedErrorBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.red.shade700, width: 0.6),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
 //
 // class CountryCodePickerTextField extends StatelessWidget {
 //   final TextEditingController? controller;
