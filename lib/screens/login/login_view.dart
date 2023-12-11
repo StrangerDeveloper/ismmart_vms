@@ -30,12 +30,12 @@ class LogInView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   titleAndBackBtn(),
-                  Spacer(),
+                  const Spacer(),
                   Padding(
                     padding:
                         const EdgeInsets.only(top: 20, bottom: 10, left: 20),
                     child: CustomText(
-                      title: langKey.welcome.tr + '!',
+                      title: '${langKey.welcome.tr}!',
                     ),
                   ),
                   Padding(
@@ -53,7 +53,7 @@ class LogInView extends StatelessWidget {
                   googlelogInBtn(),
                   // facebooklogInBtn(),
                   // applelogInBtn(),
-                  Spacer(),
+                  const Spacer(),
                   doNotHaveAnAccount(),
                   //BecomeVendor(),
                 ],
@@ -70,7 +70,7 @@ class LogInView extends StatelessWidget {
 
   Widget titleAndBackBtn() {
     return Container(
-      padding: EdgeInsets.only(left: 20, top: 30),
+      padding: const EdgeInsets.only(left: 20, top: 30),
       width: double.infinity,
       child: Stack(
         alignment: Alignment.centerLeft,
@@ -141,7 +141,7 @@ class LogInView extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
       child: CustomRoundedTextBtn(
-        borderSide: BorderSide(
+        borderSide: const BorderSide(
           //color: newColorDarkBlack, // your color here
           width: 1,
         ),
@@ -151,17 +151,17 @@ class LogInView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ClipRRect(
+              borderRadius: BorderRadius.circular(50.0),
               child: Image.asset(
                 'assets/logo/google_logo.png',
                 width: 36,
                 height: 36,
               ),
-              borderRadius: BorderRadius.circular(50.0),
             ),
-            SizedBox(
+            const SizedBox(
               width: 5,
             ),
-            Text(
+            const Text(
               "Continue in with Google",
               //style: newFontStyle3,
             ),
@@ -260,7 +260,7 @@ class LogInView extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(20, 20, 20, 25),
       child: Obx(
         () => GlobalVariable.showLoader.value
-            ? CustomLoading(isItBtn: true)
+            ? const CustomLoading(isItBtn: true)
             : CustomRoundedTextBtn(
                 backgroundColor: Colors.deepPurple,
                 child: Text(
@@ -277,7 +277,7 @@ class LogInView extends StatelessWidget {
 
   Widget forgotPassword() {
     return Container(
-      margin: EdgeInsets.only(bottom: 20, right: 10, top: 10),
+      margin: const EdgeInsets.only(bottom: 20, right: 10, top: 10),
       alignment: Alignment.centerRight,
       child: InkWell(
         onTap: () {
@@ -297,7 +297,7 @@ class LogInView extends StatelessWidget {
   Widget or() {
     return Row(
       children: [
-        Expanded(
+        const Expanded(
           child: Divider(
             //color: newColorLightGrey,
             thickness: 1,
@@ -310,7 +310,7 @@ class LogInView extends StatelessWidget {
             //style: newFontStyle4,
           ),
         ),
-        Expanded(
+        const Expanded(
           child: Divider(
             //color: newColorLightGrey,
             thickness: 1,
@@ -331,7 +331,7 @@ class LogInView extends StatelessWidget {
           text: TextSpan(
             children: [
               TextSpan(
-                text: langKey.donTHaveAccount.tr + ' ',
+                text: '${langKey.donTHaveAccount.tr} ',
               ),
               TextSpan(
                 text: langKey.signUp.tr,
