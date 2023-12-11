@@ -1,0 +1,54 @@
+import 'package:flutter/material.dart';
+
+class BottomSheetItemRow extends StatelessWidget {
+  final String title;
+  final IconData icon;
+  final GestureTapCallback? onTap;
+  final bool isDisabled;
+
+  const BottomSheetItemRow({
+    Key? key,
+    required this.title,
+    required this.icon,
+    this.onTap,
+    required this.isDisabled,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(8),
+      onTap: isDisabled ? null : onTap,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 10, top: 10, bottom: 10),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(6),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  width: 0.5,
+                  color: isDisabled ? Colors.grey : Colors.black,
+                ),
+              ),
+              child: Icon(
+                icon,
+                size: 20,
+                color: isDisabled ? Colors.grey : Colors.black,
+              ),
+            ),
+            const SizedBox(width: 13),
+            Text(
+              title,
+              // style: GoogleFonts.lato(
+              //   fontSize: 15,
+              //   color: isDisabled ? Colors.grey : Colors.black,
+              // ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
