@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../helper/constants.dart';
+
 class CustomTextField1 extends StatelessWidget {
   final String? title;
   final String? hint, labelText;
@@ -269,7 +271,7 @@ class CustomTextField3 extends StatelessWidget {
   final bool required;
   final bool enabled;
 
-    CustomTextField3({
+  CustomTextField3({
     Key? key,
     this.showCursor,
     this.readOnly = false,
@@ -282,7 +284,7 @@ class CustomTextField3 extends StatelessWidget {
     this.title,
     this.autoValidateMode,
     this.validator,
-      this.enabled = true,
+    this.enabled = true,
     this.inputFormatters,
     this.keyboardType,
     this.required = true,
@@ -302,7 +304,7 @@ class CustomTextField3 extends StatelessWidget {
                 style: GoogleFonts.dmSans(
                   fontSize: 14,
                   fontWeight: FontWeight.w700,
-                  // color: newColorDarkBlack2,
+                  color: newColorDarkBlack2,
                 ),
                 children: [
                   if (required)
