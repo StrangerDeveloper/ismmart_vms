@@ -51,8 +51,8 @@ class LogInView extends StatelessWidget {
                   logInBtn(),
                   or(),
                   googlelogInBtn(),
-                  // facebooklogInBtn(),
-                  // applelogInBtn(),
+                  facebooklogInBtn(),
+                  applelogInBtn(),
                   const Spacer(),
                   doNotHaveAnAccount(),
                   //BecomeVendor(),
@@ -145,8 +145,8 @@ class LogInView extends StatelessWidget {
           //color: newColorDarkBlack, // your color here
           width: 1,
         ),
-        // backgroundColor: kWhiteColor,
-        // foregroundColor: newColorDarkBlack,
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -213,47 +213,116 @@ class LogInView extends StatelessWidget {
     );
   }
 
-// //Apple Button
-//   Widget applelogInBtn() {
-//     return Padding(
-//       padding: const EdgeInsets.fromLTRB(20, 10, 20, 25),
-//       child: Obx(
-//         () => viewModel.applelLoader.value
-//             ? CustomLoading(isItBtn: viewModel.applelLoader.value)
-//             : CustomRoundedTextBtn(
-//                 borderSide: BorderSide(
-//                   color: newColorDarkBlack, // your color here
-//                   width: 1,
-//                 ),
-//                 backgroundColor: kWhiteColor,
-//                 foregroundColor: newColorDarkBlack,
-//                 child: Row(
-//                   mainAxisAlignment: MainAxisAlignment.center,
-//                   children: [
-//                     ClipRRect(
-//                       child: Image.asset(
-//                         'assets/logo/apple_logo.png',
-//                         width: 36,
-//                         height: 36,
-//                       ),
-//                       borderRadius: BorderRadius.circular(50.0),
-//                     ),
-//                     SizedBox(
-//                       width: 5,
-//                     ),
-//                     Text(
-//                       "Continue with Apple ID",
-//                       style: newFontStyle3,
-//                     ),
-//                   ],
-//                 ),
-//                 onPressed: () {
-//                   // viewModel.signInWithApple();
-//                 },
-//               ),
-//       ),
-//     );
-//   }
+  Widget applelogInBtn() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 10, 20, 25),
+      child: CustomRoundedTextBtn(
+        borderSide: BorderSide(
+          color: Colors.black, // your color here
+          width: 1,
+        ),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ClipRRect(
+              child: Image.asset(
+                'assets/logo/apple_logo.png',
+                width: 36,
+                height: 36,
+              ),
+              borderRadius: BorderRadius.circular(50.0),
+            ),
+            const SizedBox(
+              width: 5,
+            ),
+            Text(
+              "Continue with Apple ID",
+            ),
+          ],
+        ),
+        onPressed: () {
+          viewModel.appleSignin();
+        },
+      ),
+    );
+  }
+
+  //Facebook Button
+  Widget facebooklogInBtn() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+      child: CustomRoundedTextBtn(
+        borderSide: BorderSide(
+          color: Colors.black, // your color here
+          width: 1,
+        ),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ClipRRect(
+              child: Image.asset(
+                'assets/logo/fb_logo.png',
+                width: 36,
+                height: 36,
+              ),
+              borderRadius: BorderRadius.circular(50.0),
+            ),
+            SizedBox(
+              width: 5,
+            ),
+            Text(
+              "Continue in with Facebok",
+              // style: newFontStyle3,
+            ),
+          ],
+        ),
+        onPressed: () {
+          // viewModel.signInWithApple();
+        },
+      ),
+
+      // Obx(
+      //       () => GlobalVariable.showLoader.value
+      //       ? CustomLoading(isItBtn: true)
+      //       :
+      //       CustomRoundedTextBtn(
+      //     borderSide:  BorderSide(
+      //       color: newColorDarkBlack, // your color here
+      //       width: 1,
+      //     ),
+      //     backgroundColor: kWhiteColor,
+      //     foregroundColor: newColorDarkBlack,
+      //     child: Row(
+      //       mainAxisAlignment: MainAxisAlignment.center,
+      //       children: [
+      //         ClipRRect(
+      //           child: Image.asset(
+      //             'assets/logo/fb_logo.png',
+      //             width: 36,
+      //             height: 36,
+      //           ),
+      //           borderRadius: BorderRadius.circular(50.0),
+      //         ),
+      //         SizedBox(
+      //           width:5,
+      //         ),
+      //         Text(
+      //           "Continue in with Facebok",
+      //           style: newFontStyle3,
+      //         ),
+      //       ],),
+      //     onPressed: () {
+      //       viewModel.signInWithApple();
+      //     },
+      //   ),
+      //
+      // ),
+    );
+  }
 
   Widget logInBtn() {
     return Padding(

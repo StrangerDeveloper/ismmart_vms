@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class LogInViewModel extends GetxController {
   GlobalKey<FormState> signInFormKey = GlobalKey<FormState>();
@@ -58,4 +61,21 @@ class LogInViewModel extends GetxController {
   //     });
   //   }
   // }
+
+//apple login
+  appleSignin() async {
+    if (Platform.isIOS) {
+      final credential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+      );
+
+      print("apple login====>>>  $credential");
+
+      // Now send the credential (especially `credential.authorizationCode`) to your server to create a session
+      // after they have been validated with Apple (see `Integration` section for more information on how to do this)
+    }
+  }
 }
