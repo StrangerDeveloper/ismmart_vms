@@ -27,11 +27,57 @@ class DashboardView extends StatelessWidget {
         ),
         body: ScrollableColumn(
           children: [
+            _stats(),
+            const SizedBox(
+              height: 10,
+            ),
             _saleChart(),
+            const SizedBox(
+              height: 20,
+            ),
             _divider(),
             _orders(),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _stats() {
+    return SizedBox(
+      height: 150,
+      child: ListView(
+        shrinkWrap: true,
+        physics: const BouncingScrollPhysics(),
+        scrollDirection: Axis.horizontal,
+        children: [
+          _statsCard(title: 'Total Sale', value: 4939),
+          _statsCard(title: 'Total Products', value: 60),
+          _statsCard(title: 'Total Customers', value: 10),
+          _statsCard(title: 'Total Revenu', value: 42399),
+        ],
+      ),
+    );
+  }
+
+  Widget _statsCard({title, value}) {
+    return Container(
+      padding: const EdgeInsets.all(5),
+      decoration:
+          const BoxDecoration(color: Colors.black45, shape: BoxShape.rectangle),
+      child: Column(
+        children: [
+          CustomText(
+            title: "$value",
+            color: kWhiteColor,
+            size: 15,
+          ),
+          CustomText(
+            title: "$title",
+            color: kWhiteColor,
+            size: 13,
+          )
+        ],
       ),
     );
   }
@@ -144,6 +190,7 @@ class DashboardView extends StatelessWidget {
             children: [
               Expanded(
                 child: ListView.builder(
+                  shrinkWrap: true,
                   physics: const BouncingScrollPhysics(),
                   itemCount: list.length,
                   itemBuilder: (context, index) {
