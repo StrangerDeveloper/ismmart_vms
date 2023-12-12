@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ismmart_vms/screens/dashboard/dashboard_view.dart';
 import 'package:ismmart_vms/screens/login/login_viewmodel.dart';
 import 'package:ismmart_vms/widgets/scrollable_column.dart';
 import 'package:ismmart_vms/helper/languages/translations_key.dart' as langKey;

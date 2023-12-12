@@ -4,6 +4,7 @@ import 'package:ismmart_vms/models/category_model.dart';
 import 'package:ismmart_vms/models/subcategory_model.dart';
 import '../../../helper/global_variables.dart';
 import '../../../widgets/pick_image.dart';
+import '../signup_3/sign_up_3_view.dart';
 
 class SignUp2ViewModel extends GetxController{
 
@@ -103,7 +104,6 @@ class SignUp2ViewModel extends GetxController{
 
   Future<void> proceed() async{
     if (vendorSignUp2FormKey.currentState?.validate() ?? false) {
-      if(checkDropDowns() == true){
 
           GlobalVariable.showLoader.value = false;
 
@@ -116,13 +116,15 @@ class SignUp2ViewModel extends GetxController{
             'address': storeAddressController.text,
           };
 
+          print(details);
+          Get.to(() => SignUp3View());
+
           // Get.toNamed(Routes.vendorSignUp3, arguments: {
           //   'shopDetails': details
           // });
-      }
     } else{
       // checkImages();
-      checkDropDowns();
+      // checkDropDowns();
     }
   }
 

@@ -36,7 +36,7 @@ import '../screens/dashboard/dashboard_view.dart';
 // import '../screens/vendor_orders/vendor_orders_view.dart';
 // import '../screens/vendor_profile/vendor_profile_view.dart';
 // import '../screens/vendor_signup/vendor_signup2/sign_up_2_view.dart';
-// import '../screens/vendor_signup/vendor_signup3/vendor_signup3_view.dart';
+// import '../screens/vendor_signup/vendor_signup3/sign_up_3_view.dart';
 // import '../screens/vendor_signup/vendor_signup4/vendor_signup4_view.dart';
 // import '../screens/choose_email/choose_email_view.dart';
 // import '../shopify/shopify_web_view.dart';

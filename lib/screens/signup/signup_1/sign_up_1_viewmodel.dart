@@ -22,6 +22,8 @@ class SignUpScreen1ViewModel extends GetxController {
   Rxn phoneErrorText = Rxn<String>();
   RxString countryCode = '+92'.obs;
   RxBool changeView = false.obs;
+  List genders = ['Male', 'Female', 'Other'];
+  RxString selectedGender = ''.obs;
 
   validatorPhoneNumber(String? value) {
     if (GetUtils.isBlank(value)!) {
@@ -57,6 +59,9 @@ class SignUpScreen1ViewModel extends GetxController {
           Map<String, dynamic> param = {
             "full_name": nameController.text,
             "email": emailController.text,
+            "gender": selectedGender.value,
+            "cnic_front_image": cnicFrontImage.value,
+            "cnic_back_image": cnicBackImage.value,
             "country_code": countryCode.value,
             "phone": phoneNumberController.text,
             "password": passwordController.text,

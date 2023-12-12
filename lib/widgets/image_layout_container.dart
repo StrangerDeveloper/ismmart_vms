@@ -60,7 +60,7 @@ class ImageLayoutContainer extends StatelessWidget {
                 'Image should be less than 2 MB',
                 style: TextStyle(
                   color: ThemeHelper.fadedBlue,
-                  fontSize: 12,
+                  fontSize: 10,
                 ),
               ),
             ],

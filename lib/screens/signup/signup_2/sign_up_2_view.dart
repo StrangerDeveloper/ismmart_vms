@@ -29,7 +29,7 @@ class SignUp2View extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     titleAndBackBtn(),
-                    // createAVendorAccount(),
+                    createAVendorAccount(),
                     progress(),
                     shopNameField(),
                     // shopCategoryField(),
@@ -88,38 +88,45 @@ class SignUp2View extends StatelessWidget {
     );
   }
 
-  // Widget createAVendorAccount() {
-  //   return Padding(
-  //     padding: const EdgeInsets.only(top: 20, bottom: 10),
-  //     child: RichText(
-  //       text: TextSpan(
-  //         children: [
-  //           TextSpan(
-  //             text: 'Add',
-  //             style: newFontStyle2.copyWith(
-  //               fontSize: 20,
-  //               color: newColorDarkBlack2,
-  //             ),
-  //           ),
-  //           TextSpan(
-  //             text: ' ${langKey.business.tr} ',
-  //             style: newFontStyle2.copyWith(
-  //               fontSize: 20,
-  //               color: newColorBlue,
-  //             ),
-  //           ),
-  //           TextSpan(
-  //             text: langKey.information.tr,
-  //             style: newFontStyle2.copyWith(
-  //               fontSize: 20,
-  //               color: newColorDarkBlack2,
-  //             ),
-  //           ),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
+  Widget createAVendorAccount() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 20, bottom: 10),
+      child: Text(
+        'Add Business Information',
+        style: newFontStyle2.copyWith(
+          fontSize: 20,
+          color: newColorDarkBlack2,
+        ),
+      )
+      // RichText(
+      //   text: TextSpan(
+      //     children: [
+      //       TextSpan(
+      //         text: 'Add',
+      //         style: newFontStyle2.copyWith(
+      //           fontSize: 20,
+      //           color: newColorDarkBlack2,
+      //         ),
+      //       ),
+      //       TextSpan(
+      //         text: '  ',
+      //         style: newFontStyle2.copyWith(
+      //           fontSize: 20,
+      //           color: newColorBlue,
+      //         ),
+      //       ),
+      //       TextSpan(
+      //         text: langKey.information.tr,
+      //         style: newFontStyle2.copyWith(
+      //           fontSize: 20,
+      //           color: newColorDarkBlack2,
+      //         ),
+      //       ),
+      //     ],
+      //   ),
+      // ),
+    );
+  }
 
   Widget progress() {
     return Padding(

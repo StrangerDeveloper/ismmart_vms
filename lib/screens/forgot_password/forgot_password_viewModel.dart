@@ -30,6 +30,7 @@ class ForgotPasswordViewModel extends GetxController {
 
       GlobalVariable.showLoader.value = true;
 
+      print(param);
       // ApiBaseHelper()
       //     .postMethod(url: Urls.forgetPassword, body: param)
       //     .then((parsedJson) async {

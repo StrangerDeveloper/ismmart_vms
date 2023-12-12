@@ -34,8 +34,8 @@ class SignUp1View extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         titleAndBackBtn(),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 20, bottom: 10),
+                        const Padding(
+                          padding: EdgeInsets.only(top: 20, bottom: 10),
                           child: Text(
                             'Create Account',
                               style: TextStyle(
@@ -48,6 +48,10 @@ class SignUp1View extends StatelessWidget {
                         nameField(),
                         emailTextField(),
                         phoneNumberTextField(),
+                        genderField(context),
+                        cnicNumberField(),
+                        cnicFrontImage(),
+                        cnicBackImage(),
                         passwordTextField(),
                         confirmPasswordTextField(),
                         signUpBtn(),
@@ -70,7 +74,7 @@ class SignUp1View extends StatelessWidget {
       child: Stack(
         alignment: Alignment.centerLeft,
         children: [
-          Align(
+          const Align(
             alignment: Alignment.center,
             child: Text(
               'Sign Up',
@@ -101,7 +105,7 @@ class SignUp1View extends StatelessWidget {
                     color: newColorBlue2,
                   ),
                 ),
-                SizedBox(height: 6),
+                const SizedBox(height: 6),
                 RichText(
                   text: TextSpan(
                     children: [
@@ -130,9 +134,9 @@ class SignUp1View extends StatelessWidget {
             radius: 33,
             lineWidth: 6,
             percent: 0.05,
-            backgroundColor: Color(0xffEBEFF3),
-            progressColor: Color(0xff0CBC8B),
-            center: new Text(
+            backgroundColor: const Color(0xffEBEFF3),
+            progressColor: const Color(0xff0CBC8B),
+            center: Text(
               "1 of 3",
               style: poppinsH2.copyWith(
                 color: newColorBlue2,
@@ -173,7 +177,7 @@ class SignUp1View extends StatelessWidget {
   Widget phoneNumberTextField() {
     return Obx(
       () => Padding(
-        padding: const EdgeInsets.only(top: 20, bottom: 30),
+        padding: const EdgeInsets.symmetric(vertical: 20),
         child: CountryCodePickerTextField2(
           // validator: (value) {
           //   return Validator().validatePhoneNumber(value);
@@ -183,7 +187,7 @@ class SignUp1View extends StatelessWidget {
           keyboardType: TextInputType.number,
           controller: viewModel.phoneNumberController,
           initialValue: viewModel.countryCode.value,
-          textStyle: TextStyle(color: Colors.grey, fontWeight: FontWeight.w600),
+          textStyle: const TextStyle(color: Colors.grey, fontWeight: FontWeight.w600),
           autoValidateMode: AutovalidateMode.onUserInteraction,
           inputFormatters: [
             FilteringTextInputFormatter.allow(RegExp(r'^\d+?\d*')),
@@ -204,7 +208,81 @@ class SignUp1View extends StatelessWidget {
     );
   }
 
-  Widget ownerCNICField() {
+  Widget genderField(BuildContext context) {
+    return Column(
+      children: [
+        Align(
+          alignment: Alignment.centerLeft,
+          child: RichText(
+            text: const TextSpan(
+                text: 'Gender',
+                style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w700
+                ),
+                children: [
+                  TextSpan(
+                      text: ' *',
+                      style: TextStyle(color: Colors.red)
+                  )
+                ]
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 30,
+            child: genderRadioBtns(context)
+        ),
+      ],
+    );
+  }
+  
+  Widget genderRadioBtns(BuildContext buildContext) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 10),
+      child: Center(
+        child: ListView.builder(
+          itemCount: viewModel.genders.length,
+          scrollDirection: Axis.horizontal,
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemBuilder: (buildContext, index) {
+            return radioButton(index, viewModel.genders[index]);
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget radioButton(int btnValue, String title) {
+    return Obx(() => Row(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        Radio(
+          fillColor: MaterialStateColor.resolveWith((states) => Colors.black),
+          activeColor: Theme.of(Get.context!).primaryColor,
+          value: viewModel.genders[btnValue],
+          groupValue: viewModel.selectedGender.value,
+          onChanged: (value){
+            viewModel.selectedGender.value = value;
+          },
+        ),
+        Text(
+          title,
+          style: const TextStyle(
+              color: Colors.black,
+              fontSize: 14,
+              fontWeight: FontWeight.w400
+          ),
+        )
+      ],
+    ),
+    );
+  }
+
+  Widget cnicNumberField() {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 20),
       child: CustomTextField3(
@@ -247,7 +325,6 @@ class SignUp1View extends StatelessWidget {
 
   Widget cnicFrontImage() {
     return Obx(() => ImageLayoutContainer(
-        description: true,
         title: 'CNIC Front Image',
         filePath: viewModel.cnicFrontImage.value == '' ? '' : basename(viewModel.cnicFrontImage.value),
         onTap: ()async{
@@ -261,7 +338,6 @@ class SignUp1View extends StatelessWidget {
 
   Widget cnicBackImage() {
     return Obx(() => ImageLayoutContainer(
-      description: true,
       title: 'CNIC Back Image',
       filePath: viewModel.cnicBackImage.value == '' ? '' : basename(viewModel.cnicBackImage.value),
       onTap: ()async{
@@ -319,7 +395,7 @@ class SignUp1View extends StatelessWidget {
             Get.off(() => LogInView());
           },
           child: RichText(
-            text: TextSpan(
+            text: const TextSpan(
               children: [
                 TextSpan(
                   text: 'Already have an account?' + ' ',
