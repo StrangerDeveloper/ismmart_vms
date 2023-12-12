@@ -1,7 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ismmart_vms/helper/constants.dart';
 import 'package:ismmart_vms/screens/dashboard/dashboard_view.dart';
 import 'package:ismmart_vms/screens/login/login_view.dart';
+
+import '../screens/Order/order_view.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({super.key});
@@ -12,27 +16,26 @@ class CustomDrawer extends StatelessWidget {
       child: Stack(
         children: [
           Drawer(
-            width: Get.width * 0.2,
+            width: Get.width * 0.5,
             child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // drawerHeader(),
-                  drawerItem(
-                    title: 'Home',
-                    icon: Icons.home,
-                    onTap: () {
-                      Get.back();
-                      //Get.to(() => LeavesView());
-                    },
-                  ),
+                  drawerHeader(),
                   drawerItem(
                     title: 'Dashboard',
                     icon: Icons.dashboard,
                     onTap: () {
                       Get.back();
                       Get.to(() => DashboardView());
+                    },
+                  ),
+                  drawerItem(
+                    title: 'Order Details',
+                    icon: Icons.shopping_bag_outlined,
+                    onTap: () {
+                      Get.to(() => OrderView());
                     },
                   ),
                   // drawerItem(
@@ -75,60 +78,60 @@ class CustomDrawer extends StatelessWidget {
     );
   }
 
-  // Widget drawerHeader() {
-  //   return Padding(
-  //     padding: EdgeInsets.only(left: 20, top: 20),
-  //     child: Column(
-  //       crossAxisAlignment: CrossAxisAlignment.start,
-  //       children: [
-  //         CachedNetworkImage(
-  //           height: 75,
-  //           width: 75,
-  //           imageUrl: GlobalVariables.userModel?.image ?? '',
-  //           imageBuilder: (context, imageProvider) {
-  //             return Container(
-  //               decoration: BoxDecoration(
-  //                 shape: BoxShape.circle,
-  //                 image: DecorationImage(
-  //                   image: imageProvider,
-  //                   fit: BoxFit.fill,
-  //                 ),
-  //               ),
-  //             );
-  //           },
-  //           errorWidget: (context, url, error) {
-  //             return CircleAvatar(
-  //                 radius: 35,
-  //                 backgroundColor: Colors.grey.shade300,
-  //                 child: Icon(
-  //                   Icons.person,
-  //                   size: 45,
-  //                   color: Colors.grey,
-  //                 ));
-  //           },
-  //           placeholder: (context, url) {
-  //             return const Center(
-  //               child: CircularProgressIndicator(strokeWidth: 0.5),
-  //             );
-  //           },
-  //         ),
-  //         SizedBox(height: 20),
-  //         Padding(
-  //           padding: const EdgeInsets.only(left: 2),
-  //           child: Text(
-  //             '${GlobalVariables.userModel?.name}',
-  //             style: TextStyle(
-  //               fontSize: 18,
-  //               color: Colors.black,
-  //               fontWeight: FontWeight.bold,
-  //             ),
-  //           ),
-  //         ),
-  //         Divider(height: 30),
-  //       ],
-  //     ),
-  //   );
-  // }
+  Widget drawerHeader() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 20, top: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          CachedNetworkImage(
+            height: 75,
+            width: 75,
+            imageUrl: AppConstant.defaultImgUrl,
+            imageBuilder: (context, imageProvider) {
+              return Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    image: imageProvider,
+                    fit: BoxFit.fill,
+                  ),
+                ),
+              );
+            },
+            errorWidget: (context, url, error) {
+              return CircleAvatar(
+                  radius: 35,
+                  backgroundColor: Colors.grey.shade300,
+                  child: const Icon(
+                    Icons.person,
+                    size: 45,
+                    color: Colors.grey,
+                  ));
+            },
+            placeholder: (context, url) {
+              return const Center(
+                child: CircularProgressIndicator(strokeWidth: 0.5),
+              );
+            },
+          ),
+          const SizedBox(height: 20),
+          const Padding(
+            padding: EdgeInsets.only(left: 2),
+            child: Text(
+              'Abc UserNAme',
+              style: TextStyle(
+                fontSize: 18,
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          const Divider(height: 30),
+        ],
+      ),
+    );
+  }
 
   Widget drawerItem({
     String title = '',

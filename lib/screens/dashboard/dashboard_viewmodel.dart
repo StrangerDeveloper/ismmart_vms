@@ -5,9 +5,11 @@ import 'package:ismmart_vms/helper/constants.dart';
 import 'package:ismmart_vms/screens/dashboard/model/order_model.dart';
 
 class DashboardViewModel extends GetxController {
-  List<OrderModel> pendingOrderList = <OrderModel>[].obs;
+  List<OrderModel> orderList = <OrderModel>[].obs;
   List<OrderModel> approvedOrderList = <OrderModel>[].obs;
   List<OrderModel> cancelledOrderList = <OrderModel>[].obs;
+
+  var pieTouchIndex = -1.obs;
 
   @override
   void onReady() {
@@ -17,13 +19,13 @@ class DashboardViewModel extends GetxController {
   }
 
   void getOrdersData() {
-    pendingOrderList.add(OrderModel(
+    orderList.add(OrderModel(
         id: 1001, status: 'pending', totalPrice: 908, shippingPrice: 250));
-    pendingOrderList.add(OrderModel(
+    orderList.add(OrderModel(
         id: 1002, status: 'pending', totalPrice: 508, shippingPrice: 150));
-    approvedOrderList.add(OrderModel(
+    orderList.add(OrderModel(
         id: 1003, status: 'approved', totalPrice: 1508, shippingPrice: 290));
-    cancelledOrderList.add(OrderModel(
+    orderList.add(OrderModel(
         id: 1004, status: 'cancelled', totalPrice: 308, shippingPrice: 650));
   }
 

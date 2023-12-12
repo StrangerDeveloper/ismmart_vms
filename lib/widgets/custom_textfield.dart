@@ -229,7 +229,7 @@ class CustomTextField2 extends StatelessWidget {
             // suffixIconConstraints: BoxConstraints.expand(width: 40),
             filled: true,
             fillColor: Colors.white,
-            // hintText: hintText,
+            hintText: hintText,
             errorStyle: GoogleFonts.lato(
               color: Colors.red,
             ),
