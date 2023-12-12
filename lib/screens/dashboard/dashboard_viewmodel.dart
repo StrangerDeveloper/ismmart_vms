@@ -9,6 +9,8 @@ class DashboardViewModel extends GetxController {
   List<OrderModel> approvedOrderList = <OrderModel>[].obs;
   List<OrderModel> cancelledOrderList = <OrderModel>[].obs;
 
+  var pieTouchIndex = -1.obs;
+
   @override
   void onReady() {
     super.onReady();
