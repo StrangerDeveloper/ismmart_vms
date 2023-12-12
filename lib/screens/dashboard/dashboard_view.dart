@@ -29,14 +29,14 @@ class DashboardView extends StatelessWidget {
             SliverList(
               delegate: SliverChildListDelegate(
                 [
-                  _stats(),
+                  _orderStats(),
                   const SizedBox(height: 10),
                   _saleChart(),
                   const SizedBox(
                     height: 20,
                   ),
-                  _divider(),
-                  _orders(),
+                  // _divider(),
+                  // _orders(),
                 ],
               ),
             ),
@@ -46,18 +46,43 @@ class DashboardView extends StatelessWidget {
     );
   }
 
-  Widget _stats() {
+  Widget _orderStats() {
     return SizedBox(
-      height: 100,
+      height: Get.size.height * 0.1,
       child: ListView(
         shrinkWrap: true,
         physics: const BouncingScrollPhysics(),
         scrollDirection: Axis.horizontal,
         children: [
-          _statsCard(title: 'Total Sale', value: 4939),
-          _statsCard(title: 'Total Products', value: 60),
-          _statsCard(title: 'Total Customers', value: 10),
-          _statsCard(title: 'Total Revenu', value: 42399),
+          _statsCard(
+            title: 'Total Sale',
+
+            value: 4939,
+            // onTap: () {},
+            // icon: Icons.cases_rounded,
+            // iconColor: const Color.fromARGB(255, 159, 107, 251),
+          ),
+          _statsCard(
+            title: 'Total Products',
+            value: 60,
+            // onTap: () {},
+            // icon: Icons.data_array,
+            // iconColor: const Color.fromARGB(255, 138, 246, 141),
+          ),
+          _statsCard(
+            title: 'Total Customers',
+            value: 10,
+            // onTap: () {},
+            // icon: Icons.data_array,
+            // iconColor: const Color.fromARGB(255, 154, 158, 248),
+          ),
+          _statsCard(
+            title: 'Total Revenu',
+            value: 42399,
+            // onTap: () {},
+            // icon: Icons.data_array,
+            // iconColor: const Color.fromARGB(255, 245, 115, 10),
+          ),
         ],
       ),
     );
@@ -67,9 +92,20 @@ class DashboardView extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
+        width: 140,
         padding: const EdgeInsets.symmetric(horizontal: 5),
-        decoration: const BoxDecoration(
-            color: Colors.black45, shape: BoxShape.rectangle),
+        decoration: BoxDecoration(
+          color: kWhiteColor,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: kLightGreyColor),
+          boxShadow: [
+            BoxShadow(
+              color: kPrimaryColor.withOpacity(0.2),
+              offset: const Offset(0, 1),
+              blurRadius: 8,
+            )
+          ],
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -83,6 +119,67 @@ class DashboardView extends StatelessWidget {
               color: kWhiteColor,
               size: 13,
             )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _statsCard2({onTap, icon, iconColor, title, value}) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        height: 10,
+        padding: const EdgeInsets.fromLTRB(8, 4, 4, 4),
+        decoration: BoxDecoration(
+          color: kWhiteColor,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: kLightGreyColor),
+          boxShadow: [
+            BoxShadow(
+              color: kPrimaryColor.withOpacity(0.2),
+              offset: const Offset(0, 1),
+              blurRadius: 8,
+            )
+          ],
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                  color: iconColor!.withOpacity(0.15), shape: BoxShape.circle),
+              child: Icon(
+                icon,
+                size: 22,
+                color: iconColor,
+              ),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CustomText(
+                    title: title ?? '',
+                    weight: FontWeight.w600,
+                    textAlign: TextAlign.center,
+                    size: 15,
+                  ),
+                  // isPriceWidget!
+                  //     ? CustomPriceWidget(title: "$value")
+                  //     :
+                  CustomText(
+                    title: "$value",
+                    weight: FontWeight.bold,
+                    textAlign: TextAlign.center,
+                    size: 20,
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
@@ -172,7 +269,7 @@ class DashboardView extends StatelessWidget {
   }
 
   Widget tabBarView() {
-    return Expanded(
+    return const Expanded(
       child: TabBarView(
         children: [
           // Obx(
