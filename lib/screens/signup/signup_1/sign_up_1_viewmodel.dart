@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../helper/global_variables.dart';
+import 'package:ismmart_vms/screens/signup/signup_2/sign_up_2_view.dart';
+import '../../../helper/global_variables.dart';
+import '../../../widgets/pick_image.dart';
 
-class SignUpViewModel extends GetxController {
+class SignUpScreen1ViewModel extends GetxController {
   GlobalKey<FormState> signUpFormKey = GlobalKey<FormState>();
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
@@ -10,16 +12,16 @@ class SignUpViewModel extends GetxController {
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
   TextEditingController cnicController = TextEditingController();
-  // RxInt countryID = 0.obs;
-  // RxInt cityID = 0.obs;
-  // RxBool countryErrorVisibility = false.obs;
-  // RxBool cityErrorVisibility = false.obs;
+  RxString cnicFrontImage = ''.obs;
+  RxString cnicBackImage = ''.obs;
+  RxBool cnicFrontImageErrorVisibility = false.obs;
+  RxBool cnicBackImageErrorVisibility = false.obs;
+  RxMap<String, dynamic> body = <String, dynamic>{}.obs;
   RxBool obscurePassword = true.obs;
   RxBool obscureConfirmPassword = true.obs;
   Rxn phoneErrorText = Rxn<String>();
   RxString countryCode = '+92'.obs;
   RxBool changeView = false.obs;
-  // RxBool termAndCondition = false.obs;
 
   validatorPhoneNumber(String? value) {
     if (GetUtils.isBlank(value)!) {
@@ -31,11 +33,13 @@ class SignUpViewModel extends GetxController {
     }
   }
 
-  // @override
-  // void onInit() async {
-  //   await authController.getCountries();
-  //   super.onInit();
-  // }
+  selectImage(RxString imageVar, RxBool imageVisibilityVar)async{
+    final image = await PickImage().pickSingleImage();
+    if(image != null){
+      imageVar.value = image.path;
+      imageVisibilityVar.value = false;
+    }
+  }
 
   @override
   void onClose() {
@@ -48,7 +52,6 @@ class SignUpViewModel extends GetxController {
   }
 
   void signUp() {
-    // GlobalVariable.internetErr(false);
     if (signUpFormKey.currentState?.validate() ?? false) {
 
           Map<String, dynamic> param = {
@@ -60,7 +63,9 @@ class SignUpViewModel extends GetxController {
           };
 
           changeView.value = true;
+          body.value = param;
           print(param);
+          Get.to(() => SignUp2View());
           // ApiBaseHelper()
           //     .postMethod(url: Urls.signUp, body: param)
           //     .then((parsedJson) async {

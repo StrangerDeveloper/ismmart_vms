@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class ThemeHelper {
   static const primary = Color(0xffE88C43);
@@ -28,8 +27,3 @@ class ThemeHelper {
   // );
 
 }
-
-var newFontStyle0 = GoogleFonts.dmSans(
-  fontWeight: FontWeight.w400,
-  fontSize: 14,
-);

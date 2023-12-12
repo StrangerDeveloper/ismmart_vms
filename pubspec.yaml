@@ -53,6 +53,8 @@ dependencies:
 #  firebase_analytics: ^10.6.3
   firebase_auth: ^4.7.3
   firebase_core: ^2.15.1
+  percent_indicator: ^4.2.3
+  dropdown_search: ^5.0.6
 #  firebase_messaging: ^14.7.3
 #  flutter_countdown_timer: ^4.1.0
 #  flutter_inappwebview: ^5.7.2+3

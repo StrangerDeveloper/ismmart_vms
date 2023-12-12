@@ -1,14 +1,8 @@
-//import 'package:dropdown_search/dropdown_search.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
-//import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-//import 'package:ism_mart/exports/exports_model.dart';
-//import 'package:ism_mart/helper/languages/translations_key.dart' as langKey;
-
-import '../widgets/custom_button.dart';
-import '../widgets/custom_text.dart';
 
 const kLimeGreenColor = Color(0xFFACC254);
 const kPurpleColor = Color(0xFF9D50DD);
@@ -188,6 +182,27 @@ class AppConstant {
   //         ),
   //       ));
   // }
+
+  static searchFieldProp() {
+    return TextFieldProps(
+        cursorColor: kPrimaryColor,
+        decoration: InputDecoration(
+          prefixIcon: Icon(Icons.search, color: kPrimaryColor),
+          labelText: "Search",
+          labelStyle: bodyText1,
+          hintText: "Search...",
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+                color: kPrimaryColor, width: 0.5, style: BorderStyle.solid), //B
+            borderRadius: BorderRadius.circular(8),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+                color: kPrimaryColor, width: 0.8, style: BorderStyle.solid), //B
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ));
+  }
 
   static displaySnackBar(String title, message, {SnackPosition? position}) {
     var bgColor = kLimeGreenColor;

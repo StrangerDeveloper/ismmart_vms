@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../helper/theme_helper.dart';
+
 class ObscureSuffixIcon extends StatelessWidget {
   final bool isObscured;
   final VoidCallback? onPressed;

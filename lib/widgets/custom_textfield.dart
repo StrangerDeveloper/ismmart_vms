@@ -295,75 +295,78 @@ class CustomTextField3 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        if (title != null)
-          Padding(
-            padding: const EdgeInsets.only(bottom: 3),
-            child: RichText(
-              text: TextSpan(
-                text: title!,
-                style: GoogleFonts.dmSans(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w700,
-                  color: newColorDarkBlack2,
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (title != null)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 3),
+              child: RichText(
+                text: TextSpan(
+                  text: title!,
+                  style: GoogleFonts.dmSans(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                    color: newColorDarkBlack2,
+                  ),
+                  children: [
+                    if (required)
+                      const TextSpan(
+                        text: ' *',
+                        style: TextStyle(color: Colors.red),
+                      )
+                  ],
                 ),
-                children: [
-                  if (required)
-                    const TextSpan(
-                      text: ' *',
-                      style: TextStyle(color: Colors.red),
-                    )
-                ],
+              ),
+            ),
+          TextFormField(
+            keyboardType: keyboardType,
+            inputFormatters: inputFormatters,
+            validator: validator,
+            autovalidateMode: autoValidateMode,
+            showCursor: showCursor,
+            enabled: enabled,
+            readOnly: readOnly,
+            controller: controller,
+            obscureText: obscureText,
+            onChanged: onChanged,
+            // style: newFontStyle0.copyWith(
+            //   color: newColorDarkBlack2,
+            // ),
+            obscuringCharacter: '●',
+            decoration: InputDecoration(
+              hintText: hintText,
+              hintStyle: newFontStyle0.copyWith(
+                color: newColorLightGrey2,
+              ),
+              contentPadding: const EdgeInsets.only(top: 8, bottom: 10),
+              suffixIcon: suffixIcon,
+              suffixIconConstraints: BoxConstraints.tight(const Size(40, 25)),
+              errorStyle: GoogleFonts.dmSans(
+                fontSize: 13,
+                color: Colors.red.shade700,
+              ),
+              disabledBorder: const UnderlineInputBorder(
+                borderSide: BorderSide(color: Color(0xffEEEEEE)),
+              ),
+              enabledBorder: const UnderlineInputBorder(
+                borderSide: BorderSide(color: Color(0xffEEEEEE)),
+              ),
+              focusedBorder: const UnderlineInputBorder(
+                borderSide: BorderSide(color: Color(0xff929AAB)),
+              ),
+              errorBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.red.shade700, width: 0.3),
+              ),
+              focusedErrorBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.red.shade700, width: 0.6),
               ),
             ),
           ),
-        TextFormField(
-          keyboardType: keyboardType,
-          inputFormatters: inputFormatters,
-          validator: validator,
-          autovalidateMode: autoValidateMode,
-          showCursor: showCursor,
-          enabled: enabled,
-          readOnly: readOnly,
-          controller: controller,
-          obscureText: obscureText,
-          onChanged: onChanged,
-          // style: newFontStyle0.copyWith(
-          //   color: newColorDarkBlack2,
-          // ),
-          obscuringCharacter: '●',
-          decoration: InputDecoration(
-            hintText: hintText,
-            // hintStyle: newFontStyle0.copyWith(
-            //   color: newColorLightGrey2,
-            // ),
-            contentPadding: const EdgeInsets.only(top: 8, bottom: 10),
-            suffixIcon: suffixIcon,
-            suffixIconConstraints: BoxConstraints.tight(const Size(40, 25)),
-            errorStyle: GoogleFonts.dmSans(
-              fontSize: 13,
-              color: Colors.red.shade700,
-            ),
-            disabledBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(color: Color(0xffEEEEEE)),
-            ),
-            enabledBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(color: Color(0xffEEEEEE)),
-            ),
-            focusedBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(color: Color(0xff929AAB)),
-            ),
-            errorBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.red.shade700, width: 0.3),
-            ),
-            focusedErrorBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.red.shade700, width: 0.6),
-            ),
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
@@ -612,7 +615,7 @@ class CountryCodePickerTextField2 extends StatelessWidget {
                 ),
               ],
             ),
-            contentPadding: EdgeInsets.only(top: 16),
+            contentPadding: EdgeInsets.only(top: 12),
             enabledBorder: UnderlineInputBorder(
               borderSide: BorderSide(color: Color(0xffEEEEEE)),
             ),
