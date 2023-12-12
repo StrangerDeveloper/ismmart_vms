@@ -26,7 +26,7 @@ class ForgotPasswordViewModel extends GetxController {
 
   void sendBtn() {
     if (forgotPasswordFormKey.currentState?.validate() ?? false) {
-      Map<String, dynamic> param = {"email": emailController.text};
+      // Map<String, dynamic> param = {"email": emailController.text};
 
       GlobalVariable.showLoader.value = true;
 
