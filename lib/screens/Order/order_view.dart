@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/constants.dart';
 import 'package:ismmart_vms/screens/Order/order_viewModel.dart';
+import 'package:ismmart_vms/widgets/custom_appbar.dart';
 import 'package:ismmart_vms/widgets/custom_text.dart';
 
 class OrderView extends StatelessWidget {
@@ -15,9 +16,10 @@ class OrderView extends StatelessWidget {
     orderController.fetchOrderDetails(1001);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Order Details'),
-        actions: [
+      appBar: CustomAppBar(
+        title: 'Order Details',
+        backBtn: false,
+        action: [
           IconButton(
             onPressed: () {
               Get.to(() => const OrderView());
@@ -41,6 +43,33 @@ class OrderView extends StatelessWidget {
           ),
         ],
       ),
+
+      // appBar: AppBar(
+      //   title: const Text('Order Details'),
+      //   actions: [
+      //     IconButton(
+      //       onPressed: () {
+      //         Get.to(() => const OrderView());
+      //       },
+      //       icon: const Icon(Icons.edit),
+      //     ),
+      //     IconButton(
+      //       onPressed: () {
+      //         Get.defaultDialog(
+      //           title: 'Delete Order',
+      //           middleText: 'Are you sure you want to delete this order?',
+      //           textConfirm: 'Yes',
+      //           textCancel: 'No',
+      //           onConfirm: () {
+      //             // Delete order
+      //             Get.back();
+      //           },
+      //         );
+      //       },
+      //       icon: const Icon(Icons.delete),
+      //     ),
+      //   ],
+      // ),
       body: Obx(
         () => orderController.order.value.orderId == 0
             ? const Center(
