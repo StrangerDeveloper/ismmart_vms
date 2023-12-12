@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/constants.dart';
+import 'package:ismmart_vms/helper/languages/translations_key.dart' as langKey;
+
 import 'package:ismmart_vms/screens/Order/order_viewModel.dart';
 import 'package:ismmart_vms/widgets/custom_appbar.dart';
 import 'package:ismmart_vms/widgets/custom_text.dart';
@@ -17,7 +19,7 @@ class OrderView extends StatelessWidget {
 
     return Scaffold(
       appBar: CustomAppBar(
-        title: 'Order Details',
+        title: langKey.orderDetail.tr,
         backBtn: false,
         action: [
           IconButton(
