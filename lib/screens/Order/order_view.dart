@@ -16,13 +16,13 @@ class OrderView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Order Details'),
+        title: const Text('Order Details'),
         actions: [
           IconButton(
             onPressed: () {
-              Get.to(() => OrderView());
+              Get.to(() => const OrderView());
             },
-            icon: Icon(Icons.edit),
+            icon: const Icon(Icons.edit),
           ),
           IconButton(
             onPressed: () {
@@ -37,17 +37,17 @@ class OrderView extends StatelessWidget {
                 },
               );
             },
-            icon: Icon(Icons.delete),
+            icon: const Icon(Icons.delete),
           ),
         ],
       ),
       body: Obx(
         () => orderController.order.value.orderId == 0
-            ? Center(
+            ? const Center(
                 child: CircularProgressIndicator(),
               )
             : SingleChildScrollView(
-                padding: EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(16.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -113,15 +113,15 @@ class OrderView extends StatelessWidget {
     return Card(
       color: kWhiteColor,
       elevation: 4.0,
-      margin: EdgeInsets.symmetric(vertical: 8.0),
+      margin: const EdgeInsets.symmetric(vertical: 8.0),
       child: ListTile(
         title: CustomText(
-          title: "$title",
+          title: title,
           color: kWhiteColor,
           size: 15,
         ),
         subtitle: CustomText(
-          title: "$subtitle",
+          title: subtitle,
           color: kWhiteColor,
           size: 15,
         ),
