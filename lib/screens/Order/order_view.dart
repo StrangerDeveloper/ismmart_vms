@@ -45,33 +45,6 @@ class OrderView extends StatelessWidget {
           ),
         ],
       ),
-
-      // appBar: AppBar(
-      //   title: const Text('Order Details'),
-      //   actions: [
-      //     IconButton(
-      //       onPressed: () {
-      //         Get.to(() => const OrderView());
-      //       },
-      //       icon: const Icon(Icons.edit),
-      //     ),
-      //     IconButton(
-      //       onPressed: () {
-      //         Get.defaultDialog(
-      //           title: 'Delete Order',
-      //           middleText: 'Are you sure you want to delete this order?',
-      //           textConfirm: 'Yes',
-      //           textCancel: 'No',
-      //           onConfirm: () {
-      //             // Delete order
-      //             Get.back();
-      //           },
-      //         );
-      //       },
-      //       icon: const Icon(Icons.delete),
-      //     ),
-      //   ],
-      // ),
       body: Obx(
         () => orderController.order.value.orderId == 0
             ? const Center(
@@ -131,7 +104,6 @@ class OrderView extends StatelessWidget {
                       title: 'Market',
                       subtitle: orderController.order.value.market,
                     ),
-                    // Add more buildOrderDetailCard widgets for other details
                   ],
                 ),
               ),

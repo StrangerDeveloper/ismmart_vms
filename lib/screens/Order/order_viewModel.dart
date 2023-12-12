@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 import 'package:ismmart_vms/screens/Order/model/order_model.dart';
-// Import your API service to fetch order details
 
 class OrderViewModel extends GetxController {
   var order = Order(
@@ -25,13 +24,14 @@ class OrderViewModel extends GetxController {
 
   Future<void> fetchOrderDetails(int orderId) async {
     try {
-      // Fetch order details from your API service by passing the orderId
-      // Replace this with your actual API call to fetch order details
+      // will Fetch order details from our API service by passing the orderId
+      // will Replace this with our actual API call to fetch order details
       // Example:
-      // final response = await yourApiService.getOrderDetails(orderId);
+      // final response = await ourApiService.getOrderDetails(orderId);
 
-      // For demonstration, using hardcoded data (replace with API call)
-      final response = hardcodedOrderData(); // Replace with your API call
+      // For demonstration, using hardcoded data (will replace with API call later)
+      final response =
+          hardcodedOrderData(); // will replace with our API call later
 
       // Parse the response data and update the order value
       order.value = Order(
@@ -54,12 +54,11 @@ class OrderViewModel extends GetxController {
         refundItems: response['refundItems'], // Update with parsed refund items
       );
     } catch (e) {
-      // Handle error
       print('Error fetching order details: $e');
     }
   }
 
-  // Hardcoded order data for demonstration (Replace this with API call)
+  // Hardcoded order data for demonstration (will replace this with API call)
   Map<String, dynamic> hardcodedOrderData() {
     return {
       'orderId': 1001,
