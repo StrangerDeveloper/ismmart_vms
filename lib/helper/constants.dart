@@ -418,7 +418,7 @@ class AppConstant {
     switch (model!.status!.toLowerCase()) {
       case "pending":
         return Colors.deepOrange;
-      case "active":
+      case "approved":
       case "completed":
         return Colors.teal;
       default:
