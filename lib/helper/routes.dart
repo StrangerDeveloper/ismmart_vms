@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 import 'package:ismmart_vms/screens/forgot_password/forgot_password_view.dart';
+
+import '../screens/dashboard/dashboard_view.dart';
 // import 'package:ism_mart/exports/export_controllers.dart';
 // import 'package:ism_mart/exports/exports_ui.dart';
 // import 'package:ism_mart/screens/add_update_address/add_update_address_view.dart';
@@ -179,10 +181,10 @@ class Routes {
     //   name: contactUs,
     //   page: () => ContactUsView(),
     // ),
-    // GetPage(
-    //   name: dashboard,
-    //   page: () => DashboardView(),
-    // ),
+    GetPage(
+      name: dashboard,
+      page: () => DashboardView(),
+    ),
     // GetPage(
     //   name: chatScreen,
     //   page: () => ChatBotView(),

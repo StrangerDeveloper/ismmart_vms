@@ -156,8 +156,8 @@ class CustomTextField2 extends StatelessWidget {
   final TextInputType? keyboardType;
   final void Function(String)? onChanged;
 
-  CustomTextField2({
-    Key? key,
+  const CustomTextField2({
+    super.key,
     this.showCursor,
     this.readOnly = false,
     this.fillColor,
@@ -174,7 +174,7 @@ class CustomTextField2 extends StatelessWidget {
     this.validator,
     this.inputFormatters,
     this.keyboardType,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -186,7 +186,7 @@ class CustomTextField2 extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 5),
             child: Text(
               title!,
-              style: TextStyle(fontSize: 15),
+              style: const TextStyle(fontSize: 15),
             ),
           ),
         TextFormField(
@@ -234,11 +234,11 @@ class CustomTextField2 extends StatelessWidget {
               color: Colors.red,
             ),
             enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.black, width: 0.8),
+              borderSide: const BorderSide(color: Colors.black, width: 0.8),
               borderRadius: BorderRadius.circular(9),
             ),
             focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.black, width: 1.1),
+              borderSide: const BorderSide(color: Colors.black, width: 1.1),
               borderRadius: BorderRadius.circular(8),
             ),
             errorBorder: OutlineInputBorder(
@@ -274,8 +274,8 @@ class CustomTextField3 extends StatelessWidget {
   final bool required;
   final bool enabled;
 
-  CustomTextField3({
-    Key? key,
+  const CustomTextField3({
+    super.key,
     this.showCursor,
     this.readOnly = false,
     this.onChanged,
@@ -291,7 +291,7 @@ class CustomTextField3 extends StatelessWidget {
     this.inputFormatters,
     this.keyboardType,
     this.required = true,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

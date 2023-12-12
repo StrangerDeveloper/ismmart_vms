@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ismmart_vms/screens/dashboard/dashboard_view.dart';
 import 'package:ismmart_vms/screens/login/login_viewmodel.dart';
 import 'package:ismmart_vms/widgets/scrollable_column.dart';
 import 'package:ismmart_vms/helper/languages/translations_key.dart' as langKey;
@@ -14,7 +15,7 @@ import '../../widgets/custom_textfield.dart';
 import '../../widgets/obscure_suffix_icon.dart';
 
 class LogInView extends StatelessWidget {
-  LogInView({Key? key}) : super(key: key);
+  LogInView({super.key});
   final LogInViewModel viewModel = Get.put(LogInViewModel());
 
   @override
@@ -218,7 +219,7 @@ class LogInView extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 10, 20, 25),
       child: CustomRoundedTextBtn(
-        borderSide: BorderSide(
+        borderSide: const BorderSide(
           color: Colors.black, // your color here
           width: 1,
         ),
@@ -228,17 +229,17 @@ class LogInView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ClipRRect(
+              borderRadius: BorderRadius.circular(50.0),
               child: Image.asset(
                 'assets/logo/apple_logo.png',
                 width: 36,
                 height: 36,
               ),
-              borderRadius: BorderRadius.circular(50.0),
             ),
             const SizedBox(
               width: 5,
             ),
-            Text(
+            const Text(
               "Continue with Apple ID",
             ),
           ],
@@ -255,7 +256,7 @@ class LogInView extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
       child: CustomRoundedTextBtn(
-        borderSide: BorderSide(
+        borderSide: const BorderSide(
           color: Colors.black, // your color here
           width: 1,
         ),
@@ -265,17 +266,17 @@ class LogInView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ClipRRect(
+              borderRadius: BorderRadius.circular(50.0),
               child: Image.asset(
                 'assets/logo/fb_logo.png',
                 width: 36,
                 height: 36,
               ),
-              borderRadius: BorderRadius.circular(50.0),
             ),
-            SizedBox(
+            const SizedBox(
               width: 5,
             ),
-            Text(
+            const Text(
               "Continue in with Facebok",
               // style: newFontStyle3,
             ),
@@ -338,7 +339,8 @@ class LogInView extends StatelessWidget {
                   //style: newFontStyle3,
                 ),
                 onPressed: () {
-                  //viewModel.signIn();
+                  Get.offNamed(Routes.dashboard);
+                  // Get.to(DashboardView());
                 },
               ),
       ),

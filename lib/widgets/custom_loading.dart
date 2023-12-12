@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 
 class CustomLoading extends StatelessWidget {
   const CustomLoading(
-      {Key? key,
+      {super.key,
       this.isDarkMode,
       this.isItForWidget = false,
       this.isItBtn = false,
-      this.color = Colors.white})
-      : super(key: key);
+      this.color = Colors.white});
   final bool? isDarkMode;
   final bool? isItForWidget, isItBtn;
   final Color? color;
@@ -15,7 +14,7 @@ class CustomLoading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (isItForWidget!) {
-      return Center(
+      return const Center(
         child: CircularProgressIndicator(
           strokeWidth: 1,
           // color: color ?? kPrimaryColor,
@@ -25,11 +24,11 @@ class CustomLoading extends StatelessWidget {
     if (isItBtn!) {
       return Center(
         child: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             shape: BoxShape.circle,
           ),
-          child: Padding(
-            padding: const EdgeInsets.all(5.0),
+          child: const Padding(
+            padding: EdgeInsets.all(5.0),
             child: CircularProgressIndicator(
               strokeWidth: 1,
               //color: kWhiteColor,

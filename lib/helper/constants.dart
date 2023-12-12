@@ -4,6 +4,11 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
+import '../screens/dashboard/model/order_model.dart';
+//import 'package:ism_mart/exports/exports_model.dart';
+//import 'package:ism_mart/helper/languages/translations_key.dart' as langKey;
+
+
 const kLimeGreenColor = Color(0xFFACC254);
 const kPurpleColor = Color(0xFF9D50DD);
 const kPrimaryColor = kDarkColor;
@@ -429,6 +434,18 @@ class AppConstant {
   //   String outputDate = DateFormat('dd-MMM-yy').format(inputDate);
   //   return outputDate;
   // }
+
+  static Color getStatusColor(OrderModel? model) {
+    switch (model!.status!.toLowerCase()) {
+      case "pending":
+        return Colors.deepOrange;
+      case "active":
+      case "completed":
+        return Colors.teal;
+      default:
+        return Colors.blue;
+    }
+  }
 
   static colorConsole(String value) {
     print('\x1B[32m$value\x1B[0m');

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:ismmart_vms/helper/theme_helper.dart';
 
@@ -17,7 +16,7 @@ class CustomTextBtn extends StatelessWidget {
   final BorderSide borderSide;
 
   const CustomTextBtn({
-    Key? key,
+    super.key,
     this.height = 44,
     this.title = "",
     this.width = double.infinity,
@@ -30,7 +29,7 @@ class CustomTextBtn extends StatelessWidget {
     this.tapTargetSize,
     this.borderSide = BorderSide.none,
     this.shape,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +68,7 @@ class CustomRoundedTextBtn extends StatelessWidget {
   final BorderSide borderSide;
 
   const CustomRoundedTextBtn({
-    Key? key,
+    super.key,
     this.height = 50,
     this.title = "",
     this.width = double.infinity,
@@ -81,7 +80,7 @@ class CustomRoundedTextBtn extends StatelessWidget {
     this.tapTargetSize,
     this.borderSide = BorderSide.none,
     this.shape,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -109,7 +108,7 @@ class CustomRoundedTextBtn extends StatelessWidget {
 class CustomBackButton extends StatelessWidget {
   final void Function() onTap;
 
-  CustomBackButton({
+  const CustomBackButton({
     super.key,
     required this.onTap,
   });
@@ -119,7 +118,7 @@ class CustomBackButton extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: Colors.white,
@@ -132,7 +131,7 @@ class CustomBackButton extends StatelessWidget {
             )
           ],
         ),
-        child: Icon(
+        child: const Icon(
           Icons.arrow_back_ios_new_rounded,
           size: 15,
         ),
@@ -140,5 +139,3 @@ class CustomBackButton extends StatelessWidget {
     );
   }
 }
-
-
