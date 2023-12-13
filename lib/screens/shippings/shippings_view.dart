@@ -3,6 +3,10 @@ import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/languages/translations_key.dart';
 import 'package:ismmart_vms/screens/shippings/shippings_viewmodel.dart';
 import 'package:ismmart_vms/widgets/custom_appbar.dart';
+import 'package:ismmart_vms/widgets/custom_button.dart';
+import 'package:ismmart_vms/widgets/custom_dropdown.dart';
+
+import '../../widgets/custom_textfield.dart';
 
 class ShippingMethodsView extends StatelessWidget {
   ShippingMethodsView({super.key});
@@ -29,15 +33,26 @@ class ShippingMethodsView extends StatelessWidget {
   }
 
   Widget _shippingMethods() {
-    return Container();
+    return CustomDropDownList1(
+      title: 'Transfer Method',
+      value: viewModel.shippingMethod,
+      onChanged: (value) {
+        viewModel.shippingMethod.value = value;
+      },
+      list: viewModel.shippingMethodList,
+    );
   }
 
   Widget _nameField() {
-    return Container();
+    return const CustomTextField1(
+      title: 'Name',
+    );
   }
 
   Widget _idField() {
-    return Container();
+    return const CustomTextField1(
+      title: 'ID',
+    );
   }
 
   Widget _rateSection() {
@@ -45,6 +60,9 @@ class ShippingMethodsView extends StatelessWidget {
   }
 
   Widget _submitBtn() {
-    return Container();
+    return CustomTextBtn(
+      onPressed: () {},
+      title: 'Submit',
+    );
   }
 }
