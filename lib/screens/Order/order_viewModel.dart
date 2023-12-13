@@ -99,25 +99,7 @@ class OrderViewModel extends GetxController {
         weight: 1.5,
         dimensions: Dimensions(width: 5.0, height: 3.0, length: 4.0),
       ),
-      Item(
-        itemId: 3,
-        name: 'Product 3',
-        media: ['https://via.placeholder.com/150'],
-        quantity: 2,
-        price: 50.0,
-        discountedPrice: 45.0,
-        discount: 5.0,
-        variantName: 'Variant A',
-        customShipping: 5.0,
-        customTax: 2.0,
-        vendor: Vendor(vendorId: 1, name: '', vendorName: 'Vendor 1'),
-        type: 'Type A',
-        category: Category.electronics,
-        sku: 'SKU-123',
-        barcode: '123456789',
-        weight: 1.5,
-        dimensions: Dimensions(width: 5.0, height: 3.0, length: 4.0),
-      ),
+
       // Add more items as needed
     ];
 
