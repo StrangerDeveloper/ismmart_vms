@@ -1,134 +1,166 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ismmart_vms/helper/constants.dart';
 import 'package:ismmart_vms/helper/languages/translations_key.dart' as langKey;
+import 'package:ismmart_vms/screens/Order/model/order_model.dart';
 
 import 'package:ismmart_vms/screens/Order/order_viewModel.dart';
 import 'package:ismmart_vms/widgets/custom_appbar.dart';
 import 'package:ismmart_vms/widgets/custom_text.dart';
 
 class OrderView extends StatelessWidget {
-  const OrderView({Key? key}) : super(key: key);
+  OrderView({Key? key}) : super(key: key) {
+    Get.put(OrderViewModel()).fetchOrderDetails();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final OrderViewModel orderController = Get.put(OrderViewModel());
-
-    // Fetch order details based on orderId
-    orderController.fetchOrderDetails(1001);
+    final OrderViewModel orderController = Get.find<OrderViewModel>();
 
     return Scaffold(
       appBar: CustomAppBar(
         title: langKey.orderDetail.tr,
         backBtn: false,
-        action: [
-          IconButton(
-            onPressed: () {
-              Get.to(() => const OrderView());
-            },
-            icon: const Icon(Icons.edit),
-          ),
-          IconButton(
-            onPressed: () {
-              Get.defaultDialog(
-                title: 'Delete Order',
-                middleText: 'Are you sure you want to delete this order?',
-                textConfirm: 'Yes',
-                textCancel: 'No',
-                onConfirm: () {
-                  // Delete order
-                  Get.back();
-                },
-              );
-            },
-            icon: const Icon(Icons.delete),
-          ),
-        ],
       ),
       body: Obx(
-        () => orderController.order.value.orderId == 0
+        () => orderController.orders.isEmpty
             ? const Center(
                 child: CircularProgressIndicator(),
               )
             : SingleChildScrollView(
                 padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    buildOrderDetailCard(
-                      title: 'Order ID',
-                      subtitle: orderController.order.value.orderId.toString(),
-                    ),
-                    buildOrderDetailCard(
-                      title: 'Customer Name',
-                      subtitle: orderController.order.value.customerName,
-                    ),
-                    buildOrderDetailCard(
-                      title: 'Customer Phone',
-                      subtitle: orderController.order.value.customerPhone,
-                    ),
-                    buildOrderDetailCard(
-                      title: 'Customer Email',
-                      subtitle: orderController.order.value.customerEmail,
-                    ),
-                    buildOrderDetailCard(
-                      title: 'Number of Products',
-                      subtitle: orderController.order.value.numberOfProducts
-                          .toString(),
-                    ),
-                    buildOrderDetailCard(
-                      title: 'Date',
-                      subtitle: orderController.order.value.date.toString(),
-                    ),
-                    buildOrderDetailCard(
-                      title: 'Payment Status',
-                      subtitle: orderController.order.value.paymentStatus,
-                    ),
-                    buildOrderDetailCard(
-                      title: 'Fulfillment Status',
-                      subtitle: orderController.order.value.fulfillmentStatus,
-                    ),
-                    buildOrderDetailCard(
-                      title: 'Delivery Status',
-                      subtitle: orderController.order.value.deliveryStatus,
-                    ),
-                    buildOrderDetailCard(
-                      title: 'Delivery Method',
-                      subtitle: orderController.order.value.deliveryMethod,
-                    ),
-                    buildOrderDetailCard(
-                      title: 'Channel',
-                      subtitle: orderController.order.value.channel,
-                    ),
-                    buildOrderDetailCard(
-                      title: 'Market',
-                      subtitle: orderController.order.value.market,
-                    ),
-                  ],
+                child: FractionallySizedBox(
+                  widthFactor: 1,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: orderController.orders.length,
+                        itemBuilder: (context, index) {
+                          final detail = orderController.orders[index];
+                          return _buildOrderDetail(detail);
+                        },
+                      ),
+                      const SizedBox(height: 20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Expanded(
+                            child: ElevatedButton.icon(
+                              onPressed: () {
+                                //Get.to(() => AddEditOrderView());
+                              },
+                              icon: const Icon(Icons.edit),
+                              label: const Text('Edit Order'),
+                            ),
+                          ),
+                          const SizedBox(width: 20),
+                          Expanded(
+                            child: ElevatedButton.icon(
+                              onPressed: () {
+                                Get.defaultDialog(
+                                  title: 'Delete Order',
+                                  middleText:
+                                      'Are you sure you want to delete this order?',
+                                  textConfirm: 'Yes',
+                                  textCancel: 'No',
+                                  onConfirm: () {
+                                    // Delete order
+                                    Get.back();
+                                  },
+                                );
+                              },
+                              icon: const Icon(Icons.delete),
+                              label: const Text('Delete Order'),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
       ),
     );
   }
 
-  Widget buildOrderDetailCard(
-      {required String title, required String subtitle}) {
-    return Card(
-      color: kWhiteColor,
-      elevation: 4.0,
-      margin: const EdgeInsets.symmetric(vertical: 8.0),
-      child: ListTile(
-        title: CustomText(
-          title: title,
-          color: kWhiteColor,
-          size: 15,
-        ),
-        subtitle: CustomText(
-          title: subtitle,
-          color: kWhiteColor,
-          size: 15,
-        ),
+  Widget _buildOrderDetail(Order detail) {
+    List<TableRow> rows = [
+      _buildTableRow("Order ID", detail.orderId.toString()),
+      _buildTableRow("Amount", detail.amount.toString()),
+      _buildTableRow("Customer Name", detail.customerName),
+      _buildTableRow("Date", detail.date.toString()),
+      _buildTableRow("Payment Status", detail.paymentStatus),
+      _buildTableRow("Fulfillment Status", detail.fulfillmentStatus),
+      _buildTableRow("Delivery Status", detail.deliveryStatus),
+      // Add other details as needed
+    ];
+
+    // Add a table row for items
+    rows.add(
+      TableRow(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text("Items", textAlign: TextAlign.center),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: _buildItemDetails(detail.items),
+            ),
+          ),
+        ],
       ),
+    );
+
+    return Table(
+      border: TableBorder.all(),
+      columnWidths: const {
+        0: FlexColumnWidth(1),
+        1: FlexColumnWidth(2),
+      },
+      children: rows,
+    );
+  }
+
+  List<Widget> _buildItemDetails(List<Item> items) {
+    return items.map((item) {
+      return _buildItemDetail(item);
+    }).toList();
+  }
+
+  Widget _buildItemDetail(Item itemDetails) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          CustomText(title: "Item ID: ${itemDetails.itemId}"),
+          CustomText(title: "Name: ${itemDetails.name}"),
+          CustomText(title: "Quantity: ${itemDetails.media}"),
+          CustomText(title: "Price: ${itemDetails.quantity}"),
+          CustomText(title: "Price: ${itemDetails.price}"),
+          CustomText(title: "Discounted Price: ${itemDetails.discountedPrice}"),
+          CustomText(title: "SKU: ${itemDetails.sku}"),
+          CustomText(title: "Barcode: ${itemDetails.barcode}"),
+        ],
+      ),
+    );
+  }
+
+  _buildTableRow(String s, String string) {
+    return TableRow(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(s, textAlign: TextAlign.center),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(string, textAlign: TextAlign.center),
+        ),
+      ],
     );
   }
 }
