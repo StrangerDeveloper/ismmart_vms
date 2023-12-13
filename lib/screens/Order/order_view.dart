@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/languages/translations_key.dart' as langKey;
 import 'package:ismmart_vms/screens/Order/model/order_model.dart';
-
 import 'package:ismmart_vms/screens/Order/order_viewModel.dart';
 import 'package:ismmart_vms/widgets/custom_appbar.dart';
 import 'package:ismmart_vms/widgets/custom_text.dart';
@@ -27,14 +26,14 @@ class OrderView extends StatelessWidget {
                 child: CircularProgressIndicator(),
               )
             : SingleChildScrollView(
-                padding: const EdgeInsets.all(16.0),
-                child: FractionallySizedBox(
-                  widthFactor: 1,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       ListView.builder(
                         shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
                         itemCount: orderController.orders.length,
                         itemBuilder: (context, index) {
                           final detail = orderController.orders[index];
@@ -102,7 +101,7 @@ class OrderView extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text("Items", textAlign: TextAlign.center),
+            child: Text("Items", textAlign: TextAlign.start),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -134,7 +133,8 @@ class OrderView extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           CustomText(title: "Item ID: ${itemDetails.itemId}"),
           CustomText(title: "Name: ${itemDetails.name}"),
@@ -149,16 +149,16 @@ class OrderView extends StatelessWidget {
     );
   }
 
-  _buildTableRow(String s, String string) {
+  TableRow _buildTableRow(String title, String value) {
     return TableRow(
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text(s, textAlign: TextAlign.center),
+          child: Text(title, textAlign: TextAlign.start),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text(string, textAlign: TextAlign.center),
+          child: Text(value, textAlign: TextAlign.start),
         ),
       ],
     );
