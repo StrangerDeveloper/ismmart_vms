@@ -33,7 +33,7 @@ class OrderView extends StatelessWidget {
                     children: [
                       ListView.builder(
                         shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         itemCount: orderController.orders.length,
                         itemBuilder: (context, index) {
                           final detail = orderController.orders[index];
@@ -99,8 +99,8 @@ class OrderView extends StatelessWidget {
     rows.add(
       TableRow(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
+          const Padding(
+            padding: EdgeInsets.all(8.0),
             child: Text("Items", textAlign: TextAlign.start),
           ),
           Padding(
