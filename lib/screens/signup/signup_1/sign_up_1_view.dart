@@ -11,6 +11,7 @@ import '../../../widgets/custom_textfield.dart';
 import '../../../widgets/image_layout_container.dart';
 import '../../../widgets/obscure_suffix_icon.dart';
 import '../../login/login_view.dart';
+import 'package:ismmart_vms/helper/languages/translations_key.dart' as langKey;
 
 class SignUp1View extends StatelessWidget {
   SignUp1View({super.key});
@@ -38,12 +39,9 @@ class SignUp1View extends StatelessWidget {
                           padding: EdgeInsets.only(top: 20, bottom: 10),
                           child: Text(
                             'Create Account',
-                              style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.black
-                              ),
-                        ),
+                            style: TextStyle(fontSize: 20, color: Colors.black),
                           ),
+                        ),
                         progress(),
                         nameField(),
                         emailTextField(),
@@ -54,6 +52,10 @@ class SignUp1View extends StatelessWidget {
                         cnicBackImage(),
                         passwordTextField(),
                         confirmPasswordTextField(),
+                        or(),
+                        googlelogInBtn(),
+                        facebooklogInBtn(),
+                        applelogInBtn(),
                         signUpBtn(),
                         alreadyHaveAnAccount(),
                       ],
@@ -84,7 +86,7 @@ class SignUp1View extends StatelessWidget {
               ),
             ),
           ),
-          CustomBackButton(onTap: (){}),
+          CustomBackButton(onTap: () {}),
         ],
       ),
     );
@@ -110,7 +112,7 @@ class SignUp1View extends StatelessWidget {
                   text: TextSpan(
                     children: [
                       TextSpan(
-                        text: 'Next Step: ' ,
+                        text: 'Next Step: ',
                         style: newFontStyle1.copyWith(
                           fontSize: 12,
                           color: newColorBlue4,
@@ -187,7 +189,8 @@ class SignUp1View extends StatelessWidget {
           keyboardType: TextInputType.number,
           controller: viewModel.phoneNumberController,
           initialValue: viewModel.countryCode.value,
-          textStyle: const TextStyle(color: Colors.grey, fontWeight: FontWeight.w600),
+          textStyle:
+              const TextStyle(color: Colors.grey, fontWeight: FontWeight.w600),
           autoValidateMode: AutovalidateMode.onUserInteraction,
           inputFormatters: [
             FilteringTextInputFormatter.allow(RegExp(r'^\d+?\d*')),
@@ -219,25 +222,17 @@ class SignUp1View extends StatelessWidget {
                 style: TextStyle(
                     fontSize: 14,
                     color: Colors.black,
-                    fontWeight: FontWeight.w700
-                ),
+                    fontWeight: FontWeight.w700),
                 children: [
-                  TextSpan(
-                      text: ' *',
-                      style: TextStyle(color: Colors.red)
-                  )
-                ]
-            ),
+                  TextSpan(text: ' *', style: TextStyle(color: Colors.red))
+                ]),
           ),
         ),
-        SizedBox(
-          height: 30,
-            child: genderRadioBtns(context)
-        ),
+        SizedBox(height: 30, child: genderRadioBtns(context)),
       ],
     );
   }
-  
+
   Widget genderRadioBtns(BuildContext buildContext) {
     return Padding(
       padding: const EdgeInsets.only(top: 10),
@@ -256,29 +251,27 @@ class SignUp1View extends StatelessWidget {
   }
 
   Widget radioButton(int btnValue, String title) {
-    return Obx(() => Row(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: <Widget>[
-        Radio(
-          fillColor: MaterialStateColor.resolveWith((states) => Colors.black),
-          activeColor: Theme.of(Get.context!).primaryColor,
-          value: viewModel.genders[btnValue],
-          groupValue: viewModel.selectedGender.value,
-          onChanged: (value){
-            viewModel.selectedGender.value = value;
-          },
-        ),
-        Text(
-          title,
-          style: const TextStyle(
-              color: Colors.black,
-              fontSize: 14,
-              fontWeight: FontWeight.w400
+    return Obx(
+      () => Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Radio(
+            fillColor: MaterialStateColor.resolveWith((states) => Colors.black),
+            activeColor: Theme.of(Get.context!).primaryColor,
+            value: viewModel.genders[btnValue],
+            groupValue: viewModel.selectedGender.value,
+            onChanged: (value) {
+              viewModel.selectedGender.value = value;
+            },
           ),
-        )
-      ],
-    ),
+          Text(
+            title,
+            style: const TextStyle(
+                color: Colors.black, fontSize: 14, fontWeight: FontWeight.w400),
+          )
+        ],
+      ),
     );
   }
 
@@ -324,28 +317,36 @@ class SignUp1View extends StatelessWidget {
   }
 
   Widget cnicFrontImage() {
-    return Obx(() => ImageLayoutContainer(
+    return Obx(
+      () => ImageLayoutContainer(
         title: 'CNIC Front Image',
-        filePath: viewModel.cnicFrontImage.value == '' ? '' : basename(viewModel.cnicFrontImage.value),
-        onTap: ()async{
-          await viewModel.selectImage(viewModel.cnicFrontImage, viewModel.cnicFrontImageErrorVisibility);
+        filePath: viewModel.cnicFrontImage.value == ''
+            ? ''
+            : basename(viewModel.cnicFrontImage.value),
+        onTap: () async {
+          await viewModel.selectImage(viewModel.cnicFrontImage,
+              viewModel.cnicFrontImageErrorVisibility);
         },
         errorVisibility: viewModel.cnicFrontImageErrorVisibility.value,
         errorPrompt: 'CNIC Front Image is required',
-    ),
+      ),
     );
   }
 
   Widget cnicBackImage() {
-    return Obx(() => ImageLayoutContainer(
-      title: 'CNIC Back Image',
-      filePath: viewModel.cnicBackImage.value == '' ? '' : basename(viewModel.cnicBackImage.value),
-      onTap: ()async{
-        await viewModel.selectImage(viewModel.cnicBackImage, viewModel.cnicBackImageErrorVisibility);
-      },
-      errorVisibility: viewModel.cnicBackImageErrorVisibility.value,
-      errorPrompt: 'CNIC Back Image is required',
-    ),
+    return Obx(
+      () => ImageLayoutContainer(
+        title: 'CNIC Back Image',
+        filePath: viewModel.cnicBackImage.value == ''
+            ? ''
+            : basename(viewModel.cnicBackImage.value),
+        onTap: () async {
+          await viewModel.selectImage(
+              viewModel.cnicBackImage, viewModel.cnicBackImageErrorVisibility);
+        },
+        errorVisibility: viewModel.cnicBackImageErrorVisibility.value,
+        errorPrompt: 'CNIC Back Image is required',
+      ),
     );
   }
 
@@ -377,12 +378,12 @@ class SignUp1View extends StatelessWidget {
 
   Widget signUpBtn() {
     return CustomRoundedTextBtn(
-              title: 'Proceed',
-              onPressed: () {
-                print('Sign Up Button Pressed');
-                viewModel.signUp();
-              },
-            );
+      title: 'Proceed',
+      onPressed: () {
+        print('Sign Up Button Pressed');
+        viewModel.signUp();
+      },
+    );
   }
 
   Widget alreadyHaveAnAccount() {
@@ -414,6 +415,220 @@ class SignUp1View extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Widget or() {
+    return Row(
+      children: [
+        const Expanded(
+          child: Divider(
+            //color: newColorLightGrey,
+            thickness: 1,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Text(
+            langKey.or.tr,
+            //style: newFontStyle4,
+          ),
+        ),
+        const Expanded(
+          child: Divider(
+            //color: newColorLightGrey,
+            thickness: 1,
+          ),
+        ),
+      ],
+    );
+  }
+
+  //Google Button
+  Widget googlelogInBtn() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+      child: CustomRoundedTextBtn(
+        borderSide: const BorderSide(
+          //color: newColorDarkBlack, // your color here
+          width: 1,
+        ),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(50.0),
+              child: Image.asset(
+                'assets/logo/google_logo.png',
+                width: 36,
+                height: 36,
+              ),
+            ),
+            const SizedBox(
+              width: 5,
+            ),
+            const Text(
+              "Continue in with Google",
+              //style: newFontStyle3,
+            ),
+          ],
+        ),
+        onPressed: () {
+          viewModel.googleLogIn();
+        },
+      ),
+
+      // Obx(
+      //       () => GlobalVariable.showLoader.value
+      //       ? CustomLoading(isItBtn: true)
+      //       :
+      //
+      //       CustomRoundedTextBtn(
+      //     borderSide:  BorderSide(
+      //       color: newColorDarkBlack, // your color here
+      //       width: 1,
+      //     ),
+      //     backgroundColor: kWhiteColor,
+      //     foregroundColor: newColorDarkBlack,
+      //     child: Row(
+      //       mainAxisAlignment: MainAxisAlignment.center,
+      //       children: [
+      //         ClipRRect(
+      //           child: Image.asset(
+      //             'assets/logo/google_logo.png',
+      //             width: 36,
+      //             height: 36,
+      //           ),
+      //           borderRadius: BorderRadius.circular(50.0),
+      //         ),
+      //         SizedBox(
+      //           width:5,
+      //         ),
+      //         Text(
+      //           "Continue in with Google",
+      //           style: newFontStyle3,
+      //         ),
+      //       ],),
+      //     onPressed: () {
+      //       viewModel.signInWithApple();
+      //     },
+      //   ),
+      //
+      // ),
+      //
+    );
+  }
+
+  Widget applelogInBtn() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 10, 20, 25),
+      child: CustomRoundedTextBtn(
+        borderSide: const BorderSide(
+          color: Colors.black, // your color here
+          width: 1,
+        ),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(50.0),
+              child: Image.asset(
+                'assets/logo/apple_logo.png',
+                width: 36,
+                height: 36,
+              ),
+            ),
+            const SizedBox(
+              width: 5,
+            ),
+            const Text(
+              "Continue with Apple ID",
+            ),
+          ],
+        ),
+        onPressed: () {
+          viewModel.appleSignin();
+        },
+      ),
+    );
+  }
+
+  //Facebook Button
+  Widget facebooklogInBtn() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+      child: CustomRoundedTextBtn(
+        borderSide: const BorderSide(
+          color: Colors.black, // your color here
+          width: 1,
+        ),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(50.0),
+              child: Image.asset(
+                'assets/logo/fb_logo.png',
+                width: 36,
+                height: 36,
+              ),
+            ),
+            const SizedBox(
+              width: 5,
+            ),
+            const Text(
+              "Continue in with Facebok",
+              // style: newFontStyle3,
+            ),
+          ],
+        ),
+        onPressed: () {
+          // viewModel.signInWithApple();
+        },
+      ),
+
+      // Obx(
+      //       () => GlobalVariable.showLoader.value
+      //       ? CustomLoading(isItBtn: true)
+      //       :
+      //       CustomRoundedTextBtn(
+      //     borderSide:  BorderSide(
+      //       color: newColorDarkBlack, // your color here
+      //       width: 1,
+      //     ),
+      //     backgroundColor: kWhiteColor,
+      //     foregroundColor: newColorDarkBlack,
+      //     child: Row(
+      //       mainAxisAlignment: MainAxisAlignment.center,
+      //       children: [
+      //         ClipRRect(
+      //           child: Image.asset(
+      //             'assets/logo/fb_logo.png',
+      //             width: 36,
+      //             height: 36,
+      //           ),
+      //           borderRadius: BorderRadius.circular(50.0),
+      //         ),
+      //         SizedBox(
+      //           width:5,
+      //         ),
+      //         Text(
+      //           "Continue in with Facebok",
+      //           style: newFontStyle3,
+      //         ),
+      //       ],),
+      //     onPressed: () {
+      //       viewModel.signInWithApple();
+      //     },
+      //   ),
+      //
+      // ),
     );
   }
 }
