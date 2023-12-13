@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:ismmart_vms/helper/languages/translations_key.dart' as langKey;
 import 'package:ismmart_vms/screens/setting/settings_viewmodel.dart';
-import '../../helper/constants.dart';
-import '../../helper/routes.dart';
-import '../../widgets/custom_text.dart';
+
+import '../store/store_view.dart';
 
 class SettingsView extends StatelessWidget {
   SettingsView({Key? key}) : super(key: key);
@@ -50,7 +47,7 @@ class SettingsView extends StatelessWidget {
             leading: const Icon(Icons.book),
             title: const Text('Store '),
             onTap: () {
-              Navigator.pop(context);
+              Get.to(StoreView());
             },
           ),
           ListTile(
