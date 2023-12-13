@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/screens/product_list/product_list_viewmodel.dart';
@@ -6,8 +5,8 @@ import 'package:ismmart_vms/widgets/custom_textfield.dart';
 
 import '../product_detail/product_detail_view.dart';
 
-class ProductList extends StatelessWidget {
-  ProductList({super.key});
+class PayoutsView extends StatelessWidget {
+  PayoutsView({super.key});
 
   final ProductListViewModel viewModel = Get.put(ProductListViewModel());
 
@@ -15,7 +14,7 @@ class ProductList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Product List'),
+        title: const Text('Payouts'),
         actions: [
           IconButton(
             onPressed: () {
@@ -54,7 +53,7 @@ class ProductList extends StatelessWidget {
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: CustomTextField2(
-              hintText: 'Search Product...',
+              hintText: 'Search...',
             ),
           ),
           listView(),
@@ -65,10 +64,13 @@ class ProductList extends StatelessWidget {
 
   Widget listView() {
     return Expanded(
-      child: ListView.builder(
+      child: ListView.separated(
         itemCount: 10,
         itemBuilder: (context, int index) {
           return listViewItem(index);
+        },
+        separatorBuilder: (BuildContext context, int index) {
+          return Divider();
         },
       ),
     );
@@ -81,56 +83,37 @@ class ProductList extends StatelessWidget {
       },
       child: Container(
         padding: const EdgeInsets.only(left: 5, right: 5, top: 5, bottom: 5),
-        child: Row(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CachedNetworkImage(
-              height: 65,
-              width: 65,
-              imageUrl: "",
-              imageBuilder: (context, imageProvider) {
-                return Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    image: DecorationImage(
-                      image: imageProvider,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                );
-              },
-              errorWidget: (context, url, error) {
-                return Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    image: const DecorationImage(
-                      image: AssetImage('assets/images/no_image_found.jpg'),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                );
-              },
-              placeholder: (context, url) {
-                return const Center(
-                  child: CircularProgressIndicator(strokeWidth: 2.0),
-                );
-              },
-            ),
-            const SizedBox(width: 10),
-            const Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('name'),
-                  Text('type'),
-                  Text('Category'),
-                  Text('Variants Count/Inventory'),
-                  Text('Starting Price'),
-                  Text('No of Items'),
-                ],
-              ),
-            ),
+            item1(title: 'Requested Date', value: '13 Dec, 2023'),
+            item1(title: 'Amount', value: '10,000'),
+            item1(title: 'Bank Name', value: 'Alfalah Bank'),
+            item1(title: 'Transfer Method', value: 'Bank'),
+            item1(title: 'Status', value: 'Transfered'),
+            item1(title: 'Created At', value: '13 Dec, 2023'),
+            item1(title: 'Updated At', value: '13 Dec, 2023'),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget item1({required String title, required String value}) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 5, right: 5, bottom: 5),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            title,
+            style: const TextStyle(),
+          ),
+          Text(
+            value,
+            style: const TextStyle(),
+          ),
+        ],
       ),
     );
   }
@@ -159,12 +142,11 @@ class ProductList extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    filterItem(title: 'Name'),
+                    filterItem(title: 'Requested Date'),
+                    filterItem(title: 'Amount'),
+                    filterItem(title: 'Bank Name'),
+                    filterItem(title: 'Transfer Method'),
                     filterItem(title: 'Status'),
-                    filterItem(title: 'Variant'),
-                    filterItem(title: 'Location'),
-                    filterItem(title: 'Created At'),
-                    filterItem(title: 'Updated At'),
                   ],
                 ),
               ),
