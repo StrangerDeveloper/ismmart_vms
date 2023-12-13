@@ -108,7 +108,7 @@ const itemsFound = 'itemsFound',
     clear = 'clear',
     lowToHigh = 'lowToHigh',
     highToLow = 'highToLow',
-    OFF = 'OFF';
+    oFF = 'OFF';
 
 ///SingleOrderDetailsUI
 const orderDetail = 'orderDetail';
@@ -166,7 +166,7 @@ const addToCart = 'addToCart',
 
 ///my_orders
 const invoiceNo = 'invoiceNo',
-    Date = 'Date',
+    date = 'Date',
     billingDetails = 'billingDetails',
     qty = 'qty',
     amount = 'amount',
@@ -275,10 +275,9 @@ const discountMinValue = 'discountMinValue',
     memPlan3Desc9 = 'memPlan3Desc9';
 
 //////////////////////////////////////////////////////////////////////
-/**
- *
- *  Settings
- * */
+///
+///  Settings
+///
 const exitApp = "exitApp", exitDialogDesc = "exitDialogDesc";
 const settings = "settings",
     general = "general",
@@ -300,10 +299,8 @@ const settings = "settings",
     termsAndConditions = "termsAndConditions",
     helpCenter = "helpCenter";
 
-/**
- * Bottom nav bar
- *
- */
+/// Bottom nav bar
+///
 
 const home = "home",
     categories = "categories",
@@ -311,10 +308,8 @@ const home = "home",
     myCart = "myCart",
     menu = "menu";
 
-/**
- *
- * Buyer Dashboard
- */
+///
+/// Buyer Dashboard
 
 const topCategories = "topCategories",
     discountDeals = "discountDeals",
@@ -339,9 +334,8 @@ const shipping = "shipping",
     maxAddressLimitMsg = "maxAddressLimitMesg",
     orderTime = "orderTime";
 
-/**
- * Vendor
- * */
+/// Vendor
+///
 
 const vendorDashboard = "vendorDashboard",
     vendorRegistration = "vendorRegistration",
@@ -387,8 +381,8 @@ const profile = "profile",
     bankAccountHolder = "bAccHolder",
     bankAccHolderReq = "bankAccReq",
     deActivateMsg = "deActivateMsg",
-    FirstNameReq = "FirstNameReq",
-    LastNameReq = "LastNameReq",
+    firstNameReq = "FirstNameReq",
+    lastNameReq = "LastNameReq",
     legalDocument = "legalDocument",
     incorrectAccOrIbanNo = 'incorrectAccNo',
     incorrectBranchCode = 'incorrectBranchCode',
@@ -415,9 +409,9 @@ const subject = "subject",
 ///
 
 const titleKey = "title", titleReq = "titleReq";
-/**
- *  Login and register and form validations text
- * */
+
+///  Login and register and form validations text
+///
 
 const login = "login",
     register = "register",
@@ -507,10 +501,8 @@ const connectionError = 'connectionError',
     couldNotGetLocation = 'couldNotGetLocation',
     productExists = 'productExists';
 
-/**
- * Form Validations
- *
- */
+/// Form Validations
+///
 const email = "email",
     emailReq = "emailReq",
     invalidEmail = "invalidEmail",
@@ -552,7 +544,7 @@ const storeName = "storeName",
     shopAddressReq = 'shopAddressReq';
 
 ///Add Product
-final productName = "productName",
+const productName = "productName",
     productNameReq = "productNameReq",
     prodPrice = "prodPrice",
     prodPriceReq = "prodPriceReq",
@@ -566,16 +558,14 @@ final productName = "productName",
     selectSubCategory = "selectSubCategory";
 
 ///Update Product
-final productImageSection = 'productImageSection',
+const productImageSection = 'productImageSection',
     productThumbnail = 'productThumbnail',
     uploadThumbnail = 'uploadThumbnail',
     productImages = 'productImages',
     addedImages = 'addedImages';
 
-/**
- * Membership Plans
- *
- */
+/// Membership Plans
+///
 
 const membershipPlans = "membershipPlans",
     membershipDesc = "membershipDesc",
@@ -614,10 +604,8 @@ const titleBusiness = "titleB",
     descB8 = "descB8",
     descB9 = "descB9";
 
-/**
- *
- * General buttons text, and short texts
- */
+///
+/// General buttons text, and short texts
 
 const add = "add",
     addNew = "addNew",
@@ -652,11 +640,9 @@ const add = "add",
     redeemBtn = "redeem",
     recentSearches = "recentSearches";
 
-/**
- * No Page found messages
- *  empty and descriptions
- *  no Data found
- */
+/// No Page found messages
+///  empty and descriptions
+///  no Data found
 
 const emptyCart = "emptyCart", emptyCartMsg = "emptyCartMsg";
 const emptyProductSearch = "emptyProductSearch",

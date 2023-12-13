@@ -70,7 +70,7 @@ class PayoutListView extends StatelessWidget {
           return listViewItem(index);
         },
         separatorBuilder: (BuildContext context, int index) {
-          return Divider();
+          return const Divider();
         },
       ),
     );
@@ -79,7 +79,7 @@ class PayoutListView extends StatelessWidget {
   Widget listViewItem(int index) {
     return InkWell(
       onTap: () {
-        Get.to(() => const ProductDetailView());
+        Get.to(() => ProductDetailView());
       },
       child: Container(
         padding: const EdgeInsets.only(left: 5, right: 5, top: 5, bottom: 5),

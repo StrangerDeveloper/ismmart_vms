@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -69,20 +67,20 @@ class LogInViewModel extends GetxController {
   GoogleSignInAccount? _user;
   GoogleSignInAccount get user => _user!;
   Future googleLogIn() async {
-    GoogleSignIn _googleSignIn = GoogleSignIn(
+    GoogleSignIn googleSignIn = GoogleSignIn(
       scopes: [
         'email',
         'https://www.googleapis.com/auth/contacts.readonly',
       ],
     );
-    var credential;
+    GoogleSignInAccount? credential;
     try {
-      credential = await _googleSignIn.signIn();
+      credential = await googleSignIn.signIn();
     } catch (error) {
-      print(error);
+      debugPrint("$error");
     }
     update();
-    print("google signin Credential ===> $credential");
+    debugPrint("google signin Credential ===> $credential");
   }
 
 //apple login

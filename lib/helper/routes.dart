@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:ismmart_vms/screens/forgot_password/forgot_password_view.dart';
+import 'package:ismmart_vms/screens/login/login_view.dart';
 
 import '../screens/Order/order_view.dart';
 import '../screens/dashboard/dashboard_view.dart';
@@ -98,11 +99,11 @@ class Routes {
   static const orderRoute = "/order";
 
   static final pages = [
-    // GetPage(
-    //   name: initRoute,
-    //   page: () => SplashView(),
-    //   //binding: BaseBindings(),
-    // ),
+    GetPage(
+      name: initRoute,
+      page: () => LogInView(),
+      //binding: BaseBindings(),
+    ),
     // GetPage(
     //   name: onBoard,
     //   page: () => OnBoardView(),
