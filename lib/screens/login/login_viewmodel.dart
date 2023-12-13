@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class LogInViewModel extends GetxController {
@@ -61,6 +63,27 @@ class LogInViewModel extends GetxController {
   //     });
   //   }
   // }
+
+  //Google singin
+  final googleSignin = GoogleSignIn();
+  GoogleSignInAccount? _user;
+  GoogleSignInAccount get user => _user!;
+  Future googleLogIn() async {
+    GoogleSignIn _googleSignIn = GoogleSignIn(
+      scopes: [
+        'email',
+        'https://www.googleapis.com/auth/contacts.readonly',
+      ],
+    );
+    var credential;
+    try {
+      credential = await _googleSignIn.signIn();
+    } catch (error) {
+      print(error);
+    }
+    update();
+    print("google signin Credential ===> $credential");
+  }
 
 //apple login
   appleSignin() async {

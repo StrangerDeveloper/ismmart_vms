@@ -12,6 +12,8 @@ import '../../widgets/custom_loading.dart';
 import '../../widgets/custom_text.dart';
 import '../../widgets/custom_textfield.dart';
 import '../../widgets/obscure_suffix_icon.dart';
+import '../signup/signup_1/sign_up_1_view.dart';
+import '../signup/signup_3/sign_up_3_view.dart';
 
 class LogInView extends StatelessWidget {
   LogInView({super.key});
@@ -50,6 +52,8 @@ class LogInView extends StatelessWidget {
                   passwordTextField(),
                   forgotPassword(),
                   logInBtn(),
+                  signUpBtn(),
+
                   or(),
                   googlelogInBtn(),
                   facebooklogInBtn(),
@@ -169,7 +173,7 @@ class LogInView extends StatelessWidget {
           ],
         ),
         onPressed: () {
-          // viewModel.signInWithApple();
+          viewModel.googleLogIn();
         },
       ),
 
@@ -339,6 +343,27 @@ class LogInView extends StatelessWidget {
                 ),
                 onPressed: () {
                   Get.offNamed(Routes.dashboard);
+                  // Get.to(DashboardView());
+                },
+              ),
+      ),
+    );
+  }
+
+  Widget signUpBtn() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 20, 20, 25),
+      child: Obx(
+        () => GlobalVariable.showLoader.value
+            ? const CustomLoading(isItBtn: true)
+            : CustomRoundedTextBtn(
+                backgroundColor: Colors.black,
+                child: Text(
+                  "Signup",
+                  //style: newFontStyle3,
+                ),
+                onPressed: () {
+                  Get.off(SignUp1View());
                   // Get.to(DashboardView());
                 },
               ),
