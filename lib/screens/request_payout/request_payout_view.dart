@@ -17,17 +17,17 @@ class RequestPayoutView extends StatelessWidget {
         title: const Text('Request Payout'),
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            CustomTextField1(
+            const CustomTextField1(
               title: 'Requested Date',
             ),
-            SizedBox(height: 10),
-            CustomTextField1(
+            const SizedBox(height: 10),
+            const CustomTextField1(
               title: 'Amount',
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             CustomDropDownList1(
               title: 'Transfer Method',
               value: viewModel.transferMethodValue,
@@ -36,7 +36,7 @@ class RequestPayoutView extends StatelessWidget {
               },
               list: viewModel.transferMethodList,
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             CustomTextBtn(
               title: 'Submit',
               onPressed: () {},
