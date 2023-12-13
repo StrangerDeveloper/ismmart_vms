@@ -70,7 +70,7 @@ class PayoutListView extends StatelessWidget {
           return listViewItem(index);
         },
         separatorBuilder: (BuildContext context, int index) {
-          return Divider();
+          return const Divider();
         },
       ),
     );

@@ -13,7 +13,6 @@ import '../../widgets/custom_text.dart';
 import '../../widgets/custom_textfield.dart';
 import '../../widgets/obscure_suffix_icon.dart';
 import '../signup/signup_1/sign_up_1_view.dart';
-import '../signup/signup_3/sign_up_3_view.dart';
 
 class LogInView extends StatelessWidget {
   LogInView({super.key});
@@ -358,7 +357,7 @@ class LogInView extends StatelessWidget {
             ? const CustomLoading(isItBtn: true)
             : CustomRoundedTextBtn(
                 backgroundColor: Colors.black,
-                child: Text(
+                child: const Text(
                   "Signup",
                   //style: newFontStyle3,
                 ),

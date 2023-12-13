@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:ismmart_vms/screens/login/login_view.dart';
-import 'package:ismmart_vms/screens/signup/signup_3/sign_up_3_view.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
