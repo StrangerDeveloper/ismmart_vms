@@ -116,16 +116,16 @@ class ProductList extends StatelessWidget {
               },
             ),
             const SizedBox(width: 10),
-            const Expanded(
+            Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('name'),
-                  Text('type'),
-                  Text('Category'),
-                  Text('Variants Count/Inventory'),
-                  Text('Starting Price'),
-                  Text('No of Items'),
+                  item1(title: 'Name', value: 'Product Name '),
+                  item1(title: 'Type', value: 'Men Shirt'),
+                  item1(title: 'Category', value: 'Cloths'),
+                  item1(title: 'Variants Count/Inventory', value: '10'),
+                  item1(title: 'Starting Price', value: '1500'),
+                  item1(title: 'No of Items', value: '100'),
                 ],
               ),
             ),
@@ -159,6 +159,7 @@ class ProductList extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 10),
+
                     filterItem(title: 'Name'),
                     filterItem(title: 'Status'),
                     filterItem(title: 'Variant'),
@@ -185,6 +186,26 @@ class ProductList extends StatelessWidget {
       },
     );
   }
+
+  Widget item1({required String title, required String value}) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 5, right: 5, bottom: 5),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            title,
+            style: const TextStyle(),
+          ),
+          Text(
+            value,
+            style: const TextStyle(),
+          ),
+        ],
+      ),
+    );
+  }
+
 
   Widget filterItem({required String title}) {
     return InkWell(
