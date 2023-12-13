@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/screens/setting/settings_viewmodel.dart';
+import 'package:ismmart_vms/screens/shippings/shippings_view.dart';
 
 class SettingsView extends StatelessWidget {
   SettingsView({super.key});
@@ -52,6 +53,14 @@ class SettingsView extends StatelessWidget {
             title: const Text(' Banking '),
             onTap: () {
               Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.local_shipping),
+            title: const Text(' Shipping Methods '),
+            onTap: () {
+              //Navigator.pop(context);
+              Get.to(ShippingMethodsView());
             },
           ),
         ],
