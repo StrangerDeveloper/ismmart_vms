@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
 
-class PayoutListViewModel extends GetxController{
+class LocationListViewModel extends GetxController{
   RxString searchBy = 'name'.obs;
 }
