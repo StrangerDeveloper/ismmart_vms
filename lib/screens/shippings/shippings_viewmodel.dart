@@ -12,5 +12,12 @@ class ShippingViewModel extends GetxController {
     DropDownModel(id: '3', name: 'TCS'),
   ].obs;
 
-  var shippingMethod = "".obs;
+  List<DropDownModel> ratesTypeList = <DropDownModel>[
+    DropDownModel(id: '1', name: 'Weight'),
+    DropDownModel(id: '2', name: 'Price'),
+    DropDownModel(id: '3', name: 'Distance'),
+  ].obs;
+
+  var shippingMethod = "1".obs;
+  var ratesType = "1".obs;
 }

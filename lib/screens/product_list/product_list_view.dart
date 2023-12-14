@@ -6,8 +6,8 @@ import 'package:ismmart_vms/widgets/custom_textfield.dart';
 
 import '../product_detail/product_detail_view.dart';
 
-class ProductList extends StatelessWidget {
-  ProductList({super.key});
+class ProductListView extends StatelessWidget {
+  ProductListView({super.key});
 
   final ProductListViewModel viewModel = Get.put(ProductListViewModel());
 
