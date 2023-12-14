@@ -6,7 +6,6 @@ import 'package:ismmart_vms/widgets/custom_appbar.dart';
 import 'package:ismmart_vms/widgets/custom_button.dart';
 import 'package:ismmart_vms/widgets/custom_dropdown.dart';
 import 'package:ismmart_vms/widgets/custom_section_divider.dart';
-
 import '../../widgets/custom_textfield.dart';
 
 class ShippingMethodsView extends StatelessWidget {

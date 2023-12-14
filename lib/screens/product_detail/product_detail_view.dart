@@ -4,6 +4,7 @@ import 'package:ismmart_vms/screens/product_detail/product_detail_viewmodel.dart
 import 'package:ismmart_vms/widgets/custom_button.dart';
 
 import '../../widgets/custom_checkbox_list_tile.dart';
+import '../product_quantity/product_quantity_view.dart';
 
 class ProductDetailView extends StatelessWidget {
   ProductDetailView({super.key});
@@ -30,7 +31,8 @@ class ProductDetailView extends StatelessWidget {
                 CustomTextBtn(
                   title: 'Product Inventory',
                   onPressed: () {
-                    itemsBottomSheet();
+                    // itemsBottomSheet();
+                    Get.to(()=>ProductQuantity());
                   },
                 ),
                 const SizedBox(height: 5),

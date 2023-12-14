@@ -83,16 +83,16 @@ class LogInView extends StatelessWidget {
             alignment: Alignment.center,
             child: Text(
               langKey.login.tr,
-              // style: dmSerifDisplay1.copyWith(
-              //   fontSize: 32,
-              // ),
+              style: TextStyle(
+                fontSize: 32,
+              ),
             ),
           ),
-          CustomBackButton(
-            onTap: () {
-              Get.back();
-            },
-          ),
+          // CustomBackButton(
+          //   onTap: () {
+          //     Get.back();
+          //   },
+          // ),
         ],
       ),
     );

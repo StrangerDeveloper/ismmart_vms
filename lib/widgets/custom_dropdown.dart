@@ -23,7 +23,7 @@ class CustomDropDownList1 extends StatelessWidget {
     this.validator,
     this.autoValidateMode,
     this.labelText,
-    this.contentPadding = const EdgeInsets.fromLTRB(10, 8.5, 10, 8.5),
+    this.contentPadding = const EdgeInsets.fromLTRB(10, 13.5, 10, 13.5),
   });
 
   @override
@@ -39,10 +39,9 @@ class CustomDropDownList1 extends StatelessWidget {
                   text: TextSpan(
                     text: title,
                     style: const TextStyle(
-                      // color: context.isDarkMode
-                      //     ? ThemeColors.dark3
-                      //     : ThemeColors.brown2,
-                      fontSize: 12.5,
+                      color: Colors.black,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
                     ),
                     children: [
                       (asterisk)
@@ -60,6 +59,22 @@ class CustomDropDownList1 extends StatelessWidget {
             //dropdownColor: context.isDarkMode ? ThemeColors.dark2 : null,
             decoration: InputDecoration(
               contentPadding: contentPadding,
+              enabledBorder: OutlineInputBorder(
+                borderSide: const BorderSide(color: Colors.black, width: 0.8),
+                borderRadius: BorderRadius.circular(9),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: const BorderSide(color: Colors.black, width: 1.1),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.red.shade700, width: 0.8),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              focusedErrorBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.red.shade700),
+                borderRadius: BorderRadius.circular(8),
+              ),
             ),
             autovalidateMode: autoValidateMode,
             validator: validator,

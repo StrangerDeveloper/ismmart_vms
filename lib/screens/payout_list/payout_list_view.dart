@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/screens/payout_list/payout_list_viewmodel.dart';
+import 'package:ismmart_vms/screens/request_payout/request_payout_view.dart';
 import 'package:ismmart_vms/widgets/custom_textfield.dart';
 
 import '../product_detail/product_detail_view.dart';
@@ -13,6 +14,12 @@ class PayoutListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Get.to(()=>RequestPayoutView());
+        },
+        label: const Text('Request Payout'),
+      ),
       appBar: AppBar(
         title: const Text('Payouts'),
         actions: [

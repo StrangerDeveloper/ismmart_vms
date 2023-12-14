@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/constants.dart';
 import 'package:ismmart_vms/screens/collection/collection_view.dart';
 import 'package:ismmart_vms/screens/dashboard/dashboard_view.dart';
+import 'package:ismmart_vms/screens/product_list/product_list_view.dart';
 
 import '../screens/Order/order_view.dart';
 import '../screens/auth/login/login_view.dart';
@@ -18,7 +19,7 @@ class CustomDrawer extends StatelessWidget {
       child: Stack(
         children: [
           Drawer(
-            width: Get.width * 0.5,
+            width: Get.width * 0.7,
             child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -30,20 +31,29 @@ class CustomDrawer extends StatelessWidget {
                     icon: Icons.dashboard,
                     onTap: () {
                       Get.back();
-                      Get.to(() => DashboardView());
                     },
                   ),
                   drawerItem(
                     title: 'Collections',
                     icon: Icons.collections,
                     onTap: () {
+                      Get.back();
                       Get.to(() => CollectionView());
+                    },
+                  ),
+                  drawerItem(
+                    title: 'Products List',
+                    icon: Icons.list,
+                    onTap: () {
+                      Get.back();
+                      Get.to(() => ProductListView());
                     },
                   ),
                   drawerItem(
                     title: 'Order Details',
                     icon: Icons.add_shopping_cart,
                     onTap: () {
+                      Get.back();
                       Get.to(() => OrderView());
                     },
                   ),
@@ -68,6 +78,7 @@ class CustomDrawer extends StatelessWidget {
                     title: 'Logout',
                     icon: Icons.logout,
                     onTap: () {
+                      Get.back();
                       Get.offAll(() => LogInView());
                     },
                   ),
