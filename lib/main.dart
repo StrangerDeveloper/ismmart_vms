@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:ismmart_vms/screens/product_list/product_list_view.dart';
 import 'firebase_options.dart';
+import 'helper/routes.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

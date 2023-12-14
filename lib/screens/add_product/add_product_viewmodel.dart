@@ -38,6 +38,7 @@ class AddProductViewModel extends GetxController {
   List<List<String>> optionsAddedList = <List<String>>[];
   RxMap<String, dynamic> dynamicFieldsValuesList = <String, dynamic>{}.obs;
   Map<String, String>? categoryFieldList;
+  List<String> combinations = [];
 
   var formKey = GlobalKey<FormState>();
   var formKeyCategoryField = GlobalKey<FormState>();
@@ -65,29 +66,69 @@ class AddProductViewModel extends GetxController {
   }
 
   creatingVariants() {
-    List<String> combinations = [];
+    combinations.clear();
     if (listOfOptionsAdded.isNotEmpty) {
       if (listOfOptionsAdded.length > 1) {
         // int length = optionsAddedList.length - 1;
-        int currentListIndex = 1;
-        listOfOptionsAdded[0].optionValues?.forEach((element) {
-          String name = element.text;
-          if(listOfOptionsAdded[currentListIndex] == listOfOptionsAdded.last) {
-            return;
-          } else {
-            listOfOptionsAdded[currentListIndex].optionValues?.forEach((listElement) {
-              name = '$element - $listElement';
-              combinations.add(name);
-              if(listElement == listOfOptionsAdded[currentListIndex].optionValues?.last){
-                combinations.forEach((element1) {print(element1);});
-              }
-            });
-          }
-        });
+        // int currentListIndex = 1;
+        // listOfOptionsAdded[0].optionValues?.forEach((element) {
+        //   String name = element.text;
+        //   if(listOfOptionsAdded[currentListIndex] == listOfOptionsAdded.last) {
+        //     listOfOptionsAdded[currentListIndex].optionValues?.forEach((listElement) {
+        //       name = '${element.text} - ${listElement.text}';
+        //       combinations.add(name);
+        //       if(listElement == listOfOptionsAdded[currentListIndex].optionValues?.last){
+        //
+        //       }
+        //     });
+        //   } else {
+        //     listOfOptionsAdded[currentListIndex].optionValues?.forEach((listElement) {
+        //       name = '$element - $listElement';
+        //       combinations.add(name);
+        //     });
+        //   }
+        // });
+      } else {
+        print('Length not more than 1');
       }
+    } else{
+      print('Empty');
     }
   }
 
+  variantsFunction(int? initialIndex, int nextIndex) {
+    List tempCombinations = [];
+    if (initialIndex == null) {
+      combinations.forEach((element) {
+        String name = element;
+        listOfOptionsAdded[nextIndex].optionValues?.forEach((listElement) {
+          name = '$element - ${listElement.text}';
+          tempCombinations.add(name);
+          if (listElement == listOfOptionsAdded[nextIndex].optionValues?.last) {
+            combinations.clear();
+            tempCombinations.forEach((tempComb) {
+              combinations.add(tempComb);
+            });
+          }
+        });
+      });
+    } else {
+      listOfOptionsAdded[0].optionValues?.forEach((element) {
+        String name = element.text;
+        listOfOptionsAdded[0].optionValues?.forEach((listElement) {
+            name = '${element.text} - ${listElement.text}';
+            tempCombinations.add(name);
+            if (listElement ==
+                listOfOptionsAdded[0].optionValues?.last) {
+              combinations.clear();
+              tempCombinations.forEach((tempComb) {
+                combinations.add(tempComb);
+              });
+            }
+          });
+      });
+    }
+  }
 
   // createVariants() {
   //   List<List<String>> variantOptions = [

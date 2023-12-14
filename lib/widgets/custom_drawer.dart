@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/constants.dart';
 import 'package:ismmart_vms/screens/collection/collection_view.dart';
-import 'package:ismmart_vms/screens/dashboard/dashboard_view.dart';
 import 'package:ismmart_vms/screens/product_list/product_list_view.dart';
 
 import '../screens/Order/order_view.dart';
