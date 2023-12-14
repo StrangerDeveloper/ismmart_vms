@@ -8,7 +8,6 @@ class CommonFunction {
     FocusScope.of(Get.context!).requestFocus(FocusNode());
   }
 
-
   static DateTime convertStringToDate(String stringDate) {
     return DateFormat("yyyy-MM-dd hh:mm:ss").parse(stringDate);
   }
@@ -24,7 +23,7 @@ class CommonFunction {
   }
 
   static colorConsole(String value) {
-    print('\x1B[32m$value\x1B[0m');
+    debugPrint('\x1B[32m$value\x1B[0m');
     // Black:   \x1B[30m
     // Red:     \x1B[31m
     // Green:   \x1B[32m

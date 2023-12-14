@@ -28,7 +28,7 @@ class ProductQuantity extends StatelessWidget {
   Widget listViewItem(int index) {
     return Container(
       padding: const EdgeInsets.only(left: 5, right: 5, top: 5, bottom: 5),
-      child: Column(
+      child: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text('Location Name'),

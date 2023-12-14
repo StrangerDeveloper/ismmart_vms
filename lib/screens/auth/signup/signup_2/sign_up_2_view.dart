@@ -2,13 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ismmart_vms/screens/signup/signup_2/sign_up_2_viewmodel.dart';
+
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:ismmart_vms/helper/constants.dart';
+import 'package:ismmart_vms/widgets/image_layout_container.dart';
+import 'package:path/path.dart';
+import 'package:ismmart_vms/widgets/custom_button.dart';
+import 'package:ismmart_vms/widgets/custom_textfield.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
+
+import '../../login/login_view.dart';
+import 'package:ismmart_vms/helper/languages/translations_key.dart' as langKey;
+
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:path/path.dart';
-import '../../../helper/constants.dart';
-import '../../../widgets/custom_button.dart';
-import '../../../widgets/custom_textfield.dart';
-import '../../../widgets/image_layout_container.dart';
+
+import 'sign_up_2_viewmodel.dart';
 
 class SignUp2View extends StatelessWidget {
   SignUp2View({Key? key}) : super(key: key);
@@ -39,15 +49,19 @@ class SignUp2View extends StatelessWidget {
                     // ownerCNICField(),
                     // countryPicker(),
                     // cityPicker(),
-                    Obx(() => ImageLayoutContainer(
-                        title: 'Store Logo',
-                        filePath: viewModel.shopLogoImage.value == '' ? '' : basename(viewModel.shopLogoImage.value),
-                        onTap: () async{
-                          await viewModel.selectImage(viewModel.shopLogoImage, viewModel.shopImageErrorVisibility);
-                        },
-                        errorVisibility: viewModel.shopImageErrorVisibility.value,
-                        errorPrompt: 'Store Logo image is required'
-                    ),
+                    Obx(
+                      () => ImageLayoutContainer(
+                          title: 'Store Logo',
+                          filePath: viewModel.shopLogoImage.value == ''
+                              ? ''
+                              : basename(viewModel.shopLogoImage.value),
+                          onTap: () async {
+                            await viewModel.selectImage(viewModel.shopLogoImage,
+                                viewModel.shopImageErrorVisibility);
+                          },
+                          errorVisibility:
+                              viewModel.shopImageErrorVisibility.value,
+                          errorPrompt: 'Store Logo image is required'),
                     ),
                     shopAddressField(),
                     submitBtn(),
@@ -90,42 +104,42 @@ class SignUp2View extends StatelessWidget {
 
   Widget createAVendorAccount() {
     return Padding(
-      padding: const EdgeInsets.only(top: 20, bottom: 10),
-      child: Text(
-        'Add Business Information',
-        style: newFontStyle2.copyWith(
-          fontSize: 20,
-          color: newColorDarkBlack2,
-        ),
-      )
-      // RichText(
-      //   text: TextSpan(
-      //     children: [
-      //       TextSpan(
-      //         text: 'Add',
-      //         style: newFontStyle2.copyWith(
-      //           fontSize: 20,
-      //           color: newColorDarkBlack2,
-      //         ),
-      //       ),
-      //       TextSpan(
-      //         text: '  ',
-      //         style: newFontStyle2.copyWith(
-      //           fontSize: 20,
-      //           color: newColorBlue,
-      //         ),
-      //       ),
-      //       TextSpan(
-      //         text: langKey.information.tr,
-      //         style: newFontStyle2.copyWith(
-      //           fontSize: 20,
-      //           color: newColorDarkBlack2,
-      //         ),
-      //       ),
-      //     ],
-      //   ),
-      // ),
-    );
+        padding: const EdgeInsets.only(top: 20, bottom: 10),
+        child: Text(
+          'Add Business Information',
+          style: newFontStyle2.copyWith(
+            fontSize: 20,
+            color: newColorDarkBlack2,
+          ),
+        )
+        // RichText(
+        //   text: TextSpan(
+        //     children: [
+        //       TextSpan(
+        //         text: 'Add',
+        //         style: newFontStyle2.copyWith(
+        //           fontSize: 20,
+        //           color: newColorDarkBlack2,
+        //         ),
+        //       ),
+        //       TextSpan(
+        //         text: '  ',
+        //         style: newFontStyle2.copyWith(
+        //           fontSize: 20,
+        //           color: newColorBlue,
+        //         ),
+        //       ),
+        //       TextSpan(
+        //         text: langKey.information.tr,
+        //         style: newFontStyle2.copyWith(
+        //           fontSize: 20,
+        //           color: newColorDarkBlack2,
+        //         ),
+        //       ),
+        //     ],
+        //   ),
+        // ),
+        );
   }
 
   Widget progress() {
@@ -470,12 +484,12 @@ class SignUp2View extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 25, bottom: 25),
       child: CustomRoundedTextBtn(
-                title: 'Proceed',
-                onPressed: () async{
-                  await viewModel.proceed();
-                  // Get.to(() => VendorSignUp3View());
-                },
-              ),
-      );
+        title: 'Proceed',
+        onPressed: () async {
+          await viewModel.proceed();
+          // Get.to(() => VendorSignUp3View());
+        },
+      ),
+    );
   }
 }

@@ -3,7 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:ismmart_vms/helper/theme_helper.dart';
 
 class ImageLayoutContainer extends StatelessWidget {
-  ImageLayoutContainer({
+  const ImageLayoutContainer({
+    super.key,
     required this.onTap,
     required this.title,
     this.subTitle,
@@ -37,7 +38,7 @@ class ImageLayoutContainer extends StatelessWidget {
                     color: Colors.black,
                   ),
                   children: [
-                    if(required)
+                    if (required)
                       TextSpan(
                         text: ' *',
                         style: TextStyle(color: Colors.red),
@@ -93,13 +94,11 @@ class ImageLayoutContainer extends StatelessWidget {
             thickness: 1,
             height: 20,
           ),
-          if(description)
+          if (description)
             Text(
               "This cheque image should have the same bank details visible as you mentioned above",
               style: GoogleFonts.dmSans(
-                  fontSize: 12,
-                  color: ThemeHelper.lightGrey
-              ),
+                  fontSize: 12, color: ThemeHelper.lightGrey),
             ),
           Visibility(
             visible: errorVisibility,
@@ -108,9 +107,7 @@ class ImageLayoutContainer extends StatelessWidget {
               child: Text(
                 errorPrompt,
                 style: GoogleFonts.dmSans(
-                    color: Colors.red.shade700,
-                    fontSize: 12
-                ),
+                    color: Colors.red.shade700, fontSize: 12),
               ),
             ),
           )

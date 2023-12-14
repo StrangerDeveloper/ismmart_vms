@@ -1,31 +1,27 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ismmart_vms/helper/theme_helper.dart';
-import 'package:ismmart_vms/screens/product_list/product_list_viewmodel.dart';
+import 'package:ismmart_vms/screens/add_address/add_address_view.dart';
+import 'package:ismmart_vms/screens/location_list/location_list_viewmodel.dart';
 import 'package:ismmart_vms/widgets/custom_textfield.dart';
 
-import '../add_product/add_product_view.dart';
 import '../product_detail/product_detail_view.dart';
 
-class ProductListView extends StatelessWidget {
-  ProductListView({super.key});
+class LocationListView extends StatelessWidget {
+  LocationListView({super.key});
 
-  final ProductListViewModel viewModel = Get.put(ProductListViewModel());
+  final LocationListViewModel viewModel = Get.put(LocationListViewModel());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: ThemeHelper.primary,
-        icon: Icon(Icons.add),
         onPressed: () {
-          Get.to(() => AddProductView());
+          Get.to(()=>AddAddressView());
         },
-        label: Text('Add Product'),
+        label: const Text('Add Address'),
       ),
       appBar: AppBar(
-        title: const Text('Product List'),
+        title: const Text('Location'),
         actions: [
           IconButton(
             onPressed: () {
@@ -64,7 +60,7 @@ class ProductListView extends StatelessWidget {
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: CustomTextField2(
-              hintText: 'Search Product...',
+              hintText: 'Search...',
             ),
           ),
           listView(),
@@ -75,10 +71,13 @@ class ProductListView extends StatelessWidget {
 
   Widget listView() {
     return Expanded(
-      child: ListView.builder(
+      child: ListView.separated(
         itemCount: 10,
         itemBuilder: (context, int index) {
           return listViewItem(index);
+        },
+        separatorBuilder: (BuildContext context, int index) {
+          return const Divider();
         },
       ),
     );
@@ -91,56 +90,38 @@ class ProductListView extends StatelessWidget {
       },
       child: Container(
         padding: const EdgeInsets.only(left: 5, right: 5, top: 5, bottom: 5),
-        child: Row(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CachedNetworkImage(
-              height: 65,
-              width: 65,
-              imageUrl: "",
-              imageBuilder: (context, imageProvider) {
-                return Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    image: DecorationImage(
-                      image: imageProvider,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                );
-              },
-              errorWidget: (context, url, error) {
-                return Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    image: const DecorationImage(
-                      image: AssetImage('assets/images/no_image_found.jpg'),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                );
-              },
-              placeholder: (context, url) {
-                return const Center(
-                  child: CircularProgressIndicator(strokeWidth: 2.0),
-                );
-              },
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  item1(title: 'Name', value: 'Product Name '),
-                  item1(title: 'Type', value: 'Men Shirt'),
-                  item1(title: 'Category', value: 'Cloths'),
-                  item1(title: 'Variants Count/Inventory', value: '10'),
-                  item1(title: 'Starting Price', value: '1500'),
-                  item1(title: 'No of Items', value: '100'),
-                ],
-              ),
-            ),
+            item1(title: 'Name', value: 'Home'),
+            item1(title: 'Country', value: 'Pakistan'),
+            item1(title: 'City', value: 'Rawalpindi'),
+            item1(title: 'Address', value: 'Commercial Market, Satellite Town'),
+            item1(title: 'Phone', value: '03345462055'),
+            item1(title: 'Status', value: 'Active'),
+            item1(title: 'Created At', value: '13 Dec, 2023'),
+            item1(title: 'Updated At', value: '13 Dec, 2023'),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget item1({required String title, required String value}) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 5, right: 5, bottom: 5),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            title,
+            style: const TextStyle(),
+          ),
+          Text(
+            value,
+            style: const TextStyle(),
+          ),
+        ],
       ),
     );
   }
@@ -169,11 +150,10 @@ class ProductListView extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 10),
-
                     filterItem(title: 'Name'),
+                    filterItem(title: 'Country'),
+                    filterItem(title: 'City'),
                     filterItem(title: 'Status'),
-                    filterItem(title: 'Variant'),
-                    filterItem(title: 'Location'),
                     filterItem(title: 'Created At'),
                     filterItem(title: 'Updated At'),
                   ],
@@ -196,26 +176,6 @@ class ProductListView extends StatelessWidget {
       },
     );
   }
-
-  Widget item1({required String title, required String value}) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 5, right: 5, bottom: 5),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            title,
-            style: const TextStyle(),
-          ),
-          Text(
-            value,
-            style: const TextStyle(),
-          ),
-        ],
-      ),
-    );
-  }
-
 
   Widget filterItem({required String title}) {
     return InkWell(

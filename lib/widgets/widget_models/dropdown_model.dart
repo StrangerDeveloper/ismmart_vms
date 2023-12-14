@@ -19,3 +19,15 @@ class DropDownModel {
     return map;
   }
 }
+
+class MultiSelectModel {
+  String? id;
+  String? name;
+  bool isSelected;
+
+  MultiSelectModel({
+    this.id,
+    this.name,
+    this.isSelected = false,
+  });
+}

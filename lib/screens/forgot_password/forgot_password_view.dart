@@ -17,7 +17,7 @@ import '../../widgets/custom_loading.dart';
 import '../../widgets/custom_textfield.dart';
 
 class ForgotPasswordView extends StatelessWidget {
-  ForgotPasswordView({Key? key}) : super(key: key);
+  ForgotPasswordView({super.key});
   final ForgotPasswordViewModel viewModel = Get.put(ForgotPasswordViewModel());
 
   @override
@@ -67,7 +67,7 @@ class ForgotPasswordView extends StatelessWidget {
       child: Form(
         key: viewModel.forgotPasswordFormKey,
         child: CustomTextField2(
-          contentPadding: EdgeInsets.symmetric(vertical: 16),
+          contentPadding: const EdgeInsets.symmetric(vertical: 16),
           controller: viewModel.emailController,
           prefixIcon: Icons.email,
           label: langKey.email.tr,
@@ -84,7 +84,7 @@ class ForgotPasswordView extends StatelessWidget {
   Widget sendBtn() {
     return Obx(
       () => GlobalVariable.showLoader.value
-          ? CustomLoading(isItBtn: true)
+          ? const CustomLoading(isItBtn: true)
           : CustomTextBtn(
               title: langKey.send.tr,
               height: 48,

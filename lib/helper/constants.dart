@@ -191,17 +191,17 @@ class AppConstant {
     return TextFieldProps(
         cursorColor: kPrimaryColor,
         decoration: InputDecoration(
-          prefixIcon: Icon(Icons.search, color: kPrimaryColor),
+          prefixIcon: const Icon(Icons.search, color: kPrimaryColor),
           labelText: "Search",
           labelStyle: bodyText1,
           hintText: "Search...",
           focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(
+            borderSide: const BorderSide(
                 color: kPrimaryColor, width: 0.5, style: BorderStyle.solid), //B
             borderRadius: BorderRadius.circular(8),
           ),
           enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
+            borderSide: const BorderSide(
                 color: kPrimaryColor, width: 0.8, style: BorderStyle.solid), //B
             borderRadius: BorderRadius.circular(8),
           ),
@@ -229,7 +229,7 @@ class AppConstant {
     }
 
     Get.snackbar(titleNew.capitalizeFirst!.toString(), messageNew.toString(),
-        duration: Duration(milliseconds: 1000),
+        duration: const Duration(milliseconds: 1000),
         snackPosition: position ?? SnackPosition.TOP,
         backgroundColor: bgColor,
         icon: Icon(
@@ -313,23 +313,23 @@ class AppConstant {
       case "aed":
         return "AED ";
       case "gbp":
-        return "\£";
+        return "£";
       case "eur":
-        return "\€";
+        return "€";
       case "inr":
-        return "\₹";
+        return "₹";
       case "cny":
-        return "\¥";
+        return "¥";
       case "aud":
         return "A\$";
       case "cad":
         return "CA\$";
       case "jpy":
-        return "JP\¥";
+        return "JP¥";
       case "sgd":
         return "\$";
       case "try":
-        return "\₺";
+        return "₺";
       case "hkd":
         return "HK\$";
       case "chf":
@@ -447,7 +447,7 @@ class AppConstant {
   }
 
   static colorConsole(String value) {
-    print('\x1B[32m$value\x1B[0m');
+    debugPrint('\x1B[32m$value\x1B[0m');
     // Black:   \x1B[30m
     // Red:     \x1B[31m
     // Green:   \x1B[32m

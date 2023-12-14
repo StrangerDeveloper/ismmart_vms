@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ismmart_vms/screens/product_list/product_list_viewmodel.dart';
+import 'package:ismmart_vms/screens/payout_list/payout_list_viewmodel.dart';
+import 'package:ismmart_vms/screens/request_payout/request_payout_view.dart';
 import 'package:ismmart_vms/widgets/custom_textfield.dart';
 
 import '../product_detail/product_detail_view.dart';
 
-class PayoutsView extends StatelessWidget {
-  PayoutsView({super.key});
+class PayoutListView extends StatelessWidget {
+  PayoutListView({super.key});
 
-  final ProductListViewModel viewModel = Get.put(ProductListViewModel());
+  final PayoutListViewModel viewModel = Get.put(PayoutListViewModel());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Get.to(()=>RequestPayoutView());
+        },
+        label: const Text('Request Payout'),
+      ),
       appBar: AppBar(
         title: const Text('Payouts'),
         actions: [
@@ -70,7 +77,7 @@ class PayoutsView extends StatelessWidget {
           return listViewItem(index);
         },
         separatorBuilder: (BuildContext context, int index) {
-          return Divider();
+          return const Divider();
         },
       ),
     );
@@ -79,7 +86,7 @@ class PayoutsView extends StatelessWidget {
   Widget listViewItem(int index) {
     return InkWell(
       onTap: () {
-        Get.to(() => const ProductDetailView());
+        Get.to(() => ProductDetailView());
       },
       child: Container(
         padding: const EdgeInsets.only(left: 5, right: 5, top: 5, bottom: 5),

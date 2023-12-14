@@ -2,12 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/models/category_model.dart';
 import 'package:ismmart_vms/models/subcategory_model.dart';
-import '../../../helper/global_variables.dart';
-import '../../../widgets/pick_image.dart';
+
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:ismmart_vms/helper/global_variables.dart';
+
+import 'package:ismmart_vms/helper/languages/translations_key.dart' as langKey;
+import 'package:ismmart_vms/screens/auth/signup/signup_2/sign_up_2_view.dart';
+import 'package:ismmart_vms/widgets/pick_image.dart';
+
 import '../signup_3/sign_up_3_view.dart';
 
-class SignUp2ViewModel extends GetxController{
-
+class SignUp2ViewModel extends GetxController {
   GlobalKey<FormState> vendorSignUp2FormKey = GlobalKey<FormState>();
   TextEditingController storeNameController = TextEditingController();
   TextEditingController storeAddressController = TextEditingController();
@@ -23,7 +30,7 @@ class SignUp2ViewModel extends GetxController{
   RxList<CategoryModel> categoriesList = <CategoryModel>[].obs;
 
   @override
-  void onInit() async{
+  void onInit() async {
     fillListWithDummyData();
     super.onInit();
   }
@@ -94,51 +101,50 @@ class SignUp2ViewModel extends GetxController{
     });
   }
 
-  selectImage(RxString imageVar, RxBool imageVisibilityVar)async{
+  selectImage(RxString imageVar, RxBool imageVisibilityVar) async {
     final image = await PickImage().pickSingleImage();
-    if(image != null){
+    if (image != null) {
       imageVar.value = image.path;
       imageVisibilityVar.value = false;
     }
   }
 
-  Future<void> proceed() async{
+  Future<void> proceed() async {
     if (vendorSignUp2FormKey.currentState?.validate() ?? false) {
+      GlobalVariable.showLoader.value = false;
 
-          GlobalVariable.showLoader.value = false;
+      Map<String, String> details = {
+        "storeName": storeNameController.text,
+        // "type": "${shopCategoryId.value}",
+        "country": "${countryId.value}",
+        "city": "${cityId.value}",
+        'storeImage': shopLogoImage.value,
+        'address': storeAddressController.text,
+      };
 
-          Map<String, String> details = {
-            "storeName": storeNameController.text,
-            // "type": "${shopCategoryId.value}",
-            "country": "${countryId.value}",
-            "city": "${cityId.value}",
-            'storeImage': shopLogoImage.value,
-            'address': storeAddressController.text,
-          };
+      print(details);
+      Get.to(() => SignUp3View());
 
-          print(details);
-          Get.to(() => SignUp3View());
-
-          // Get.toNamed(Routes.vendorSignUp3, arguments: {
-          //   'shopDetails': details
-          // });
-    } else{
+      // Get.toNamed(Routes.vendorSignUp3, arguments: {
+      //   'shopDetails': details
+      // });
+    } else {
       // checkImages();
       // checkDropDowns();
     }
   }
 
-  checkDropDowns(){
+  checkDropDowns() {
     bool proceed1 = true;
-    if(countryId.value == 0){
+    if (countryId.value == 0) {
       countryErrorVisibility.value = true;
       proceed1 = false;
     }
-    if(cityId.value == 0){
+    if (cityId.value == 0) {
       cityErrorVisibility.value = true;
       proceed1 = false;
     }
-    if(storeTypeList.isEmpty){
+    if (storeTypeList.isEmpty) {
       storeTypeErrorVisibility.value = true;
       proceed1 = false;
     }

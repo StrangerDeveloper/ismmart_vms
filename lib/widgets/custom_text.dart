@@ -27,6 +27,7 @@ class CustomText extends StatelessWidget {
       overflow: TextOverflow.ellipsis,
       maxLines: maxLines,
       textAlign: textAlign ?? TextAlign.start,
+      style: style,
     );
   }
 }

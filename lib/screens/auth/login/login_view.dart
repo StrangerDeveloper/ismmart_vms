@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ismmart_vms/screens/login/login_viewmodel.dart';
+import 'package:ismmart_vms/helper/global_variables.dart';
+import 'package:ismmart_vms/helper/routes.dart';
+import 'package:ismmart_vms/helper/validator.dart';
+import 'package:ismmart_vms/widgets/custom_button.dart';
+import 'package:ismmart_vms/widgets/custom_loading.dart';
+import 'package:ismmart_vms/widgets/custom_text.dart';
+import 'package:ismmart_vms/widgets/custom_textfield.dart';
+import 'package:ismmart_vms/widgets/obscure_suffix_icon.dart';
 import 'package:ismmart_vms/widgets/scrollable_column.dart';
 import 'package:ismmart_vms/helper/languages/translations_key.dart' as langKey;
 
-import '../../helper/global_variables.dart';
-import '../../helper/routes.dart';
-import '../../helper/validator.dart';
-import '../../widgets/custom_button.dart';
-import '../../widgets/custom_loading.dart';
-import '../../widgets/custom_text.dart';
-import '../../widgets/custom_textfield.dart';
-import '../../widgets/obscure_suffix_icon.dart';
 import '../signup/signup_1/sign_up_1_view.dart';
+import 'login_viewmodel.dart';
 
 class LogInView extends StatelessWidget {
   LogInView({super.key});
@@ -357,7 +357,7 @@ class LogInView extends StatelessWidget {
             ? const CustomLoading(isItBtn: true)
             : CustomRoundedTextBtn(
                 backgroundColor: Colors.black,
-                child: Text(
+                child: const Text(
                   "Signup",
                   //style: newFontStyle3,
                 ),

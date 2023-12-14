@@ -144,7 +144,7 @@ class English {
         key.clear: 'Clear',
         key.lowToHigh: 'Low to High',
         key.highToLow: 'High to Low',
-        key.OFF: 'OFF',
+        key.oFF: 'OFF',
 
         ///SingleOrderDetailsUI
         key.orderDetail: 'Order Details',
@@ -534,8 +534,8 @@ class English {
         key.branchCode: 'Branch Code',
         key.bankAccountHolder: 'Account Title',
         key.bankAccHolderReq: 'Account title is required',
-        key.FirstNameReq: 'First name is required',
-        key.LastNameReq: 'Last name is required',
+        key.firstNameReq: 'First name is required',
+        key.lastNameReq: 'Last name is required',
         key.incorrectBranchCode: 'Enter correct branch code',
         key.enterBranchCode: 'Enter branch code',
         key.bankAccountReq: 'Bank account number is required',
