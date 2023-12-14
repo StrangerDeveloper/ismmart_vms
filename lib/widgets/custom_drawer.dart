@@ -2,9 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/constants.dart';
+import 'package:ismmart_vms/screens/collection/collection_view.dart';
 import 'package:ismmart_vms/screens/dashboard/dashboard_view.dart';
 import 'package:ismmart_vms/screens/login/login_view.dart';
-import 'package:ismmart_vms/screens/order_detail/order_detail_view.dart';
 
 import '../screens/Order/order_view.dart';
 
@@ -33,28 +33,29 @@ class CustomDrawer extends StatelessWidget {
                     },
                   ),
                   drawerItem(
+                    title: 'Collections',
+                    icon: Icons.collections,
+                    onTap: () {
+                      Get.to(() => CollectionView());
+                    },
+                  ),
+                  drawerItem(
                     title: 'Order Details',
                     icon: Icons.add_shopping_cart,
                     onTap: () {
                       Get.to(() => OrderView());
                     },
                   ),
-                  // drawerItem(
-                  //   title: 'Search Single Order',
-                  //   icon: Icons.manage_search_outlined,
-                  //   onTap: () {
-                  //     Get.back();
-                  //     Get.to(() => SearchOrderView());
-                  //   },
-                  // ),
-                  // drawerItem(
-                  //   title: 'Sales Summary',
-                  //   icon: Icons.point_of_sale_sharp,
-                  //   onTap: () {
-                  //     Get.back();
-                  //     Get.to(() => SalesSummaryView());
-                  //   },
-                  // ),drawerItem(
+                  drawerItem(
+                    title: 'Settings',
+                    icon: Icons.settings,
+                    onTap: () {
+                      Get.back();
+                      Get.to(() => SettingsView());
+                    },
+                  ),
+
+                  //drawerItem(
                   //   title: 'Shift Report',
                   //   icon: Icons.file_copy_sharp,
                   //   onTap: () {
