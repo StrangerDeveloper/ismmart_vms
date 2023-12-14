@@ -8,7 +8,7 @@ import '../helper/global_variables.dart';
 class NoInternetView extends StatelessWidget {
   final VoidCallback? onPressed;
 
-  const NoInternetView({Key? key, this.onPressed}) : super(key: key);
+  const NoInternetView({super.key, this.onPressed});
 
   @override
   Widget build(BuildContext context) {

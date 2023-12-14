@@ -5,22 +5,12 @@ import 'package:ismmart_vms/helper/constants.dart';
 import 'package:ismmart_vms/widgets/image_layout_container.dart';
 import 'package:path/path.dart';
 import 'package:ismmart_vms/helper/theme_helper.dart';
-import 'package:get/get.dart';
-import 'package:ismmart_vms/helper/global_variables.dart';
-import 'package:ismmart_vms/helper/routes.dart';
-import 'package:ismmart_vms/helper/validator.dart';
 import 'package:ismmart_vms/widgets/custom_button.dart';
-import 'package:ismmart_vms/widgets/custom_loading.dart';
-import 'package:ismmart_vms/widgets/custom_text.dart';
 import 'package:ismmart_vms/widgets/custom_textfield.dart';
 import 'package:ismmart_vms/widgets/obscure_suffix_icon.dart';
-import 'package:ismmart_vms/widgets/scrollable_column.dart';
-import 'package:ismmart_vms/widgets/custom_button.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-
 import '../../login/login_view.dart';
 import 'package:ismmart_vms/helper/languages/translations_key.dart' as langKey;
-
 import 'sign_up_1_viewmodel.dart';
 
 class SignUp1View extends StatelessWidget {

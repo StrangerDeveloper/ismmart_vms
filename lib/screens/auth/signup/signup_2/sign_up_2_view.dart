@@ -2,22 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/constants.dart';
 import 'package:ismmart_vms/widgets/image_layout_container.dart';
 import 'package:path/path.dart';
 import 'package:ismmart_vms/widgets/custom_button.dart';
 import 'package:ismmart_vms/widgets/custom_textfield.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-
-import '../../login/login_view.dart';
-import 'package:ismmart_vms/helper/languages/translations_key.dart' as langKey;
-
-import 'package:percent_indicator/circular_percent_indicator.dart';
-import 'package:path/path.dart';
-
 import 'sign_up_2_viewmodel.dart';
 
 class SignUp2View extends StatelessWidget {

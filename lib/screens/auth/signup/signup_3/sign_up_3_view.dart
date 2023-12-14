@@ -2,43 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/models/bank_details_model.dart';
-import 'package:ismmart_vms/screens/signup/signup_3/sign_up_3_viewmodel.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ismmart_vms/screens/auth/signup/signup_3/sign_up_3_viewmodel.dart';
 import 'package:ismmart_vms/widgets/custom_checkbox.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:ismmart_vms/helper/global_variables.dart';
-
-import 'package:ismmart_vms/helper/languages/translations_key.dart' as langKey;
-import 'package:ismmart_vms/screens/auth/signup/signup_2/sign_up_2_view.dart';
-import 'package:ismmart_vms/widgets/pick_image.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/constants.dart';
-import 'package:ismmart_vms/widgets/image_layout_container.dart';
-import 'package:path/path.dart';
-import 'package:ismmart_vms/helper/theme_helper.dart';
-import 'package:get/get.dart';
-import 'package:ismmart_vms/helper/global_variables.dart';
-import 'package:ismmart_vms/helper/routes.dart';
-import 'package:ismmart_vms/helper/validator.dart';
 import 'package:ismmart_vms/widgets/custom_button.dart';
-import 'package:ismmart_vms/widgets/custom_loading.dart';
-import 'package:ismmart_vms/widgets/custom_text.dart';
 import 'package:ismmart_vms/widgets/custom_textfield.dart';
-import 'package:ismmart_vms/widgets/obscure_suffix_icon.dart';
-import 'package:ismmart_vms/widgets/scrollable_column.dart';
-import 'package:ismmart_vms/widgets/custom_button.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
 
-import '../../login/login_view.dart';
-import 'package:ismmart_vms/helper/languages/translations_key.dart' as langKey;
 
 class SignUp3View extends StatelessWidget {
   SignUp3View({super.key});

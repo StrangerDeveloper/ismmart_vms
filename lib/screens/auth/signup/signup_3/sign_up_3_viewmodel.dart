@@ -1,18 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:ismmart_vms/helper/global_variables.dart';
-
-import 'package:ismmart_vms/helper/languages/translations_key.dart' as langKey;
-import 'package:ismmart_vms/screens/auth/signup/signup_2/sign_up_2_view.dart';
-
 import '../../../../widgets/pick_image.dart';
 import 'package:ismmart_vms/models/bank_details_model.dart';
 import 'package:ismmart_vms/screens/signup/signup_4/sign_up_4_view.dart';
-import '../../../widgets/pick_image.dart';
 
 class SignUp3ViewModel extends GetxController {
   GlobalKey<FormState> vendorSignUp3FormKey = GlobalKey<FormState>();

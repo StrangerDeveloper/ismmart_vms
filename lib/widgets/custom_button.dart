@@ -144,7 +144,7 @@ class CustomBackButton extends StatelessWidget {
 
 class CustomActionIcon extends StatelessWidget {
   const CustomActionIcon({
-    Key? key,
+    super.key,
     this.bgColor,
     this.iconColor,
     this.onTap,
@@ -153,7 +153,7 @@ class CustomActionIcon extends StatelessWidget {
     this.height = 30,
     this.width = 30,
     this.hasShadow = true,
-  }) : super(key: key);
+  });
 
   final Color? bgColor, iconColor;
   final GestureTapCallback? onTap;

@@ -393,7 +393,8 @@ class CountryCodePickerTextField extends StatelessWidget {
   final TextStyle? textStyle;
   final List<TextInputFormatter>? inputFormatters;
 
-  CountryCodePickerTextField({
+  const CountryCodePickerTextField({
+    super.key,
     this.validator,
     this.autoValidateMode,
     this.controller,
@@ -522,7 +523,7 @@ class CountryCodePickerTextField2 extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
   final String? hintText;
 
-  CountryCodePickerTextField2({
+  const CountryCodePickerTextField2({super.key,
     this.validator,
     this.autoValidateMode,
     this.controller,

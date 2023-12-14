@@ -2,16 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/models/category_model.dart';
 import 'package:ismmart_vms/models/subcategory_model.dart';
-
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:ismmart_vms/helper/global_variables.dart';
-
-import 'package:ismmart_vms/helper/languages/translations_key.dart' as langKey;
-import 'package:ismmart_vms/screens/auth/signup/signup_2/sign_up_2_view.dart';
 import 'package:ismmart_vms/widgets/pick_image.dart';
-
 import '../signup_3/sign_up_3_view.dart';
 
 class SignUp2ViewModel extends GetxController {

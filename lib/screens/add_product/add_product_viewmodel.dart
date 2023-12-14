@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/widgets/widget_models/variant_options_field_model.dart';
-import '../../models/product_variant_model.dart';
 
 class AddProductViewModel extends GetxController {
   TextEditingController prodNameController = TextEditingController();

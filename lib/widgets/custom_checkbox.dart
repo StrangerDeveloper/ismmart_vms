@@ -62,6 +62,7 @@ class CustomCheckBox2 extends StatelessWidget {
   // final Color? checkColor;
 
   const CustomCheckBox2({
+    super.key,
     required this.text,
     required this.value,
     this.onChanged,
