@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ismmart_vms/screens/payout_list/payout_list_view.dart';
 import 'package:ismmart_vms/screens/setting/settings_viewmodel.dart';
 import 'package:ismmart_vms/screens/shippings/shippings_view.dart';
 
+import '../location_list/location_list_view.dart';
 import '../store/store_view.dart';
 
 class SettingsView extends StatelessWidget {
@@ -40,21 +42,21 @@ class SettingsView extends StatelessWidget {
             leading: const Icon(Icons.person),
             title: const Text(' My Profile '),
             onTap: () {
-              Navigator.pop(context);
+              // Get.to(()=>ProfileView());
             },
           ),
           ListTile(
             leading: const Icon(Icons.book),
             title: const Text('Store '),
             onTap: () {
-              Get.to(StoreView());
+              Get.to(()=>StoreView());
             },
           ),
           ListTile(
             leading: const Icon(Icons.workspace_premium),
-            title: const Text(' Banking '),
+            title: const Text('Payouts'),
             onTap: () {
-              Navigator.pop(context);
+              Get.to(()=>PayoutListView());
             },
           ),
 
@@ -64,6 +66,14 @@ class SettingsView extends StatelessWidget {
             onTap: () {
               //Navigator.pop(context);
               Get.to(() => ShippingMethodsView());
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.map_outlined),
+            title: const Text('Address'),
+            onTap: () {
+              //Navigator.pop(context);
+              Get.to(() => LocationListView());
             },
           ),
         ],

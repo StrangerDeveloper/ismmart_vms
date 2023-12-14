@@ -30,13 +30,13 @@ class CustomDrawer extends StatelessWidget {
                     icon: Icons.dashboard,
                     onTap: () {
                       Get.back();
-                      Get.to(() => DashboardView());
                     },
                   ),
                   drawerItem(
                     title: 'Collections',
                     icon: Icons.collections,
                     onTap: () {
+                      Get.back();
                       Get.to(() => CollectionView());
                     },
                   ),
@@ -44,6 +44,7 @@ class CustomDrawer extends StatelessWidget {
                     title: 'Order Details',
                     icon: Icons.add_shopping_cart,
                     onTap: () {
+                      Get.back();
                       Get.to(() => OrderView());
                     },
                   ),
@@ -68,6 +69,7 @@ class CustomDrawer extends StatelessWidget {
                     title: 'Logout',
                     icon: Icons.logout,
                     onTap: () {
+                      Get.back();
                       Get.offAll(() => LogInView());
                     },
                   ),

@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:ismmart_vms/helper/routes.dart';
+import 'package:ismmart_vms/screens/dashboard/dashboard_view.dart';
+import 'package:ismmart_vms/screens/login/login_view.dart';
 import 'package:ismmart_vms/screens/setting/settings_view.dart';
 import 'firebase_options.dart';
 
@@ -35,7 +37,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       //  home: SignUp3View(),
-      home: SettingsView(),
+      home: DashboardView(),
       //LogInView(),
       initialRoute: Routes.initRoute,
       getPages: Routes.pages,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ismmart_vms/screens/add_address/add_address_view.dart';
 import 'package:ismmart_vms/screens/location_list/location_list_viewmodel.dart';
 import 'package:ismmart_vms/widgets/custom_textfield.dart';
 
@@ -13,6 +14,12 @@ class LocationListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Get.to(()=>AddAddressView());
+        },
+        label: const Text('Add Address'),
+      ),
       appBar: AppBar(
         title: const Text('Location'),
         actions: [
