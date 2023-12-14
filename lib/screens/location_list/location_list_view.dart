@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ismmart_vms/screens/add_address/add_address_view.dart';
 import 'package:ismmart_vms/screens/location_list/location_list_viewmodel.dart';
 import 'package:ismmart_vms/widgets/custom_textfield.dart';
 
+import '../add_location/add_location_view.dart';
 import '../product_detail/product_detail_view.dart';
 
 class LocationListView extends StatelessWidget {
@@ -16,9 +16,9 @@ class LocationListView extends StatelessWidget {
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          Get.to(()=>AddAddressView());
+          Get.to(()=>AddLocationView());
         },
-        label: const Text('Add Address'),
+        label: const Text('Add Location'),
       ),
       appBar: AppBar(
         title: const Text('Location'),

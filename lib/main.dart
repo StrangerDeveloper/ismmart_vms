@@ -33,10 +33,9 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      //  home: SignUp3View(),
       home: ProductListView(),
-      // initialRoute: Routes.initRoute,
-      // getPages: Routes.pages,
+      initialRoute: Routes.initRoute,
+      getPages: Routes.pages,
     );
   }
 }
