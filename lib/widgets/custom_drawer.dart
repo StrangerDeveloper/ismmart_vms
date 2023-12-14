@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/constants.dart';
 import 'package:ismmart_vms/screens/dashboard/dashboard_view.dart';
 import 'package:ismmart_vms/screens/login/login_view.dart';
+import 'package:ismmart_vms/screens/order_detail/order_detail_view.dart';
 
 import '../screens/Order/order_view.dart';
 
@@ -33,7 +34,7 @@ class CustomDrawer extends StatelessWidget {
                   ),
                   drawerItem(
                     title: 'Order Details',
-                    icon: Icons.shopping_bag_outlined,
+                    icon: Icons.add_shopping_cart,
                     onTap: () {
                       Get.to(() => OrderView());
                     },
