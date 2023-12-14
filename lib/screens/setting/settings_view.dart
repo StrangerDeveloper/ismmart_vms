@@ -1,8 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:ismmart_vms/screens/setting/settings_viewmodel.dart';
 import 'package:ismmart_vms/screens/shippings/shippings_view.dart';
+import 'package:ismmart_vms/widgets/custom_text.dart';
 
+import '../../helper/constants.dart';
 import '../../widgets/custom_button.dart';
 import '../bank/bank_profile_view.dart';
 import '../store/store_view.dart';
@@ -16,7 +20,68 @@ class SettingsView extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          titleAndBackBtn(),
+          Container(
+            width: double.infinity,
+            height: MediaQuery.of(context).size.height * .24,
+            color: Colors.greenAccent,
+            child: Stack(
+              children: [
+                Positioned(
+                    left: 20,
+                    top: 160,
+                    child: CustomText(
+                      title: "Hasnain Mirrani",
+                      size: 14,
+                      textAlign: TextAlign.start,
+                      style: GoogleFonts.dmSans(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                        color: newColorDarkBlack2,
+                      ),
+                    )),
+                Positioned(
+                    left: 20,
+                    top: 180,
+                    child: CustomText(
+                      title: "hmirrani@gmail.com",
+                      size: 14,
+                      textAlign: TextAlign.start,
+                      style: GoogleFonts.dmSans(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: newColorDarkBlack2,
+                      ),
+                    )),
+                Positioned(
+                    left: 160,
+                    top: 100,
+                    child: CustomText(
+                      title: "Bank Profile",
+                      size: 14,
+                      textAlign: TextAlign.start,
+                      style: GoogleFonts.dmSans(
+                        fontSize: 26,
+                        fontWeight: FontWeight.w700,
+                        color: newColorDarkBlack2,
+                      ),
+                    )),
+                Positioned(
+                  left: 20,
+                  top: 60,
+                  child: CircleAvatar(
+                    backgroundColor: Colors.black26,
+
+                    radius: 50,
+                    child: Icon(
+                      Icons.person,
+                      size: 50,
+                    ), //Text
+                  ),
+                ),
+                Positioned(left: 20, top: 20, child: titleAndBackBtn()),
+              ],
+            ),
+          ),
           ListTile(
             leading: const Icon(Icons.book),
             title: const Text('Store '),
@@ -46,7 +111,7 @@ class SettingsView extends StatelessWidget {
 
   Widget titleAndBackBtn() {
     return SizedBox(
-      width: double.infinity,
+      width: 40,
       child: Stack(
         alignment: Alignment.centerLeft,
         children: [
