@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ismmart_vms/screens/add_address/add_address_viewmodel.dart';
+import 'package:ismmart_vms/screens/add_location/add_location_viewmodel.dart';
 import 'package:ismmart_vms/widgets/custom_button.dart';
 import 'package:ismmart_vms/widgets/custom_textfield.dart';
 
-class AddAddressView extends StatelessWidget {
-  AddAddressView({super.key});
+class AddLocationView extends StatelessWidget {
+  AddLocationView({super.key});
 
-  final AddAddressViewModel viewModel = Get.put(AddAddressViewModel());
+  final AddLocationViewModel viewModel = Get.put(AddLocationViewModel());
 
   @override
   Widget build(BuildContext context) {
