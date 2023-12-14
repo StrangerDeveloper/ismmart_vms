@@ -1,17 +1,13 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ismmart_vms/screens/store/store_viewmodel.dart';
 import 'package:ismmart_vms/widgets/custom_text.dart';
-import 'package:path/path.dart';
+import 'package:path/path.dart' as p;
 import '../../helper/constants.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/custom_textfield.dart';
 import '../../widgets/image_layout_container.dart';
-import '../../widgets/pick_image.dart';
 
 class StoreView extends StatelessWidget {
   StoreView({super.key});
@@ -143,7 +139,7 @@ class StoreView extends StatelessWidget {
         title: 'Store Logo',
         filePath: viewModel.logoImage.value == ''
             ? ''
-            : basename(viewModel.logoImage.value),
+            : p.basename(viewModel.logoImage.value),
         onTap: () async {
           await viewModel.selectImage(
               viewModel.logoImage, viewModel.logoImageErrorVisibility);
@@ -211,53 +207,51 @@ class StoreView extends StatelessWidget {
         ),
         Obx(
           () => Wrap(
-            children: viewModel.hobbyList.value.map(
+            children: viewModel.hobbyList.map(
               (hobby) {
-                if (viewModel.selectedHobby!.value.contains(hobby)) {
+                if (viewModel.selectedHobby!.contains(hobby)) {
                   print(
                       "chip list  =====${viewModel.hobbyList}   ${viewModel.isSelected.value}");
                 } else {}
                 return GestureDetector(
                   onTap: () {
                     // viewModel.selectedHobby!.value.clear();
-                    if (viewModel.selectedHobby!.value.contains(hobby)) {
-                      viewModel.selectedHobby!.value!
+                    if (viewModel.selectedHobby!.contains(hobby)) {
+                      viewModel.selectedHobby!
                           .removeWhere((element) => element == hobby);
                       viewModel.selectedHobby?.refresh();
                       print("selected hobby ===== $hobby ");
                     } else {
-                      if (viewModel.selectedHobby!.value.length < 6) {
-                        viewModel.selectedHobby?.value.add(hobby);
+                      if (viewModel.selectedHobby!.length < 6) {
+                        viewModel.selectedHobby?.add(hobby);
                         viewModel.selectedHobby?.refresh();
                       }
                     }
                     print(
-                        "selected hobby ===== $hobby  ${viewModel.selectedHobby!.value}");
+                        "selected hobby ===== $hobby  ${viewModel.selectedHobby!}");
                   },
                   child: Obx(
                     () => Container(
-                        margin:
-                            EdgeInsets.symmetric(horizontal: 5, vertical: 4),
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 5, vertical: 4),
                         child: Container(
-                          padding:
-                              EdgeInsets.symmetric(vertical: 5, horizontal: 12),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 5, horizontal: 12),
                           decoration: BoxDecoration(
-                              color:
-                                  viewModel.selectedHobby!.value.contains(hobby)
-                                      ? Colors.black
-                                      : Colors.white,
+                              color: viewModel.selectedHobby!.contains(hobby)
+                                  ? Colors.black
+                                  : Colors.white,
                               borderRadius: BorderRadius.circular(18),
                               border: Border.all(
-                                  color: viewModel.selectedHobby!.value
-                                          .contains(hobby)
-                                      ? Colors.yellow
-                                      : Colors.black,
+                                  color:
+                                      viewModel.selectedHobby!.contains(hobby)
+                                          ? Colors.yellow
+                                          : Colors.black,
                                   width: 2)),
                           child: Text(
                             hobby,
                             style: TextStyle(
-                                color: viewModel.selectedHobby!.value
-                                        .contains(hobby)
+                                color: viewModel.selectedHobby!.contains(hobby)
                                     ? Colors.white
                                     : Colors.black,
                                 fontSize: 14),

@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ismmart_vms/helper/languages/translations_key.dart' as langKey;
 import 'package:ismmart_vms/screens/setting/settings_viewmodel.dart';
 import 'package:ismmart_vms/screens/shippings/shippings_view.dart';
 
 import '../store/store_view.dart';
 
 class SettingsView extends StatelessWidget {
-  SettingsView({Key? key}) : super(key: key);
+  SettingsView({super.key});
   final SettingViewModel viewModel = Get.put(SettingViewModel());
 
   @override
