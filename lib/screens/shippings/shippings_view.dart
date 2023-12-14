@@ -5,6 +5,7 @@ import 'package:ismmart_vms/screens/shippings/shippings_viewmodel.dart';
 import 'package:ismmart_vms/widgets/custom_appbar.dart';
 import 'package:ismmart_vms/widgets/custom_button.dart';
 import 'package:ismmart_vms/widgets/custom_dropdown.dart';
+import 'package:ismmart_vms/widgets/custom_section_divider.dart';
 
 import '../../widgets/custom_textfield.dart';
 
@@ -34,7 +35,7 @@ class ShippingMethodsView extends StatelessWidget {
 
   Widget _shippingMethods() {
     return CustomDropDownList1(
-      title: 'Transfer Method',
+      title: 'Shipping Method',
       value: viewModel.shippingMethod,
       onChanged: (value) {
         viewModel.shippingMethod.value = value;
@@ -56,7 +57,44 @@ class ShippingMethodsView extends StatelessWidget {
   }
 
   Widget _rateSection() {
-    return Container();
+    return Column(
+      children: [
+        const CustomSectionDivier(text: 'Rates'),
+        _priceField(),
+        _descriptionField(),
+        _rangeField(),
+        _typeDropDown(),
+      ],
+    );
+  }
+
+  Widget _priceField() {
+    return const CustomTextField1(
+      title: 'Price',
+    );
+  }
+
+  _descriptionField() {
+    return const CustomTextField1(
+      title: 'Description',
+    );
+  }
+
+  Widget _rangeField() {
+    return const CustomTextField1(
+      title: 'Range',
+    );
+  }
+
+  Widget _typeDropDown() {
+    return CustomDropDownList1(
+      title: 'Types',
+      value: viewModel.ratesType,
+      onChanged: (value) {
+        viewModel.ratesType.value = value;
+      },
+      list: viewModel.ratesTypeList,
+    );
   }
 
   Widget _submitBtn() {
