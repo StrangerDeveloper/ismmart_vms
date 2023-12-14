@@ -9,7 +9,7 @@ import 'package:ismmart_vms/widgets/custom_text.dart';
 import '../order_detail/order_detail_view.dart';
 
 class OrderView extends StatelessWidget {
-  OrderView({Key? key}) : super(key: key) {
+  OrderView({super.key}) {
     Get.put(OrderViewModel()).fetchOrderDetails();
   }
 
