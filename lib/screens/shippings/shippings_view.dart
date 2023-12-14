@@ -18,29 +18,39 @@ class ShippingMethodsView extends StatelessWidget {
         child: Scaffold(
       appBar: CustomAppBar(title: shipping.tr),
       body: SingleChildScrollView(
-        child: Form(
-            key: viewModel.shippingFormKey,
-            child: Column(
-              children: [
-                _shippingMethods(),
-                _nameField(),
-                _idField(),
-                _rateSection(),
-                _submitBtn(),
-              ],
-            )),
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Form(
+              key: viewModel.shippingFormKey,
+              child: Column(
+                children: [
+                  _shippingMethods(),
+                  const SizedBox(height: 15),
+                  _nameField(),
+                  const SizedBox(height: 10),
+                  _idField(),
+                  const SizedBox(height: 20),
+                  _rateSection(),
+                  const SizedBox(height: 10),
+                  _submitBtn(),
+                ],
+              )),
+        ),
       ),
     ));
   }
 
   Widget _shippingMethods() {
-    return CustomDropDownList1(
-      title: 'Shipping Method',
-      value: viewModel.shippingMethod,
-      onChanged: (value) {
-        viewModel.shippingMethod.value = value;
-      },
-      list: viewModel.shippingMethodList,
+    return SizedBox(
+      width: 300,
+      child: CustomDropDownList1(
+        title: 'Shipping Method',
+        value: viewModel.shippingMethod,
+        onChanged: (value) {
+          viewModel.shippingMethod.value = value;
+        },
+        list: viewModel.shippingMethodList,
+      ),
     );
   }
 
@@ -60,9 +70,13 @@ class ShippingMethodsView extends StatelessWidget {
     return Column(
       children: [
         const CustomSectionDivier(text: 'Rates'),
+        const SizedBox(height: 8),
         _priceField(),
+        const SizedBox(height: 8),
         _descriptionField(),
+        const SizedBox(height: 8),
         _rangeField(),
+        const SizedBox(height: 8),
         _typeDropDown(),
       ],
     );
@@ -87,18 +101,22 @@ class ShippingMethodsView extends StatelessWidget {
   }
 
   Widget _typeDropDown() {
-    return CustomDropDownList1(
-      title: 'Types',
-      value: viewModel.ratesType,
-      onChanged: (value) {
-        viewModel.ratesType.value = value;
-      },
-      list: viewModel.ratesTypeList,
+    return SizedBox(
+      width: 250,
+      child: CustomDropDownList1(
+        title: 'Types',
+        value: viewModel.ratesType,
+        onChanged: (value) {
+          viewModel.ratesType.value = value;
+        },
+        list: viewModel.ratesTypeList,
+      ),
     );
   }
 
   Widget _submitBtn() {
     return CustomTextBtn(
+      width: 200,
       onPressed: () {},
       title: 'Submit',
     );

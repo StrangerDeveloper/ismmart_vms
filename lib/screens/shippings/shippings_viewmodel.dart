@@ -18,6 +18,6 @@ class ShippingViewModel extends GetxController {
     DropDownModel(id: '3', name: 'Distance'),
   ].obs;
 
-  var shippingMethod = "".obs;
-  var ratesType = "".obs;
+  var shippingMethod = "1".obs;
+  var ratesType = "1".obs;
 }
