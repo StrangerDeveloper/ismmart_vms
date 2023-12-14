@@ -14,7 +14,7 @@ class LocationListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Payouts'),
+        title: const Text('Location'),
         actions: [
           IconButton(
             onPressed: () {
@@ -86,11 +86,12 @@ class LocationListView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            item1(title: 'Requested Date', value: '13 Dec, 2023'),
-            item1(title: 'Amount', value: '10,000'),
-            item1(title: 'Bank Name', value: 'Alfalah Bank'),
-            item1(title: 'Transfer Method', value: 'Bank'),
-            item1(title: 'Status', value: 'Transfered'),
+            item1(title: 'Name', value: 'Home'),
+            item1(title: 'Country', value: 'Pakistan'),
+            item1(title: 'City', value: 'Rawalpindi'),
+            item1(title: 'Address', value: 'Commercial Market, Satellite Town'),
+            item1(title: 'Phone', value: '03345462055'),
+            item1(title: 'Status', value: 'Active'),
             item1(title: 'Created At', value: '13 Dec, 2023'),
             item1(title: 'Updated At', value: '13 Dec, 2023'),
           ],
@@ -142,11 +143,12 @@ class LocationListView extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    filterItem(title: 'Requested Date'),
-                    filterItem(title: 'Amount'),
-                    filterItem(title: 'Bank Name'),
-                    filterItem(title: 'Transfer Method'),
+                    filterItem(title: 'Name'),
+                    filterItem(title: 'Country'),
+                    filterItem(title: 'City'),
                     filterItem(title: 'Status'),
+                    filterItem(title: 'Created At'),
+                    filterItem(title: 'Updated At'),
                   ],
                 ),
               ),
