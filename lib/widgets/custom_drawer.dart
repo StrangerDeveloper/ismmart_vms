@@ -4,9 +4,9 @@ import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/constants.dart';
 import 'package:ismmart_vms/screens/collection/collection_view.dart';
 import 'package:ismmart_vms/screens/dashboard/dashboard_view.dart';
-import 'package:ismmart_vms/screens/login/login_view.dart';
 
 import '../screens/Order/order_view.dart';
+import '../screens/auth/login/login_view.dart';
 import '../screens/setting/settings_view.dart';
 
 class CustomDrawer extends StatelessWidget {

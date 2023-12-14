@@ -1,13 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:ismmart_vms/screens/signup/signup_3/sign_up_3_viewmodel.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ismmart_vms/screens/auth/signup/signup_3/sign_up_3_viewmodel.dart';
+import 'package:ismmart_vms/widgets/custom_checkbox.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-import '../../../helper/constants.dart';
-import '../../../widgets/custom_button.dart';
-import '../../../widgets/custom_checkbox.dart';
-import '../../../widgets/custom_textfield.dart';
+
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:ismmart_vms/helper/global_variables.dart';
+
+import 'package:ismmart_vms/helper/languages/translations_key.dart' as langKey;
+import 'package:ismmart_vms/screens/auth/signup/signup_2/sign_up_2_view.dart';
+import 'package:ismmart_vms/widgets/pick_image.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:ismmart_vms/helper/constants.dart';
+import 'package:ismmart_vms/widgets/image_layout_container.dart';
+import 'package:path/path.dart';
+import 'package:ismmart_vms/helper/theme_helper.dart';
+import 'package:get/get.dart';
+import 'package:ismmart_vms/helper/global_variables.dart';
+import 'package:ismmart_vms/helper/routes.dart';
+import 'package:ismmart_vms/helper/validator.dart';
+import 'package:ismmart_vms/widgets/custom_button.dart';
+import 'package:ismmart_vms/widgets/custom_loading.dart';
+import 'package:ismmart_vms/widgets/custom_text.dart';
+import 'package:ismmart_vms/widgets/custom_textfield.dart';
+import 'package:ismmart_vms/widgets/obscure_suffix_icon.dart';
+import 'package:ismmart_vms/widgets/scrollable_column.dart';
+import 'package:ismmart_vms/widgets/custom_button.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
+
+import '../../login/login_view.dart';
+import 'package:ismmart_vms/helper/languages/translations_key.dart' as langKey;
 
 class SignUp3View extends StatelessWidget {
   SignUp3View({super.key});
@@ -244,18 +273,18 @@ class SignUp3View extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 25, bottom: 25),
       child: CustomRoundedTextBtn(
-                title: 'Submit',
-                onPressed: () async{
-                  await viewModel.signUp();
-                  // Get.to(() => VendorSignUp3View());
-                },
-              ),
-      );
+        title: 'Submit',
+        onPressed: () async {
+          await viewModel.signUp();
+          // Get.to(() => VendorSignUp3View());
+        },
+      ),
+    );
   }
 
   Widget checkBoxTermCondition() {
     return Obx(
-          () => Padding(
+      () => Padding(
         padding: const EdgeInsets.only(bottom: 25, top: 5),
         child: CustomCheckBox2(
           value: viewModel.termAndCondition.value,
@@ -276,7 +305,7 @@ class SignUp3View extends StatelessWidget {
                   children: [
                     TextSpan(
                       text:
-                      'By clicking ‘Create Account’, you’ve read and agreed to our ',
+                          'By clicking ‘Create Account’, you’ve read and agreed to our ',
                     ),
                     TextSpan(
                       text: 'Terms and Conditions',
@@ -287,7 +316,7 @@ class SignUp3View extends StatelessWidget {
                     ),
                     TextSpan(
                       text:
-                      ' and for my personal data to be processed according to',
+                          ' and for my personal data to be processed according to',
                     ),
                     TextSpan(
                       text: ' ISMMART ',

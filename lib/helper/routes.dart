@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
 import 'package:ismmart_vms/screens/forgot_password/forgot_password_view.dart';
-import 'package:ismmart_vms/screens/login/login_view.dart';
 import 'package:ismmart_vms/screens/order_detail/order_detail_view.dart';
 
 import '../screens/Order/order_view.dart';
+import '../screens/auth/login/login_view.dart';
 import '../screens/dashboard/dashboard_view.dart';
 // import 'package:ism_mart/exports/export_controllers.dart';
 // import 'package:ism_mart/exports/exports_ui.dart';

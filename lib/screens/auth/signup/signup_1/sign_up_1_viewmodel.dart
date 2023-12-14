@@ -3,10 +3,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:ismmart_vms/screens/signup/signup_2/sign_up_2_view.dart';
+import 'package:ismmart_vms/helper/global_variables.dart';
+
+import 'package:ismmart_vms/helper/languages/translations_key.dart' as langKey;
+import 'package:ismmart_vms/screens/auth/signup/signup_2/sign_up_2_view.dart';
+import 'package:ismmart_vms/widgets/pick_image.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-import '../../../helper/global_variables.dart';
-import '../../../widgets/pick_image.dart';
 
 class SignUpScreen1ViewModel extends GetxController {
   GlobalKey<FormState> signUpFormKey = GlobalKey<FormState>();

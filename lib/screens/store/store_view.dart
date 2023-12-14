@@ -41,6 +41,17 @@ class StoreView extends StatelessWidget {
                         storeTypeField(),
                         adressField(),
                         slugField(),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        countryAndCityDrowpDown("Select Country"),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        countryAndCityDrowpDown("Select City"),
+                        SizedBox(
+                          height: 10,
+                        ),
                         multipleSelectChip()
                       ],
                     ),
@@ -153,6 +164,31 @@ class StoreView extends StatelessWidget {
       //   return Validator()
       //       .validateName(value, errorToPrompt: langKey.FirstNameReq.tr);
       // },
+    );
+  }
+
+  //Country and City Filed
+  Widget countryAndCityDrowpDown(
+    String title,
+  ) {
+    return Obx(
+      () => Column(children: [
+        Align(
+          alignment: Alignment.topLeft,
+          child: CustomText(
+            title: title ?? "Select Option",
+            size: 14,
+            textAlign: TextAlign.start,
+            style: GoogleFonts.dmSans(
+              fontSize: 14,
+              fontWeight: FontWeight.w700,
+              color: newColorDarkBlack2,
+            ),
+          ),
+        ),
+        Align(
+            alignment: Alignment.topLeft, child: viewModel.storeTypeDrowpDown())
+      ]),
     );
   }
 
