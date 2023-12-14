@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ismmart_vms/helper/languages/translations_key.dart' as langKey;
 import 'package:ismmart_vms/screens/setting/settings_viewmodel.dart';
-import 'package:ismmart_vms/screens/shippings/shippings_view.dart';
+
+import '../store/store_view.dart';
 
 class SettingsView extends StatelessWidget {
-  SettingsView({super.key});
+  SettingsView({Key? key}) : super(key: key);
   final SettingViewModel viewModel = Get.put(SettingViewModel());
 
   @override
@@ -45,7 +47,7 @@ class SettingsView extends StatelessWidget {
             leading: const Icon(Icons.book),
             title: const Text('Store '),
             onTap: () {
-              Navigator.pop(context);
+              Get.to(StoreView());
             },
           ),
           ListTile(
@@ -53,14 +55,6 @@ class SettingsView extends StatelessWidget {
             title: const Text(' Banking '),
             onTap: () {
               Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.local_shipping),
-            title: const Text(' Shipping Methods '),
-            onTap: () {
-              //Navigator.pop(context);
-              Get.to(ShippingMethodsView());
             },
           ),
         ],

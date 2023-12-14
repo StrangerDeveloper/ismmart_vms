@@ -324,7 +324,7 @@ class Routes {
     // )
     GetPage(
       name: orderRoute,
-      page: () => const OrderView(),
+      page: () => OrderView(),
     ),
   ];
 }

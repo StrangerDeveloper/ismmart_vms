@@ -85,6 +85,7 @@ class Vendor {
   Vendor({
     required this.vendorId,
     required this.vendorName,
+    required String name,
   });
 }
 

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ismmart_vms/screens/payout_list/payout_list_viewmodel.dart';
+import 'package:ismmart_vms/screens/location_list/location_list_viewmodel.dart';
 import 'package:ismmart_vms/widgets/custom_textfield.dart';
 
 import '../product_detail/product_detail_view.dart';
 
-class PayoutListView extends StatelessWidget {
-  PayoutListView({super.key});
+class LocationListView extends StatelessWidget {
+  LocationListView({super.key});
 
-  final PayoutListViewModel viewModel = Get.put(PayoutListViewModel());
+  final LocationListViewModel viewModel = Get.put(LocationListViewModel());
 
   @override
   Widget build(BuildContext context) {

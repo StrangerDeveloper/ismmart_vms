@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:ismmart_vms/helper/routes.dart';
 import 'package:ismmart_vms/screens/login/login_view.dart';
 import 'firebase_options.dart';
 
@@ -35,8 +36,8 @@ class MyApp extends StatelessWidget {
       ),
       //  home: SignUp3View(),
       home: LogInView(),
-      // initialRoute: Routes.initRoute,
-      // getPages: Routes.pages,
+      initialRoute: Routes.initRoute,
+      getPages: Routes.pages,
     );
   }
 }

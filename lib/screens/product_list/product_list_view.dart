@@ -6,8 +6,8 @@ import 'package:ismmart_vms/widgets/custom_textfield.dart';
 
 import '../product_detail/product_detail_view.dart';
 
-class ProductList extends StatelessWidget {
-  ProductList({super.key});
+class ProductListView extends StatelessWidget {
+  ProductListView({super.key});
 
   final ProductListViewModel viewModel = Get.put(ProductListViewModel());
 
@@ -77,7 +77,7 @@ class ProductList extends StatelessWidget {
   Widget listViewItem(int index) {
     return InkWell(
       onTap: () {
-        Get.to(() => const ProductDetailView());
+        Get.to(() => ProductDetailView());
       },
       child: Container(
         padding: const EdgeInsets.only(left: 5, right: 5, top: 5, bottom: 5),
