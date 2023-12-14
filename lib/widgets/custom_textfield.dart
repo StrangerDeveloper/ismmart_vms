@@ -149,6 +149,7 @@ class CustomTextField2 extends StatelessWidget {
   final TextEditingController? controller;
   final Color? fillColor;
   final bool readOnly;
+  final bool enabled;
   final bool? showCursor;
   final AutovalidateMode? autoValidateMode;
   final FormFieldValidator<String>? validator;
@@ -162,6 +163,7 @@ class CustomTextField2 extends StatelessWidget {
     this.readOnly = false,
     this.fillColor,
     this.onChanged,
+    this.enabled = true,
     this.contentPadding = const EdgeInsets.fromLTRB(10, 13.5, 10, 13.5),
     this.controller,
     this.suffixIcon,
@@ -190,6 +192,7 @@ class CustomTextField2 extends StatelessWidget {
             ),
           ),
         TextFormField(
+          enabled: enabled,
           keyboardType: keyboardType,
           inputFormatters: inputFormatters,
           validator: validator,
@@ -232,6 +235,10 @@ class CustomTextField2 extends StatelessWidget {
             hintText: hintText,
             errorStyle: GoogleFonts.lato(
               color: Colors.red,
+            ),
+            disabledBorder: OutlineInputBorder(
+              borderSide: const BorderSide(color: Colors.black, width: 0.8),
+              borderRadius: BorderRadius.circular(9),
             ),
             enabledBorder: OutlineInputBorder(
               borderSide: const BorderSide(color: Colors.black, width: 0.8),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../helper/global_variables.dart';
+import 'package:ismmart_vms/models/bank_details_model.dart';
+import 'package:ismmart_vms/screens/signup/signup_4/sign_up_4_view.dart';
 import '../../../widgets/pick_image.dart';
 
 class SignUp3ViewModel extends GetxController {
@@ -14,6 +15,8 @@ class SignUp3ViewModel extends GetxController {
   RxBool chequeImageErrorVisibility = false.obs;
   RxBool enableBranchCode = false.obs;
   RxBool termAndCondition = false.obs;
+  RxList<Widget> banksList = <Widget>[].obs;
+  RxList<BankDetailsModel> banksDetails = <BankDetailsModel>[].obs;
 
   @override
   void onInit() {
@@ -31,75 +34,75 @@ class SignUp3ViewModel extends GetxController {
 
   signUp() async {
     if (vendorSignUp3FormKey.currentState!.validate()) {
-      if (bankChequeImage.value != '') {
-        GlobalVariable.showLoader.value = true;
-        params.addAll({
-          'bankName': bankNameController.text,
-          'accountTitle': bankAccTitleController.text,
-          'accountNumber': bankAccNumberController.text,
-          'membership': 'Free',
-          'premium': 'false',
-        });
+      // GlobalVariable.showLoader.value = true;
+      params.addAll({
+        'bankName': bankNameController.text,
+        'accountTitle': bankAccTitleController.text,
+        'accountNumber': bankAccNumberController.text,
+        'membership': 'Free',
+        'premium': 'false',
+      });
 
-        params.addIf(
-            enableBranchCode.value, 'branchCode', branchCodeController.text);
+      params.addIf(
+          enableBranchCode.value, 'branchCode', branchCodeController.text);
 
-        print(params);
+      print(params);
 
-        //   List<http.MultipartFile> fileList = [];
-        //   fileList.add(
-        //       await http.MultipartFile.fromPath(
-        //           'cnicFront',
-        //           params['cnicFront']!,
-        //           contentType: MediaType.parse('image/jpeg')
-        //       )
-        //   );
-        //   fileList.addAll({
-        //     await http.MultipartFile.fromPath(
-        //         'storeImage',
-        //         params['storeImage']!,
-        //         contentType: MediaType.parse('image/jpeg')
-        //     ),
-        //     await http.MultipartFile.fromPath(
-        //         'cnicBack',
-        //         params['cnicBack']!,
-        //         contentType: MediaType.parse('image/jpeg')
-        //     ),
-        //     await http.MultipartFile.fromPath(
-        //         'chequeImage',
-        //         bankChequeImage.value,
-        //         contentType: MediaType.parse('image/jpeg')
-        //     )
-        //   });
-        //   ApiBaseHelper().postMethodForImage(
-        //       url: 'auth/vendor/register',
-        //       files: fileList,
-        //       fields: params,
-        //     withAuthorization: true
-        //   ).then((parsedJson) async {
-        //     GlobalVariable.showLoader.value = false;
-        //     if(parsedJson['success'] == true){
-        //       AppConstant.displaySnackBar(
-        //       langKey.successTitle.tr,
-        //         parsedJson['message']
-        //       );
-        //       int count = 0;
-        //       Get.until((route) => count++ >= 2);
-        //       Get.toNamed(Routes.vendorSignUp4, arguments: {
-        //         'fromSettings': false
-        //       });
-        //     } else{
-        //       AppConstant.displaySnackBar(
-        //           langKey.errorTitle.tr,
-        //           parsedJson['message']
-        //       );
-        //     }
-        //   }).catchError((e){
-        //     GlobalVariable.showLoader.value = false;
-        //     AppConstant.displaySnackBar(langKey.errorTitle.tr, e);
-        // //    GlobalVariable.internetErr(true);
-        //   });
-      }
+      Get.offAll(() => SignUp4View());
+
+      //   List<http.MultipartFile> fileList = [];
+      //   fileList.add(
+      //       await http.MultipartFile.fromPath(
+      //           'cnicFront',
+      //           params['cnicFront']!,
+      //           contentType: MediaType.parse('image/jpeg')
+      //       )
+      //   );
+      //   fileList.addAll({
+      //     await http.MultipartFile.fromPath(
+      //         'storeImage',
+      //         params['storeImage']!,
+      //         contentType: MediaType.parse('image/jpeg')
+      //     ),
+      //     await http.MultipartFile.fromPath(
+      //         'cnicBack',
+      //         params['cnicBack']!,
+      //         contentType: MediaType.parse('image/jpeg')
+      //     ),
+      //     await http.MultipartFile.fromPath(
+      //         'chequeImage',
+      //         bankChequeImage.value,
+      //         contentType: MediaType.parse('image/jpeg')
+      //     )
+      //   });
+      //   ApiBaseHelper().postMethodForImage(
+      //       url: 'auth/vendor/register',
+      //       files: fileList,
+      //       fields: params,
+      //     withAuthorization: true
+      //   ).then((parsedJson) async {
+      //     GlobalVariable.showLoader.value = false;
+      //     if(parsedJson['success'] == true){
+      //       AppConstant.displaySnackBar(
+      //       langKey.successTitle.tr,
+      //         parsedJson['message']
+      //       );
+      //       int count = 0;
+      //       Get.until((route) => count++ >= 2);
+      //       Get.toNamed(Routes.vendorSignUp4, arguments: {
+      //         'fromSettings': false
+      //       });
+      //     } else{
+      //       AppConstant.displaySnackBar(
+      //           langKey.errorTitle.tr,
+      //           parsedJson['message']
+      //       );
+      //     }
+      //   }).catchError((e){
+      //     GlobalVariable.showLoader.value = false;
+      //     AppConstant.displaySnackBar(langKey.errorTitle.tr, e);
+      // //    GlobalVariable.internetErr(true);
+      //   });
     }
   }
 }

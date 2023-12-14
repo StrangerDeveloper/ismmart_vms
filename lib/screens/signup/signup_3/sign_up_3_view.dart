@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:ismmart_vms/models/bank_details_model.dart';
 import 'package:ismmart_vms/screens/signup/signup_3/sign_up_3_viewmodel.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
@@ -33,9 +34,12 @@ class SignUp3View extends StatelessWidget {
                     bankNameTextField(),
                     bankAccountTitleTextField(),
                     bankAccountNumberTextField(),
+                    bankAccountsList(context),
                     // Obx(() => branchCodeTextField()),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
+                    addAccountBtn(),
                     submitBtn(),
+                    checkBoxTermCondition(),
                   ],
                 ),
               ),
@@ -62,7 +66,7 @@ class SignUp3View extends StatelessWidget {
             child: Text(
               'ISMMART',
               style: GoogleFonts.dmSerifText(
-                color: Color(0xff333333),
+                color: const Color(0xff333333),
                 fontSize: 20,
                 fontWeight: FontWeight.w400,
               ),
@@ -155,8 +159,8 @@ class SignUp3View extends StatelessWidget {
             radius: 33,
             lineWidth: 6,
             percent: 0.75,
-            backgroundColor: Color(0xffEBEFF3),
-            progressColor: Color(0xff0CBC8B),
+            backgroundColor: const Color(0xffEBEFF3),
+            progressColor: const Color(0xff0CBC8B),
             center: new Text(
               "3 of 3",
               style: poppinsH2.copyWith(
@@ -211,6 +215,65 @@ class SignUp3View extends StatelessWidget {
     );
   }
 
+  Widget bankAccountsList(BuildContext context) {
+    return Obx(() => viewModel.banksList.isEmpty ? const SizedBox() : Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+        child: SizedBox(
+          height: 50,
+          child: ListView(
+            shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
+            children: viewModel.banksList,
+          ),
+        )
+        ),
+    );
+  }
+
+  Widget addAccountBtn() {
+    return CustomRoundedTextBtn(
+        onPressed: () {
+          viewModel.banksDetails.add(BankDetailsModel(
+              accountNoOrIban: viewModel.bankAccNumberController.text,
+            accountTitle: viewModel.bankAccTitleController.text,
+            bankName: viewModel.bankNameController.text,
+          ));
+          viewModel.banksList.add(bankNameWidget(viewModel.bankNameController.text, viewModel.banksList.length));
+          viewModel.banksList.refresh();
+          viewModel.bankNameController.clear();
+          viewModel.bankAccNumberController.clear();
+          viewModel.bankAccTitleController.clear();
+        },
+      child: const Text(
+        'Add Another Bank Account',
+      ),
+    );
+  }
+
+  Widget bankNameWidget(String bankName, int index) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 5),
+      child: Container(
+        width: 70,
+        decoration: BoxDecoration(
+            color: Colors.grey.shade400,
+            borderRadius: const BorderRadius.all(Radius.circular(8))
+        ),
+        child: Center(
+          child: Text(
+            bankName,
+            textAlign: TextAlign.center,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+                fontSize: 10,
+                fontWeight: FontWeight.w700,
+                color: Colors.grey.shade700
+            ),
+          ),
+        ),
+      ),
+    );
+  }
   // Widget branchCodeTextField() {
   //   return Padding(
   //     padding: const EdgeInsets.only(top: 25.0),
@@ -242,7 +305,7 @@ class SignUp3View extends StatelessWidget {
 
   Widget submitBtn() {
     return Padding(
-      padding: const EdgeInsets.only(top: 25, bottom: 25),
+      padding: const EdgeInsets.only(top: 25, bottom: 10),
       child: CustomRoundedTextBtn(
                 title: 'Submit',
                 onPressed: () async{
@@ -274,7 +337,7 @@ class SignUp3View extends StatelessWidget {
                     color: newColorLightGrey2,
                   ),
                   children: [
-                    TextSpan(
+                    const TextSpan(
                       text:
                       'By clicking ‘Create Account’, you’ve read and agreed to our ',
                     ),
@@ -285,7 +348,7 @@ class SignUp3View extends StatelessWidget {
                         color: newColorLightGrey2,
                       ),
                     ),
-                    TextSpan(
+                    const TextSpan(
                       text:
                       ' and for my personal data to be processed according to',
                     ),
@@ -296,7 +359,7 @@ class SignUp3View extends StatelessWidget {
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                    TextSpan(text: 'Privacy Policy'),
+                    const TextSpan(text: 'Privacy Policy'),
                   ],
                 ),
               ),

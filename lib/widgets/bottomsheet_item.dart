@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class BottomSheetItemRow extends StatelessWidget {
   final String title;
@@ -47,6 +48,37 @@ class BottomSheetItemRow extends StatelessWidget {
               // ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class BottomSheetItem extends StatelessWidget {
+  final String title;
+  final IconData? icon;
+  final GestureTapCallback? onTap;
+
+  const BottomSheetItem({
+    super.key,
+    required this.title,
+    this.icon,
+    this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(8),
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 10, top: 10, bottom: 10),
+        child: Text(
+          title,
+          style: GoogleFonts.lato(
+            fontSize: 15,
+            color: Colors.black,
+          ),
         ),
       ),
     );

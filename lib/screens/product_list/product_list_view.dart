@@ -1,9 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ismmart_vms/helper/theme_helper.dart';
 import 'package:ismmart_vms/screens/product_list/product_list_viewmodel.dart';
 import 'package:ismmart_vms/widgets/custom_textfield.dart';
 
+import '../add_product/add_product_view.dart';
 import '../product_detail/product_detail_view.dart';
 
 class ProductList extends StatelessWidget {
@@ -14,6 +16,14 @@ class ProductList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton.extended(
+        backgroundColor: ThemeHelper.primary,
+        icon: Icon(Icons.add),
+        onPressed: () {
+          Get.to(() => AddProductView());
+        },
+        label: Text('Add Product'),
+      ),
       appBar: AppBar(
         title: const Text('Product List'),
         actions: [

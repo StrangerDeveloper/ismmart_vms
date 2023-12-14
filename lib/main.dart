@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:ismmart_vms/screens/login/login_view.dart';
-import 'package:ismmart_vms/screens/signup/signup_3/sign_up_3_view.dart';
+import 'package:ismmart_vms/screens/product_list/product_list_view.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -35,7 +34,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       //  home: SignUp3View(),
-      home: LogInView(),
+      home: ProductList(),
       // initialRoute: Routes.initRoute,
       // getPages: Routes.pages,
     );
