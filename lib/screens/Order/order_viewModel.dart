@@ -4,26 +4,6 @@ import 'package:ismmart_vms/screens/Order/model/order_model.dart';
 // Import your models here
 
 class OrderViewModel extends GetxController {
-  // var order = Order(
-  //   orderId: 1,
-  //   amount: 0.0,
-  //   customerName: '',
-  //   customerPhone: '',
-  //   customerEmail: '',
-  //   numberOfProducts: 0,
-  //   date: DateTime.now(),
-  //   paymentStatus: '',
-  //   fulfillmentStatus: '',
-  //   deliveryStatus: '',
-  //   deliveryMethod: '',
-  //   channel: '',
-  //   market: '',
-  //   items: [],
-  //   timeline: [],
-  //   returnItems: [],
-  //   refundItems: [],
-  // ).obs;
-
   var orders = <Order>[].obs;
 
   // Simulating data fetching from an API or database

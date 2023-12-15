@@ -9,6 +9,7 @@ import 'package:ismmart_vms/widgets/custom_text.dart';
 import '../../helper/constants.dart';
 import '../../widgets/custom_button.dart';
 import '../bank/bank_profile_view.dart';
+import '../profile/profile_view.dart';
 import '../store/store_view.dart';
 
 class SettingsView extends StatelessWidget {
@@ -81,6 +82,14 @@ class SettingsView extends StatelessWidget {
                 Positioned(left: 20, top: 50, child: titleAndBackBtn()),
               ],
             ),
+          ),
+          ListTile(
+            leading: const Icon(Icons.person),
+            title: const Text(' Profile '),
+            onTap: () {
+              //Navigator.pop(context);
+              Get.to(() => VendorProfileView());
+            },
           ),
           ListTile(
             leading: const Icon(Icons.book),
