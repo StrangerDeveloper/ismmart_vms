@@ -18,45 +18,48 @@ class StoreView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Stack(
-        children: [
-          SingleChildScrollView(
-            child: Column(
-              children: [
-                Form(
-                  key: viewModel.signUpFormKey,
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.only(top: 30, left: 20, right: 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        titleAndBackBtn(),
-                        storeLogo(),
-                        nameField(),
-                        storeTypeField(),
-                        adressField(),
-                        slugField(),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        countryAndCityDrowpDown("Select Country"),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        countryAndCityDrowpDown("Select City"),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        multipleSelectChip()
-                      ],
+      body: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 30),
+        child: Stack(
+          children: [
+            SingleChildScrollView(
+              child: Column(
+                children: [
+                  Form(
+                    key: viewModel.signUpFormKey,
+                    child: Padding(
+                      padding:
+                          const EdgeInsets.only(top: 30, left: 20, right: 20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          titleAndBackBtn(),
+                          storeLogo(),
+                          nameField(),
+                          storeTypeField(),
+                          adressField(),
+                          slugField(),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          countryAndCityDrowpDown("Select Country"),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          countryAndCityDrowpDown("Select City"),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          multipleSelectChip()
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -215,7 +218,6 @@ class StoreView extends StatelessWidget {
                 } else {}
                 return GestureDetector(
                   onTap: () {
-                    // viewModel.selectedHobby!.value.clear();
                     if (viewModel.selectedHobby!.contains(hobby)) {
                       viewModel.selectedHobby!
                           .removeWhere((element) => element == hobby);
@@ -227,6 +229,7 @@ class StoreView extends StatelessWidget {
                         viewModel.selectedHobby?.refresh();
                       }
                     }
+
                     print(
                         "selected hobby ===== $hobby  ${viewModel.selectedHobby!}");
                   },
