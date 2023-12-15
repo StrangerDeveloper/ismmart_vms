@@ -99,4 +99,11 @@ class StoreViewModel extends GetxController {
 
   RxList<String>? selectedHobby = [''].obs;
   RxBool isSelected = false.obs;
+
+  @override
+  void onInit() {
+    selectedHobby!.value.clear();
+    // TODO: implement onInit
+    super.onInit();
+  }
 }

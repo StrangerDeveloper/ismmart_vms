@@ -28,8 +28,8 @@ class SettingsView extends StatelessWidget {
             child: Stack(
               children: [
                 Positioned(
-                    left: 20,
-                    top: 160,
+                    left: 30,
+                    top: 180,
                     child: CustomText(
                       title: "Hasnain Mirrani",
                       size: 14,
@@ -41,8 +41,8 @@ class SettingsView extends StatelessWidget {
                       ),
                     )),
                 Positioned(
-                    left: 20,
-                    top: 180,
+                    left: 30,
+                    top: 200,
                     child: CustomText(
                       title: "hmirrani@gmail.com",
                       size: 14,
@@ -54,10 +54,10 @@ class SettingsView extends StatelessWidget {
                       ),
                     )),
                 Positioned(
-                    left: 160,
-                    top: 100,
+                    left: 180,
+                    top: 120,
                     child: CustomText(
-                      title: "Bank Profile",
+                      title: "Seetings",
                       size: 14,
                       textAlign: TextAlign.start,
                       style: GoogleFonts.dmSans(
@@ -66,9 +66,9 @@ class SettingsView extends StatelessWidget {
                         color: newColorDarkBlack2,
                       ),
                     )),
-                const Positioned(
-                  left: 20,
-                  top: 60,
+                Positioned(
+                  left: 40,
+                  top: 80,
                   child: CircleAvatar(
                     backgroundColor: Colors.black26,
 
@@ -79,7 +79,7 @@ class SettingsView extends StatelessWidget {
                     ), //Text
                   ),
                 ),
-                Positioned(left: 20, top: 20, child: titleAndBackBtn()),
+                Positioned(left: 20, top: 50, child: titleAndBackBtn()),
               ],
             ),
           ),

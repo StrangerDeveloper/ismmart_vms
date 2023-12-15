@@ -17,41 +17,44 @@ class BankProfileView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Stack(
-        children: [
-          SingleChildScrollView(
-            child: Column(
-              children: [
-                Form(
-                  key: viewModel.signUpFormKey,
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.only(top: 30, left: 20, right: 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        titleAndBackBtn(),
-                        SizedBox(
-                          height: 30,
-                        ),
-                        accountTitle(),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        accountNumber_IBAN(),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        bankTypeDrowpdown(),
-                        // adressField(),
-                      ],
+      body: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 30),
+        child: Stack(
+          children: [
+            SingleChildScrollView(
+              child: Column(
+                children: [
+                  Form(
+                    key: viewModel.signUpFormKey,
+                    child: Padding(
+                      padding:
+                          const EdgeInsets.only(top: 30, left: 20, right: 20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          titleAndBackBtn(),
+                          SizedBox(
+                            height: 30,
+                          ),
+                          accountTitle(),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          accountNumber_IBAN(),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          bankTypeDrowpdown(),
+                          // adressField(),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

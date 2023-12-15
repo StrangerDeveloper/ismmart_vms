@@ -5,6 +5,12 @@ import 'package:ismmart_vms/screens/Order/model/order_model.dart';
 import 'package:ismmart_vms/widgets/custom_appbar.dart';
 import 'package:ismmart_vms/widgets/custom_text.dart';
 
+import '../../helper/global_variables.dart';
+import '../../helper/routes.dart';
+import '../../widgets/custom_button.dart';
+import '../../widgets/custom_loading.dart';
+import '../return/return_view.dart';
+
 class OrderDetailView extends StatelessWidget {
   final Order order;
   OrderDetailView({Key? key, required this.order}) : super(key: key) {
@@ -42,7 +48,7 @@ class OrderDetailView extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [_buildOrderDetail(order)],
+            children: [_buildOrderDetail(order), logInBtn()],
           ),
         ),
       ),
@@ -127,6 +133,26 @@ class OrderDetailView extends StatelessWidget {
           child: Text(value, textAlign: TextAlign.start),
         ),
       ],
+    );
+  }
+
+  Widget logInBtn() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 20, 20, 25),
+      child: Obx(
+        () => GlobalVariable.showLoader.value
+            ? const CustomLoading(isItBtn: true)
+            : CustomRoundedTextBtn(
+                backgroundColor: Colors.deepPurple,
+                child: Text(
+                  "Return",
+                  //style: newFontStyle3,
+                ),
+                onPressed: () {
+                  Get.to(RefundView());
+                },
+              ),
+      ),
     );
   }
 }
