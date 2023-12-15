@@ -66,7 +66,7 @@ class SettingsView extends StatelessWidget {
                         color: newColorDarkBlack2,
                       ),
                     )),
-                Positioned(
+                const Positioned(
                   left: 20,
                   top: 60,
                   child: CircleAvatar(
