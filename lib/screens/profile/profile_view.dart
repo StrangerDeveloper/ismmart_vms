@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:ismmart_vms/helper/constants.dart';
 import 'package:ismmart_vms/screens/profile/profile_viewmodel.dart';
 import 'package:ismmart_vms/widgets/image_layout_container.dart';
 import 'package:path/path.dart';
 import 'package:ismmart_vms/widgets/custom_textfield.dart';
 import 'package:ismmart_vms/widgets/obscure_suffix_icon.dart';
 import 'package:ismmart_vms/widgets/custom_button.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class VendorProfileView extends StatelessWidget {
   VendorProfileView({super.key});
@@ -39,7 +37,6 @@ class VendorProfileView extends StatelessWidget {
                             style: TextStyle(fontSize: 20, color: Colors.black),
                           ),
                         ),
-                        //progress(),
                         nameField(),
                         emailTextField(),
                         phoneNumberTextField(),
@@ -81,64 +78,6 @@ class VendorProfileView extends StatelessWidget {
           CustomBackButton(onTap: () {
             Get.back();
           }),
-        ],
-      ),
-    );
-  }
-
-  Widget progress() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 10, bottom: 30),
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Vendor Account Progress',
-                  style: newFontStyle1.copyWith(
-                    color: newColorBlue2,
-                  ),
-                ),
-                const SizedBox(height: 6),
-                RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: 'Next Step: ',
-                        style: newFontStyle1.copyWith(
-                          fontSize: 12,
-                          color: newColorBlue4,
-                        ),
-                      ),
-                      TextSpan(
-                        text: 'Bank Details',
-                        style: newFontStyle1.copyWith(
-                          fontSize: 12,
-                          color: newColorBlue3,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          CircularPercentIndicator(
-            circularStrokeCap: CircularStrokeCap.round,
-            radius: 33,
-            lineWidth: 6,
-            percent: 0.05,
-            backgroundColor: const Color(0xffEBEFF3),
-            progressColor: const Color(0xff0CBC8B),
-            center: Text(
-              "1 of 3",
-              style: poppinsH2.copyWith(
-                color: newColorBlue2,
-              ),
-            ),
-          ),
         ],
       ),
     );
