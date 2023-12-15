@@ -78,7 +78,9 @@ class VendorProfileView extends StatelessWidget {
               ),
             ),
           ),
-          CustomBackButton(onTap: () {}),
+          CustomBackButton(onTap: () {
+            Get.back();
+          }),
         ],
       ),
     );
