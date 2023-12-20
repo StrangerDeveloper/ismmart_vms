@@ -148,6 +148,7 @@ class CustomTextField2 extends StatelessWidget {
   final bool obscureText;
   final TextEditingController? controller;
   final Color? fillColor;
+  final Color? titleColor;
   final bool readOnly;
   final bool enabled;
   final bool? showCursor;
@@ -156,6 +157,7 @@ class CustomTextField2 extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
   final TextInputType? keyboardType;
   final void Function(String)? onChanged;
+  final void Function()? onTap;
 
   const CustomTextField2({
     super.key,
@@ -163,6 +165,8 @@ class CustomTextField2 extends StatelessWidget {
     this.readOnly = false,
     this.fillColor,
     this.onChanged,
+    this.titleColor,
+    this.onTap,
     this.enabled = true,
     this.contentPadding = const EdgeInsets.fromLTRB(10, 13.5, 10, 13.5),
     this.controller,
@@ -188,10 +192,15 @@ class CustomTextField2 extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 5),
             child: Text(
               title!,
-              style: const TextStyle(fontSize: 15),
+              style: GoogleFonts.dmSans(
+                  fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: titleColor,
+              ),
             ),
           ),
         TextFormField(
+          onTap: onTap,
           enabled: enabled,
           keyboardType: keyboardType,
           inputFormatters: inputFormatters,
@@ -231,21 +240,25 @@ class CustomTextField2 extends StatelessWidget {
 
             // suffixIconConstraints: BoxConstraints.expand(width: 40),
             filled: true,
-            fillColor: Colors.white,
+            fillColor: kContainerFillColor,
             hintText: hintText,
+            hintStyle: GoogleFonts.dmSans(
+              color: newColorLightGrey2
+            ),
+
             errorStyle: GoogleFonts.lato(
               color: Colors.red,
             ),
             disabledBorder: OutlineInputBorder(
-              borderSide: const BorderSide(color: Colors.black, width: 0.8),
+              borderSide: const BorderSide(color: kTextfieldBorderColor, width: 0.8),
               borderRadius: BorderRadius.circular(9),
             ),
             enabledBorder: OutlineInputBorder(
-              borderSide: const BorderSide(color: Colors.black, width: 0.8),
+              borderSide: const BorderSide(color: kTextfieldBorderColor, width: 0.8),
               borderRadius: BorderRadius.circular(9),
             ),
             focusedBorder: OutlineInputBorder(
-              borderSide: const BorderSide(color: Colors.black, width: 1.1),
+              borderSide: const BorderSide(color: kTextfieldBorderColor, width: 1.1),
               borderRadius: BorderRadius.circular(8),
             ),
             errorBorder: OutlineInputBorder(
@@ -263,7 +276,6 @@ class CustomTextField2 extends StatelessWidget {
   }
 }
 
-//
 class CustomTextField3 extends StatelessWidget {
   final String? title;
   final String? hintText;

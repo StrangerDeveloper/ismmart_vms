@@ -1,25 +1,67 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ismmart_vms/models/variant_selection_model.dart';
+import 'package:ismmart_vms/widgets/widget_models/dropdown_model.dart';
 import 'package:ismmart_vms/widgets/widget_models/variant_options_field_model.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:quill_html_editor/quill_html_editor.dart';
 
 class AddProductViewModel extends GetxController {
-  TextEditingController prodNameController = TextEditingController();
+  TextEditingController prodTitleController = TextEditingController();
   TextEditingController prodStockController = TextEditingController();
   TextEditingController prodBrandController = TextEditingController();
   TextEditingController prodDiscountController = TextEditingController();
-  TextEditingController prodDescriptionController = TextEditingController();
+  QuillEditorController prodDescriptionController = QuillEditorController();
   TextEditingController prodSKUController = TextEditingController();
   TextEditingController prodPriceController = TextEditingController();
+  TextEditingController prodCompareAtPriceController = TextEditingController();
+  TextEditingController prodCostPerItemController = TextEditingController();
+  TextEditingController prodProfitController = TextEditingController();
+  TextEditingController prodMarginController = TextEditingController();
   TextEditingController prodWeightController = TextEditingController();
   TextEditingController prodLengthController = TextEditingController();
   TextEditingController prodWidthController = TextEditingController();
   TextEditingController prodHeightController = TextEditingController();
   RxBool showVariantsField = false.obs;
+  RxBool showVariantsTable = false.obs;
+  RxBool chargeTaxOnProduct = false.obs;
+  RxList<DropDownModel> locationsList = <DropDownModel>[
+    DropDownModel(
+      id: '1',
+      name: 'All Locations'
+    ),
+    DropDownModel(
+      id: '2',
+      name: 'Safa Gold Mall'
+    ),
+    DropDownModel(
+      id: '3',
+      name: 'Giga Mall'
+    ),
+    DropDownModel(
+      id: '4',
+      name: 'Amanah Mall'
+    )
+  ].obs;
+  final customToolBarList = [
+    ToolBarStyle.bold,
+    ToolBarStyle.italic,
+    ToolBarStyle.align,
+    ToolBarStyle.color,
+    ToolBarStyle.background,
+    ToolBarStyle.listBullet,
+    ToolBarStyle.listOrdered,
+    ToolBarStyle.clean,
+    ToolBarStyle.addTable,
+    ToolBarStyle.editTable,
+  ];
+  RxString locationSelected = ''.obs;
   RxInt priceAfterCommission = 1.obs;
   RxInt selectedCategoryID = 0.obs;
   RxInt selectedSubCategoryID = 1.obs;
-  RxList<String> optionsList = <String>["Size", "Color", "Material", "Style"].obs;
+  RxList<String> optionsList = <String>["Size", "Color", "Material", "Style", "Other"].obs;
+  RxList<String> optionsChosen = <String>[].obs;
   RxString selectedOption = ''.obs;
   RxList<VariantsOptionsFieldModel> listOfOptionsAdded = <VariantsOptionsFieldModel>[
     // CustomDropDownList1(value: value, onChanged: onChanged, list: list)
@@ -35,10 +77,11 @@ class AddProductViewModel extends GetxController {
   List<File> productImages = <File>[].obs;
   // List<CategoryModel> categoriesList = <CategoryModel>[].obs;
   // RxList<ProductVariantModel> productVariantsFieldsList = <ProductVariantModel>[].obs;
-  List<List<String>> optionsAddedList = <List<String>>[];
   RxMap<String, dynamic> dynamicFieldsValuesList = <String, dynamic>{}.obs;
   Map<String, String>? categoryFieldList;
   List<String> combinations = [];
+  RxList<VariantSelectionModel> finalCombinationsList = <VariantSelectionModel>[].obs;
+  List<String> combinations2 = [];
 
   var formKey = GlobalKey<FormState>();
   var formKeyCategoryField = GlobalKey<FormState>();
@@ -48,6 +91,12 @@ class AddProductViewModel extends GetxController {
   RxBool uploadImagesError = false.obs;
   double fieldsPaddingSpace = 12.0;
   RxBool isStockContainsInVariants = false.obs;
+
+  @override
+  void onInit() async {
+    await Permission.manageExternalStorage.request();
+    super.onInit();
+  }
 
   @override
   void onReady() {
@@ -69,112 +118,59 @@ class AddProductViewModel extends GetxController {
     combinations.clear();
     if (listOfOptionsAdded.isNotEmpty) {
       if (listOfOptionsAdded.length > 1) {
-        // int length = optionsAddedList.length - 1;
-        // int currentListIndex = 1;
-        // listOfOptionsAdded[0].optionValues?.forEach((element) {
-        //   String name = element.text;
-        //   if(listOfOptionsAdded[currentListIndex] == listOfOptionsAdded.last) {
-        //     listOfOptionsAdded[currentListIndex].optionValues?.forEach((listElement) {
-        //       name = '${element.text} - ${listElement.text}';
-        //       combinations.add(name);
-        //       if(listElement == listOfOptionsAdded[currentListIndex].optionValues?.last){
-        //
-        //       }
-        //     });
-        //   } else {
-        //     listOfOptionsAdded[currentListIndex].optionValues?.forEach((listElement) {
-        //       name = '$element - $listElement';
-        //       combinations.add(name);
-        //     });
-        //   }
-        // });
+          variantsFunction(0, 1);
       } else {
-        print('Length not more than 1');
+        combinations.clear();
+        listOfOptionsAdded[0].optionValues?.forEach((element) {
+          finalCombinationsList.add(VariantSelectionModel(variantName: element.text, variantSelected: false));
+          finalCombinationsList.refresh();
+        });
       }
     } else{
       print('Empty');
     }
   }
 
-  variantsFunction(int? initialIndex, int nextIndex) {
-    List tempCombinations = [];
-    if (initialIndex == null) {
+  variantsFunction(int initialIndex, int nextIndex) {
+    List<String> tempCombinations = <String>[];
+    combinations.clear();
+    combinations.addAll(combinations2.map((e) => e));
+    combinations2.clear();
+    if (initialIndex == 0) {
+      listOfOptionsAdded[0].optionValues?.forEach((element) {
+        String name = element.text;
+        listOfOptionsAdded[1].optionValues?.forEach((element2) {
+          name = "${element.text} - ${element2.text}";
+          combinations2.add(name);
+          if(element == listOfOptionsAdded[0].optionValues?.last && element2 == listOfOptionsAdded[1].optionValues?.last && nextIndex != listOfOptionsAdded.length-1) {
+            variantsFunction(initialIndex + 1, nextIndex + 1);
+          } else {
+            finalCombinationsList.clear();
+            finalCombinationsList.addAll(combinations2.map((e) => VariantSelectionModel(variantSelected: false, variantName: e)));
+            finalCombinationsList.refresh();
+          }
+        });
+      });
+    } else {
       combinations.forEach((element) {
         String name = element;
         listOfOptionsAdded[nextIndex].optionValues?.forEach((listElement) {
           name = '$element - ${listElement.text}';
           tempCombinations.add(name);
-          if (listElement == listOfOptionsAdded[nextIndex].optionValues?.last) {
-            combinations.clear();
-            tempCombinations.forEach((tempComb) {
-              combinations.add(tempComb);
-            });
+          if (element == combinations.last && listElement == listOfOptionsAdded[nextIndex].optionValues?.last) {
+              combinations2.addAll(tempCombinations.map((e) => e));
+              if(nextIndex != listOfOptionsAdded.length-1) {
+                variantsFunction(initialIndex + 1, nextIndex + 1);
+              } else {
+                finalCombinationsList.clear();
+                finalCombinationsList.addAll(tempCombinations.map((e) => VariantSelectionModel(variantName: e, variantSelected: false)));
+                finalCombinationsList.refresh();
+              }
           }
         });
       });
-    } else {
-      listOfOptionsAdded[0].optionValues?.forEach((element) {
-        String name = element.text;
-        listOfOptionsAdded[0].optionValues?.forEach((listElement) {
-            name = '${element.text} - ${listElement.text}';
-            tempCombinations.add(name);
-            if (listElement ==
-                listOfOptionsAdded[0].optionValues?.last) {
-              combinations.clear();
-              tempCombinations.forEach((tempComb) {
-                combinations.add(tempComb);
-              });
-            }
-          });
-      });
     }
   }
-
-  // createVariants() {
-  //   List<List<String>> variantOptions = [
-  //     ['Color', 'Red', 'Blue'],
-  //     ['Size', 'Small', 'Medium', 'Large'],
-  //     ['Material', 'Cotton', 'Polyester']
-  //   ];
-  //
-  //   List<Map<String, String>> variantCombinations = generateVariantCombinations(variantOptions);
-  //
-  //   variantCombinations.forEach((variant) {
-  //     print(variant);
-  //   });
-  // }
-  //
-  // List<Map<String, String>> generateVariantCombinations(List<List<String>> variantOptions) {
-  //   List<Map<String, String>> combinations = [];
-  //
-  //   _generateCombinations(variantOptions, 0, {}, combinations);
-  //
-  //   return combinations;
-  // }
-  //
-  // void _generateCombinations(
-  //     List<List<String>> variantOptions,
-  //     int index,
-  //     Map<String, String> currentCombination,
-  //     List<Map<String, String>> combinations,
-  //     ) {
-  //   if (index == variantOptions.length) {
-  //     // Reached the end of options, add the current combination to the list
-  //     combinations.add(Map.from(currentCombination));
-  //     return;
-  //   }
-  //
-  //   // Iterate through the options for the current variant
-  //   for (int i = 1; i < variantOptions[index].length; i++) {
-  //     // Clone the current combination to avoid modifying it for other iterations
-  //     Map<String, String> updatedCombination = Map.from(currentCombination);
-  //     updatedCombination[variantOptions[index][0]] = variantOptions[index][i];
-  //
-  //     // Recursively generate combinations for the next variant
-  //     _generateCombinations(variantOptions, index + 1, updatedCombination, combinations);
-  //   }
-  // }
-
 
   // void onPriceFieldChange(String value) {
   //   if (value.isNotEmpty) {

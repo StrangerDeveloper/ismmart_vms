@@ -1,20 +1,19 @@
-import 'dart:ui';
-
 class ReturnModel {
   int? id;
   String? name;
-  String? discription;
+  String? description;
   String? color;
   int? quantity;
   String? price;
   bool? isSelected;
 
-  ReturnModel(
-      {this.id,
-      this.name,
-      this.discription,
-      this.quantity,
-      this.color,
-      this.price,
-      this.isSelected});
+  ReturnModel({
+    this.id,
+    this.name,
+    this.description,
+    this.quantity,
+    this.color,
+    this.price,
+    this.isSelected
+  });
 }

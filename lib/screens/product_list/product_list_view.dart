@@ -5,7 +5,7 @@ import 'package:ismmart_vms/helper/theme_helper.dart';
 import 'package:ismmart_vms/screens/product_list/product_list_viewmodel.dart';
 import 'package:ismmart_vms/widgets/custom_textfield.dart';
 
-import '../add_product/add_product_view.dart';
+import '../add_product/add_product_1/add_product_1_view.dart';
 import '../product_detail/product_detail_view.dart';
 
 class ProductListView extends StatelessWidget {
@@ -22,7 +22,7 @@ class ProductListView extends StatelessWidget {
         onPressed: () {
           Get.to(() => AddProductView());
         },
-        label: Text('Add Product'),
+        label: const Text('Add Product'),
       ),
       appBar: AppBar(
         title: const Text('Product List'),

@@ -9,6 +9,8 @@ import 'package:ismmart_vms/widgets/custom_text.dart';
 import '../../helper/constants.dart';
 import '../../widgets/custom_button.dart';
 import '../bank/bank_profile_view.dart';
+import '../location_list/location_list_view.dart';
+import '../payout_list/payout_list_view.dart';
 import '../profile/profile_view.dart';
 import '../store/store_view.dart';
 
@@ -99,6 +101,13 @@ class SettingsView extends StatelessWidget {
             },
           ),
           ListTile(
+            leading: const Icon(Icons.workspace_premium),
+            title: const Text('Payouts'),
+            onTap: () {
+              Get.to(()=>PayoutListView());
+            },
+          ),
+          ListTile(
             leading: const Icon(Icons.currency_exchange_rounded),
             title: const Text(' Banking '),
             onTap: () {
@@ -111,6 +120,14 @@ class SettingsView extends StatelessWidget {
             onTap: () {
               //Navigator.pop(context);
               Get.to(() => ShippingMethodsView());
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.map_outlined),
+            title: const Text('Address'),
+            onTap: () {
+              //Navigator.pop(context);
+              Get.to(() => LocationListView());
             },
           ),
         ],

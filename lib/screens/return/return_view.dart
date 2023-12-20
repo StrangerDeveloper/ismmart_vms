@@ -1,17 +1,11 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:ismmart_vms/helper/languages/translations_key.dart' as langKey;
-import 'package:ismmart_vms/screens/Order/model/order_model.dart';
 import 'package:ismmart_vms/screens/Order/order_viewModel.dart';
 import 'package:ismmart_vms/screens/return/model.dart';
 import 'package:ismmart_vms/screens/return/return_viewmodel.dart';
 import 'package:ismmart_vms/widgets/custom_appbar.dart';
 import 'package:ismmart_vms/widgets/custom_text.dart';
 
-import '../order_detail/order_detail_view.dart';
 
 class RefundView extends StatefulWidget {
   RefundView({super.key}) {
@@ -70,7 +64,7 @@ class _RefundViewState extends State<RefundView> {
                               title: Text(item.name.toString()),
                               subtitle: Column(
                                 children: [
-                                  Text(item.discription.toString()),
+                                  Text(item.description.toString()),
                                   Text(item.color.toString()),
                                   Text(item.quantity.toString()),
                                 ],
@@ -121,7 +115,7 @@ class _RefundViewState extends State<RefundView> {
           children: [
             _buildOrderCardContent("Order ID", item.id.toString()),
             _buildOrderCardContent("Customer Name", item.name.toString()),
-            _buildOrderCardContent("Discription", item.discription.toString()),
+            _buildOrderCardContent("Discription", item.description.toString()),
             _buildOrderCardContent("Item Color", item.color.toString()),
             _buildOrderCardContent("Total Amount", item.quantity.toString()),
           ],

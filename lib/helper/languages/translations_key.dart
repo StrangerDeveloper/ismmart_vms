@@ -544,7 +544,8 @@ const storeName = "storeName",
     shopAddressReq = 'shopAddressReq';
 
 ///Add Product
-const productName = "productName",
+const productTitle = "productTitle",
+    productName = "productName",
     productNameReq = "productNameReq",
     prodPrice = "prodPrice",
     prodPriceReq = "prodPriceReq",

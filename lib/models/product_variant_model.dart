@@ -1,3 +1,5 @@
+import 'locations_model.dart';
+
 class ProductVariantModel {
   String? name;
   int? id;
@@ -7,7 +9,6 @@ class ProductVariantModel {
   double? cutPrice;
   double? weight;
   Dimension? dimension;
-  // List<Locations>? locations;
   List<Stock>? stock;
 
   ProductVariantModel({
@@ -82,41 +83,6 @@ class Dimension {
     data['length'] = length;
     data['width'] = width;
     data['height'] = height;
-    return data;
-  }
-}
-
-class Stock {
-
-  int? unavailable;
-  int? onHand;
-  int? available;
-  int? committed;
-  int? incoming;
-
-  Stock({
-    this.available,
-    this.committed,
-    this.incoming,
-    this.onHand,
-    this.unavailable
-  });
-
-  Stock.fromJson(Map<String,dynamic> json) {
-    available = json['available'];
-    unavailable = json['unavailable'];
-    committed = json['committed'];
-    onHand = json['onHand'];
-    incoming = json['incoming'];
-  }
-
-  Map<String,dynamic> toJson() {
-    final Map<String,dynamic> data = <String,dynamic>{};
-    data['available'] = available;
-    data['unavailable'] = unavailable;
-    data['committed'] = committed;
-    data['onHand'] = onHand;
-    data['incoming'] = incoming;
     return data;
   }
 }

@@ -175,7 +175,7 @@ class StoreView extends StatelessWidget {
         Align(
           alignment: Alignment.topLeft,
           child: CustomText(
-            title: title ?? "Select Option",
+            title: title,
             size: 14,
             textAlign: TextAlign.start,
             style: GoogleFonts.dmSans(

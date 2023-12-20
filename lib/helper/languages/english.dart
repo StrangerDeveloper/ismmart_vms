@@ -621,7 +621,7 @@ class English {
         key.cnicReq: 'CNIC is required',
         key.categoryReq: 'Select Category',
 
-        key.productName: 'Product Name',
+        key.productTitle: 'Product Name',
         key.productNameReq: 'Name is required',
         key.prodPrice: 'Product Price',
         key.prodPriceReq: 'Price is required',

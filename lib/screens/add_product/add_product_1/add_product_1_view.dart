@@ -4,15 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ismmart_vms/widgets/custom_dropdown.dart';
 import 'package:ismmart_vms/widgets/widget_models/variant_options_field_model.dart';
-import '../../helper/constants.dart';
-import '../../helper/theme_helper.dart';
-import '../../widgets/bottomsheet_item.dart';
-import '../../widgets/custom_button.dart';
-import '../../widgets/custom_text.dart';
-import '../../widgets/custom_textfield.dart';
-import '../../widgets/pick_image.dart';
-import 'add_product_viewmodel.dart';
+import 'package:quill_html_editor/quill_html_editor.dart';
+import '../../../helper/constants.dart';
+import '../../../helper/theme_helper.dart';
+import '../../../widgets/bottomsheet_item.dart';
+import '../../../widgets/custom_button.dart';
+import '../../../widgets/custom_text.dart';
+import '../../../widgets/custom_textfield.dart';
+import '../../../widgets/pick_image.dart';
+import 'add_product_1_viewmodel.dart';
 import 'package:ismmart_vms/helper/languages/translations_key.dart' as langKey;
 
 class AddProductView extends StatelessWidget {
@@ -25,6 +27,7 @@ class AddProductView extends StatelessWidget {
       top: false,
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.white,
           title: const Text('Add Product'),
           centerTitle: true,
           leading: IconButton(
@@ -39,55 +42,150 @@ class AddProductView extends StatelessWidget {
         body: Stack(
           children: [
             SingleChildScrollView(
-              child: Column(
-                children: [
-                  Form(
-                    key: viewModel.formKey,
-                    child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          ///Upload Images Section
-                          _buildImageSection(),
+              child: Center(
+                child: Column(
+                  children: [
+                    stepperText(),
+                    Form(
+                      key: viewModel.formKey,
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            ///Upload Images Section
+                            // _buildImageSection(),
 
-                          ///Product Category Field
-                          // Obx(() => selectCategoryField()),
-                          //
-                          // ///Product Sub Category Dropdown Field
-                          // Obx(() => viewModel.subCategoriesList.isEmpty
-                          //     ? Container()
-                          //     : selectSubCategoryField()),
+                            ///Product Category Field
+                            // Obx(() => selectCategoryField()),
+                            //
+                            // ///Product Sub Category Dropdown Field
+                            // Obx(() => viewModel.subCategoriesList.isEmpty
+                            //     ? Container()
+                            //     : selectSubCategoryField()),
 
-                          ///Product Category fields or variants or features
+                            ///Product Category fields or variants or features
 
-                          ///Product Basic Details
-                          nameField(),
-                          priceField(),
-                          stockField(),
-                          discountField(),
-                          descriptionField(),
-                          weightAndDimensionsSection(),
-                          variantAdditionField(context),
-                          // productVariantsAndFeaturesField(),
-                          const SizedBox(height: 40),
-                          CustomTextBtn(
-                            onPressed: () {
-                              viewModel.creatingVariants();
-                              // viewModel.addProdBtnPress();
-                            },
-                            title: 'Add Product',
-                          ),
-                        ],
+                            ///Product Basic Details
+                            titleField(),
+                            priceField(),
+                            // stockField(),
+                            // discountField(),
+                            // descriptionField(),
+                            // weightAndDimensionsSection(),
+                            // variantAdditionField(context),
+                            // Obx(() => viewModel.showVariantsTable.value ? variantsTable() : const SizedBox()),
+                            // productVariantsAndFeaturesField(),
+                            const SizedBox(height: 40),
+                            // CustomTextBtn(
+                            //   onPressed: () {
+                            //     viewModel.creatingVariants();
+                            //     viewModel.addProdBtnPress();
+                              // },
+                              // title: 'Add Product',
+                            // ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget stepperText() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: RichText(
+        text: const TextSpan(
+          children: [
+            TextSpan(
+              text: 'Product Info',
+              style: TextStyle(
+                color: Colors.blue,
+                fontSize: 14,
+                fontWeight: FontWeight.w500
+              ),
+            ),
+            TextSpan(
+              text: '  /  ',
+              style: TextStyle(
+                color: kLightColor,
+                fontSize: 14,
+                fontWeight: FontWeight.w300
+              )
+            ),
+            TextSpan(
+              text: 'Pricing and Shipping',
+              style: TextStyle(
+                  color: kLightColor,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w300
+              )
+            ),
+            TextSpan(
+                text: '  /  ',
+                style: TextStyle(
+                    color: kLightColor,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w300
+                )
+            ),
+            TextSpan(
+                text: 'Variants',
+                style: TextStyle(
+                    color: kLightColor,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w300
+                )
+            ),
+          ]
+        ),
+      ),
+    );
+  }
+
+  Widget titleField() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 12.0),
+      child: CustomTextField2(
+        title: langKey.productTitle.tr,
+        hintText: langKey.productName.tr,
+        controller: viewModel.prodTitleController,
+        autoValidateMode: AutovalidateMode.onUserInteraction,
+        // validator: (value) {
+        //   return Validator()
+        //       .validateName(value, errorToPrompt: langKey.productNameReq.tr);
+        // },
+        keyboardType: TextInputType.name,
+      ),
+    );
+  }
+
+  Widget descriptionField() {
+    return SizedBox(
+      child: Column(
+        children: [
+          ToolBar(
+            // toolBarConfig: viewModel.customToolBarList,
+              controller: viewModel.prodDescriptionController,
+            toolBarColor: kDescriptionToolbarColor,
+            iconColor: const Color(0xff929AAB),
+          ),
+          QuillHtmlEditor(
+            hintText: 'Enter Text',
+            hintTextStyle: const TextStyle(color: Colors.black, fontWeight: FontWeight.normal, fontSize: 14),
+            backgroundColor: kContainerFillColor,
+              controller: viewModel.prodDescriptionController,
+              minHeight: Get.height * 0.5
+          ),
+        ],
       ),
     );
   }
@@ -99,6 +197,7 @@ class AddProductView extends StatelessWidget {
         ListView.builder(
             padding: const EdgeInsets.only(bottom: 10),
             shrinkWrap: true,
+            physics: const ScrollPhysics(),
             itemCount: viewModel.listOfOptionsAdded.length,
             itemBuilder: (context, index) {
               TextEditingController optionName = TextEditingController();
@@ -112,9 +211,13 @@ class AddProductView extends StatelessWidget {
                       SizedBox(
                         width: 200,
                         child: CustomTextField2(
-                          enabled: false,
+                          enabled: optionName.text == '' ? true : false,
                           title: 'Option Name',
                           controller: optionName,
+                          onChanged: (value) {
+                            viewModel.finalCombinationsList[index].variantName = value;
+                            viewModel.finalCombinationsList.refresh();
+                          },
                         ),
                       ),
                       SizedBox(
@@ -123,6 +226,7 @@ class AddProductView extends StatelessWidget {
                         child: IconButton(
                             onPressed: () {
                               viewModel.listOfOptionsAdded.removeAt(index);
+                              viewModel.listOfOptionsAdded.refresh();
                             },
                             icon: const Icon(
                               Icons.delete_outline_rounded, size: 30,
@@ -138,6 +242,7 @@ class AddProductView extends StatelessWidget {
                   ),
                   Obx(() =>
                       ListView.builder(
+                        physics: const ScrollPhysics(),
                           shrinkWrap: true,
                           itemCount: viewModel.listOfOptionsAdded[index].optionValues?.length,
                           itemBuilder: (context, optionIndex) {
@@ -245,6 +350,11 @@ class AddProductView extends StatelessWidget {
             ),
             TextButton(
               onPressed: () async {
+                await viewModel.creatingVariants();
+                viewModel.locationSelected.value = viewModel.locationsList[0].id!;
+                // print(viewModel.locationSelected.value);
+                viewModel.showVariantsTable.value = true;
+                viewModel.showVariantsField.value = false;
                 // await variantSelectionDialog();
                 // viewModel.showVariantsField.value = true;
               },
@@ -264,6 +374,68 @@ class AddProductView extends StatelessWidget {
             alignment: Alignment.centerLeft, child: Text('Add Variants'))));
   }
 
+  Widget variantsTable() {
+    return Container(
+      color: Colors.grey.shade100,
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+      child: Column(
+        children: [
+          CustomDropDownList1(
+              value: viewModel.locationSelected,
+              onChanged: (value) {
+                viewModel.locationSelected.value = value;
+              },
+              list: viewModel.locationsList
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Align(
+            alignment: Alignment.centerRight,
+            child: IconButton(
+                onPressed: (){},
+                icon: const Icon(
+                    Icons.more_horiz_rounded,
+                  size: 20,
+                  color: Colors.black,
+                )
+            ),
+          ),
+          ListView.builder(
+            shrinkWrap: true,
+            physics: const ScrollPhysics(),
+            itemCount: viewModel.finalCombinationsList.length,
+            itemBuilder: (context, index){
+              return Row(
+                children: [
+                  Checkbox(
+                      value: viewModel.finalCombinationsList[index].variantSelected,
+                      onChanged: (value) {
+                        viewModel.finalCombinationsList[index].variantSelected = value;
+                        viewModel.finalCombinationsList.refresh();
+                      },
+                  ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  Text(
+                    viewModel.finalCombinationsList[index].variantName!,
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w400
+                    ),
+                  ),
+
+                ],
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+  
   Future variantSelectionDialog() {
     return showModalBottomSheet(
         context: Get.context!,
@@ -304,19 +476,34 @@ class AddProductView extends StatelessWidget {
                     return BottomSheetItem(
                         title: viewModel.optionsList[index],
                       onTap: () {
-                          if(viewModel.listOfOptionsAdded.contains(viewModel.optionsList[index])){
+                          if(viewModel.optionsChosen.contains(viewModel.optionsList[index])){
                             AppConstant.displaySnackBar('Error', 'Option Already Selected');
                           } else {
-                            viewModel.selectedOption.value =
-                            viewModel.optionsList[index];
-                            viewModel.listOfOptionsAdded.add(
+                            if (viewModel.optionsList[index] == 'Other') {
+                              viewModel.listOfOptionsAdded.add(
+                                VariantsOptionsFieldModel(
+                                  optionName: '',
+                                  optionValues: <TextEditingController>[TextEditingController()]
+                                )
+                              );
+                              viewModel.listOfOptionsAdded.refresh();
+                              Navigator.pop(context);
+                            } else {
+                              viewModel.selectedOption.value =
+                              viewModel.optionsList[index];
+                              viewModel.listOfOptionsAdded.add(
                                 VariantsOptionsFieldModel(
                                     optionName: viewModel.optionsList[index],
-                                  optionValues: <TextEditingController>[TextEditingController()]
+                                    optionValues: <TextEditingController>[
+                                      TextEditingController()
+                                    ]
                                 ),
-                            );
-                            viewModel.listOfOptionsAdded.refresh();
-                            Navigator.pop(context);
+                              );
+                              viewModel.optionsChosen.add(viewModel.optionsList[index]);
+                              viewModel.listOfOptionsAdded.refresh();
+                              viewModel.optionsChosen.refresh();
+                              Navigator.pop(context);
+                            }
                           }
                       },
                     );
@@ -449,35 +636,172 @@ class AddProductView extends StatelessWidget {
     );
   }
 
-  Widget nameField() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 12.0),
-      child: CustomTextField3(
-        title: 'Name',
-        controller: viewModel.prodNameController,
-        autoValidateMode: AutovalidateMode.onUserInteraction,
-        // validator: (value) {
-        //   return Validator()
-        //       .validateName(value, errorToPrompt: langKey.productNameReq.tr);
-        // },
-        keyboardType: TextInputType.name,
-      ),
-    );
-  }
-
   Widget priceField() {
     return Padding(
       padding: EdgeInsets.only(top: viewModel.fieldsPaddingSpace),
       child: Column(
         children: [
-          CustomTextField3(
-            inputFormatters: [
-              FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-              FilteringTextInputFormatter.digitsOnly
-            ],
+          CustomTextField2(
+            readOnly: true,
+            onTap: () {
+              showModalBottomSheet(
+                  isScrollControlled: true,
+                  context: Get.context!,
+                  builder: (BuildContext context) {
+                    return Container(
+                      color: Colors.white,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+                        child: Wrap(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Set Price',
+                                    style: GoogleFonts.lato(
+                                      color: newColorBlue,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                  IconButton(
+                                    visualDensity: VisualDensity.compact,
+                                    onPressed: () {
+                                      Get.back();
+                                    },
+                                    icon: const Icon(Icons.close),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            // const Divider(),
+                            Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+                                decoration: const BoxDecoration(
+                                  color: kContainerFillColor,
+                                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      'Pricing',
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w600
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8,),
+                                    CustomTextField2(
+                                      title: 'Price',
+                                      titleColor: newColorLightGrey2,
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
+                                        FilteringTextInputFormatter.digitsOnly
+                                      ],
+                                      hintText: 'Rs  0.00',
+                                      controller: viewModel.prodPriceController,
+                                    ),
+                                    CustomTextField2(
+                                      title: 'Compare-at-price',
+                                      titleColor: newColorLightGrey2,
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
+                                        FilteringTextInputFormatter.digitsOnly
+                                      ],
+                                      hintText: 'Rs  0.00',
+                                      controller: viewModel.prodCostPerItemController,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Obx(() => Checkbox(
+                                            side: const BorderSide(
+                                                color: Colors.blue
+                                            ),
+                                            fillColor: viewModel.chargeTaxOnProduct.value ? MaterialStateColor.resolveWith((states) => Colors.blue) : MaterialStateColor.resolveWith((states) => Colors.white),
+                                            checkColor: Colors.white,
+                                            value: viewModel.chargeTaxOnProduct.value,
+                                            onChanged: (value) {
+                                              viewModel.chargeTaxOnProduct.value = value!;
+                                            }
+                                        ),
+                                        ),
+                                        Text(
+                                          'Charge tax on this product',
+                                          style: TextStyle(
+                                            fontSize: 11,
+                                            fontWeight: FontWeight.w400
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    CustomTextField2(
+                                      title: 'Cost per item',
+                                      titleColor: newColorLightGrey2,
+                                      autoValidateMode: AutovalidateMode.onUserInteraction,
+                                      validator: (value) {
+                                        if(value == '' || value == null) {
+                                          return null;
+                                        }
+                                        if(double.tryParse(value)! > double.tryParse(viewModel.prodPriceController.text)!){
+                                          viewModel.prodProfitController.clear();
+                                          return 'Cost per item cannot be greater than Price';
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                      hintText: 'Rs  0.00',
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
+                                        FilteringTextInputFormatter.digitsOnly
+                                      ],
+                                      controller: viewModel.prodCostPerItemController,
+                                    ),
+                                    CustomTextField2(
+                                      title: 'Profit',
+                                      hintText: '--',
+                                      titleColor: newColorLightGrey2,
+                                      controller: viewModel.prodProfitController,
+                                      enabled: false,
+                                    ),
+                                    CustomTextField2(
+                                      title: 'Margin',
+                                      hintText: '--',
+                                      titleColor: newColorLightGrey2,
+                                      controller: viewModel.prodMarginController,
+                                      enabled: false,
+                                    )
+                                  ],
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    );
+                  }
+              );
+            },
+            hintText: 'Rs  0.00',
+            suffixIcon: IconButton(
+              onPressed: () {
+              },
+              icon: const Icon(
+                Icons.arrow_forward_ios_rounded,
+                color: Colors.black,
+                size: 18,
+              ),
+              ),
+            // enabled: false,
             controller: viewModel.prodPriceController,
             title: langKey.prodPrice.tr,
-            autoValidateMode: AutovalidateMode.onUserInteraction,
+            // autoValidateMode: AutovalidateMode.onUserInteraction,
             // validator: (value) {
             //   return Validator().validateDefaultTxtField(value,
             //       errorPrompt: langKey.prodPriceReq.tr);
@@ -661,23 +985,6 @@ class AddProductView extends StatelessWidget {
             ),
           )
         ],
-      ),
-    );
-  }
-
-  Widget descriptionField() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 12.0),
-      child: CustomTextField2(
-        controller: viewModel.prodDescriptionController,
-        label: langKey.description.tr,
-        prefixIcon: Icons.description_outlined,
-        autoValidateMode: AutovalidateMode.onUserInteraction,
-        // validator: (value) {
-        //   return Validator().validateDefaultTxtField(value,
-        //       errorPrompt: langKey.descriptionReq.tr);
-        // },
-        keyboardType: TextInputType.text,
       ),
     );
   }

@@ -6,8 +6,8 @@ class SignUp4ViewModel extends GetxController {
 
   @override
   void onInit()async {
-    fromSettings.value = Get.arguments['fromSettings'];
-    await getCurrentUser();
+    // fromSettings.value = Get.arguments['fromSettings'];
+    // await getCurrentUser();
     super.onInit();
   }
 

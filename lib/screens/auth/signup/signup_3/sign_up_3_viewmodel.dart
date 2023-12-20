@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../widgets/pick_image.dart';
 import 'package:ismmart_vms/models/bank_details_model.dart';
-import 'package:ismmart_vms/screens/signup/signup_4/sign_up_4_view.dart';
+
+import '../signup_4/sign_up_4_view.dart';
 
 class SignUp3ViewModel extends GetxController {
   GlobalKey<FormState> vendorSignUp3FormKey = GlobalKey<FormState>();

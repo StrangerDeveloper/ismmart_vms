@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ismmart_vms/screens/signup/signup_4/sign_up_4_viewmodel.dart';
+import 'package:ismmart_vms/screens/auth/login/login_view.dart';
+import 'package:ismmart_vms/screens/auth/signup/signup_4/sign_up_4_viewmodel.dart';
 
-import '../../../helper/constants.dart';
-import '../../../widgets/custom_button.dart';
+import '../../../../helper/constants.dart';
+import '../../../../widgets/custom_button.dart';
 
 class SignUp4View extends StatelessWidget {
   SignUp4View({Key? key}) : super(key: key);
@@ -86,6 +87,7 @@ class SignUp4View extends StatelessWidget {
           ),
           CustomBackButton(
             onTap: () {
+              Get.to(() => LogInView());
               // if(viewModel.fromSettings.value){
               //   Get.back();
               // } else {
