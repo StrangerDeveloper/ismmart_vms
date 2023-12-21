@@ -193,3 +193,73 @@ class CustomActionIcon extends StatelessWidget {
     );
   }
 }
+
+
+//FINAL VERSION...
+class CustomIconTextBtn extends StatelessWidget {
+  final String title;
+  final VoidCallback? onPressed;
+  final Color? backgroundColor;
+  final Color? foregroundColor;
+  final double height;
+  final double width;
+  final double radius;
+  final EdgeInsetsGeometry? padding;
+  final MaterialTapTargetSize? tapTargetSize;
+  final OutlinedBorder? shape;
+  final BorderSide borderSide;
+  final IconData icon;
+
+  const CustomIconTextBtn({
+    super.key,
+    this.height = 40,
+    required this.title,
+    this.width = double.infinity,
+    required this.onPressed,
+    this.backgroundColor = ThemeHelper.blue1,
+    this.foregroundColor = Colors.white,
+    this.radius = 10,
+    this.padding,
+    this.tapTargetSize,
+    this.borderSide = BorderSide.none,
+    this.shape,
+    required this.icon,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: onPressed,
+      style: TextButton.styleFrom(
+        padding: padding,
+        tapTargetSize: tapTargetSize,
+        backgroundColor: backgroundColor,
+        foregroundColor: foregroundColor,
+        minimumSize: Size(width, height),
+        side: borderSide,
+        shape: (shape != null)
+            ? shape
+            : RoundedRectangleBorder(
+          side: borderSide,
+          borderRadius: BorderRadius.circular(radius),
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: Row(
+          children: [
+            Icon(
+              icon,
+              size: 16,
+            ),
+            const SizedBox(width: 8),
+            Text(
+              title,
+              style: const TextStyle(fontSize: 12),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
