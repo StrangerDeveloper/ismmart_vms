@@ -101,7 +101,7 @@ class LocationListView extends StatelessWidget {
         ? Expanded(
             child: ListView.separated(
               padding: const EdgeInsets.all(16),
-              itemCount: 3,
+              itemCount: viewModel.dataList.length,
               itemBuilder: (context, int index) {
                 return listViewItem(index);
               },
