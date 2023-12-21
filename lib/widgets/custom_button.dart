@@ -35,7 +35,7 @@ class CustomTextBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
+    return ElevatedButton(
       onPressed: onPressed,
       style: TextButton.styleFrom(
         padding: padding,
@@ -72,7 +72,7 @@ class CustomRoundedTextBtn extends StatelessWidget {
 
   const CustomRoundedTextBtn({
     super.key,
-    this.height = 50,
+    this.height = 40,
     this.title = "",
     this.width = double.infinity,
     required this.onPressed,
@@ -173,21 +173,90 @@ class CustomActionIcon extends StatelessWidget {
         decoration: bgColor == null
             ? null
             : BoxDecoration(
-          color: bgColor ?? Colors.transparent, //?.withOpacity(0.6),
-          shape: BoxShape.circle,
-          boxShadow: [
-            if (hasShadow!)
-              BoxShadow(
-                color: kDarkColor.withOpacity(0.2),
-                offset: Offset(0, 1),
-                blurRadius: 10.7,
-              )
-          ],
-        ),
+                color: bgColor ?? Colors.transparent, //?.withOpacity(0.6),
+                shape: BoxShape.circle,
+                boxShadow: [
+                  if (hasShadow!)
+                    BoxShadow(
+                      color: kDarkColor.withOpacity(0.2),
+                      offset: Offset(0, 1),
+                      blurRadius: 10.7,
+                    )
+                ],
+              ),
         child: Icon(
           icon,
           size: size,
           color: iconColor ?? Colors.white,
+        ),
+      ),
+    );
+  }
+}
+
+//FINAL VERSION...
+class CustomIconTextBtn extends StatelessWidget {
+  final String title;
+  final VoidCallback? onPressed;
+  final Color? backgroundColor;
+  final Color? foregroundColor;
+  final double height;
+  final double width;
+  final double radius;
+  final EdgeInsetsGeometry? padding;
+  final MaterialTapTargetSize? tapTargetSize;
+  final OutlinedBorder? shape;
+  final BorderSide borderSide;
+  final IconData icon;
+
+  const CustomIconTextBtn({
+    super.key,
+    this.height = 40,
+    required this.title,
+    this.width = double.infinity,
+    required this.onPressed,
+    this.backgroundColor = ThemeHelper.blue1,
+    this.foregroundColor = Colors.white,
+    this.radius = 10,
+    this.padding,
+    this.tapTargetSize,
+    this.borderSide = BorderSide.none,
+    this.shape,
+    required this.icon,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: onPressed,
+      style: TextButton.styleFrom(
+        padding: padding,
+        tapTargetSize: tapTargetSize,
+        backgroundColor: backgroundColor,
+        foregroundColor: foregroundColor,
+        minimumSize: Size(width, height),
+        side: borderSide,
+        shape: (shape != null)
+            ? shape
+            : RoundedRectangleBorder(
+                side: borderSide,
+                borderRadius: BorderRadius.circular(radius),
+              ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: Row(
+          children: [
+            Icon(
+              icon,
+              size: 16,
+            ),
+            const SizedBox(width: 8),
+            Text(
+              title,
+              style: const TextStyle(fontSize: 12),
+            ),
+          ],
         ),
       ),
     );

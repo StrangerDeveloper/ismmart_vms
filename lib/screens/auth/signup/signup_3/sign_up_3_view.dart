@@ -10,7 +10,6 @@ import 'package:ismmart_vms/helper/constants.dart';
 import 'package:ismmart_vms/widgets/custom_button.dart';
 import 'package:ismmart_vms/widgets/custom_textfield.dart';
 
-
 class SignUp3View extends StatelessWidget {
   SignUp3View({super.key});
   final SignUp3ViewModel viewModel = Get.put(SignUp3ViewModel());
@@ -217,34 +216,37 @@ class SignUp3View extends StatelessWidget {
   }
 
   Widget bankAccountsList(BuildContext context) {
-    return Obx(() => viewModel.banksList.isEmpty ? const SizedBox() : Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8),
-        child: SizedBox(
-          height: 50,
-          child: ListView(
-            shrinkWrap: true,
-            scrollDirection: Axis.horizontal,
-            children: viewModel.banksList,
-          ),
-        )
-        ),
+    return Obx(
+      () => viewModel.banksList.isEmpty
+          ? const SizedBox()
+          : Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              child: SizedBox(
+                height: 50,
+                child: ListView(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  children: viewModel.banksList,
+                ),
+              )),
     );
   }
 
   Widget addAccountBtn() {
     return CustomRoundedTextBtn(
-        onPressed: () {
-          viewModel.banksDetails.add(BankDetailsModel(
-              accountNoOrIban: viewModel.bankAccNumberController.text,
-            accountTitle: viewModel.bankAccTitleController.text,
-            bankName: viewModel.bankNameController.text,
-          ));
-          viewModel.banksList.add(bankNameWidget(viewModel.bankNameController.text, viewModel.banksList.length));
-          viewModel.banksList.refresh();
-          viewModel.bankNameController.clear();
-          viewModel.bankAccNumberController.clear();
-          viewModel.bankAccTitleController.clear();
-        },
+      onPressed: () {
+        viewModel.banksDetails.add(BankDetailsModel(
+          accountNoOrIban: viewModel.bankAccNumberController.text,
+          accountTitle: viewModel.bankAccTitleController.text,
+          bankName: viewModel.bankNameController.text,
+        ));
+        viewModel.banksList.add(bankNameWidget(
+            viewModel.bankNameController.text, viewModel.banksList.length));
+        viewModel.banksList.refresh();
+        viewModel.bankNameController.clear();
+        viewModel.bankAccNumberController.clear();
+        viewModel.bankAccTitleController.clear();
+      },
       child: const Text(
         'Add Another Bank Account',
       ),
@@ -258,8 +260,7 @@ class SignUp3View extends StatelessWidget {
         width: 70,
         decoration: BoxDecoration(
             color: Colors.grey.shade400,
-            borderRadius: const BorderRadius.all(Radius.circular(8))
-        ),
+            borderRadius: const BorderRadius.all(Radius.circular(8))),
         child: Center(
           child: Text(
             bankName,
@@ -268,8 +269,7 @@ class SignUp3View extends StatelessWidget {
             style: TextStyle(
                 fontSize: 10,
                 fontWeight: FontWeight.w700,
-                color: Colors.grey.shade700
-            ),
+                color: Colors.grey.shade700),
           ),
         ),
       ),
@@ -334,7 +334,7 @@ class SignUp3View extends StatelessWidget {
               },
               child: RichText(
                 text: TextSpan(
-                  style: newFontStyle0.copyWith(
+                  style: newFontStyleSize14.copyWith(
                     color: newColorLightGrey2,
                   ),
                   children: [
@@ -344,7 +344,7 @@ class SignUp3View extends StatelessWidget {
                     ),
                     TextSpan(
                       text: 'Terms and Conditions',
-                      style: newFontStyle0.copyWith(
+                      style: newFontStyleSize14.copyWith(
                         decoration: TextDecoration.underline,
                         color: newColorLightGrey2,
                       ),
@@ -355,7 +355,7 @@ class SignUp3View extends StatelessWidget {
                     ),
                     TextSpan(
                       text: ' ISMMART ',
-                      style: newFontStyle0.copyWith(
+                      style: newFontStyleSize14.copyWith(
                         color: newColorBlue2,
                         fontWeight: FontWeight.w700,
                       ),
