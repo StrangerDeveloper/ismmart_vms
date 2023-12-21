@@ -1,5 +1,4 @@
 import 'package:country_code_picker/country_code_picker.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -9,7 +8,7 @@ import '../helper/constants.dart';
 
 class CustomTextField1 extends StatelessWidget {
   final String? title;
-  final String? hintText, labelText;
+  final String? hintText;
   final TextEditingController? controller;
   final TextInputType? keyboardType;
   final int maxLines;
@@ -24,10 +23,12 @@ class CustomTextField1 extends StatelessWidget {
   final ValueChanged<String>? onChanged;
   final String? errorText;
   final Color fillColor;
-  final Widget? suffixIcon;
-  final IconData? prefixIcon;
-  final double prefixIconSize;
-  final double suffixIconSize;
+  final bool filled;
+
+  // final Widget? suffixIcon;
+  // final IconData? prefixIcon;
+  // final double prefixIconSize;
+  // final double suffixIconSize;
   final EdgeInsetsGeometry contentPadding;
   final TextStyle? textStyle;
 
@@ -35,7 +36,7 @@ class CustomTextField1 extends StatelessWidget {
     super.key,
     this.contentPadding = const EdgeInsets.symmetric(
       horizontal: 10,
-      vertical: 13.5,
+      vertical: 10,
     ),
     this.asterisk = false,
     this.validator,
@@ -50,15 +51,15 @@ class CustomTextField1 extends StatelessWidget {
     this.onTap,
     this.minLines,
     this.showCursor,
-    this.suffixIcon,
-    this.prefixIconSize = 18,
-    this.suffixIconSize = 18,
-    this.fillColor = Colors.white,
-    this.prefixIcon,
+    // this.suffixIcon,
+    // this.prefixIconSize = 18,
+    // this.suffixIconSize = 18,
+    this.fillColor = ThemeHelper.grey3,
+    // this.prefixIcon,
     this.errorText,
     this.readOnly = false,
-    this.labelText,
     this.textStyle,
+    this.filled = true,
   });
 
   @override
@@ -69,12 +70,11 @@ class CustomTextField1 extends StatelessWidget {
         (title == null)
             ? Container()
             : Padding(
-                padding: const EdgeInsets.only(bottom: 5),
+                padding: const EdgeInsets.only(bottom: 8.5),
                 child: RichText(
                   text: TextSpan(
                     text: title,
                     style: const TextStyle(
-                      //fontSize: 12,
                       color: Colors.black,
                       fontWeight: FontWeight.w500,
                     ),
@@ -84,7 +84,7 @@ class CustomTextField1 extends StatelessWidget {
                               text: '*',
                               style: TextStyle(
                                 color: Colors.red,
-                                fontSize: 16.0,
+                                fontSize: 16,
                               ),
                             )
                           : const TextSpan(text: '')
@@ -94,39 +94,40 @@ class CustomTextField1 extends StatelessWidget {
               ),
         TextFormField(
           onChanged: onChanged,
-          showCursor: showCursor,
+          showCursor: readOnly ? false : showCursor,
           readOnly: readOnly,
           autovalidateMode: autoValidateMode,
           obscureText: obscureText,
           validator: validator,
           onTap: onTap,
-          // style: bodyText1,
-          // cursorColor: kPrimaryColor,
+          style: bodyText1,
           decoration: InputDecoration(
             contentPadding: contentPadding,
-            suffixIcon: suffixIcon,
-            //fillColor: fillColor,
-            //filled: true,
-            labelText: labelText,
-            labelStyle: textStyle,
+            fillColor: fillColor,
+            filled: filled,
             hintText: hintText,
+            hintStyle: const TextStyle(
+              color: ThemeHelper.grey2,
+              fontWeight: FontWeight.w400,
+              fontSize: 14,
+            ),
             isDense: true,
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: const BorderSide(width: 1, color: ThemeHelper.grey1),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide:
+                  const BorderSide(width: 1.5, color: ThemeHelper.grey1),
+            ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
               borderSide: const BorderSide(width: 1),
             ),
-            hintStyle: const TextStyle(color: Colors.black45),
             focusedErrorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(width: 1.5),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(width: 1.5),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(width: 1),
+              borderSide: const BorderSide(width: 1.3),
             ),
           ),
           controller: controller,
