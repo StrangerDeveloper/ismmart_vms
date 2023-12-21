@@ -35,7 +35,7 @@ class CustomTextBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
+    return ElevatedButton(
       onPressed: onPressed,
       style: TextButton.styleFrom(
         padding: padding,
@@ -72,7 +72,7 @@ class CustomRoundedTextBtn extends StatelessWidget {
 
   const CustomRoundedTextBtn({
     super.key,
-    this.height = 50,
+    this.height = 40,
     this.title = "",
     this.width = double.infinity,
     required this.onPressed,
@@ -173,17 +173,17 @@ class CustomActionIcon extends StatelessWidget {
         decoration: bgColor == null
             ? null
             : BoxDecoration(
-          color: bgColor ?? Colors.transparent, //?.withOpacity(0.6),
-          shape: BoxShape.circle,
-          boxShadow: [
-            if (hasShadow!)
-              BoxShadow(
-                color: kDarkColor.withOpacity(0.2),
-                offset: Offset(0, 1),
-                blurRadius: 10.7,
-              )
-          ],
-        ),
+                color: bgColor ?? Colors.transparent, //?.withOpacity(0.6),
+                shape: BoxShape.circle,
+                boxShadow: [
+                  if (hasShadow!)
+                    BoxShadow(
+                      color: kDarkColor.withOpacity(0.2),
+                      offset: Offset(0, 1),
+                      blurRadius: 10.7,
+                    )
+                ],
+              ),
         child: Icon(
           icon,
           size: size,

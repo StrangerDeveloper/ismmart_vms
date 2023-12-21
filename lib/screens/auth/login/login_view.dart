@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:ismmart_vms/helper/global_variables.dart';
 import 'package:ismmart_vms/helper/routes.dart';
 import 'package:ismmart_vms/helper/validator.dart';
@@ -11,6 +12,7 @@ import 'package:ismmart_vms/widgets/obscure_suffix_icon.dart';
 import 'package:ismmart_vms/widgets/scrollable_column.dart';
 import 'package:ismmart_vms/helper/languages/translations_key.dart' as langKey;
 
+import '../../../helper/constants.dart';
 import '../signup/signup_1/sign_up_1_view.dart';
 import 'login_viewmodel.dart';
 
@@ -24,49 +26,48 @@ class LogInView extends StatelessWidget {
       top: false,
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: Stack(
-          children: [
-            Form(
-              key: viewModel.signInFormKey,
-              child: ScrollableColumn(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  titleAndBackBtn(),
-                  const Spacer(),
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(top: 20, bottom: 10, left: 20),
-                    child: CustomText(
-                      title: '${langKey.welcome.tr}!',
+        body: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 25),
+          child: Stack(
+            children: [
+              Form(
+                key: viewModel.signInFormKey,
+                child: ScrollableColumn(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    titleAndBackBtn(),
+                    const Spacer(),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 52, bottom: 10),
+                      child: CustomText(
+                        title: 'Welcome Back!',
+                        style: newFontStyleSize20,
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(left: 20, right: 20, bottom: 25),
-                    child: Text(
-                      langKey.seamlessShopping.tr,
-                    ),
-                  ),
-                  emailTextField(),
-                  passwordTextField(),
-                  forgotPassword(),
-                  logInBtn(),
-                  signUpBtn(),
+                    Padding(
+                        padding: const EdgeInsets.only(
+                            right: 20, bottom: 25, top: 8),
+                        child: Text(
+                            'Please login or sign up to continue our app',
+                            style: newFontStyleSize14)),
+                    emailTextField(),
+                    passwordTextField(),
+                    forgotPassword(),
+                    logInBtn(),
 
-                  or(),
-                  googlelogInBtn(),
-                  facebooklogInBtn(),
-                  applelogInBtn(),
-                  const Spacer(),
-                  doNotHaveAnAccount(),
-                  //BecomeVendor(),
-                ],
+                    or(),
+                    googlelogInBtn(),
+                    // facebooklogInBtn(),
+                    applelogInBtn(),
+                    doNotHaveAnAccount(),
+                  ],
+                ),
               ),
-            ),
-            // NoInternetView(
-            //   onPressed: () => viewModel.signIn(),
-            // ),
-          ],
+              // NoInternetView(
+              //   onPressed: () => viewModel.signIn(),
+              // ),
+            ],
+          ),
         ),
       ),
     );
@@ -74,7 +75,7 @@ class LogInView extends StatelessWidget {
 
   Widget titleAndBackBtn() {
     return Container(
-      padding: const EdgeInsets.only(left: 20, top: 30),
+      padding: const EdgeInsets.only(left: 58, right: 57),
       width: double.infinity,
       child: Stack(
         alignment: Alignment.centerLeft,
@@ -82,7 +83,7 @@ class LogInView extends StatelessWidget {
           Align(
             alignment: Alignment.center,
             child: Text(
-              langKey.login.tr,
+              "Login",
               style: TextStyle(
                 fontSize: 32,
               ),
@@ -100,10 +101,10 @@ class LogInView extends StatelessWidget {
 
   Widget emailTextField() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.only(top: 32),
       child: CustomTextField3(
-        title: langKey.email.tr,
-        hintText: 'asha****iq11@gmail.com',
+        title: 'Email / Phone Number',
+        hintText: 'test@gmail.com / 033512345678',
         controller: viewModel.emailController,
         autoValidateMode: AutovalidateMode.onUserInteraction,
         validator: (value) {
@@ -117,11 +118,11 @@ class LogInView extends StatelessWidget {
   Widget passwordTextField() {
     return Obx(
       () => Padding(
-        padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
+        padding: const EdgeInsets.only(top: 16, right: 20),
         child: CustomTextField3(
           controller: viewModel.passwordController,
-          title: langKey.password.tr,
-          hintText: '● ● ● ● ● ● ● ● ● ●',
+          title: "Password",
+          hintText: '***********',
           autoValidateMode: AutovalidateMode.onUserInteraction,
           validator: (value) {
             return Validator().validateDefaultTxtField(value,
@@ -165,9 +166,9 @@ class LogInView extends StatelessWidget {
             const SizedBox(
               width: 5,
             ),
-            const Text(
-              "Continue in with Google",
-              //style: newFontStyle3,
+            Text(
+              'Sign in with Gmail',
+              style: newFontStyleSize14.copyWith(fontWeight: FontWeight.w500),
             ),
           ],
         ),
@@ -241,8 +242,9 @@ class LogInView extends StatelessWidget {
             const SizedBox(
               width: 5,
             ),
-            const Text(
-              "Continue with Apple ID",
+            Text(
+              "Signin with Apple ID",
+              style: newFontStyleSize14.copyWith(fontWeight: FontWeight.w500),
             ),
           ],
         ),
@@ -330,15 +332,28 @@ class LogInView extends StatelessWidget {
 
   Widget logInBtn() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 20, 20, 25),
+      padding: const EdgeInsets.only(top: 32),
       child: Obx(
         () => GlobalVariable.showLoader.value
             ? const CustomLoading(isItBtn: true)
             : CustomRoundedTextBtn(
                 backgroundColor: Colors.deepPurple,
-                child: Text(
-                  langKey.login.tr,
-                  //style: newFontStyle3,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Login",
+                      style: newFontStyleSize14.copyWith(
+                          fontWeight: FontWeight.w500, color: kWhiteColor),
+                    ),
+                    SizedBox(
+                      width: 2,
+                    ),
+                    Icon(
+                      Icons.arrow_right_alt,
+                      size: 20,
+                    ),
+                  ],
                 ),
                 onPressed: () {
                   Get.offNamed(Routes.dashboard);
@@ -372,66 +387,74 @@ class LogInView extends StatelessWidget {
 
   Widget forgotPassword() {
     return Container(
-      margin: const EdgeInsets.only(bottom: 20, right: 10, top: 10),
+      margin: const EdgeInsets.only(bottom: 20, right: 10, top: 2),
       alignment: Alignment.centerRight,
       child: InkWell(
-        onTap: () {
-          Get.toNamed(Routes.forgotPassword1, arguments: {
-            'email': GetUtils.isEmail(viewModel.emailController.text)
-                ? viewModel.emailController.text
-                : ''
-          });
-        },
-        child: Text(
-          langKey.forgotPassword.tr,
-        ),
-      ),
+          onTap: () {
+            Get.toNamed(Routes.forgotPassword1, arguments: {
+              'email': GetUtils.isEmail(viewModel.emailController.text)
+                  ? viewModel.emailController.text
+                  : ''
+            });
+          },
+          child: CustomText(
+            title: 'Forget Password?',
+            style: newFontStyleSize14.copyWith(fontWeight: FontWeight.w500),
+          )),
     );
   }
 
   Widget or() {
-    return Row(
-      children: [
-        const Expanded(
-          child: Divider(
-            //color: newColorLightGrey,
-            thickness: 1,
+    return Padding(
+      padding: const EdgeInsets.only(top: 16, bottom: 16),
+      child: Row(
+        children: [
+          const Expanded(
+            child: Divider(
+              //color: newColorLightGrey,
+              thickness: 1,
+            ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Text(
-            langKey.or.tr,
-            //style: newFontStyle4,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Text(
+              langKey.or.tr,
+              //style: newFontStyle4,
+            ),
           ),
-        ),
-        const Expanded(
-          child: Divider(
-            //color: newColorLightGrey,
-            thickness: 1,
+          const Expanded(
+            child: Divider(
+              //color: newColorLightGrey,
+              thickness: 1,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
   Widget doNotHaveAnAccount() {
-    return Center(
-      child: InkWell(
-        borderRadius: BorderRadius.circular(12),
-        onTap: () {
-          //Get.offNamed(Routes.registerRoute);
-        },
-        child: RichText(
-          text: TextSpan(
-            children: [
-              TextSpan(
-                text: '${langKey.donTHaveAccount.tr} ',
-              ),
-              TextSpan(
-                text: langKey.signUp.tr,
-              ),
-            ],
+    return Padding(
+      padding: const EdgeInsets.only(top: 133),
+      child: Center(
+        child: InkWell(
+          borderRadius: BorderRadius.circular(12),
+          onTap: () {
+            //Get.offNamed(Routes.registerRoute);
+          },
+          child: RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                    text: 'Don’t have an account?',
+                    style:
+                        newFontStyleSize14.copyWith(color: newColorLightGrey2)),
+                TextSpan(
+                    text: " Create Account",
+                    style: newFontStyleSize14.copyWith(
+                        fontWeight: FontWeight.w700)),
+              ],
+            ),
           ),
         ),
       ),

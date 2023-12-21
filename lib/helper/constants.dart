@@ -31,7 +31,7 @@ Color kGrey800 = Colors.grey[800]!;
 const kDarkColor = Color(0xFF303030);
 const kTransparent = Colors.transparent;
 const newColorNavyBlue = Color(0xff0C1A30);
-const newColorDarkBlack = Color(0xff0E1216);
+const newColorDarkBlack = Color(0xFF24272C);
 const newColorDarkBlack2 = Color(0xff24282D);
 const newColorLightGrey = Color(0xffEEEEEE);
 const newColorLightGrey2 = Color(0xff929AAB);
@@ -139,26 +139,33 @@ var dmSerifDisplay1 = GoogleFonts.dmSerifDisplay(
   fontSize: 14,
 );
 
-var newFontStyle0 = GoogleFonts.dmSans(
-  fontWeight: FontWeight.w400,
-  fontSize: 14,
-);
-var newFontStyle1 = GoogleFonts.dmSans(
+var newFontStyleSize14 = GoogleFonts.inter(
+    fontWeight: FontWeight.w400,
+    fontSize: 14,
+    height: 0.11,
+    color: newColorDarkBlack);
+var newFontStyle1 = GoogleFonts.inter(
   fontWeight: FontWeight.w500,
   color: newColorNavyBlue,
 );
-var newFontStyle2 = GoogleFonts.dmSans(
+var newFontStyle2 = GoogleFonts.inter(
   fontWeight: FontWeight.w700,
   color: newColorNavyBlue,
 );
-var newFontStyle3 = GoogleFonts.dmSans(
+var newFontStyle3 = GoogleFonts.inter(
   fontSize: 16,
   fontWeight: FontWeight.w700,
 );
-var newFontStyle4 = GoogleFonts.dmSans(
+var newFontStyle4 = GoogleFonts.inter(
   fontSize: 16,
   fontWeight: FontWeight.w400,
   color: newColorNavyBlue,
+);
+var newFontStyleSize20 = GoogleFonts.inter(
+  fontSize: 20,
+  fontWeight: FontWeight.w700,
+  color: newColorDarkBlack,
+  height: 0.07,
 );
 
 class AppConstant {

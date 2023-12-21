@@ -1,4 +1,5 @@
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -193,7 +194,7 @@ class CustomTextField2 extends StatelessWidget {
             child: Text(
               title!,
               style: GoogleFonts.dmSans(
-                  fontSize: 14,
+                fontSize: 14,
                 fontWeight: FontWeight.w500,
                 color: titleColor,
               ),
@@ -242,23 +243,24 @@ class CustomTextField2 extends StatelessWidget {
             filled: true,
             fillColor: kContainerFillColor,
             hintText: hintText,
-            hintStyle: GoogleFonts.dmSans(
-              color: newColorLightGrey2
-            ),
+            hintStyle: GoogleFonts.dmSans(color: newColorLightGrey2),
 
             errorStyle: GoogleFonts.lato(
               color: Colors.red,
             ),
             disabledBorder: OutlineInputBorder(
-              borderSide: const BorderSide(color: kTextfieldBorderColor, width: 0.8),
+              borderSide:
+                  const BorderSide(color: kTextfieldBorderColor, width: 0.8),
               borderRadius: BorderRadius.circular(9),
             ),
             enabledBorder: OutlineInputBorder(
-              borderSide: const BorderSide(color: kTextfieldBorderColor, width: 0.8),
+              borderSide:
+                  const BorderSide(color: kTextfieldBorderColor, width: 0.8),
               borderRadius: BorderRadius.circular(9),
             ),
             focusedBorder: OutlineInputBorder(
-              borderSide: const BorderSide(color: kTextfieldBorderColor, width: 1.1),
+              borderSide:
+                  const BorderSide(color: kTextfieldBorderColor, width: 1.1),
               borderRadius: BorderRadius.circular(8),
             ),
             errorBorder: OutlineInputBorder(
@@ -280,6 +282,7 @@ class CustomTextField3 extends StatelessWidget {
   final String? title;
   final String? hintText;
   final Widget? suffixIcon;
+  final Widget? prefixIcon;
   final EdgeInsetsGeometry? contentPadding;
   final bool obscureText;
   final TextEditingController? controller;
@@ -301,6 +304,7 @@ class CustomTextField3 extends StatelessWidget {
     this.contentPadding = EdgeInsets.zero,
     this.controller,
     this.suffixIcon,
+    this.prefixIcon,
     this.obscureText = false,
     this.hintText,
     this.title,
@@ -325,11 +329,8 @@ class CustomTextField3 extends StatelessWidget {
               child: RichText(
                 text: TextSpan(
                   text: title!,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                    color: newColorDarkBlack2,
-                  ),
+                  style: newFontStyleSize14.copyWith(
+                      fontWeight: FontWeight.w500, color: newColorDarkBlack),
                   children: [
                     if (required)
                       const TextSpan(
@@ -357,13 +358,14 @@ class CustomTextField3 extends StatelessWidget {
             obscuringCharacter: '●',
             decoration: InputDecoration(
               hintText: hintText,
-              hintStyle: newFontStyle0.copyWith(
+              hintStyle: newFontStyleSize14.copyWith(
                 color: newColorLightGrey2,
               ),
-              contentPadding: const EdgeInsets.only(top: 8, bottom: 10),
+              contentPadding: const EdgeInsets.only(top: 2, bottom: 2),
               suffixIcon: suffixIcon,
+              prefix: prefixIcon,
               suffixIconConstraints: BoxConstraints.tight(const Size(40, 25)),
-              errorStyle: GoogleFonts.dmSans(
+              errorStyle: GoogleFonts.inter(
                 fontSize: 13,
                 color: Colors.red.shade700,
               ),
@@ -535,7 +537,8 @@ class CountryCodePickerTextField2 extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
   final String? hintText;
 
-  const CountryCodePickerTextField2({super.key,
+  const CountryCodePickerTextField2({
+    super.key,
     this.validator,
     this.autoValidateMode,
     this.controller,
@@ -589,7 +592,7 @@ class CountryCodePickerTextField2 extends StatelessWidget {
           onChanged: onPhoneFieldChange,
           decoration: InputDecoration(
             hintText: hintText,
-            hintStyle: newFontStyle0.copyWith(
+            hintStyle: newFontStyleSize14.copyWith(
               color: ThemeHelper.fadedBlue,
             ),
             errorText: errorText,
@@ -620,7 +623,7 @@ class CountryCodePickerTextField2 extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  textStyle: newFontStyle0.copyWith(
+                  textStyle: newFontStyleSize14.copyWith(
                     color: Colors.black,
                   ),
                   enabled: enabled,
