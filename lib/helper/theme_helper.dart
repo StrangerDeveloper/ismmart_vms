@@ -6,6 +6,7 @@ class ThemeHelper {
   static const grey1 = Color(0xffEEEEEE);
   static const grey2 = Color(0xff929AAB);
   static const grey3 = Color(0xffF9FAFB);
+  static const grey4 = Color(0xFF6F6F6F);
 
   static const MaterialColor plattet1 =
       MaterialColor(_platter1PrimaryValue, <int, Color>{
