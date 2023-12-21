@@ -19,14 +19,14 @@ class CustomTextBtn extends StatelessWidget {
 
   const CustomTextBtn({
     super.key,
-    this.height = 44,
+    this.height = 40,
     this.title = "",
     this.width = double.infinity,
     required this.onPressed,
-    this.backgroundColor = ThemeHelper.primary,
+    this.backgroundColor = ThemeHelper.blue1,
     this.foregroundColor = Colors.white,
     this.child,
-    this.radius = 6,
+    this.radius = 8,
     this.padding,
     this.tapTargetSize,
     this.borderSide = BorderSide.none,
@@ -35,7 +35,7 @@ class CustomTextBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
+    return TextButton(
       onPressed: onPressed,
       style: TextButton.styleFrom(
         padding: padding,
@@ -51,7 +51,11 @@ class CustomTextBtn extends StatelessWidget {
                 borderRadius: BorderRadius.circular(radius),
               ),
       ),
-      child: child ?? Text(title),
+      child: child ??
+          Text(
+            title,
+            style: const TextStyle(fontSize: 12),
+          ),
     );
   }
 }
