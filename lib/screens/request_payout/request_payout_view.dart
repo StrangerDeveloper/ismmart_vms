@@ -34,7 +34,7 @@ class RequestPayoutView extends StatelessWidget {
               onChanged: (value) {
                 viewModel.transferMethodValue.value = value;
               },
-              list: viewModel.transferMethodList,
+              dropdownList: viewModel.transferMethodList,
             ),
             const SizedBox(height: 10),
             CustomTextBtn(

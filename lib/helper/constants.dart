@@ -81,6 +81,18 @@ var poppinsH2 = GoogleFonts.poppins(
   color: Colors.white,
 );
 
+var dmSansHeading = GoogleFonts.dmSans(
+  fontSize: 14,
+  fontWeight: FontWeight.w500,
+  color: Colors.black
+);
+
+var dmSansNormalText = GoogleFonts.dmSans(
+  fontWeight: FontWeight.w400,
+  fontSize: 12,
+  color: Colors.black
+);
+
 /*var headline1 = GoogleFonts.poppins(
     fontSize: 30, color: kGrey900, fontWeight: FontWeight.bold);
 var headline2 = GoogleFonts.poppins(

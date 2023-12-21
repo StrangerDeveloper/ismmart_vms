@@ -48,7 +48,7 @@ class ShippingMethodsView extends StatelessWidget {
         onChanged: (value) {
           viewModel.shippingMethod.value = value;
         },
-        list: viewModel.shippingMethodList,
+        dropdownList: viewModel.shippingMethodList,
       ),
     );
   }
@@ -108,7 +108,7 @@ class ShippingMethodsView extends StatelessWidget {
         onChanged: (value) {
           viewModel.ratesType.value = value;
         },
-        list: viewModel.ratesTypeList,
+        dropdownList: viewModel.ratesTypeList,
       ),
     );
   }
