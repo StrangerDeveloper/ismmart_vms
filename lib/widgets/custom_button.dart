@@ -68,6 +68,7 @@ class CustomRoundedTextBtn extends StatelessWidget {
   final MaterialTapTargetSize? tapTargetSize;
   final OutlinedBorder? shape;
   final BorderSide borderSide;
+  final double borderRadius;
 
   const CustomRoundedTextBtn({
     super.key,
@@ -79,6 +80,7 @@ class CustomRoundedTextBtn extends StatelessWidget {
     this.foregroundColor = Colors.white,
     this.child,
     this.padding,
+    this.borderRadius = 30,
     this.tapTargetSize,
     this.borderSide = BorderSide.none,
     this.shape,
@@ -99,7 +101,7 @@ class CustomRoundedTextBtn extends StatelessWidget {
             ? shape
             : RoundedRectangleBorder(
                 side: borderSide,
-                borderRadius: BorderRadius.circular(30),
+                borderRadius: BorderRadius.circular(borderRadius ?? 30),
               ),
       ),
       child: child ?? Text(title),
