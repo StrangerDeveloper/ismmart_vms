@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:ismmart_vms/helper/constants.dart';
 import 'package:ismmart_vms/widgets/widget_models/dropdown_model.dart';
 
 class CustomDropDownList1 extends StatelessWidget {
   final String? title;
   final bool asterisk;
   final RxString value;
+  final String? hintText;
   final ValueChanged? onChanged;
-  final List<DropDownModel> list;
+  final List<DropDownModel>? dropdownList;
+  final List<MultiSelectModel>? multiSelectDropdownList;
   final FormFieldValidator<String>? validator;
   final AutovalidateMode? autoValidateMode;
   final String? labelText;
@@ -17,8 +21,10 @@ class CustomDropDownList1 extends StatelessWidget {
     super.key,
     this.title,
     required this.value,
+    this.hintText,
     required this.onChanged,
-    required this.list,
+    this.dropdownList,
+    this.multiSelectDropdownList,
     this.asterisk = false,
     this.validator,
     this.autoValidateMode,
@@ -38,10 +44,10 @@ class CustomDropDownList1 extends StatelessWidget {
                 child: RichText(
                   text: TextSpan(
                     text: title,
-                    style: const TextStyle(
+                    style: GoogleFonts.dmSans(
                       color: Colors.black,
                       fontSize: 14,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w500
                     ),
                     children: [
                       (asterisk)
@@ -58,13 +64,20 @@ class CustomDropDownList1 extends StatelessWidget {
           () => DropdownButtonFormField(
             //dropdownColor: context.isDarkMode ? ThemeColors.dark2 : null,
             decoration: InputDecoration(
+              filled: true,
+              fillColor: kContainerFillColor,
+              hintText: hintText,
+              hintStyle: GoogleFonts.dmSans(
+                color: newColorLightGrey2,
+                fontWeight: FontWeight.w400
+              ),
               contentPadding: contentPadding,
               enabledBorder: OutlineInputBorder(
-                borderSide: const BorderSide(color: Colors.black, width: 0.8),
+                borderSide: const BorderSide(color: kTextfieldBorderColor, width: 0.8),
                 borderRadius: BorderRadius.circular(9),
               ),
               focusedBorder: OutlineInputBorder(
-                borderSide: const BorderSide(color: Colors.black, width: 1.1),
+                borderSide: const BorderSide(color: kTextfieldBorderColor, width: 0.8),
                 borderRadius: BorderRadius.circular(8),
               ),
               errorBorder: OutlineInputBorder(
@@ -78,15 +91,48 @@ class CustomDropDownList1 extends StatelessWidget {
             ),
             autovalidateMode: autoValidateMode,
             validator: validator,
-            iconSize: 20,
+            icon: const Icon(Icons.keyboard_arrow_down),
+            iconSize: 25,
             value: value.value,
             isExpanded: true,
             onChanged: onChanged,
-            items: list.map(
+            items: dropdownList != null ? dropdownList?.map(
               (DropDownModel dropDownItem) {
                 return DropdownMenuItem<String>(
                   value: dropDownItem.id,
-                  child: Text(dropDownItem.name ?? 'N/A'),
+                  child: Text(dropDownItem.name ?? 'N/A',
+                    style: GoogleFonts.dmSans(
+                      color: dropDownItem.id == '1' ? newColorLightGrey2 : Colors.black,
+                      fontWeight: dropDownItem.id == '1' ? FontWeight.w400 : FontWeight.w500,
+                    ),
+                  ),
+                );
+              },
+            ).toList() : multiSelectDropdownList?.map(
+                  (MultiSelectModel dropDownItem) {
+                return DropdownMenuItem<String>(
+                  value: dropDownItem.id,
+                  onTap: () {
+
+                  },
+                  child: Container(
+                    color: dropDownItem.isSelected ? kLightGreyColor : null,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(dropDownItem.name ?? 'N/A',
+                          style: GoogleFonts.dmSans(
+                            color: dropDownItem.id == '1' ? newColorLightGrey2 : Colors.black,
+                            fontWeight: dropDownItem.id == '1' ? FontWeight.w400 : FontWeight.w500,
+                          ),
+                        ),
+                        Visibility(
+                          visible: dropDownItem.isSelected,
+                          child: const Icon(Icons.check_rounded, color: Colors.black54,),
+                        )
+                      ],
+                    ),
+                  ),
                 );
               },
             ).toList(),

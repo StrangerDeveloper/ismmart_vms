@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 
 class ThemeHelper {
   static const primary = Color(0xffE88C43);
+  static const blue1 = Color(0xff3669C9);
+  static const grey1 = Color(0xffEEEEEE);
+  static const grey2 = Color(0xff929AAB);
+  static const grey3 = Color(0xffF9FAFB);
+  static const grey4 = Color(0xFF6F6F6F);
 
   static const MaterialColor plattet1 =
       MaterialColor(_platter1PrimaryValue, <int, Color>{

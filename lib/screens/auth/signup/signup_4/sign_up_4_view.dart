@@ -34,7 +34,7 @@ class SignUp4View extends StatelessWidget {
               RichText(
                 textAlign: TextAlign.center,
                 text: TextSpan(
-                  style: newFontStyle0.copyWith(
+                  style: newFontStyleSize14.copyWith(
                     color: Color(0xff667085),
                     height: 1.5,
                   ),
@@ -49,7 +49,7 @@ class SignUp4View extends StatelessWidget {
                     ),
                     TextSpan(
                       text:
-                      'will review your profile and after approval you will receive a confirmation email of your',
+                          'will review your profile and after approval you will receive a confirmation email of your',
                     ),
                     TextSpan(
                       text: ' seller account',
@@ -170,10 +170,7 @@ class SignUp4View extends StatelessWidget {
             backgroundColor: const Color(0xff0CBC8B),
             child: Text(
               'Completed',
-              style: poppinsH2.copyWith(
-                color: Colors.white,
-                fontSize: 11
-              ),
+              style: poppinsH2.copyWith(color: Colors.white, fontSize: 11),
             ),
           )
         ],
