@@ -5,6 +5,7 @@ import 'package:ismmart_vms/helper/constants.dart';
 import 'package:ismmart_vms/screens/collection/collection_view.dart';
 import 'package:ismmart_vms/screens/product_list/product_list_view.dart';
 
+import '../screens/Order/order_container/order_container_view.dart';
 import '../screens/Order/order_view.dart';
 import '../screens/auth/login/login_view.dart';
 import '../screens/setting/settings_view.dart';
@@ -53,7 +54,7 @@ class CustomDrawer extends StatelessWidget {
                     icon: Icons.add_shopping_cart,
                     onTap: () {
                       Get.back();
-                      Get.to(() => OrderView());
+                      Get.to(() => OrderContainerView());
                     },
                   ),
                   drawerItem(
