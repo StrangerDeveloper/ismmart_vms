@@ -35,11 +35,13 @@ class CustomTextField1 extends StatelessWidget {
 
   ///USAGE INFORMATION:
   ///
+  /// (Note) : Only one of these can be used at a time...
+  ///
   ///1 - suffixIconButton :- (widget) used for Clickable suffixIcon
   ///
   ///2- suffixIcon :- (IconData) used for static Icon
   ///
-  ///3- To make text-field look like a dropDown use these ( isDropDown:true,  onTap:(){} )
+  ///3- ( isDropDown:true,  onTap:(){} ) :- To make text-field look like a dropDown use these
   ///
   ///
   const CustomTextField1({
