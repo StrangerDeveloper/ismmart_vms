@@ -177,7 +177,7 @@ class OrderDetailView extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "lbl_multi_vendor".tr,
+          "Multi vendor".tr,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -194,8 +194,8 @@ class OrderDetailView extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  _customField1("Shehzad Khan"),
-                  _customField1("Rs. 4,199.00"),
+                  _customField1(order.customerName),
+                  _customField1(order.amount.toString()),
                 ],
               ),
               Padding(
