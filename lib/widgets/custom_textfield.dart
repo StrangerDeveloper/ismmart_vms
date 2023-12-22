@@ -295,9 +295,11 @@ class CustomTextField3 extends StatelessWidget {
   final void Function(String)? onChanged;
   final bool required;
   final bool enabled;
+  final Icon? textFieldIcon;
 
   const CustomTextField3({
     super.key,
+    this.textFieldIcon,
     this.showCursor,
     this.readOnly = false,
     this.onChanged,
@@ -325,7 +327,7 @@ class CustomTextField3 extends StatelessWidget {
         children: [
           if (title != null)
             Padding(
-              padding: const EdgeInsets.only(bottom: 3),
+              padding: const EdgeInsets.only(bottom: 5),
               child: RichText(
                 text: TextSpan(
                   text: title!,
@@ -341,49 +343,78 @@ class CustomTextField3 extends StatelessWidget {
                 ),
               ),
             ),
-          TextFormField(
-            keyboardType: keyboardType,
-            inputFormatters: inputFormatters,
-            validator: validator,
-            autovalidateMode: autoValidateMode,
-            showCursor: showCursor,
-            enabled: enabled,
-            readOnly: readOnly,
-            controller: controller,
-            obscureText: obscureText,
-            onChanged: onChanged,
-            // style: newFontStyle0.copyWith(
-            //   color: newColorDarkBlack2,
-            // ),
-            obscuringCharacter: '●',
-            decoration: InputDecoration(
-              hintText: hintText,
-              hintStyle: newFontStyleSize14.copyWith(
-                color: newColorLightGrey2,
+          SizedBox(
+            height: 5,
+          ),
+          Container(
+            alignment: Alignment.center,
+            height: 50,
+            padding: const EdgeInsets.only(left: 16),
+            decoration: ShapeDecoration(
+              color: Color(0xFFF9FAFB),
+              shape: RoundedRectangleBorder(
+                side: BorderSide(width: 1, color: Color(0xFFEEEEEE)),
+                borderRadius: BorderRadius.circular(8),
               ),
-              contentPadding: const EdgeInsets.only(top: 2, bottom: 2),
-              suffixIcon: suffixIcon,
-              prefix: prefixIcon,
-              suffixIconConstraints: BoxConstraints.tight(const Size(40, 25)),
-              errorStyle: GoogleFonts.inter(
-                fontSize: 13,
-                color: Colors.red.shade700,
-              ),
-              disabledBorder: const UnderlineInputBorder(
-                borderSide: BorderSide(color: Color(0xffEEEEEE)),
-              ),
-              enabledBorder: const UnderlineInputBorder(
-                borderSide: BorderSide(color: Color(0xffEEEEEE)),
-              ),
-              focusedBorder: const UnderlineInputBorder(
-                borderSide: BorderSide(color: Color(0xff929AAB)),
-              ),
-              errorBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.red.shade700, width: 0.3),
-              ),
-              focusedErrorBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.red.shade700, width: 0.6),
-              ),
+            ),
+            child: Row(
+              children: [
+                textFieldIcon != null ? textFieldIcon! : SizedBox(),
+                SizedBox(
+                  width: 5,
+                ),
+                Expanded(
+                  child: TextFormField(
+                    keyboardType: keyboardType,
+                    inputFormatters: inputFormatters,
+                    validator: validator,
+                    autovalidateMode: autoValidateMode,
+                    showCursor: showCursor,
+                    enabled: enabled,
+                    readOnly: readOnly,
+                    controller: controller,
+                    obscureText: obscureText,
+                    onChanged: onChanged,
+                    // style: newFontStyle0.copyWith(
+                    //   color: newColorDarkBlack2,
+                    // ),
+                    obscuringCharacter: '●',
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: hintText,
+                      hintStyle: newFontStyleSize14.copyWith(
+                        color: newColorLightGrey2,
+                      ),
+                      contentPadding: const EdgeInsets.only(top: 2, bottom: 2),
+                      suffixIcon: suffixIcon,
+                      prefix: prefixIcon,
+                      suffixIconConstraints:
+                          BoxConstraints.tight(const Size(40, 25)),
+                      errorStyle: GoogleFonts.inter(
+                        fontSize: 13,
+                        color: Colors.red.shade700,
+                      ),
+                      // disabledBorder: const UnderlineInputBorder(
+                      //   borderSide: BorderSide(color: Color(0xffEEEEEE)),
+                      // ),
+                      // enabledBorder: const UnderlineInputBorder(
+                      //   borderSide: BorderSide(color: Color(0xffEEEEEE)),
+                      // ),
+                      // focusedBorder: const UnderlineInputBorder(
+                      //   borderSide: BorderSide(color: Color(0xff929AAB)),
+                      // ),
+                      // errorBorder: UnderlineInputBorder(
+                      //   borderSide:
+                      //       BorderSide(color: Colors.red.shade700, width: 0.3),
+                      // ),
+                      // focusedErrorBorder: UnderlineInputBorder(
+                      //   borderSide:
+                      //       BorderSide(color: Colors.red.shade700, width: 0.6),
+                      // ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],

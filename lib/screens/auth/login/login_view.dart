@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -14,6 +15,7 @@ import 'package:ismmart_vms/helper/languages/translations_key.dart' as langKey;
 
 import '../../../helper/constants.dart';
 import '../signup/signup_1/sign_up_1_view.dart';
+import '../signup/signup_methods/singup_methods_view.dart';
 import 'login_viewmodel.dart';
 
 class LogInView extends StatelessWidget {
@@ -27,7 +29,7 @@ class LogInView extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.white,
         body: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 25),
+          padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 25),
           child: Stack(
             children: [
               Form(
@@ -46,7 +48,7 @@ class LogInView extends StatelessWidget {
                     ),
                     Padding(
                         padding: const EdgeInsets.only(
-                            right: 20, bottom: 25, top: 8),
+                            right: 20, bottom: 32, top: 16),
                         child: Text(
                             'Please login or sign up to continue our app',
                             style: newFontStyleSize14)),
@@ -84,9 +86,7 @@ class LogInView extends StatelessWidget {
             alignment: Alignment.center,
             child: Text(
               "Login",
-              style: TextStyle(
-                fontSize: 32,
-              ),
+              style: newFontStyleSize24,
             ),
           ),
           // CustomBackButton(
@@ -103,8 +103,13 @@ class LogInView extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 32),
       child: CustomTextField3(
+        textFieldIcon: Icon(
+          Icons.person,
+          color: newColorLightGrey2,
+          size: 20,
+        ),
         title: 'Email / Phone Number',
-        hintText: 'test@gmail.com / 033512345678',
+        hintText: 'Email / Phone Number',
         controller: viewModel.emailController,
         autoValidateMode: AutovalidateMode.onUserInteraction,
         validator: (value) {
@@ -118,15 +123,22 @@ class LogInView extends StatelessWidget {
   Widget passwordTextField() {
     return Obx(
       () => Padding(
-        padding: const EdgeInsets.only(top: 16, right: 20),
+        padding: const EdgeInsets.only(
+          top: 16,
+        ),
         child: CustomTextField3(
+          textFieldIcon: Icon(
+            Icons.lock,
+            color: newColorLightGrey2,
+            size: 20,
+          ),
           controller: viewModel.passwordController,
           title: "Password",
           hintText: '***********',
           autoValidateMode: AutovalidateMode.onUserInteraction,
           validator: (value) {
             return Validator().validateDefaultTxtField(value,
-                errorPrompt: langKey.passwordIsRequired.tr);
+                errorPrompt: "Password is Required");
           },
           obscureText: viewModel.obscurePassword.value ? true : false,
           suffixIcon: ObscureSuffixIcon(
@@ -176,45 +188,6 @@ class LogInView extends StatelessWidget {
           viewModel.googleLogIn();
         },
       ),
-
-      // Obx(
-      //       () => GlobalVariable.showLoader.value
-      //       ? CustomLoading(isItBtn: true)
-      //       :
-      //
-      //       CustomRoundedTextBtn(
-      //     borderSide:  BorderSide(
-      //       color: newColorDarkBlack, // your color here
-      //       width: 1,
-      //     ),
-      //     backgroundColor: kWhiteColor,
-      //     foregroundColor: newColorDarkBlack,
-      //     child: Row(
-      //       mainAxisAlignment: MainAxisAlignment.center,
-      //       children: [
-      //         ClipRRect(
-      //           child: Image.asset(
-      //             'assets/logo/google_logo.png',
-      //             width: 36,
-      //             height: 36,
-      //           ),
-      //           borderRadius: BorderRadius.circular(50.0),
-      //         ),
-      //         SizedBox(
-      //           width:5,
-      //         ),
-      //         Text(
-      //           "Continue in with Google",
-      //           style: newFontStyle3,
-      //         ),
-      //       ],),
-      //     onPressed: () {
-      //       viewModel.signInWithApple();
-      //     },
-      //   ),
-      //
-      // ),
-      //
     );
   }
 
@@ -290,43 +263,6 @@ class LogInView extends StatelessWidget {
           // viewModel.signInWithApple();
         },
       ),
-
-      // Obx(
-      //       () => GlobalVariable.showLoader.value
-      //       ? CustomLoading(isItBtn: true)
-      //       :
-      //       CustomRoundedTextBtn(
-      //     borderSide:  BorderSide(
-      //       color: newColorDarkBlack, // your color here
-      //       width: 1,
-      //     ),
-      //     backgroundColor: kWhiteColor,
-      //     foregroundColor: newColorDarkBlack,
-      //     child: Row(
-      //       mainAxisAlignment: MainAxisAlignment.center,
-      //       children: [
-      //         ClipRRect(
-      //           child: Image.asset(
-      //             'assets/logo/fb_logo.png',
-      //             width: 36,
-      //             height: 36,
-      //           ),
-      //           borderRadius: BorderRadius.circular(50.0),
-      //         ),
-      //         SizedBox(
-      //           width:5,
-      //         ),
-      //         Text(
-      //           "Continue in with Facebok",
-      //           style: newFontStyle3,
-      //         ),
-      //       ],),
-      //     onPressed: () {
-      //       viewModel.signInWithApple();
-      //     },
-      //   ),
-      //
-      // ),
     );
   }
 
@@ -337,7 +273,6 @@ class LogInView extends StatelessWidget {
         () => GlobalVariable.showLoader.value
             ? const CustomLoading(isItBtn: true)
             : CustomRoundedTextBtn(
-                backgroundColor: Colors.deepPurple,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -347,10 +282,10 @@ class LogInView extends StatelessWidget {
                           fontWeight: FontWeight.w500, color: kWhiteColor),
                     ),
                     SizedBox(
-                      width: 2,
+                      width: 4,
                     ),
                     Icon(
-                      Icons.arrow_right_alt,
+                      Icons.arrow_forward,
                       size: 20,
                     ),
                   ],
@@ -374,11 +309,9 @@ class LogInView extends StatelessWidget {
                 backgroundColor: Colors.black,
                 child: const Text(
                   "Signup",
-                  //style: newFontStyle3,
                 ),
                 onPressed: () {
                   Get.off(SignUp1View());
-                  // Get.to(DashboardView());
                 },
               ),
       ),
@@ -434,14 +367,14 @@ class LogInView extends StatelessWidget {
   }
 
   Widget doNotHaveAnAccount() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 133),
-      child: Center(
-        child: InkWell(
-          borderRadius: BorderRadius.circular(12),
-          onTap: () {
-            //Get.offNamed(Routes.registerRoute);
-          },
+    return TextButton(
+      onPressed: () {
+        print("click");
+        Get.to(() => SingupMethodsView());
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(top: 133),
+        child: Center(
           child: RichText(
             text: TextSpan(
               children: [

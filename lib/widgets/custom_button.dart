@@ -76,7 +76,7 @@ class CustomRoundedTextBtn extends StatelessWidget {
     this.title = "",
     this.width = double.infinity,
     required this.onPressed,
-    this.backgroundColor = ThemeHelper.primary,
+    this.backgroundColor = newColorBlue,
     this.foregroundColor = Colors.white,
     this.child,
     this.padding,
@@ -88,7 +88,7 @@ class CustomRoundedTextBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
+    return ElevatedButton(
       onPressed: onPressed,
       style: TextButton.styleFrom(
         padding: padding,
