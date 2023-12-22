@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:ismmart_vms/screens/add_product/add_product_1/add_product_1_view.dart';
 import 'package:ismmart_vms/screens/auth/login/login_view.dart';
+import 'package:ismmart_vms/screens/product_detail/product_detail_view.dart';
 import 'firebase_options.dart';
 import 'helper/routes.dart';
 
@@ -36,7 +37,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       //  home: SignUp3View(),
-      home: LogInView(),
+      home: AddProductView(),
       initialRoute: Routes.initRoute,
       getPages: Routes.pages,
     );

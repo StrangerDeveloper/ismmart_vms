@@ -93,6 +93,21 @@ var dmSansNormalText = GoogleFonts.dmSans(
   color: Colors.black
 );
 
+var textContainerDecoration = BoxDecoration(
+  color: kContainerFillColor,
+  borderRadius: BorderRadius.circular(8),
+  border: Border.all(
+      color: kTextfieldBorderColor,
+      width: 0.8
+  ),
+);
+
+Widget dropDownIcon = const Icon(
+  Icons.keyboard_arrow_down_rounded,
+  size: 25,
+  color: newColorLightGrey2,
+);
+
 /*var headline1 = GoogleFonts.poppins(
     fontSize: 30, color: kGrey900, fontWeight: FontWeight.bold);
 var headline2 = GoogleFonts.poppins(

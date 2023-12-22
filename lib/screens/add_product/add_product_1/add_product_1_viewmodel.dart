@@ -23,9 +23,40 @@ class AddProductViewModel extends GetxController {
   TextEditingController prodLengthController = TextEditingController();
   TextEditingController prodWidthController = TextEditingController();
   TextEditingController prodHeightController = TextEditingController();
+  TextEditingController prodTagController = TextEditingController();
+  FocusNode tagsFieldFocusNode = FocusNode();
   RxBool showVariantsField = false.obs;
   RxBool showVariantsTable = false.obs;
-  RxBool chargeTaxOnProduct = false.obs;
+  RxBool showTagsList = false.obs;
+  RxBool chargeTaxOnProduct = true.obs;
+  RxBool productPriceUpdate = false.obs;
+  RxString productType = ''.obs;
+  String productTypeId = '';
+  RxString productCategory = '1'.obs;
+  RxList<MultiSelectModel> tagsList = <MultiSelectModel>[
+    MultiSelectModel(id: '1', name: 'Black',),
+    MultiSelectModel(id: '2', name: 'Orange'),
+    MultiSelectModel(id: '3', name: 'Shoes'),
+    MultiSelectModel(id: '4', name: 'Belt'),
+    MultiSelectModel(id: '5', name: 'Accessories'),
+  ].obs;
+  RxList<MultiSelectModel> searchedTags = <MultiSelectModel>[
+    MultiSelectModel(id: '1', name: 'Black',),
+    MultiSelectModel(id: '2', name: 'Orange'),
+    MultiSelectModel(id: '3', name: 'Shoes'),
+    MultiSelectModel(id: '4', name: 'Belt'),
+    MultiSelectModel(id: '5', name: 'Accessories'),
+  ].obs;
+  RxList<MultiSelectModel> chosenTagsList = <MultiSelectModel>[].obs;
+  RxList<MultiSelectModel> chosenCategoriesList = <MultiSelectModel>[].obs;
+  RxList<MultiSelectModel> productCategoryList = <MultiSelectModel>[
+    MultiSelectModel(id: '1', name: 'Select product category'),
+    MultiSelectModel(id: '2', name: 'Vehicle'),
+    MultiSelectModel(id: '3', name: 'Hardware'),
+    MultiSelectModel(id: '4', name: 'Software'),
+    MultiSelectModel(id: '5', name: 'Eatables'),
+    MultiSelectModel(id: '6', name: 'Accessories'),
+  ].obs;
   RxList<DropDownModel> locationsList = <DropDownModel>[
     DropDownModel(
       id: '1',
@@ -42,6 +73,40 @@ class AddProductViewModel extends GetxController {
     DropDownModel(
       id: '4',
       name: 'Amanah Mall'
+    )
+  ].obs;
+  RxList<DropDownModel> productTypeList = <DropDownModel>[
+    DropDownModel(
+      id: '13',
+      name: 'Dummy 1',
+    ),
+    DropDownModel(
+      id: '12',
+      name: 'Dummy 1',
+    ),
+    DropDownModel(
+      id: '11',
+      name: 'Dummy 1',
+    ),
+    DropDownModel(
+      id: '10',
+      name: 'Dummy 1',
+    ),
+    DropDownModel(
+      id: '2',
+      name: 'Food & Beverage'
+    ),
+    DropDownModel(
+      id: '3',
+      name: 'Car'
+    ),
+    DropDownModel(
+      id: '4',
+      name: 'Electronics'
+    ),
+    DropDownModel(
+      id: '5',
+      name: 'Hardware'
     )
   ].obs;
   final customToolBarList = [
@@ -63,9 +128,7 @@ class AddProductViewModel extends GetxController {
   RxList<String> optionsList = <String>["Size", "Color", "Material", "Style", "Other"].obs;
   RxList<String> optionsChosen = <String>[].obs;
   RxString selectedOption = ''.obs;
-  RxList<VariantsOptionsFieldModel> listOfOptionsAdded = <VariantsOptionsFieldModel>[
-    // CustomDropDownList1(value: value, onChanged: onChanged, list: list)
-  ].obs;
+  RxList<VariantsOptionsFieldModel> listOfOptionsAdded = <VariantsOptionsFieldModel>[].obs;
   // RxInt numberOfOptionsAdded = 0.obs;
   RxString chooseCategory = "Select Category".obs;
   RxString chooseSubCategory = "Select sub categories".obs;
@@ -78,13 +141,14 @@ class AddProductViewModel extends GetxController {
   // List<CategoryModel> categoriesList = <CategoryModel>[].obs;
   // RxList<ProductVariantModel> productVariantsFieldsList = <ProductVariantModel>[].obs;
   RxMap<String, dynamic> dynamicFieldsValuesList = <String, dynamic>{}.obs;
-  Map<String, String>? categoryFieldList;
+  // Map<String, String>? categoryFieldList;
   List<String> combinations = [];
   RxList<VariantSelectionModel> finalCombinationsList = <VariantSelectionModel>[].obs;
   List<String> combinations2 = [];
 
   var formKey = GlobalKey<FormState>();
   var formKeyCategoryField = GlobalKey<FormState>();
+  var formPriceField = GlobalKey<FormState>();
 
   RxString discountMessage = "".obs;
   RxDouble imagesSizeInMb = 0.0.obs;
@@ -100,6 +164,14 @@ class AddProductViewModel extends GetxController {
 
   @override
   void onReady() {
+    tagsFieldFocusNode.addListener(() {
+      if(tagsFieldFocusNode.hasFocus) {
+        showTagsList.value = true;
+      } else {
+        showTagsList.value = false;
+        prodTagController.clear();
+      }
+    });
     // fetchCategories();
     // print('>>>Selected Category: ${selectedCategory.value.id}');
     super.onReady();
