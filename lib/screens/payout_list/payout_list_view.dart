@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/theme_helper.dart';
 import 'package:ismmart_vms/screens/add_location/add_location_view.dart';
+import 'package:ismmart_vms/screens/create_payout/create_payout_view.dart';
 import 'package:ismmart_vms/screens/payout_list/payout_list_viewmodel.dart';
 
 import '../../widgets/custom_button.dart';
@@ -52,7 +53,7 @@ class PayoutListView extends StatelessWidget {
           CustomIconTextBtn(
             width: double.minPositive,
             onPressed: () {
-              Get.to(() => AddLocationView());
+              Get.to(() => CreatePayoutView());
             },
             icon: CupertinoIcons.plus,
             title: 'Create Payouts',
