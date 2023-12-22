@@ -126,22 +126,18 @@ class LogInView extends StatelessWidget {
         padding: const EdgeInsets.only(
           top: 16,
         ),
-        child: CustomTextField3(
-          textFieldIcon: Icon(
-            Icons.lock,
-            color: newColorLightGrey2,
-            size: 20,
-          ),
-          controller: viewModel.passwordController,
+        child: CustomTextField1(
+          prefixIcon: Icons.lock,
           title: "Password",
           hintText: '***********',
+          controller: viewModel.passwordController,
           autoValidateMode: AutovalidateMode.onUserInteraction,
           validator: (value) {
             return Validator().validateDefaultTxtField(value,
                 errorPrompt: "Password is Required");
           },
-          obscureText: viewModel.obscurePassword.value ? true : false,
-          suffixIcon: ObscureSuffixIcon(
+          keyboardType: TextInputType.emailAddress,
+          suffixIconButton: ObscureSuffixIcon(
             isObscured: viewModel.obscurePassword.value ? true : false,
             onPressed: () {
               viewModel.obscurePassword.value =

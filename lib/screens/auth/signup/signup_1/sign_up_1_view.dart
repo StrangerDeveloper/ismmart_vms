@@ -9,6 +9,7 @@ import 'package:ismmart_vms/widgets/custom_button.dart';
 import 'package:ismmart_vms/widgets/custom_textfield.dart';
 import 'package:ismmart_vms/widgets/obscure_suffix_icon.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import '../../../../helper/validator.dart';
 import '../../login/login_view.dart';
 import 'package:ismmart_vms/helper/languages/translations_key.dart' as langKey;
 import 'sign_up_1_viewmodel.dart';
@@ -52,12 +53,19 @@ class SignUp1View extends StatelessWidget {
                         cnicBackImage(),
                         passwordTextField(),
                         confirmPasswordTextField(),
-                        or(),
-                        googlelogInBtn(),
-                        facebooklogInBtn(),
-                        applelogInBtn(),
-                        signUpBtn(),
-                        alreadyHaveAnAccount(),
+                        Padding(
+                            padding: EdgeInsets.only(top: 20),
+                            child: SizedBox(
+                              width: double.infinity,
+                              child: Text(
+                                maxLines: 3,
+                                'By creating your account you have to agree with our terms & conditions.',
+                                style: newFontStyleSize14,
+                              ),
+                            )),
+                        SizedBox(
+                          height: 100,
+                        )
                       ],
                     ),
                   ),
@@ -130,27 +138,32 @@ class SignUp1View extends StatelessWidget {
   }
 
   Widget nameField() {
-    return CustomTextField3(
-      title: 'Full Name',
-      hintText: 'John Doe',
-      controller: viewModel.nameController,
-      autoValidateMode: AutovalidateMode.onUserInteraction,
-      // validator: (value) {
-      //   return Validator()
-      //       .validateName(value, errorToPrompt: langKey.FirstNameReq.tr);
-      // },
+    return Padding(
+      padding: const EdgeInsets.only(top: 32, bottom: 26),
+      child: CustomTextField1(
+        prefixIcon: Icons.person,
+        title: 'Full Name',
+        hintText: 'John Doe',
+        controller: viewModel.nameController,
+        autoValidateMode: AutovalidateMode.onUserInteraction,
+        // validator: (value) {
+        //   return Validator()
+        //       .validateName(value, errorToPrompt: langKey.FirstNameReq.tr);
+        // },
+      ),
     );
   }
 
   Widget emailTextField() {
-    return CustomTextField3(
+    return CustomTextField1(
+      prefixIcon: Icons.email_outlined,
       title: 'Email',
-      hintText: 'asha****iq11@gmail.com',
+      hintText: 'hmirrani@gmail.com',
       controller: viewModel.emailController,
       autoValidateMode: AutovalidateMode.onUserInteraction,
-      // validator: (value) {
-      //   return Validator().validateEmail(value);
-      // },
+      validator: (value) {
+        return Validator().validateEmail(value);
+      },
       keyboardType: TextInputType.emailAddress,
     );
   }
@@ -264,7 +277,7 @@ class SignUp1View extends StatelessWidget {
           FilteringTextInputFormatter.digitsOnly,
         ],
         title: 'CNIC',
-        hintText: 'Enter CNIC',
+        hintText: '35404-4770789-7',
         controller: viewModel.cnicController,
         autoValidateMode: AutovalidateMode.onUserInteraction,
         // validator: (value) {
@@ -279,7 +292,7 @@ class SignUp1View extends StatelessWidget {
       () => CustomTextField3(
         controller: viewModel.passwordController,
         title: 'Password',
-        hintText: '● ● ● ● ● ● ● ● ● ●',
+        hintText: 'Hello@123',
         autoValidateMode: AutovalidateMode.onUserInteraction,
         // validator: (value) {
         //   return Validator().validatePassword(value);
@@ -336,7 +349,7 @@ class SignUp1View extends StatelessWidget {
         child: CustomTextField3(
           controller: viewModel.confirmPasswordController,
           title: 'Confirm Password',
-          hintText: '● ● ● ● ● ● ● ● ● ●',
+          hintText: '*********',
           autoValidateMode: AutovalidateMode.onUserInteraction,
           // validator: (value) {
           //   return Validator().validateConfirmPassword(
