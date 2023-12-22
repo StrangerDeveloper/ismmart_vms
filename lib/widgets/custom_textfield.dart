@@ -183,6 +183,7 @@ class CustomTextField2 extends StatelessWidget {
   final TextEditingController? controller;
   final Color? fillColor;
   final Color? titleColor;
+  final FocusNode? focusNode;
   final bool readOnly;
   final bool enabled;
   final bool? showCursor;
@@ -199,6 +200,7 @@ class CustomTextField2 extends StatelessWidget {
     this.readOnly = false,
     this.fillColor,
     this.onChanged,
+    this.focusNode,
     this.titleColor,
     this.onTap,
     this.enabled = true,
@@ -235,6 +237,7 @@ class CustomTextField2 extends StatelessWidget {
           ),
         TextFormField(
           onTap: onTap,
+          focusNode: focusNode,
           enabled: enabled,
           keyboardType: keyboardType,
           inputFormatters: inputFormatters,

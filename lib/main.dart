@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:ismmart_vms/screens/add_product/add_product_1/add_product_1_view.dart';
 import 'package:ismmart_vms/screens/auth/login/login_view.dart';
+import 'package:ismmart_vms/screens/auth/signup/signup_1/sign_up_1_view.dart';
 import 'firebase_options.dart';
 import 'helper/routes.dart';
 
