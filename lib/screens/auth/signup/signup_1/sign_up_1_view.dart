@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/constants.dart';
 import 'package:ismmart_vms/widgets/image_layout_container.dart';
@@ -9,6 +11,9 @@ import 'package:ismmart_vms/widgets/custom_button.dart';
 import 'package:ismmart_vms/widgets/custom_textfield.dart';
 import 'package:ismmart_vms/widgets/obscure_suffix_icon.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import '../../../../helper/global_variables.dart';
+import '../../../../helper/validator.dart';
+import '../../../../widgets/custom_loading.dart';
 import '../../login/login_view.dart';
 import 'package:ismmart_vms/helper/languages/translations_key.dart' as langKey;
 import 'sign_up_1_viewmodel.dart';
@@ -29,14 +34,17 @@ class SignUp1View extends StatelessWidget {
                 Form(
                   key: viewModel.signUpFormKey,
                   child: Padding(
-                    padding:
-                        const EdgeInsets.only(top: 50, left: 20, right: 20),
+                    padding: const EdgeInsets.only(
+                      top: 60,
+                      left: 20,
+                      right: 20,
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         titleAndBackBtn(),
                         Padding(
-                          padding: EdgeInsets.only(top: 20),
+                          padding: EdgeInsets.only(top: 60),
                           child: Text(
                             'Create an account',
                             style: newFontStyleSize20,
@@ -52,17 +60,41 @@ class SignUp1View extends StatelessWidget {
                         cnicBackImage(),
                         passwordTextField(),
                         confirmPasswordTextField(),
-                        or(),
-                        googlelogInBtn(),
-                        facebooklogInBtn(),
-                        applelogInBtn(),
-                        signUpBtn(),
-                        alreadyHaveAnAccount(),
+                        checkedStatement(),
+                        signUpInBtn(),
+                        SizedBox(
+                          height: 100,
+                        )
                       ],
                     ),
                   ),
                 ),
               ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget checkedStatement() {
+    return const Padding(
+      padding: EdgeInsets.only(top: 20),
+      child: Row(
+        children: [
+          Icon(
+            Icons.check_box,
+            color: Colors.blue,
+          ),
+          SizedBox(
+            width: 5,
+          ),
+          SizedBox(
+            width: 325,
+            child: Text(
+              'By creating your account you have to agree with our terms & conditions.',
+              overflow: TextOverflow.ellipsis,
+              maxLines: 3,
             ),
           ),
         ],
@@ -92,65 +124,67 @@ class SignUp1View extends StatelessWidget {
   }
 
   Widget progress() {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 32),
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Get onboard as a user',
-                  style: newFontStyle1.copyWith(
-                    color: newColorBlue2,
-                  ),
+    return Row(
+      children: [
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Get onboard as a user',
+                style: newFontStyle1.copyWith(
+                  color: newColorBlue2,
                 ),
-                const SizedBox(height: 6),
-              ],
-            ),
-          ),
-          CircularPercentIndicator(
-            circularStrokeCap: CircularStrokeCap.round,
-            radius: 33,
-            lineWidth: 6,
-            percent: 0.05,
-            backgroundColor: const Color(0xffEBEFF3),
-            progressColor: const Color(0xff0CBC8B),
-            center: Text(
-              "1 of 3",
-              style: poppinsH2.copyWith(
-                color: newColorBlue2,
               ),
+              const SizedBox(height: 6),
+            ],
+          ),
+        ),
+        CircularPercentIndicator(
+          circularStrokeCap: CircularStrokeCap.round,
+          radius: 33,
+          lineWidth: 6,
+          percent: 0.05,
+          backgroundColor: const Color(0xffEBEFF3),
+          progressColor: const Color(0xff0CBC8B),
+          center: Text(
+            "1 of 3",
+            style: poppinsH2.copyWith(
+              color: newColorBlue2,
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
   Widget nameField() {
-    return CustomTextField3(
-      title: 'Full Name',
-      hintText: 'John Doe',
-      controller: viewModel.nameController,
-      autoValidateMode: AutovalidateMode.onUserInteraction,
-      // validator: (value) {
-      //   return Validator()
-      //       .validateName(value, errorToPrompt: langKey.FirstNameReq.tr);
-      // },
+    return Padding(
+      padding: const EdgeInsets.only(top: 32, bottom: 15),
+      child: CustomTextField1(
+        prefixIcon: Icons.person,
+        title: 'Full Name',
+        hintText: 'John Doe',
+        controller: viewModel.nameController,
+        autoValidateMode: AutovalidateMode.onUserInteraction,
+        // validator: (value) {
+        //   return Validator()
+        //       .validateName(value, errorToPrompt: langKey.FirstNameReq.tr);
+        // },
+      ),
     );
   }
 
   Widget emailTextField() {
-    return CustomTextField3(
+    return CustomTextField1(
+      prefixIcon: Icons.email_outlined,
       title: 'Email',
-      hintText: 'asha****iq11@gmail.com',
+      hintText: 'hmirrani@gmail.com',
       controller: viewModel.emailController,
       autoValidateMode: AutovalidateMode.onUserInteraction,
-      // validator: (value) {
-      //   return Validator().validateEmail(value);
-      // },
+      validator: (value) {
+        return Validator().validateEmail(value);
+      },
       keyboardType: TextInputType.emailAddress,
     );
   }
@@ -264,7 +298,7 @@ class SignUp1View extends StatelessWidget {
           FilteringTextInputFormatter.digitsOnly,
         ],
         title: 'CNIC',
-        hintText: 'Enter CNIC',
+        hintText: '35404-4770789-7',
         controller: viewModel.cnicController,
         autoValidateMode: AutovalidateMode.onUserInteraction,
         // validator: (value) {
@@ -279,7 +313,7 @@ class SignUp1View extends StatelessWidget {
       () => CustomTextField3(
         controller: viewModel.passwordController,
         title: 'Password',
-        hintText: '● ● ● ● ● ● ● ● ● ●',
+        hintText: 'Hello@123',
         autoValidateMode: AutovalidateMode.onUserInteraction,
         // validator: (value) {
         //   return Validator().validatePassword(value);
@@ -336,7 +370,7 @@ class SignUp1View extends StatelessWidget {
         child: CustomTextField3(
           controller: viewModel.confirmPasswordController,
           title: 'Confirm Password',
-          hintText: '● ● ● ● ● ● ● ● ● ●',
+          hintText: '*********',
           autoValidateMode: AutovalidateMode.onUserInteraction,
           // validator: (value) {
           //   return Validator().validateConfirmPassword(
@@ -355,13 +389,24 @@ class SignUp1View extends StatelessWidget {
     );
   }
 
-  Widget signUpBtn() {
-    return CustomRoundedTextBtn(
-      title: 'Proceed',
-      onPressed: () {
-        print('Sign Up Button Pressed');
-        viewModel.signUp();
-      },
+  Widget signUpInBtn() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 32),
+      child: Obx(
+        () => GlobalVariable.showLoader.value
+            ? const CustomLoading(isItBtn: true)
+            : CustomRoundedTextBtn(
+                child: Text(
+                  'Create Account',
+                  style: newFontStyleSize14.copyWith(
+                      fontWeight: FontWeight.w500, color: kWhiteColor),
+                ),
+                onPressed: () {
+                  // Get.offNamed(Routes.dashboard);
+                  // Get.to(DashboardView());
+                },
+              ),
+      ),
     );
   }
 
