@@ -3,8 +3,6 @@ import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/screens/order_detail/order_detail_ciewModel.dart';
 
-import '../../../helper/utils/image_constant.dart';
-import '../../../widgets/custom_image_view.dart';
 import '../model/ordertracking_item_model.dart';
 
 // ignore: must_be_immutable
@@ -48,8 +46,7 @@ class OrdertrackingItemWidget extends StatelessWidget {
               ),
               Obx(
                 () => Text(
-                  ordertrackingItemModelObj
-                      .twentyFiveMillionEightHundredT!.value,
+                  ordertrackingItemModelObj.orderTrackingIdNumber!.value,
                   // style: CustomTextStyles.labelLargePrimary.copyWith(
                   //   decoration: TextDecoration.underline,
                   // ),
