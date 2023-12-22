@@ -26,11 +26,8 @@ class CustomTextField1 extends StatelessWidget {
   final Color fillColor;
   final bool filled;
   final bool isDropDown;
-  final Widget? suffixIcon;
-
-  // final IconData? prefixIcon;
-  // final double prefixIconSize;
-  // final double suffixIconSize;
+  final IconData? suffixIcon;
+  final IconData? prefixIcon;
   final EdgeInsetsGeometry contentPadding;
   final TextStyle? textStyle;
 
@@ -54,15 +51,13 @@ class CustomTextField1 extends StatelessWidget {
     this.minLines,
     this.showCursor,
     this.suffixIcon,
-    // this.prefixIconSize = 18,
-    // this.suffixIconSize = 18,
     this.fillColor = ThemeHelper.grey3,
-    // this.prefixIcon,
     this.errorText,
     this.readOnly = false,
     this.textStyle,
     this.filled = true,
     this.isDropDown = false,
+    this.prefixIcon,
   });
 
   @override
@@ -113,15 +108,22 @@ class CustomTextField1 extends StatelessWidget {
             fontSize: 14,
           ),
           decoration: InputDecoration(
-            suffixIcon: suffixIcon ??
-                ((isDropDown)
-                    ? const Icon(
-                        Icons.keyboard_arrow_down_rounded,
-                        size: 25,
-                        color: ThemeHelper.grey2,
-                      )
-                    : null),
+            suffixIcon: (suffixIcon != null || isDropDown)
+                ? Icon(
+                    suffixIcon ?? Icons.keyboard_arrow_down_rounded,
+                    size: 25,
+                    color: ThemeHelper.grey2,
+                  )
+                : null,
             suffixIconConstraints: BoxConstraints.tight(const Size(40, 40)),
+            prefixIcon: prefixIcon != null
+                ? Icon(
+                    prefixIcon,
+                    size: 25,
+                    color: ThemeHelper.grey2,
+                  )
+                : null,
+            prefixIconConstraints: BoxConstraints.tight(const Size(40, 40)),
             contentPadding: contentPadding,
             fillColor: fillColor,
             filled: filled,
