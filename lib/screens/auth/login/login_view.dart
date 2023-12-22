@@ -126,12 +126,8 @@ class LogInView extends StatelessWidget {
         padding: const EdgeInsets.only(
           top: 16,
         ),
-        child: CustomTextField3(
-          textFieldIcon: Icon(
-            Icons.lock,
-            color: newColorLightGrey2,
-            size: 20,
-          ),
+        child: CustomTextField1(
+          prefixIcon: Icons.lock,
           controller: viewModel.passwordController,
           title: "Password",
           hintText: '***********',
@@ -141,7 +137,7 @@ class LogInView extends StatelessWidget {
                 errorPrompt: "Password is Required");
           },
           obscureText: viewModel.obscurePassword.value ? true : false,
-          suffixIcon: ObscureSuffixIcon(
+          suffixIconButton: ObscureSuffixIcon(
             isObscured: viewModel.obscurePassword.value ? true : false,
             onPressed: () {
               viewModel.obscurePassword.value =
