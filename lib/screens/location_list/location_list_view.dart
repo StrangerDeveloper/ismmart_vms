@@ -64,29 +64,13 @@ class LocationListView extends StatelessWidget {
             ),
             child: Row(
               children: [
-                InkWell(
+                CustomIconBtn(
+                  icon: CupertinoIcons.search,
                   onTap: () {},
-                  borderRadius: BorderRadius.circular(8),
-                  child: const Padding(
-                    padding: EdgeInsets.all(8),
-                    child: Icon(
-                      CupertinoIcons.search,
-                      size: 15,
-                    ),
-                  ),
                 ),
-                InkWell(
-                  onTap: () {
-                    showCustomDialog();
-                  },
-                  borderRadius: BorderRadius.circular(8),
-                  child: const Padding(
-                    padding: EdgeInsets.all(8),
-                    child: Icon(
-                      Icons.filter_list_rounded,
-                      size: 15,
-                    ),
-                  ),
+                CustomIconBtn(
+                  icon: Icons.filter_list_rounded,
+                  onTap: () {},
                 ),
               ],
             ),
@@ -130,7 +114,8 @@ class LocationListView extends StatelessWidget {
           Get.to(() => ProductDetailView());
         },
         child: Padding(
-          padding: const EdgeInsets.only(left: 12, right: 12, top: 10, bottom: 10),
+          padding:
+              const EdgeInsets.only(left: 12, right: 12, top: 10, bottom: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -229,7 +214,7 @@ class LocationListView extends StatelessWidget {
   BorderRadius listBorderRadius(int index) {
     if (index == 0) {
       return const BorderRadius.vertical(top: Radius.circular(12));
-    } else if (index == viewModel.dataList.length-1) {
+    } else if (index == viewModel.dataList.length - 1) {
       return const BorderRadius.vertical(bottom: Radius.circular(12));
     } else {
       return BorderRadius.zero;

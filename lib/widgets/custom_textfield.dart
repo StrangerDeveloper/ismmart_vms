@@ -1,5 +1,4 @@
 import 'package:country_code_picker/country_code_picker.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -7,9 +6,10 @@ import 'package:ismmart_vms/helper/theme_helper.dart';
 
 import '../helper/constants.dart';
 
+//FINAL VERSION...
 class CustomTextField1 extends StatelessWidget {
   final String? title;
-  final String? hintText, labelText;
+  final String? hintText;
   final TextEditingController? controller;
   final TextInputType? keyboardType;
   final int maxLines;
@@ -24,10 +24,10 @@ class CustomTextField1 extends StatelessWidget {
   final ValueChanged<String>? onChanged;
   final String? errorText;
   final Color fillColor;
-  final Widget? suffixIcon;
+  final bool filled;
+  final bool isDropDown;
+  final IconData? suffixIcon;
   final IconData? prefixIcon;
-  final double prefixIconSize;
-  final double suffixIconSize;
   final EdgeInsetsGeometry contentPadding;
   final TextStyle? textStyle;
 
@@ -35,7 +35,7 @@ class CustomTextField1 extends StatelessWidget {
     super.key,
     this.contentPadding = const EdgeInsets.symmetric(
       horizontal: 10,
-      vertical: 13.5,
+      vertical: 10,
     ),
     this.asterisk = false,
     this.validator,
@@ -51,14 +51,13 @@ class CustomTextField1 extends StatelessWidget {
     this.minLines,
     this.showCursor,
     this.suffixIcon,
-    this.prefixIconSize = 18,
-    this.suffixIconSize = 18,
-    this.fillColor = Colors.white,
-    this.prefixIcon,
+    this.fillColor = ThemeHelper.grey3,
     this.errorText,
     this.readOnly = false,
-    this.labelText,
     this.textStyle,
+    this.filled = true,
+    this.isDropDown = false,
+    this.prefixIcon,
   });
 
   @override
@@ -69,12 +68,11 @@ class CustomTextField1 extends StatelessWidget {
         (title == null)
             ? Container()
             : Padding(
-                padding: const EdgeInsets.only(bottom: 5),
+                padding: const EdgeInsets.only(bottom: 8.5),
                 child: RichText(
                   text: TextSpan(
                     text: title,
                     style: const TextStyle(
-                      //fontSize: 12,
                       color: Colors.black,
                       fontWeight: FontWeight.w500,
                     ),
@@ -84,7 +82,7 @@ class CustomTextField1 extends StatelessWidget {
                               text: '*',
                               style: TextStyle(
                                 color: Colors.red,
-                                fontSize: 16.0,
+                                fontSize: 16,
                               ),
                             )
                           : const TextSpan(text: '')
@@ -93,46 +91,67 @@ class CustomTextField1 extends StatelessWidget {
                 ),
               ),
         TextFormField(
+          controller: controller,
+          keyboardType: keyboardType,
+          minLines: minLines,
+          maxLines: maxLines,
           onChanged: onChanged,
-          showCursor: showCursor,
+          showCursor: readOnly ? false : showCursor,
           readOnly: readOnly,
           autovalidateMode: autoValidateMode,
           obscureText: obscureText,
           validator: validator,
           onTap: onTap,
-          // style: bodyText1,
-          // cursorColor: kPrimaryColor,
+          style: const TextStyle(
+            color: ThemeHelper.grey4,
+            fontWeight: FontWeight.w400,
+            fontSize: 14,
+          ),
           decoration: InputDecoration(
+            suffixIcon: (suffixIcon != null || isDropDown)
+                ? Icon(
+                    suffixIcon ?? Icons.keyboard_arrow_down_rounded,
+                    size: 25,
+                    color: ThemeHelper.grey2,
+                  )
+                : null,
+            suffixIconConstraints: BoxConstraints.tight(const Size(40, 40)),
+            prefixIcon: prefixIcon != null
+                ? Icon(
+                    prefixIcon,
+                    size: 25,
+                    color: ThemeHelper.grey2,
+                  )
+                : null,
+            prefixIconConstraints: BoxConstraints.tight(const Size(40, 40)),
             contentPadding: contentPadding,
-            suffixIcon: suffixIcon,
-            //fillColor: fillColor,
-            //filled: true,
-            labelText: labelText,
-            labelStyle: textStyle,
+            fillColor: fillColor,
+            filled: filled,
             hintText: hintText,
+            hintStyle: const TextStyle(
+              color: ThemeHelper.grey2,
+              fontWeight: FontWeight.w400,
+              fontSize: 14,
+            ),
             isDense: true,
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: const BorderSide(width: 1, color: ThemeHelper.grey1),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide:
+                  const BorderSide(width: 1.5, color: ThemeHelper.grey1),
+            ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
               borderSide: const BorderSide(width: 1),
             ),
-            hintStyle: const TextStyle(color: Colors.black45),
             focusedErrorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(width: 1.5),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(width: 1.5),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(width: 1),
+              borderSide: const BorderSide(width: 1.3),
             ),
           ),
-          controller: controller,
-          keyboardType: keyboardType,
-          minLines: minLines,
-          maxLines: maxLines,
         ),
       ],
     );
@@ -471,14 +490,14 @@ class CountryCodePickerTextField extends StatelessWidget {
         labelText: labelText,
         labelStyle: textStyle,
         prefixIcon: Container(
-          margin: EdgeInsets.fromLTRB(1, 1, 10, 1),
-          decoration: BoxDecoration(
+          margin: const EdgeInsets.fromLTRB(1, 1, 10, 1),
+          decoration: const BoxDecoration(
             border: Border(right: BorderSide(width: 1)),
           ),
           child: Container(
             decoration: BoxDecoration(
               color: Colors.grey[200],
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(6),
                 bottomLeft: Radius.circular(6),
               ),
@@ -493,7 +512,7 @@ class CountryCodePickerTextField extends StatelessWidget {
                 labelText: labelText,
                 labelStyle: textStyle,
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
+                  borderSide: const BorderSide(
                     color: Colors.black,
                     width: 1,
                     style: BorderStyle.solid,
@@ -501,7 +520,7 @@ class CountryCodePickerTextField extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
+                  borderSide: const BorderSide(
                     color: Colors.black,
                     width: 1,
                     style: BorderStyle.solid,
@@ -509,7 +528,7 @@ class CountryCodePickerTextField extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              textStyle: TextStyle(color: Colors.black),
+              textStyle: const TextStyle(color: Colors.black),
               enabled: enabled,
               onChanged: onChanged,
               // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
@@ -518,9 +537,9 @@ class CountryCodePickerTextField extends StatelessWidget {
             ),
           ),
         ),
-        contentPadding: EdgeInsets.fromLTRB(0, 12, 6.5, 12),
+        contentPadding: const EdgeInsets.fromLTRB(0, 12, 6.5, 12),
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             color: Colors.black,
             width: 1,
             style: BorderStyle.solid,
@@ -528,7 +547,7 @@ class CountryCodePickerTextField extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             color: Colors.black,
             width: 1,
             style: BorderStyle.solid,
@@ -606,7 +625,7 @@ class CountryCodePickerTextField2 extends StatelessWidget {
                 ),
                 children: [
                   if (required)
-                    TextSpan(
+                    const TextSpan(
                       text: ' *',
                       style: TextStyle(color: Colors.red),
                     )
@@ -627,7 +646,7 @@ class CountryCodePickerTextField2 extends StatelessWidget {
               color: ThemeHelper.fadedBlue,
             ),
             errorText: errorText,
-            prefixIconConstraints: BoxConstraints.tight(Size(120, 50)),
+            prefixIconConstraints: BoxConstraints.tight(const Size(120, 50)),
             prefixIcon: Row(
               children: [
                 CountryCodePicker(
@@ -638,7 +657,7 @@ class CountryCodePickerTextField2 extends StatelessWidget {
                   searchDecoration: InputDecoration(
                     contentPadding: EdgeInsets.zero,
                     enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
+                      borderSide: const BorderSide(
                         color: Colors.black,
                         width: 1,
                         style: BorderStyle.solid,
@@ -646,7 +665,7 @@ class CountryCodePickerTextField2 extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
+                      borderSide: const BorderSide(
                         color: Colors.black,
                         width: 1,
                         style: BorderStyle.solid,
@@ -662,18 +681,18 @@ class CountryCodePickerTextField2 extends StatelessWidget {
                   // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
                   initialSelection: initialValue,
                 ),
-                Icon(
+                const Icon(
                   Icons.arrow_drop_down_sharp,
                   size: 16,
                   color: ThemeHelper.lightGrey,
                 ),
               ],
             ),
-            contentPadding: EdgeInsets.only(top: 12),
-            enabledBorder: UnderlineInputBorder(
+            contentPadding: const EdgeInsets.only(top: 12),
+            enabledBorder: const UnderlineInputBorder(
               borderSide: BorderSide(color: Color(0xffEEEEEE)),
             ),
-            focusedBorder: UnderlineInputBorder(
+            focusedBorder: const UnderlineInputBorder(
               borderSide: BorderSide(color: Color(0xff929AAB)),
             ),
             errorBorder: UnderlineInputBorder(
