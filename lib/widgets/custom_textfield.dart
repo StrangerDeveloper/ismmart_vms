@@ -108,6 +108,7 @@ class CustomTextField1 extends StatelessWidget {
             fontSize: 14,
           ),
           decoration: InputDecoration(
+            errorText: errorText,
             suffixIcon: (suffixIcon != null || isDropDown)
                 ? Icon(
                     suffixIcon ?? Icons.keyboard_arrow_down_rounded,
@@ -145,11 +146,11 @@ class CustomTextField1 extends StatelessWidget {
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(width: 1),
+              borderSide: BorderSide(width: 1,color: Colors.red.shade700),
             ),
             focusedErrorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(width: 1.3),
+              borderSide: BorderSide(width: 1.3,color: Colors.red.shade700),
             ),
           ),
         ),
