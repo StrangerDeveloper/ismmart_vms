@@ -114,7 +114,7 @@ class CustomTextField1 extends StatelessWidget {
             suffixIcon: (suffixIcon != null || isDropDown)
                 ? Icon(
                     suffixIcon ?? Icons.keyboard_arrow_down_rounded,
-                    size: 25,
+                    size: 20,
                     color: ThemeHelper.grey2,
                   )
                 : suffixIconButton,
@@ -122,7 +122,7 @@ class CustomTextField1 extends StatelessWidget {
             prefixIcon: prefixIcon != null
                 ? Icon(
                     prefixIcon,
-                    size: 25,
+                    size: 20,
                     color: ThemeHelper.grey2,
                   )
                 : null,

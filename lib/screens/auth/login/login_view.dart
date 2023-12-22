@@ -128,15 +128,15 @@ class LogInView extends StatelessWidget {
         ),
         child: CustomTextField1(
           prefixIcon: Icons.lock,
+          controller: viewModel.passwordController,
           title: "Password",
           hintText: '***********',
-          controller: viewModel.passwordController,
           autoValidateMode: AutovalidateMode.onUserInteraction,
           validator: (value) {
             return Validator().validateDefaultTxtField(value,
                 errorPrompt: "Password is Required");
           },
-          keyboardType: TextInputType.emailAddress,
+          obscureText: viewModel.obscurePassword.value ? true : false,
           suffixIconButton: ObscureSuffixIcon(
             isObscured: viewModel.obscurePassword.value ? true : false,
             onPressed: () {
