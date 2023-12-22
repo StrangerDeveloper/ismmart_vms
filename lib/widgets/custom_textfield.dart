@@ -27,6 +27,7 @@ class CustomTextField1 extends StatelessWidget {
   final bool filled;
   final bool isDropDown;
   final IconData? suffixIcon;
+  final Widget? suffixIconButton;
   final IconData? prefixIcon;
   final EdgeInsetsGeometry contentPadding;
   final TextStyle? textStyle;
@@ -58,6 +59,7 @@ class CustomTextField1 extends StatelessWidget {
     this.filled = true,
     this.isDropDown = false,
     this.prefixIcon,
+    this.suffixIconButton,
   });
 
   @override
@@ -115,7 +117,7 @@ class CustomTextField1 extends StatelessWidget {
                     size: 25,
                     color: ThemeHelper.grey2,
                   )
-                : null,
+                : suffixIconButton,
             suffixIconConstraints: BoxConstraints.tight(const Size(40, 40)),
             prefixIcon: prefixIcon != null
                 ? Icon(
@@ -146,11 +148,11 @@ class CustomTextField1 extends StatelessWidget {
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide(width: 1,color: Colors.red.shade700),
+              borderSide: BorderSide(width: 1, color: Colors.red.shade700),
             ),
             focusedErrorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide(width: 1.3,color: Colors.red.shade700),
+              borderSide: BorderSide(width: 1.3, color: Colors.red.shade700),
             ),
           ),
         ),
