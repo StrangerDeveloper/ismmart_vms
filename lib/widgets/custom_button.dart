@@ -81,7 +81,7 @@ class CustomRoundedTextBtn extends StatelessWidget {
     this.title = "",
     this.width = double.infinity,
     required this.onPressed,
-    this.backgroundColor = ThemeHelper.primary,
+    this.backgroundColor = newColorBlue,
     this.foregroundColor = Colors.white,
     this.child,
     this.padding,
@@ -93,7 +93,7 @@ class CustomRoundedTextBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
+    return ElevatedButton(
       onPressed: onPressed,
       style: TextButton.styleFrom(
         padding: padding,
@@ -262,6 +262,33 @@ class CustomIconTextBtn extends StatelessWidget {
               style: const TextStyle(fontSize: 12),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+//FINAL VERSION...
+class CustomIconBtn extends StatelessWidget {
+  final IconData icon;
+  final void Function()? onTap;
+
+  const CustomIconBtn({
+    super.key,
+    required this.icon,
+    this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(8),
+      child: Padding(
+        padding: const EdgeInsets.all(8),
+        child: Icon(
+          icon,
+          size: 15,
         ),
       ),
     );

@@ -30,16 +30,16 @@ class SignUp1View extends StatelessWidget {
                   key: viewModel.signUpFormKey,
                   child: Padding(
                     padding:
-                        const EdgeInsets.only(top: 30, left: 20, right: 20),
+                        const EdgeInsets.only(top: 50, left: 20, right: 20),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         titleAndBackBtn(),
-                        const Padding(
-                          padding: EdgeInsets.only(top: 20, bottom: 10),
+                        Padding(
+                          padding: EdgeInsets.only(top: 20),
                           child: Text(
-                            'Create Account',
-                            style: TextStyle(fontSize: 20, color: Colors.black),
+                            'Create an account',
+                            style: newFontStyleSize20,
                           ),
                         ),
                         progress(),
@@ -76,17 +76,16 @@ class SignUp1View extends StatelessWidget {
       child: Stack(
         alignment: Alignment.centerLeft,
         children: [
-          const Align(
+          Align(
             alignment: Alignment.center,
             child: Text(
               'Sign Up',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 20,
-              ),
+              style: newFontStyleSize24,
             ),
           ),
-          CustomBackButton(onTap: () {}),
+          CustomBackButton(onTap: () {
+            Get.back();
+          }),
         ],
       ),
     );
@@ -94,7 +93,7 @@ class SignUp1View extends StatelessWidget {
 
   Widget progress() {
     return Padding(
-      padding: const EdgeInsets.only(top: 10, bottom: 30),
+      padding: const EdgeInsets.only(bottom: 32),
       child: Row(
         children: [
           Expanded(
@@ -102,32 +101,12 @@ class SignUp1View extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Vendor Account Progress',
+                  'Get onboard as a user',
                   style: newFontStyle1.copyWith(
                     color: newColorBlue2,
                   ),
                 ),
                 const SizedBox(height: 6),
-                RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: 'Next Step: ',
-                        style: newFontStyle1.copyWith(
-                          fontSize: 12,
-                          color: newColorBlue4,
-                        ),
-                      ),
-                      TextSpan(
-                        text: 'Bank Details',
-                        style: newFontStyle1.copyWith(
-                          fontSize: 12,
-                          color: newColorBlue3,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
               ],
             ),
           ),

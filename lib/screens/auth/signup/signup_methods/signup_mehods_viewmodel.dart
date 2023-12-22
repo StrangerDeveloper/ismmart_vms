@@ -1,24 +1,12 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
-class LogInViewModel extends GetxController {
-  GlobalKey<FormState> signInFormKey = GlobalKey<FormState>();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  RxBool obscurePassword = true.obs;
-
-  @override
-  void onClose() {
-    emailController.dispose();
-    passwordController.dispose();
-    // GlobalVariable.showLoader.value = false;
-    super.onClose();
-  }
-
+class SignupMehtodsViewModel extends GetxController {
+  //Google singin
   final googleSignin = GoogleSignIn();
   GoogleSignInAccount? _user;
   GoogleSignInAccount get user => _user!;
@@ -58,5 +46,11 @@ class LogInViewModel extends GetxController {
       // Now send the credential (especially `credential.authorizationCode`) to your server to create a session
       // after they have been validated with Apple (see `Integration` section for more information on how to do this)
     }
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
   }
 }
