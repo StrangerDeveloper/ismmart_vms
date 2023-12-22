@@ -11,7 +11,9 @@ import 'package:ismmart_vms/widgets/custom_button.dart';
 import 'package:ismmart_vms/widgets/custom_textfield.dart';
 import 'package:ismmart_vms/widgets/obscure_suffix_icon.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import '../../../../helper/global_variables.dart';
 import '../../../../helper/validator.dart';
+import '../../../../widgets/custom_loading.dart';
 import '../../login/login_view.dart';
 import 'package:ismmart_vms/helper/languages/translations_key.dart' as langKey;
 import 'sign_up_1_viewmodel.dart';
@@ -59,6 +61,7 @@ class SignUp1View extends StatelessWidget {
                         passwordTextField(),
                         confirmPasswordTextField(),
                         checkedStatement(),
+                        signUpInBtn(),
                         SizedBox(
                           height: 100,
                         )
@@ -386,13 +389,24 @@ class SignUp1View extends StatelessWidget {
     );
   }
 
-  Widget signUpBtn() {
-    return CustomRoundedTextBtn(
-      title: 'Proceed',
-      onPressed: () {
-        print('Sign Up Button Pressed');
-        viewModel.signUp();
-      },
+  Widget signUpInBtn() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 32),
+      child: Obx(
+        () => GlobalVariable.showLoader.value
+            ? const CustomLoading(isItBtn: true)
+            : CustomRoundedTextBtn(
+                child: Text(
+                  'Create Account',
+                  style: newFontStyleSize14.copyWith(
+                      fontWeight: FontWeight.w500, color: kWhiteColor),
+                ),
+                onPressed: () {
+                  // Get.offNamed(Routes.dashboard);
+                  // Get.to(DashboardView());
+                },
+              ),
+      ),
     );
   }
 
