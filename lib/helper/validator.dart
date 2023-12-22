@@ -143,7 +143,7 @@ class Validator {
     if (GetUtils.isBlank(value)!) {
       return langKey.emailIsRequired.tr;
     } else if (!GetUtils.isEmail(value!)) {
-      return langKey.invalidEmail.tr;
+      return "Email is Required";
     } else {
       return null;
     }
