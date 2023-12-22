@@ -82,15 +82,20 @@ var poppinsH2 = GoogleFonts.poppins(
 );
 
 var dmSansHeading = GoogleFonts.dmSans(
-  fontSize: 14,
-  fontWeight: FontWeight.w500,
-  color: Colors.black
-);
+    fontSize: 14, fontWeight: FontWeight.w500, color: Colors.black);
 
 var dmSansNormalText = GoogleFonts.dmSans(
-  fontWeight: FontWeight.w400,
-  fontSize: 12,
-  color: Colors.black
+    fontWeight: FontWeight.w400, fontSize: 12, color: Colors.black);
+var textContainerDecoration = BoxDecoration(
+  color: kContainerFillColor,
+  borderRadius: BorderRadius.circular(8),
+  border: Border.all(color: kTextfieldBorderColor, width: 0.8),
+);
+
+Widget dropDownIcon = const Icon(
+  Icons.keyboard_arrow_down_rounded,
+  size: 25,
+  color: newColorLightGrey2,
 );
 
 /*var headline1 = GoogleFonts.poppins(

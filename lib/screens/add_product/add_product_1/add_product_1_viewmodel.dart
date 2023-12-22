@@ -23,26 +23,73 @@ class AddProductViewModel extends GetxController {
   TextEditingController prodLengthController = TextEditingController();
   TextEditingController prodWidthController = TextEditingController();
   TextEditingController prodHeightController = TextEditingController();
+  TextEditingController prodTagController = TextEditingController();
+  FocusNode tagsFieldFocusNode = FocusNode();
   RxBool showVariantsField = false.obs;
   RxBool showVariantsTable = false.obs;
-  RxBool chargeTaxOnProduct = false.obs;
-  RxList<DropDownModel> locationsList = <DropDownModel>[
-    DropDownModel(
+  RxBool showTagsList = false.obs;
+  RxBool chargeTaxOnProduct = true.obs;
+  RxBool productPriceUpdate = false.obs;
+  RxString productType = ''.obs;
+  String productTypeId = '';
+  RxString productCategory = '1'.obs;
+  RxList<MultiSelectModel> tagsList = <MultiSelectModel>[
+    MultiSelectModel(
       id: '1',
-      name: 'All Locations'
+      name: 'Black',
+    ),
+    MultiSelectModel(id: '2', name: 'Orange'),
+    MultiSelectModel(id: '3', name: 'Shoes'),
+    MultiSelectModel(id: '4', name: 'Belt'),
+    MultiSelectModel(id: '5', name: 'Accessories'),
+  ].obs;
+  RxList<MultiSelectModel> searchedTags = <MultiSelectModel>[
+    MultiSelectModel(
+      id: '1',
+      name: 'Black',
+    ),
+    MultiSelectModel(id: '2', name: 'Orange'),
+    MultiSelectModel(id: '3', name: 'Shoes'),
+    MultiSelectModel(id: '4', name: 'Belt'),
+    MultiSelectModel(id: '5', name: 'Accessories'),
+  ].obs;
+  RxList<MultiSelectModel> chosenTagsList = <MultiSelectModel>[].obs;
+  RxList<MultiSelectModel> chosenCategoriesList = <MultiSelectModel>[].obs;
+  RxList<MultiSelectModel> productCategoryList = <MultiSelectModel>[
+    MultiSelectModel(id: '1', name: 'Select product category'),
+    MultiSelectModel(id: '2', name: 'Vehicle'),
+    MultiSelectModel(id: '3', name: 'Hardware'),
+    MultiSelectModel(id: '4', name: 'Software'),
+    MultiSelectModel(id: '5', name: 'Eatables'),
+    MultiSelectModel(id: '6', name: 'Accessories'),
+  ].obs;
+  RxList<DropDownModel> locationsList = <DropDownModel>[
+    DropDownModel(id: '1', name: 'All Locations'),
+    DropDownModel(id: '2', name: 'Safa Gold Mall'),
+    DropDownModel(id: '3', name: 'Giga Mall'),
+    DropDownModel(id: '4', name: 'Amanah Mall')
+  ].obs;
+  RxList<DropDownModel> productTypeList = <DropDownModel>[
+    DropDownModel(
+      id: '13',
+      name: 'Dummy 1',
     ),
     DropDownModel(
-      id: '2',
-      name: 'Safa Gold Mall'
+      id: '12',
+      name: 'Dummy 1',
     ),
     DropDownModel(
-      id: '3',
-      name: 'Giga Mall'
+      id: '11',
+      name: 'Dummy 1',
     ),
     DropDownModel(
-      id: '4',
-      name: 'Amanah Mall'
-    )
+      id: '10',
+      name: 'Dummy 1',
+    ),
+    DropDownModel(id: '2', name: 'Food & Beverage'),
+    DropDownModel(id: '3', name: 'Car'),
+    DropDownModel(id: '4', name: 'Electronics'),
+    DropDownModel(id: '5', name: 'Hardware')
   ].obs;
   final customToolBarList = [
     ToolBarStyle.bold,
@@ -60,12 +107,12 @@ class AddProductViewModel extends GetxController {
   RxInt priceAfterCommission = 1.obs;
   RxInt selectedCategoryID = 0.obs;
   RxInt selectedSubCategoryID = 1.obs;
-  RxList<String> optionsList = <String>["Size", "Color", "Material", "Style", "Other"].obs;
+  RxList<String> optionsList =
+      <String>["Size", "Color", "Material", "Style", "Other"].obs;
   RxList<String> optionsChosen = <String>[].obs;
   RxString selectedOption = ''.obs;
-  RxList<VariantsOptionsFieldModel> listOfOptionsAdded = <VariantsOptionsFieldModel>[
-    // CustomDropDownList1(value: value, onChanged: onChanged, list: list)
-  ].obs;
+  RxList<VariantsOptionsFieldModel> listOfOptionsAdded =
+      <VariantsOptionsFieldModel>[].obs;
   // RxInt numberOfOptionsAdded = 0.obs;
   RxString chooseCategory = "Select Category".obs;
   RxString chooseSubCategory = "Select sub categories".obs;
@@ -78,13 +125,15 @@ class AddProductViewModel extends GetxController {
   // List<CategoryModel> categoriesList = <CategoryModel>[].obs;
   // RxList<ProductVariantModel> productVariantsFieldsList = <ProductVariantModel>[].obs;
   RxMap<String, dynamic> dynamicFieldsValuesList = <String, dynamic>{}.obs;
-  Map<String, String>? categoryFieldList;
+  // Map<String, String>? categoryFieldList;
   List<String> combinations = [];
-  RxList<VariantSelectionModel> finalCombinationsList = <VariantSelectionModel>[].obs;
+  RxList<VariantSelectionModel> finalCombinationsList =
+      <VariantSelectionModel>[].obs;
   List<String> combinations2 = [];
 
   var formKey = GlobalKey<FormState>();
   var formKeyCategoryField = GlobalKey<FormState>();
+  var formPriceField = GlobalKey<FormState>();
 
   RxString discountMessage = "".obs;
   RxDouble imagesSizeInMb = 0.0.obs;
@@ -100,6 +149,14 @@ class AddProductViewModel extends GetxController {
 
   @override
   void onReady() {
+    tagsFieldFocusNode.addListener(() {
+      if (tagsFieldFocusNode.hasFocus) {
+        showTagsList.value = true;
+      } else {
+        showTagsList.value = false;
+        prodTagController.clear();
+      }
+    });
     // fetchCategories();
     // print('>>>Selected Category: ${selectedCategory.value.id}');
     super.onReady();
@@ -118,15 +175,16 @@ class AddProductViewModel extends GetxController {
     combinations.clear();
     if (listOfOptionsAdded.isNotEmpty) {
       if (listOfOptionsAdded.length > 1) {
-          variantsFunction(0, 1);
+        variantsFunction(0, 1);
       } else {
         combinations.clear();
         listOfOptionsAdded[0].optionValues?.forEach((element) {
-          finalCombinationsList.add(VariantSelectionModel(variantName: element.text, variantSelected: false));
+          finalCombinationsList.add(VariantSelectionModel(
+              variantName: element.text, variantSelected: false));
           finalCombinationsList.refresh();
         });
       }
-    } else{
+    } else {
       print('Empty');
     }
   }
@@ -142,11 +200,14 @@ class AddProductViewModel extends GetxController {
         listOfOptionsAdded[1].optionValues?.forEach((element2) {
           name = "${element.text} - ${element2.text}";
           combinations2.add(name);
-          if(element == listOfOptionsAdded[0].optionValues?.last && element2 == listOfOptionsAdded[1].optionValues?.last && nextIndex != listOfOptionsAdded.length-1) {
+          if (element == listOfOptionsAdded[0].optionValues?.last &&
+              element2 == listOfOptionsAdded[1].optionValues?.last &&
+              nextIndex != listOfOptionsAdded.length - 1) {
             variantsFunction(initialIndex + 1, nextIndex + 1);
           } else {
             finalCombinationsList.clear();
-            finalCombinationsList.addAll(combinations2.map((e) => VariantSelectionModel(variantSelected: false, variantName: e)));
+            finalCombinationsList.addAll(combinations2.map((e) =>
+                VariantSelectionModel(variantSelected: false, variantName: e)));
             finalCombinationsList.refresh();
           }
         });
@@ -157,15 +218,18 @@ class AddProductViewModel extends GetxController {
         listOfOptionsAdded[nextIndex].optionValues?.forEach((listElement) {
           name = '$element - ${listElement.text}';
           tempCombinations.add(name);
-          if (element == combinations.last && listElement == listOfOptionsAdded[nextIndex].optionValues?.last) {
-              combinations2.addAll(tempCombinations.map((e) => e));
-              if(nextIndex != listOfOptionsAdded.length-1) {
-                variantsFunction(initialIndex + 1, nextIndex + 1);
-              } else {
-                finalCombinationsList.clear();
-                finalCombinationsList.addAll(tempCombinations.map((e) => VariantSelectionModel(variantName: e, variantSelected: false)));
-                finalCombinationsList.refresh();
-              }
+          if (element == combinations.last &&
+              listElement == listOfOptionsAdded[nextIndex].optionValues?.last) {
+            combinations2.addAll(tempCombinations.map((e) => e));
+            if (nextIndex != listOfOptionsAdded.length - 1) {
+              variantsFunction(initialIndex + 1, nextIndex + 1);
+            } else {
+              finalCombinationsList.clear();
+              finalCombinationsList.addAll(tempCombinations.map((e) =>
+                  VariantSelectionModel(
+                      variantName: e, variantSelected: false)));
+              finalCombinationsList.refresh();
+            }
           }
         });
       });
@@ -253,150 +317,150 @@ class AddProductViewModel extends GetxController {
     }
   }
 
-  // void getVariantsFields() async {
-  //   ApiBaseHelper()
-  //       .getMethod(
-  //           url:
-  //               'categoryFields?categoryId=$selectedCategoryID&subcategoryId=$selectedSubCategoryID')
-  //       .then((parsedJson) {
-  //     if (parsedJson['success'] == true) {
-  //       GlobalVariable.internetErr(false);
-  //       var parsedJsonData = parsedJson['data'] as List;
-  //       productVariantsFieldsList.clear();
-  //       productVariantsFieldsList.addAll(parsedJsonData
-  //           .map((e) => ProductVariantsModel.fromJson(e))
-  //           .toList());
-  //     }
-  //   }).catchError((e) {
-  //     GlobalVariable.internetErr(true);
-  //     print(e);
-  //   });
-  // }
+// void getVariantsFields() async {
+//   ApiBaseHelper()
+//       .getMethod(
+//           url:
+//               'categoryFields?categoryId=$selectedCategoryID&subcategoryId=$selectedSubCategoryID')
+//       .then((parsedJson) {
+//     if (parsedJson['success'] == true) {
+//       GlobalVariable.internetErr(false);
+//       var parsedJsonData = parsedJson['data'] as List;
+//       productVariantsFieldsList.clear();
+//       productVariantsFieldsList.addAll(parsedJsonData
+//           .map((e) => ProductVariantsModel.fromJson(e))
+//           .toList());
+//     }
+//   }).catchError((e) {
+//     GlobalVariable.internetErr(true);
+//     print(e);
+//   });
+// }
 
-  // void onDynamicFieldsValueChanged(String? value, ProductVariantsModel? model) {
-  //   if (dynamicFieldsValuesList.containsValue(value))
-  //     dynamicFieldsValuesList.removeWhere((key, v) => v == value);
-  //   dynamicFieldsValuesList.addIf(
-  //       !dynamicFieldsValuesList.containsValue(value), "${model!.id}", value);
-  // }
-  //
-  // void addProdBtnPress() {
-  //   GlobalVariable.internetErr(false);
-  //   if (formKey.currentState!.validate()) {
-  //     if (subCategoriesList.isNotEmpty) {
-  //       if (discountMessage.isEmpty) {
-  //         if (!uploadImagesError.value) {
-  //           addProduct();
-  //         } else {
-  //           uploadImagesError.value = true;
-  //         }
-  //       } else {
-  //         AppConstant.displaySnackBar(
-  //           langKey.errorTitle,
-  //           langKey.yourDiscountShould.tr,
-  //         );
-  //       }
-  //     } else {
-  //       AppConstant.displaySnackBar(
-  //           langKey.errorTitle, langKey.plzSelectSubCategory.tr);
-  //     }
-  //   }
-  // }
-  //
-  // void addProduct() async {
-  //   GlobalVariable.showLoader.value = true;
-  //   num discount = prodDiscountController.text.isEmpty
-  //       ? 0
-  //       : num.parse(prodDiscountController.text);
-  //   ProductModel newProduct = ProductModel(
-  //       name: prodNameController.text.trim(),
-  //       price: priceAfterCommission.value,
-  //       stock: int.parse(prodStockController.text),
-  //       categoryId: selectedCategoryID.value,
-  //       subCategoryId: selectedSubCategoryID.value,
-  //       description: prodDescriptionController.text,
-  //       weight: double.parse(prodWeightController.text),
-  //       length: prodLengthController.text.isNotEmpty
-  //           ? double.parse(prodLengthController.text)
-  //           : null,
-  //       width: prodWidthController.text.isNotEmpty
-  //           ? double.parse(prodWidthController.text)
-  //           : null,
-  //       height: prodHeightController.text.isNotEmpty
-  //           ? double.parse(prodHeightController.text)
-  //           : null,
-  //       discount: discount);
-  //
-  //   Map<String, String> body = {
-  //     'name': newProduct.name.toString(),
-  //     'price': newProduct.price.toString(),
-  //     'stock': newProduct.stock.toString(),
-  //     'categoryId': newProduct.categoryId.toString(),
-  //     'subCategoryId': newProduct.subCategoryId.toString(),
-  //     if (newProduct.discount != null &&
-  //         newProduct.discount! >= 10 &&
-  //         newProduct.discount! <= 90)
-  //       'discount': newProduct.discount.toString(),
-  //     'weight': newProduct.weight.toString(),
-  //     if (newProduct.width != null) 'width': newProduct.width.toString(),
-  //     if (newProduct.length != null) 'length': newProduct.length.toString(),
-  //     if (newProduct.height != null) 'height': newProduct.height.toString(),
-  //     'description': newProduct.description.toString(),
-  //   };
-  //
-  //   if (dynamicFieldsValuesList.isNotEmpty) {
-  //     for (int i = 0; i < dynamicFieldsValuesList.entries.length; i++) {
-  //       body.addAll({
-  //         'features[$i][id]':
-  //             "${dynamicFieldsValuesList.entries.elementAt(i).key}",
-  //         'features[$i][value]':
-  //             "${dynamicFieldsValuesList.entries.elementAt(i).value}"
-  //       });
-  //     }
-  //   } else {
-  //     body.addAll({'features': '[]'});
-  //   }
-  //
-  //   print(body);
-  //
-  //   List<http.MultipartFile> filesList = [];
-  //   for (File image in productImages) {
-  //     filesList.add(await http.MultipartFile.fromPath(
-  //       'images',
-  //       image.path,
-  //       contentType: MediaType.parse('image/jpeg'),
-  //     ));
-  //   }
-  //
-  //   await ApiBaseHelper()
-  //       .postMethodForImage(
-  //     url: 'vendor/products/add',
-  //     files: filesList,
-  //     fields: body,
-  //     withAuthorization: true,
-  //   )
-  //       .then((value) async {
-  //     GlobalVariable.showLoader.value = false;
-  //     if (value['success'] == true) {
-  //       GlobalVariable.internetErr(false);
-  //       MyProductsViewModel myProductsViewModel = Get.find();
-  //       myProductsViewModel.loadInitialProducts();
-  //
-  //       Get.back();
-  //       AppConstant.displaySnackBar(langKey.success.tr, value['message']);
-  //     } else {
-  //       debugPrint('Error: ${value.toString()}');
-  //       GlobalVariable.internetErr(false);
-  //
-  //       AppConstant.displaySnackBar(
-  //         langKey.errorTitle.tr,
-  //         "${value['message'] != null ? value['message'] : langKey.someThingWentWrong.tr}",
-  //       );
-  //     }
-  //   }).catchError((e) {
-  //     GlobalVariable.internetErr(true);
-  //     debugPrint('Error: ${e.toString()}');
-  //     //   AppConstant.displaySnackBar(langKey.errorTitle, "${e.message}");
-  //   });
-  // }
+// void onDynamicFieldsValueChanged(String? value, ProductVariantsModel? model) {
+//   if (dynamicFieldsValuesList.containsValue(value))
+//     dynamicFieldsValuesList.removeWhere((key, v) => v == value);
+//   dynamicFieldsValuesList.addIf(
+//       !dynamicFieldsValuesList.containsValue(value), "${model!.id}", value);
+// }
+//
+// void addProdBtnPress() {
+//   GlobalVariable.internetErr(false);
+//   if (formKey.currentState!.validate()) {
+//     if (subCategoriesList.isNotEmpty) {
+//       if (discountMessage.isEmpty) {
+//         if (!uploadImagesError.value) {
+//           addProduct();
+//         } else {
+//           uploadImagesError.value = true;
+//         }
+//       } else {
+//         AppConstant.displaySnackBar(
+//           langKey.errorTitle,
+//           langKey.yourDiscountShould.tr,
+//         );
+//       }
+//     } else {
+//       AppConstant.displaySnackBar(
+//           langKey.errorTitle, langKey.plzSelectSubCategory.tr);
+//     }
+//   }
+// }
+//
+// void addProduct() async {
+//   GlobalVariable.showLoader.value = true;
+//   num discount = prodDiscountController.text.isEmpty
+//       ? 0
+//       : num.parse(prodDiscountController.text);
+//   ProductModel newProduct = ProductModel(
+//       name: prodNameController.text.trim(),
+//       price: priceAfterCommission.value,
+//       stock: int.parse(prodStockController.text),
+//       categoryId: selectedCategoryID.value,
+//       subCategoryId: selectedSubCategoryID.value,
+//       description: prodDescriptionController.text,
+//       weight: double.parse(prodWeightController.text),
+//       length: prodLengthController.text.isNotEmpty
+//           ? double.parse(prodLengthController.text)
+//           : null,
+//       width: prodWidthController.text.isNotEmpty
+//           ? double.parse(prodWidthController.text)
+//           : null,
+//       height: prodHeightController.text.isNotEmpty
+//           ? double.parse(prodHeightController.text)
+//           : null,
+//       discount: discount);
+//
+//   Map<String, String> body = {
+//     'name': newProduct.name.toString(),
+//     'price': newProduct.price.toString(),
+//     'stock': newProduct.stock.toString(),
+//     'categoryId': newProduct.categoryId.toString(),
+//     'subCategoryId': newProduct.subCategoryId.toString(),
+//     if (newProduct.discount != null &&
+//         newProduct.discount! >= 10 &&
+//         newProduct.discount! <= 90)
+//       'discount': newProduct.discount.toString(),
+//     'weight': newProduct.weight.toString(),
+//     if (newProduct.width != null) 'width': newProduct.width.toString(),
+//     if (newProduct.length != null) 'length': newProduct.length.toString(),
+//     if (newProduct.height != null) 'height': newProduct.height.toString(),
+//     'description': newProduct.description.toString(),
+//   };
+//
+//   if (dynamicFieldsValuesList.isNotEmpty) {
+//     for (int i = 0; i < dynamicFieldsValuesList.entries.length; i++) {
+//       body.addAll({
+//         'features[$i][id]':
+//             "${dynamicFieldsValuesList.entries.elementAt(i).key}",
+//         'features[$i][value]':
+//             "${dynamicFieldsValuesList.entries.elementAt(i).value}"
+//       });
+//     }
+//   } else {
+//     body.addAll({'features': '[]'});
+//   }
+//
+//   print(body);
+//
+//   List<http.MultipartFile> filesList = [];
+//   for (File image in productImages) {
+//     filesList.add(await http.MultipartFile.fromPath(
+//       'images',
+//       image.path,
+//       contentType: MediaType.parse('image/jpeg'),
+//     ));
+//   }
+//
+//   await ApiBaseHelper()
+//       .postMethodForImage(
+//     url: 'vendor/products/add',
+//     files: filesList,
+//     fields: body,
+//     withAuthorization: true,
+//   )
+//       .then((value) async {
+//     GlobalVariable.showLoader.value = false;
+//     if (value['success'] == true) {
+//       GlobalVariable.internetErr(false);
+//       MyProductsViewModel myProductsViewModel = Get.find();
+//       myProductsViewModel.loadInitialProducts();
+//
+//       Get.back();
+//       AppConstant.displaySnackBar(langKey.success.tr, value['message']);
+//     } else {
+//       debugPrint('Error: ${value.toString()}');
+//       GlobalVariable.internetErr(false);
+//
+//       AppConstant.displaySnackBar(
+//         langKey.errorTitle.tr,
+//         "${value['message'] != null ? value['message'] : langKey.someThingWentWrong.tr}",
+//       );
+//     }
+//   }).catchError((e) {
+//     GlobalVariable.internetErr(true);
+//     debugPrint('Error: ${e.toString()}');
+//     //   AppConstant.displaySnackBar(langKey.errorTitle, "${e.message}");
+//   });
+// }
 }
