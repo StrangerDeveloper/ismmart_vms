@@ -169,7 +169,7 @@ var dmSerifDisplay1 = GoogleFonts.dmSerifDisplay(
 var newFontStyleSize14 = GoogleFonts.inter(
     fontWeight: FontWeight.w400,
     fontSize: 14,
-    height: 0.11,
+    // height: 0.11,
     color: newColorDarkBlack);
 var newFontStyle1 = GoogleFonts.inter(
   fontWeight: FontWeight.w500,
@@ -198,7 +198,7 @@ var newFontStyleSize24 = GoogleFonts.inter(
   fontSize: 24,
   fontWeight: FontWeight.w700,
   color: newColorBlue,
-  height: 0.06,
+  // height: 0.06,
   letterSpacing: -0.24,
 );
 
