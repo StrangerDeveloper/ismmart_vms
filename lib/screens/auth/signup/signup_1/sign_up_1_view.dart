@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/constants.dart';
 import 'package:ismmart_vms/widgets/image_layout_container.dart';
@@ -30,14 +32,17 @@ class SignUp1View extends StatelessWidget {
                 Form(
                   key: viewModel.signUpFormKey,
                   child: Padding(
-                    padding:
-                        const EdgeInsets.only(top: 50, left: 20, right: 20),
+                    padding: const EdgeInsets.only(
+                      top: 60,
+                      left: 20,
+                      right: 20,
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         titleAndBackBtn(),
                         Padding(
-                          padding: EdgeInsets.only(top: 20),
+                          padding: EdgeInsets.only(top: 60),
                           child: Text(
                             'Create an account',
                             style: newFontStyleSize20,
@@ -53,16 +58,7 @@ class SignUp1View extends StatelessWidget {
                         cnicBackImage(),
                         passwordTextField(),
                         confirmPasswordTextField(),
-                        Padding(
-                            padding: EdgeInsets.only(top: 20),
-                            child: SizedBox(
-                              width: double.infinity,
-                              child: Text(
-                                maxLines: 3,
-                                'By creating your account you have to agree with our terms & conditions.',
-                                style: newFontStyleSize14,
-                              ),
-                            )),
+                        checkedStatement(),
                         SizedBox(
                           height: 100,
                         )
@@ -71,6 +67,31 @@ class SignUp1View extends StatelessWidget {
                   ),
                 ),
               ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget checkedStatement() {
+    return const Padding(
+      padding: EdgeInsets.only(top: 20),
+      child: Row(
+        children: [
+          Icon(
+            Icons.check_box,
+            color: Colors.blue,
+          ),
+          SizedBox(
+            width: 5,
+          ),
+          SizedBox(
+            width: 325,
+            child: Text(
+              'By creating your account you have to agree with our terms & conditions.',
+              overflow: TextOverflow.ellipsis,
+              maxLines: 3,
             ),
           ),
         ],
@@ -100,46 +121,43 @@ class SignUp1View extends StatelessWidget {
   }
 
   Widget progress() {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 32),
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Get onboard as a user',
-                  style: newFontStyle1.copyWith(
-                    color: newColorBlue2,
-                  ),
+    return Row(
+      children: [
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Get onboard as a user',
+                style: newFontStyle1.copyWith(
+                  color: newColorBlue2,
                 ),
-                const SizedBox(height: 6),
-              ],
-            ),
-          ),
-          CircularPercentIndicator(
-            circularStrokeCap: CircularStrokeCap.round,
-            radius: 33,
-            lineWidth: 6,
-            percent: 0.05,
-            backgroundColor: const Color(0xffEBEFF3),
-            progressColor: const Color(0xff0CBC8B),
-            center: Text(
-              "1 of 3",
-              style: poppinsH2.copyWith(
-                color: newColorBlue2,
               ),
+              const SizedBox(height: 6),
+            ],
+          ),
+        ),
+        CircularPercentIndicator(
+          circularStrokeCap: CircularStrokeCap.round,
+          radius: 33,
+          lineWidth: 6,
+          percent: 0.05,
+          backgroundColor: const Color(0xffEBEFF3),
+          progressColor: const Color(0xff0CBC8B),
+          center: Text(
+            "1 of 3",
+            style: poppinsH2.copyWith(
+              color: newColorBlue2,
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
   Widget nameField() {
     return Padding(
-      padding: const EdgeInsets.only(top: 32, bottom: 26),
+      padding: const EdgeInsets.only(top: 32, bottom: 15),
       child: CustomTextField1(
         prefixIcon: Icons.person,
         title: 'Full Name',

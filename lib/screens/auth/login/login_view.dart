@@ -102,12 +102,8 @@ class LogInView extends StatelessWidget {
   Widget emailTextField() {
     return Padding(
       padding: const EdgeInsets.only(top: 32),
-      child: CustomTextField3(
-        textFieldIcon: Icon(
-          Icons.person,
-          color: newColorLightGrey2,
-          size: 20,
-        ),
+      child: CustomTextField1(
+        prefixIcon: Icons.person,
         title: 'Email / Phone Number',
         hintText: 'Email / Phone Number',
         controller: viewModel.emailController,
@@ -123,9 +119,7 @@ class LogInView extends StatelessWidget {
   Widget passwordTextField() {
     return Obx(
       () => Padding(
-        padding: const EdgeInsets.only(
-          top: 16,
-        ),
+        padding: const EdgeInsets.only(top: 16, bottom: 16),
         child: CustomTextField1(
           prefixIcon: Icons.lock,
           controller: viewModel.passwordController,
