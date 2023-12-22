@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 class OrdertrackingItemModel {
   OrdertrackingItemModel({
     this.orderTrackingId,
-    this.twentyFiveMillionEightHundredT,
+    this.orderTrackingIdNumber,
     this.pending,
     this.axelArigato,
     this.iSMMARTOriginals,
@@ -31,8 +31,7 @@ class OrdertrackingItemModel {
     this.id,
   }) {
     orderTrackingId = orderTrackingId ?? Rx("Order tracking id");
-    twentyFiveMillionEightHundredT =
-        twentyFiveMillionEightHundredT ?? Rx("753205721");
+    orderTrackingIdNumber = orderTrackingIdNumber ?? Rx("753205721");
     pending = pending ?? Rx("Pending");
     axelArigato = axelArigato ?? Rx("Axel Arigato");
     iSMMARTOriginals = iSMMARTOriginals ?? Rx("ISMMART Originals");
@@ -61,7 +60,7 @@ class OrdertrackingItemModel {
 
   Rx<String>? orderTrackingId;
 
-  Rx<String>? twentyFiveMillionEightHundredT;
+  Rx<String>? orderTrackingIdNumber;
 
   Rx<String>? pending;
 
