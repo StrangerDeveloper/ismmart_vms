@@ -6,7 +6,7 @@ class OrdersDetailPageModel {
     [
       OrdertrackingItemModel(
         orderTrackingId: "Order tracking id".obs,
-        twentyFiveMillionEightHundredT: "753205721".obs,
+        orderTrackingIdNumber: "753205721".obs,
         pending: "Pending".obs,
         axelArigato: "Axel Arigato".obs,
         iSMMARTOriginals: "ISMMART Originals".obs,
@@ -33,7 +33,7 @@ class OrdersDetailPageModel {
       ),
       OrdertrackingItemModel(
         orderTrackingId: "Order tracking id".obs,
-        twentyFiveMillionEightHundredT: "753205721".obs,
+        orderTrackingIdNumber: "753205721".obs,
         pending: "Pending".obs,
         axelArigato: "Axel Arigato".obs,
         iSMMARTOriginals: "ISMMART Originals".obs,
