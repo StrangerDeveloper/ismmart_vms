@@ -87,6 +87,25 @@ class OrderViewModel extends GetxController {
         returnItems: [],
         refundItems: [],
       ),
+      Order(
+        orderId: 1,
+        amount: 0.0,
+        customerName: 'Umair',
+        customerPhone: '03335896325',
+        customerEmail: '',
+        numberOfProducts: 0,
+        date: DateTime.now(),
+        paymentStatus: 'paid',
+        fulfillmentStatus: 'fulfilled',
+        deliveryStatus: 'delivered',
+        deliveryMethod: '',
+        channel: '',
+        market: '',
+        items: orderItem,
+        timeline: [],
+        returnItems: [],
+        refundItems: [],
+      ),
       // Add more Order instances as needed
     ];
 

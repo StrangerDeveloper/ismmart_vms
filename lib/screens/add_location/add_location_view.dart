@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ismmart_vms/helper/theme_helper.dart';
 import 'package:ismmart_vms/screens/add_location/add_location_viewmodel.dart';
 import 'package:ismmart_vms/widgets/custom_button.dart';
 import 'package:ismmart_vms/widgets/custom_textfield.dart';
@@ -12,6 +13,7 @@ class AddLocationView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text('Add Address'),
       ),
@@ -21,31 +23,97 @@ class AddLocationView extends StatelessWidget {
           children: [
             const CustomTextField1(
               title: 'Name',
+              hintText: 'e.g. Beverly Center, Islamabad',
             ),
-            const SizedBox(height: 10),
-            const CustomTextField1(
-              title: 'Country',
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 18),
+              child: CustomTextField1(
+                title: 'Country',
+                hintText: 'Select the country',
+                readOnly: true,
+                onTap: (){},
+              ),
             ),
-            const SizedBox(height: 10),
-            const CustomTextField1(
+            CustomTextField1(
               title: 'City ',
+              hintText: 'Select the city',
+              readOnly: true,
+              onTap: () {
+                itemsBottomSheet();
+              },
             ),
-            const SizedBox(height: 10),
-            const CustomTextField1(
-              title: 'Address',
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 18),
+              child: CustomTextField1(
+                title: 'Address',
+                hintText: 'Enter your Address here...',
+                maxLines: 8,
+                filled: false,
+              ),
             ),
-            const SizedBox(height: 10),
-            const CustomTextField1(
-              title: 'Phone No',
+            CustomTextField1(
+              title: 'Status',
+              hintText: 'Select the Status',
+              readOnly: true,
+              isDropDown : true,
+              onTap: () {
+                itemsBottomSheet();
+              },
             ),
-            const SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.only(top: 40, bottom: 5),
+              child: CustomTextBtn(
+                title: 'Save & Create',
+                onPressed: () {},
+              ),
+            ),
             CustomTextBtn(
-              title: 'Submit',
+              title: 'Discard',
+              backgroundColor: Colors.black,
               onPressed: () {},
             ),
           ],
         ),
       ),
+    );
+  }
+
+  itemsBottomSheet() {
+    showModalBottomSheet(
+      context: Get.context!,
+      isScrollControlled: true,
+      constraints: BoxConstraints(maxHeight: Get.height * 0.7),
+      builder: (BuildContext context) {
+        return Padding(
+          padding: const EdgeInsets.fromLTRB(16, 16, 10, 3),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Icon(
+                    Icons.menu,
+                    color: ThemeHelper.blue1,
+                  ),
+                  const SizedBox(),
+                  const Text(
+                    'Select City',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 16,
+                    ),
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(Icons.close),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

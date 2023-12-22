@@ -194,6 +194,13 @@ var newFontStyleSize20 = GoogleFonts.inter(
   color: newColorDarkBlack,
   height: 0.07,
 );
+var newFontStyleSize24 = GoogleFonts.inter(
+  fontSize: 24,
+  fontWeight: FontWeight.w700,
+  color: newColorBlue,
+  height: 0.06,
+  letterSpacing: -0.24,
+);
 
 class AppConstant {
   AppConstant._();
