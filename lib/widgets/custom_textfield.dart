@@ -6,6 +6,7 @@ import 'package:ismmart_vms/helper/theme_helper.dart';
 
 import '../helper/constants.dart';
 
+
 //FINAL VERSION...
 class CustomTextField1 extends StatelessWidget {
   final String? title;
@@ -32,6 +33,17 @@ class CustomTextField1 extends StatelessWidget {
   final EdgeInsetsGeometry contentPadding;
   final TextStyle? textStyle;
 
+  ///USAGE INFORMATION:
+  ///
+  /// (Note) : Only one of these can be used at a time...
+  ///
+  ///1 - suffixIconButton :- (widget) used for Clickable suffixIcon
+  ///
+  ///2- suffixIcon :- (IconData) used for static Icon
+  ///
+  ///3- ( isDropDown:true,  onTap:(){} ) :- To make text-field look like a dropDown use these
+  ///
+  ///
   const CustomTextField1({
     super.key,
     this.contentPadding = const EdgeInsets.symmetric(
@@ -99,7 +111,7 @@ class CustomTextField1 extends StatelessWidget {
           maxLines: maxLines,
           onChanged: onChanged,
           showCursor: readOnly ? false : showCursor,
-          readOnly: readOnly,
+          readOnly: isDropDown ? true : readOnly,
           autovalidateMode: autoValidateMode,
           obscureText: obscureText,
           validator: validator,
