@@ -71,29 +71,62 @@ class ImageLayoutContainer extends StatelessWidget {
             children: [
               InkWell(
                 onTap: onTap,
-                child: Text(
-                  'Choose File',
-                  style: TextStyle(
-                    color: ThemeHelper.plattet1.shade900,
-                    fontSize: 12,
+                child: Container(
+                  alignment: Alignment.center,
+                  height: 37,
+                  width: 115,
+                  decoration: BoxDecoration(
+                      color: Color(0xFF929AAB),
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10.0),
+                        bottomLeft: const Radius.circular(10.0),
+                      )),
+                  child: Text(
+                    'Choose File',
+                    style: TextStyle(
+                      color: Color(0xFFF9FAFB),
+                      fontSize: 12,
+                    ),
                   ),
                 ),
               ),
-              SizedBox(width: 4),
-              Text(
-                filePath == '' ? "No File Chosen" : filePath,
-                style: TextStyle(
-                  color: ThemeHelper.fadedBlue,
-                  fontSize: 12,
+              Container(
+                padding: EdgeInsets.only(left: 10, top: 17),
+                width: 270,
+                height: 37,
+                decoration: ShapeDecoration(
+                  color: Color(0xFFF9FAFB),
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(
+                      width: 1,
+                      strokeAlign: BorderSide.strokeAlignOutside,
+                      color: Color(0xFFEEEEEE),
+                    ),
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(8),
+                      bottomRight: Radius.circular(8),
+                    ),
+                  ),
                 ),
-              ),
+                child: Text(
+                  filePath == '' ? 'No file chosen' : filePath,
+                  style: TextStyle(
+                    color: Color(0xFF24272C),
+                    fontSize: 14,
+                    fontFamily: 'Inter',
+                    fontWeight: FontWeight.w400,
+                    height: 0.09,
+                  ),
+                ),
+              )
             ],
           ),
-          Divider(
-            color: Color(0xffEEEEEE),
-            thickness: 1,
-            height: 20,
-          ),
+
+          // Divider(
+          //   color: Color(0xffEEEEEE),
+          //   thickness: 1,
+          //   height: 20,
+          // ),
           if (description)
             Text(
               "This cheque image should have the same bank details visible as you mentioned above",

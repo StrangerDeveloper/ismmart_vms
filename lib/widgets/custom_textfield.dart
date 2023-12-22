@@ -6,7 +6,6 @@ import 'package:ismmart_vms/helper/theme_helper.dart';
 
 import '../helper/constants.dart';
 
-
 //FINAL VERSION...
 class CustomTextField1 extends StatelessWidget {
   final String? title;
@@ -134,7 +133,7 @@ class CustomTextField1 extends StatelessWidget {
             prefixIcon: prefixIcon != null
                 ? Icon(
                     prefixIcon,
-                    size: 20,
+                    size: 17,
                     color: ThemeHelper.grey2,
                   )
                 : null,

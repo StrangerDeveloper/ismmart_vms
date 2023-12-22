@@ -37,6 +37,9 @@ class LogInView extends StatelessWidget {
                 child: ScrollableColumn(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    SizedBox(
+                      height: 30,
+                    ),
                     titleAndBackBtn(),
                     const Spacer(),
                     Padding(
@@ -50,6 +53,7 @@ class LogInView extends StatelessWidget {
                         padding: const EdgeInsets.only(
                             right: 20, bottom: 32, top: 16),
                         child: Text(
+                            maxLines: 2,
                             'Please login or sign up to continue our app',
                             style: newFontStyleSize14)),
                     emailTextField(),

@@ -58,6 +58,9 @@ class SignUp1View extends StatelessWidget {
                         cnicNumberField(),
                         cnicFrontImage(),
                         cnicBackImage(),
+                        SizedBox(
+                          height: 20,
+                        ),
                         passwordTextField(),
                         confirmPasswordTextField(),
                         checkedStatement(),
