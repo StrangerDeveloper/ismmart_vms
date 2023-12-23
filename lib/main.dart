@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ismmart_vms/helper/theme_helper.dart';
+import 'package:ismmart_vms/screens/auth/login/login_view.dart';
 import 'package:ismmart_vms/screens/create_payout/create_payout_view.dart';
 
 import 'firebase_options.dart';
@@ -37,18 +38,17 @@ class MyApp extends StatelessWidget {
         primarySwatch: ThemeHelper.plattet1,
         useMaterial3: false,
         appBarTheme: AppBarTheme(
-          backgroundColor: Colors.white,
-          titleTextStyle: GoogleFonts.dmSerifDisplay(
-            color: Colors.black,
-            fontSize: 20,
-            fontWeight: FontWeight.w400,
-          ),
-          centerTitle: true,
-          elevation: 3,
-          shadowColor: Colors.black12
-        ),
+            backgroundColor: Colors.white,
+            titleTextStyle: GoogleFonts.dmSerifDisplay(
+              color: Colors.black,
+              fontSize: 20,
+              fontWeight: FontWeight.w400,
+            ),
+            centerTitle: true,
+            elevation: 3,
+            shadowColor: Colors.black12),
       ),
-      home: CreatePayoutView(),
+      home: LogInView(),
       initialRoute: Routes.initRoute,
       getPages: Routes.pages,
     );
