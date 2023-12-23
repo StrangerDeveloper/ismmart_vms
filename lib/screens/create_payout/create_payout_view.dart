@@ -4,7 +4,6 @@ import 'package:ismmart_vms/screens/create_payout/create_payout_viewmodel.dart';
 import 'package:ismmart_vms/widgets/custom_button.dart';
 import 'package:ismmart_vms/widgets/custom_textfield.dart';
 import 'package:ismmart_vms/widgets/scrollable_column.dart';
-
 import '../../helper/theme_helper.dart';
 
 class CreatePayoutView extends StatelessWidget {
@@ -26,7 +25,7 @@ class CreatePayoutView extends StatelessWidget {
             child: CustomTextField1(
               title: 'Select Vendor Name ',
               hintText: 'Select vendor name',
-              readOnly: true,
+              // readOnly: true,
               isDropDown: true,
               onTap: () {},
             ),
@@ -79,19 +78,32 @@ class CreatePayoutView extends StatelessWidget {
         color: ThemeHelper.grey3,
         borderRadius: BorderRadius.circular(12),
       ),
-      child: const Padding(
-        padding:
-            EdgeInsets.only(left: 12, right: 12, top: 10, bottom: 10),
+      child: Padding(
+        padding: EdgeInsets.only(left: 12, right: 12, top: 10, bottom: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CustomRadioButton1(
-              groupValue: 'helo',
-              value: 'hello',
+            Obx(
+              () => CustomRadioButton1(
+                title: 'Manual',
+                groupValue: viewModel.radioBtn.value,
+                value: 'manual',
+                onChanged: (value) {
+                  viewModel.radioBtn.value = value;
+                  print(value);
+                },
+              ),
             ),
-            CustomRadioButton1(
-              groupValue: 'helo',
-              value: 'hellosa',
+            Obx(
+              () => CustomRadioButton1(
+                groupValue: viewModel.radioBtn.value,
+                value: 'automatic',
+                onChanged: (value) {
+                  viewModel.radioBtn.value = value;
+                  print(value);
+                },
+                title: 'Automatic',
+              ),
             ),
             CustomTextField1(
               title: 'Date',
@@ -109,15 +121,17 @@ class CreatePayoutView extends StatelessWidget {
 }
 
 class CustomRadioButton1 extends StatelessWidget {
+  final String title;
   final String groupValue;
   final String value;
-  final void Function(String?)? onChanged;
+  final void Function(String) onChanged;
 
   const CustomRadioButton1({
     super.key,
     required this.groupValue,
     required this.value,
-    this.onChanged,
+    required this.onChanged,
+    required this.title,
   });
 
   @override
@@ -127,28 +141,30 @@ class CustomRadioButton1 extends StatelessWidget {
         Material(
           child: InkWell(
             customBorder: const CircleBorder(),
-            onTap: () {},
+            onTap: () {
+              onChanged(value);
+            },
             child: Container(
-              height: 20,
-              width: 20,
-              margin: const EdgeInsets.all(8),
+              height: 16,
+              width: 16,
+              margin: const EdgeInsets.all(9),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: value == groupValue
                     ? Border.all(
-                        color: const Color(0xFFD1D5DB),
-                      )
-                    : Border.all(
                         width: 3.5,
                         color: ThemeHelper.blue1,
+                      )
+                    : Border.all(
+                        color: const Color(0xFFD1D5DB),
                       ),
               ),
             ),
           ),
         ),
-        const Text(
-          'Manual',
-          style: TextStyle(
+        Text(
+          title,
+          style: const TextStyle(
             fontWeight: FontWeight.w500,
           ),
         )
