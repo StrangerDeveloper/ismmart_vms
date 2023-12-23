@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:ismmart_vms/screens/add_product/add_product_1/add_product_1_view.dart';
-import 'package:ismmart_vms/screens/auth/login/login_view.dart';
-import 'package:ismmart_vms/screens/auth/signup/signup_1/sign_up_1_view.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:ismmart_vms/helper/theme_helper.dart';
 import 'package:ismmart_vms/screens/create_payout/create_payout_view.dart';
-import 'package:ismmart_vms/screens/location_list/location_list_view.dart';
+
 import 'firebase_options.dart';
 import 'helper/routes.dart';
 
@@ -35,10 +34,20 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'ISMMART VMS',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        primarySwatch: ThemeHelper.plattet1,
         useMaterial3: false,
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.white,
+          titleTextStyle: GoogleFonts.dmSerifDisplay(
+            color: Colors.black,
+            fontSize: 20,
+            fontWeight: FontWeight.w400,
+          ),
+          centerTitle: true,
+          elevation: 3,
+          shadowColor: Colors.black12
+        ),
       ),
-      //  home: SignUp3View(),
       home: CreatePayoutView(),
       initialRoute: Routes.initRoute,
       getPages: Routes.pages,
