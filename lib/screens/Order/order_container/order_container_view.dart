@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
+import 'package:ismmart_vms/screens/Order/order_container/ordersPage_view.dart';
 import 'package:ismmart_vms/screens/Order/order_tabContainer/orders_tab_viewModel.dart';
 import 'package:ismmart_vms/widgets/custom_button.dart';
 
@@ -12,6 +13,7 @@ import '../../../widgets/custom_image_view.dart';
 import '../../../widgets/custom_textfield.dart';
 import '../order_tabContainer/orders_tab_model.dart';
 
+// ignore: must_be_immutable
 class OrderContainerView extends StatelessWidget {
   OrderContainerView({super.key});
 
@@ -34,6 +36,17 @@ class OrderContainerView extends StatelessWidget {
               _buildSearch(),
               SizedBox(height: 16.v),
               _buildTabview(),
+              SizedBox(
+                height: 453.h,
+                child: TabBarView(
+                  controller: controller.tabviewController,
+                  children: [
+                    OrdersPage(),
+                    OrdersPage(),
+                    OrdersPage(),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
