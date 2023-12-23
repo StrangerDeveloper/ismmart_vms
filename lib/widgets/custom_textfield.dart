@@ -81,26 +81,28 @@ class CustomTextField1 extends StatelessWidget {
         (title == null)
             ? Container()
             : Padding(
-                padding: const EdgeInsets.only(bottom: 8.5),
-                child: RichText(
-                  text: TextSpan(
-                    text: title,
-                    style: newFontStyleSize14.copyWith(
-                        fontWeight: FontWeight.w500),
-                    children: [
-                      (asterisk)
-                          ? const TextSpan(
-                              text: '*',
-                              style: TextStyle(
-                                color: Colors.red,
-                                fontSize: 16,
-                              ),
-                            )
-                          : const TextSpan(text: '')
-                    ],
-                  ),
-                ),
+          padding: const EdgeInsets.only(bottom: 8.5),
+          child: RichText(
+            text: TextSpan(
+              text: title,
+              style: const TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.w500,
               ),
+              children: [
+                (asterisk)
+                    ? const TextSpan(
+                  text: '*',
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 16,
+                  ),
+                )
+                    : const TextSpan(text: '')
+              ],
+            ),
+          ),
+        ),
         TextFormField(
           controller: controller,
           keyboardType: keyboardType,
@@ -113,31 +115,39 @@ class CustomTextField1 extends StatelessWidget {
           obscureText: obscureText,
           validator: validator,
           onTap: onTap,
-          style: newFontStyleSize14.copyWith(color: ThemeHelper.grey2),
+          style: const TextStyle(
+            color: ThemeHelper.grey4,
+            fontWeight: FontWeight.w400,
+            fontSize: 14,
+          ),
           decoration: InputDecoration(
             errorText: errorText,
             suffixIcon: (suffixIcon != null || isDropDown)
                 ? Icon(
-                    suffixIcon ?? Icons.keyboard_arrow_down_rounded,
-                    size: 25,
-                    color: ThemeHelper.grey2,
-                  )
+              suffixIcon ?? Icons.keyboard_arrow_down_rounded,
+              size: 20,
+              color: ThemeHelper.grey2,
+            )
                 : suffixIconButton,
             suffixIconConstraints: BoxConstraints.tight(const Size(40, 40)),
             prefixIcon: prefixIcon != null
                 ? Icon(
-                    prefixIcon,
-                    size: 18,
-                    color: ThemeHelper.grey2,
-                  )
+              prefixIcon,
+              size: 20,
+              color: ThemeHelper.grey2,
+            )
                 : null,
             prefixIconConstraints: BoxConstraints.tight(const Size(40, 40)),
             contentPadding: contentPadding,
             fillColor: fillColor,
             filled: filled,
             hintText: hintText,
-            hintStyle: newFontStyleSize14.copyWith(color: ThemeHelper.grey2),
-            isDense: false,
+            hintStyle: const TextStyle(
+              color: ThemeHelper.grey2,
+              fontWeight: FontWeight.w400,
+              fontSize: 14,
+            ),
+            isDense: true,
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
               borderSide: const BorderSide(width: 1, color: ThemeHelper.grey1),
@@ -145,7 +155,7 @@ class CustomTextField1 extends StatelessWidget {
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
               borderSide:
-                  const BorderSide(width: 1.5, color: ThemeHelper.grey1),
+              const BorderSide(width: 1.5, color: ThemeHelper.grey1),
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
