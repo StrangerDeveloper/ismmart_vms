@@ -35,6 +35,7 @@ const newColorDarkBlack = Color(0xFF24272C);
 const newColorDarkBlack2 = Color(0xff24282D);
 const newColorLightGrey = Color(0xffEEEEEE);
 const newColorLightGrey2 = Color(0xff929AAB);
+const newColorLightGrey3 = Color(0xFF6F6F6F);
 const newColorBlue = Color(0xff3669C9);
 const newColorBlue2 = Color(0xff364554);
 const newColorBlue3 = Color(0xffADBCCB);
@@ -154,6 +155,12 @@ var textStylePoppins = GoogleFonts.lato(
 var dmSerifDisplay1 = GoogleFonts.dmSerifDisplay(
   color: newColorDarkBlack2,
   fontSize: 14,
+);
+var newFontStyleSize12 = GoogleFonts.inter(
+  color: newColorDarkBlack,
+  fontSize: 12,
+  fontWeight: FontWeight.w500,
+  height: 1.5,
 );
 
 var newFontStyleSize14 = GoogleFonts.inter(

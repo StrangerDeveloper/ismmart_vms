@@ -85,10 +85,8 @@ class CustomTextField1 extends StatelessWidget {
                 child: RichText(
                   text: TextSpan(
                     text: title,
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w500,
-                    ),
+                    style: newFontStyleSize14.copyWith(
+                        fontWeight: FontWeight.w500),
                     children: [
                       (asterisk)
                           ? const TextSpan(
@@ -115,17 +113,13 @@ class CustomTextField1 extends StatelessWidget {
           obscureText: obscureText,
           validator: validator,
           onTap: onTap,
-          style: const TextStyle(
-            color: ThemeHelper.grey4,
-            fontWeight: FontWeight.w400,
-            fontSize: 14,
-          ),
+          style: newFontStyleSize14.copyWith(color: ThemeHelper.grey2),
           decoration: InputDecoration(
             errorText: errorText,
             suffixIcon: (suffixIcon != null || isDropDown)
                 ? Icon(
                     suffixIcon ?? Icons.keyboard_arrow_down_rounded,
-                    size: 20,
+                    size: 25,
                     color: ThemeHelper.grey2,
                   )
                 : suffixIconButton,
@@ -133,7 +127,7 @@ class CustomTextField1 extends StatelessWidget {
             prefixIcon: prefixIcon != null
                 ? Icon(
                     prefixIcon,
-                    size: 17,
+                    size: 18,
                     color: ThemeHelper.grey2,
                   )
                 : null,
@@ -142,12 +136,8 @@ class CustomTextField1 extends StatelessWidget {
             fillColor: fillColor,
             filled: filled,
             hintText: hintText,
-            hintStyle: const TextStyle(
-              color: ThemeHelper.grey2,
-              fontWeight: FontWeight.w400,
-              fontSize: 14,
-            ),
-            isDense: true,
+            hintStyle: newFontStyleSize14.copyWith(color: ThemeHelper.grey2),
+            isDense: false,
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
               borderSide: const BorderSide(width: 1, color: ThemeHelper.grey1),
@@ -204,7 +194,7 @@ class CustomTextField2 extends StatelessWidget {
     this.titleColor,
     this.onTap,
     this.enabled = true,
-    this.contentPadding = const EdgeInsets.fromLTRB(10, 13.5, 10, 13.5),
+    this.contentPadding = const EdgeInsets.all(8),
     this.controller,
     this.suffixIcon,
     this.obscureText = false,

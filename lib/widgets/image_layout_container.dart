@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ismmart_vms/helper/constants.dart';
 import 'package:ismmart_vms/helper/theme_helper.dart';
 
 class ImageLayoutContainer extends StatelessWidget {
@@ -26,7 +27,7 @@ class ImageLayoutContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: Column(
         children: [
           Row(
@@ -34,9 +35,7 @@ class ImageLayoutContainer extends StatelessWidget {
               RichText(
                 text: TextSpan(
                   text: title,
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
+                  style: newFontStyleSize14,
                   children: [
                     if (required)
                       TextSpan(
@@ -66,7 +65,7 @@ class ImageLayoutContainer extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 15),
+          SizedBox(height: 3),
           Row(
             children: [
               InkWell(
@@ -92,7 +91,7 @@ class ImageLayoutContainer extends StatelessWidget {
               ),
               Container(
                 padding: EdgeInsets.only(left: 10, top: 17),
-                width: 270,
+                width: 250,
                 height: 37,
                 decoration: ShapeDecoration(
                   color: Color(0xFFF9FAFB),
