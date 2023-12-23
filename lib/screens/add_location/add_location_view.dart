@@ -30,14 +30,14 @@ class AddLocationView extends StatelessWidget {
               child: CustomTextField1(
                 title: 'Country',
                 hintText: 'Select the country',
-                readOnly: true,
                 onTap: (){},
+                isDropDown: true,
               ),
             ),
             CustomTextField1(
               title: 'City ',
               hintText: 'Select the city',
-              readOnly: true,
+              isDropDown: true,
               onTap: () {
                 itemsBottomSheet();
               },

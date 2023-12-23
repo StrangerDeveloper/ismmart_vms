@@ -6,6 +6,8 @@ import 'package:get_storage/get_storage.dart';
 import 'package:ismmart_vms/screens/add_product/add_product_1/add_product_1_view.dart';
 import 'package:ismmart_vms/screens/auth/login/login_view.dart';
 import 'package:ismmart_vms/screens/auth/signup/signup_1/sign_up_1_view.dart';
+import 'package:ismmart_vms/screens/create_payout/create_payout_view.dart';
+import 'package:ismmart_vms/screens/location_list/location_list_view.dart';
 import 'firebase_options.dart';
 import 'helper/routes.dart';
 
@@ -34,10 +36,10 @@ class MyApp extends StatelessWidget {
       title: 'ISMMART VMS',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+        useMaterial3: false,
       ),
       //  home: SignUp3View(),
-      home: LogInView(),
+      home: CreatePayoutView(),
       initialRoute: Routes.initRoute,
       getPages: Routes.pages,
     );
