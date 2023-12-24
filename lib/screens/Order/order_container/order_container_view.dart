@@ -78,7 +78,7 @@ class OrderContainerView extends StatelessWidget {
             title: "Create Order",
             height: 48.v,
             width: 148.v,
-            backgroundColor: Color(0xFF3669C9),
+            backgroundColor: const Color(0xFF3669C9),
             onPressed: () {},
             child: const Text("Create Order"),
           ),
@@ -141,10 +141,10 @@ class OrderContainerView extends StatelessWidget {
           color: Colors.black,
           borderRadius: BorderRadius.circular(8.h),
         ),
-        tabs: [
-          Tab(child: Text("lbl_today".tr)),
-          Tab(child: Text("lbl_7_days".tr)),
-          Tab(child: Text("lbl_30_days".tr))
+        tabs: const [
+          Tab(child: Text("Today")),
+          Tab(child: Text("7 days")),
+          Tab(child: Text("30 days"))
         ],
       ),
     );
