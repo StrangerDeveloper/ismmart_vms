@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
-import 'package:ismmart_vms/screens/Order/order_container/ordersPage_view.dart';
+import 'package:ismmart_vms/screens/Order/order_container/orders_page_view.dart';
 import 'package:ismmart_vms/screens/Order/order_tabContainer/orders_tab_viewModel.dart';
 import 'package:ismmart_vms/widgets/custom_button.dart';
 
