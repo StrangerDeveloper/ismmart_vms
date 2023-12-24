@@ -12,7 +12,6 @@ import '../../../../helper/constants.dart';
 import '../../../../helper/global_variables.dart';
 import '../../../../widgets/custom_button.dart';
 import '../../../../widgets/custom_loading.dart';
-import '../account_status_view.dart';
 
 class SignUp4View extends StatelessWidget {
   SignUp4View({Key? key}) : super(key: key);
@@ -335,7 +334,7 @@ class SignUp4View extends StatelessWidget {
                       fontWeight: FontWeight.w500, color: kWhiteColor),
                 ),
                 onPressed: () {
-                  Get.to(AccountStatusView());
+                  //Get.to(AccountStatusView());
                 },
               ),
       ),
