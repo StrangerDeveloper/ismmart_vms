@@ -26,8 +26,7 @@ const red2 = Color(0xFFF80B0B);
 const kLightRedColor = Color(0xBBEF5350);
 const kGoldColor = Color(0xFFFFD700);
 const kOrangeColor = Colors.deepOrange;
-Color kGrey900 = Colors.grey[900]!;
-Color kGrey800 = Colors.grey[800]!;
+
 const kDarkColor = Color(0xFF303030);
 const kTransparent = Colors.transparent;
 const newColorNavyBlue = Color(0xff0C1A30);
