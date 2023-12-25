@@ -13,7 +13,6 @@ import 'package:ismmart_vms/widgets/custom_textfield.dart';
 
 import '../../../../helper/global_variables.dart';
 import '../../../../widgets/custom_loading.dart';
-import '../account_status_view.dart';
 import '../signup_4/sign_up_4_view.dart';
 
 class SignUp3View extends StatelessWidget {

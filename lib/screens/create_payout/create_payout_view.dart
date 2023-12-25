@@ -1,10 +1,14 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/screens/create_payout/create_payout_viewmodel.dart';
+import 'package:ismmart_vms/widgets/custom_bottom_sheet.dart';
 import 'package:ismmart_vms/widgets/custom_button.dart';
 import 'package:ismmart_vms/widgets/custom_textfield.dart';
 import 'package:ismmart_vms/widgets/scrollable_column.dart';
+
 import '../../helper/theme_helper.dart';
+import '../../widgets/custom_radiobtn.dart';
 
 class CreatePayoutView extends StatelessWidget {
   CreatePayoutView({super.key});
@@ -25,19 +29,32 @@ class CreatePayoutView extends StatelessWidget {
             child: CustomTextField1(
               title: 'Select Vendor Name ',
               hintText: 'Select vendor name',
-              // readOnly: true,
+              controller: viewModel.vendorNameController,
               isDropDown: true,
-              onTap: () {},
+              onTap: () {
+                viewModel.resetValue();
+                itemsBottomSheet();
+              },
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: CustomTextField1(
+              controller: viewModel.currencyController,
               title: 'Currency',
               hintText: 'Select Currency',
-              readOnly: true,
               isDropDown: true,
-              onTap: () {},
+              onTap: () {
+                CustomBottomSheet1(
+                  selectedIndex: viewModel.currencySelectedIndex.value,
+                  list: viewModel.currencyList,
+                  onChanged: (value) {
+                    viewModel.currencySelectedIndex.value = value;
+                    viewModel.currencyController.text =
+                        viewModel.currencyList[value];
+                  },
+                ).show();
+              },
             ),
           ),
           const Padding(
@@ -51,10 +68,20 @@ class CreatePayoutView extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: CustomTextField1(
               title: 'Transfer Method',
+              controller: viewModel.paymentTypeController,
               hintText: 'Select payment method',
-              readOnly: true,
               isDropDown: true,
-              onTap: () {},
+              onTap: () {
+                CustomBottomSheet1(
+                  selectedIndex: viewModel.paymentSelectedIndex.value,
+                  list: viewModel.paymentTypeList,
+                  onChanged: (value) {
+                    viewModel.paymentSelectedIndex.value = value;
+                    viewModel.paymentTypeController.text =
+                    viewModel.paymentTypeList[value];
+                  },
+                ).show();
+              },
             ),
           ),
           payoutType(),
@@ -62,7 +89,7 @@ class CreatePayoutView extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 18),
             child: CustomTextBtn(
-              title: 'Submit',
+              title: 'Save & Create',
               onPressed: () {},
             ),
           ),
@@ -79,7 +106,8 @@ class CreatePayoutView extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       child: Padding(
-        padding: EdgeInsets.only(left: 12, right: 12, top: 10, bottom: 10),
+        padding:
+            const EdgeInsets.only(left: 12, right: 12, top: 10, bottom: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -105,70 +133,192 @@ class CreatePayoutView extends StatelessWidget {
                 title: 'Automatic',
               ),
             ),
-            CustomTextField1(
-              title: 'Date',
-              hintText: 'Enter Date',
-            ),
-            CustomTextField1(
-              title: 'Time',
-              hintText: 'Enter Time',
+            Obx(
+              () => (viewModel.radioBtn.value == 'automatic')
+                  ? const Padding(
+                      padding: EdgeInsets.only(left: 20, top: 5),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Set Time and Date to proceed transaction',
+                            style: TextStyle(
+                              color: ThemeHelper.grey5,
+                              fontSize: 12,
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(top: 8, bottom: 12),
+                            child: CustomTextField1(
+                              title: 'Date',
+                              hintText: 'Enter Date',
+                            ),
+                          ),
+                          CustomTextField1(
+                            title: 'Time',
+                            hintText: 'Enter Time',
+                          ),
+                        ],
+                      ),
+                    )
+                  : const SizedBox(),
             ),
           ],
         ),
       ),
     );
   }
-}
 
-class CustomRadioButton1 extends StatelessWidget {
-  final String title;
-  final String groupValue;
-  final String value;
-  final void Function(String) onChanged;
-
-  const CustomRadioButton1({
-    super.key,
-    required this.groupValue,
-    required this.value,
-    required this.onChanged,
-    required this.title,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Material(
-          child: InkWell(
-            customBorder: const CircleBorder(),
-            onTap: () {
-              onChanged(value);
-            },
-            child: Container(
-              height: 16,
-              width: 16,
-              margin: const EdgeInsets.all(9),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: value == groupValue
-                    ? Border.all(
-                        width: 3.5,
-                        color: ThemeHelper.blue1,
-                      )
-                    : Border.all(
-                        color: const Color(0xFFD1D5DB),
-                      ),
+  taskTypeBtmSheet() {
+    int tempIndex = 0;
+    showModalBottomSheet(
+      context: Get.context!,
+      builder: (BuildContext context) {
+        return Container(
+          height: 200,
+          padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CupertinoButton(
+                child: const Text(
+                  'Cancel',
+                  style: TextStyle(fontSize: 14),
+                ),
+                onPressed: () {
+                  Get.back();
+                },
               ),
-            ),
+              Expanded(
+                child: CupertinoPicker(
+                  scrollController: FixedExtentScrollController(
+                    initialItem: viewModel.currencySelectedIndex.value,
+                  ),
+                  itemExtent: 35,
+                  onSelectedItemChanged: (int index) {
+                    tempIndex = index;
+                    // viewModel.currencySelectedIndex.value = index;
+                    // viewModel.currencyController.text =  viewModel.currencyList[index];
+                  },
+                  children: List.generate(
+                    viewModel.currencyList.length,
+                    (int index) {
+                      return Center(
+                        child: Text(
+                          viewModel.currencyList[index],
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 15,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+              CupertinoButton(
+                child: const Text(
+                  'Done',
+                  style: TextStyle(fontSize: 14),
+                ),
+                onPressed: () {
+                  Get.back();
+                  viewModel.currencySelectedIndex.value = tempIndex;
+                  viewModel.currencyController.text =
+                      viewModel.currencyList[tempIndex];
+                },
+              ),
+            ],
           ),
-        ),
-        Text(
-          title,
-          style: const TextStyle(
-            fontWeight: FontWeight.w500,
+        );
+      },
+    );
+  }
+
+  itemsBottomSheet() {
+    showModalBottomSheet(
+      context: Get.context!,
+      isScrollControlled: true,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+      constraints: BoxConstraints(maxHeight: Get.height * 0.9),
+      builder: (BuildContext context) {
+        return Padding(
+          padding: const EdgeInsets.fromLTRB(16, 10, 10, 3),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Icon(
+                    Icons.menu,
+                    color: ThemeHelper.blue1,
+                  ),
+                  const SizedBox(width: 10),
+                  const Text(
+                    'Select Vendor',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      color: ThemeHelper.blue1,
+                      fontSize: 16,
+                    ),
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    onPressed: () {
+                      Get.back();
+                    },
+                    icon: const Icon(
+                      Icons.close,
+                      color: Colors.red,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              CustomTextField1(
+                hintText: 'Search Vendor...',
+                controller: viewModel.searchController,
+                onChanged: (value) {
+                  viewModel.onSearch(value);
+                },
+              ),
+              Obx(
+                    () => (viewModel.filteredCitiesList.isNotEmpty)
+                    ? Expanded(
+                  child: ListView.separated(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    itemCount: viewModel.filteredCitiesList.length,
+                    itemBuilder: (context, index) {
+                      return InkWell(
+                        borderRadius: BorderRadius.circular(8),
+                        onTap: () {
+                          viewModel.vendorNameController.text = viewModel.filteredCitiesList[index];
+                          Get.back();
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(12),
+                          child:
+                          Text(viewModel.filteredCitiesList[index]),
+                        ),
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return const SizedBox(height: 3);
+                    },
+                  ),
+                )
+                    : const Padding(
+                  padding: EdgeInsets.only(top: 30),
+                  child: Text('No City Found'),
+                ),
+              )
+            ],
           ),
-        )
-      ],
+        );
+      },
     );
   }
 }
