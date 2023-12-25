@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ismmart_vms/screens/Order/order_container/girdItems_widget.dart';
+import 'package:ismmart_vms/screens/Order/order_container/gridItems_widget.dart';
 import 'package:ismmart_vms/screens/Order/order_container/ordersPage_viewModel.dart';
 
 import '../../../helper/utils/size_utils.dart';
