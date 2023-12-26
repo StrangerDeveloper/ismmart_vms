@@ -27,7 +27,19 @@ class AddProduct2View extends StatelessWidget {
             children: [
               // stepperText(),
               variantsContainer(context),
-              inventoryContainer()
+              inventoryContainer(),
+              Padding(
+                padding: const EdgeInsets.only(top: 15, bottom: 5),
+                child: CustomTextBtn(
+                  title: 'Save & Next',
+                  onPressed: () {},
+                ),
+              ),
+              CustomTextBtn(
+                title: 'Back',
+                backgroundColor: Colors.black,
+                onPressed: () {},
+              ),
             ],
           ),
         ),
@@ -468,6 +480,14 @@ class AddProduct2View extends StatelessWidget {
                 "This product has a SKU or barcode",
               ),
             ),
+            const SizedBox(
+              height: 10,
+            ),
+            hsCodeTxtField('SKU (Stock Keeping Unit)'),
+            const SizedBox(
+              height: 10,
+            ),
+            hsCodeTxtField('Barcode (ISBN, UPC, GTIN, etc.)'),
           ],
         ),
       ),
@@ -489,9 +509,16 @@ class AddProduct2View extends StatelessWidget {
             }),
         Text(
           text,
-          style: TextStyle(fontSize: 11, fontWeight: FontWeight.w400),
+          style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w400),
         )
       ],
+    );
+  }
+
+  Widget hsCodeTxtField(String title) {
+    return CustomTextField5(
+      title: title,
+      //hintText: 'Search by product keyword or code',
     );
   }
 
@@ -503,40 +530,13 @@ class AddProduct2View extends StatelessWidget {
           'Warehouse_1',
           style: interNormalText,
         ),
-        Container(
-          //alignment: Alignment.center,
-          width: 200,
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey.withOpacity(0.5)),
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                '1',
-                style: interNormalText,
-              ),
-              Row(
-                //mainAxisAlignment: MainAxisAlignment.center,
-                //crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      // Increase counter logic here
-                    },
-                    icon: const Icon(Icons.arrow_drop_down),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      // Increase counter logic here
-                    },
-                    icon: const Icon(Icons.arrow_drop_down),
-                  ),
-                ],
-              ),
-            ],
+        const SizedBox(
+          width: 15,
+        ),
+        const Expanded(
+          child: CustomTextField5(
+            hintText: '0',
+            suffixIcon: Icons.unfold_more,
           ),
         )
       ],
