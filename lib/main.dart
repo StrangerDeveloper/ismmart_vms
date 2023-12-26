@@ -5,9 +5,6 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ismmart_vms/helper/theme_helper.dart';
-import 'package:ismmart_vms/screens/auth/login/login_view.dart';
-import 'package:ismmart_vms/screens/create_payout/create_payout_view.dart';
-import 'package:ismmart_vms/screens/dashboard/dashboard_view.dart';
 import 'package:ismmart_vms/screens/drawer_bottom_nav/drawer_bottom_bar_view.dart';
 
 import 'firebase_options.dart';
@@ -37,6 +34,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'ISMMART VMS',
       theme: ThemeData(
+        scaffoldBackgroundColor: Colors.white,
         primarySwatch: ThemeHelper.plattet1,
         useMaterial3: false,
         appBarTheme: AppBarTheme(

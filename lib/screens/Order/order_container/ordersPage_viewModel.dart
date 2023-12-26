@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import '../model/order_model.dart';
+import '../../order_listing/model/order_model.dart';
 
 /// A controller class for the OrdersPage.
 ///

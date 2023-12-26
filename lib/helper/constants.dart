@@ -81,11 +81,17 @@ var poppinsH2 = GoogleFonts.poppins(
   color: Colors.white,
 );
 
-var dmSansHeading = GoogleFonts.dmSans(
-    fontSize: 14, fontWeight: FontWeight.w500, color: Colors.black);
+var interHeadingSize14 = GoogleFonts.inter(
+  fontSize: 14,
+  fontWeight: FontWeight.w500,
+  color: Colors.black
+);
 
-var dmSansNormalText = GoogleFonts.dmSans(
-    fontWeight: FontWeight.w400, fontSize: 12, color: Colors.black);
+var interNormalText = GoogleFonts.inter(
+  fontWeight: FontWeight.w400,
+  color: Colors.black
+);
+
 var textContainerDecoration = BoxDecoration(
   color: kContainerFillColor,
   borderRadius: BorderRadius.circular(8),
@@ -196,6 +202,12 @@ var newFontStyleSize24 = GoogleFonts.inter(
   color: newColorBlue,
   height: 0.06,
   letterSpacing: -0.24,
+);
+
+var stepperTextStyle = GoogleFonts.inter(
+  color: newColorBlue,
+  fontWeight: FontWeight.w500,
+  fontSize: 13
 );
 
 class AppConstant {

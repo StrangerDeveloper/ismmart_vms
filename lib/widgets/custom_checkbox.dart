@@ -1,30 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ismmart_vms/helper/theme_helper.dart';
 
 import '../helper/constants.dart';
 
 class CustomCheckBox extends StatelessWidget {
   final String title;
+  final Widget? child;
   final RxBool value;
   final ValueChanged onChanged;
 
-  // final Color? activeColor;
-  // final Color? checkColor;
-
   const CustomCheckBox({
     super.key,
-    required this.title,
+    this.title = '',
     required this.value,
     required this.onChanged,
-    // this.activeColor = Colors.yellow,
-    // this.checkColor = Colors.white,
+    this.child,
   });
 
   @override
   Widget build(BuildContext context) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      // mainAxisSize: MainAxisSize.min,
       children: [
         Transform.scale(
           scale: 0.87,
@@ -34,23 +30,14 @@ class CustomCheckBox extends StatelessWidget {
               onChanged: onChanged,
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
               visualDensity: VisualDensity.compact,
-              // fillColor: MaterialStateProperty.all(newColorLightGrey2),
-              // shape: RoundedRectangleBorder(
-              //   side: BorderSide(width: 2, color: newColorLightGrey2),
-              //   borderRadius: BorderRadius.circular(4.5),
-              // ),
+              shape: RoundedRectangleBorder(
+                side: const BorderSide(width: 0.2, color: ThemeHelper.grey3),
+                borderRadius: BorderRadius.circular(4),
+              ),
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.only(top: 6),
-          child: Text(
-            title,
-            // style: newFontStyle0.copyWith(
-            //   color: newColorLightGrey2,
-            // ),
-          ),
-        ),
+        child ?? Text(title),
       ],
     );
   }
@@ -68,7 +55,7 @@ class CustomCheckBox2 extends StatelessWidget {
     super.key,
     required this.text,
     required this.value,
-    this.onChanged,
+    required this.onChanged,
     // this.activeColor = Colors.yellow,
     // this.checkColor = Colors.white,
   });
@@ -87,7 +74,7 @@ class CustomCheckBox2 extends StatelessWidget {
             visualDensity: VisualDensity.compact,
             fillColor: MaterialStateProperty.all(newColorLightGrey2),
             shape: RoundedRectangleBorder(
-              side: BorderSide(width: 2, color: newColorLightGrey2),
+              side: const BorderSide(width: 2, color: newColorLightGrey2),
               borderRadius: BorderRadius.circular(4.5),
             ),
           ),
