@@ -5,7 +5,6 @@ import 'package:ismmart_vms/screens/add_product/add_product_2/add_product_2_view
 import 'package:ismmart_vms/widgets/custom_button.dart';
 
 import '../../../helper/constants.dart';
-import '../../../widgets/bottomsheet_item.dart';
 import '../../../widgets/custom_dropdown.dart';
 import '../../../widgets/custom_textfield.dart';
 import '../../../widgets/widget_models/variant_options_field_model.dart';
