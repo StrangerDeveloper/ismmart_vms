@@ -47,6 +47,8 @@ class ImageConstant {
   static String imgArrowdownOnprimarycontainer =
       '$imagePath/img_arrowdown_onprimarycontainer.svg';
 
+  static String imgBell = '$imagePath/img_bell.svg';
+  
   static String imgHome = '$imagePath/img_home.svg';
 
   static String imgBag = '$imagePath/img_bag.svg';
