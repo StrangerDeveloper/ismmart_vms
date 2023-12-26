@@ -1,16 +1,26 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:ismmart_vms/helper/constants.dart';
 import 'package:ismmart_vms/screens/collection/collection_view.dart';
 import 'package:ismmart_vms/screens/product_list/product_list_view.dart';
 
 import '../screens/Order/order_view.dart';
+import '../screens/add_location/add_location_view.dart';
+import '../screens/add_user/add_user_view.dart';
 import '../screens/auth/login/login_view.dart';
+import '../screens/bank/bank_profile_view.dart';
+import '../screens/dashboard/dashboard_viewmodel.dart';
+import '../screens/payout_list/payout_list_view.dart';
 import '../screens/setting/settings_view.dart';
+import '../screens/shippings/shippings_view.dart';
+import '../screens/stores/store_editview.dart';
+import '../screens/stores/stores_view.dart';
 
 class CustomDrawer extends StatelessWidget {
-  const CustomDrawer({super.key});
+  CustomDrawer({super.key});
+  final DashboardViewModel viewModel = Get.put(DashboardViewModel());
 
   @override
   Widget build(BuildContext context) {
@@ -24,62 +34,65 @@ class CustomDrawer extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  drawerHeader(),
-                  drawerItem(
-                    title: 'Dashboard',
-                    icon: Icons.dashboard,
-                    onTap: () {
-                      Get.back();
+                  titleAndBackBtn(),
+                  // drawerHeader(),
+                  drawerListItems(
+                    'Store',
+                    onTab: () {
+                      viewModel.isTab.value = !viewModel.isTab.value;
+                      Get.to(StoresView());
                     },
+                    iconPath: 'assets/icons/overViewIcon.png',
                   ),
-                  drawerItem(
-                    title: 'Collections',
-                    icon: Icons.collections,
-                    onTap: () {
-                      Get.back();
-                      Get.to(() => CollectionView());
-                    },
+                  drawerListItems(
+                    'Collections',
+                    iconPath: 'assets/icons/layers.png',
+                    onTab: () => Get.to(CollectionView()),
                   ),
-                  drawerItem(
-                    title: 'Products List',
-                    icon: Icons.list,
-                    onTap: () {
-                      Get.back();
-                      Get.to(() => ProductListView());
-                    },
+                  drawerListItems('Locations',
+                      iconPath: 'assets/icons/pin.png',
+                      onTab: () => Get.to(AddLocationView())),
+                  const Divider(
+                    color: Color(0xffE5E7EB),
+                    thickness: 2,
+                    indent: 15,
+                    endIndent: 15,
+                    // height: 20
                   ),
-                  drawerItem(
-                    title: 'Order Details',
-                    icon: Icons.add_shopping_cart,
-                    onTap: () {
-                      Get.back();
-                      Get.to(() => OrderView());
-                    },
-                  ),
-                  drawerItem(
-                    title: 'Settings',
-                    icon: Icons.settings,
-                    onTap: () {
-                      Get.back();
-                      Get.to(() => SettingsView());
-                    },
-                  ),
+                  drawerListItems('Payouts',
+                      iconPath: 'assets/icons/credit-card.png',
+                      onTab: () => Get.to(PayoutListView())),
+                  drawerListItems(
+                      iconPath: 'assets/icons/settingIcon.png',
+                      'Settings and privacy',
+                      dropDwnIcon: true),
 
-                  //drawerItem(
-                  //   title: 'Shift Report',
-                  //   icon: Icons.file_copy_sharp,
-                  //   onTap: () {
-                  //     Get.back();
-                  //     Get.to(() => CashierShiftReportView());
-                  //   },
-                  // ),
-                  drawerItem(
-                    title: 'Logout',
-                    icon: Icons.logout,
-                    onTap: () {
-                      Get.back();
-                      Get.offAll(() => LogInView());
-                    },
+                  Obx(
+                    () => viewModel.moreOption.value
+                        ? Padding(
+                            padding: const EdgeInsets.only(left: 20),
+                            child: Column(
+                              children: [
+                                drawerListItems(
+                                  iconPath: 'assets/icons/wallet.png',
+                                  'Banking',
+                                  h: 35,
+                                  onTab: () => Get.to(BankProfileView()),
+                                ),
+                                drawerListItems(
+                                    iconPath: 'assets/icons/Vector.png',
+                                    'Shipping',
+                                    h: 35,
+                                    onTab: () => Get.to(ShippingMethodsView())),
+                                drawerListItems(
+                                    iconPath: 'assets/icons/edit-user.png',
+                                    'Users & Permissions',
+                                    h: 35,
+                                    onTab: () => Get.to(AddUserView())),
+                              ],
+                            ),
+                          )
+                        : SizedBox(),
                   ),
                 ],
               ),
@@ -204,4 +217,105 @@ class CustomDrawer extends StatelessWidget {
 //       ),
 //     );
 //   }
+
+  Widget titleAndBackBtn() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 60, left: 15, bottom: 33),
+      child: Container(
+        width: Get.width * .65,
+        height: 54,
+        padding: const EdgeInsets.all(8),
+        decoration: ShapeDecoration(
+          color: Color(0xFFEFF5FB),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Image.asset(
+              'assets/icons/ismmart_logo.png',
+              height: 40,
+              width: 40,
+            ),
+            Align(
+              alignment: Alignment.center,
+              child: Text(
+                'ISMMART',
+                style: newFontStyleSize12.copyWith(fontWeight: FontWeight.w700),
+              ),
+            ),
+            SizedBox(
+              width: 40,
+            ),
+            IconButton(onPressed: () {}, icon: Icon(Icons.more_vert_outlined))
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget drawerListItems(String title,
+      {String? iconPath,
+      bool? dropDwnIcon,
+      double h = 54.0,
+      void Function()? onTab}) {
+    bool isTab = false;
+    return Padding(
+      padding: const EdgeInsets.only(left: 15, bottom: 13),
+      child: GestureDetector(
+        onTap: onTab,
+        child: Container(
+          width: Get.width * .7,
+          height: h,
+          padding: const EdgeInsets.all(8),
+          decoration: ShapeDecoration(
+            color: Color(0xFFEFF5FB),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              iconPath != null
+                  ? Obx(() => Container(
+                        width: 24,
+                        height: 24,
+                        clipBehavior: Clip.antiAlias,
+                        decoration: BoxDecoration(),
+                        child: Image.asset(
+                          iconPath ?? "",
+                          height: 24,
+                          width: 24,
+                          color: viewModel.isTab.value
+                              ? newColorBlue
+                              : newColorLightGrey2,
+                        ),
+                      ))
+                  : SizedBox(),
+              SizedBox(
+                width: 10,
+              ),
+              Text(
+                title,
+                style: newFontStyleSize16,
+              ),
+              SizedBox(
+                width: Get.width * .02,
+              ),
+              dropDwnIcon ?? false
+                  ? IconButton(
+                      onPressed: () {
+                        viewModel.moreOption.toggle();
+                      },
+                      icon: Icon(Icons.arrow_drop_down))
+                  : SizedBox(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }

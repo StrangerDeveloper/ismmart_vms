@@ -33,9 +33,11 @@ const kTransparent = Colors.transparent;
 const newColorNavyBlue = Color(0xff0C1A30);
 const newColorDarkBlack = Color(0xFF24272C);
 const newColorDarkBlack2 = Color(0xff24282D);
+const newColorDarkBlack3 = Color(0xFF333333);
 const newColorLightGrey = Color(0xffEEEEEE);
 const newColorLightGrey2 = Color(0xff929AAB);
 const newColorLightGrey3 = Color(0xFF6F6F6F);
+const newColorLightGrey4 = Color(0xFFEFF5FB);
 const newColorBlue = Color(0xff3669C9);
 const newColorBlue2 = Color(0xff364554);
 const newColorBlue3 = Color(0xffADBCCB);
@@ -168,6 +170,11 @@ var newFontStyleSize14 = GoogleFonts.inter(
     fontSize: 14,
     height: 0.11,
     color: newColorDarkBlack);
+var newFontStyleSize16 = GoogleFonts.inter(
+    fontWeight: FontWeight.w600,
+    fontSize: 16,
+    height: 0.11,
+    color: newColorDarkBlack);
 var newFontStyle1 = GoogleFonts.inter(
   fontWeight: FontWeight.w500,
   color: newColorNavyBlue,
@@ -195,6 +202,13 @@ var newFontStyleSize24 = GoogleFonts.inter(
   fontSize: 24,
   fontWeight: FontWeight.w700,
   color: newColorBlue,
+  height: 0.06,
+  letterSpacing: -0.24,
+);
+var newFontStyleSize20DM = GoogleFonts.dmSerifText(
+  fontSize: 20,
+  fontWeight: FontWeight.w400,
+  color: newColorDarkBlack3,
   height: 0.06,
   letterSpacing: -0.24,
 );

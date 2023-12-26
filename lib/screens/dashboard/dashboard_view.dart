@@ -16,7 +16,7 @@ class DashboardView extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        drawer: const CustomDrawer(),
+        drawer: CustomDrawer(),
         appBar: CustomAppBar(
           menuItem: true,
           title: langKey.vendorDashboard.tr,
