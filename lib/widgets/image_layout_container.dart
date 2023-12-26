@@ -38,7 +38,7 @@ class ImageLayoutContainer extends StatelessWidget {
                   style: newFontStyleSize14,
                   children: [
                     if (required)
-                      TextSpan(
+                      const TextSpan(
                         text: ' *',
                         style: TextStyle(color: Colors.red),
                       )
@@ -50,13 +50,13 @@ class ImageLayoutContainer extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 8),
                   child: Text(
                     subTitle!,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: ThemeHelper.fadedBlue,
                     ),
                   ),
                 ),
-              Spacer(),
-              Text(
+              const Spacer(),
+              const Text(
                 'Image should be less than 2 MB',
                 style: TextStyle(
                   color: ThemeHelper.fadedBlue,
@@ -65,7 +65,7 @@ class ImageLayoutContainer extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 3),
+          const SizedBox(height: 3),
           Row(
             children: [
               InkWell(
@@ -74,13 +74,13 @@ class ImageLayoutContainer extends StatelessWidget {
                   alignment: Alignment.center,
                   height: 37,
                   width: 115,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       color: Color(0xFF929AAB),
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(10.0),
-                        bottomLeft: const Radius.circular(10.0),
+                        bottomLeft: Radius.circular(10.0),
                       )),
-                  child: Text(
+                  child: const Text(
                     'Choose File',
                     style: TextStyle(
                       color: Color(0xFFF9FAFB),
@@ -90,10 +90,10 @@ class ImageLayoutContainer extends StatelessWidget {
                 ),
               ),
               Container(
-                padding: EdgeInsets.only(left: 10, top: 17),
-                width: 250,
+                padding: const EdgeInsets.only(left: 10, top: 17),
+                width: 200,
                 height: 37,
-                decoration: ShapeDecoration(
+                decoration: const ShapeDecoration(
                   color: Color(0xFFF9FAFB),
                   shape: RoundedRectangleBorder(
                     side: BorderSide(
@@ -109,7 +109,7 @@ class ImageLayoutContainer extends StatelessWidget {
                 ),
                 child: Text(
                   filePath == '' ? 'No file chosen' : filePath,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Color(0xFF24272C),
                     fontSize: 14,
                     fontFamily: 'Inter',

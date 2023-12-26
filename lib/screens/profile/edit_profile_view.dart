@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:ismmart_vms/screens/profile/profile_viewmodel.dart';
+import 'package:ismmart_vms/screens/profile/edit_profile_viewmodel.dart';
+import 'package:ismmart_vms/screens/profile/widget/user_image_picker_widget.dart';
 import 'package:ismmart_vms/widgets/image_layout_container.dart';
 import 'package:path/path.dart';
 import 'package:ismmart_vms/widgets/custom_textfield.dart';
@@ -30,23 +31,22 @@ class VendorProfileView extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         titleAndBackBtn(),
-                        const Padding(
-                          padding: EdgeInsets.only(top: 20, bottom: 20),
-                          child: Text(
-                            'Update Account',
-                            style: TextStyle(fontSize: 20, color: Colors.black),
-                          ),
-                        ),
+                        const SizedBox(height: 40),
+                        UserImagePicker((pickedImage) => null),
+                        const SizedBox(height: 40),
                         nameField(),
+                        const SizedBox(height: 20),
                         emailTextField(),
                         phoneNumberTextField(),
                         genderField(context),
+                        const SizedBox(height: 40),
+                        passwordTextField(),
+                        confirmPasswordTextField(),
                         cnicNumberField(),
                         cnicFrontImage(),
                         cnicBackImage(),
-                        passwordTextField(),
-                        confirmPasswordTextField(),
                         signUpBtn(),
+                        discardbtn(),
                       ],
                     ),
                   ),
@@ -68,7 +68,7 @@ class VendorProfileView extends StatelessWidget {
           const Align(
             alignment: Alignment.center,
             child: Text(
-              'Sign Up',
+              'Edit Profile',
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 20,
@@ -176,7 +176,7 @@ class VendorProfileView extends StatelessWidget {
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemBuilder: (buildContext, index) {
-            return radioButton(index, viewModel.genders[index]);
+            return radioButton(index, viewModel.genders[index] as String);
           },
         ),
       ),
@@ -195,7 +195,7 @@ class VendorProfileView extends StatelessWidget {
             value: viewModel.genders[btnValue],
             groupValue: viewModel.selectedGender.value,
             onChanged: (value) {
-              viewModel.selectedGender.value = value;
+              viewModel.selectedGender.value = value as String;
             },
           ),
           Text(
@@ -217,7 +217,7 @@ class VendorProfileView extends StatelessWidget {
           FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
           FilteringTextInputFormatter.digitsOnly,
         ],
-        title: 'CNIC',
+        title: 'CNIC Number',
         hintText: 'Enter CNIC',
         controller: viewModel.cnicController,
         autoValidateMode: AutovalidateMode.onUserInteraction,
@@ -311,8 +311,16 @@ class VendorProfileView extends StatelessWidget {
 
   Widget signUpBtn() {
     return CustomRoundedTextBtn(
-      title: 'Update',
+      title: 'Save & Update',
       onPressed: () {},
+    );
+  }
+
+  Widget discardbtn() {
+    return CustomRoundedTextBtn(
+      title: 'Discard',
+      onPressed: () {},
+      backgroundColor: Color.fromARGB(255, 85, 77, 77),
     );
   }
 }
