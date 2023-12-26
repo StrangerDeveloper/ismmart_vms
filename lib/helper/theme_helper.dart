@@ -8,6 +8,7 @@ class ThemeHelper {
   static const grey3 = Color(0xffF9FAFB);
   static const grey4 = Color(0xFF6F6F6F);
   static const grey5 = Color(0xFF6B7280);
+  static const grey6 = Color(0xFFE5E7EB);
   static const red1 = Color(0xFFFE3A30);
 
 

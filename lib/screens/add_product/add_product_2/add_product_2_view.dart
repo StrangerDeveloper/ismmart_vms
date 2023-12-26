@@ -25,7 +25,7 @@ class AddProduct2View extends StatelessWidget {
           physics: const ScrollPhysics(),
           child: Column(
             children: [
-              stepperText(),
+              // stepperText(),
               variantsContainer(context),
               inventoryContainer()
             ],
@@ -47,43 +47,7 @@ class AddProduct2View extends StatelessWidget {
     );
   }
 
-  Widget stepperText() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Icon(
-              Icons.verified,
-            size: 18,
-            color: newColorBlue,
-          ),
-          Text(
-            '  Product & Pricing',
-            style: stepperTextStyle,
-          ),
-          const Text(
-              ' / ',
-            style: TextStyle(color: newColorLightGrey2),
-          ),
-          Text(
-            'Variant Setting',
-            style: stepperTextStyle,
-          ),
-          const Text(
-              ' / ',
-            style: TextStyle(color: newColorLightGrey2),
-          ),
-          Text(
-            'Shipping',
-            style: stepperTextStyle.copyWith(
-              color: Colors.black
-            ),
-          )
-        ],
-      )
-    );
-  }
+
 
   Widget variantsContainer(BuildContext context) {
     return Padding(

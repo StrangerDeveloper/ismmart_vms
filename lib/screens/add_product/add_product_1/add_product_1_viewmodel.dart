@@ -6,6 +6,8 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:quill_html_editor/quill_html_editor.dart';
 
 class AddProduct1ViewModel extends GetxController {
+
+  RxBool isPhysicalProduct = false.obs;
   TextEditingController prodTitleController = TextEditingController();
   TextEditingController prodDiscountController = TextEditingController();
   QuillEditorController prodDescriptionController = QuillEditorController();
@@ -19,7 +21,6 @@ class AddProduct1ViewModel extends GetxController {
   RxBool showTagsList = false.obs;
   RxBool chargeTaxOnProduct = true.obs;
   RxBool productPriceUpdate = false.obs;
-  RxString productType = ''.obs;
   String productTypeId = '';
   RxString productCategory = '1'.obs;
   RxList<MultiSelectModel> tagsList = <MultiSelectModel>[
@@ -46,40 +47,25 @@ class AddProduct1ViewModel extends GetxController {
     MultiSelectModel(id: '5', name: 'Eatables'),
     MultiSelectModel(id: '6', name: 'Accessories'),
   ].obs;
-  RxList<DropDownModel> productTypeList = <DropDownModel>[
-    DropDownModel(
-      id: '13',
-      name: 'Dummy 1',
-    ),
-    DropDownModel(
-      id: '12',
-      name: 'Dummy 1',
-    ),
-    DropDownModel(
-      id: '11',
-      name: 'Dummy 1',
-    ),
-    DropDownModel(
-      id: '10',
-      name: 'Dummy 1',
-    ),
-    DropDownModel(
-      id: '2',
-      name: 'Food & Beverage'
-    ),
-    DropDownModel(
-      id: '3',
-      name: 'Car'
-    ),
-    DropDownModel(
-      id: '4',
-      name: 'Electronics'
-    ),
-    DropDownModel(
-      id: '5',
-      name: 'Hardware'
-    )
-  ].obs;
+
+  //type
+  TextEditingController typeController = TextEditingController();
+  RxInt typeSelectedIndex = 0.obs;
+  List<String> typeList = const <String>[
+    'Dummy 1',
+    'Dummy 2',
+    'Dummy 3'
+  ];
+
+  //category
+  TextEditingController categoryController = TextEditingController();
+  RxInt categorySelectedIndex = 0.obs;
+  List<String> categoryList = const <String>[
+    'Dummy 1',
+    'Dummy 2',
+    'Dummy 3'
+  ];
+
   final customToolBarList = [
     ToolBarStyle.bold,
     ToolBarStyle.italic,
