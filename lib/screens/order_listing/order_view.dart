@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ismmart_vms/helper/languages/translations_key.dart' as langKey;
+
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
-import 'package:ismmart_vms/screens/Order/model/order_model.dart';
-import 'package:ismmart_vms/screens/Order/order_viewModel.dart';
+import 'package:ismmart_vms/screens/order_listing/model/order_model.dart';
+import 'package:ismmart_vms/screens/order_listing/order_viewModel.dart';
 import 'package:ismmart_vms/widgets/custom_appbar.dart';
+import 'package:ismmart_vms/widgets/custom_bottom_sheet.dart';
 import 'package:ismmart_vms/widgets/custom_text.dart';
 import 'package:ismmart_vms/widgets/custom_textfield.dart';
 
@@ -27,6 +28,7 @@ class OrderView extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            SizedBox(height: 17.v),
             _buildSearchRow(),
             SizedBox(height: 17.v),
             Obx(
@@ -96,21 +98,27 @@ class OrderView extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Expanded(
+        SizedBox(
+          width: 250.h,
           child: CustomTextField1(
             //title: 'Status',
             filled: false,
             hintText: 'Search',
-            readOnly: true,
+            //readOnly: true,
             isDropDown: true,
             onTap: () {
-              // Get.to(() => AddOrderView());
+              CustomBottomSheet1(
+                list: ['All', 'Pending', 'Completed', 'Cancelled'],
+                selectedIndex: 0,
+                onChanged: (int index) {},
+              ).show();
             },
           ),
         ),
+        SizedBox(width: 10.h),
         Container(
           width: 62.h,
-          margin: EdgeInsets.only(left: 16.h, right: 16.h),
+          //margin: EdgeInsets.only(left: 16.h, right: 10.h),
           padding: EdgeInsets.symmetric(vertical: 9.v),
           decoration: BoxDecoration(
             color: Colors.white,
@@ -147,6 +155,10 @@ class OrderView extends StatelessWidget {
 
   Widget _buildOrderCard(Order detail) {
     return Card(
+      color: const Color(0xFFF9FAFB),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
       child: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: 16.0,
@@ -236,7 +248,7 @@ class OrderView extends StatelessWidget {
       title: text,
       style: TextStyle(
         fontSize: 12.fSize,
-        color: Color(0xFF6B7280),
+        color: const Color(0xFF6B7280),
 
         ///fontWeight: FontWeight.w600,
       ),

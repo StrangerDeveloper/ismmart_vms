@@ -26,8 +26,7 @@ const red2 = Color(0xFFF80B0B);
 const kLightRedColor = Color(0xBBEF5350);
 const kGoldColor = Color(0xFFFFD700);
 const kOrangeColor = Colors.deepOrange;
-Color kGrey900 = Colors.grey[900]!;
-Color kGrey800 = Colors.grey[800]!;
+
 const kDarkColor = Color(0xFF303030);
 const kTransparent = Colors.transparent;
 const newColorNavyBlue = Color(0xff0C1A30);
@@ -84,11 +83,17 @@ var poppinsH2 = GoogleFonts.poppins(
   color: Colors.white,
 );
 
-var dmSansHeading = GoogleFonts.dmSans(
-    fontSize: 14, fontWeight: FontWeight.w500, color: Colors.black);
+var interHeadingSize14 = GoogleFonts.inter(
+  fontSize: 14,
+  fontWeight: FontWeight.w500,
+  color: Colors.black
+);
 
-var dmSansNormalText = GoogleFonts.dmSans(
-    fontWeight: FontWeight.w400, fontSize: 12, color: Colors.black);
+var interNormalText = GoogleFonts.inter(
+  fontWeight: FontWeight.w400,
+  color: Colors.black
+);
+
 var textContainerDecoration = BoxDecoration(
   color: kContainerFillColor,
   borderRadius: BorderRadius.circular(8),
@@ -211,6 +216,12 @@ var newFontStyleSize20DM = GoogleFonts.dmSerifText(
   color: newColorDarkBlack3,
   height: 0.06,
   letterSpacing: -0.24,
+);
+
+var stepperTextStyle = GoogleFonts.inter(
+  color: newColorBlue,
+  fontWeight: FontWeight.w500,
+  fontSize: 13
 );
 
 class AppConstant {

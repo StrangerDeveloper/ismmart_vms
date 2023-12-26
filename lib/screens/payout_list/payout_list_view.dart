@@ -3,12 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/theme_helper.dart';
-import 'package:ismmart_vms/screens/add_location/add_location_view.dart';
 import 'package:ismmart_vms/screens/create_payout/create_payout_view.dart';
 import 'package:ismmart_vms/screens/payout_list/payout_list_viewmodel.dart';
 
 import '../../widgets/custom_button.dart';
 import '../../widgets/custom_textfield.dart';
+import '../../widgets/loader_view.dart';
 import '../product_detail/product_detail_view.dart';
 
 class PayoutListView extends StatelessWidget {
@@ -23,22 +23,27 @@ class PayoutListView extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Payouts'),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      body: Stack(
         children: [
-          topBar(),
-          topBar2(),
-          const Padding(
-            padding: EdgeInsets.only(left: 17),
-            child: Text(
-              '1 - 20 of 50',
-              style: TextStyle(
-                fontSize: 12,
-                color: ThemeHelper.grey2,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              topBar(),
+              topBar2(),
+              const Padding(
+                padding: EdgeInsets.only(left: 17),
+                child: Text(
+                  '1 - 20 of 50',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: ThemeHelper.grey2,
+                  ),
+                ),
               ),
-            ),
+              listView(),
+            ],
           ),
-          listView(),
+          LoaderView(),
         ],
       ),
     );
@@ -56,7 +61,7 @@ class PayoutListView extends StatelessWidget {
               Get.to(() => CreatePayoutView());
             },
             icon: CupertinoIcons.plus,
-            title: 'Create Payouts',
+            title: ' Create Payouts ',
           ),
           Container(
             padding: const EdgeInsets.all(2),
@@ -119,26 +124,28 @@ class PayoutListView extends StatelessWidget {
   }
 
   Widget listView() {
-    return viewModel.dataList.isNotEmpty
-        ? Expanded(
-            child: ListView.separated(
-              padding: const EdgeInsets.all(16),
-              itemCount: viewModel.dataList.length,
-              itemBuilder: (context, int index) {
-                return listViewItem(index);
-              },
-              separatorBuilder: (BuildContext context, int index) {
-                return const Divider(
-                  color: ThemeHelper.grey1,
-                  thickness: 0.8,
-                  height: 0,
-                );
-              },
+    return Obx(
+      () => viewModel.payoutList.isNotEmpty
+          ? Expanded(
+              child: ListView.separated(
+                padding: const EdgeInsets.all(16),
+                itemCount: viewModel.payoutList.length,
+                itemBuilder: (context, int index) {
+                  return listViewItem(index);
+                },
+                separatorBuilder: (BuildContext context, int index) {
+                  return const Divider(
+                    color: ThemeHelper.grey1,
+                    thickness: 0.8,
+                    height: 0,
+                  );
+                },
+              ),
+            )
+          : const Center(
+              child: Text('No Data Found'),
             ),
-          )
-        : const Center(
-            child: Text('No Data Found'),
-          );
+    );
   }
 
   Widget listViewItem(int index) {

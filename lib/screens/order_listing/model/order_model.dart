@@ -1,3 +1,6 @@
+import 'package:get/get.dart';
+import 'package:ismmart_vms/screens/Order/model/gridItem_model.dart';
+
 class Order {
   int orderId;
   double amount;
@@ -212,4 +215,32 @@ class RefundItem {
     required this.weight,
     required this.dimensions,
   });
+}
+
+class OrdersModel {
+  Rx<List<GriditemsItemModel>> griditemsItemList = Rx(
+    [
+      GriditemsItemModel(
+          iconShapesText: "3".obs, newOrdersText: "New Orders".obs),
+      GriditemsItemModel(
+          iconShapesText: "9".obs, newOrdersText: "Confirmed".obs),
+      GriditemsItemModel(
+          iconShapesText: "1".obs, newOrdersText: "Ready to Ship".obs),
+      GriditemsItemModel(iconShapesText: "0".obs, newOrdersText: "Pickups".obs),
+      GriditemsItemModel(
+          iconShapesText: "8".obs, newOrdersText: "In Transit".obs),
+      GriditemsItemModel(
+          iconShapesText: "0".obs, newOrdersText: "Exceptions".obs),
+      GriditemsItemModel(
+          iconShapesText: "113".obs, newOrdersText: "Delivered".obs),
+      GriditemsItemModel(iconShapesText: "23".obs, newOrdersText: "RTO".obs),
+      GriditemsItemModel(
+          iconShapesText: "0".obs, newOrdersText: "Returned".obs),
+      GriditemsItemModel(iconShapesText: "0".obs, newOrdersText: "Held".obs),
+      GriditemsItemModel(
+          iconShapesText: "506".obs, newOrdersText: "Cancelled".obs),
+      GriditemsItemModel(
+          iconShapesText: "663".obs, newOrdersText: "All Orders".obs)
+    ],
+  );
 }

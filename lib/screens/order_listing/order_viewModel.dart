@@ -1,7 +1,5 @@
 import 'package:get/get.dart';
-import 'package:ismmart_vms/screens/Order/model/order_model.dart';
-
-// Import your models here
+import 'package:ismmart_vms/screens/order_listing/model/order_model.dart';
 
 class OrderViewModel extends GetxController {
   var orders = <Order>[].obs;
