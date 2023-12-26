@@ -6,7 +6,7 @@ import 'package:ismmart_vms/screens/Order/order_container/ordersPage_viewModel.d
 import '../../../helper/utils/size_utils.dart';
 import '../../order_listing/order_view.dart';
 import '../model/gridItem_model.dart';
-import '../model/order_model.dart';
+import '../../order_listing/model/order_model.dart';
 
 // ignore: must_be_immutable
 class OrdersPage extends StatelessWidget {
