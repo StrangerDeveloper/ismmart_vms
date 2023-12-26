@@ -31,9 +31,9 @@ class CustomCheckBox extends StatelessWidget {
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
               visualDensity: VisualDensity.compact,
               shape: RoundedRectangleBorder(
-                side: const BorderSide(width: 0.2, color: ThemeHelper.grey3),
                 borderRadius: BorderRadius.circular(4),
               ),
+              side: const BorderSide(width: 1, color: Color(0xFFD1D5DB)),
             ),
           ),
         ),
