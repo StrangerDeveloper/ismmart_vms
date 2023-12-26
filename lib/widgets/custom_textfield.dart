@@ -303,7 +303,7 @@ class CustomTextField5 extends StatelessWidget {
               color: ThemeHelper.grey2,
             )
                 : suffixIconButton,
-            suffixIconConstraints: BoxConstraints.tight(const Size(40, 40)),
+            suffixIconConstraints: BoxConstraints.tight(const Size(40, 30)),
             prefixIcon: prefixIcon != null
                 ? Icon(
               prefixIcon,
