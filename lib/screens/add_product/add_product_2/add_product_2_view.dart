@@ -78,12 +78,125 @@ class AddProduct2View extends StatelessWidget {
               'Variants',
               style: interHeadingSize14,
             ),
-            variantAdditionField(context)
+            Obx(() {
+              return Column(
+                children: List.generate(
+                  viewModel.listOfOptionsAdded.length,
+                  (index) {
+                    final option = viewModel.listOfOptionsAdded[index];
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          option.optionName ?? '',
+                          style: interNormalText,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: List.generate(
+                            option.optionValues?.length ?? 0,
+                            (idx) {
+                              final valueController = option.optionValues?[idx];
+                              return Container(
+                                color: Colors.grey.shade100,
+                                child: Text(
+                                  valueController?.text ?? '',
+                                  style: interNormalText.copyWith(
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        const Divider(),
+                        Column(
+                          children: List.generate(
+                            option.optionValues?.length ?? 0,
+                            (idx) {
+                              final valueController = option.optionValues?[idx];
+                              return Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text(
+                                        valueController?.text ?? '',
+                                        style: interNormalText,
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text(
+                                        'Rs 0.00',
+                                        style: interNormalText.copyWith(
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                      Text(
+                                        '0 available at 5 locations',
+                                        style: interNormalText.copyWith(
+                                          color: Colors.grey,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      // viewModel.listOfOptionsAdded.removeWhere(
+                                      //     (element) => element == option);
+                                      // viewModel.listOfOptionsAdded.refresh();
+                                    },
+                                    child: const Text(
+                                      'Edit',
+                                    ),
+                                  )
+                                ],
+                              );
+                            },
+                          ),
+                        )
+                      ],
+                    );
+                  },
+                ),
+              );
+            }),
+            variantAdditionField(context),
           ],
         ),
       ),
     );
   }
+
+  // Widget variantsContainer(BuildContext context) {
+  //   return Padding(
+  //     padding: const EdgeInsets.symmetric(vertical: 10.0),
+  //     child: Container(
+  //       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+  //       decoration: textContainerDecoration,
+  //       child: Column(
+  //         crossAxisAlignment: CrossAxisAlignment.start,
+  //         children: [
+  //           Text(
+  //             'Variants',
+  //             style: interHeadingSize14,
+  //           ),
+  //           variantAdditionField(context)
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Widget variantAdditionField(BuildContext context) {
     return Obx(
