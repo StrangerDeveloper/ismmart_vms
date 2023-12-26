@@ -20,7 +20,7 @@ class ProductListView extends StatelessWidget {
         backgroundColor: ThemeHelper.primary,
         icon: Icon(Icons.add),
         onPressed: () {
-          Get.to(() => AddProductView());
+          Get.to(() => AddProduct1View());
         },
         label: const Text('Add Product'),
       ),

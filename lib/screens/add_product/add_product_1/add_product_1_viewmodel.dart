@@ -1,32 +1,21 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ismmart_vms/models/variant_selection_model.dart';
 import 'package:ismmart_vms/widgets/widget_models/dropdown_model.dart';
-import 'package:ismmart_vms/widgets/widget_models/variant_options_field_model.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:quill_html_editor/quill_html_editor.dart';
 
-class AddProductViewModel extends GetxController {
+class AddProduct1ViewModel extends GetxController {
   TextEditingController prodTitleController = TextEditingController();
-  TextEditingController prodStockController = TextEditingController();
-  TextEditingController prodBrandController = TextEditingController();
   TextEditingController prodDiscountController = TextEditingController();
   QuillEditorController prodDescriptionController = QuillEditorController();
-  TextEditingController prodSKUController = TextEditingController();
   TextEditingController prodPriceController = TextEditingController();
   TextEditingController prodCompareAtPriceController = TextEditingController();
   TextEditingController prodCostPerItemController = TextEditingController();
   TextEditingController prodProfitController = TextEditingController();
   TextEditingController prodMarginController = TextEditingController();
-  TextEditingController prodWeightController = TextEditingController();
-  TextEditingController prodLengthController = TextEditingController();
-  TextEditingController prodWidthController = TextEditingController();
-  TextEditingController prodHeightController = TextEditingController();
   TextEditingController prodTagController = TextEditingController();
   FocusNode tagsFieldFocusNode = FocusNode();
-  RxBool showVariantsField = false.obs;
-  RxBool showVariantsTable = false.obs;
   RxBool showTagsList = false.obs;
   RxBool chargeTaxOnProduct = true.obs;
   RxBool productPriceUpdate = false.obs;
@@ -56,24 +45,6 @@ class AddProductViewModel extends GetxController {
     MultiSelectModel(id: '4', name: 'Software'),
     MultiSelectModel(id: '5', name: 'Eatables'),
     MultiSelectModel(id: '6', name: 'Accessories'),
-  ].obs;
-  RxList<DropDownModel> locationsList = <DropDownModel>[
-    DropDownModel(
-      id: '1',
-      name: 'All Locations'
-    ),
-    DropDownModel(
-      id: '2',
-      name: 'Safa Gold Mall'
-    ),
-    DropDownModel(
-      id: '3',
-      name: 'Giga Mall'
-    ),
-    DropDownModel(
-      id: '4',
-      name: 'Amanah Mall'
-    )
   ].obs;
   RxList<DropDownModel> productTypeList = <DropDownModel>[
     DropDownModel(
@@ -121,14 +92,9 @@ class AddProductViewModel extends GetxController {
     ToolBarStyle.addTable,
     ToolBarStyle.editTable,
   ];
-  RxString locationSelected = ''.obs;
   RxInt priceAfterCommission = 1.obs;
   RxInt selectedCategoryID = 0.obs;
   RxInt selectedSubCategoryID = 1.obs;
-  RxList<String> optionsList = <String>["Size", "Color", "Material", "Style", "Other"].obs;
-  RxList<String> optionsChosen = <String>[].obs;
-  RxString selectedOption = ''.obs;
-  RxList<VariantsOptionsFieldModel> listOfOptionsAdded = <VariantsOptionsFieldModel>[].obs;
   // RxInt numberOfOptionsAdded = 0.obs;
   RxString chooseCategory = "Select Category".obs;
   RxString chooseSubCategory = "Select sub categories".obs;
@@ -142,19 +108,12 @@ class AddProductViewModel extends GetxController {
   // RxList<ProductVariantModel> productVariantsFieldsList = <ProductVariantModel>[].obs;
   RxMap<String, dynamic> dynamicFieldsValuesList = <String, dynamic>{}.obs;
   // Map<String, String>? categoryFieldList;
-  List<String> combinations = [];
-  RxList<VariantSelectionModel> finalCombinationsList = <VariantSelectionModel>[].obs;
-  List<String> combinations2 = [];
 
   var formKey = GlobalKey<FormState>();
   var formKeyCategoryField = GlobalKey<FormState>();
   var formPriceField = GlobalKey<FormState>();
-
-  RxString discountMessage = "".obs;
   RxDouble imagesSizeInMb = 0.0.obs;
   RxBool uploadImagesError = false.obs;
-  double fieldsPaddingSpace = 12.0;
-  RxBool isStockContainsInVariants = false.obs;
 
   @override
   void onInit() async {
@@ -183,64 +142,6 @@ class AddProductViewModel extends GetxController {
       priceAfterCommission(amount); // Updating priceAfterCommission directly
     } else {
       priceAfterCommission(0);
-    }
-  }
-
-  creatingVariants() {
-    combinations.clear();
-    if (listOfOptionsAdded.isNotEmpty) {
-      if (listOfOptionsAdded.length > 1) {
-          variantsFunction(0, 1);
-      } else {
-        combinations.clear();
-        listOfOptionsAdded[0].optionValues?.forEach((element) {
-          finalCombinationsList.add(VariantSelectionModel(variantName: element.text, variantSelected: false));
-          finalCombinationsList.refresh();
-        });
-      }
-    } else{
-      print('Empty');
-    }
-  }
-
-  variantsFunction(int initialIndex, int nextIndex) {
-    List<String> tempCombinations = <String>[];
-    combinations.clear();
-    combinations.addAll(combinations2.map((e) => e));
-    combinations2.clear();
-    if (initialIndex == 0) {
-      listOfOptionsAdded[0].optionValues?.forEach((element) {
-        String name = element.text;
-        listOfOptionsAdded[1].optionValues?.forEach((element2) {
-          name = "${element.text} - ${element2.text}";
-          combinations2.add(name);
-          if(element == listOfOptionsAdded[0].optionValues?.last && element2 == listOfOptionsAdded[1].optionValues?.last && nextIndex != listOfOptionsAdded.length-1) {
-            variantsFunction(initialIndex + 1, nextIndex + 1);
-          } else {
-            finalCombinationsList.clear();
-            finalCombinationsList.addAll(combinations2.map((e) => VariantSelectionModel(variantSelected: false, variantName: e)));
-            finalCombinationsList.refresh();
-          }
-        });
-      });
-    } else {
-      combinations.forEach((element) {
-        String name = element;
-        listOfOptionsAdded[nextIndex].optionValues?.forEach((listElement) {
-          name = '$element - ${listElement.text}';
-          tempCombinations.add(name);
-          if (element == combinations.last && listElement == listOfOptionsAdded[nextIndex].optionValues?.last) {
-              combinations2.addAll(tempCombinations.map((e) => e));
-              if(nextIndex != listOfOptionsAdded.length-1) {
-                variantsFunction(initialIndex + 1, nextIndex + 1);
-              } else {
-                finalCombinationsList.clear();
-                finalCombinationsList.addAll(tempCombinations.map((e) => VariantSelectionModel(variantName: e, variantSelected: false)));
-                finalCombinationsList.refresh();
-              }
-          }
-        });
-      });
     }
   }
 
@@ -315,15 +216,15 @@ class AddProductViewModel extends GetxController {
   //   }
   // }
 
-  void setDiscount(int? discount) {
-    if (discount! > 0 && discount < 10) {
-      discountMessage();
-    } else if (discount > 90) {
-      discountMessage();
-    } else {
-      discountMessage("");
-    }
-  }
+  // void setDiscount(int? discount) {
+  //   if (discount! > 0 && discount < 10) {
+  //     discountMessage();
+  //   } else if (discount > 90) {
+  //     discountMessage();
+  //   } else {
+  //     discountMessage("");
+  //   }
+  // }
 
   // void getVariantsFields() async {
   //   ApiBaseHelper()

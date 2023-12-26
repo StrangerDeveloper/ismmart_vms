@@ -1,6 +1,7 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ismmart_vms/helper/theme_helper.dart';
 
@@ -229,11 +230,7 @@ class CustomTextField2 extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 5),
             child: Text(
               title!,
-              style: GoogleFonts.dmSans(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: titleColor,
-              ),
+              style: newFontStyle1
             ),
           ),
         TextFormField(
@@ -249,7 +246,7 @@ class CustomTextField2 extends StatelessWidget {
           controller: controller,
           obscureText: obscureText,
           onChanged: onChanged,
-          style: GoogleFonts.lato(
+          style: GoogleFonts.inter(
             color: Colors.black,
             fontSize: 15,
           ),
@@ -280,9 +277,9 @@ class CustomTextField2 extends StatelessWidget {
             filled: true,
             fillColor: kContainerFillColor,
             hintText: hintText,
-            hintStyle: GoogleFonts.dmSans(color: newColorLightGrey2),
+            hintStyle: GoogleFonts.inter(color: newColorLightGrey2),
 
-            errorStyle: GoogleFonts.lato(
+            errorStyle: GoogleFonts.inter(
               color: Colors.red,
             ),
             disabledBorder: OutlineInputBorder(
@@ -292,16 +289,16 @@ class CustomTextField2 extends StatelessWidget {
             ),
             enabledBorder: OutlineInputBorder(
               borderSide:
-                  const BorderSide(color: kTextfieldBorderColor, width: 0.8),
+                  const BorderSide(color: kTextfieldBorderColor, width: 1.2),
               borderRadius: BorderRadius.circular(9),
             ),
             focusedBorder: OutlineInputBorder(
               borderSide:
-                  const BorderSide(color: kTextfieldBorderColor, width: 1.1),
+                  const BorderSide(color: kTextfieldBorderColor, width: 1.2),
               borderRadius: BorderRadius.circular(8),
             ),
             errorBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.red.shade700, width: 0.8),
+              borderSide: BorderSide(color: Colors.red.shade700, width: 1.2),
               borderRadius: BorderRadius.circular(8),
             ),
             focusedErrorBorder: OutlineInputBorder(
@@ -942,3 +939,171 @@ class CountryCodePickerTextField2 extends StatelessWidget {
 //     );
 //   }
 // }
+class CustomTextField4 extends StatelessWidget {
+
+  final String? title;
+  final String? hintText;
+  final IconData? prefixIcon;
+  final Widget? suffixIcon;
+  final String? label;
+  final EdgeInsetsGeometry? contentPadding;
+  final bool obscureText;
+  final TextEditingController? controller;
+  final Color? fillColor;
+  final Color? titleColor;
+  final FocusNode? focusNode;
+  final bool readOnly;
+  final bool enabled;
+  final bool? showCursor;
+  final AutovalidateMode? autoValidateMode;
+  final FormFieldValidator<String>? validator;
+  final List<TextInputFormatter>? inputFormatters;
+  final TextInputType? keyboardType;
+  final void Function(String)? onChanged;
+  final void Function()? onTap;
+  final void Function()? iconOnTap;
+
+  const CustomTextField4({
+    super.key,
+    this.showCursor,
+    this.readOnly = false,
+    this.fillColor,
+    this.onChanged,
+    this.iconOnTap,
+    this.focusNode,
+    this.titleColor,
+    this.onTap,
+    this.enabled = true,
+    this.contentPadding = const EdgeInsets.fromLTRB(10, 13.5, 10, 13.5),
+    this.controller,
+    this.suffixIcon,
+    this.obscureText = false,
+    this.hintText,
+    this.prefixIcon,
+    this.label,
+    this.title,
+    this.autoValidateMode,
+    this.validator,
+    this.inputFormatters,
+    this.keyboardType,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (title != null)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 5),
+            child: Text(
+                title!,
+                style: newFontStyle1
+            ),
+          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(
+              width: Get.width * 0.7,
+              child: TextFormField(
+                onTap: onTap,
+                focusNode: focusNode,
+                enabled: enabled,
+                keyboardType: keyboardType,
+                inputFormatters: inputFormatters,
+                validator: validator,
+                autovalidateMode: autoValidateMode,
+                showCursor: showCursor,
+                readOnly: readOnly,
+                controller: controller,
+                obscureText: obscureText,
+                onChanged: onChanged,
+                style: GoogleFonts.inter(
+                  color: Colors.black,
+                  fontSize: 15,
+                ),
+                decoration: InputDecoration(
+                  labelText: label,
+                  labelStyle: GoogleFonts.lato(
+                    fontSize: 14,
+                    color: Colors.black54,
+                  ),
+                  floatingLabelStyle: GoogleFonts.lato(
+                    color: Colors.black,
+                    fontSize: 17,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  // hintStyle: TextStyle(fontWeight: FontWeight.w400, fontSize: 14, color: Colors.green),
+                  // prefixIcon: prefixIcon,
+                  prefixIcon: prefixIcon != null
+                      ? Icon(
+                    prefixIcon,
+                    color: kPrimaryColor,
+                    size: 22,
+                  )
+                      : null,
+                  contentPadding: contentPadding,
+                  suffixIcon: suffixIcon,
+
+                  // suffixIconConstraints: BoxConstraints.expand(width: 40),
+                  filled: true,
+                  fillColor: kContainerFillColor,
+                  hintText: hintText,
+                  hintStyle: GoogleFonts.inter(color: newColorLightGrey2),
+
+                  errorStyle: GoogleFonts.inter(
+                    color: Colors.red,
+                  ),
+                  disabledBorder: OutlineInputBorder(
+                    borderSide:
+                    const BorderSide(color: kTextfieldBorderColor, width: 0.8),
+                    borderRadius: BorderRadius.circular(9),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide:
+                    const BorderSide(color: kTextfieldBorderColor, width: 1.2),
+                    borderRadius: BorderRadius.circular(9),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide:
+                    const BorderSide(color: kTextfieldBorderColor, width: 1.2),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  errorBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.red.shade700, width: 1.2),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  focusedErrorBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.red.shade700),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: iconOnTap,
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(
+                        color: Colors.grey,
+                        width: 0.8
+                    ),
+                    borderRadius: BorderRadius.circular(8)
+                ),
+                width: 35,
+                height: 35,
+                child: const Icon(
+                  Icons.delete_outline_rounded, size: 22,
+                  color: Colors.grey,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}

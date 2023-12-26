@@ -3,155 +3,123 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ismmart_vms/widgets/custom_dropdown.dart';
-import 'package:ismmart_vms/widgets/widget_models/variant_options_field_model.dart';
+import 'package:ismmart_vms/screens/add_product/add_product_2/add_product_2_view.dart';
 import 'package:quill_html_editor/quill_html_editor.dart';
 import '../../../helper/constants.dart';
 import '../../../helper/theme_helper.dart';
 import '../../../widgets/bottomsheet_item.dart';
 import '../../../widgets/custom_button.dart';
-import '../../../widgets/custom_text.dart';
 import '../../../widgets/custom_textfield.dart';
 import '../../../widgets/pick_image.dart';
 import 'add_product_1_viewmodel.dart';
 import 'package:ismmart_vms/helper/languages/translations_key.dart' as langKey;
 
-class AddProductView extends StatelessWidget {
-  AddProductView({super.key});
-  final AddProductViewModel viewModel = Get.put(AddProductViewModel());
+class AddProduct1View extends StatelessWidget {
+  AddProduct1View({super.key});
+  final AddProduct1ViewModel viewModel = Get.put(AddProduct1ViewModel());
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       top: false,
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          title: const Text('Add Product'),
-          centerTitle: true,
-          leading: IconButton(
-              onPressed: () => Get.back(),
-              icon: const Icon(
-                Icons.arrow_back_ios_new_rounded,
-                size: 20,
-                color: Colors.black,
-              ),
-          ),
-        ),
-        body: Stack(
-          children: [
-            SingleChildScrollView(
-              physics: ScrollPhysics(),
-              child: Center(
-                child: Column(
-                  children: [
-                    stepperText(),
-                    Form(
-                      key: viewModel.formKey,
-                      child: Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            ///Upload Images Section
-                            // _buildImageSection(),
+        appBar: appBar(),
+        body: SingleChildScrollView(
+          physics: const ScrollPhysics(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              stepperText(),
+              Form(
+                key: viewModel.formKey,
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ///Upload Images Section
+                      // _buildImageSection(),
 
-                            ///Product Category Field
-                            // Obx(() => selectCategoryField()),
-                            //
-                            // ///Product Sub Category Dropdown Field
-                            // Obx(() => viewModel.subCategoriesList.isEmpty
-                            //     ? Container()
-                            //     : selectSubCategoryField()),
+                      ///Product Category Field
+                      // Obx(() => selectCategoryField()),
+                      //
+                      // ///Product Sub Category Dropdown Field
+                      // Obx(() => viewModel.subCategoriesList.isEmpty
+                      //     ? Container()
+                      //     : selectSubCategoryField()),
 
-                            ///Product Category fields or variants or features
+                      ///Product Category fields or variants or features
 
-                            ///Product Basic Details
-                            titleField(),
-                            descriptionField(),
-                            priceField(),
-                            typeField(),
-                            categoryField(),
-                            tagsField(),
-                            // tagsDropdown(),
-                            // stockField(),
-                            // discountField(),
-                            // weightAndDimensionsSection(),
-                            // variantAdditionField(context),
-                            // Obx(() => viewModel.showVariantsTable.value ? variantsTable() : const SizedBox()),
-                            // productVariantsAndFeaturesField(),
-                            // const SizedBox(height: 40),
-                            CustomTextBtn(
-                              onPressed: () {
-                                // viewModel.creatingVariants();
-                                // viewModel.addProdBtnPress();
-                              },
-                              title: 'Save & Continue',
-                            ),
-                          ],
-                        ),
+                      ///Product Basic Details
+                      titleField(),
+                      descriptionField(),
+                      priceField(),
+                      typeField(),
+                      categoryField(),
+                      tagsField(),
+                      // tagsDropdown(),
+                      CustomTextBtn(
+                        onPressed: () {
+                          Get.to(() => AddProduct2View());
+                          // viewModel.creatingVariants();
+                          // viewModel.addProdBtnPress();
+                        },
+                        title: 'Save & Continue',
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
 
+  AppBar appBar() {
+    return AppBar(
+      backgroundColor: Colors.white,
+      leading: IconButton(onPressed: () => Get.back(), icon: Icon(Icons.arrow_back_ios_new_rounded, size: 22, color: newColorLightGrey2,)),
+      title: Text(
+        'Add Product',
+        style: dmSerifDisplay1.copyWith(fontSize: 20),
+      ),
+      centerTitle: true,
+    );
+  }
+
   Widget stepperText() {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: RichText(
-        text: const TextSpan(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextSpan(
-              text: 'Product Info',
-              style: TextStyle(
-                color: newColorBlue,
-                fontSize: 14,
-                fontWeight: FontWeight.w500
+            Text(
+              'Product & Pricing',
+              style: stepperTextStyle,
+            ),
+            Text(
+              ' / ',
+              style: TextStyle(color: newColorLightGrey),
+            ),
+            Text(
+              'Variant Setting',
+              style: stepperTextStyle.copyWith(color: newColorLightGrey2),
+            ),
+            Text(
+              ' / ',
+              style: TextStyle(color: newColorLightGrey),
+            ),
+            Text(
+              'Shipping',
+              style: stepperTextStyle.copyWith(
+                  color: newColorLightGrey2
               ),
-            ),
-            TextSpan(
-              text: '  /  ',
-              style: TextStyle(
-                color: kLightColor,
-                fontSize: 14,
-                fontWeight: FontWeight.w300
-              )
-            ),
-            TextSpan(
-              text: 'Pricing and Shipping',
-              style: TextStyle(
-                  color: kLightColor,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w300
-              )
-            ),
-            TextSpan(
-                text: '  /  ',
-                style: TextStyle(
-                    color: kLightColor,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w300
-                )
-            ),
-            TextSpan(
-                text: 'Variants',
-                style: TextStyle(
-                    color: kLightColor,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w300
-                )
-            ),
-          ]
-        ),
-      ),
+            )
+          ],
+        )
     );
   }
 
@@ -175,26 +143,39 @@ class AddProductView extends StatelessWidget {
   Widget descriptionField() {
     return SizedBox(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
             padding: const EdgeInsets.only(bottom: 5),
             child: Text(
               'Description',
-              style: dmSansHeading
+              style: interHeadingSize14
             ),
           ),
-          ToolBar(
-            toolBarConfig: viewModel.customToolBarList,
-              controller: viewModel.prodDescriptionController,
-            toolBarColor: kDescriptionToolbarColor,
-            iconColor: const Color(0xff929AAB),
-          ),
-          QuillHtmlEditor(
-            hintText: 'Enter Text',
-            hintTextStyle: const TextStyle(color: Colors.black, fontWeight: FontWeight.normal, fontSize: 14),
-            backgroundColor: kContainerFillColor,
-              controller: viewModel.prodDescriptionController,
-              minHeight: Get.height * 0.4
+          Container(
+            decoration: textContainerDecoration,
+            child: Column(
+              children: [
+                ToolBar(
+                  toolBarConfig: viewModel.customToolBarList,
+                    controller: viewModel.prodDescriptionController,
+                  toolBarColor: kDescriptionToolbarColor,
+                  iconColor: const Color(0xff929AAB),
+                ),
+                QuillHtmlEditor(
+                  hintTextAlign: TextAlign.center,
+                  hintText: 'Add Description ...',
+                  // text: 'Add description ...',
+                  textStyle: interNormalText.copyWith(color: Colors.black87, fontSize: 16),
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                    hintTextPadding: EdgeInsets.symmetric(vertical: 5, horizontal: 8),
+                    hintTextStyle: const TextStyle(color: newColorLightGrey2, fontWeight: FontWeight.normal, fontSize: 16),
+                    backgroundColor: kContainerFillColor,
+                    controller: viewModel.prodDescriptionController,
+                    minHeight: Get.height * 0.4
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -203,7 +184,7 @@ class AddProductView extends StatelessWidget {
 
   Widget priceField() {
     return Padding(
-      padding: EdgeInsets.only(top: viewModel.fieldsPaddingSpace),
+      padding: EdgeInsets.only(top: 12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -496,7 +477,7 @@ class AddProductView extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 5.0),
             child: Text(
               'Type',
-              style: dmSansHeading,
+              style: interHeadingSize14,
             ),
           ),
           InkWell(
@@ -511,7 +492,7 @@ class AddProductView extends StatelessWidget {
                 children: [
                   Obx(() => Text(
                       viewModel.productType.value == '' ? 'Select product type' : viewModel.productType.value,
-                      style: dmSansNormalText.copyWith(
+                      style: interNormalText.copyWith(
                         fontSize: 14,
                         color: viewModel.productType.value == '' ? newColorLightGrey2 : Colors.black,
                         fontWeight: viewModel.productType.value == '' ? FontWeight.w400 : FontWeight.w500
@@ -544,7 +525,7 @@ class AddProductView extends StatelessWidget {
                       padding: const EdgeInsets.only(left: 5),
                       child: Text(
                         'Choose Type',
-                        style: dmSansHeading.copyWith(
+                        style: interHeadingSize14.copyWith(
                           fontSize: 16,
                           fontWeight: FontWeight.bold
                         )
@@ -591,7 +572,7 @@ class AddProductView extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 5.0),
               child: Text(
                 'Category',
-                style: dmSansHeading,
+                style: interHeadingSize14,
               ),
             ),
             InkWell(
@@ -608,7 +589,7 @@ class AddProductView extends StatelessWidget {
                         children: [
                           viewModel.chosenCategoriesList.isEmpty ? Text(
                             'Select product category',
-                            style: dmSansNormalText.copyWith(
+                            style: interNormalText.copyWith(
                                 fontSize: 14,
                                 color: newColorLightGrey2,
                                 fontWeight: FontWeight.w400
@@ -633,7 +614,7 @@ class AddProductView extends StatelessWidget {
                                         children: [
                                           Text(
                                             viewModel.chosenCategoriesList[index].name!,
-                                            style: dmSansNormalText.copyWith(
+                                            style: interNormalText.copyWith(
                                                 fontSize: 12,
                                                 fontWeight: FontWeight.w600
                                             ),
@@ -685,7 +666,7 @@ class AddProductView extends StatelessWidget {
                       padding: const EdgeInsets.only(left: 5),
                       child: Text(
                           'Choose Category',
-                          style: dmSansHeading.copyWith(
+                          style: interHeadingSize14.copyWith(
                               fontSize: 16,
                               fontWeight: FontWeight.bold
                           )
@@ -765,7 +746,7 @@ class AddProductView extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 5.0),
               child: Text(
                 'Tags',
-                style: dmSansHeading,
+                style: interHeadingSize14,
               ),
             ),
             CustomTextField2(
@@ -794,72 +775,6 @@ class AddProductView extends StatelessWidget {
               hintText: 'Assign tags for this product',
             ),
             tagsDropdown()
-            // Container(
-            //   height: 50,
-            //   decoration: textContainerDecoration,
-            //   padding: const EdgeInsets.symmetric(
-            //       horizontal: 10, vertical: 12),
-            //   child: Obx(() =>
-            //       Row(
-            //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //           children: [
-            //             viewModel.chosenCategoriesList.isEmpty ? Text(
-            //               'Select product category',
-            //               style: dmSansNormalText.copyWith(
-            //                   fontSize: 14,
-            //                   color: newColorLightGrey2,
-            //                   fontWeight: FontWeight.w400
-            //               ),
-            //             ) : SizedBox(
-            //               width: Get.width * 0.75,
-            //               child: ListView.builder(
-            //                   itemCount: viewModel.chosenCategoriesList.length,
-            //                   shrinkWrap: true,
-            //                   scrollDirection: Axis.horizontal,
-            //                   itemBuilder: (context, index) {
-            //                     return Padding(
-            //                       padding: const EdgeInsets.only(right: 5.0),
-            //                       child: Container(
-            //                         padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 8),
-            //                         decoration: BoxDecoration(
-            //                           color: newColorLightGrey,
-            //                           borderRadius: BorderRadius.circular(5),
-            //                         ),
-            //                         child: Row(
-            //                           mainAxisSize: MainAxisSize.min,
-            //                           children: [
-            //                             Text(
-            //                               viewModel.chosenCategoriesList[index].name!,
-            //                               style: dmSansNormalText.copyWith(
-            //                                   fontSize: 12,
-            //                                   fontWeight: FontWeight.w600
-            //                               ),
-            //                               overflow: TextOverflow.ellipsis,
-            //                             ),
-            //                             const SizedBox(width: 8,),
-            //                             InkWell(
-            //                               onTap: () {
-            //                                 viewModel.chosenCategoriesList.removeAt(index);
-            //                                 viewModel.chosenCategoriesList.refresh();
-            //                               },
-            //                               child: const Icon(
-            //                                 Icons.close,
-            //                                 size: 17,
-            //                                 color: newColorLightGrey2,
-            //                               ),
-            //                             ),
-            //                           ],
-            //                         ),
-            //                       ),
-            //                     );
-            //                   }
-            //               ),
-            //             ),
-            //             dropDownIcon
-            //           ]
-            //       ),
-            //   ),
-            // ),
           ],
         )
     );
@@ -890,7 +805,7 @@ class AddProductView extends StatelessWidget {
                             children: [
                               Text(
                                 viewModel.chosenTagsList[index].name!,
-                                style: dmSansNormalText.copyWith(
+                                style: interNormalText.copyWith(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w600
                                 ),
@@ -917,14 +832,11 @@ class AddProductView extends StatelessWidget {
                 ),
               ),
           Positioned(
-            // bottom: 10,
             child:
             Obx(() =>
                 Visibility(
                   visible: viewModel.showTagsList.value,
-                  child:
-                  // Icon(Icons.abc, color: Colors.black,)
-                  Container(
+                  child: Container(
                     decoration: textContainerDecoration,
                     height: 120,
                     width: Get.width * 0.8,
@@ -976,332 +888,6 @@ class AddProductView extends StatelessWidget {
           )
         ],
       ),
-    );
-  }
-
-  Widget variantAdditionField(BuildContext context) {
-    return Obx(() =>
-    viewModel.showVariantsField.value ? Column(
-      children: [
-        ListView.builder(
-            padding: const EdgeInsets.only(bottom: 10),
-            shrinkWrap: true,
-            physics: const ScrollPhysics(),
-            itemCount: viewModel.listOfOptionsAdded.length,
-            itemBuilder: (context, index) {
-              TextEditingController optionName = TextEditingController();
-              optionName.text = viewModel.listOfOptionsAdded[index].optionName!;
-              return Column(
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SizedBox(
-                        width: 200,
-                        child: CustomTextField2(
-                          enabled: optionName.text == '' ? true : false,
-                          title: 'Option Name',
-                          controller: optionName,
-                          onChanged: (value) {
-                            viewModel.finalCombinationsList[index].variantName = value;
-                            viewModel.finalCombinationsList.refresh();
-                          },
-                        ),
-                      ),
-                      SizedBox(
-                        width: 35,
-                        height: 35,
-                        child: IconButton(
-                            onPressed: () {
-                              viewModel.listOfOptionsAdded.removeAt(index);
-                              viewModel.listOfOptionsAdded.refresh();
-                            },
-                            icon: const Icon(
-                              Icons.delete_outline_rounded, size: 30,
-                              color: Colors.red,
-                            ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 5.0),
-                    child: Divider(thickness: 0.8, color: kLightColor,),
-                  ),
-                  Obx(() =>
-                      ListView.builder(
-                        physics: const ScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: viewModel.listOfOptionsAdded[index].optionValues?.length,
-                          itemBuilder: (context, optionIndex) {
-                            TextEditingController optionController = viewModel.listOfOptionsAdded[index].optionValues![optionIndex];
-                            String? title;
-                            if(optionController == viewModel.listOfOptionsAdded[index].optionValues?.first){
-                              title = 'Option Values';
-                            }
-                            if (optionIndex == viewModel.listOfOptionsAdded[index].optionValues!.length - 1) {
-                              return Padding(
-                                padding: const EdgeInsets.only(bottom: 5.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment
-                                      .spaceBetween,
-                                  children: [
-                                    SizedBox(
-                                      width: 200,
-                                      child: CustomTextField2(
-                                        title: title,
-                                        onChanged: (value) {
-                                          optionController.text = value;
-                                        },
-                                      ),
-                                    ),
-                                    CircleAvatar(
-                                      radius: 12,
-                                      backgroundColor: Colors.black,
-                                      child: InkWell(
-                                        onTap: () {
-                                          if (optionController.text == "" ||
-                                              optionController.text
-                                                  .isEmpty) {
-                                            AppConstant.displaySnackBar('Error',
-                                                'Enter Value to add more fields');
-                                          } else {
-                                            viewModel.listOfOptionsAdded[index].optionValues?.add(
-                                                TextEditingController());
-                                            viewModel.listOfOptionsAdded.refresh();
-                                          }
-                                        },
-                                        child: const Icon(Icons.add, size: 20,
-                                          color: Colors.white,),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            } else {
-                              return Padding(
-                                padding: const EdgeInsets.only(bottom: 5.0),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment
-                                      .spaceBetween,
-                                  children: [
-                                    SizedBox(
-                                      width: 200,
-                                      child: CustomTextField2(
-                                        onChanged: (value) {
-                                          optionController.text = value;
-                                        },
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 35,
-                                      height: 35,
-                                      child: IconButton(
-                                          onPressed: () {
-                                            viewModel.listOfOptionsAdded[index].optionValues?.removeAt(optionIndex);
-                                            viewModel.listOfOptionsAdded.refresh();
-                                          },
-                                          icon: const Icon(
-                                            Icons.delete_outline_rounded,
-                                            size: 30, color: Colors.red,
-                                          ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }
-                          }
-                      ),
-                  ),
-                  Obx(() =>  index == viewModel.listOfOptionsAdded.length-1 ? const SizedBox() : const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8),
-                    child: Divider(thickness: 1.3, color: Colors.black,),
-                  ),
-              ),
-                ],
-              );
-            }
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            TextButton(
-              onPressed: () async {
-                await variantSelectionDialog();
-                viewModel.showVariantsField.value = true;
-              },
-              child: const Align(
-                alignment: Alignment.centerLeft, child: Text('Add another Option'),
-              ),
-            ),
-            TextButton(
-              onPressed: () async {
-                await viewModel.creatingVariants();
-                viewModel.locationSelected.value = viewModel.locationsList[0].id!;
-                // print(viewModel.locationSelected.value);
-                viewModel.showVariantsTable.value = true;
-                viewModel.showVariantsField.value = false;
-                // await variantSelectionDialog();
-                // viewModel.showVariantsField.value = true;
-              },
-              child: const Align(
-                alignment: Alignment.centerRight, child: Text('Done'),
-              ),
-            ),
-          ],
-        ),
-      ],
-    ) : TextButton(
-        onPressed: () async {
-          await variantSelectionDialog();
-          viewModel.showVariantsField.value = true;
-        },
-        child: const Align(
-            alignment: Alignment.centerLeft, child: Text('Add Variants'))));
-  }
-
-  Widget variantsTable() {
-    return Container(
-      color: Colors.grey.shade100,
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-      child: Column(
-        children: [
-          CustomDropDownList1(
-              value: viewModel.locationSelected,
-              onChanged: (value) {
-                viewModel.locationSelected.value = value;
-              },
-              dropdownList: viewModel.locationsList
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Align(
-            alignment: Alignment.centerRight,
-            child: IconButton(
-                onPressed: (){},
-                icon: const Icon(
-                    Icons.more_horiz_rounded,
-                  size: 20,
-                  color: Colors.black,
-                )
-            ),
-          ),
-          ListView.builder(
-            shrinkWrap: true,
-            physics: const ScrollPhysics(),
-            itemCount: viewModel.finalCombinationsList.length,
-            itemBuilder: (context, index){
-              return Row(
-                children: [
-                  Checkbox(
-                      value: viewModel.finalCombinationsList[index].variantSelected,
-                      onChanged: (value) {
-                        viewModel.finalCombinationsList[index].variantSelected = value;
-                        viewModel.finalCombinationsList.refresh();
-                      },
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  Text(
-                    viewModel.finalCombinationsList[index].variantName!,
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w400
-                    ),
-                  ),
-
-                ],
-              );
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
-  Future variantSelectionDialog() {
-    return showModalBottomSheet(
-        context: Get.context!,
-        builder: (BuildContext context) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 5),
-                      child: Text(
-                        'Choose Option',
-                        style: GoogleFonts.lato(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-                    IconButton(
-                      visualDensity: VisualDensity.compact,
-                      onPressed: () {
-                        Get.back();
-                      },
-                      icon: const Icon(Icons.close),
-                    ),
-                  ],
-                ),
-                const Divider(),
-                ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: viewModel.optionsList.length,
-                  itemBuilder: (context, index) {
-                    return BottomSheetItem(
-                        title: viewModel.optionsList[index],
-                      onTap: () {
-                          if(viewModel.optionsChosen.contains(viewModel.optionsList[index])){
-                            AppConstant.displaySnackBar('Error', 'Option Already Selected');
-                          } else {
-                            if (viewModel.optionsList[index] == 'Other') {
-                              viewModel.listOfOptionsAdded.add(
-                                VariantsOptionsFieldModel(
-                                  optionName: '',
-                                  optionValues: <TextEditingController>[TextEditingController()]
-                                )
-                              );
-                              viewModel.listOfOptionsAdded.refresh();
-                              Navigator.pop(context);
-                            } else {
-                              viewModel.selectedOption.value =
-                              viewModel.optionsList[index];
-                              viewModel.listOfOptionsAdded.add(
-                                VariantsOptionsFieldModel(
-                                    optionName: viewModel.optionsList[index],
-                                    optionValues: <TextEditingController>[
-                                      TextEditingController()
-                                    ]
-                                ),
-                              );
-                              viewModel.optionsChosen.add(viewModel.optionsList[index]);
-                              viewModel.listOfOptionsAdded.refresh();
-                              viewModel.optionsChosen.refresh();
-                              Navigator.pop(context);
-                            }
-                          }
-                      },
-                    );
-                },
-                )
-              ],
-            ),
-          );
-        }
     );
   }
 
@@ -1531,142 +1117,142 @@ class AddProductView extends StatelessWidget {
   //   );
   // }
 
-  Widget stockField() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 12.0),
-      child: CustomTextField2(
-        inputFormatters: [
-          FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-          FilteringTextInputFormatter.digitsOnly
-        ],
-        controller: viewModel.prodStockController,
-        prefixIcon: Icons.inventory_outlined,
-        label: langKey.prodStock.tr,
-        autoValidateMode: AutovalidateMode.onUserInteraction,
-        // validator: (value) {
-        //   return Validator()
-        //       .validateDefaultTxtField(value, errorPrompt: prodStockReq.tr);
-        // },
-        keyboardType: TextInputType.number,
-      ),
-    );
-  }
-
-  Widget discountField() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 12.0),
-      child: Column(
-        children: [
-          CustomTextField2(
-            controller: viewModel.prodDiscountController,
-            prefixIcon: Icons.discount,
-            label: langKey.prodDiscount.tr,
-            // onChanged: (value) {
-            //   int discount = value.isNotEmpty ? int.parse(value) : 0;
-            //   viewModel.setDiscount(discount);
-            // },
-            keyboardType: TextInputType.number,
-            inputFormatters: [
-              FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-              FilteringTextInputFormatter.digitsOnly
-            ],
-          ),
-          Obx(
-            () => Visibility(
-              visible: viewModel.prodDiscountController.text.isNotEmpty,
-              child: CustomText(
-                title: viewModel.discountMessage.value,
-                color: kRedColor,
-              ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget weightAndDimensionsSection() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 30.0),
-      child: Column(
-        children: [
-          CustomText(
-            title: langKey.weightAndDimension.tr,
-            style: headline2,
-          ),
-          const SizedBox(
-            height: 15,
-          ),
-          weightField(),
-          lengthField(),
-          widthField(),
-          heightField()
-        ],
-      ),
-    );
-  }
-
-  Widget weightField() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 12.0),
-      child: CustomTextField2(
-        controller: viewModel.prodWeightController,
-        label: langKey.weight.tr,
-        prefixIcon: Icons.scale_outlined,
-        autoValidateMode: AutovalidateMode.onUserInteraction,
-        // validator: (value) {
-        //   return Validator().validateWeightField(value!);
-        // },
-        keyboardType: TextInputType.number,
-        inputFormatters: [
-          FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}')),
-        ],
-      ),
-    );
-  }
-
-  Widget lengthField() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 12.0),
-      child: CustomTextField2(
-        controller: viewModel.prodLengthController,
-        label: langKey.length.tr,
-        prefixIcon: Icons.numbers,
-        keyboardType: TextInputType.number,
-        inputFormatters: [
-          FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}')),
-        ],
-      ),
-    );
-  }
-
-  Widget widthField() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 12.0),
-      child: CustomTextField2(
-        controller: viewModel.prodWidthController,
-        label: langKey.width.tr,
-        prefixIcon: Icons.numbers,
-        keyboardType: TextInputType.number,
-        inputFormatters: [
-          FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}')),
-        ],
-      ),
-    );
-  }
-
-  Widget heightField() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 12.0),
-      child: CustomTextField2(
-        controller: viewModel.prodHeightController,
-        label: langKey.height.tr,
-        prefixIcon: Icons.numbers,
-        keyboardType: TextInputType.number,
-        inputFormatters: [
-          FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}')),
-        ],
-      ),
-    );
-  }
+  // Widget stockField() {
+  //   return Padding(
+  //     padding: const EdgeInsets.only(top: 12.0),
+  //     child: CustomTextField2(
+  //       inputFormatters: [
+  //         FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+  //         FilteringTextInputFormatter.digitsOnly
+  //       ],
+  //       controller: viewModel.prodStockController,
+  //       prefixIcon: Icons.inventory_outlined,
+  //       label: langKey.prodStock.tr,
+  //       autoValidateMode: AutovalidateMode.onUserInteraction,
+  //       // validator: (value) {
+  //       //   return Validator()
+  //       //       .validateDefaultTxtField(value, errorPrompt: prodStockReq.tr);
+  //       // },
+  //       keyboardType: TextInputType.number,
+  //     ),
+  //   );
+  // }
+  //
+  // Widget discountField() {
+  //   return Padding(
+  //     padding: const EdgeInsets.only(top: 12.0),
+  //     child: Column(
+  //       children: [
+  //         CustomTextField2(
+  //           controller: viewModel.prodDiscountController,
+  //           prefixIcon: Icons.discount,
+  //           label: langKey.prodDiscount.tr,
+  //           // onChanged: (value) {
+  //           //   int discount = value.isNotEmpty ? int.parse(value) : 0;
+  //           //   viewModel.setDiscount(discount);
+  //           // },
+  //           keyboardType: TextInputType.number,
+  //           inputFormatters: [
+  //             FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+  //             FilteringTextInputFormatter.digitsOnly
+  //           ],
+  //         ),
+  //         Obx(
+  //           () => Visibility(
+  //             visible: viewModel.prodDiscountController.text.isNotEmpty,
+  //             child: CustomText(
+  //               title: viewModel.discountMessage.value,
+  //               color: kRedColor,
+  //             ),
+  //           ),
+  //         )
+  //       ],
+  //     ),
+  //   );
+  // }
+  //
+  // Widget weightAndDimensionsSection() {
+  //   return Padding(
+  //     padding: const EdgeInsets.only(top: 30.0),
+  //     child: Column(
+  //       children: [
+  //         CustomText(
+  //           title: langKey.weightAndDimension.tr,
+  //           style: headline2,
+  //         ),
+  //         const SizedBox(
+  //           height: 15,
+  //         ),
+  //         weightField(),
+  //         lengthField(),
+  //         widthField(),
+  //         heightField()
+  //       ],
+  //     ),
+  //   );
+  // }
+  //
+  // Widget weightField() {
+  //   return Padding(
+  //     padding: const EdgeInsets.only(top: 12.0),
+  //     child: CustomTextField2(
+  //       controller: viewModel.prodWeightController,
+  //       label: langKey.weight.tr,
+  //       prefixIcon: Icons.scale_outlined,
+  //       autoValidateMode: AutovalidateMode.onUserInteraction,
+  //       // validator: (value) {
+  //       //   return Validator().validateWeightField(value!);
+  //       // },
+  //       keyboardType: TextInputType.number,
+  //       inputFormatters: [
+  //         FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}')),
+  //       ],
+  //     ),
+  //   );
+  // }
+  //
+  // Widget lengthField() {
+  //   return Padding(
+  //     padding: const EdgeInsets.only(top: 12.0),
+  //     child: CustomTextField2(
+  //       controller: viewModel.prodLengthController,
+  //       label: langKey.length.tr,
+  //       prefixIcon: Icons.numbers,
+  //       keyboardType: TextInputType.number,
+  //       inputFormatters: [
+  //         FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}')),
+  //       ],
+  //     ),
+  //   );
+  // }
+  //
+  // Widget widthField() {
+  //   return Padding(
+  //     padding: const EdgeInsets.only(top: 12.0),
+  //     child: CustomTextField2(
+  //       controller: viewModel.prodWidthController,
+  //       label: langKey.width.tr,
+  //       prefixIcon: Icons.numbers,
+  //       keyboardType: TextInputType.number,
+  //       inputFormatters: [
+  //         FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}')),
+  //       ],
+  //     ),
+  //   );
+  // }
+  //
+  // Widget heightField() {
+  //   return Padding(
+  //     padding: const EdgeInsets.only(top: 12.0),
+  //     child: CustomTextField2(
+  //       controller: viewModel.prodHeightController,
+  //       label: langKey.height.tr,
+  //       prefixIcon: Icons.numbers,
+  //       keyboardType: TextInputType.number,
+  //       inputFormatters: [
+  //         FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}')),
+  //       ],
+  //     ),
+  //   );
+  // }
 }
