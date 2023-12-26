@@ -3,8 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/constants.dart';
 import 'package:ismmart_vms/screens/dashboard/model/order_model.dart';
+import 'package:ismmart_vms/widgets/widget_models/dropdown_model.dart';
 
 class DashboardViewModel extends GetxController {
+  RxString dateSelected = '1'.obs;
+  List<DropDownModel> dateDropDownList = <DropDownModel>[
+    DropDownModel(id: "1", name: "Today"),
+    DropDownModel(id: "2", name: "25 Dec 2023"),
+    DropDownModel(id: "3", name: "24 Dec 2023"),
+    DropDownModel(id: "4", name: "23 Dec 2023"),
+  ].obs;
+
   List<OrderModel> orderList = <OrderModel>[].obs;
   List<OrderModel> approvedOrderList = <OrderModel>[].obs;
   List<OrderModel> cancelledOrderList = <OrderModel>[].obs;
