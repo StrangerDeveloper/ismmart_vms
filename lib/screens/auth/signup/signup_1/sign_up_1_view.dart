@@ -16,6 +16,7 @@ import '../../../../helper/validator.dart';
 import '../../../../widgets/custom_loading.dart';
 import '../../login/login_view.dart';
 import 'package:ismmart_vms/helper/languages/translations_key.dart' as langKey;
+import '../signup_2/sign_up_2_view.dart';
 import 'sign_up_1_viewmodel.dart';
 
 class SignUp1View extends StatelessWidget {
@@ -32,7 +33,7 @@ class SignUp1View extends StatelessWidget {
             child: Column(
               children: [
                 Form(
-                  key: viewModel.signUpFormKey,
+                  key: viewModel.signUpFormKey1,
                   child: Padding(
                     padding: const EdgeInsets.only(
                       top: 60,
@@ -43,6 +44,7 @@ class SignUp1View extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         titleAndBackBtn(),
+                        divider(),
                         Padding(
                           padding: EdgeInsets.only(top: 60),
                           child: Text(
@@ -58,6 +60,9 @@ class SignUp1View extends StatelessWidget {
                         cnicNumberField(),
                         cnicFrontImage(),
                         cnicBackImage(),
+                        SizedBox(
+                          height: 20,
+                        ),
                         passwordTextField(),
                         confirmPasswordTextField(),
                         checkedStatement(),
@@ -123,6 +128,14 @@ class SignUp1View extends StatelessWidget {
     );
   }
 
+  Widget divider() {
+    return const Divider(
+      color: Color(0xffEEEEEE),
+      thickness: 1,
+      height: 20,
+    );
+  }
+
   Widget progress() {
     return Row(
       children: [
@@ -146,7 +159,7 @@ class SignUp1View extends StatelessWidget {
           lineWidth: 6,
           percent: 0.05,
           backgroundColor: const Color(0xffEBEFF3),
-          progressColor: const Color(0xff0CBC8B),
+          progressColor: newColorBlue,
           center: Text(
             "1 of 3",
             style: poppinsH2.copyWith(
@@ -402,8 +415,7 @@ class SignUp1View extends StatelessWidget {
                       fontWeight: FontWeight.w500, color: kWhiteColor),
                 ),
                 onPressed: () {
-                  // Get.offNamed(Routes.dashboard);
-                  // Get.to(DashboardView());
+                  Get.to(SignUp2View());
                 },
               ),
       ),

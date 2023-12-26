@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ismmart_vms/helper/constants.dart';
 import 'package:ismmart_vms/helper/theme_helper.dart';
 
 class ImageLayoutContainer extends StatelessWidget {
@@ -26,7 +27,7 @@ class ImageLayoutContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: Column(
         children: [
           Row(
@@ -34,9 +35,7 @@ class ImageLayoutContainer extends StatelessWidget {
               RichText(
                 text: TextSpan(
                   text: title,
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
+                  style: newFontStyleSize14,
                   children: [
                     if (required)
                       TextSpan(
@@ -66,34 +65,67 @@ class ImageLayoutContainer extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 15),
+          SizedBox(height: 3),
           Row(
             children: [
               InkWell(
                 onTap: onTap,
-                child: Text(
-                  'Choose File',
-                  style: TextStyle(
-                    color: ThemeHelper.plattet1.shade900,
-                    fontSize: 12,
+                child: Container(
+                  alignment: Alignment.center,
+                  height: 37,
+                  width: 115,
+                  decoration: BoxDecoration(
+                      color: Color(0xFF929AAB),
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10.0),
+                        bottomLeft: const Radius.circular(10.0),
+                      )),
+                  child: Text(
+                    'Choose File',
+                    style: TextStyle(
+                      color: Color(0xFFF9FAFB),
+                      fontSize: 12,
+                    ),
                   ),
                 ),
               ),
-              SizedBox(width: 4),
-              Text(
-                filePath == '' ? "No File Chosen" : filePath,
-                style: TextStyle(
-                  color: ThemeHelper.fadedBlue,
-                  fontSize: 12,
+              Container(
+                padding: EdgeInsets.only(left: 10, top: 17),
+                width: 250,
+                height: 37,
+                decoration: ShapeDecoration(
+                  color: Color(0xFFF9FAFB),
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(
+                      width: 1,
+                      strokeAlign: BorderSide.strokeAlignOutside,
+                      color: Color(0xFFEEEEEE),
+                    ),
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(8),
+                      bottomRight: Radius.circular(8),
+                    ),
+                  ),
                 ),
-              ),
+                child: Text(
+                  filePath == '' ? 'No file chosen' : filePath,
+                  style: TextStyle(
+                    color: Color(0xFF24272C),
+                    fontSize: 14,
+                    fontFamily: 'Inter',
+                    fontWeight: FontWeight.w400,
+                    height: 0.09,
+                  ),
+                ),
+              )
             ],
           ),
-          Divider(
-            color: Color(0xffEEEEEE),
-            thickness: 1,
-            height: 20,
-          ),
+
+          // Divider(
+          //   color: Color(0xffEEEEEE),
+          //   thickness: 1,
+          //   height: 20,
+          // ),
           if (description)
             Text(
               "This cheque image should have the same bank details visible as you mentioned above",

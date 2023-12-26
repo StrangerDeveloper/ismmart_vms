@@ -26,8 +26,7 @@ const red2 = Color(0xFFF80B0B);
 const kLightRedColor = Color(0xBBEF5350);
 const kGoldColor = Color(0xFFFFD700);
 const kOrangeColor = Colors.deepOrange;
-Color kGrey900 = Colors.grey[900]!;
-Color kGrey800 = Colors.grey[800]!;
+
 const kDarkColor = Color(0xFF303030);
 const kTransparent = Colors.transparent;
 const newColorNavyBlue = Color(0xff0C1A30);
@@ -95,10 +94,7 @@ var interNormalText = GoogleFonts.inter(
 var textContainerDecoration = BoxDecoration(
   color: kContainerFillColor,
   borderRadius: BorderRadius.circular(8),
-  border: Border.all(
-      color: kTextfieldBorderColor,
-      width: 0.8
-  ),
+  border: Border.all(color: kTextfieldBorderColor, width: 0.8),
 );
 
 Widget dropDownIcon = const Icon(
@@ -164,11 +160,17 @@ var dmSerifDisplay1 = GoogleFonts.dmSerifDisplay(
   color: newColorDarkBlack2,
   fontSize: 14,
 );
+var newFontStyleSize12 = GoogleFonts.inter(
+  color: newColorDarkBlack,
+  fontSize: 12,
+  fontWeight: FontWeight.w500,
+  height: 1.5,
+);
 
 var newFontStyleSize14 = GoogleFonts.inter(
     fontWeight: FontWeight.w400,
     fontSize: 14,
-    // height: 0.11,
+    height: 0.11,
     color: newColorDarkBlack);
 var newFontStyle1 = GoogleFonts.inter(
   fontWeight: FontWeight.w500,
@@ -197,7 +199,7 @@ var newFontStyleSize24 = GoogleFonts.inter(
   fontSize: 24,
   fontWeight: FontWeight.w700,
   color: newColorBlue,
-  // height: 0.06,
+  height: 0.06,
   letterSpacing: -0.24,
 );
 

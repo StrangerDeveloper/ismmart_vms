@@ -8,6 +8,9 @@ import 'package:path/path.dart';
 import 'package:ismmart_vms/widgets/custom_button.dart';
 import 'package:ismmart_vms/widgets/custom_textfield.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import '../../../../helper/global_variables.dart';
+import '../../../../widgets/custom_loading.dart';
+import '../signup_3/sign_up_3_view.dart';
 import 'sign_up_2_viewmodel.dart';
 
 class SignUp2View extends StatelessWidget {
@@ -29,6 +32,11 @@ class SignUp2View extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     titleAndBackBtn(),
+                    const Divider(
+                      color: Color(0xffEEEEEE),
+                      thickness: 1,
+                      height: 20,
+                    ),
                     createAVendorAccount(),
                     progress(),
                     shopNameField(),
@@ -41,6 +49,7 @@ class SignUp2View extends StatelessWidget {
                     // cityPicker(),
                     Obx(
                       () => ImageLayoutContainer(
+                          required: false,
                           title: 'Store Logo',
                           filePath: viewModel.shopLogoImage.value == ''
                               ? ''
@@ -53,8 +62,13 @@ class SignUp2View extends StatelessWidget {
                               viewModel.shopImageErrorVisibility.value,
                           errorPrompt: 'Store Logo image is required'),
                     ),
+
+                    storeSlug(),
+                    storeType(),
                     shopAddressField(),
-                    submitBtn(),
+                    countryField(),
+                    cityField(),
+                    singup2Btn(),
                   ],
                 ),
               ),
@@ -66,7 +80,7 @@ class SignUp2View extends StatelessWidget {
   }
 
   Widget titleAndBackBtn() {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       child: Stack(
         alignment: Alignment.centerLeft,
@@ -74,19 +88,13 @@ class SignUp2View extends StatelessWidget {
           Align(
             alignment: Alignment.center,
             child: Text(
-              'ISMMART',
-              style: GoogleFonts.dmSerifText(
-                color: Color(0xff333333),
-                fontSize: 20,
-                fontWeight: FontWeight.w400,
-              ),
+              'Sign Up',
+              style: newFontStyleSize24,
             ),
           ),
-          CustomBackButton(
-            onTap: () {
-              Get.back();
-            },
-          ),
+          CustomBackButton(onTap: () {
+            Get.back();
+          }),
         ],
       ),
     );
@@ -94,76 +102,41 @@ class SignUp2View extends StatelessWidget {
 
   Widget createAVendorAccount() {
     return Padding(
-        padding: const EdgeInsets.only(top: 20, bottom: 10),
-        child: Text(
-          'Add Business Information',
-          style: newFontStyle2.copyWith(
-            fontSize: 20,
-            color: newColorDarkBlack2,
+      padding: const EdgeInsets.only(
+        top: 20,
+      ),
+      child: Column(
+        children: [
+          Text(
+            'Store information',
+            style: newFontStyleSize20,
           ),
-        )
-        // RichText(
-        //   text: TextSpan(
-        //     children: [
-        //       TextSpan(
-        //         text: 'Add',
-        //         style: newFontStyle2.copyWith(
-        //           fontSize: 20,
-        //           color: newColorDarkBlack2,
-        //         ),
-        //       ),
-        //       TextSpan(
-        //         text: '  ',
-        //         style: newFontStyle2.copyWith(
-        //           fontSize: 20,
-        //           color: newColorBlue,
-        //         ),
-        //       ),
-        //       TextSpan(
-        //         text: langKey.information.tr,
-        //         style: newFontStyle2.copyWith(
-        //           fontSize: 20,
-        //           color: newColorDarkBlack2,
-        //         ),
-        //       ),
-        //     ],
-        //   ),
-        // ),
-        );
+        ],
+      ),
+    );
   }
 
   Widget progress() {
     return Padding(
-      padding: const EdgeInsets.only(top: 10, bottom: 30),
+      padding: const EdgeInsets.only(bottom: 30),
       child: Row(
         children: [
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Vendor Account Progress',
-                  style: newFontStyle1.copyWith(
-                    color: newColorBlue2,
-                  ),
-                ),
-                SizedBox(height: 6),
+                // SizedBox(height: 6),
                 RichText(
                   text: TextSpan(
                     children: [
                       TextSpan(
                         text: 'Next Step: ',
-                        style: newFontStyle1.copyWith(
-                          fontSize: 12,
-                          color: newColorBlue4,
-                        ),
+                        style: newFontStyleSize14,
                       ),
                       TextSpan(
-                        text: 'Bank Details',
-                        style: newFontStyle1.copyWith(
-                          fontSize: 12,
-                          color: newColorBlue3,
-                        ),
+                        text: 'Banking Information',
+                        style: newFontStyleSize14.copyWith(
+                            color: newColorLightGrey2),
                       ),
                     ],
                   ),
@@ -177,7 +150,7 @@ class SignUp2View extends StatelessWidget {
             lineWidth: 6,
             percent: 0.5,
             backgroundColor: Color(0xffEBEFF3),
-            progressColor: Color(0xff0CBC8B),
+            progressColor: newColorBlue,
             center: new Text(
               "2 of 3",
               style: poppinsH2.copyWith(
@@ -191,10 +164,41 @@ class SignUp2View extends StatelessWidget {
   }
 
   Widget shopNameField() {
-    return CustomTextField3(
+    return CustomTextField1(
+      prefixIcon: Icons.store,
       keyboardType: TextInputType.text,
       title: 'Store Name',
-      hintText: 'Enter Store Name',
+      hintText: 'Al-Jannat',
+      controller: viewModel.storeNameController,
+      autoValidateMode: AutovalidateMode.onUserInteraction,
+      // validator: (value) {
+      //   return Validator().validateName(value, errorToPrompt: langKey.storeNameReq.tr);
+      // },
+    );
+  }
+
+  Widget storeSlug() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 16, bottom: 25),
+      child: CustomTextField1(
+        keyboardType: TextInputType.text,
+        title: 'Store Slug (non repeatable)',
+        hintText: 'Al-Jannat Shopping Mall',
+        controller: viewModel.storeNameController,
+        autoValidateMode: AutovalidateMode.onUserInteraction,
+        // validator: (value) {
+        //   return Validator().validateName(value, errorToPrompt: langKey.storeNameReq.tr);
+        // },
+      ),
+    );
+  }
+
+  Widget storeType() {
+    return CustomTextField1(
+      isDropDown: true,
+      keyboardType: TextInputType.text,
+      title: 'Store Type',
+      hintText: 'Select one',
       controller: viewModel.storeNameController,
       autoValidateMode: AutovalidateMode.onUserInteraction,
       // validator: (value) {
@@ -285,15 +289,52 @@ class SignUp2View extends StatelessWidget {
   // }
 
   Widget shopAddressField() {
-    return CustomTextField3(
-      keyboardType: TextInputType.text,
-      title: 'Store Address',
-      hintText: 'Enter Store Address',
-      controller: viewModel.storeAddressController,
-      autoValidateMode: AutovalidateMode.onUserInteraction,
-      // validator: (value) {
-      //   return Validator().validateAddress(value);
-      // },
+    return Padding(
+      padding: const EdgeInsets.only(top: 25.0),
+      child: CustomTextField1(
+        keyboardType: TextInputType.text,
+        title: 'Address',
+        hintText: 'Shop#748, Saddar Bazar, Rawalpindi',
+        controller: viewModel.storeAddressController,
+        autoValidateMode: AutovalidateMode.onUserInteraction,
+        // validator: (value) {
+        //   return Validator().validateAddress(value);
+        // },
+      ),
+    );
+  }
+
+  Widget countryField() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 25.0),
+      child: CustomTextField1(
+        isDropDown: true,
+        keyboardType: TextInputType.text,
+        title: 'Country',
+        hintText: 'Select one',
+        controller: viewModel.storeAddressController,
+        autoValidateMode: AutovalidateMode.onUserInteraction,
+        // validator: (value) {
+        //   return Validator().validateAddress(value);
+        // },
+      ),
+    );
+  }
+
+  Widget cityField() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 25.0),
+      child: CustomTextField1(
+        isDropDown: true,
+        keyboardType: TextInputType.text,
+        title: 'City',
+        hintText: 'Select one',
+        controller: viewModel.storeAddressController,
+        autoValidateMode: AutovalidateMode.onUserInteraction,
+        // validator: (value) {
+        //   return Validator().validateAddress(value);
+        // },
+      ),
     );
   }
 
@@ -469,16 +510,34 @@ class SignUp2View extends StatelessWidget {
   //     ),
   //   );
   // }
-
-  Widget submitBtn() {
+  Widget singup2Btn() {
     return Padding(
-      padding: const EdgeInsets.only(top: 25, bottom: 25),
-      child: CustomRoundedTextBtn(
-        title: 'Proceed',
-        onPressed: () async {
-          await viewModel.proceed();
-          // Get.to(() => VendorSignUp3View());
-        },
+      padding: const EdgeInsets.only(top: 32),
+      child: Obx(
+        () => GlobalVariable.showLoader.value
+            ? const CustomLoading(isItBtn: true)
+            : CustomRoundedTextBtn(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Next',
+                      style: newFontStyleSize14.copyWith(
+                          fontWeight: FontWeight.w500, color: kWhiteColor),
+                    ),
+                    SizedBox(
+                      width: 4,
+                    ),
+                    Icon(
+                      Icons.arrow_forward,
+                      size: 20,
+                    ),
+                  ],
+                ),
+                onPressed: () {
+                  Get.to(SignUp3View());
+                },
+              ),
       ),
     );
   }

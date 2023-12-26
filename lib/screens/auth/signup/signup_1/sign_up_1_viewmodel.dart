@@ -8,7 +8,7 @@ import 'package:ismmart_vms/widgets/pick_image.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class SignUpScreen1ViewModel extends GetxController {
-  GlobalKey<FormState> signUpFormKey = GlobalKey<FormState>();
+  GlobalKey<FormState> signUpFormKey1 = GlobalKey<FormState>();
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -57,7 +57,7 @@ class SignUpScreen1ViewModel extends GetxController {
   }
 
   void signUp() {
-    if (signUpFormKey.currentState?.validate() ?? false) {
+    if (signUpFormKey1.currentState?.validate() ?? false) {
       Map<String, dynamic> param = {
         "full_name": nameController.text,
         "email": emailController.text,

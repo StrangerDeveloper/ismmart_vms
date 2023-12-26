@@ -7,7 +7,6 @@ import 'package:ismmart_vms/helper/theme_helper.dart';
 
 import '../helper/constants.dart';
 
-
 //FINAL VERSION...
 class CustomTextField1 extends StatelessWidget {
   final String? title;
@@ -83,28 +82,28 @@ class CustomTextField1 extends StatelessWidget {
         (title == null)
             ? Container()
             : Padding(
-                padding: const EdgeInsets.only(bottom: 8.5),
-                child: RichText(
-                  text: TextSpan(
-                    text: title,
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    children: [
-                      (asterisk)
-                          ? const TextSpan(
-                              text: '*',
-                              style: TextStyle(
-                                color: Colors.red,
-                                fontSize: 16,
-                              ),
-                            )
-                          : const TextSpan(text: '')
-                    ],
-                  ),
-                ),
+          padding: const EdgeInsets.only(bottom: 8.5),
+          child: RichText(
+            text: TextSpan(
+              text: title,
+              style: const TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.w500,
               ),
+              children: [
+                (asterisk)
+                    ? const TextSpan(
+                  text: '*',
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 16,
+                  ),
+                )
+                    : const TextSpan(text: '')
+              ],
+            ),
+          ),
+        ),
         TextFormField(
           controller: controller,
           keyboardType: keyboardType,
@@ -126,18 +125,18 @@ class CustomTextField1 extends StatelessWidget {
             errorText: errorText,
             suffixIcon: (suffixIcon != null || isDropDown)
                 ? Icon(
-                    suffixIcon ?? Icons.keyboard_arrow_down_rounded,
-                    size: 20,
-                    color: ThemeHelper.grey2,
-                  )
+              suffixIcon ?? Icons.keyboard_arrow_down_rounded,
+              size: 20,
+              color: ThemeHelper.grey2,
+            )
                 : suffixIconButton,
             suffixIconConstraints: BoxConstraints.tight(const Size(40, 40)),
             prefixIcon: prefixIcon != null
                 ? Icon(
-                    prefixIcon,
-                    size: 20,
-                    color: ThemeHelper.grey2,
-                  )
+              prefixIcon,
+              size: 20,
+              color: ThemeHelper.grey2,
+            )
                 : null,
             prefixIconConstraints: BoxConstraints.tight(const Size(40, 40)),
             contentPadding: contentPadding,
@@ -157,7 +156,7 @@ class CustomTextField1 extends StatelessWidget {
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
               borderSide:
-                  const BorderSide(width: 1.5, color: ThemeHelper.grey1),
+              const BorderSide(width: 1.5, color: ThemeHelper.grey1),
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
@@ -206,7 +205,7 @@ class CustomTextField2 extends StatelessWidget {
     this.titleColor,
     this.onTap,
     this.enabled = true,
-    this.contentPadding = const EdgeInsets.fromLTRB(10, 13.5, 10, 13.5),
+    this.contentPadding = const EdgeInsets.all(8),
     this.controller,
     this.suffixIcon,
     this.obscureText = false,

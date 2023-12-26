@@ -21,52 +21,59 @@ import 'login_viewmodel.dart';
 class LogInView extends StatelessWidget {
   LogInView({super.key});
   final LogInViewModel viewModel = Get.put(LogInViewModel());
-
+  GlobalKey<FormState> signInFormKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 25),
-        child: Stack(
-          children: [
-            Form(
-              key: viewModel.signInFormKey,
-              child: ScrollableColumn(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  titleAndBackBtn(),
-                  const Spacer(),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 52, bottom: 10),
-                    child: CustomText(
-                      title: 'Welcome Back!',
-                      style: newFontStyleSize20,
+    return SafeArea(
+      top: false,
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 25),
+          child: Stack(
+            children: [
+              Form(
+                key: signInFormKey,
+                child: ScrollableColumn(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 30,
                     ),
-                  ),
-                  Padding(
-                      padding: const EdgeInsets.only(
-                          right: 20, bottom: 32, top: 16),
-                      child: Text(
-                          'Please login or sign up to continue our app',
-                          style: newFontStyleSize14)),
-                  emailTextField(),
-                  passwordTextField(),
-                  forgotPassword(),
-                  logInBtn(),
+                    titleAndBackBtn(),
+                    const Spacer(),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 52, bottom: 10),
+                      child: CustomText(
+                        title: 'Welcome Back!',
+                        style: newFontStyleSize20,
+                      ),
+                    ),
+                    Padding(
+                        padding: const EdgeInsets.only(
+                            right: 20, bottom: 32, top: 16),
+                        child: Text(
+                            maxLines: 2,
+                            'Please login or sign up to continue our app',
+                            style: newFontStyleSize14)),
+                    emailTextField(),
+                    passwordTextField(),
+                    forgotPassword(),
+                    logInBtn(),
 
-                  or(),
-                  googlelogInBtn(),
-                  // facebooklogInBtn(),
-                  applelogInBtn(),
-                  doNotHaveAnAccount(),
-                ],
+                    or(),
+                    googlelogInBtn(),
+                    // facebooklogInBtn(),
+                    applelogInBtn(),
+                    doNotHaveAnAccount(),
+                  ],
+                ),
               ),
-            ),
-            // NoInternetView(
-            //   onPressed: () => viewModel.signIn(),
-            // ),
-          ],
+              // NoInternetView(
+              //   onPressed: () => viewModel.signIn(),
+              // ),
+            ],
+          ),
         ),
       ),
     );
@@ -76,12 +83,22 @@ class LogInView extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.only(left: 58, right: 57),
       width: double.infinity,
-      child: Align(
-        alignment: Alignment.center,
-        child: Text(
-          "Login",
-          style: newFontStyleSize24,
-        ),
+      child: Stack(
+        alignment: Alignment.centerLeft,
+        children: [
+          Align(
+            alignment: Alignment.center,
+            child: Text(
+              "Login",
+              style: newFontStyleSize24,
+            ),
+          ),
+          // CustomBackButton(
+          //   onTap: () {
+          //     Get.back();
+          //   },
+          // ),
+        ],
       ),
     );
   }
