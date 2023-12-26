@@ -17,6 +17,8 @@ class DashboardViewModel extends GetxController {
   List<OrderModel> orderList = <OrderModel>[].obs;
   List<OrderModel> approvedOrderList = <OrderModel>[].obs;
   List<OrderModel> cancelledOrderList = <OrderModel>[].obs;
+  RxBool isTab = false.obs;
+  RxBool moreOption = false.obs;
 
   var pieTouchIndex = -1.obs;
 

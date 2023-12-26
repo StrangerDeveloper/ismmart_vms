@@ -21,7 +21,6 @@ import 'login_viewmodel.dart';
 class LogInView extends StatelessWidget {
   LogInView({super.key});
   final LogInViewModel viewModel = Get.put(LogInViewModel());
-  GlobalKey<FormState> signInFormKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -33,7 +32,7 @@ class LogInView extends StatelessWidget {
           child: Stack(
             children: [
               Form(
-                key: signInFormKey,
+                key: viewModel.signInFormKey,
                 child: ScrollableColumn(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
