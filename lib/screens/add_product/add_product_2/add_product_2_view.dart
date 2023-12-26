@@ -8,6 +8,7 @@ import '../../../helper/constants.dart';
 import '../../../widgets/custom_dropdown.dart';
 import '../../../widgets/custom_textfield.dart';
 import '../../../widgets/widget_models/variant_options_field_model.dart';
+import '../add_product_3/add_product_3_view.dart';
 
 class AddProduct2View extends StatelessWidget {
   AddProduct2View({super.key});
@@ -32,7 +33,9 @@ class AddProduct2View extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 15, bottom: 5),
                 child: CustomTextBtn(
                   title: 'Save & Next',
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.to(() => AddProduct3View());
+                  },
                 ),
               ),
               CustomTextBtn(
