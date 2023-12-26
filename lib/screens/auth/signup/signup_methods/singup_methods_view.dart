@@ -1,19 +1,13 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:ismmart_vms/helper/global_variables.dart';
-import 'package:ismmart_vms/helper/routes.dart';
-import 'package:ismmart_vms/helper/validator.dart';
 import 'package:ismmart_vms/screens/auth/login/login_view.dart';
 import 'package:ismmart_vms/screens/auth/signup/signup_1/sign_up_1_view.dart';
 import 'package:ismmart_vms/screens/auth/signup/signup_methods/signup_mehods_viewmodel.dart';
 import 'package:ismmart_vms/widgets/custom_button.dart';
 import 'package:ismmart_vms/widgets/custom_loading.dart';
 import 'package:ismmart_vms/widgets/custom_text.dart';
-import 'package:ismmart_vms/widgets/custom_textfield.dart';
-import 'package:ismmart_vms/widgets/obscure_suffix_icon.dart';
 import 'package:ismmart_vms/widgets/scrollable_column.dart';
 import 'package:ismmart_vms/helper/languages/translations_key.dart' as langKey;
 

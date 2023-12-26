@@ -4,12 +4,12 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ismmart_vms/helper/theme_helper.dart';
-import 'package:ismmart_vms/screens/auth/login/login_view.dart';
-import 'package:ismmart_vms/screens/create_payout/create_payout_view.dart';
-
+import 'package:ismmart_vms/screens/add_product/add_product_1/add_product_1_view.dart';
+import 'package:ismmart_vms/screens/add_product/add_product_2/add_product_2_view.dart';
+import 'package:ismmart_vms/screens/add_product/add_product_3/add_product_3_view.dart';
 import 'firebase_options.dart';
 import 'helper/routes.dart';
+import 'helper/theme_helper.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,6 +35,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'ISMMART VMS',
       theme: ThemeData(
+        scaffoldBackgroundColor: Colors.white,
         primarySwatch: ThemeHelper.plattet1,
         useMaterial3: false,
         appBarTheme: AppBarTheme(
@@ -48,7 +49,8 @@ class MyApp extends StatelessWidget {
             elevation: 3,
             shadowColor: Colors.black12),
       ),
-      home: LogInView(),
+      //  home: SignUp3View(),
+      home: AddProduct3View(),
       initialRoute: Routes.initRoute,
       getPages: Routes.pages,
     );

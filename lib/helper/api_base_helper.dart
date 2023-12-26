@@ -10,7 +10,54 @@ import 'package:ismmart_vms/widgets/custom_snackbar.dart';
 
 class ApiBaseHelper {
   final String _baseUrl = Urls.baseUrl;
-  final String token = GlobalVariable.token;
+  Map<String, String> header = {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer ${GlobalVariable.token}',
+  };
+
+  Future<dynamic> getMethod({
+    required String url
+  }) async {
+    try {
+      print(header);
+      Uri urlValue = Uri.parse(_baseUrl + url);
+      CommonFunction.debugPrint('*********************** Request ********************************');
+      CommonFunction.debugPrint(urlValue);
+
+      http.Response response = await http
+          .get(urlValue, headers: header)
+          .timeout(const Duration(seconds: 30));
+
+      CommonFunction.debugPrint(
+          '*********************** Response ********************************');
+      CommonFunction.debugPrint(urlValue);
+      CommonFunction.debugPrint(response.body);
+      CommonFunction.colorConsole(
+          '****************************************************************************************');
+
+      Map<String, dynamic> parsedJSON = jsonDecode(response.body);
+      return parsedJSON;
+    } on SocketException catch (_) {
+      GlobalVariable.showLoader.value = false;
+      CustomSnackBar.showSnackBar(title: 'Error', message: Errors.noInternetError);
+      throw Errors.noInternetError;
+    } on TimeoutException catch (_) {
+      GlobalVariable.showLoader.value = false;
+      CustomSnackBar.showSnackBar(
+          title: 'Error', message: Errors.timeOutException);
+      throw Errors.timeOutException;
+    } on FormatException catch (_) {
+      GlobalVariable.showLoader.value = false;
+      CustomSnackBar.showSnackBar(
+          title: 'Error', message: Errors.formatException);
+      throw Errors.formatException;
+    } catch (e) {
+      GlobalVariable.showLoader.value = false;
+      CustomSnackBar.showSnackBar(
+          title: 'Error', message: Errors.generalApiError);
+      throw e.toString();
+    }
+  }
 
   Future<dynamic> postMethod({
     required String url,
@@ -21,7 +68,7 @@ class ApiBaseHelper {
     try {
       Map<String, String> header = {'Content-Type': 'application/json'};
       if (withAuthorization) {
-        header['Authorization'] = withBearer ? 'Bearer $token' : token;
+        header['Authorization'] = withBearer ? 'Bearer ${GlobalVariable.token}' : GlobalVariable.token;
       }
       if (body != null) {
         body = jsonEncode(body);
