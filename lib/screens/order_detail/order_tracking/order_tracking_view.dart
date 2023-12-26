@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
-import 'package:ismmart_vms/screens/order_detail/order_detail_ciewModel.dart';
+import 'package:ismmart_vms/screens/order_detail/order_detail_viewModel.dart';
 
 import '../model/ordertracking_item_model.dart';
 
