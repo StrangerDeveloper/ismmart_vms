@@ -132,471 +132,252 @@ class AddProduct2View extends StatelessWidget {
   Future variantSelectionDialog() {
     return showModalBottomSheet(
         context: Get.context!,
-        isScrollControlled: true,
+        isScrollControlled: false,
         backgroundColor: Colors.white,
         builder: (BuildContext context) {
           return Padding(
-            padding: MediaQuery.of(context).viewInsets,
+            padding: const EdgeInsets.all(10),
             child: Form(
               key: viewModel.variantsFormKey,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15),
-                child: SingleChildScrollView(
-                  controller: viewModel.scrollController,
-                  physics: const ScrollPhysics(),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 5),
-                            child: Text(
-                                'Variants',
-                                style: interHeadingSize14.copyWith(color: newColorBlue)
-                            ),
+              child: SingleChildScrollView(
+                controller: viewModel.scrollController,
+                physics: const ScrollPhysics(),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.only(left: 5),
+                          child: Text(
+                            'Variants',
+                            //style: interHeadingSize14.copyWith(color: newColorBlue)
                           ),
-                          IconButton(
-                            visualDensity: VisualDensity.compact,
-                            onPressed: () {
-                              viewModel.listOfOptionsAdded.clear();
-                              viewModel.listOfOptionsAdded.refresh();
-                              viewModel.showVariantsField.value = false;
-                              viewModel.showVariantsTable.value = false;
-                              Get.back();
-                            },
-                            icon: const Icon(Icons.close, color: Colors.red,),
+                        ),
+                        IconButton(
+                          visualDensity: VisualDensity.compact,
+                          onPressed: () {
+                            viewModel.listOfOptionsAdded.clear();
+                            viewModel.listOfOptionsAdded.refresh();
+                            viewModel.showVariantsField.value = false;
+                            viewModel.showVariantsTable.value = false;
+                            Get.back();
+                          },
+                          icon: const Icon(
+                            Icons.close,
+                            color: Colors.red,
                           ),
-                        ],
-                      ),
-                      const Divider(),
-                       Column(
+                        ),
+                      ],
+                    ),
+                    const Divider(),
+                    Obx(
+                          () => Column(
+                        children: viewModel.listOfOptionsAdded.map((e1) {
+                          print(viewModel.listOfOptionsAdded.length);
+                          TextEditingController optionName =
+                          TextEditingController();
+                          optionName.text = e1.optionName!;
+                          return Column(
                             children: [
-                              CustomTextField4(
+                              CustomTextField2(
                                 title: 'Option Name',
                                 hintText: 'Name your variant',
+                                controller: optionName,
                                 onChanged: (value) {
-                                  viewModel.listOfOptionsAdded.last.optionName = value;
+                                  e1.optionName = value;
                                   viewModel.listOfOptionsAdded.refresh();
                                 },
                                 validator: (value) {
-                                  if(value == null || value == "" || value.isEmpty) {
+                                  if (value == null ||
+                                      value == "" ||
+                                      value.isEmpty) {
                                     return 'Enter name for variant';
                                   } else {
                                     return null;
                                   }
                                 },
-                                iconOnTap: () {
-                                  if(viewModel.listOfOptionsAdded.length == 1) {
+                                onTap: () {
+                                  if (viewModel.listOfOptionsAdded.length ==
+                                      1) {
                                     viewModel.listOfOptionsAdded.clear();
                                     viewModel.listOfOptionsAdded.refresh();
                                     Get.back();
                                   } else {
-                                    viewModel.listOfOptionsAdded.removeLast();
+                                    viewModel.listOfOptionsAdded.removeWhere(
+                                            (element) => element == e1);
                                     viewModel.listOfOptionsAdded.refresh();
                                   }
                                 },
                               ),
                               const Padding(
                                 padding: EdgeInsets.symmetric(vertical: 5.0),
-                                child: Divider(thickness: 0.8, color: kLightColor,),
-                              ),
-                              Obx(() => viewModel.listOfOptionsAdded.isEmpty ? const SizedBox() :
-                                ListView.builder(
-                                    physics: const NeverScrollableScrollPhysics(),
-                                    shrinkWrap: true,
-                                    itemCount: viewModel.listOfOptionsAdded.last.optionValues?.length,
-                                    itemBuilder: (context, optionIndex) {
-                                      String? title;
-                                      if(viewModel.listOfOptionsAdded.last.optionValues![optionIndex] == viewModel.listOfOptionsAdded.last.optionValues?.first){
-                                        title = 'Option Values';
-                                      }
-                                      if (optionIndex == viewModel.listOfOptionsAdded.last.optionValues!.length - 1) {
-                                        return Padding(
-                                          padding: const EdgeInsets.only(bottom: 5.0),
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              CustomTextField4(
-                                                hintText: 'Add value',
-                                                title: title,
-                                                onChanged: (value) {
-                                                  viewModel.listOfOptionsAdded.last.optionValues![optionIndex].text = value;
-                                                  viewModel.listOfOptionsAdded.refresh();
-                                                  },
-                                                validator: (value) {
-                                                  if (value == null || value == '' || value.isEmpty) {
-                                                    return 'Enter value to proceed';
-                                                  } else {
-                                                    return null;
-                                                  }
-                                                  },
-                                                iconOnTap: () {
-                                                  viewModel.listOfOptionsAdded.last.optionValues!.removeAt(optionIndex);
-                                                  // if(viewModel.listOfOptionsAdded.last.optionValues?.length == 1) {
-                                                  //   viewModel.listOfOptionsAdded.removeLast();
-                                                  //   viewModel.listOfOptionsAdded.refresh();
-                                                  //   Get.back();
-                                                  // } else {
-                                                  //   viewModel.listOfOptionsAdded.last.optionValues?.removeAt(optionIndex);
-                                                  //   viewModel.listOfOptionsAdded.refresh();
-                                                  // }
-                                                },
-                                              ),
-                                              TextButton(
-                                                  onPressed: () {
-                                                    if (viewModel.listOfOptionsAdded.last.optionValues![optionIndex].text == "" || viewModel.listOfOptionsAdded.last.optionValues![optionIndex].text.isEmpty) {
-                                                      AppConstant.displaySnackBar('Error', 'Enter Value to add more fields');
-                                                    } else {
-                                                      viewModel.listOfOptionsAdded.last.optionValues?.add(TextEditingController());
-                                                      viewModel.listOfOptionsAdded.refresh();
-                                                    }
-                                                  },
-                                                  child: Text(
-                                                    'Add another value',
-                                                    style: interNormalText.copyWith(color: newColorBlue),
-                                                  )
-                                              )
-                                            ],
-                                          ),
-                                        );
-                                      } else {
-                                        return Padding(
-                                          padding: const EdgeInsets.only(bottom: 5.0),
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              CustomTextField4(
-                                                hintText: 'Add value',
-                                                title: title,
-                                                iconOnTap: () {
-                                                  viewModel.listOfOptionsAdded.last.optionValues?.removeAt(optionIndex);
-                                                    // viewModel.listOfOptionsAdded.last.optionValues?.removeWhere((element) => element.text == viewModel.listOfOptionsAdded.last.optionValues![optionIndex].text);
-                                                    // viewModel.listOfOptionsAdded.refresh();
-                                                },
-                                                onChanged: (value) {
-                                                  viewModel.listOfOptionsAdded.last.optionValues![optionIndex].text = value;
-                                                  viewModel.listOfOptionsAdded.refresh();
-                                                },
-                                                validator: (value) {
-                                                  if (value == null || value == '' || value.isEmpty) {
-                                                    return 'Enter value to proceed';
-                                                  } else {
-                                                    return null;
-                                                  }
-                                                },
-                                              ),
-                                            ],
-                                          ),
-                                        );
-                                      }
-                                    }
+                                child: Divider(
+                                  thickness: 0.8,
+                                  color: kLightColor,
                                 ),
                               ),
-                           ]
+                              Obx(() => viewModel.listOfOptionsAdded.isEmpty
+                                  ? const SizedBox()
+                                  : Column(
+                                children: e1.optionValues!.map((e2) {
+                                  TextEditingController
+                                  optionController = e2;
+                                  String? title;
+                                  if (optionController ==
+                                      e1.optionValues?.first) {
+                                    title = 'Option Values';
+                                  }
+                                  if (e2 == e1.optionValues!.last) {
+                                    return Padding(
+                                      padding: const EdgeInsets.only(
+                                          bottom: 5.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          CustomTextField2(
+                                            hintText: 'Add value',
+                                            title: title,
+                                            onChanged: (value) {
+                                              optionController.text =
+                                                  value;
+                                            },
+                                            onTap: () {
+                                              if (e1.optionValues
+                                                  ?.length ==
+                                                  1) {
+                                                viewModel
+                                                    .listOfOptionsAdded
+                                                    .removeWhere(
+                                                        (element) =>
+                                                    element ==
+                                                        e1);
+                                                viewModel
+                                                    .listOfOptionsAdded
+                                                    .refresh();
+                                                if (viewModel
+                                                    .listOfOptionsAdded
+                                                    .isEmpty) {
+                                                  Get.back();
+                                                }
+                                              } else {
+                                                e1.optionValues
+                                                    ?.removeWhere(
+                                                        (element) =>
+                                                    element ==
+                                                        e2);
+                                                viewModel
+                                                    .listOfOptionsAdded
+                                                    .refresh();
+                                              }
+                                            },
+                                          ),
+                                          TextButton(
+                                              onPressed: () {
+                                                if (optionController
+                                                    .text ==
+                                                    "" ||
+                                                    optionController
+                                                        .text
+                                                        .isEmpty) {
+                                                  AppConstant
+                                                      .displaySnackBar(
+                                                      'Error',
+                                                      'Enter Value to add more fields');
+                                                } else {
+                                                  e1.optionValues?.add(
+                                                      TextEditingController());
+                                                  viewModel
+                                                      .listOfOptionsAdded
+                                                      .refresh();
+                                                }
+                                              },
+                                              child: const Text(
+                                                'Add another value',
+                                                //style: interNormalText.copyWith(color: newColorBlue),
+                                              ))
+                                        ],
+                                      ),
+                                    );
+                                  } else {
+                                    return Padding(
+                                      padding: const EdgeInsets.only(
+                                          bottom: 5.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          CustomTextField2(
+                                            hintText: 'Add value',
+                                            title: title,
+                                            onChanged: (value) {
+                                              optionController.text =
+                                                  value;
+                                            },
+                                            validator: (value) {
+                                              if (value == null ||
+                                                  value == '' ||
+                                                  value.isEmpty) {
+                                                return 'Enter value to proceed';
+                                              } else {
+                                                return null;
+                                              }
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }
+                                }).toList(),
+                              )
+                              ),
+                              e1 == viewModel.listOfOptionsAdded.last
+                                  ? const SizedBox()
+                                  : const Padding(
+                                padding:
+                                EdgeInsets.symmetric(vertical: 8),
+                                child: Divider(
+                                  thickness: 1.3,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
+                          );
+                        }).toList(),
                       ),
-                      // ListView.builder(
-                      //     padding: const EdgeInsets.only(bottom: 10),
-                      //     shrinkWrap: true,
-                      //     physics: ScrollPhysics(),
-                      //     itemCount: viewModel.listOfOptionsAdded.length,
-                      //     itemBuilder: (context, index) {
-                      //       TextEditingController optionName = TextEditingController();
-                      //       optionName.text = viewModel.listOfOptionsAdded[index].optionName!;
-                      //       return Column(
-                      //         children: [
-                      //           CustomTextField4(
-                      //             title: 'Option Name',
-                      //             hintText: 'Name your variant',
-                      //             controller: optionName,
-                      //             onChanged: (value) {
-                      //               viewModel.listOfOptionsAdded[index].optionName = value;
-                      //               viewModel.listOfOptionsAdded.refresh();
-                      //               },
-                      //             validator: (value) {
-                      //               if(value == null || value == "" || value.isEmpty) {
-                      //                 return 'Enter name for variant';
-                      //               } else {
-                      //                 return null;
-                      //               }
-                      //             },
-                      //             iconOnTap: () {
-                      //               if(viewModel.listOfOptionsAdded.length == 1) {
-                      //                 viewModel.listOfOptionsAdded.clear();
-                      //                 viewModel.listOfOptionsAdded.refresh();
-                      //                 Get.back();
-                      //               } else {
-                      //                 viewModel.listOfOptionsAdded.removeAt(index);
-                      //                 viewModel.listOfOptionsAdded.refresh();
-                      //               }
-                      //             },
-                      //           ),
-                      //           const Padding(
-                      //             padding: EdgeInsets.symmetric(vertical: 5.0),
-                      //             child: Divider(thickness: 0.8, color: kLightColor,),
-                      //           ),
-                      //           Obx(() => viewModel.listOfOptionsAdded.isEmpty ? const SizedBox() :
-                      //               Column(
-                      //                 children: viewModel.listOfOptionsAdded[index].optionValues!.map((e2) {
-                      //                         TextEditingController optionController = e2;
-                      //                         String? title;
-                      //                         if(optionController == viewModel.listOfOptionsAdded[index].optionValues?.first){
-                      //                           title = 'Option Values';
-                      //                         }
-                      //                         if (e2 == viewModel.listOfOptionsAdded[index].optionValues!.last) {
-                      //                           return Padding(
-                      //                             padding: const EdgeInsets.only(bottom: 5.0),
-                      //                             child: Column(
-                      //                               crossAxisAlignment: CrossAxisAlignment.start,
-                      //                               children: [
-                      //                                 CustomTextField4(
-                      //                                   hintText: 'Add value',
-                      //                                   title: title,
-                      //                                   onChanged: (value) {
-                      //                                     optionController.text = value;
-                      //                                     },
-                      //                                   iconOnTap: () {
-                      //                                     if(viewModel.listOfOptionsAdded[index].optionValues?.length == 1) {
-                      //                                       viewModel.listOfOptionsAdded.removeAt(index);
-                      //                                       viewModel.listOfOptionsAdded.refresh();
-                      //                                       if(viewModel.listOfOptionsAdded.isEmpty){
-                      //                                         Get.back();
-                      //                                       }
-                      //                                     } else {
-                      //                                         viewModel.listOfOptionsAdded[index].optionValues?.removeWhere((element) => element == e2);
-                      //                                         viewModel.listOfOptionsAdded.refresh();
-                      //                                     }
-                      //                                     // if(optionIndex == 0) {
-                      //                                     //   viewModel.listOfOptionsAdded.removeAt(index);
-                      //                                     //   viewModel.listOfOptionsAdded.refresh();
-                      //
-                      //                                     // } else {
-                      //                                     // }
-                      //                                   },
-                      //                                 ),
-                      //                                 TextButton(
-                      //                                     onPressed: () {
-                      //                                       if (optionController.text == "" || optionController.text.isEmpty) {
-                      //                                         AppConstant.displaySnackBar('Error', 'Enter Value to add more fields');
-                      //                                       } else {
-                      //                                         viewModel.listOfOptionsAdded[index].optionValues?.add(TextEditingController());
-                      //                                         viewModel.listOfOptionsAdded.refresh();
-                      //                                       }
-                      //                                     },
-                      //                                     child: Text(
-                      //                                       'Add another value',
-                      //                                       style: interNormalText.copyWith(color: newColorBlue),
-                      //                                     )
-                      //                                 )
-                      //                               ],
-                      //                             ),
-                      //                           );
-                      //                         } else {
-                      //                           return Padding(
-                      //                             padding: const EdgeInsets
-                      //                                 .only(bottom: 5.0),
-                      //                             child: Column(
-                      //                               crossAxisAlignment: CrossAxisAlignment
-                      //                                   .start,
-                      //                               children: [
-                      //                                 CustomTextField4(
-                      //                                   hintText: 'Add value',
-                      //                                   title: title,
-                      //                                   onChanged: (value) {
-                      //                                     optionController
-                      //                                         .text = value;
-                      //                                   },
-                      //                                   validator: (value) {
-                      //                                     if (value == null ||
-                      //                                         value == '' ||
-                      //                                         value.isEmpty) {
-                      //                                       return 'Enter value to proceed';
-                      //                                     } else {
-                      //                                       return null;
-                      //                                     }
-                      //                                   },
-                      //                                 ),
-                      //                               ],
-                      //                             ),
-                      //                           );
-                      //                         }
-                      //                 }).toList(),
-                      //               )
-                      //               // ListView.builder(
-                      //               //     physics: const NeverScrollableScrollPhysics(),
-                      //               //     shrinkWrap: true,
-                      //               //     itemCount: viewModel.listOfOptionsAdded[index].optionValues?.length,
-                      //               //     itemBuilder: (context, optionIndex) {
-                      //               //       TextEditingController optionController = viewModel.listOfOptionsAdded[index].optionValues![optionIndex];
-                      //               //       String? title;
-                      //               //       if(optionController == viewModel.listOfOptionsAdded[index].optionValues?.first){
-                      //               //         title = 'Option Values';
-                      //               //       }
-                      //               //       if (optionIndex == viewModel.listOfOptionsAdded[index].optionValues!.length - 1) {
-                      //               //         return Padding(
-                      //               //           padding: const EdgeInsets.only(bottom: 5.0),
-                      //               //           child: Column(
-                      //               //             crossAxisAlignment: CrossAxisAlignment.start,
-                      //               //             children: [
-                      //               //               CustomTextField4(
-                      //               //                 hintText: 'Add value',
-                      //               //                 title: title,
-                      //               //                 onChanged: (value) {
-                      //               //                   optionController.text = value;
-                      //               //                   },
-                      //               //                 iconOnTap: () {
-                      //               //                   if(viewModel.listOfOptionsAdded[index].optionValues?.length == 1) {
-                      //               //                     viewModel.listOfOptionsAdded.removeAt(index);
-                      //               //                     viewModel.listOfOptionsAdded.refresh();
-                      //               //                     if(viewModel.listOfOptionsAdded.isEmpty){
-                      //               //                       Get.back();
-                      //               //                     }
-                      //               //                   } else {
-                      //               //                       viewModel.listOfOptionsAdded[index].optionValues?.removeAt(optionIndex);
-                      //               //                       viewModel.listOfOptionsAdded.refresh();
-                      //               //                   }
-                      //               //                   // if(optionIndex == 0) {
-                      //               //                   //   viewModel.listOfOptionsAdded.removeAt(index);
-                      //               //                   //   viewModel.listOfOptionsAdded.refresh();
-                      //               //
-                      //               //                   // } else {
-                      //               //                   // }
-                      //               //                 },
-                      //               //               ),
-                      //               //               TextButton(
-                      //               //                   onPressed: () {
-                      //               //                     if (optionController.text == "" || optionController.text.isEmpty) {
-                      //               //                       AppConstant.displaySnackBar('Error', 'Enter Value to add more fields');
-                      //               //                     } else {
-                      //               //                       viewModel.listOfOptionsAdded[index].optionValues?.add(TextEditingController());
-                      //               //                       viewModel.listOfOptionsAdded.refresh();
-                      //               //                     }
-                      //               //                   },
-                      //               //                   child: Text(
-                      //               //                     'Add another value',
-                      //               //                     style: interNormalText.copyWith(color: newColorBlue),
-                      //               //                   )
-                      //               //               )
-                      //               //             ],
-                      //               //           ),
-                      //               //         );
-                      //               //       } else {
-                      //               //         return Padding(
-                      //               //           padding: const EdgeInsets.only(bottom: 5.0),
-                      //               //           child: Column(
-                      //               //             crossAxisAlignment: CrossAxisAlignment.start,
-                      //               //             children: [
-                      //               //               CustomTextField4(
-                      //               //                 hintText: 'Add value',
-                      //               //                 title: title,
-                      //               //                 onChanged: (value) {
-                      //               //                   optionController.text = value;
-                      //               //                 },
-                      //               //                 validator: (value) {
-                      //               //                   if(value == null || value == '' || value.isEmpty){
-                      //               //                     return 'Enter value to proceed';
-                      //               //                   } else {
-                      //               //                     return null;
-                      //               //                   }
-                      //               //                 },
-                      //               //               ),
-                      //               //             ],
-                      //               //           ),
-                      //               //         );
-                      //               //       }
-                      //               //     }
-                      //               // ),
-                      //           ),
-                      //           Obx(() =>  index == viewModel.listOfOptionsAdded.length-1 ? const SizedBox() : const Padding(
-                      //             padding: EdgeInsets.symmetric(vertical: 8),
-                      //             child: Divider(thickness: 1.3, color: Colors.black,),
-                      //           ),
-                      //           ),
-                      //         ],
-                      //       );
-                      //     }
-                      // ),
-                      // TextButton(
-                      //   onPressed: (){
-                      //     viewModel.listOfOptionsAdded.add(
-                      //         VariantsOptionsFieldModel(
-                      //             optionName: '',
-                      //             optionValues: [TextEditingController()]
-                      //         )
-                      //     );
-                      //     viewModel.listOfOptionsAdded.refresh();
-                      //   },
-                      //   child: Align(
-                      //     alignment: Alignment.centerLeft,
-                      //     child: Text(
-                      //         '+ Add another Option',
-                      //       style: interNormalText.copyWith(
-                      //           color: newColorBlue,
-                      //           fontSize: 16,
-                      //           fontWeight: FontWeight.w600
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
-                      CustomRoundedTextBtn(
-                        onPressed: () {
-                          if(viewModel.variantsFormKey.currentState!.validate()){
-                            Get.back();
-                          }
-                        },
-                        title: 'Done',
-                        borderRadius: 8,
-                        backgroundColor: newColorBlue,
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        viewModel.listOfOptionsAdded.add(
+                            VariantsOptionsFieldModel(
+                                optionName: '',
+                                optionValues: [TextEditingController()]));
+                      },
+                      child: const Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          '+ Add another Option',
+                        ),
                       ),
-                      // ListView.builder(
-                      //   shrinkWrap: true,
-                      //   itemCount: viewModel.optionsList.length,
-                      //   itemBuilder: (context, index) {
-                      //     return BottomSheetItem(
-                      //       title: viewModel.optionsList[index],
-                      //       onTap: () {
-                      //         if(viewModel.optionsChosen.contains(viewModel.optionsList[index])){
-                      //           AppConstant.displaySnackBar('Error', 'Option Already Selected');
-                      //         } else {
-                      //           if (viewModel.optionsList[index] == 'Other') {
-                      //             viewModel.listOfOptionsAdded.add(
-                      //                 VariantsOptionsFieldModel(
-                      //                     optionName: '',
-                      //                     optionValues: <TextEditingController>[TextEditingController()]
-                      //                 )
-                      //             );
-                      //             viewModel.listOfOptionsAdded.refresh();
-                      //             Navigator.pop(context);
-                      //           } else {
-                      //             viewModel.selectedOption.value =
-                      //             viewModel.optionsList[index];
-                      //             viewModel.listOfOptionsAdded.add(
-                      //               VariantsOptionsFieldModel(
-                      //                   optionName: viewModel.optionsList[index],
-                      //                   optionValues: <TextEditingController>[
-                      //                     TextEditingController()
-                      //                   ]
-                      //               ),
-                      //             );
-                      //             viewModel.optionsChosen.add(viewModel.optionsList[index]);
-                      //             viewModel.listOfOptionsAdded.refresh();
-                      //             viewModel.optionsChosen.refresh();
-                      //             Navigator.pop(context);
-                      //           }
-                      //         }
-                      //       },
-                      //     );
-                      //   },
-                      // )
-                    ],
-                  ),
+                    ),
+                    CustomRoundedTextBtn(
+                      onPressed: () {
+                        if (viewModel.variantsFormKey.currentState!.validate()) {
+                          Get.back();
+                        }
+                      },
+                      title: 'Done',
+                      borderRadius: 8,
+                      backgroundColor: newColorBlue,
+                    ),
+                  ],
                 ),
               ),
             ),
           );
-        }
-    );
+        });
   }
 
   Widget variantsTable() {
