@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/screens/add_product/add_product_1/add_product_1_view.dart';
 import 'package:ismmart_vms/screens/add_product/add_product_2/add_product_2_viewmodel.dart';
+import 'package:ismmart_vms/screens/add_product/add_product_2/location_inventory_view.dart';
 import 'package:ismmart_vms/widgets/custom_button.dart';
 
 import '../../../helper/constants.dart';
 import '../../../widgets/custom_dropdown.dart';
 import '../../../widgets/custom_textfield.dart';
+import '../../../widgets/stepperText.dart';
 import '../../../widgets/widget_models/variant_options_field_model.dart';
-import '../add_product_3/add_product_3_view.dart';
 
 class AddProduct2View extends StatelessWidget {
   AddProduct2View({super.key});
@@ -26,15 +27,19 @@ class AddProduct2View extends StatelessWidget {
           physics: const ScrollPhysics(),
           child: Column(
             children: [
-              // stepperText(),
+              stepperText(),
               variantsContainer(context),
-              inventoryContainer(),
+              //if variantAdditionField is clicked and data populated then show the variantsContainer else show the inventoryContainer
+              Obx(() => viewModel.showVariantsTable.value
+                  ? variantsContainer(context)
+                  : inventoryContainer()),
+              //inventoryContainer(),
               Padding(
                 padding: const EdgeInsets.only(top: 15, bottom: 5),
                 child: CustomTextBtn(
                   title: 'Save & Next',
                   onPressed: () {
-                    Get.to(() => AddProduct3View());
+                    Get.to(() => LocationInventoryView());
                   },
                 ),
               ),
@@ -67,6 +72,56 @@ class AddProduct2View extends StatelessWidget {
       centerTitle: true,
     );
   }
+
+  // Widget stepperText() {
+  //   return Padding(
+  //     padding: const EdgeInsets.only(top: 20, bottom: 25),
+  //     child: RichText(
+  //       overflow: TextOverflow.ellipsis,
+  //       text: const TextSpan(
+  //         style: TextStyle(
+  //           color: ThemeHelper.blue1,
+  //           fontWeight: FontWeight.w500,
+  //         ),
+  //         children: [
+  //           TextSpan(
+  //             text: "  /  ",
+  //             style: TextStyle(
+  //               color: ThemeHelper.grey6,
+  //             ),
+  //           ),
+  //           TextSpan(
+  //             text: "Product & Pricing ",
+  //             style: TextStyle(
+  //               color: ThemeHelper.grey2,
+  //             ),
+  //           ),
+  //           TextSpan(
+  //             text: "  /  ",
+  //             style: TextStyle(
+  //               color: ThemeHelper.grey6,
+  //             ),
+  //           ),
+  //           TextSpan(
+  //             text: "Variant Setting",
+  //             style: TextStyle(
+  //               color: ThemeHelper.grey2,
+  //             ),
+  //           ),
+  //           TextSpan(
+  //             text: "  /  ",
+  //             style: TextStyle(
+  //               color: ThemeHelper.grey6,
+  //             ),
+  //           ),
+  //           TextSpan(
+  //             text: "Shipping",
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Widget variantsContainer(BuildContext context) {
     return Padding(
