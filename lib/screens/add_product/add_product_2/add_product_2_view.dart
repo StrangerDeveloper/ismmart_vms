@@ -214,8 +214,12 @@ class AddProduct2View extends StatelessWidget {
             )
           : TextButton(
               onPressed: () async {
-                viewModel.listOfOptionsAdded.add(VariantsOptionsFieldModel(
-                    optionName: '', optionValues: [TextEditingController()]));
+                viewModel.listOfOptionsAdded.add(
+                  VariantsOptionsFieldModel(
+                    optionName: '',
+                    optionValues: [TextEditingController()],
+                  ),
+                );
                 await variantSelectionDialog();
               },
               child: Align(
@@ -237,7 +241,7 @@ class AddProduct2View extends StatelessWidget {
         backgroundColor: Colors.white,
         builder: (BuildContext context) {
           return Padding(
-            padding: const EdgeInsets.all(10),
+            padding: MediaQuery.of(context).viewInsets,
             child: Form(
               key: viewModel.variantsFormKey,
               child: SingleChildScrollView(
