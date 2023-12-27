@@ -8,6 +8,7 @@ import '../../../helper/constants.dart';
 import '../../../widgets/custom_dropdown.dart';
 import '../../../widgets/custom_textfield.dart';
 import '../../../widgets/widget_models/variant_options_field_model.dart';
+import '../add_product_3/add_product_3_view.dart';
 
 class AddProduct2View extends StatelessWidget {
   AddProduct2View({super.key});
@@ -27,7 +28,21 @@ class AddProduct2View extends StatelessWidget {
             children: [
               // stepperText(),
               variantsContainer(context),
-              inventoryContainer()
+              inventoryContainer(),
+              Padding(
+                padding: const EdgeInsets.only(top: 15, bottom: 5),
+                child: CustomTextBtn(
+                  title: 'Save & Next',
+                  onPressed: () {
+                    Get.to(() => AddProduct3View());
+                  },
+                ),
+              ),
+              CustomTextBtn(
+                title: 'Back',
+                backgroundColor: Colors.black,
+                onPressed: () {},
+              ),
             ],
           ),
         ),
@@ -66,12 +81,125 @@ class AddProduct2View extends StatelessWidget {
               'Variants',
               style: interHeadingSize14,
             ),
-            variantAdditionField(context)
+            Obx(() {
+              return Column(
+                children: List.generate(
+                  viewModel.listOfOptionsAdded.length,
+                  (index) {
+                    final option = viewModel.listOfOptionsAdded[index];
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          option.optionName ?? '',
+                          style: interNormalText,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: List.generate(
+                            option.optionValues?.length ?? 0,
+                            (idx) {
+                              final valueController = option.optionValues?[idx];
+                              return Container(
+                                color: Colors.grey.shade100,
+                                child: Text(
+                                  valueController?.text ?? '',
+                                  style: interNormalText.copyWith(
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        const Divider(),
+                        Column(
+                          children: List.generate(
+                            option.optionValues?.length ?? 0,
+                            (idx) {
+                              final valueController = option.optionValues?[idx];
+                              return Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text(
+                                        valueController?.text ?? '',
+                                        style: interNormalText,
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text(
+                                        'Rs 0.00',
+                                        style: interNormalText.copyWith(
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                      Text(
+                                        '0 available at 5 locations',
+                                        style: interNormalText.copyWith(
+                                          color: Colors.grey,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      // viewModel.listOfOptionsAdded.removeWhere(
+                                      //     (element) => element == option);
+                                      // viewModel.listOfOptionsAdded.refresh();
+                                    },
+                                    child: const Text(
+                                      'Edit',
+                                    ),
+                                  )
+                                ],
+                              );
+                            },
+                          ),
+                        )
+                      ],
+                    );
+                  },
+                ),
+              );
+            }),
+            variantAdditionField(context),
           ],
         ),
       ),
     );
   }
+
+  // Widget variantsContainer(BuildContext context) {
+  //   return Padding(
+  //     padding: const EdgeInsets.symmetric(vertical: 10.0),
+  //     child: Container(
+  //       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+  //       decoration: textContainerDecoration,
+  //       child: Column(
+  //         crossAxisAlignment: CrossAxisAlignment.start,
+  //         children: [
+  //           Text(
+  //             'Variants',
+  //             style: interHeadingSize14,
+  //           ),
+  //           variantAdditionField(context)
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Widget variantAdditionField(BuildContext context) {
     return Obx(
@@ -468,6 +596,14 @@ class AddProduct2View extends StatelessWidget {
                 "This product has a SKU or barcode",
               ),
             ),
+            const SizedBox(
+              height: 10,
+            ),
+            hsCodeTxtField('SKU (Stock Keeping Unit)'),
+            const SizedBox(
+              height: 10,
+            ),
+            hsCodeTxtField('Barcode (ISBN, UPC, GTIN, etc.)'),
           ],
         ),
       ),
@@ -489,9 +625,16 @@ class AddProduct2View extends StatelessWidget {
             }),
         Text(
           text,
-          style: TextStyle(fontSize: 11, fontWeight: FontWeight.w400),
+          style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w400),
         )
       ],
+    );
+  }
+
+  Widget hsCodeTxtField(String title) {
+    return CustomTextField5(
+      title: title,
+      //hintText: 'Search by product keyword or code',
     );
   }
 
@@ -503,40 +646,13 @@ class AddProduct2View extends StatelessWidget {
           'Warehouse_1',
           style: interNormalText,
         ),
-        Container(
-          //alignment: Alignment.center,
-          width: 200,
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey.withOpacity(0.5)),
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                '1',
-                style: interNormalText,
-              ),
-              Row(
-                //mainAxisAlignment: MainAxisAlignment.center,
-                //crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      // Increase counter logic here
-                    },
-                    icon: const Icon(Icons.arrow_drop_down),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      // Increase counter logic here
-                    },
-                    icon: const Icon(Icons.arrow_drop_down),
-                  ),
-                ],
-              ),
-            ],
+        const SizedBox(
+          width: 15,
+        ),
+        const Expanded(
+          child: CustomTextField5(
+            hintText: '0',
+            suffixIcon: Icons.unfold_more,
           ),
         )
       ],
