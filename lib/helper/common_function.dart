@@ -4,23 +4,33 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class CommonFunction {
+
+  // static DateTime convertStringToDate(String stringDate) {
+  //   return DateFormat("yyyy-MM-dd hh:mm:ss").parse(stringDate);
+  // }
+  //
+  // static String convertTimeStampToTime(String stringDate) {
+  //   DateTime date = DateTime.fromMillisecondsSinceEpoch(int.parse(stringDate));
+  //   return DateFormat("yyyy-MM-dd hh:mm a").format(date);
+  // }
+  //
+  // static String formatDateTime(String dateTime) {
+  //   DateTime date = DateFormat("yyyy-MM-ddThh:mm:ss.000000Z").parse(dateTime);
+  //   return DateFormat('yyyy-MM-dd hh:mm a').format(date);
+  // }
+
+  static String convertDateFormat(String stringDate) {
+    DateTime inputDate = DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parseUtc(stringDate).toLocal();
+    String outputDate = DateFormat('dd MMM, yyyy').format(inputDate);
+    return outputDate;
+  }
+
+
+
   static void closeKeyboard() {
     FocusScope.of(Get.context!).requestFocus(FocusNode());
   }
 
-  static DateTime convertStringToDate(String stringDate) {
-    return DateFormat("yyyy-MM-dd hh:mm:ss").parse(stringDate);
-  }
-
-  static String convertTimeStampToTime(String stringDate) {
-    DateTime date = DateTime.fromMillisecondsSinceEpoch(int.parse(stringDate));
-    return DateFormat("yyyy-MM-dd hh:mm a").format(date);
-  }
-
-  static String formatDateTime(String dateTime) {
-    DateTime date = DateFormat("yyyy-MM-ddThh:mm:ss.000000Z").parse(dateTime);
-    return DateFormat('yyyy-MM-dd hh:mm a').format(date);
-  }
 
   static colorConsole(String value) {
     debugPrint('\x1B[32m$value\x1B[0m');

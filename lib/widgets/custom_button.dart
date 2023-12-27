@@ -48,9 +48,9 @@ class CustomTextBtn extends StatelessWidget {
         shape: (shape != null)
             ? shape
             : RoundedRectangleBorder(
-          side: borderSide,
-          borderRadius: BorderRadius.circular(radius),
-        ),
+                side: borderSide,
+                borderRadius: BorderRadius.circular(radius),
+              ),
       ),
       child: child ??
           Text(
@@ -272,11 +272,13 @@ class CustomIconTextBtn extends StatelessWidget {
 class CustomIconBtn extends StatelessWidget {
   final IconData icon;
   final void Function()? onTap;
+  final Color? color;
 
   const CustomIconBtn({
     super.key,
     required this.icon,
     this.onTap,
+    this.color,
   });
 
   @override
@@ -289,6 +291,7 @@ class CustomIconBtn extends StatelessWidget {
         child: Icon(
           icon,
           size: 15,
+          color: color ?? Colors.black,
         ),
       ),
     );
