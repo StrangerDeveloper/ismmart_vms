@@ -8,7 +8,9 @@ import 'package:ismmart_vms/screens/order_detail/order_detail_viewModel.dart';
 import 'package:ismmart_vms/screens/order_detail/order_tracking/order_tracking_view.dart';
 import 'package:ismmart_vms/widgets/custom_appbar.dart';
 import 'package:ismmart_vms/widgets/custom_text.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
+import '../../helper/constants.dart';
 import '../../helper/global_variables.dart';
 import '../../helper/utils/image_constant.dart';
 import '../../widgets/appBar_leading_image.dart';
@@ -45,8 +47,8 @@ class OrderDetailView extends StatelessWidget {
                       children: [
                         _buildFrame(),
                         SizedBox(height: 16.v),
+                        progress(),
                         _buildFrame2(),
-                        SizedBox(height: 16.v),
                         logInBtn(),
                       ],
                     ),
@@ -104,6 +106,53 @@ class OrderDetailView extends StatelessWidget {
         },
       ),
       title: langKey.orderDetail.tr,
+    );
+  }
+
+  Widget progress() {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 30),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // SizedBox(height: 6),
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: 'Delivery Status: ',
+                        style: newFontStyleSize14,
+                      ),
+                      TextSpan(
+                        text: 'Ready to Transit',
+                        style: newFontStyleSize14.copyWith(
+                            color: newColorLightGrey2),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          CircularPercentIndicator(
+            circularStrokeCap: CircularStrokeCap.round,
+            radius: 33,
+            lineWidth: 6,
+            percent: 0.5,
+            backgroundColor: Color(0xffEBEFF3),
+            progressColor: newColorBlue,
+            center: Text(
+              "2 of 3",
+              style: poppinsH2.copyWith(
+                color: newColorBlue2,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -181,10 +230,11 @@ class OrderDetailView extends StatelessWidget {
         Text(
           "Multi vendor".tr,
         ),
+        SizedBox(height: 8.v),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            _customField2("12 Decemeber 2023"),
+            _customField2("12 Decemeber 2023 at 12:18 pm"),
             _customField2("Online Store"),
           ],
         ),
