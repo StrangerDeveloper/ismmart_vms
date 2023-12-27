@@ -169,71 +169,7 @@ class CreatePayoutView extends StatelessWidget {
     );
   }
 
-  taskTypeBtmSheet() {
-    int tempIndex = 0;
-    showModalBottomSheet(
-      context: Get.context!,
-      builder: (BuildContext context) {
-        return Container(
-          height: 200,
-          padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CupertinoButton(
-                child: const Text(
-                  'Cancel',
-                  style: TextStyle(fontSize: 14),
-                ),
-                onPressed: () {
-                  Get.back();
-                },
-              ),
-              Expanded(
-                child: CupertinoPicker(
-                  scrollController: FixedExtentScrollController(
-                    initialItem: viewModel.currencySelectedIndex.value,
-                  ),
-                  itemExtent: 35,
-                  onSelectedItemChanged: (int index) {
-                    tempIndex = index;
-                    // viewModel.currencySelectedIndex.value = index;
-                    // viewModel.currencyController.text =  viewModel.currencyList[index];
-                  },
-                  children: List.generate(
-                    viewModel.currencyList.length,
-                    (int index) {
-                      return Center(
-                        child: Text(
-                          viewModel.currencyList[index],
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 15,
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ),
-              CupertinoButton(
-                child: const Text(
-                  'Done',
-                  style: TextStyle(fontSize: 14),
-                ),
-                onPressed: () {
-                  Get.back();
-                  viewModel.currencySelectedIndex.value = tempIndex;
-                  viewModel.currencyController.text =
-                      viewModel.currencyList[tempIndex];
-                },
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
+
 
   itemsBottomSheet() {
     showModalBottomSheet(

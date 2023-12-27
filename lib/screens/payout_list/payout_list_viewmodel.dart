@@ -8,11 +8,10 @@ import '../../helper/global_variables.dart';
 import '../../helper/urls.dart';
 
 class PayoutListViewModel extends GetxController {
-  RxString searchBy = 'name'.obs;
-  List<String> dataList = <String>['asdsad', 'asdsad', 'asdsad'].obs;
-  ////////////////
+
+  RxString filterRadioBtn = 'all'.obs;
+  RxBool showSearchTxtField = false.obs;
   List<PayoutModel> payoutList = <PayoutModel>[].obs;
-  // RxInt totalLeaves = 0.obs;
   ScrollController scrollController = ScrollController();
   int pageNo = 0;
   RxBool paginationLoader = false.obs;
@@ -35,11 +34,10 @@ class PayoutListViewModel extends GetxController {
       paginationLoader.value = true;
       await ApiBaseHelper()
           .getMethod(
-          url: '${Urls.getPayout}')
+          url: '${Urls.getPayout}$pageNo')
           .then((parsedJson) {
         if (parsedJson['success'] == true && parsedJson['data']['items'] != null) {
           var data = parsedJson['data']['items'] as List;
-          // totalLeaves.value = parsedJson['data']['total'];
           if (data.isEmpty) {
             scrollController.dispose();
           }
