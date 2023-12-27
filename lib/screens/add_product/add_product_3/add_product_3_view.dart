@@ -9,6 +9,7 @@ import '../../../helper/theme_helper.dart';
 import '../../../widgets/custom_bottom_sheet.dart';
 import '../../../widgets/custom_checkbox.dart';
 import '../../../widgets/custom_textfield.dart';
+import '../../../widgets/stepperText.dart';
 
 class AddProduct3View extends StatelessWidget {
   AddProduct3View({super.key});
@@ -117,55 +118,55 @@ class AddProduct3View extends StatelessWidget {
     );
   }
 
-  Widget stepperText() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 20, bottom: 25),
-      child: RichText(
-        overflow: TextOverflow.ellipsis,
-        text: const TextSpan(
-          style: TextStyle(
-            color: ThemeHelper.blue1,
-            fontWeight: FontWeight.w500,
-          ),
-          children: [
-            TextSpan(
-              text: "  /  ",
-              style: TextStyle(
-                color: ThemeHelper.grey6,
-              ),
-            ),
-            TextSpan(
-              text: "Product & Pricing ",
-              style: TextStyle(
-                color: ThemeHelper.grey2,
-              ),
-            ),
-            TextSpan(
-              text: "  /  ",
-              style: TextStyle(
-                color: ThemeHelper.grey6,
-              ),
-            ),
-            TextSpan(
-              text: "Variant Setting",
-              style: TextStyle(
-                color: ThemeHelper.grey2,
-              ),
-            ),
-            TextSpan(
-              text: "  /  ",
-              style: TextStyle(
-                color: ThemeHelper.grey6,
-              ),
-            ),
-            TextSpan(
-              text: "Shipping",
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  // Widget stepperText() {
+  //   return Padding(
+  //     padding: const EdgeInsets.only(top: 20, bottom: 25),
+  //     child: RichText(
+  //       overflow: TextOverflow.ellipsis,
+  //       text: const TextSpan(
+  //         style: TextStyle(
+  //           color: ThemeHelper.blue1,
+  //           fontWeight: FontWeight.w500,
+  //         ),
+  //         children: [
+  //           TextSpan(
+  //             text: "  /  ",
+  //             style: TextStyle(
+  //               color: ThemeHelper.grey6,
+  //             ),
+  //           ),
+  //           TextSpan(
+  //             text: "Product & Pricing ",
+  //             style: TextStyle(
+  //               color: ThemeHelper.grey2,
+  //             ),
+  //           ),
+  //           TextSpan(
+  //             text: "  /  ",
+  //             style: TextStyle(
+  //               color: ThemeHelper.grey6,
+  //             ),
+  //           ),
+  //           TextSpan(
+  //             text: "Variant Setting",
+  //             style: TextStyle(
+  //               color: ThemeHelper.grey2,
+  //             ),
+  //           ),
+  //           TextSpan(
+  //             text: "  /  ",
+  //             style: TextStyle(
+  //               color: ThemeHelper.grey6,
+  //             ),
+  //           ),
+  //           TextSpan(
+  //             text: "Shipping",
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Widget thisIsPhysicalProduct() {
     return Padding(
@@ -211,8 +212,7 @@ class AddProduct3View extends StatelessWidget {
                 list: viewModel.unitList,
                 onChanged: (value) {
                   viewModel.unitSelectedIndex.value = value;
-                  viewModel.unitController.text =
-                  viewModel.unitList[value];
+                  viewModel.unitController.text = viewModel.unitList[value];
                 },
               ).show();
             },
