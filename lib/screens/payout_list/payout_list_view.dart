@@ -111,7 +111,7 @@ class PayoutListView extends StatelessWidget {
             child: Row(
               children: [
                 Obx(
-                  () => CustomIconBtn(
+                  () => CustomIconBtn2(
                     icon: CupertinoIcons.search,
                     color: viewModel.showSearchTxtField.value
                         ? ThemeHelper.blue1

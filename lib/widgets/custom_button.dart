@@ -271,10 +271,50 @@ class CustomIconTextBtn extends StatelessWidget {
 //FINAL VERSION...
 class CustomIconBtn extends StatelessWidget {
   final IconData icon;
+  final bool enabled;
+  final double? iconSize;
+  final void Function()? onTap;
+
+  const CustomIconBtn({
+    super.key,
+    this.iconSize,
+    this.enabled = true,
+    required this.icon,
+    this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(8),
+      child: Container(
+        padding: const EdgeInsets.all(8),
+        child: enabled ? Icon(
+          icon,
+          size: iconSize ?? 15,
+        ) : Stack(
+          children: [
+            Icon(
+              icon,
+              size: iconSize ?? 15,
+            ),
+            Expanded(child: Container(color: Colors.grey.shade200,))
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
+//FINAL VERSION...
+class CustomIconBtn2 extends StatelessWidget {
+  final IconData icon;
   final void Function()? onTap;
   final Color? color;
 
-  const CustomIconBtn({
+  const CustomIconBtn2({
     super.key,
     required this.icon,
     this.onTap,
@@ -291,7 +331,7 @@ class CustomIconBtn extends StatelessWidget {
         child: Icon(
           icon,
           size: 15,
-          color: color ?? Colors.black,
+          color: color ?? Colors.black
         ),
       ),
     );
