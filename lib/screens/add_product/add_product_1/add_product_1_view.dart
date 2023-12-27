@@ -17,6 +17,7 @@ import '../../../widgets/custom_button.dart';
 import '../../../widgets/custom_checkbox.dart';
 import '../../../widgets/custom_textfield.dart';
 import '../../../widgets/pick_image.dart';
+import '../../../widgets/stepperText.dart';
 import 'add_product_1_viewmodel.dart';
 
 class AddProduct1View extends StatelessWidget {
@@ -100,61 +101,61 @@ class AddProduct1View extends StatelessWidget {
     );
   }
 
-  Widget stepperText() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 20, bottom: 25),
-      child: RichText(
-        overflow: TextOverflow.ellipsis,
-        text: const TextSpan(
-          style: TextStyle(
-            color: ThemeHelper.blue1,
-            fontWeight: FontWeight.w500,
-          ),
-          children: [
-            TextSpan(
-              text: 'Product Info',
-            ),
-            TextSpan(
-              text: "  /  ",
-              style: TextStyle(
-                color: ThemeHelper.grey6,
-              ),
-            ),
-            TextSpan(
-              text: "Product & Pricing ",
-              style: TextStyle(
-                color: ThemeHelper.grey2,
-              ),
-            ),
-            TextSpan(
-              text: "  /  ",
-              style: TextStyle(
-                color: ThemeHelper.grey6,
-              ),
-            ),
-            TextSpan(
-              text: "Variant Setting",
-              style: TextStyle(
-                color: ThemeHelper.grey2,
-              ),
-            ),
-            TextSpan(
-              text: "  /  ",
-              style: TextStyle(
-                color: ThemeHelper.grey6,
-              ),
-            ),
-            TextSpan(
-              text: "Shipping",
-              style: TextStyle(
-                color: ThemeHelper.grey2,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  // Widget stepperText() {
+  //   return Padding(
+  //     padding: const EdgeInsets.only(top: 20, bottom: 25),
+  //     child: RichText(
+  //       overflow: TextOverflow.ellipsis,
+  //       text: const TextSpan(
+  //         style: TextStyle(
+  //           color: ThemeHelper.blue1,
+  //           fontWeight: FontWeight.w500,
+  //         ),
+  //         children: [
+  //           TextSpan(
+  //             text: 'Product Info',
+  //           ),
+  //           TextSpan(
+  //             text: "  /  ",
+  //             style: TextStyle(
+  //               color: ThemeHelper.grey6,
+  //             ),
+  //           ),
+  //           TextSpan(
+  //             text: "Product & Pricing ",
+  //             style: TextStyle(
+  //               color: ThemeHelper.grey2,
+  //             ),
+  //           ),
+  //           TextSpan(
+  //             text: "  /  ",
+  //             style: TextStyle(
+  //               color: ThemeHelper.grey6,
+  //             ),
+  //           ),
+  //           TextSpan(
+  //             text: "Variant Setting",
+  //             style: TextStyle(
+  //               color: ThemeHelper.grey2,
+  //             ),
+  //           ),
+  //           TextSpan(
+  //             text: "  /  ",
+  //             style: TextStyle(
+  //               color: ThemeHelper.grey6,
+  //             ),
+  //           ),
+  //           TextSpan(
+  //             text: "Shipping",
+  //             style: TextStyle(
+  //               color: ThemeHelper.grey2,
+  //             ),
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Widget titleTxtField() {
     return CustomTextField1(
