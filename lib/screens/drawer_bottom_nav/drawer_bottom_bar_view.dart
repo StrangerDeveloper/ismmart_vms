@@ -19,7 +19,7 @@ class DrawerBottomBarView extends StatelessWidget {
         viewModel.onBackPressed(context);
       },
       child: Scaffold(
-        drawer: const CustomDrawer(),
+        drawer: CustomDrawer(),
         body: PageView(
           controller: viewModel.bottomNavPageController,
           physics: const BouncingScrollPhysics(),

@@ -8,6 +8,7 @@ import '../screens/dashboard/model/order_model.dart';
 //import 'package:ism_mart/exports/exports_model.dart';
 //import 'package:ism_mart/helper/languages/translations_key.dart' as langKey;
 
+const productActiveColor = Color(0xff07D38F);
 const kLimeGreenColor = Color(0xFFACC254);
 const kPurpleColor = Color(0xFF9D50DD);
 const kPrimaryColor = kDarkColor;
@@ -26,7 +27,6 @@ const red2 = Color(0xFFF80B0B);
 const kLightRedColor = Color(0xBBEF5350);
 const kGoldColor = Color(0xFFFFD700);
 const kOrangeColor = Colors.deepOrange;
-
 const kDarkColor = Color(0xFF303030);
 const kTransparent = Colors.transparent;
 const newColorNavyBlue = Color(0xff0C1A30);

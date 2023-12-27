@@ -1,21 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:ismmart_vms/helper/constants.dart';
 import 'package:ismmart_vms/screens/collection/collection_view.dart';
-import 'package:ismmart_vms/screens/product_list/product_list_view.dart';
-
-import '../screens/Order/order_view.dart';
 import '../screens/add_location/add_location_view.dart';
 import '../screens/add_user/add_user_view.dart';
-import '../screens/auth/login/login_view.dart';
 import '../screens/bank/bank_profile_view.dart';
 import '../screens/dashboard/dashboard_viewmodel.dart';
 import '../screens/payout_list/payout_list_view.dart';
-import '../screens/setting/settings_view.dart';
 import '../screens/shippings/shippings_view.dart';
-import '../screens/stores/store_editview.dart';
 import '../screens/stores/stores_view.dart';
 
 class CustomDrawer extends StatelessWidget {

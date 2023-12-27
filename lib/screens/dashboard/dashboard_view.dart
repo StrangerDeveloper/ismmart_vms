@@ -2,14 +2,14 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/constants.dart';
-import 'package:ismmart_vms/helper/resourses/app_colors.dart';
-import 'package:ismmart_vms/helper/resourses/app_decorations.dart';
 import 'package:ismmart_vms/helper/utils/image_constant.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/screens/dashboard/dashboard_viewmodel.dart';
 import 'package:ismmart_vms/widgets/custom_appbar.dart';
 import 'package:ismmart_vms/widgets/custom_dropdown.dart';
 import 'package:ismmart_vms/widgets/custom_image_view.dart';
+
+import '../../helper/resourses/app_colors.dart';
 
 class DashboardView extends StatelessWidget {
   DashboardView({super.key});
@@ -62,7 +62,7 @@ class DashboardView extends StatelessWidget {
           horizontal: 3.h,
           vertical: 6.v,
         ),
-        decoration: AppDecoration.fillWhiteA,
+        // decoration: AppDecoration.fillWhiteA,
         child: Padding(
           padding: EdgeInsets.zero,
           child: CustomImageView(
@@ -117,9 +117,9 @@ class DashboardView extends StatelessWidget {
                 horizontal: 24.h,
                 vertical: 16.v,
               ),
-              decoration: AppDecoration.shadow.copyWith(
-                borderRadius: BorderRadiusStyle.roundedBorder10,
-              ),
+              // decoration: AppDecoration.shadow.copyWith(
+              //   borderRadius: BorderRadiusStyle.roundedBorder10,
+              // ),
               child: Column(
                 children: [
                   SizedBox(
@@ -167,7 +167,7 @@ class DashboardView extends StatelessWidget {
   Widget _buildHeading() {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 1.v),
-      decoration: AppDecoration.outlineGray,
+      // decoration: AppDecoration.outlineGray,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -214,9 +214,9 @@ class DashboardView extends StatelessWidget {
   Widget _buildCard() {
     return Container(
       padding: EdgeInsets.all(12.h),
-      decoration: AppDecoration.fillGray5001.copyWith(
-        borderRadius: BorderRadiusStyle.roundedBorder10,
-      ),
+      // decoration: AppDecoration.fillGray5001.copyWith(
+      //   borderRadius: BorderRadiusStyle.roundedBorder10,
+      // ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -238,25 +238,25 @@ class DashboardView extends StatelessWidget {
                 title: "Exception",
                 value: "5",
                 color: deepOrangeA700,
-                decoration: AppDecoration.fillOrange.copyWith(
-                  borderRadius: BorderRadiusStyle.circleBorder16,
-                ),
+                // decoration: AppDecoration.fillOrange.copyWith(
+                //   borderRadius: BorderRadiusStyle.circleBorder16,
+                // ),
               ),
               _buildCardItem(
                 title: "New Orders",
                 value: "3",
                 color: cyan800,
-                decoration: AppDecoration.fillCyan.copyWith(
-                  borderRadius: BorderRadiusStyle.circleBorder16,
-                ),
+                // decoration: AppDecoration.fillCyan.copyWith(
+                //   borderRadius: BorderRadiusStyle.circleBorder16,
+                // ),
               ),
               _buildCardItem(
                 title: "In Progress",
                 value: "18",
                 color: blueA700,
-                decoration: AppDecoration.fillBlue.copyWith(
-                  borderRadius: BorderRadiusStyle.circleBorder16,
-                ),
+                // decoration: AppDecoration.fillBlue.copyWith(
+                //   borderRadius: BorderRadiusStyle.circleBorder16,
+                // ),
               ),
             ],
           ),
@@ -276,9 +276,9 @@ class DashboardView extends StatelessWidget {
             horizontal: 13.h,
             vertical: 12.v,
           ),
-          decoration: AppDecoration.fillGray10003.copyWith(
-            borderRadius: BorderRadiusStyle.roundedBorder10,
-          ),
+          // decoration: AppDecoration.fillGray10003.copyWith(
+          //   borderRadius: BorderRadiusStyle.roundedBorder10,
+          // ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -337,7 +337,7 @@ class DashboardView extends StatelessWidget {
           height: 13.v,
         ),
         Container(
-          decoration: AppDecoration.outlineGray200,
+          // decoration: AppDecoration.outlineGray200,
           child: Column(
             children: [
               SizedBox(height: 12.v),
@@ -345,27 +345,27 @@ class DashboardView extends StatelessWidget {
                   title: "Total Sale",
                   value: "78%",
                   color: cyan50,
-                  decoration: AppDecoration.fillCyan.copyWith(
-                      borderRadius: BorderRadiusStyle.roundedBorder10,
-                      color: cyan50),
+                  // decoration: AppDecoration.fillCyan.copyWith(
+                  //     borderRadius: BorderRadiusStyle.roundedBorder10,
+                  //     color: cyan50),
                   hasSuffixIcon: true),
               SizedBox(height: 15.v),
               _buildShowMoreItems(
                 title: "Total Products",
                 value: "20",
                 color: gray10001,
-                decoration: AppDecoration.fillGray10001.copyWith(
-                  borderRadius: BorderRadiusStyle.roundedBorder10,
-                ),
+                // decoration: AppDecoration.fillGray10001.copyWith(
+                //   borderRadius: BorderRadiusStyle.roundedBorder10,
+                // ),
               ),
               SizedBox(height: 15.v),
               _buildShowMoreItems(
                 title: "Total Revenue",
                 value: "500,000 PKR",
                 color: gray100,
-                decoration: AppDecoration.fillGray10001.copyWith(
-                  borderRadius: BorderRadiusStyle.roundedBorder10,
-                ),
+                // decoration: AppDecoration.fillGray10001.copyWith(
+                //   borderRadius: BorderRadiusStyle.roundedBorder10,
+                // ),
               ),
             ],
           ),
@@ -439,9 +439,9 @@ class DashboardView extends StatelessWidget {
         horizontal: 24.h,
         vertical: 25.v,
       ),
-      decoration: AppDecoration.shadow.copyWith(
-        borderRadius: BorderRadiusStyle.roundedBorder10,
-      ),
+      // decoration: AppDecoration.shadow.copyWith(
+      //   borderRadius: BorderRadiusStyle.roundedBorder10,
+      // ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -489,9 +489,9 @@ class DashboardView extends StatelessWidget {
                     alignment: Alignment.topCenter,
                     child: Padding(
                       padding: EdgeInsets.only(
-                        left: 97.h,
+                        left: 80.h,
                         top: 120.v,
-                        right: 97.h,
+                        right: 80.h,
                       ),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
