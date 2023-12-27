@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import '../helper/constants.dart';
-import '../helper/resourses/app_colors.dart';
 import 'custom_text.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -74,10 +73,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           height: 44.v,
           width: double.maxFinite,
           decoration: BoxDecoration(
-            color: whiteA700,
+            // color: whiteA700,
             boxShadow: [
               BoxShadow(
-                color: black900.withOpacity(0.05),
+                // color: black900.withOpacity(0.05),
                 spreadRadius: 2.h,
                 blurRadius: 2.h,
                 offset: const Offset(0, 1),
@@ -90,10 +89,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           height: 82.v,
           width: double.maxFinite,
           decoration: BoxDecoration(
-            color: whiteA700,
+            // color: whiteA700,
             boxShadow: [
               BoxShadow(
-                color: black900.withOpacity(0.08),
+                // color: black900.withOpacity(0.08),
                 spreadRadius: 2.h,
                 blurRadius: 2.h,
                 offset: const Offset(0, 1),
@@ -106,7 +105,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           height: 55.v,
           width: double.maxFinite,
           decoration: BoxDecoration(
-            color: whiteA700,
+            // color: whiteA700,
           ),
         );
       default:
@@ -170,10 +169,10 @@ class CustomAppBar1 extends StatelessWidget implements PreferredSizeWidget {
           height: 44.v,
           width: double.maxFinite,
           decoration: BoxDecoration(
-            color: whiteA700,
+            // color: whiteA700,
             boxShadow: [
               BoxShadow(
-                color: black900.withOpacity(0.05),
+                // color: black900.withOpacity(0.05),
                 spreadRadius: 2.h,
                 blurRadius: 2.h,
                 offset: const Offset(0, 1),
@@ -186,10 +185,10 @@ class CustomAppBar1 extends StatelessWidget implements PreferredSizeWidget {
           height: 82.v,
           width: double.maxFinite,
           decoration: BoxDecoration(
-            color: whiteA700,
+            // color: whiteA700,
             boxShadow: [
               BoxShadow(
-                color: black900.withOpacity(0.08),
+                // color: black900.withOpacity(0.08),
                 spreadRadius: 2.h,
                 blurRadius: 2.h,
                 offset: const Offset(0, 1),
@@ -202,7 +201,7 @@ class CustomAppBar1 extends StatelessWidget implements PreferredSizeWidget {
           height: 55.v,
           width: double.maxFinite,
           decoration: BoxDecoration(
-            color: whiteA700,
+            // color: whiteA700,
           ),
         );
       default:

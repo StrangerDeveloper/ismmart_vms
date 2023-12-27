@@ -271,10 +271,14 @@ class CustomIconTextBtn extends StatelessWidget {
 //FINAL VERSION...
 class CustomIconBtn extends StatelessWidget {
   final IconData icon;
+  final bool enabled;
+  final double? iconSize;
   final void Function()? onTap;
 
   const CustomIconBtn({
     super.key,
+    this.iconSize,
+    this.enabled = true,
     required this.icon,
     this.onTap,
   });
@@ -284,11 +288,19 @@ class CustomIconBtn extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(8),
-      child: Padding(
+      child: Container(
         padding: const EdgeInsets.all(8),
-        child: Icon(
+        child: enabled ? Icon(
           icon,
-          size: 15,
+          size: iconSize ?? 15,
+        ) : Stack(
+          children: [
+            Icon(
+              icon,
+              size: iconSize ?? 15,
+            ),
+            Expanded(child: Container(color: Colors.grey.shade200,))
+          ],
         ),
       ),
     );
