@@ -146,10 +146,10 @@ class Routes {
     //   name: contactUs,
     //   page: () => ContactUsView(),
     // ),
-    // GetPage(
-    //   name: dashboard,
-    //   page: () => DashboardView(),
-    // ),
+    GetPage(
+      name: dashboard,
+      page: () => DashboardView(),
+    ),
     // GetPage(
     //   name: chatScreen,
     //   page: () => ChatBotView(),
