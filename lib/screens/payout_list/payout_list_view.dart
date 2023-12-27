@@ -31,18 +31,8 @@ class PayoutListView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               topBar(),
-              topBar2(),
               searchTxtField(),
-              const Padding(
-                padding: EdgeInsets.only(left: 17),
-                child: Text(
-                  '1 - 20 of 50',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: ThemeHelper.grey2,
-                  ),
-                ),
-              ),
+              pageNoView(),
               listView(),
             ],
           ),
@@ -54,7 +44,7 @@ class PayoutListView extends StatelessWidget {
 
   Widget topBar() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 16, 16, 10),
+      padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -64,43 +54,9 @@ class PayoutListView extends StatelessWidget {
               Get.to(() => CreatePayoutView());
             },
             icon: CupertinoIcons.plus,
-            title: ' Create Payouts ',
+            title: 'Add Payouts',
           ),
           Container(
-            padding: const EdgeInsets.all(2),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(
-                color: ThemeHelper.grey1,
-              ),
-            ),
-            child: CustomIconBtn(
-              icon: Icons.more_vert_rounded,
-              onTap: () {},
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget topBar2() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: CustomTextField1(
-              hintText: 'Select the Status',
-              readOnly: true,
-              isDropDown: true,
-              filled: false,
-              onTap: () {},
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.only(left: 12),
             padding: const EdgeInsets.all(2),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
@@ -111,14 +67,14 @@ class PayoutListView extends StatelessWidget {
             child: Row(
               children: [
                 Obx(
-                  () => CustomIconBtn2(
+                      () => CustomIconBtn2(
                     icon: CupertinoIcons.search,
                     color: viewModel.showSearchTxtField.value
                         ? ThemeHelper.blue1
                         : null,
                     onTap: () {
                       viewModel.showSearchTxtField.value =
-                          !viewModel.showSearchTxtField.value;
+                      !viewModel.showSearchTxtField.value;
                     },
                   ),
                 ),
@@ -136,57 +92,90 @@ class PayoutListView extends StatelessWidget {
     );
   }
 
+
+
   Widget searchTxtField() {
     return Obx(
-      () => viewModel.showSearchTxtField.value
-          ? const Padding(
-              padding: EdgeInsets.all(16),
-              child: CustomTextField1(
-                filled: false,
-                prefixIcon: CupertinoIcons.search,
-                hintText: 'Filter by name',
-              ),
-            )
+          () => viewModel.showSearchTxtField.value
+          ? Padding(
+        padding: const EdgeInsets.all(16),
+        child: CustomTextField1(
+          controller: viewModel.searchController,
+          filled: false,
+          prefixIcon: CupertinoIcons.search,
+          hintText: 'Filter by name',
+          onFieldSubmitted: (value) {
+            viewModel.searchTxtFieldSubmitted(value);
+          },
+          suffixIconButton: IconButton(
+            visualDensity: VisualDensity.compact,
+            onPressed: () {
+              viewModel.searchController.clear();
+              viewModel.searchTxtFieldSubmitted('');
+            },
+            icon: const Icon(
+              Icons.close,
+              color: ThemeHelper.grey2,
+            ),
+          ),
+        ),
+      )
           : const SizedBox(height: 16),
     );
   }
 
+  Widget pageNoView(){
+    return Padding(
+      padding: const EdgeInsets.only(left: 16),
+      child: Obx(
+            () => Text(
+          '${viewModel.pageNo} of ${viewModel.totalPages.value}',
+          style: const TextStyle(
+            fontSize: 12,
+            color: ThemeHelper.grey2,
+          ),
+        ),
+      ),
+    );
+  }
+
+
   Widget listView() {
     return Obx(
-      () => viewModel.payoutList.isNotEmpty
+          () => viewModel.dataList.isNotEmpty
           ? Expanded(
-              child: Column(
-                children: [
-                  Expanded(
-                    child: ListView.separated(
-                      controller: viewModel.scrollController,
-                      padding: const EdgeInsets.all(16),
-                      itemCount: viewModel.payoutList.length,
-                      itemBuilder: (context, int index) {
-                        return listViewItem(index);
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return const Divider(
-                          color: ThemeHelper.grey1,
-                          thickness: 0.8,
-                          height: 0,
-                        );
-                      },
-                    ),
-                  ),
-                  if (viewModel.paginationLoader.value)
-                    const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Center(
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      ),
-                    )
-                ],
+        child: Column(
+          children: [
+            Expanded(
+              child: ListView.separated(
+                controller: viewModel.scrollController,
+                padding: const EdgeInsets.all(16),
+                itemCount: viewModel.dataList.length,
+                itemBuilder: (context, int index) {
+                  return listViewItem(index);
+                },
+                separatorBuilder: (BuildContext context, int index) {
+                  return const Divider(
+                    color: ThemeHelper.grey1,
+                    thickness: 0.8,
+                    height: 0,
+                  );
+                },
               ),
-            )
-          : const Center(
-              child: Text('No Data Found'),
             ),
+            if (viewModel.paginationLoader.value)
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Center(
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                ),
+              )
+          ],
+        ),
+      )
+          : const Center(
+        child: Text('No Data Found'),
+      ),
     );
   }
 
@@ -198,7 +187,7 @@ class PayoutListView extends StatelessWidget {
       child: InkWell(
         borderRadius: borderRadius,
         onTap: () {
-          Get.to(() => ProductDetailView());
+          // Get.to(() => ProductDetailView());
         },
         child: Padding(
           padding:
@@ -256,7 +245,7 @@ class PayoutListView extends StatelessWidget {
                         ),
                         Expanded(
                           child: Text(
-                            '${viewModel.payoutList[index].amount ?? 0}',
+                            '${viewModel.dataList[index].amount ?? 0}',
                             textAlign: TextAlign.right,
                             style: const TextStyle(
                               fontSize: 12,
@@ -269,7 +258,7 @@ class PayoutListView extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 3, bottom: 3),
                       child: Text(
-                        '${viewModel.payoutList[index].amount ?? 0}',
+                        '${viewModel.dataList[index].amount ?? 0}',
                         style: const TextStyle(
                           color: ThemeHelper.red1,
                           fontSize: 10,
@@ -280,7 +269,7 @@ class PayoutListView extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          '\u25CF ${viewModel.payoutList[index].method ?? 'N/A'}',
+                          '\u25CF ${viewModel.dataList[index].method ?? 'N/A'}',
                           style: const TextStyle(
                             color: ThemeHelper.grey2,
                             fontSize: 10,
@@ -289,7 +278,7 @@ class PayoutListView extends StatelessWidget {
                         ),
                         const SizedBox(width: 15),
                         Text(
-                          '\u25CF ${viewModel.payoutList[index].method != null ? CommonFunction.convertDateFormat(viewModel.payoutList[index].requestedDate!) : 'N/A'}',
+                          '\u25CF ${viewModel.dataList[index].requestedDate != null ? CommonFunction.convertDateFormat(viewModel.dataList[index].requestedDate!) : 'N/A'}',
                           style: const TextStyle(
                             color: ThemeHelper.grey2,
                             fontSize: 10,
@@ -301,7 +290,7 @@ class PayoutListView extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 3, bottom: 13),
                       child: Text(
-                        '\u25CF ${viewModel.payoutList[index].amount ?? 0}',
+                        '\u25CF ${viewModel.dataList[index].amount ?? 0}',
                         style: const TextStyle(
                           color: ThemeHelper.grey2,
                           fontSize: 10,
@@ -309,7 +298,7 @@ class PayoutListView extends StatelessWidget {
                         ),
                       ),
                     ),
-                    status(),
+                    status( viewModel.dataList[index].status ?? 'N/A',),
                   ],
                 ),
               ),
@@ -323,21 +312,21 @@ class PayoutListView extends StatelessWidget {
   BorderRadius listBorderRadius(int index) {
     if (index == 0) {
       return const BorderRadius.vertical(top: Radius.circular(12));
-    } else if (index == viewModel.payoutList.length - 1) {
+    } else if (index == viewModel.dataList.length - 1) {
       return const BorderRadius.vertical(bottom: Radius.circular(12));
     } else {
       return BorderRadius.zero;
     }
   }
 
-  Widget status() {
-    Color color = statusColor('1');
+  Widget status(String value) {
+    Color color = statusColor(value);
     return Container(
+      margin: const EdgeInsets.only(left: 10),
       padding: const EdgeInsets.only(left: 4, top: 3, bottom: 3),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.25),
-        borderRadius: BorderRadius.circular(30),
-      ),
+          color: color.withOpacity(0.25),
+          borderRadius: BorderRadius.circular(30)),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -349,9 +338,9 @@ class PayoutListView extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Text(
-              'Active',
+              value,
               style: TextStyle(
-                color: color,
+                color: statusTxtColor(value),
                 fontSize: 10,
               ),
             ),
@@ -362,10 +351,22 @@ class PayoutListView extends StatelessWidget {
   }
 
   Color statusColor(String value) {
-    if (value == '1') {
-      return const Color(0xFF06D38F);
-    } else {
+    if (value == 'Transfered') {
+      return ThemeHelper.blue1;
+    } else if(value == 'Rejected') {
       return const Color(0xFFFE3A30);
+    } else {
+      return const Color(0xffFFC120);
+    }
+  }
+
+  Color statusTxtColor(String value) {
+    if (value == 'Transfered') {
+      return ThemeHelper.blue1;
+    } else if(value == 'Rejected') {
+      return const Color(0xFFFE3A30);
+    }  else {
+      return Colors.black;
     }
   }
 
@@ -431,27 +432,27 @@ class PayoutListView extends StatelessWidget {
                   groupValue: viewModel.filterRadioBtn.value,
                   value: 'all',
                   onChanged: (value) {
-                    viewModel.filterRadioBtn.value = value;
+                    viewModel.radioBtnSelection(value);
                   },
                 ),
               ),
               Obx(
                 () => CustomRadioButton2(
-                  title: 'Paid',
+                  title: 'In Process',
                   groupValue: viewModel.filterRadioBtn.value,
-                  value: 'paid',
+                  value: 'In-Process',
                   onChanged: (value) {
-                    viewModel.filterRadioBtn.value = value;
+                    viewModel.radioBtnSelection(value);
                   },
                 ),
               ),
               Obx(
                 () => CustomRadioButton2(
-                  title: 'Unpaid',
+                  title: 'Transfered',
                   groupValue: viewModel.filterRadioBtn.value,
-                  value: 'unpaid',
+                  value: 'Transfered',
                   onChanged: (value) {
-                    viewModel.filterRadioBtn.value = value;
+                    viewModel.radioBtnSelection(value);
                   },
                 ),
               ),
@@ -459,16 +460,19 @@ class PayoutListView extends StatelessWidget {
                 () => CustomRadioButton2(
                   title: 'Rejected',
                   groupValue: viewModel.filterRadioBtn.value,
-                  value: 'rejected',
+                  value: 'Rejected',
                   onChanged: (value) {
-                    viewModel.filterRadioBtn.value = value;
+                    viewModel.radioBtnSelection(value);
                   },
                 ),
               ),
               const SizedBox(height: 10),
               CustomTextBtn(
                 title: 'Done',
-                onPressed: () {},
+                onPressed: () {
+                  Get.back();
+                  viewModel.getDataFunction();
+                },
               ),
             ],
           ),

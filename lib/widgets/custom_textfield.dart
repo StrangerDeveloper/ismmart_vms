@@ -33,6 +33,7 @@ class CustomTextField1 extends StatelessWidget {
   final EdgeInsetsGeometry contentPadding;
   final TextStyle? textStyle;
   final List<TextInputFormatter>? inputFormatters;
+  final void Function(String)? onFieldSubmitted;
 
   ///USAGE INFORMATION:
   ///
@@ -73,7 +74,7 @@ class CustomTextField1 extends StatelessWidget {
     this.isDropDown = false,
     this.prefixIcon,
     this.suffixIconButton,
-    this.inputFormatters,
+    this.inputFormatters, this.onFieldSubmitted,
   });
 
   @override
@@ -107,6 +108,7 @@ class CustomTextField1 extends StatelessWidget {
                 ),
               ),
         TextFormField(
+          onFieldSubmitted: onFieldSubmitted,
           inputFormatters: inputFormatters,
           controller: controller,
           keyboardType: keyboardType,
