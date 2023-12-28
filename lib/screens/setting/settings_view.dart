@@ -13,7 +13,6 @@ import '../location_list/location_list_view.dart';
 import '../payout_list/payout_list_view.dart';
 import '../profile/edit_profile_view.dart';
 import '../profile/profile_details/profile_detail_view.dart';
-import '../store/store_view.dart';
 
 class SettingsView extends StatelessWidget {
   SettingsView({super.key});
@@ -98,7 +97,7 @@ class SettingsView extends StatelessWidget {
             leading: const Icon(Icons.book),
             title: const Text('Store '),
             onTap: () {
-              Get.to(StoreView());
+              // Get.to(StoreView());
             },
           ),
           ListTile(
