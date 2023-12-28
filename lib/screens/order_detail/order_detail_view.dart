@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/languages/translations_key.dart' as langKey;
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
+import 'package:ismmart_vms/screens/order_listing/model/orderModel.dart';
 import 'package:ismmart_vms/screens/order_listing/model/order_model.dart';
 import 'package:ismmart_vms/screens/order_detail/model/ordertracking_item_model.dart';
 import 'package:ismmart_vms/screens/order_detail/order_detail_viewModel.dart';
@@ -23,7 +24,7 @@ import '../return/return_view.dart';
 class OrderDetailView extends StatelessWidget {
   OrdersDetailPageController controller = Get.put(OrdersDetailPageController());
 
-  final Order order;
+  final OrderItem order;
   OrderDetailView({Key? key, required this.order}) : super(key: key) {
     //Get.put(OrderViewModel()).fetchOrderDetails();
   }
@@ -213,8 +214,8 @@ class OrderDetailView extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  _customField1(order.customerName),
-                  _customField1(order.amount.toString()),
+                  _customField1(order.customer!.name.toString()),
+                  _customField1(order.customer!.email.toString()),
                 ],
               ),
               Padding(
