@@ -81,7 +81,7 @@ class ForgotPasswordView extends StatelessWidget {
               hintText: 'Email / Phone Number',
               autoValidateMode: AutovalidateMode.onUserInteraction,
               validator: (value) {
-                return Validator().validateEmail(value);
+                return Validator.validateEmail(value);
               },
               keyboardType: TextInputType.emailAddress,
             ),

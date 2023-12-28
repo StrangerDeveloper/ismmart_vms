@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/models/category_model.dart';
-import 'package:ismmart_vms/models/subcategory_model.dart';
-import 'package:ismmart_vms/helper/global_variables.dart';
 import 'package:ismmart_vms/widgets/pick_image.dart';
+import '../../../../helper/api_base_helper.dart';
+import '../../../../helper/constants.dart';
+import '../../../../helper/urls.dart';
+import '../signup_1/sign_up_1_viewmodel.dart';
 import '../signup_3/sign_up_3_view.dart';
+import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 
 class SignUp2ViewModel extends GetxController {
   GlobalKey<FormState> vendorSignUp2FormKey = GlobalKey<FormState>();
   TextEditingController storeNameController = TextEditingController();
-  TextEditingController storeAddressController = TextEditingController();
   TextEditingController storeSlugController = TextEditingController();
+  TextEditingController storeTypeController = TextEditingController();
+  TextEditingController storeAddressController = TextEditingController();
   RxString shopLogoImage = ''.obs;
   RxBool shopImageErrorVisibility = false.obs;
   RxInt cityId = 0.obs;
@@ -22,75 +27,10 @@ class SignUp2ViewModel extends GetxController {
   RxList<CategoryModel> categoriesList = <CategoryModel>[].obs;
 
   @override
-  void onInit() async {
-    fillListWithDummyData();
+  void onInit() {
+    getCountryList();
+    geStoreTypeList();
     super.onInit();
-  }
-
-  fillListWithDummyData() {
-    categoriesList.addAll({
-      CategoryModel(
-        id: 1,
-        name: 'Select Category ...',
-        createdAt: DateTime.now(),
-        updatedAt: DateTime.now(),
-        image: '',
-        isPressed: false,
-      ),
-      CategoryModel(
-          id: 2,
-          name: 'Category 1',
-          createdAt: DateTime.now(),
-          updatedAt: DateTime.now(),
-          image: '',
-          isPressed: false,
-          subCategories: [
-            SubCategory(
-              id: 1,
-              name: 'SubCategory 2 - 1',
-              categoryId: 1,
-              createdAt: DateTime.now(),
-              updatedAt: DateTime.now(),
-            ),
-            SubCategory(
-              id: 2,
-              name: 'SubCategory 2 - 2',
-              categoryId: 1,
-              createdAt: DateTime.now(),
-              updatedAt: DateTime.now(),
-            )
-          ]),
-      CategoryModel(
-          id: 3,
-          name: 'Category 2',
-          createdAt: DateTime.now(),
-          updatedAt: DateTime.now(),
-          image: '',
-          isPressed: false,
-          subCategories: [
-            SubCategory(
-              id: 3,
-              name: 'SubCategory 3 - 1',
-              categoryId: 2,
-              createdAt: DateTime.now(),
-              updatedAt: DateTime.now(),
-            ),
-            SubCategory(
-              id: 3,
-              name: 'SubCategory 3 - 2',
-              categoryId: 2,
-              createdAt: DateTime.now(),
-              updatedAt: DateTime.now(),
-            ),
-            SubCategory(
-              id: 3,
-              name: 'SubCategory 3 - 3',
-              categoryId: 3,
-              createdAt: DateTime.now(),
-              updatedAt: DateTime.now(),
-            ),
-          ]),
-    });
   }
 
   selectImage(RxString imageVar, RxBool imageVisibilityVar) async {
@@ -101,62 +41,172 @@ class SignUp2ViewModel extends GetxController {
     }
   }
 
-  Future<void> proceed() async {
-    if (vendorSignUp2FormKey.currentState?.validate() ?? false) {
-      GlobalVariable.showLoader.value = false;
+  //------------ Signup For Step 2 --------------
+  List<http.MultipartFile> fileList = [];
+  Future<void> signUpStep2() async {
+    final SignUpScreen1ViewModel viewModel = Get.put(SignUpScreen1ViewModel());
+    Map<String, String> param = Get.arguments;
+    param['storeName'] = storeNameController.text;
+    param['storeSlug'] = storeSlugController.text;
+    param['storeTypes[0]'] = storeTypeSelectedId.value;
+    param['country'] = selectedCountryId;
+    param['city'] = selectedCityId;
+    param['address'] = storeAddressController.text;
+    param['step'] = '2';
 
-      Map<String, String> details = {
-        "storeName": storeNameController.text,
-        // "type": "${shopCategoryId.value}",
-        "country": "${countryId.value}",
-        "city": "${cityId.value}",
-        'storeImage': shopLogoImage.value,
-        'address': storeAddressController.text,
-      };
+    print(param);
 
-      print(details);
-      Get.to(() => SignUp3View());
+    // cnicBackImage.value
 
-      // Get.toNamed(Routes.vendorSignUp3, arguments: {
-      //   'shopDetails': details
-      // });
+    if (shopLogoImage.value.isNotEmpty) {
+      fileList.add(
+        await http.MultipartFile.fromPath(
+          'cnicImages',
+          viewModel.cnicFrontImage.value,
+          contentType: MediaType.parse('image/jpeg'),
+        ),
+      );
+      fileList.add(
+        await http.MultipartFile.fromPath(
+          'cnicImages',
+          viewModel.cnicBackImage.value,
+          contentType: MediaType.parse('image/jpeg'),
+        ),
+      );
+      fileList.add(
+        await http.MultipartFile.fromPath(
+          'storeImage',
+          shopLogoImage.value,
+          contentType: MediaType.parse('image/jpeg'),
+        ),
+      );
     } else {
-      // checkImages();
-      // checkDropDowns();
+      return AppConstant.displaySnackBar(
+        " Error",
+        " please upload Store Images",
+      );
+    }
+    print("local list =====b${fileList.length}");
+
+    var parsedJson = await ApiBaseHelper()
+        .postMethodForImage(url: Urls.register, files: fileList, fields: param);
+
+    if (parsedJson['success'] == true) {
+      param.removeWhere((key, value) => value == "2");
+      Get.to(() => SignUp3View(), arguments: param);
+    } else {
+      AppConstant.displaySnackBar(
+        "Error",
+        parsedJson['message'],
+      );
     }
   }
 
-  checkDropDowns() {
-    bool proceed1 = true;
-    if (countryId.value == 0) {
-      countryErrorVisibility.value = true;
-      proceed1 = false;
+  //-----------------Store Type Field Data------------
+  //Store Type Data
+  RxInt storeTypeSelectedIndex = 0.obs;
+  RxString storeTypeSelectedId = ''.obs;
+  List<String> typeList = [];
+  List storeTypeIdList = [];
+  Future<void> geStoreTypeList() async {
+    typeList.clear();
+    var parseJson = await ApiBaseHelper().getMethod(url: Urls.storeType);
+    if (parseJson['success'] == true) {
+      storeTypeIdList.clear();
+      List rawList = parseJson['data']['items'];
+
+      rawList.forEach((e) {
+        typeList.add(e['name'].toString());
+        storeTypeIdList.add(e['_id'].toString());
+      });
+      print(typeList);
+      print(storeTypeIdList);
     }
-    if (cityId.value == 0) {
-      cityErrorVisibility.value = true;
-      proceed1 = false;
-    }
-    if (storeTypeList.isEmpty) {
-      storeTypeErrorVisibility.value = true;
-      proceed1 = false;
-    }
-    return proceed1;
   }
 
-  // bool checkImages(){
-  //   bool proceed2 = true;
-  //   if(cnicFrontImage.value == ''){
-  //     cnicFrontErrorVisibility.value = true;
-  //     proceed2 = false;
-  //   }
-  //   if(cnicBackImage.value == ''){
-  //     cnicBackErrorVisibility.value = true;
-  //     proceed2 = false;
-  //   }
-  //   if(shopLogoImage.value == ''){
-  //     shopImageErrorVisibility.value = true;
-  //     proceed2 = false;
-  //   }
-  //   return proceed2;
-  // }
+  //-----------------Country Field Data------------
+  TextEditingController countryController = TextEditingController();
+  TextEditingController searchController = TextEditingController();
+  List<String> allCountryList = [];
+  List countryIdList = [];
+  RxList<String> filteredCountryList = <String>[].obs;
+
+  Future<void> getCountryList() async {
+    var parseJson = await ApiBaseHelper().getMethod(url: Urls.country);
+    if (parseJson['success'] == true) {
+      allCountryList.clear();
+      filteredCountryList.clear();
+      List rawList = parseJson['data']['items'];
+
+      rawList.forEach((e) {
+        allCountryList.add(e['name'].toString());
+        countryIdList.add(e['_id'].toString());
+      });
+
+      //print country with Id for Test------
+      print(allCountryList);
+      print(countryIdList);
+    }
+  }
+
+  onSearch(String value) {
+    filteredCountryList.clear();
+    filteredCountryList.addAll(allCountryList
+        .where((e) => e.toLowerCase().contains(value.toLowerCase())));
+  }
+
+  String selectedCountryId = '';
+  getCountryId(String countryName) async {
+    selectedCountryId = '';
+
+    int i = allCountryList.indexWhere((e) => e == countryName);
+    selectedCountryId = countryIdList[i];
+    print("iiiiii ${i}    == $countryName ==== ${selectedCountryId}");
+    await getCityList(selectedCountryId);
+  }
+
+  resetValue() {
+    searchController.text = '';
+    filteredCountryList.clear();
+    filteredCountryList.addAll(allCountryList);
+  }
+
+  //-----------------City Field Data------------
+  TextEditingController cityController = TextEditingController();
+  TextEditingController citySearchController = TextEditingController();
+  List<String> allCityList = [];
+  List cityIdList = [];
+  RxList<String> filteredCityList = <String>[].obs;
+
+  Future<void> getCityList(String countryId) async {
+    var parseJson = await ApiBaseHelper()
+        .getMethod(url: "/places/cities?limit=0&country=$countryId");
+    if (parseJson['success'] == true) {
+      allCityList.clear();
+      filteredCityList.clear();
+      List rawList = parseJson['data']['items'];
+
+      rawList.forEach((e) {
+        allCityList.add(e['name'].toString());
+        cityIdList.add(e['_id'].toString());
+      });
+    }
+  }
+
+  onSearchCity(String value) {
+    filteredCityList.clear();
+    filteredCityList.addAll(allCountryList
+        .where((e) => e.toLowerCase().contains(value.toLowerCase())));
+  }
+
+  String selectedCityId = '';
+  getCityId(int index) {
+    selectedCityId = cityIdList[index];
+  }
+
+  resetValueCity() {
+    citySearchController.text = '';
+    filteredCityList.clear();
+    filteredCityList.addAll(allCityList);
+  }
 }

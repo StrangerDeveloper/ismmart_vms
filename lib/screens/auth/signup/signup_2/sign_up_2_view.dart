@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:ismmart_vms/helper/constants.dart';
 import 'package:ismmart_vms/widgets/image_layout_container.dart';
 import 'package:path/path.dart';
@@ -9,14 +8,14 @@ import 'package:ismmart_vms/widgets/custom_button.dart';
 import 'package:ismmart_vms/widgets/custom_textfield.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import '../../../../helper/global_variables.dart';
+import '../../../../helper/theme_helper.dart';
+import '../../../../widgets/custom_bottom_sheet.dart';
 import '../../../../widgets/custom_loading.dart';
-import '../signup_3/sign_up_3_view.dart';
 import 'sign_up_2_viewmodel.dart';
 
 class SignUp2View extends StatelessWidget {
   SignUp2View({Key? key}) : super(key: key);
   final SignUp2ViewModel viewModel = Get.put(SignUp2ViewModel());
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,13 +39,9 @@ class SignUp2View extends StatelessWidget {
                     createAVendorAccount(),
                     progress(),
                     shopNameField(),
-                    // shopCategoryField(),
-                    // shopDescriptionTextField(),
-                    // ntnTextField(),
-                    // shopPhoneNoTextField(),
-                    // ownerCNICField(),
-                    // countryPicker(),
-                    // cityPicker(),
+                    SizedBox(
+                      height: 10,
+                    ),
                     Obx(
                       () => ImageLayoutContainer(
                           required: false,
@@ -62,12 +57,38 @@ class SignUp2View extends StatelessWidget {
                               viewModel.shopImageErrorVisibility.value,
                           errorPrompt: 'Store Logo image is required'),
                     ),
-
                     storeSlug(),
                     storeType(),
                     shopAddressField(),
-                    countryField(),
-                    cityField(),
+                    // countryField(),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      child: CustomTextField1(
+                        title: 'Country',
+                        hintText: 'Select one',
+                        controller: viewModel.countryController,
+                        isDropDown: true,
+                        onTap: () {
+                          viewModel.resetValue();
+                          viewModel.getCountryList();
+                          itemsBottomSheet();
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      child: CustomTextField1(
+                        title: 'City',
+                        hintText: 'Select one',
+                        controller: viewModel.cityController,
+                        isDropDown: true,
+                        onTap: () {
+                          viewModel.resetValueCity();
+                          // viewModel.getCityList();
+                          itemsBottomSheetForCity();
+                        },
+                      ),
+                    ),
                     singup2Btn(),
                   ],
                 ),
@@ -179,12 +200,12 @@ class SignUp2View extends StatelessWidget {
 
   Widget storeSlug() {
     return Padding(
-      padding: const EdgeInsets.only(top: 16, bottom: 25),
+      padding: const EdgeInsets.only(top: 10, bottom: 25),
       child: CustomTextField1(
         keyboardType: TextInputType.text,
         title: 'Store Slug (non repeatable)',
         hintText: 'Al-Jannat Shopping Mall',
-        controller: viewModel.storeNameController,
+        controller: viewModel.storeSlugController,
         autoValidateMode: AutovalidateMode.onUserInteraction,
         // validator: (value) {
         //   return Validator().validateName(value, errorToPrompt: langKey.storeNameReq.tr);
@@ -194,99 +215,29 @@ class SignUp2View extends StatelessWidget {
   }
 
   Widget storeType() {
-    return CustomTextField1(
-      isDropDown: true,
-      keyboardType: TextInputType.text,
-      title: 'Store Type',
-      hintText: 'Select one',
-      controller: viewModel.storeNameController,
-      autoValidateMode: AutovalidateMode.onUserInteraction,
-      // validator: (value) {
-      //   return Validator().validateName(value, errorToPrompt: langKey.storeNameReq.tr);
-      // },
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 1),
+      child: CustomTextField1(
+        controller: viewModel.storeTypeController,
+        title: 'Store Type',
+        hintText: 'Select Store Type',
+        isDropDown: true,
+        onTap: () {
+          viewModel.geStoreTypeList();
+          CustomBottomSheet1(
+            selectedIndex: viewModel.storeTypeSelectedIndex.value,
+            list: viewModel.typeList,
+            onChanged: (value) {
+              viewModel.storeTypeSelectedIndex.value = value;
+              viewModel.storeTypeController.text = viewModel.typeList[value];
+              viewModel.storeTypeSelectedId.value =
+                  viewModel.storeTypeIdList[value];
+            },
+          ).show();
+        },
+      ),
     );
   }
-
-  // Widget shopCategoryField() {
-  //   return Obx(
-  //         () =>
-  //         Padding(
-  //           padding: const EdgeInsets.symmetric(vertical: 20.0),
-  //           child: Column(
-  //             crossAxisAlignment: CrossAxisAlignment.start,
-  //             children: [
-  //               Padding(
-  //                 padding: const EdgeInsets.only(bottom: 3),
-  //                 child: RichText(
-  //                   text: TextSpan(
-  //                       text: 'Store Type',
-  //                       style: GoogleFonts.dmSans(
-  //                         fontSize: 14,
-  //                         fontWeight: FontWeight.w700,
-  //                         color: newColorDarkBlack2,
-  //                       ),
-  //                       children: [
-  //                         TextSpan(
-  //                           text: '*',
-  //                           style: TextStyle(color: Colors.red),
-  //                         )
-  //                       ]
-  //                   ),
-  //                 ),
-  //               ),
-  //               DropdownSearch<CategoryModel>(
-  //                 popupProps: PopupProps.dialog(
-  //                   showSearchBox: true,
-  //                   dialogProps: DialogProps(
-  //                     shape: RoundedRectangleBorder(
-  //                       borderRadius: BorderRadius.circular(10),
-  //                     ),
-  //                   ),
-  //                   searchDelay: const Duration(milliseconds: 0),
-  //                   searchFieldProps: AppConstant.searchFieldProp(),
-  //                 ),
-  //                 items: viewModel.categoriesList,
-  //                 itemAsString: (model) => model.name ?? "",
-  //                 dropdownDecoratorProps: DropDownDecoratorProps(
-  //                   baseStyle: newFontStyle0.copyWith(
-  //                     color: newColorDarkBlack2,
-  //                     fontSize: 15,
-  //                   ),
-  //                   dropdownSearchDecoration: InputDecoration(
-  //                     contentPadding: EdgeInsets.only(top: 13.5),
-  //                     suffixIconColor: Color(0xffADBCCB),
-  //                     isDense: true,
-  //                     hintText: 'Choose Store Type',
-  //                     hintStyle: TextStyle(color: Colors.black),
-  //                     enabledBorder: UnderlineInputBorder(
-  //                       borderSide: BorderSide(color: Color(0xffEEEEEE)),
-  //                     ),
-  //                     focusedBorder: UnderlineInputBorder(
-  //                       borderSide: BorderSide(color: Color(0xff929AAB)),
-  //                     ),
-  //                   ),
-  //                 ),
-  //                 onChanged: (CategoryModel? newValue) {
-  //                   viewModel.selectedCategory.value = newValue!;
-  //                   viewModel.shopCategoryId.value = newValue.id!.toInt();
-  //                   viewModel.categoryErrorVisibility.value = false;
-  //                 },
-  //                 selectedItem: viewModel.selectedCategory.value,
-  //               ),
-  //               Visibility(
-  //                 visible: viewModel.categoryErrorVisibility.value,
-  //                 child: Text(
-  //                   langKey.categoryReq.tr,
-  //                   style: GoogleFonts.dmSans(
-  //                     color: Colors.red.shade700,
-  //                   ),
-  //                 ),
-  //               )
-  //             ],
-  //           ),
-  //         ),
-  //   );
-  // }
 
   Widget shopAddressField() {
     return Padding(
@@ -338,178 +289,6 @@ class SignUp2View extends StatelessWidget {
     );
   }
 
-  // Widget countryPicker() {
-  //   return Obx(
-  //     () => Column(
-  //       crossAxisAlignment: CrossAxisAlignment.start,
-  //       children: [
-  //         Padding(
-  //           padding: const EdgeInsets.only(bottom: 3),
-  //           child: RichText(
-  //             text: TextSpan(
-  //               text: 'Country',
-  //               style: GoogleFonts.dmSans(
-  //                 fontSize: 14,
-  //                 fontWeight: FontWeight.w700,
-  //                 color: newColorDarkBlack2,
-  //               ),
-  //               children: [
-  //                 TextSpan(
-  //                   text: ' *',
-  //                   style: TextStyle(color: Colors.red),
-  //                 )
-  //               ],
-  //             ),
-  //           ),
-  //         ),
-  //         DropdownSearch<CountryModel>(
-  //           popupProps: PopupProps.dialog(
-  //             showSearchBox: true,
-  //             dialogProps: DialogProps(
-  //               shape: RoundedRectangleBorder(
-  //                 borderRadius: BorderRadius.circular(10),
-  //               ),
-  //             ),
-  //             searchFieldProps: AppConstant.searchFieldProp(),
-  //           ),
-  //           items: cityViewModel.authController.countries,
-  //           itemAsString: (model) => model.name ?? "",
-  //           dropdownDecoratorProps: DropDownDecoratorProps(
-  //             baseStyle: newFontStyle0.copyWith(
-  //               color: newColorDarkBlack2,
-  //               fontSize: 15,
-  //             ),
-  //             dropdownSearchDecoration: InputDecoration(
-  //               contentPadding: EdgeInsets.only(top: 13.5),
-  //               suffixIconColor: Color(0xffADBCCB),
-  //               isDense: true,
-  //               hintText: langKey.chooseCountry.tr,
-  //               hintStyle: TextStyle(color: Colors.black),
-  //               enabledBorder: UnderlineInputBorder(
-  //                 borderSide: BorderSide(color: Color(0xffEEEEEE)),
-  //               ),
-  //               focusedBorder: UnderlineInputBorder(
-  //                 borderSide: BorderSide(color: Color(0xff929AAB)),
-  //               ),
-  //             ),
-  //           ),
-  //           onChanged: (CountryModel? newValue) {
-  //             cityViewModel.setSelectedCountry(newValue!);
-  //             viewModel.countryID.value = newValue.id!;
-  //             viewModel.cityID.value = 0;
-  //             cityViewModel.selectedCity.value = CountryModel();
-  //             cityViewModel.cityId.value = 0;
-  //             cityViewModel.authController.selectedCity.value = CountryModel();
-  //
-  //
-  //             viewModel.countryErrorVisibility.value = false;
-  //           },
-  //           selectedItem: authController.newAcc.value == true
-  //               ? cityViewModel.selectedCountry.value
-  //               : cityViewModel.authController.selectedCountry.value,
-  //         ),
-  //         Visibility(
-  //           visible: viewModel.countryErrorVisibility.value,
-  //           child: Text(
-  //             langKey.countryReq.tr,
-  //             style: GoogleFonts.dmSans(
-  //               color: Colors.red.shade700,
-  //             ),
-  //           ),
-  //         )
-  //       ],
-  //     ),
-  //   );
-  // }
-  //
-  // Widget cityPicker() {
-  //   return Padding(
-  //     padding: EdgeInsets.symmetric(vertical: 20),
-  //     child: Obx(
-  //       () => authController.cities.isEmpty
-  //           ? Container()
-  //           : authController.isLoading.isTrue
-  //               ? CustomLoading(
-  //                   isItForWidget: true,
-  //                   color: kPrimaryColor,
-  //                 )
-  //               : Column(
-  //                   crossAxisAlignment: CrossAxisAlignment.start,
-  //                   children: [
-  //                     Padding(
-  //                       padding: const EdgeInsets.only(bottom: 3),
-  //                       child: RichText(
-  //                         text: TextSpan(
-  //                           text: langKey.storeCity.tr,
-  //                           style: GoogleFonts.dmSans(
-  //                             fontSize: 14,
-  //                             fontWeight: FontWeight.w700,
-  //                             color: newColorDarkBlack2,
-  //                           ),
-  //                           children: [
-  //                             TextSpan(
-  //                               text: ' *',
-  //                               style: TextStyle(color: Colors.red),
-  //                             )
-  //                           ],
-  //                         ),
-  //                       ),
-  //                     ),
-  //                     DropdownSearch<CountryModel>(
-  //                       popupProps: PopupProps.dialog(
-  //                         showSearchBox: true,
-  //                         dialogProps: DialogProps(
-  //                           shape: RoundedRectangleBorder(
-  //                             borderRadius: BorderRadius.circular(10),
-  //                           ),
-  //                         ),
-  //                         searchFieldProps: AppConstant.searchFieldProp(),
-  //                       ),
-  //                       items: cityViewModel.authController.cities,
-  //                       itemAsString: (model) => model.name ?? "",
-  //                       dropdownDecoratorProps: DropDownDecoratorProps(
-  //                         baseStyle: newFontStyle0.copyWith(
-  //                           color: newColorDarkBlack2,
-  //                           fontSize: 15,
-  //                         ),
-  //                         dropdownSearchDecoration: InputDecoration(
-  //                           contentPadding: EdgeInsets.only(top: 13.5),
-  //                           suffixIconColor: Color(0xffADBCCB),
-  //                           isDense: true,
-  //                           hintText: langKey.chooseCountry.tr,
-  //                           enabledBorder: UnderlineInputBorder(
-  //                             borderSide: BorderSide(color: Color(0xffEEEEEE)),
-  //                           ),
-  //                           focusedBorder: UnderlineInputBorder(
-  //                             borderSide: BorderSide(color: Color(0xff929AAB)),
-  //                           ),
-  //                         ),
-  //                       ),
-  //                       onChanged: (CountryModel? newValue) {
-  //                         cityViewModel.selectedcity.value =
-  //                             newValue!.name ?? "";
-  //                         cityViewModel.setSelectedCity(newValue);
-  //                         viewModel.cityID.value = newValue.id!;
-  //                         viewModel.cityErrorVisibility.value = false;
-  //                       },
-  //                       selectedItem: authController.newAcc.value == true
-  //                           ? cityViewModel.selectedCity.value
-  //                           : cityViewModel.authController.selectedCity.value,
-  //                     ),
-  //                     Visibility(
-  //                       visible: viewModel.cityErrorVisibility.value,
-  //                       child: Text(
-  //                         langKey.cityReq.tr,
-  //                         style: GoogleFonts.dmSans(
-  //                           color: Colors.red.shade700,
-  //                         ),
-  //                       ),
-  //                     )
-  //                   ],
-  //                 ),
-  //     ),
-  //   );
-  // }
   Widget singup2Btn() {
     return Padding(
       padding: const EdgeInsets.only(top: 32),
@@ -535,10 +314,241 @@ class SignUp2View extends StatelessWidget {
                   ],
                 ),
                 onPressed: () {
-                  Get.to(SignUp3View());
+                  viewModel.signUpStep2();
+                  //Get.to(SignUp3View());
                 },
               ),
       ),
+    );
+  }
+
+  itemsBottomSheet() {
+    showModalBottomSheet(
+      context: Get.context!,
+      isScrollControlled: true,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+      constraints: BoxConstraints(maxHeight: Get.height * 0.9),
+      builder: (BuildContext context) {
+        return Padding(
+          padding: const EdgeInsets.fromLTRB(16, 10, 10, 3),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Icon(
+                    Icons.menu,
+                    color: ThemeHelper.blue1,
+                  ),
+                  const SizedBox(width: 10),
+                  const Text(
+                    'Select Country',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      color: ThemeHelper.blue1,
+                      fontSize: 16,
+                    ),
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    onPressed: () {
+                      Get.back();
+                    },
+                    icon: const Icon(
+                      Icons.close,
+                      color: Colors.red,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              CustomTextField1(
+                hintText: 'Search Country...',
+                controller: viewModel.searchController,
+                onChanged: (value) {
+                  viewModel.onSearch(value);
+                },
+              ),
+              Obx(() => (viewModel.filteredCountryList.isNotEmpty)
+                      ? Expanded(
+                          child: ListView.separated(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            itemCount: viewModel.filteredCountryList.length,
+                            itemBuilder: (context, index) {
+                              return InkWell(
+                                borderRadius: BorderRadius.circular(8),
+                                onTap: () {
+                                  viewModel.countryController.text =
+                                      viewModel.filteredCountryList[index];
+                                  viewModel.getCountryId(
+                                      viewModel.countryController.text);
+
+                                  Get.back();
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(12),
+                                  child: Text(
+                                      viewModel.filteredCountryList[index]),
+                                ),
+                              );
+                            },
+                            separatorBuilder: (context, index) {
+                              return const SizedBox(height: 3);
+                            },
+                          ),
+                        )
+                      : Expanded(
+                          child: ListView.separated(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            itemCount: viewModel.allCountryList.length,
+                            itemBuilder: (context, index) {
+                              return InkWell(
+                                borderRadius: BorderRadius.circular(8),
+                                onTap: () {
+                                  viewModel.countryController.text =
+                                      viewModel.allCountryList[index];
+                                  Get.back();
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(12),
+                                  child: Text(viewModel.allCountryList[index]),
+                                ),
+                              );
+                            },
+                            separatorBuilder: (context, index) {
+                              return const SizedBox(height: 3);
+                            },
+                          ),
+                        )
+
+                  // const Padding(
+                  //         padding: EdgeInsets.only(top: 30),
+                  //         child: Text('No Country Found'),
+                  //       ),
+                  )
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  //----------Bottom Sheet for City----------
+  itemsBottomSheetForCity() {
+    showModalBottomSheet(
+      context: Get.context!,
+      isScrollControlled: true,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+      constraints: BoxConstraints(maxHeight: Get.height * 0.9),
+      builder: (BuildContext context) {
+        return Padding(
+          padding: const EdgeInsets.fromLTRB(16, 10, 10, 3),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Icon(
+                    Icons.menu,
+                    color: ThemeHelper.blue1,
+                  ),
+                  const SizedBox(width: 10),
+                  const Text(
+                    'Select City',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      color: ThemeHelper.blue1,
+                      fontSize: 16,
+                    ),
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    onPressed: () {
+                      Get.back();
+                    },
+                    icon: const Icon(
+                      Icons.close,
+                      color: Colors.red,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              CustomTextField1(
+                hintText: 'Search City...',
+                controller: viewModel.citySearchController,
+                onChanged: (value) {
+                  viewModel.onSearch(value);
+                },
+              ),
+              Obx(() => (viewModel.filteredCityList.isNotEmpty)
+                      ? Expanded(
+                          child: ListView.separated(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            itemCount: viewModel.filteredCityList.length,
+                            itemBuilder: (context, index) {
+                              return InkWell(
+                                borderRadius: BorderRadius.circular(8),
+                                onTap: () {
+                                  viewModel.getCityId(index);
+                                  viewModel.cityController.text =
+                                      viewModel.filteredCityList[index];
+                                  var i = viewModel.cityIdList[index];
+                                  print(i);
+
+                                  Get.back();
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(12),
+                                  child:
+                                      Text(viewModel.filteredCityList[index]),
+                                ),
+                              );
+                            },
+                            separatorBuilder: (context, index) {
+                              return const SizedBox(height: 3);
+                            },
+                          ),
+                        )
+                      : Expanded(
+                          child: ListView.separated(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            itemCount: viewModel.allCityList.length,
+                            itemBuilder: (context, index) {
+                              return InkWell(
+                                borderRadius: BorderRadius.circular(8),
+                                onTap: () {
+                                  viewModel.cityController.text =
+                                      viewModel.allCityList[index];
+                                  Get.back();
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(12),
+                                  child: Text(viewModel.allCityList[index]),
+                                ),
+                              );
+                            },
+                            separatorBuilder: (context, index) {
+                              return const SizedBox(height: 3);
+                            },
+                          ),
+                        )
+
+                  // const Padding(
+                  //         padding: EdgeInsets.only(top: 30),
+                  //         child: Text('No Country Found'),
+                  //       ),
+                  )
+            ],
+          ),
+        );
+      },
     );
   }
 }

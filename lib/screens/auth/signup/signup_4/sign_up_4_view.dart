@@ -329,12 +329,12 @@ class SignUp4View extends StatelessWidget {
             ? const CustomLoading(isItBtn: true)
             : CustomRoundedTextBtn(
                 child: Text(
-                  'Test Button For Check Status',
+                  'Go to Login ',
                   style: newFontStyleSize14.copyWith(
                       fontWeight: FontWeight.w500, color: kWhiteColor),
                 ),
                 onPressed: () {
-                  //Get.to(AccountStatusView());
+                  Get.offAll(() => LogInView());
                 },
               ),
       ),

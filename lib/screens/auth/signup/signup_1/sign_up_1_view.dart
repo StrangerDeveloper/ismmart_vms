@@ -16,11 +16,11 @@ import '../../../../helper/validator.dart';
 import '../../../../widgets/custom_loading.dart';
 import '../../login/login_view.dart';
 import 'package:ismmart_vms/helper/languages/translations_key.dart' as langKey;
-import '../signup_2/sign_up_2_view.dart';
 import 'sign_up_1_viewmodel.dart';
 
 class SignUp1View extends StatelessWidget {
   SignUp1View({super.key});
+
   final SignUpScreen1ViewModel viewModel = Get.put(SignUpScreen1ViewModel());
 
   @override
@@ -110,19 +110,20 @@ class SignUp1View extends StatelessWidget {
   Widget titleAndBackBtn() {
     return SizedBox(
       width: double.infinity,
-      child: Stack(
-        alignment: Alignment.centerLeft,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Align(
-            alignment: Alignment.center,
-            child: Text(
-              'Sign Up',
-              style: newFontStyleSize24,
-            ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 10.0),
+            child: CustomBackButton(onTap: () {
+              Get.back();
+            }),
           ),
-          CustomBackButton(onTap: () {
-            Get.back();
-          }),
+          SizedBox(width: 100),
+          Text(
+            'Sign Up',
+            style: newFontStyleSize24,
+          ),
         ],
       ),
     );
@@ -180,10 +181,9 @@ class SignUp1View extends StatelessWidget {
         hintText: 'John Doe',
         controller: viewModel.nameController,
         autoValidateMode: AutovalidateMode.onUserInteraction,
-        // validator: (value) {
-        //   return Validator()
-        //       .validateName(value, errorToPrompt: langKey.FirstNameReq.tr);
-        // },
+        validator: (value) {
+          return Validator.validateDefaultField(value);
+        },
       ),
     );
   }
@@ -196,7 +196,7 @@ class SignUp1View extends StatelessWidget {
       controller: viewModel.emailController,
       autoValidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
-        return Validator().validateEmail(value);
+        return Validator.validateEmail(value);
       },
       keyboardType: TextInputType.emailAddress,
     );
@@ -250,7 +250,7 @@ class SignUp1View extends StatelessWidget {
                     color: Colors.black,
                     fontWeight: FontWeight.w700),
                 children: [
-                  TextSpan(text: ' *', style: TextStyle(color: Colors.red))
+                  // TextSpan(text: ' *', style: TextStyle(color: Colors.red))
                 ]),
           ),
         ),
@@ -303,8 +303,8 @@ class SignUp1View extends StatelessWidget {
 
   Widget cnicNumberField() {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 20),
-      child: CustomTextField3(
+      padding: const EdgeInsets.symmetric(vertical: 30),
+      child: CustomTextField1(
         keyboardType: TextInputType.number,
         inputFormatters: [
           FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
@@ -314,30 +314,9 @@ class SignUp1View extends StatelessWidget {
         hintText: '35404-4770789-7',
         controller: viewModel.cnicController,
         autoValidateMode: AutovalidateMode.onUserInteraction,
-        // validator: (value) {
-        //   return Validator().validateCNIC(value);
-        // },
-      ),
-    );
-  }
-
-  Widget passwordTextField() {
-    return Obx(
-      () => CustomTextField3(
-        controller: viewModel.passwordController,
-        title: 'Password',
-        hintText: 'Hello@123',
-        autoValidateMode: AutovalidateMode.onUserInteraction,
-        // validator: (value) {
-        //   return Validator().validatePassword(value);
-        // },
-        obscureText: viewModel.obscurePassword.value ? true : false,
-        suffixIcon: ObscureSuffixIcon(
-          isObscured: viewModel.obscurePassword.value ? true : false,
-          onPressed: () {
-            viewModel.obscurePassword.value = !viewModel.obscurePassword.value;
-          },
-        ),
+        validator: (value) {
+          return Validator.validateCNIC(value);
+        },
       ),
     );
   }
@@ -376,21 +355,42 @@ class SignUp1View extends StatelessWidget {
     );
   }
 
+  Widget passwordTextField() {
+    return Obx(
+      () => CustomTextField1(
+        controller: viewModel.passwordController,
+        title: 'Password',
+        hintText: 'Hello@123',
+        autoValidateMode: AutovalidateMode.onUserInteraction,
+        validator: (value) {
+          return Validator.validatePassword(value);
+        },
+        obscureText: viewModel.obscurePassword.value ? true : false,
+        suffixIconButton: ObscureSuffixIcon(
+          isObscured: viewModel.obscurePassword.value ? true : false,
+          onPressed: () {
+            viewModel.obscurePassword.value = !viewModel.obscurePassword.value;
+          },
+        ),
+      ),
+    );
+  }
+
   Widget confirmPasswordTextField() {
     return Obx(
       () => Padding(
         padding: const EdgeInsets.symmetric(vertical: 20),
-        child: CustomTextField3(
+        child: CustomTextField1(
           controller: viewModel.confirmPasswordController,
           title: 'Confirm Password',
           hintText: '*********',
           autoValidateMode: AutovalidateMode.onUserInteraction,
-          // validator: (value) {
-          //   return Validator().validateConfirmPassword(
-          //       value, viewModel.passwordController.text);
-          // },
+          validator: (value) {
+            return Validator.validateConfirmPassword(
+                value, viewModel.passwordController.text);
+          },
           obscureText: viewModel.obscureConfirmPassword.value ? true : false,
-          suffixIcon: ObscureSuffixIcon(
+          suffixIconButton: ObscureSuffixIcon(
             isObscured: viewModel.obscureConfirmPassword.value ? true : false,
             onPressed: () {
               viewModel.obscureConfirmPassword.value =
@@ -415,7 +415,8 @@ class SignUp1View extends StatelessWidget {
                       fontWeight: FontWeight.w500, color: kWhiteColor),
                 ),
                 onPressed: () {
-                  Get.to(SignUp2View());
+                  viewModel.signUpStep1();
+                  //  Get.to(SignUp2View());
                 },
               ),
       ),

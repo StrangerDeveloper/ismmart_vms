@@ -90,7 +90,8 @@ class ImageLayoutContainer extends StatelessWidget {
                 ),
               ),
               Container(
-                padding: const EdgeInsets.only(left: 10, top: 17),
+                alignment: Alignment.centerLeft,
+                // padding: const EdgeInsets.only(left: 10, top: 17),
                 width: 200,
                 height: 37,
                 decoration: const ShapeDecoration(

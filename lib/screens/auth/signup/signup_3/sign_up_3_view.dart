@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/models/bank_details_model.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:ismmart_vms/screens/auth/signup/signup_3/sign_up_3_viewmodel.dart';
 import 'package:ismmart_vms/widgets/custom_checkbox.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
@@ -12,8 +11,8 @@ import 'package:ismmart_vms/widgets/custom_button.dart';
 import 'package:ismmart_vms/widgets/custom_textfield.dart';
 
 import '../../../../helper/global_variables.dart';
+import '../../../../helper/theme_helper.dart';
 import '../../../../widgets/custom_loading.dart';
-import '../signup_4/sign_up_4_view.dart';
 
 class SignUp3View extends StatelessWidget {
   SignUp3View({super.key});
@@ -42,10 +41,24 @@ class SignUp3View extends StatelessWidget {
 
                     createAVendorAccount(),
                     progress(),
-                    bankNameTextField(),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 1),
+                      child: CustomTextField1(
+                        title: 'Bank Name',
+                        hintText: 'e.g Habib Bank',
+                        controller: viewModel.bankController,
+                        isDropDown: true,
+                        onTap: () {
+                          viewModel.getBankList();
+                          // viewModel.resetValue();
+
+                          itemsBottomSheet();
+                        },
+                      ),
+                    ),
                     bankAccountTitleTextField(),
                     accountNumberTextField(),
-                    bankAccountNumberTextField(),
+                    bankIBANNumberTextField(),
                     bankAccountsList(context),
                     // Obx(() => branchCodeTextField()),
                     const SizedBox(height: 20),
@@ -184,19 +197,6 @@ class SignUp3View extends StatelessWidget {
     );
   }
 
-  Widget bankNameTextField() {
-    return CustomTextField1(
-      title: 'Bank Name',
-      hintText: 'e.g Habib Bank',
-      controller: viewModel.bankNameController,
-      autoValidateMode: AutovalidateMode.onUserInteraction,
-      // validator: (value) {
-      //   return Validator().validateName(value, errorToPrompt: langKey.bankNameReq.tr);
-      // },
-      keyboardType: TextInputType.text,
-    );
-  }
-
   Widget bankAccountTitleTextField() {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 25),
@@ -229,7 +229,7 @@ class SignUp3View extends StatelessWidget {
     );
   }
 
-  Widget bankAccountNumberTextField() {
+  Widget bankIBANNumberTextField() {
     return CustomTextField1(
       title: 'IBAN',
       hintText: 'PK51MEZN0003190106294217',
@@ -367,7 +367,8 @@ class SignUp3View extends StatelessWidget {
                       fontWeight: FontWeight.w500, color: kWhiteColor),
                 ),
                 onPressed: () {
-                  Get.to(SignUp4View());
+                  viewModel.signUp3Btn();
+                  // Get.to(SignUp4View());
                 },
               ),
       ),
@@ -428,78 +429,115 @@ class SignUp3View extends StatelessWidget {
     );
   }
 
-  // Future showTermsAndConditionDialog() async {
-  //   return showDialog(
-  //     barrierDismissible: true,
-  //     context: Get.context!,
-  //     builder: (BuildContext context) {
-  //       return Dialog(
-  //         shape: RoundedRectangleBorder(
-  //           borderRadius: BorderRadius.circular(8),
-  //         ),
-  //         insetPadding: EdgeInsets.symmetric(horizontal: 18, vertical: 20),
-  //         child: Stack(
-  //           alignment: Alignment.topRight,
-  //           children: [
-  //             SingleChildScrollView(
-  //               padding: EdgeInsets.only(top: 20),
-  //               child: Column(
-  //                 mainAxisSize: MainAxisSize.min,
-  //                 children: [
-  //                   Text(
-  //                     'Terms & conditions',
-  //                     style: headline1.copyWith(
-  //                       fontSize: 20,
-  //                       fontWeight: FontWeight.w800,
-  //                     ),
-  //                   ),
-  //                   Divider(),
-  //                   Padding(
-  //                     padding: const EdgeInsets.fromLTRB(18, 0, 22, 16),
-  //                     child: Column(
-  //                       crossAxisAlignment: CrossAxisAlignment.start,
-  //                       children: viewModel.getTermConditionData().map((e) {
-  //                         return Column(
-  //                           crossAxisAlignment: CrossAxisAlignment.start,
-  //                           mainAxisAlignment: MainAxisAlignment.spaceAround,
-  //                           children: [
-  //                             AppConstant.spaceWidget(height: 15),
-  //                             if (e['header'] != '')
-  //                               CustomText(
-  //                                 title: "${e['header']}",
-  //                                 style: headline2.copyWith(
-  //                                   fontSize: 17,
-  //                                 ),
-  //                               ),
-  //                             if (e['header'] != '') Divider(),
-  //                             if (e['body'].toString().isNotEmpty)
-  //                               Text(
-  //                                 "${e['body'].toString()}",
-  //                                 style: GoogleFonts.poppins(
-  //                                   fontSize: 13.5,
-  //                                   color: kDarkColor,
-  //                                   height: 1.7,
-  //                                 ),
-  //                               ),
-  //                           ],
-  //                         );
-  //                       }).toList(),
-  //                     ),
-  //                   ),
-  //                 ],
-  //               ),
-  //             ),
-  //
-  //             IconButton(
-  //               onPressed: () {
-  //                 Get.back();
-  //               },
-  //               icon: Icon(Icons.close),
-  //             ),
-  //           ],
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
+  itemsBottomSheet() {
+    showModalBottomSheet(
+      context: Get.context!,
+      isScrollControlled: true,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+      constraints: BoxConstraints(maxHeight: Get.height * 0.9),
+      builder: (BuildContext context) {
+        return Padding(
+          padding: const EdgeInsets.fromLTRB(16, 10, 10, 3),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Icon(
+                    Icons.menu,
+                    color: ThemeHelper.blue1,
+                  ),
+                  const SizedBox(width: 10),
+                  const Text(
+                    'Select Country',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      color: ThemeHelper.blue1,
+                      fontSize: 16,
+                    ),
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    onPressed: () {
+                      Get.back();
+                    },
+                    icon: const Icon(
+                      Icons.close,
+                      color: Colors.red,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              CustomTextField1(
+                hintText: 'Search Country...',
+                controller: viewModel.searchController,
+                onChanged: (value) {
+                  viewModel.onSearch(value);
+                },
+              ),
+              Obx(() => (viewModel.filteredBankList.isNotEmpty)
+                      ? Expanded(
+                          child: ListView.separated(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            itemCount: viewModel.filteredBankList.length,
+                            itemBuilder: (context, index) {
+                              return InkWell(
+                                borderRadius: BorderRadius.circular(8),
+                                onTap: () {
+                                  viewModel.bankController.text =
+                                      viewModel.filteredBankList[index];
+
+                                  Get.back();
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(12),
+                                  child:
+                                      Text(viewModel.filteredBankList[index]),
+                                ),
+                              );
+                            },
+                            separatorBuilder: (context, index) {
+                              return const SizedBox(height: 3);
+                            },
+                          ),
+                        )
+                      : Expanded(
+                          child: ListView.separated(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            itemCount: viewModel.allBankist.length,
+                            itemBuilder: (context, index) {
+                              return InkWell(
+                                borderRadius: BorderRadius.circular(8),
+                                onTap: () {
+                                  viewModel.bankController.text =
+                                      viewModel.allBankist[index];
+                                  Get.back();
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(12),
+                                  child: Text(viewModel.allBankist[index]),
+                                ),
+                              );
+                            },
+                            separatorBuilder: (context, index) {
+                              return const SizedBox(height: 3);
+                            },
+                          ),
+                        )
+
+                  // const Padding(
+                  //         padding: EdgeInsets.only(top: 30),
+                  //         child: Text('No Country Found'),
+                  //       ),
+                  )
+            ],
+          ),
+        );
+      },
+    );
+  }
 }

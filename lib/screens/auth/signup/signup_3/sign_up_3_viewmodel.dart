@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../../helper/api_base_helper.dart';
+import '../../../../helper/urls.dart';
 import '../../../../widgets/pick_image.dart';
 import 'package:ismmart_vms/models/bank_details_model.dart';
 
+import '../signup_1/sign_up_1_viewmodel.dart';
+import '../signup_2/sign_up_2_viewmodel.dart';
 import '../signup_4/sign_up_4_view.dart';
+
+import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 
 class SignUp3ViewModel extends GetxController {
   GlobalKey<FormState> vendorSignUp3FormKey = GlobalKey<FormState>();
@@ -22,6 +29,7 @@ class SignUp3ViewModel extends GetxController {
   @override
   void onInit() {
     // params.value = Get.arguments['shopDetails'];
+    getBankList();
     super.onInit();
   }
 
@@ -33,77 +41,101 @@ class SignUp3ViewModel extends GetxController {
     }
   }
 
-  signUp() async {
+  Map<String, String> param = {};
+  Future<void> signUp3Btn() async {
     if (vendorSignUp3FormKey.currentState!.validate()) {
+      param = Get.arguments;
       // GlobalVariable.showLoader.value = true;
-      params.addAll({
-        'bankName': bankNameController.text,
-        'accountTitle': bankAccTitleController.text,
-        'accountNumber': bankAccNumberController.text,
-        'membership': 'Free',
-        'premium': 'false',
+      param['banks[0][name]'] = bankNameController.text;
+      param['banks[0][title]'] = bankAccTitleController.text;
+      param['banks[0][iban'] = bankAccNumberController.text;
+      param['step'] = '3';
+      print(param);
+      var parseJson = await ApiBaseHelper().getMethod(url: Urls.bank);
+      print(parseJson);
+      if (parseJson['success'] == true) {
+        finalRegistration(param);
+      }
+    }
+  }
+
+  Future<void> finalRegistration(Map<String, String> param) async {
+    final SignUpScreen1ViewModel _viewModel1 =
+        Get.put(SignUpScreen1ViewModel());
+    final SignUp2ViewModel _viewModel2 = Get.put(SignUp2ViewModel());
+    param['step'] = '4';
+    print(param);
+
+    //-------Images Files add of All signup Steps------------
+    List<http.MultipartFile> fileList = [];
+    fileList.add(
+      await http.MultipartFile.fromPath(
+        'cnicImages',
+        _viewModel1.cnicFrontImage.value!,
+        contentType: MediaType.parse('image/jpeg'),
+      ),
+    );
+    fileList.add(
+      await http.MultipartFile.fromPath(
+        'cnicImages',
+        _viewModel1.cnicBackImage.value!,
+        contentType: MediaType.parse('image/jpeg'),
+      ),
+    );
+    fileList.add(
+      await http.MultipartFile.fromPath(
+        'storeImage',
+        _viewModel2.shopLogoImage.value!,
+        contentType: MediaType.parse('image/jpeg'),
+      ),
+    );
+
+    var parsedJson = await ApiBaseHelper()
+        .postMethodForImage(url: Urls.register, files: fileList, fields: param);
+
+    if (parsedJson['success'] == true) {
+      print("---------successfully Applied for Registraion---------");
+      Get.offAll(() => SignUp4View());
+    }
+  }
+
+  //-----------------Bank Field Data------------
+  TextEditingController bankController = TextEditingController();
+  TextEditingController searchController = TextEditingController();
+  List<String> allBankist = [];
+  List bankIdList = [];
+  RxList<String> filteredBankList = <String>[].obs;
+
+  Future<void> getBankList() async {
+    filteredBankList.clear();
+    allBankist.clear();
+    var parseJson = await ApiBaseHelper().getMethod(url: Urls.bank);
+    if (parseJson['success'] == true) {
+      allBankist.clear();
+      filteredBankList.clear();
+      List rawList = parseJson['data']['items'];
+
+      rawList.forEach((e) {
+        allBankist.add(e['name'].toString());
+        bankIdList.add(e['_id'].toString());
       });
 
-      params.addIf(
-          enableBranchCode.value, 'branchCode', branchCodeController.text);
-
-      print(params);
-
-      Get.offAll(() => SignUp4View());
-
-      //   List<http.MultipartFile> fileList = [];
-      //   fileList.add(
-      //       await http.MultipartFile.fromPath(
-      //           'cnicFront',
-      //           params['cnicFront']!,
-      //           contentType: MediaType.parse('image/jpeg')
-      //       )
-      //   );
-      //   fileList.addAll({
-      //     await http.MultipartFile.fromPath(
-      //         'storeImage',
-      //         params['storeImage']!,
-      //         contentType: MediaType.parse('image/jpeg')
-      //     ),
-      //     await http.MultipartFile.fromPath(
-      //         'cnicBack',
-      //         params['cnicBack']!,
-      //         contentType: MediaType.parse('image/jpeg')
-      //     ),
-      //     await http.MultipartFile.fromPath(
-      //         'chequeImage',
-      //         bankChequeImage.value,
-      //         contentType: MediaType.parse('image/jpeg')
-      //     )
-      //   });
-      //   ApiBaseHelper().postMethodForImage(
-      //       url: 'auth/vendor/register',
-      //       files: fileList,
-      //       fields: params,
-      //     withAuthorization: true
-      //   ).then((parsedJson) async {
-      //     GlobalVariable.showLoader.value = false;
-      //     if(parsedJson['success'] == true){
-      //       AppConstant.displaySnackBar(
-      //       langKey.successTitle.tr,
-      //         parsedJson['message']
-      //       );
-      //       int count = 0;
-      //       Get.until((route) => count++ >= 2);
-      //       Get.toNamed(Routes.vendorSignUp4, arguments: {
-      //         'fromSettings': false
-      //       });
-      //     } else{
-      //       AppConstant.displaySnackBar(
-      //           langKey.errorTitle.tr,
-      //           parsedJson['message']
-      //       );
-      //     }
-      //   }).catchError((e){
-      //     GlobalVariable.showLoader.value = false;
-      //     AppConstant.displaySnackBar(langKey.errorTitle.tr, e);
-      // //    GlobalVariable.internetErr(true);
-      //   });
+      //print country with Id for Test------
+      print(allBankist);
+      print(bankIdList);
     }
+  }
+
+  onSearch(String value) {
+    filteredBankList.clear();
+    filteredBankList.addAll(
+        allBankist.where((e) => e.toLowerCase().contains(value.toLowerCase())));
+  }
+
+  resetValue() {
+    searchController.text = '';
+    filteredBankList.clear();
+    allBankist.clear();
+    filteredBankList.addAll(allBankist);
   }
 }
