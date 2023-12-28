@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/theme_helper.dart';
-import 'package:ismmart_vms/screens/add_location/add_location_view.dart';
 import 'package:ismmart_vms/screens/location_list/location_list_viewmodel.dart';
 import 'package:ismmart_vms/widgets/loader_view.dart';
 
@@ -245,14 +244,14 @@ class LocationListView extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Text(
-                          viewModel.dataList[index].phone ?? 'N/A',
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 10,
-                            color: ThemeHelper.grey2,
-                          ),
-                        ),
+                        // Text(
+                        //   viewModel.dataList[index].phone ?? 'N/A',
+                        //   style: const TextStyle(
+                        //     fontWeight: FontWeight.w500,
+                        //     fontSize: 10,
+                        //     color: ThemeHelper.grey2,
+                        //   ),
+                        // ),
                       ],
                     ),
                   )

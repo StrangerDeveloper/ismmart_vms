@@ -19,7 +19,6 @@ class ApiBaseHelper {
     required String url
   }) async {
     try {
-      print(header);
       Uri urlValue = Uri.parse(_baseUrl + url);
       CommonFunction.debugPrint('*********************** Request ********************************');
       CommonFunction.debugPrint(urlValue);
@@ -37,7 +36,8 @@ class ApiBaseHelper {
 
       Map<String, dynamic> parsedJSON = jsonDecode(response.body);
       return parsedJSON;
-    } on SocketException catch (_) {
+    } on SocketException catch (e) {
+      print(e);
       GlobalVariable.showLoader.value = false;
       CustomSnackBar.showSnackBar(title: 'Error', message: Errors.noInternetError);
       throw Errors.noInternetError;
@@ -62,20 +62,14 @@ class ApiBaseHelper {
   Future<dynamic> postMethod({
     required String url,
     Object? body,
-    bool withBearer = false,
-    bool withAuthorization = false,
   }) async {
     try {
-      Map<String, String> header = {'Content-Type': 'application/json'};
-      if (withAuthorization) {
-        header['Authorization'] = withBearer ? 'Bearer ${GlobalVariable.token}' : GlobalVariable.token;
-      }
+
       if (body != null) {
         body = jsonEncode(body);
       }
       Uri urlValue = Uri.parse(_baseUrl + url);
-      CommonFunction.debugPrint(
-          '*********************** Request ********************************');
+      CommonFunction.debugPrint('*********************** Request ********************************');
       CommonFunction.debugPrint(urlValue);
       CommonFunction.debugPrint(body);
 
