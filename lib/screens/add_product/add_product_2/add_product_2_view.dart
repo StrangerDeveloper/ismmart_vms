@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/screens/add_product/add_product_1/add_product_1_view.dart';
 import 'package:ismmart_vms/screens/add_product/add_product_2/add_product_2_viewmodel.dart';
+import 'package:ismmart_vms/screens/add_product/add_product_2/location_inventory_view.dart';
 import 'package:ismmart_vms/widgets/custom_button.dart';
 
 import '../../../helper/constants.dart';
 import '../../../widgets/custom_dropdown.dart';
 import '../../../widgets/custom_textfield.dart';
+import '../../../widgets/stepperText.dart';
 import '../../../widgets/widget_models/variant_options_field_model.dart';
 
 class AddProduct2View extends StatelessWidget {
@@ -25,14 +27,20 @@ class AddProduct2View extends StatelessWidget {
           physics: const ScrollPhysics(),
           child: Column(
             children: [
-              // stepperText(),
+              stepperText(),
               variantsContainer(context),
-              inventoryContainer(),
+              //if variantAdditionField is clicked and data populated then show the variantsContainer else show the inventoryContainer
+              Obx(() => viewModel.showVariantsTable.value
+                  ? variantsContainer(context)
+                  : inventoryContainer()),
+              //inventoryContainer(),
               Padding(
                 padding: const EdgeInsets.only(top: 15, bottom: 5),
                 child: CustomTextBtn(
                   title: 'Save & Next',
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.to(() => LocationInventoryView());
+                  },
                 ),
               ),
               CustomTextBtn(
@@ -206,8 +214,12 @@ class AddProduct2View extends StatelessWidget {
             )
           : TextButton(
               onPressed: () async {
-                viewModel.listOfOptionsAdded.add(VariantsOptionsFieldModel(
-                    optionName: '', optionValues: [TextEditingController()]));
+                viewModel.listOfOptionsAdded.add(
+                  VariantsOptionsFieldModel(
+                    optionName: '',
+                    optionValues: [TextEditingController()],
+                  ),
+                );
                 await variantSelectionDialog();
               },
               child: Align(
@@ -229,7 +241,7 @@ class AddProduct2View extends StatelessWidget {
         backgroundColor: Colors.white,
         builder: (BuildContext context) {
           return Padding(
-            padding: const EdgeInsets.all(10),
+            padding: MediaQuery.of(context).viewInsets,
             child: Form(
               key: viewModel.variantsFormKey,
               child: SingleChildScrollView(

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
+
 import '../helper/constants.dart';
-import '../helper/resourses/app_colors.dart';
 import 'custom_text.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -67,6 +67,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize => Size.fromHeight(height!);
+
   _getStyle() {
     switch (styleType) {
       case Style.bgShadow:
@@ -74,10 +75,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           height: 44.v,
           width: double.maxFinite,
           decoration: BoxDecoration(
-            color: whiteA700,
+            // color: whiteA700,
             boxShadow: [
               BoxShadow(
-                color: black900.withOpacity(0.05),
+                // color: black900.withOpacity(0.05),
                 spreadRadius: 2.h,
                 blurRadius: 2.h,
                 offset: const Offset(0, 1),
@@ -90,10 +91,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           height: 82.v,
           width: double.maxFinite,
           decoration: BoxDecoration(
-            color: whiteA700,
+            // color: whiteA700,
             boxShadow: [
               BoxShadow(
-                color: black900.withOpacity(0.08),
+                // color: black900.withOpacity(0.08),
                 spreadRadius: 2.h,
                 blurRadius: 2.h,
                 offset: const Offset(0, 1),
@@ -106,8 +107,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           height: 55.v,
           width: double.maxFinite,
           decoration: BoxDecoration(
-            color: whiteA700,
-          ),
+              // color: whiteA700,
+              ),
         );
       default:
         return null;
@@ -163,6 +164,7 @@ class CustomAppBar1 extends StatelessWidget implements PreferredSizeWidget {
         mediaQueryData.size.width,
         height ?? 44.v,
       );
+
   _getStyle() {
     switch (styleType) {
       case Style.bgShadow:
@@ -170,10 +172,10 @@ class CustomAppBar1 extends StatelessWidget implements PreferredSizeWidget {
           height: 44.v,
           width: double.maxFinite,
           decoration: BoxDecoration(
-            color: whiteA700,
+            // color: whiteA700,
             boxShadow: [
               BoxShadow(
-                color: black900.withOpacity(0.05),
+                // color: black900.withOpacity(0.05),
                 spreadRadius: 2.h,
                 blurRadius: 2.h,
                 offset: const Offset(0, 1),
@@ -186,10 +188,10 @@ class CustomAppBar1 extends StatelessWidget implements PreferredSizeWidget {
           height: 82.v,
           width: double.maxFinite,
           decoration: BoxDecoration(
-            color: whiteA700,
+            // color: whiteA700,
             boxShadow: [
               BoxShadow(
-                color: black900.withOpacity(0.08),
+                // color: black900.withOpacity(0.08),
                 spreadRadius: 2.h,
                 blurRadius: 2.h,
                 offset: const Offset(0, 1),
@@ -202,13 +204,63 @@ class CustomAppBar1 extends StatelessWidget implements PreferredSizeWidget {
           height: 55.v,
           width: double.maxFinite,
           decoration: BoxDecoration(
-            color: whiteA700,
-          ),
+              // color: whiteA700,
+              ),
         );
       default:
         return null;
     }
   }
+}
+
+class CustomAppBar2 extends StatelessWidget implements PreferredSizeWidget {
+  final String? title;
+  final bool showBackBtn;
+  final Color? appBarColor;
+  final List<Widget>? actions;
+  final PreferredSizeWidget? bottom;
+  final TextStyle? titleTextStyle;
+
+  const CustomAppBar2({
+    super.key,
+    this.title,
+    this.appBarColor,
+    this.actions,
+    this.showBackBtn = true,
+    this.bottom,
+    this.titleTextStyle,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      title: title != null
+          ? Text(
+              title!,
+              style: titleTextStyle,
+            )
+          : null,
+      backgroundColor: appBarColor,
+      leading: showBackBtn
+          ? IconButton(
+              onPressed: () {
+                Get.back();
+              },
+              icon: Icon(
+                Icons.arrow_back_ios_new_rounded,
+                color: appBarColor == null ? Colors.black : Colors.white,
+                size: 16,
+              ),
+            )
+          : null,
+      actions: actions,
+      bottom: bottom,
+    );
+  }
+
+  @override
+  Size get preferredSize => Size.fromHeight(
+      kToolbarHeight + (bottom == null ? 0 : kBottomNavigationBarHeight));
 }
 
 enum Style {

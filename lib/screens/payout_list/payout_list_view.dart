@@ -2,11 +2,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ismmart_vms/helper/common_function.dart';
 import 'package:ismmart_vms/helper/theme_helper.dart';
 import 'package:ismmart_vms/screens/create_payout/create_payout_view.dart';
 import 'package:ismmart_vms/screens/payout_list/payout_list_viewmodel.dart';
 
 import '../../widgets/custom_button.dart';
+import '../../widgets/custom_radiobtn.dart';
 import '../../widgets/custom_textfield.dart';
 import '../../widgets/loader_view.dart';
 import '../product_detail/product_detail_view.dart';
@@ -29,21 +31,12 @@ class PayoutListView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               topBar(),
-              topBar2(),
-              const Padding(
-                padding: EdgeInsets.only(left: 17),
-                child: Text(
-                  '1 - 20 of 50',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: ThemeHelper.grey2,
-                  ),
-                ),
-              ),
+              searchTxtField(),
+              pageNoView(),
               listView(),
             ],
           ),
-          LoaderView(),
+          const LoaderView(),
         ],
       ),
     );
@@ -51,7 +44,7 @@ class PayoutListView extends StatelessWidget {
 
   Widget topBar() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 16, 16, 10),
+      padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -61,43 +54,9 @@ class PayoutListView extends StatelessWidget {
               Get.to(() => CreatePayoutView());
             },
             icon: CupertinoIcons.plus,
-            title: ' Create Payouts ',
+            title: 'Add Payouts',
           ),
           Container(
-            padding: const EdgeInsets.all(2),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(
-                color: ThemeHelper.grey1,
-              ),
-            ),
-            child: CustomIconBtn(
-              icon: Icons.more_vert_rounded,
-              onTap: () {},
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget topBar2() {
-    return Padding(
-      padding: const EdgeInsets.only(left: 16, right: 16, bottom: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: CustomTextField1(
-              hintText: 'Select the Status',
-              readOnly: true,
-              isDropDown: true,
-              filled: false,
-              onTap: () {},
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.only(left: 12),
             padding: const EdgeInsets.all(2),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
@@ -107,13 +66,23 @@ class PayoutListView extends StatelessWidget {
             ),
             child: Row(
               children: [
-                CustomIconBtn(
-                  icon: CupertinoIcons.search,
-                  onTap: () {},
+                Obx(
+                      () => CustomIconBtn2(
+                    icon: CupertinoIcons.search,
+                    color: viewModel.showSearchTxtField.value
+                        ? ThemeHelper.blue1
+                        : null,
+                    onTap: () {
+                      viewModel.showSearchTxtField.value =
+                      !viewModel.showSearchTxtField.value;
+                    },
+                  ),
                 ),
                 CustomIconBtn(
                   icon: Icons.filter_list_rounded,
-                  onTap: () {},
+                  onTap: () {
+                    filterBottomSheet();
+                  },
                 ),
               ],
             ),
@@ -123,13 +92,65 @@ class PayoutListView extends StatelessWidget {
     );
   }
 
+
+
+  Widget searchTxtField() {
+    return Obx(
+          () => viewModel.showSearchTxtField.value
+          ? Padding(
+        padding: const EdgeInsets.all(16),
+        child: CustomTextField1(
+          controller: viewModel.searchController,
+          filled: false,
+          prefixIcon: CupertinoIcons.search,
+          hintText: 'Filter by name',
+          onFieldSubmitted: (value) {
+            viewModel.searchTxtFieldSubmitted(value);
+          },
+          suffixIconButton: IconButton(
+            visualDensity: VisualDensity.compact,
+            onPressed: () {
+              viewModel.searchController.clear();
+              viewModel.searchTxtFieldSubmitted('');
+            },
+            icon: const Icon(
+              Icons.close,
+              color: ThemeHelper.grey2,
+            ),
+          ),
+        ),
+      )
+          : const SizedBox(height: 16),
+    );
+  }
+
+  Widget pageNoView(){
+    return Padding(
+      padding: const EdgeInsets.only(left: 16),
+      child: Obx(
+            () => Text(
+          '${viewModel.pageNo} of ${viewModel.totalPages.value}',
+          style: const TextStyle(
+            fontSize: 12,
+            color: ThemeHelper.grey2,
+          ),
+        ),
+      ),
+    );
+  }
+
+
   Widget listView() {
     return Obx(
-      () => viewModel.payoutList.isNotEmpty
+          () => viewModel.dataList.isNotEmpty
           ? Expanded(
+        child: Column(
+          children: [
+            Expanded(
               child: ListView.separated(
+                controller: viewModel.scrollController,
                 padding: const EdgeInsets.all(16),
-                itemCount: viewModel.payoutList.length,
+                itemCount: viewModel.dataList.length,
                 itemBuilder: (context, int index) {
                   return listViewItem(index);
                 },
@@ -141,10 +162,20 @@ class PayoutListView extends StatelessWidget {
                   );
                 },
               ),
-            )
-          : const Center(
-              child: Text('No Data Found'),
             ),
+            if (viewModel.paginationLoader.value)
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Center(
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                ),
+              )
+          ],
+        ),
+      )
+          : const Center(
+        child: Text('No Data Found'),
+      ),
     );
   }
 
@@ -156,7 +187,7 @@ class PayoutListView extends StatelessWidget {
       child: InkWell(
         borderRadius: borderRadius,
         onTap: () {
-          Get.to(() => ProductDetailView());
+          // Get.to(() => ProductDetailView());
         },
         child: Padding(
           padding:
@@ -201,9 +232,9 @@ class PayoutListView extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Row(
+                    Row(
                       children: [
-                        Expanded(
+                        const Expanded(
                           child: Text(
                             'Store Name',
                             style: TextStyle(
@@ -214,9 +245,9 @@ class PayoutListView extends StatelessWidget {
                         ),
                         Expanded(
                           child: Text(
-                            'Rs. 165,820.00',
+                            '${viewModel.dataList[index].amount ?? 0}',
                             textAlign: TextAlign.right,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
                             ),
@@ -224,31 +255,31 @@ class PayoutListView extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 3, bottom: 3),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 3, bottom: 3),
                       child: Text(
-                        'Vendor Name',
-                        style: TextStyle(
+                        '${viewModel.dataList[index].amount ?? 0}',
+                        style: const TextStyle(
                           color: ThemeHelper.red1,
                           fontSize: 10,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
                     ),
-                    const Row(
+                    Row(
                       children: [
                         Text(
-                          '\u25CF Bank Transfer',
-                          style: TextStyle(
+                          '\u25CF ${viewModel.dataList[index].method ?? 'N/A'}',
+                          style: const TextStyle(
                             color: ThemeHelper.grey2,
                             fontSize: 10,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
-                        SizedBox(width: 15),
+                        const SizedBox(width: 15),
                         Text(
-                          '\u25CF Meezan Bank Ltd',
-                          style: TextStyle(
+                          '\u25CF ${viewModel.dataList[index].requestedDate != null ? CommonFunction.convertDateFormat(viewModel.dataList[index].requestedDate!) : 'N/A'}',
+                          style: const TextStyle(
                             color: ThemeHelper.grey2,
                             fontSize: 10,
                             fontWeight: FontWeight.w500,
@@ -256,18 +287,18 @@ class PayoutListView extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 3, bottom: 13),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 3, bottom: 13),
                       child: Text(
-                        '\u25CF 15 April 2023',
-                        style: TextStyle(
+                        '\u25CF ${viewModel.dataList[index].amount ?? 0}',
+                        style: const TextStyle(
                           color: ThemeHelper.grey2,
                           fontSize: 10,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
                     ),
-                    status(),
+                    status( viewModel.dataList[index].status ?? 'N/A',),
                   ],
                 ),
               ),
@@ -288,14 +319,14 @@ class PayoutListView extends StatelessWidget {
     }
   }
 
-  Widget status() {
-    Color color = statusColor('1');
+  Widget status(String value) {
+    Color color = statusColor(value);
     return Container(
+      margin: const EdgeInsets.only(left: 10),
       padding: const EdgeInsets.only(left: 4, top: 3, bottom: 3),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.25),
-        borderRadius: BorderRadius.circular(30),
-      ),
+          color: color.withOpacity(0.25),
+          borderRadius: BorderRadius.circular(30)),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -307,9 +338,9 @@ class PayoutListView extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Text(
-              'Active',
+              value,
               style: TextStyle(
-                color: color,
+                color: statusTxtColor(value),
                 fontSize: 10,
               ),
             ),
@@ -320,94 +351,133 @@ class PayoutListView extends StatelessWidget {
   }
 
   Color statusColor(String value) {
-    if (value == '1') {
-      return const Color(0xFF06D38F);
-    } else {
+    if (value == 'Transfered') {
+      return ThemeHelper.blue1;
+    } else if(value == 'Rejected') {
       return const Color(0xFFFE3A30);
+    } else {
+      return const Color(0xffFFC120);
     }
   }
 
-  //////////////////////////////////////////////////////////////////////
-  /////////////////////// OLD CODE
-  /////////////////////////////////////////////////////////////////////
+  Color statusTxtColor(String value) {
+    if (value == 'Transfered') {
+      return ThemeHelper.blue1;
+    } else if(value == 'Rejected') {
+      return const Color(0xFFFE3A30);
+    }  else {
+      return Colors.black;
+    }
+  }
 
-  Future showCustomDialog() async {
-    return showDialog(
+  filterBottomSheet() {
+    showModalBottomSheet(
       context: Get.context!,
+      isScrollControlled: true,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+      ),
       builder: (BuildContext context) {
-        return Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(13),
-          ),
-          child: Stack(
+        return Padding(
+          padding: const EdgeInsets.fromLTRB(16, 10, 10, 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Text(
-                      'Filter by',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Icon(
+                    Icons.menu,
+                    color: ThemeHelper.blue1,
+                  ),
+                  const SizedBox(width: 10),
+                  const Text(
+                    'Filters',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      color: ThemeHelper.blue1,
+                      fontSize: 16,
                     ),
-                    const SizedBox(height: 10),
-                    filterItem(title: 'Name'),
-                    filterItem(title: 'Country'),
-                    filterItem(title: 'City'),
-                    filterItem(title: 'Status'),
-                    filterItem(title: 'Created At'),
-                    filterItem(title: 'Updated At'),
-                  ],
-                ),
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    visualDensity: VisualDensity.compact,
+                    onPressed: () {
+                      Get.back();
+                    },
+                    icon: const Icon(
+                      Icons.close,
+                      color: Colors.red,
+                    ),
+                  ),
+                ],
               ),
-              Positioned(
-                right: 0,
-                child: IconButton(
-                  onPressed: () {
-                    Get.back();
-                  },
-                  icon: const Icon(
-                    Icons.close,
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 10),
+                child: Text(
+                  'Payout Status',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
-              )
+              ),
+              Obx(
+                () => CustomRadioButton2(
+                  title: 'All',
+                  groupValue: viewModel.filterRadioBtn.value,
+                  value: 'all',
+                  onChanged: (value) {
+                    viewModel.radioBtnSelection(value);
+                  },
+                ),
+              ),
+              Obx(
+                () => CustomRadioButton2(
+                  title: 'In Process',
+                  groupValue: viewModel.filterRadioBtn.value,
+                  value: 'In-Process',
+                  onChanged: (value) {
+                    viewModel.radioBtnSelection(value);
+                  },
+                ),
+              ),
+              Obx(
+                () => CustomRadioButton2(
+                  title: 'Transfered',
+                  groupValue: viewModel.filterRadioBtn.value,
+                  value: 'Transfered',
+                  onChanged: (value) {
+                    viewModel.radioBtnSelection(value);
+                  },
+                ),
+              ),
+              Obx(
+                () => CustomRadioButton2(
+                  title: 'Rejected',
+                  groupValue: viewModel.filterRadioBtn.value,
+                  value: 'Rejected',
+                  onChanged: (value) {
+                    viewModel.radioBtnSelection(value);
+                  },
+                ),
+              ),
+              const SizedBox(height: 10),
+              CustomTextBtn(
+                title: 'Done',
+                onPressed: () {
+                  Get.back();
+                  viewModel.getDataFunction();
+                },
+              ),
             ],
           ),
         );
       },
-    );
-  }
-
-  Widget filterItem({required String title}) {
-    return InkWell(
-      borderRadius: BorderRadius.circular(4),
-      onTap: () {
-        viewModel.searchBy.value = title;
-        Get.back();
-      },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              title,
-              style: const TextStyle(
-                fontSize: 15,
-              ),
-            ),
-            if (viewModel.searchBy.value == title)
-              const Icon(
-                Icons.check,
-                size: 20,
-              ),
-          ],
-        ),
-      ),
     );
   }
 }

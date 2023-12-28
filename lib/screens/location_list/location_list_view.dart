@@ -4,9 +4,12 @@ import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/theme_helper.dart';
 import 'package:ismmart_vms/screens/add_location/add_location_view.dart';
 import 'package:ismmart_vms/screens/location_list/location_list_viewmodel.dart';
+import 'package:ismmart_vms/widgets/loader_view.dart';
 
+import '../../helper/common_function.dart';
 import '../../widgets/custom_button.dart';
-import '../product_detail/product_detail_view.dart';
+import '../../widgets/custom_radiobtn.dart';
+import '../../widgets/custom_textfield.dart';
 
 class LocationListView extends StatelessWidget {
   LocationListView({super.key});
@@ -20,21 +23,18 @@ class LocationListView extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Location'),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      body: Stack(
         children: [
-          topBar(),
-          const Padding(
-            padding: EdgeInsets.only(left: 16),
-            child: Text(
-              '1 - 3 of 3',
-              style: TextStyle(
-                fontSize: 12,
-                color: ThemeHelper.grey2,
-              ),
-            ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              topBar(),
+              searchTxtField(),
+              pageNoView(),
+              listView(),
+            ],
           ),
-          listView(),
+          const LoaderView(),
         ],
       ),
     );
@@ -42,14 +42,14 @@ class LocationListView extends StatelessWidget {
 
   Widget topBar() {
     return Padding(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           CustomIconTextBtn(
             width: double.minPositive,
             onPressed: () {
-              Get.to(() => AddLocationView());
+              Get.to(() => AddLocationView(), arguments: {'editData' : false});
             },
             icon: CupertinoIcons.plus,
             title: 'Add Location',
@@ -64,13 +64,23 @@ class LocationListView extends StatelessWidget {
             ),
             child: Row(
               children: [
-                CustomIconBtn(
-                  icon: CupertinoIcons.search,
-                  onTap: () {},
+                Obx(
+                  () => CustomIconBtn2(
+                    icon: CupertinoIcons.search,
+                    color: viewModel.showSearchTxtField.value
+                        ? ThemeHelper.blue1
+                        : null,
+                    onTap: () {
+                      viewModel.showSearchTxtField.value =
+                          !viewModel.showSearchTxtField.value;
+                    },
+                  ),
                 ),
                 CustomIconBtn(
                   icon: Icons.filter_list_rounded,
-                  onTap: () {},
+                  onTap: () {
+                    filterBottomSheet();
+                  },
                 ),
               ],
             ),
@@ -80,27 +90,88 @@ class LocationListView extends StatelessWidget {
     );
   }
 
-  Widget listView() {
-    return viewModel.dataList.isNotEmpty
-        ? Expanded(
-            child: ListView.separated(
+  Widget searchTxtField() {
+    return Obx(
+      () => viewModel.showSearchTxtField.value
+          ? Padding(
               padding: const EdgeInsets.all(16),
-              itemCount: viewModel.dataList.length,
-              itemBuilder: (context, int index) {
-                return listViewItem(index);
-              },
-              separatorBuilder: (BuildContext context, int index) {
-                return const Divider(
-                  color: ThemeHelper.grey1,
-                  thickness: 0.8,
-                  height: 0,
-                );
-              },
+              child: CustomTextField1(
+                controller: viewModel.searchController,
+                filled: false,
+                prefixIcon: CupertinoIcons.search,
+                hintText: 'Filter by name',
+                onFieldSubmitted: (value) {
+                  viewModel.searchTxtFieldSubmitted(value);
+                },
+                suffixIconButton: IconButton(
+                  visualDensity: VisualDensity.compact,
+                  onPressed: () {
+                    viewModel.searchController.clear();
+                    viewModel.searchTxtFieldSubmitted('');
+                  },
+                  icon: const Icon(
+                    Icons.close,
+                    color: ThemeHelper.grey2,
+                  ),
+                ),
+              ),
+            )
+          : const SizedBox(height: 16),
+    );
+  }
+
+  Widget pageNoView() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 16),
+      child: Obx(
+        () => Text(
+          '${viewModel.pageNo} of ${viewModel.totalPages.value}',
+          style: const TextStyle(
+            fontSize: 12,
+            color: ThemeHelper.grey2,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget listView() {
+    return Obx(
+      () => viewModel.dataList.isNotEmpty
+          ? Expanded(
+              child: Column(
+                children: [
+                  Expanded(
+                    child: ListView.separated(
+                      controller: viewModel.scrollController,
+                      padding: const EdgeInsets.all(16),
+                      itemCount: viewModel.dataList.length,
+                      itemBuilder: (context, int index) {
+                        return listViewItem(index);
+                      },
+                      separatorBuilder: (BuildContext context, int index) {
+                        return const Divider(
+                          color: ThemeHelper.grey1,
+                          thickness: 0.8,
+                          height: 0,
+                        );
+                      },
+                    ),
+                  ),
+                  if (viewModel.paginationLoader.value)
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Center(
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      ),
+                    )
+                ],
+              ),
+            )
+          : const Center(
+              child: Text('No Data Found'),
             ),
-          )
-        : const Center(
-            child: Text('No Data Found'),
-          );
+    );
   }
 
   Widget listViewItem(int index) {
@@ -111,7 +182,13 @@ class LocationListView extends StatelessWidget {
       child: InkWell(
         borderRadius: borderRadius,
         onTap: () {
-          Get.to(() => ProductDetailView());
+          Get.to(
+            () => AddLocationView(),
+            arguments: {
+              'editData': true,
+              'model': viewModel.dataList[index],
+            },
+          );
         },
         child: Padding(
           padding:
@@ -143,53 +220,55 @@ class LocationListView extends StatelessWidget {
                       children: [
                         Row(
                           children: [
-                            const Text(
-                              'Beverly Center',
-                              style: TextStyle(
+                            Text(
+                              viewModel.dataList[index].name ?? 'N/A',
+                              style: const TextStyle(
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
-                            status(),
+                            status(
+                              viewModel.dataList[index].status ?? 'N/A',
+                            ),
                           ],
                         ),
                         const SizedBox(height: 10),
-                        const Text(
-                          'Utah  \u25CF  United States',
-                          style: TextStyle(
+                        Text(
+                          '${viewModel.dataList[index].country?.name ?? 'N/A'} \u25CF ${viewModel.dataList[index].city?.name ?? 'N/A'}',
+                          style: const TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 10,
                             color: ThemeHelper.grey2,
                           ),
                         ),
-                        const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 6),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 6),
                           child: Text(
-                            '2118 G-8/1, Islamabad 35624',
-                            style: TextStyle(
+                            viewModel.dataList[index].address ?? 'N/A',
+                            style: const TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 10,
                               color: ThemeHelper.grey2,
                             ),
                           ),
                         ),
-                        const Text(
-                          '2118 G-8/1, Islamabad 35624',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 10,
-                            color: ThemeHelper.grey2,
-                          ),
-                        ),
+                        // Text(
+                        //   viewModel.dataList[index].phone ?? 'N/A',
+                        //   style: const TextStyle(
+                        //     fontWeight: FontWeight.w500,
+                        //     fontSize: 10,
+                        //     color: ThemeHelper.grey2,
+                        //   ),
+                        // ),
                       ],
                     ),
                   )
                 ],
               ),
               const SizedBox(height: 10),
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  const Text(
                     '\u25CF Last updated',
                     style: TextStyle(
                       fontSize: 10,
@@ -197,8 +276,11 @@ class LocationListView extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    'April 23,2023',
-                    style: TextStyle(
+                    viewModel.dataList[index].updatedAt != null
+                        ? CommonFunction.convertDateFormat(
+                            viewModel.dataList[index].updatedAt!)
+                        : 'N/A',
+                    style: const TextStyle(
                       fontSize: 11,
                     ),
                   ),
@@ -221,8 +303,8 @@ class LocationListView extends StatelessWidget {
     }
   }
 
-  Widget status() {
-    Color color = statusColor('1');
+  Widget status(String value) {
+    Color color = statusColor(value);
     return Container(
       margin: const EdgeInsets.only(left: 10),
       padding: const EdgeInsets.only(left: 4, top: 3, bottom: 3),
@@ -230,6 +312,7 @@ class LocationListView extends StatelessWidget {
           color: color.withOpacity(0.25),
           borderRadius: BorderRadius.circular(30)),
       child: Row(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Icon(
             Icons.circle,
@@ -239,9 +322,9 @@ class LocationListView extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Text(
-              'Active',
+              value,
               style: TextStyle(
-                color: color,
+                color: statusTxtColor(value),
                 fontSize: 10,
               ),
             ),
@@ -252,94 +335,119 @@ class LocationListView extends StatelessWidget {
   }
 
   Color statusColor(String value) {
-    if (value == '1') {
+    if (value == 'Active') {
       return const Color(0xFF06D38F);
     } else {
       return const Color(0xFFFE3A30);
     }
   }
 
-  //////////////////////////////////////////////////////////////////////
-  /////////////////////// OLD CODE
-  /////////////////////////////////////////////////////////////////////
+  Color statusTxtColor(String value) {
+    if (value == 'Active') {
+      return Colors.black;
+    } else {
+      return const Color(0xFFFE3A30);
+    }
+  }
 
-  Future showCustomDialog() async {
-    return showDialog(
+  filterBottomSheet() {
+    showModalBottomSheet(
       context: Get.context!,
+      isScrollControlled: true,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+      ),
       builder: (BuildContext context) {
-        return Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(13),
-          ),
-          child: Stack(
+        return Padding(
+          padding: const EdgeInsets.fromLTRB(16, 10, 10, 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Text(
-                      'Filter by',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Icon(
+                    Icons.menu,
+                    color: ThemeHelper.blue1,
+                  ),
+                  const SizedBox(width: 10),
+                  const Text(
+                    'Filters',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      color: ThemeHelper.blue1,
+                      fontSize: 16,
                     ),
-                    const SizedBox(height: 10),
-                    filterItem(title: 'Name'),
-                    filterItem(title: 'Country'),
-                    filterItem(title: 'City'),
-                    filterItem(title: 'Status'),
-                    filterItem(title: 'Created At'),
-                    filterItem(title: 'Updated At'),
-                  ],
-                ),
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    visualDensity: VisualDensity.compact,
+                    onPressed: () {
+                      Get.back();
+                    },
+                    icon: const Icon(
+                      Icons.close,
+                      color: Colors.red,
+                    ),
+                  ),
+                ],
               ),
-              Positioned(
-                right: 0,
-                child: IconButton(
-                  onPressed: () {
-                    Get.back();
-                  },
-                  icon: const Icon(
-                    Icons.close,
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 10),
+                child: Text(
+                  'Payout Status',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
-              )
+              ),
+              Obx(
+                () => CustomRadioButton2(
+                  title: 'All',
+                  groupValue: viewModel.filterRadioBtn.value,
+                  value: 'all',
+                  onChanged: (value) {
+                    viewModel.radioBtnSelection(value);
+                  },
+                ),
+              ),
+              Obx(
+                () => CustomRadioButton2(
+                  title: 'Active',
+                  groupValue: viewModel.filterRadioBtn.value,
+                  value: 'Active',
+                  onChanged: (value) {
+                    viewModel.radioBtnSelection(value);
+                  },
+                ),
+              ),
+              Obx(
+                () => CustomRadioButton2(
+                  title: 'Inactive',
+                  groupValue: viewModel.filterRadioBtn.value,
+                  value: 'In-Active',
+                  onChanged: (value) {
+                    viewModel.radioBtnSelection(value);
+                  },
+                ),
+              ),
+              const SizedBox(height: 10),
+              CustomTextBtn(
+                title: 'Done',
+                onPressed: () {
+                  Get.back();
+                  viewModel.getDataFunction();
+                },
+              ),
             ],
           ),
         );
       },
-    );
-  }
-
-  Widget filterItem({required String title}) {
-    return InkWell(
-      borderRadius: BorderRadius.circular(4),
-      onTap: () {
-        viewModel.searchBy.value = title;
-        Get.back();
-      },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              title,
-              style: const TextStyle(
-                fontSize: 15,
-              ),
-            ),
-            if (viewModel.searchBy.value == title)
-              const Icon(
-                Icons.check,
-                size: 20,
-              ),
-          ],
-        ),
-      ),
     );
   }
 }

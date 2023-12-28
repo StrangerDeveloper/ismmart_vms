@@ -2,8 +2,6 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/constants.dart';
-import 'package:ismmart_vms/helper/resourses/app_colors.dart';
-import 'package:ismmart_vms/helper/resourses/app_decorations.dart';
 import 'package:ismmart_vms/helper/utils/image_constant.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/screens/dashboard/dashboard_viewmodel.dart';
@@ -11,7 +9,7 @@ import 'package:ismmart_vms/widgets/custom_appbar.dart';
 import 'package:ismmart_vms/widgets/custom_dropdown.dart';
 import 'package:ismmart_vms/widgets/custom_image_view.dart';
 
-import '../../widgets/custom_drawer.dart';
+import '../../helper/resourses/app_colors.dart';
 
 class DashboardView extends StatelessWidget {
   DashboardView({super.key});
@@ -20,7 +18,7 @@ class DashboardView extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        drawer: CustomDrawer(),
+        //drawer: const CustomDrawer(),
         appBar: _buildAppBar(),
         body: _body(),
 
@@ -64,7 +62,7 @@ class DashboardView extends StatelessWidget {
           horizontal: 3.h,
           vertical: 6.v,
         ),
-        decoration: AppDecoration.fillWhiteA,
+        // decoration: AppDecoration.fillWhiteA,
         child: Padding(
           padding: EdgeInsets.zero,
           child: CustomImageView(
@@ -119,9 +117,9 @@ class DashboardView extends StatelessWidget {
                 horizontal: 24.h,
                 vertical: 16.v,
               ),
-              decoration: AppDecoration.shadow.copyWith(
-                borderRadius: BorderRadiusStyle.roundedBorder10,
-              ),
+              // decoration: AppDecoration.shadow.copyWith(
+              //   borderRadius: BorderRadiusStyle.roundedBorder10,
+              // ),
               child: Column(
                 children: [
                   SizedBox(
@@ -169,7 +167,7 @@ class DashboardView extends StatelessWidget {
   Widget _buildHeading() {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 1.v),
-      decoration: AppDecoration.outlineGray,
+      // decoration: AppDecoration.outlineGray,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -216,9 +214,9 @@ class DashboardView extends StatelessWidget {
   Widget _buildCard() {
     return Container(
       padding: EdgeInsets.all(12.h),
-      decoration: AppDecoration.fillGray5001.copyWith(
-        borderRadius: BorderRadiusStyle.roundedBorder10,
-      ),
+      // decoration: AppDecoration.fillGray5001.copyWith(
+      //   borderRadius: BorderRadiusStyle.roundedBorder10,
+      // ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -240,25 +238,25 @@ class DashboardView extends StatelessWidget {
                 title: "Exception",
                 value: "5",
                 color: deepOrangeA700,
-                decoration: AppDecoration.fillOrange.copyWith(
-                  borderRadius: BorderRadiusStyle.circleBorder16,
-                ),
+                // decoration: AppDecoration.fillOrange.copyWith(
+                //   borderRadius: BorderRadiusStyle.circleBorder16,
+                // ),
               ),
               _buildCardItem(
                 title: "New Orders",
                 value: "3",
                 color: cyan800,
-                decoration: AppDecoration.fillCyan.copyWith(
-                  borderRadius: BorderRadiusStyle.circleBorder16,
-                ),
+                // decoration: AppDecoration.fillCyan.copyWith(
+                //   borderRadius: BorderRadiusStyle.circleBorder16,
+                // ),
               ),
               _buildCardItem(
                 title: "In Progress",
                 value: "18",
                 color: blueA700,
-                decoration: AppDecoration.fillBlue.copyWith(
-                  borderRadius: BorderRadiusStyle.circleBorder16,
-                ),
+                // decoration: AppDecoration.fillBlue.copyWith(
+                //   borderRadius: BorderRadiusStyle.circleBorder16,
+                // ),
               ),
             ],
           ),
@@ -278,9 +276,9 @@ class DashboardView extends StatelessWidget {
             horizontal: 13.h,
             vertical: 12.v,
           ),
-          decoration: AppDecoration.fillGray10003.copyWith(
-            borderRadius: BorderRadiusStyle.roundedBorder10,
-          ),
+          // decoration: AppDecoration.fillGray10003.copyWith(
+          //   borderRadius: BorderRadiusStyle.roundedBorder10,
+          // ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -339,7 +337,7 @@ class DashboardView extends StatelessWidget {
           height: 13.v,
         ),
         Container(
-          decoration: AppDecoration.outlineGray200,
+          // decoration: AppDecoration.outlineGray200,
           child: Column(
             children: [
               SizedBox(height: 12.v),
@@ -347,27 +345,27 @@ class DashboardView extends StatelessWidget {
                   title: "Total Sale",
                   value: "78%",
                   color: cyan50,
-                  decoration: AppDecoration.fillCyan.copyWith(
-                      borderRadius: BorderRadiusStyle.roundedBorder10,
-                      color: cyan50),
+                  // decoration: AppDecoration.fillCyan.copyWith(
+                  //     borderRadius: BorderRadiusStyle.roundedBorder10,
+                  //     color: cyan50),
                   hasSuffixIcon: true),
               SizedBox(height: 15.v),
               _buildShowMoreItems(
                 title: "Total Products",
                 value: "20",
                 color: gray10001,
-                decoration: AppDecoration.fillGray10001.copyWith(
-                  borderRadius: BorderRadiusStyle.roundedBorder10,
-                ),
+                // decoration: AppDecoration.fillGray10001.copyWith(
+                //   borderRadius: BorderRadiusStyle.roundedBorder10,
+                // ),
               ),
               SizedBox(height: 15.v),
               _buildShowMoreItems(
                 title: "Total Revenue",
                 value: "500,000 PKR",
                 color: gray100,
-                decoration: AppDecoration.fillGray10001.copyWith(
-                  borderRadius: BorderRadiusStyle.roundedBorder10,
-                ),
+                // decoration: AppDecoration.fillGray10001.copyWith(
+                //   borderRadius: BorderRadiusStyle.roundedBorder10,
+                // ),
               ),
             ],
           ),
@@ -438,21 +436,21 @@ class DashboardView extends StatelessWidget {
   Widget _buildCharts() {
     return Container(
       padding: EdgeInsets.symmetric(
-        horizontal: 22.h,
+        horizontal: 24.h,
         vertical: 25.v,
       ),
-      decoration: AppDecoration.shadow.copyWith(
-        borderRadius: BorderRadiusStyle.roundedBorder10,
-      ),
+      // decoration: AppDecoration.shadow.copyWith(
+      //   borderRadius: BorderRadiusStyle.roundedBorder10,
+      // ),
       child: Column(
-        // mainAxisSize: MainAxisSize.min,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Total Earning",
+                "Traffic",
                 style: TextStyle(
                     color: gray60001,
                     fontWeight: FontWeight.w600,
@@ -484,39 +482,39 @@ class DashboardView extends StatelessWidget {
           SizedBox(height: 24.v),
           SizedBox(
               height: 300.v,
-              width: 274.h,
+              width: 264.h,
               child: Stack(
                 children: [
-                  Align(
-                    alignment: Alignment.topCenter,
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                        left: 97.h,
-                        top: 120.v,
-                        right: 97.h,
-                      ),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            "500,000",
-                            style: TextStyle(
-                                color: gray60001,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 20.fSize),
-                          ),
-                          SizedBox(height: 6.v),
-                          Text(
-                            "PKR",
-                            style: TextStyle(
-                                color: gray60001,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 18.fSize),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                  // Align(
+                  //   alignment: Alignment.topCenter,
+                  //   child: Padding(
+                  //     padding: EdgeInsets.only(
+                  //       left: 80.h,
+                  //       top: 120.v,
+                  //       right: 80.h,
+                  //     ),
+                  //     child: Column(
+                  //       mainAxisSize: MainAxisSize.min,
+                  //       children: [
+                  //         Text(
+                  //           "500,000",
+                  //           style: TextStyle(
+                  //               color: gray60001,
+                  //               fontWeight: FontWeight.w600,
+                  //               fontSize: 20.fSize),
+                  //         ),
+                  //         SizedBox(height: 6.v),
+                  //         Text(
+                  //           "PKR",
+                  //           style: TextStyle(
+                  //               color: gray60001,
+                  //               fontWeight: FontWeight.w600,
+                  //               fontSize: 18.fSize),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
                   _pieChart(),
                 ],
               )),
@@ -729,32 +727,32 @@ class DashboardView extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(height: 23.v),
+        SizedBox(height: 24.v),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             _indicator(
               color: blueA700,
-              text: 'Affialite Sold',
+              text: 'Direct',
               isSquare: true,
             ),
             const SizedBox(width: 4),
             _indicator(
               color: cyan800,
-              text: 'Direct Sold',
+              text: 'Affiliate',
               isSquare: true,
             ),
             const SizedBox(width: 4),
             _indicator(
               color: amber400,
-              text: 'Cancelled ',
+              text: 'Collections ',
               isSquare: true,
             ),
             const SizedBox(width: 4),
             _indicator(
-              color: pink400,
-              text: 'Item Returned',
+              color: kPurpleColor,
+              text: 'Search',
               isSquare: true,
             ),
             //const SizedBox(height: 18),
@@ -803,8 +801,8 @@ class DashboardView extends StatelessWidget {
         case 0:
           return PieChartSectionData(
             color: cyan800,
-            value: 30,
-            title: '',
+            value: 15,
+            title: 'Affiliate 15%',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
@@ -816,8 +814,8 @@ class DashboardView extends StatelessWidget {
         case 1:
           return PieChartSectionData(
             color: amber400,
-            value: 20,
-            title: '',
+            value: 15,
+            title: 'Search 15%',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
@@ -828,9 +826,9 @@ class DashboardView extends StatelessWidget {
           );
         case 2:
           return PieChartSectionData(
-            color: pink400,
-            value: 20,
-            title: '',
+            color: kPurpleColor,
+            value: 30,
+            title: 'Collection 30%',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
@@ -842,8 +840,8 @@ class DashboardView extends StatelessWidget {
         case 3:
           return PieChartSectionData(
             color: blueA700,
-            value: 30,
-            title: '',
+            value: 40,
+            title: 'Direact 40%',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,

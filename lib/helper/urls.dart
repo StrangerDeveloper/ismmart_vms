@@ -12,4 +12,10 @@ class Urls {
   static String city = "/places/cities?country=";
   static String bank = "/vendor/bank";
   static String storeType = "/public/storeType";
+  static String getPayout = "/vendor/payout?limit=10&page=";
+  static String getLocation = "/vendor/location?limit=10&page=";
+  static String getCities = "/places/cities?limit=0&country=";
+  static String getCountries = "/places/countries?limit=0";
+  static String addLocation = "/vendor/location/add";
+  static String updateLocation = "/vendor/location/update/";
 }

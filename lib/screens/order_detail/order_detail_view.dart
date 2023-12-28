@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/languages/translations_key.dart' as langKey;
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
+import 'package:ismmart_vms/screens/order_listing/model/orderModel.dart';
 import 'package:ismmart_vms/screens/order_listing/model/order_model.dart';
 import 'package:ismmart_vms/screens/order_detail/model/ordertracking_item_model.dart';
 import 'package:ismmart_vms/screens/order_detail/order_detail_viewModel.dart';
 import 'package:ismmart_vms/screens/order_detail/order_tracking/order_tracking_view.dart';
 import 'package:ismmart_vms/widgets/custom_appbar.dart';
 import 'package:ismmart_vms/widgets/custom_text.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
+import '../../helper/constants.dart';
 import '../../helper/global_variables.dart';
 import '../../helper/utils/image_constant.dart';
 import '../../widgets/appBar_leading_image.dart';
@@ -21,7 +24,7 @@ import '../return/return_view.dart';
 class OrderDetailView extends StatelessWidget {
   OrdersDetailPageController controller = Get.put(OrdersDetailPageController());
 
-  final Order order;
+  final OrderItem order;
   OrderDetailView({Key? key, required this.order}) : super(key: key) {
     //Get.put(OrderViewModel()).fetchOrderDetails();
   }
@@ -45,8 +48,8 @@ class OrderDetailView extends StatelessWidget {
                       children: [
                         _buildFrame(),
                         SizedBox(height: 16.v),
+                        progress(),
                         _buildFrame2(),
-                        SizedBox(height: 16.v),
                         logInBtn(),
                       ],
                     ),
@@ -58,39 +61,6 @@ class OrderDetailView extends StatelessWidget {
         ),
       ),
     );
-
-    // return Scaffold(
-    //   appBar: CustomAppBar(
-    //     title: langKey.orderDetail.tr,
-    //     backBtn: false,
-    //     action: [
-    //       IconButton(
-    //         onPressed: () {
-    //           Get.defaultDialog(
-    //             title: 'Delete Order',
-    //             middleText: 'Are you sure you want to delete this order?',
-    //             textConfirm: 'Yes',
-    //             textCancel: 'No',
-    //             onConfirm: () {
-    //               // Delete order
-    //               Get.back();
-    //             },
-    //           );
-    //         },
-    //         icon: const Icon(Icons.delete),
-    //       ),
-    //     ],
-    //   ),
-    //   body: SingleChildScrollView(
-    //     child: Padding(
-    //       padding: const EdgeInsets.all(16.0),
-    //       child: Column(
-    //         crossAxisAlignment: CrossAxisAlignment.start,
-    //         children: [_buildOrderDetail(order), logInBtn()],
-    //       ),
-    //     ),
-    //   ),
-    // );
   }
 
   PreferredSizeWidget _buildAppBar() {
@@ -104,6 +74,53 @@ class OrderDetailView extends StatelessWidget {
         },
       ),
       title: langKey.orderDetail.tr,
+    );
+  }
+
+  Widget progress() {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 30),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // SizedBox(height: 6),
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: 'Delivery Status: ',
+                        style: newFontStyleSize14,
+                      ),
+                      TextSpan(
+                        text: 'Ready to Transit',
+                        style: newFontStyleSize14.copyWith(
+                            color: newColorLightGrey2),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          CircularPercentIndicator(
+            circularStrokeCap: CircularStrokeCap.round,
+            radius: 33,
+            lineWidth: 6,
+            percent: 0.5,
+            backgroundColor: Color(0xffEBEFF3),
+            progressColor: newColorBlue,
+            center: Text(
+              "2 of 3",
+              style: poppinsH2.copyWith(
+                color: newColorBlue2,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -181,10 +198,11 @@ class OrderDetailView extends StatelessWidget {
         Text(
           "Multi vendor".tr,
         ),
+        SizedBox(height: 8.v),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            _customField2("12 Decemeber 2023"),
+            _customField2("12 Decemeber 2023 at 12:18 pm"),
             _customField2("Online Store"),
           ],
         ),
@@ -196,8 +214,8 @@ class OrderDetailView extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  _customField1(order.customerName),
-                  _customField1(order.amount.toString()),
+                  _customField1(order.customer!.name.toString()),
+                  _customField1(order.customer!.email.toString()),
                 ],
               ),
               Padding(
@@ -390,87 +408,6 @@ class OrderDetailView extends StatelessWidget {
       ),
     );
   }
-
-  // Widget _buildOrderDetail(Order detail) {
-  //   List<TableRow> rows = [
-  //     _buildTableRow("Order ID", detail.orderId.toString()),
-  //     _buildTableRow("Amount", detail.amount.toString()),
-  //     _buildTableRow("Customer Name", detail.customerName),
-  //     _buildTableRow("Date", detail.date.toString()),
-  //     _buildTableRow("Payment Status", detail.paymentStatus),
-  //     _buildTableRow("Fulfillment Status", detail.fulfillmentStatus),
-  //     _buildTableRow("Delivery Status", detail.deliveryStatus),
-  //     // Add other details as needed
-  //   ];
-
-  //   // Add a table row for items
-  //   rows.add(
-  //     TableRow(
-  //       children: [
-  //         const Padding(
-  //           padding: EdgeInsets.all(8.0),
-  //           child: Text("Items", textAlign: TextAlign.start),
-  //         ),
-  //         Padding(
-  //           padding: const EdgeInsets.all(8.0),
-  //           child: Column(
-  //             children: _buildItemDetails(detail.items),
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-
-  //   return Table(
-  //     border: TableBorder.all(),
-  //     columnWidths: const {
-  //       0: FlexColumnWidth(1),
-  //       1: FlexColumnWidth(2),
-  //     },
-  //     children: rows,
-  //   );
-  // }
-
-  // List<Widget> _buildItemDetails(List<Item> items) {
-  //   return items.map((item) {
-  //     return _buildItemDetail(item);
-  //   }).toList();
-  // }
-
-  // Widget _buildItemDetail(Item itemDetails) {
-  //   return Padding(
-  //     padding: const EdgeInsets.symmetric(vertical: 8.0),
-  //     child: Column(
-  //       crossAxisAlignment: CrossAxisAlignment.start,
-  //       mainAxisAlignment: MainAxisAlignment.spaceAround,
-  //       children: [
-  //         CustomText(title: "Item ID: ${itemDetails.itemId}"),
-  //         CustomText(title: "Name: ${itemDetails.name}"),
-  //         CustomText(title: "Quantity: ${itemDetails.media}"),
-  //         CustomText(title: "Price: ${itemDetails.quantity}"),
-  //         CustomText(title: "Price: ${itemDetails.price}"),
-  //         CustomText(title: "Discounted Price: ${itemDetails.discountedPrice}"),
-  //         CustomText(title: "SKU: ${itemDetails.sku}"),
-  //         CustomText(title: "Barcode: ${itemDetails.barcode}"),
-  //       ],
-  //     ),
-  //   );
-  // }
-
-  // TableRow _buildTableRow(String title, String value) {
-  //   return TableRow(
-  //     children: [
-  //       Padding(
-  //         padding: const EdgeInsets.all(8.0),
-  //         child: Text(title, textAlign: TextAlign.start),
-  //       ),
-  //       Padding(
-  //         padding: const EdgeInsets.all(8.0),
-  //         child: Text(value, textAlign: TextAlign.start),
-  //       ),
-  //     ],
-  //   );
-  // }
 
   Widget logInBtn() {
     return Padding(
