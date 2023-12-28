@@ -2,7 +2,6 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/constants.dart';
-import 'package:ismmart_vms/screens/dashboard/model/order_model.dart';
 import 'package:ismmart_vms/widgets/widget_models/dropdown_model.dart';
 
 class DashboardViewModel extends GetxController {
@@ -14,9 +13,7 @@ class DashboardViewModel extends GetxController {
     DropDownModel(id: "4", name: "23 Dec 2023"),
   ].obs;
 
-  List<OrderModel> orderList = <OrderModel>[].obs;
-  List<OrderModel> approvedOrderList = <OrderModel>[].obs;
-  List<OrderModel> cancelledOrderList = <OrderModel>[].obs;
+ 
   RxBool isTab = false.obs;
   RxBool moreOption = false.obs;
 
@@ -30,14 +27,7 @@ class DashboardViewModel extends GetxController {
   }
 
   void getOrdersData() {
-    orderList.add(OrderModel(
-        id: 1001, status: 'pending', totalPrice: 908, shippingPrice: 250));
-    orderList.add(OrderModel(
-        id: 1002, status: 'pending', totalPrice: 508, shippingPrice: 150));
-    orderList.add(OrderModel(
-        id: 1003, status: 'approved', totalPrice: 1508, shippingPrice: 290));
-    orderList.add(OrderModel(
-        id: 1004, status: 'cancelled', totalPrice: 308, shippingPrice: 650));
+    
   }
 
   ///*************Chart Data */ ///

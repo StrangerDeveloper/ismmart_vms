@@ -4,7 +4,10 @@ import 'package:ismmart_vms/helper/theme_helper.dart';
 import 'package:ismmart_vms/screens/add_location/add_location_viewmodel.dart';
 import 'package:ismmart_vms/widgets/custom_button.dart';
 import 'package:ismmart_vms/widgets/custom_textfield.dart';
+import 'package:ismmart_vms/widgets/loader_view.dart';
 
+import '../../helper/validator.dart';
+import '../../widgets/custom_appbar.dart';
 import '../../widgets/custom_bottom_sheet.dart';
 
 class AddLocationView extends StatelessWidget {
@@ -16,93 +19,147 @@ class AddLocationView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: const Text('Add Address'),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            const CustomTextField1(
-              title: 'Name',
-              hintText: 'e.g. Beverly Center, Islamabad',
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 18),
-              child: CustomTextField1(
-                title: 'Country',
-                controller: viewModel.countryController,
-                hintText: 'Select the country',
-                onTap: () {
-                  viewModel.resetValue();
-                  itemsBottomSheet();
-                },
-                isDropDown: true,
+      appBar: CustomAppBar2(
+          title: viewModel.isEdit ? 'Update Address' : 'Add Address'),
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            padding: const EdgeInsets.all(16),
+            child: Form(
+              key: viewModel.addLocationFormKey,
+              child: Column(
+                children: [
+                  nameTxtField(),
+                  countryTxtField(),
+                  cityTxtField(),
+                  addressTxtField(),
+                  statusTxtField(),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 40, bottom: 5),
+                    child: CustomTextBtn(
+                      title: viewModel.isEdit ? 'Update' : 'Save & Create',
+                      onPressed: () {
+                        viewModel.saveAndCreateBtn();
+                      },
+                    ),
+                  ),
+                  CustomTextBtn(
+                    title: 'Discard',
+                    backgroundColor: Colors.black,
+                    onPressed: () {
+                      Get.back();
+                    },
+                  ),
+                ],
               ),
             ),
-            CustomTextField1(
-              title: 'City ',
-              hintText: 'Select the city',
-              controller: viewModel.cityController,
-              isDropDown: true,
-              onTap: () {
-                viewModel.resetValue(isCity: true);
-                itemsBottomSheet(isCity: true);
-              },
-            ),
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 18),
-              child: CustomTextField1(
-                title: 'Address',
-                hintText: 'Enter your Address here...',
-                maxLines: 8,
-                filled: false,
-              ),
-            ),
-            CustomTextField1(
-              title: 'Status',
-              hintText: 'Select the Status',
-              isDropDown: true,
-              controller: viewModel.statusController,
-              onTap: () {
-                CustomBottomSheet1(
-                  selectedIndex: viewModel.statusSelectedIndex.value,
-                  list: viewModel.statusList,
-                  onChanged: (value) {
-                    viewModel.statusSelectedIndex.value = value;
-                    viewModel.statusController.text =
-                        viewModel.statusList[value];
-                  },
-                ).show();
-              },
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 40, bottom: 5),
-              child: CustomTextBtn(
-                title: 'Save & Create',
-                onPressed: () {},
-              ),
-            ),
-            CustomTextBtn(
-              title: 'Discard',
-              backgroundColor: Colors.black,
-              onPressed: () {},
-            ),
-          ],
-        ),
+          ),
+          const LoaderView(),
+        ],
       ),
     );
   }
 
+  Widget nameTxtField() {
+    return CustomTextField1(
+      controller: viewModel.nameController,
+      title: 'Name',
+      hintText: 'e.g. Beverly Center, Islamabad',
+      validator: (value) {
+        return Validator.validateDefaultField(value);
+      },
+      autoValidateMode: AutovalidateMode.onUserInteraction,
+    );
+  }
+
+  Widget countryTxtField() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 18),
+      child: CustomTextField1(
+        title: 'Country',
+        controller: viewModel.countryController,
+        hintText: 'Select the country',
+        onTap: () {
+          viewModel.resetForCitiesCountryValue();
+          itemsBottomSheet();
+        },
+        isDropDown: true,
+        validator: (value) {
+          return Validator.validateDefaultField(value);
+        },
+        autoValidateMode: AutovalidateMode.onUserInteraction,
+      ),
+    );
+  }
+
+  Widget cityTxtField() {
+    return CustomTextField1(
+      title: 'City ',
+      hintText: 'Select the city',
+      controller: viewModel.cityController,
+      isDropDown: true,
+      onTap: () {
+        viewModel.resetForCitiesCountryValue(isCity: true);
+        itemsBottomSheet(isCity: true);
+      },
+      validator: (value) {
+        return Validator.validateDefaultField(value);
+      },
+      autoValidateMode: AutovalidateMode.onUserInteraction,
+    );
+  }
+
+  Widget addressTxtField() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 18),
+      child: CustomTextField1(
+        controller: viewModel.addressController,
+        title: 'Address',
+        hintText: 'Enter your Address here...',
+        maxLines: 8,
+        filled: false,
+        validator: (value) {
+          return Validator.validateDefaultField(value);
+        },
+        autoValidateMode: AutovalidateMode.onUserInteraction,
+      ),
+    );
+  }
+
+  Widget statusTxtField() {
+    return CustomTextField1(
+      title: 'Status',
+      hintText: 'Select the Status',
+      isDropDown: true,
+      controller: viewModel.statusController,
+      onTap: () {
+        CustomBottomSheet1(
+          selectedIndex: viewModel.statusSelectedIndex.value,
+          list: viewModel.statusList,
+          onChanged: (value) {
+            viewModel.statusSelectedIndex.value = value;
+            viewModel.statusController.text = viewModel.statusList[value];
+          },
+        ).show();
+      },
+      validator: (value) {
+        return Validator.validateDefaultField(value);
+      },
+      autoValidateMode: AutovalidateMode.onUserInteraction,
+    );
+  }
+
   itemsBottomSheet({bool isCity = false}) {
-    print(isCity);
     showModalBottomSheet(
       context: Get.context!,
       isScrollControlled: true,
       backgroundColor: Colors.white,
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+      ),
       constraints: BoxConstraints(maxHeight: Get.height * 0.9),
       builder: (BuildContext context) {
         return Padding(
@@ -142,7 +199,7 @@ class AddLocationView extends StatelessWidget {
                 hintText: 'Search ${isCity ? 'City' : 'Country'}...',
                 controller: viewModel.searchController,
                 onChanged: (value) {
-                  viewModel.onSearch(value, isCity: isCity);
+                  viewModel.onSearchForCitiesCountries(value, isCity: isCity);
                 },
               ),
               Obx(
@@ -161,18 +218,33 @@ class AddLocationView extends StatelessWidget {
                               onTap: () {
                                 Get.back();
                                 if (isCity) {
-                                  viewModel.cityController.text =
-                                      viewModel.filteredCitiesList[index];
+                                  viewModel.cityController.text = viewModel
+                                          .filteredCitiesList[index].name ??
+                                      '';
+                                  viewModel.selectedCityId =
+                                      viewModel.filteredCitiesList[index].sId ??
+                                          '';
                                 } else {
-                                  viewModel.countryController.text =
-                                      viewModel.filteredCountriesList[index];
+                                  viewModel.countryController.text = viewModel
+                                          .filteredCountriesList[index].name ??
+                                      '';
+                                  viewModel.getCities(viewModel
+                                          .filteredCountriesList[index].sId ??
+                                      '');
+                                  viewModel.selectedCountryId = viewModel
+                                          .filteredCountriesList[index].sId ??
+                                      '';
                                 }
                               },
                               child: Padding(
                                 padding: const EdgeInsets.all(12),
                                 child: Text((isCity)
-                                    ? viewModel.filteredCitiesList[index]
-                                    : viewModel.filteredCountriesList[index]),
+                                    ? viewModel
+                                            .filteredCitiesList[index].name ??
+                                        ''
+                                    : viewModel.filteredCountriesList[index]
+                                            .name ??
+                                        ''),
                               ),
                             );
                           },

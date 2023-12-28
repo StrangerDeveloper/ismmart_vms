@@ -49,7 +49,7 @@ class LocationListView extends StatelessWidget {
           CustomIconTextBtn(
             width: double.minPositive,
             onPressed: () {
-              // Get.to(() => AddLocationView());
+              Get.to(() => AddLocationView(), arguments: {'editData' : false});
             },
             icon: CupertinoIcons.plus,
             title: 'Add Location',
@@ -120,11 +120,11 @@ class LocationListView extends StatelessWidget {
     );
   }
 
-  Widget pageNoView(){
+  Widget pageNoView() {
     return Padding(
       padding: const EdgeInsets.only(left: 16),
       child: Obx(
-            () => Text(
+        () => Text(
           '${viewModel.pageNo} of ${viewModel.totalPages.value}',
           style: const TextStyle(
             fontSize: 12,
@@ -182,7 +182,13 @@ class LocationListView extends StatelessWidget {
       child: InkWell(
         borderRadius: borderRadius,
         onTap: () {
-          // Get.to(() => ProductDetailView());
+          Get.to(
+            () => AddLocationView(),
+            arguments: {
+              'editData': true,
+              'model': viewModel.dataList[index],
+            },
+          );
         },
         child: Padding(
           padding:
@@ -245,14 +251,14 @@ class LocationListView extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Text(
-                          viewModel.dataList[index].phone ?? 'N/A',
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 10,
-                            color: ThemeHelper.grey2,
-                          ),
-                        ),
+                        // Text(
+                        //   viewModel.dataList[index].phone ?? 'N/A',
+                        //   style: const TextStyle(
+                        //     fontWeight: FontWeight.w500,
+                        //     fontSize: 10,
+                        //     color: ThemeHelper.grey2,
+                        //   ),
+                        // ),
                       ],
                     ),
                   )
