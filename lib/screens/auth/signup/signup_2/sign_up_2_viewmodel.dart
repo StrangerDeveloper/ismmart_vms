@@ -54,7 +54,6 @@ class SignUp2ViewModel extends GetxController {
     param['address'] = storeAddressController.text;
     param['step'] = '2';
 
-    print(param);
 
     // cnicBackImage.value
 
@@ -86,7 +85,6 @@ class SignUp2ViewModel extends GetxController {
         " please upload Store Images",
       );
     }
-    print("local list =====b${fileList.length}");
 
     var parsedJson = await ApiBaseHelper()
         .postMethodForImage(url: Urls.register, files: fileList, fields: param);
@@ -115,12 +113,10 @@ class SignUp2ViewModel extends GetxController {
       storeTypeIdList.clear();
       List rawList = parseJson['data']['items'];
 
-      rawList.forEach((e) {
+      for (var e in rawList) {
         typeList.add(e['name'].toString());
         storeTypeIdList.add(e['_id'].toString());
-      });
-      print(typeList);
-      print(storeTypeIdList);
+      }
     }
   }
 
@@ -138,14 +134,12 @@ class SignUp2ViewModel extends GetxController {
       filteredCountryList.clear();
       List rawList = parseJson['data']['items'];
 
-      rawList.forEach((e) {
+      for (var e in rawList) {
         allCountryList.add(e['name'].toString());
         countryIdList.add(e['_id'].toString());
-      });
+      }
 
       //print country with Id for Test------
-      print(allCountryList);
-      print(countryIdList);
     }
   }
 
@@ -161,7 +155,6 @@ class SignUp2ViewModel extends GetxController {
 
     int i = allCountryList.indexWhere((e) => e == countryName);
     selectedCountryId = countryIdList[i];
-    print("iiiiii ${i}    == $countryName ==== ${selectedCountryId}");
     await getCityList(selectedCountryId);
   }
 
@@ -186,10 +179,10 @@ class SignUp2ViewModel extends GetxController {
       filteredCityList.clear();
       List rawList = parseJson['data']['items'];
 
-      rawList.forEach((e) {
+      for (var e in rawList) {
         allCityList.add(e['name'].toString());
         cityIdList.add(e['_id'].toString());
-      });
+      }
     }
   }
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/constants.dart';
+import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/widgets/image_layout_container.dart';
 import 'package:path/path.dart';
 import 'package:ismmart_vms/widgets/custom_button.dart';
@@ -14,7 +14,7 @@ import '../../../../widgets/custom_loading.dart';
 import 'sign_up_2_viewmodel.dart';
 
 class SignUp2View extends StatelessWidget {
-  SignUp2View({Key? key}) : super(key: key);
+  SignUp2View({super.key});
   final SignUp2ViewModel viewModel = Get.put(SignUp2ViewModel());
   @override
   Widget build(BuildContext context) {
@@ -39,9 +39,7 @@ class SignUp2View extends StatelessWidget {
                     createAVendorAccount(),
                     progress(),
                     shopNameField(),
-                    SizedBox(
-                      height: 10,
-                    ),
+                    SizedBox(height: 10.h),
                     Obx(
                       () => ImageLayoutContainer(
                           required: false,
@@ -170,9 +168,9 @@ class SignUp2View extends StatelessWidget {
             radius: 33,
             lineWidth: 6,
             percent: 0.5,
-            backgroundColor: Color(0xffEBEFF3),
+            backgroundColor: const Color(0xffEBEFF3),
             progressColor: newColorBlue,
-            center: new Text(
+            center: Text(
               "2 of 3",
               style: poppinsH2.copyWith(
                 color: newColorBlue2,
@@ -304,10 +302,10 @@ class SignUp2View extends StatelessWidget {
                       style: newFontStyleSize14.copyWith(
                           fontWeight: FontWeight.w500, color: kWhiteColor),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 4,
                     ),
-                    Icon(
+                    const Icon(
                       Icons.arrow_forward,
                       size: 20,
                     ),
@@ -499,8 +497,7 @@ class SignUp2View extends StatelessWidget {
                                   viewModel.getCityId(index);
                                   viewModel.cityController.text =
                                       viewModel.filteredCityList[index];
-                                  var i = viewModel.cityIdList[index];
-                                  print(i);
+                                  viewModel.cityIdList[index];
 
                                   Get.back();
                                 },

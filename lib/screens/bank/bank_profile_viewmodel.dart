@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -46,8 +45,6 @@ class BankProfileViewModel extends GetxController {
       }).toList(),
       onChanged: (String? val) {
         selectedBank.value = val ?? "";
-        print(
-            "selected selected selectedBank Type====> $val  === ${selectedBank.value}");
       },
     );
   }

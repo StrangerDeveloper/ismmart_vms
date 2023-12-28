@@ -1,21 +1,22 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:ismmart_vms/helper/utils/size_utils.dart';
+import 'package:path/path.dart' as p;
+import 'package:percent_indicator/circular_percent_indicator.dart';
+
 import 'package:ismmart_vms/helper/constants.dart';
-import 'package:ismmart_vms/widgets/image_layout_container.dart';
-import 'package:path/path.dart';
+import 'package:ismmart_vms/helper/languages/translations_key.dart';
 import 'package:ismmart_vms/helper/theme_helper.dart';
 import 'package:ismmart_vms/widgets/custom_button.dart';
 import 'package:ismmart_vms/widgets/custom_textfield.dart';
+import 'package:ismmart_vms/widgets/image_layout_container.dart';
 import 'package:ismmart_vms/widgets/obscure_suffix_icon.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
+
 import '../../../../helper/global_variables.dart';
 import '../../../../helper/validator.dart';
 import '../../../../widgets/custom_loading.dart';
 import '../../login/login_view.dart';
-import 'package:ismmart_vms/helper/languages/translations_key.dart' as langKey;
 import 'sign_up_1_viewmodel.dart';
 
 class SignUp1View extends StatelessWidget {
@@ -46,7 +47,7 @@ class SignUp1View extends StatelessWidget {
                         titleAndBackBtn(),
                         divider(),
                         Padding(
-                          padding: EdgeInsets.only(top: 60),
+                          padding: const EdgeInsets.only(top: 60),
                           child: Text(
                             'Create an account',
                             style: newFontStyleSize20,
@@ -60,16 +61,12 @@ class SignUp1View extends StatelessWidget {
                         cnicNumberField(),
                         cnicFrontImage(),
                         cnicBackImage(),
-                        SizedBox(
-                          height: 20,
-                        ),
+                        SizedBox(height: 20.v),
                         passwordTextField(),
                         confirmPasswordTextField(),
                         checkedStatement(),
                         signUpInBtn(),
-                        SizedBox(
-                          height: 100,
-                        )
+                        SizedBox(height: 100.v)
                       ],
                     ),
                   ),
@@ -119,7 +116,7 @@ class SignUp1View extends StatelessWidget {
               Get.back();
             }),
           ),
-          SizedBox(width: 100),
+          const SizedBox(width: 100),
           Text(
             'Sign Up',
             style: newFontStyleSize24,
@@ -327,7 +324,7 @@ class SignUp1View extends StatelessWidget {
         title: 'CNIC Front Image',
         filePath: viewModel.cnicFrontImage.value == ''
             ? ''
-            : basename(viewModel.cnicFrontImage.value),
+            : p.basename(viewModel.cnicFrontImage.value),
         onTap: () async {
           await viewModel.selectImage(viewModel.cnicFrontImage,
               viewModel.cnicFrontImageErrorVisibility);
@@ -344,7 +341,7 @@ class SignUp1View extends StatelessWidget {
         title: 'CNIC Back Image',
         filePath: viewModel.cnicBackImage.value == ''
             ? ''
-            : basename(viewModel.cnicBackImage.value),
+            : p.basename(viewModel.cnicBackImage.value),
         onTap: () async {
           await viewModel.selectImage(
               viewModel.cnicBackImage, viewModel.cnicBackImageErrorVisibility);
@@ -436,7 +433,7 @@ class SignUp1View extends StatelessWidget {
             text: const TextSpan(
               children: [
                 TextSpan(
-                  text: 'Already have an account?' + ' ',
+                  text: 'Already have an account?',
                   style: TextStyle(
                     color: ThemeHelper.lightGrey,
                   ),
@@ -455,7 +452,7 @@ class SignUp1View extends StatelessWidget {
     );
   }
 
-  Widget or() {
+  Widget orWidget() {
     return Row(
       children: [
         const Expanded(
@@ -467,7 +464,7 @@ class SignUp1View extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Text(
-            langKey.or.tr,
+            or.tr,
             //style: newFontStyle4,
           ),
         ),

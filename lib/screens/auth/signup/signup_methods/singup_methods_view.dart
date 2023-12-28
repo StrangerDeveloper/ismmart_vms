@@ -1,7 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/global_variables.dart';
+import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/screens/auth/login/login_view.dart';
 import 'package:ismmart_vms/screens/auth/signup/signup_1/sign_up_1_view.dart';
 import 'package:ismmart_vms/screens/auth/signup/signup_methods/signup_mehods_viewmodel.dart';
@@ -9,7 +9,7 @@ import 'package:ismmart_vms/widgets/custom_button.dart';
 import 'package:ismmart_vms/widgets/custom_loading.dart';
 import 'package:ismmart_vms/widgets/custom_text.dart';
 import 'package:ismmart_vms/widgets/scrollable_column.dart';
-import 'package:ismmart_vms/helper/languages/translations_key.dart' as langKey;
+import 'package:ismmart_vms/helper/languages/translations_key.dart';
 
 import '../../../../helper/constants.dart';
 
@@ -45,7 +45,7 @@ class SingupMethodsView extends StatelessWidget {
                   signUpEmail(),
                   signupNumber(),
 
-                  or(),
+                  orWidget(),
                   googlelogInBtn(),
                   // facebooklogInBtn(),
                   applelogInBtn(),
@@ -110,9 +110,9 @@ class SingupMethodsView extends StatelessWidget {
                           fontWeight: FontWeight.w500, color: kWhiteColor),
                     ),
                     SizedBox(
-                      width: 4,
+                      width: 4.v
                     ),
-                    Icon(
+                    const Icon(
                       Icons.arrow_forward,
                       size: 20,
                     ),
@@ -147,10 +147,10 @@ class SingupMethodsView extends StatelessWidget {
                           fontWeight: FontWeight.w500,
                           color: newColorDarkBlack),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 4,
                     ),
-                    Icon(
+                    const Icon(
                       Icons.arrow_forward,
                       size: 20,
                       color: newColorDarkBlack,
@@ -166,7 +166,7 @@ class SingupMethodsView extends StatelessWidget {
     );
   }
 
-  Widget or() {
+  Widget orWidget() {
     return Padding(
       padding: const EdgeInsets.only(top: 24, bottom: 24),
       child: Row(
@@ -180,7 +180,7 @@ class SingupMethodsView extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Text(
-              langKey.or.tr,
+              or.tr,
               //style: newFontStyle4,
             ),
           ),

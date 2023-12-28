@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/widgets/custom_text.dart';
 import '../../helper/constants.dart';
 import '../../widgets/custom_button.dart';
@@ -37,20 +38,11 @@ class BankProfileView extends StatelessWidget {
                             thickness: 1,
                             height: 20,
                           ),
-                          SizedBox(
-                            height: 30,
-                          ),
-                          SizedBox(
-                            height: 30,
-                          ),
+                          SizedBox(height: 10.h),
                           accountTitle(),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          accountNumber_IBAN(),
-                          SizedBox(
-                            height: 10,
-                          ),
+                          SizedBox(height: 10.h),
+                          accountNumberIBAN(),
+                          SizedBox(height: 10.h),
                           bankTypeDrowpdown(),
                           // adressField(),
                         ],
@@ -103,7 +95,7 @@ class BankProfileView extends StatelessWidget {
     );
   }
 
-  Widget accountNumber_IBAN() {
+  Widget accountNumberIBAN() {
     return CustomTextField3(
       title: 'Account Number / IBAN',
       hintText: '1234*********678',

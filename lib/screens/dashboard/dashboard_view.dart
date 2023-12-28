@@ -336,39 +336,36 @@ class DashboardView extends StatelessWidget {
         SizedBox(
           height: 13.v,
         ),
-        Container(
-          // decoration: AppDecoration.outlineGray200,
-          child: Column(
-            children: [
-              SizedBox(height: 12.v),
-              _buildShowMoreItems(
-                  title: "Total Sale",
-                  value: "78%",
-                  color: cyan50,
-                  // decoration: AppDecoration.fillCyan.copyWith(
-                  //     borderRadius: BorderRadiusStyle.roundedBorder10,
-                  //     color: cyan50),
-                  hasSuffixIcon: true),
-              SizedBox(height: 15.v),
-              _buildShowMoreItems(
-                title: "Total Products",
-                value: "20",
-                color: gray10001,
-                // decoration: AppDecoration.fillGray10001.copyWith(
-                //   borderRadius: BorderRadiusStyle.roundedBorder10,
-                // ),
-              ),
-              SizedBox(height: 15.v),
-              _buildShowMoreItems(
-                title: "Total Revenue",
-                value: "500,000 PKR",
-                color: gray100,
-                // decoration: AppDecoration.fillGray10001.copyWith(
-                //   borderRadius: BorderRadiusStyle.roundedBorder10,
-                // ),
-              ),
-            ],
-          ),
+        Column(
+          children: [
+            SizedBox(height: 12.v),
+            _buildShowMoreItems(
+                title: "Total Sale",
+                value: "78%",
+                color: cyan50,
+                // decoration: AppDecoration.fillCyan.copyWith(
+                //     borderRadius: BorderRadiusStyle.roundedBorder10,
+                //     color: cyan50),
+                hasSuffixIcon: true),
+            SizedBox(height: 15.v),
+            _buildShowMoreItems(
+              title: "Total Products",
+              value: "20",
+              color: gray10001,
+              // decoration: AppDecoration.fillGray10001.copyWith(
+              //   borderRadius: BorderRadiusStyle.roundedBorder10,
+              // ),
+            ),
+            SizedBox(height: 15.v),
+            _buildShowMoreItems(
+              title: "Total Revenue",
+              value: "500,000 PKR",
+              color: gray100,
+              // decoration: AppDecoration.fillGray10001.copyWith(
+              //   borderRadius: BorderRadiusStyle.roundedBorder10,
+              // ),
+            ),
+          ],
         )
       ],
     );

@@ -1,8 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/screens/auth/login/login_view.dart';
 import 'package:ismmart_vms/screens/auth/signup/signup_4/sign_up_4_viewmodel.dart';
 import 'package:ismmart_vms/widgets/scrollable_column.dart';
@@ -14,7 +13,7 @@ import '../../../../widgets/custom_button.dart';
 import '../../../../widgets/custom_loading.dart';
 
 class SignUp4View extends StatelessWidget {
-  SignUp4View({Key? key}) : super(key: key);
+  SignUp4View({super.key});
   final SignUp4ViewModel viewModel = Get.put(SignUp4ViewModel());
 
   @override
@@ -30,7 +29,7 @@ class SignUp4View extends StatelessWidget {
               titleAndBackBtn(),
               subtitle(),
               progress(),
-              SizedBox(height: 50),
+              SizedBox(height: 50.v),
               waitingVerificationText(),
               text1(),
               status()
@@ -42,7 +41,7 @@ class SignUp4View extends StatelessWidget {
   }
 
   Widget titleAndBackBtn() {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       child: Stack(
         alignment: Alignment.centerLeft,
@@ -52,7 +51,7 @@ class SignUp4View extends StatelessWidget {
             child: Text(
               'ISMMART',
               style: GoogleFonts.dmSerifText(
-                color: Color(0xff333333),
+                color: const Color(0xff333333),
                 fontSize: 20,
                 fontWeight: FontWeight.w400,
               ),
@@ -93,7 +92,7 @@ class SignUp4View extends StatelessWidget {
                 ),
               ),
               TextSpan(
-                text: 'Submitted' + '!',
+                text: 'Submitted !',
                 style: newFontStyle2.copyWith(
                   fontSize: 20,
                   color: newColorDarkBlack2,
@@ -126,7 +125,7 @@ class SignUp4View extends StatelessWidget {
                       TextSpan(
                           text: 'Pending',
                           style: newFontStyleSize14.copyWith(
-                            color: Color(0xFFFFC120),
+                            color: const Color(0xFFFFC120),
                           )),
                     ],
                   ),
@@ -139,9 +138,9 @@ class SignUp4View extends StatelessWidget {
             radius: 33,
             lineWidth: 6,
             percent: 1,
-            backgroundColor: Color(0xffEBEFF3),
+            backgroundColor: const Color(0xffEBEFF3),
             progressColor: newColorBlue,
-            center: new Text(
+            center: Text(
               "4 of 4",
               style: poppinsH2.copyWith(
                 color: newColorBlue2,
@@ -168,7 +167,7 @@ class SignUp4View extends StatelessWidget {
                     color: newColorBlue2,
                   ),
                 ),
-                SizedBox(height: 6),
+                const SizedBox(height: 6),
                 Text(
                   'Last Step',
                   style: newFontStyle1.copyWith(
@@ -205,19 +204,19 @@ class SignUp4View extends StatelessWidget {
           textAlign: TextAlign.center,
           text: TextSpan(
             style: newFontStyleSize14.copyWith(
-              color: Color(0xff667085),
+              color: const Color(0xff667085),
               height: 1.5,
             ),
             children: [
-              TextSpan(text: 'Our'),
+              const TextSpan(text: 'Our'),
               TextSpan(
                 text: ' Vendor Management Team ',
                 style: newFontStyle2.copyWith(
                   fontWeight: FontWeight.w700,
-                  color: Color(0xff0E1216),
+                  color: const Color(0xff0E1216),
                 ),
               ),
-              TextSpan(
+              const TextSpan(
                 text:
                     'will review your profile and after approval you will receive a confirmation email of your',
               ),
@@ -237,7 +236,7 @@ class SignUp4View extends StatelessWidget {
 
   Widget text1() {
     return Padding(
-      padding: EdgeInsets.only(top: 32, bottom: 100),
+      padding: const EdgeInsets.only(top: 32, bottom: 100),
       child: Column(children: [
         RichText(
           maxLines: 50,
@@ -247,14 +246,14 @@ class SignUp4View extends StatelessWidget {
               color: newColorLightGrey3,
             ),
             children: [
-              TextSpan(
+              const TextSpan(
                   text:
                       'Vendor account rejections ISMMART market-place can occur due to various reasons, including:.\n\n'),
               TextSpan(
                   text: 'Incomplete Information:',
                   style:
                       newFontStyleSize12.copyWith(fontWeight: FontWeight.w700)),
-              TextSpan(
+              const TextSpan(
                 text:
                     ' If the vendor application lacks necessary details or contains inaccurate information, it might lead to rejection.\n\n',
               ),
@@ -262,7 +261,7 @@ class SignUp4View extends StatelessWidget {
                   text: 'Unsatisfactory Product or Service:',
                   style:
                       newFontStyleSize12.copyWith(fontWeight: FontWeight.w700)),
-              TextSpan(
+              const TextSpan(
                 text:
                     " The platform might have quality standards or guidelines that vendors need to meet. If the products or services don't match these standards, the account could be rejected.\n\n",
               ),
@@ -270,7 +269,7 @@ class SignUp4View extends StatelessWidget {
                   text: 'Legal or Compliance Issues:',
                   style:
                       newFontStyleSize12.copyWith(fontWeight: FontWeight.w700)),
-              TextSpan(
+              const TextSpan(
                 text:
                     ' Failure to comply with legal requirements, such as missing licenses, certifications, or not meeting industry regulations, can lead to rejection.\n\n',
               ),
@@ -278,7 +277,7 @@ class SignUp4View extends StatelessWidget {
                   text: 'High Competition:',
                   style:
                       newFontStyleSize12.copyWith(fontWeight: FontWeight.w700)),
-              TextSpan(
+              const TextSpan(
                 text:
                     ' In some cases, there might be too many similar vendors on the platform offering the same products or services. This oversaturation might result in rejection.\n\n',
               ),
@@ -286,7 +285,7 @@ class SignUp4View extends StatelessWidget {
                   text: 'Poor Reputation:',
                   style:
                       newFontStyleSize12.copyWith(fontWeight: FontWeight.w700)),
-              TextSpan(
+              const TextSpan(
                 text:
                     ' Previous instances of poor customer service, negative reviews, or complaints against the vendor might influence the decision.\n\n',
               ),
@@ -294,7 +293,7 @@ class SignUp4View extends StatelessWidget {
                   text: 'Security Concerns:',
                   style:
                       newFontStyleSize12.copyWith(fontWeight: FontWeight.w700)),
-              TextSpan(
+              const TextSpan(
                 text:
                     ' If the platform suspects potential security risks, fraud, or any form of malicious activity associated with the vendor, they might reject the account.\n\n',
               ),
@@ -302,7 +301,7 @@ class SignUp4View extends StatelessWidget {
                   text: 'Violation of Platform Policies:',
                   style:
                       newFontStyleSize12.copyWith(fontWeight: FontWeight.w700)),
-              TextSpan(
+              const TextSpan(
                 text:
                     ' Not adhering to the terms of service or policies set by the e-commerce platform can lead to rejection.\n\n',
               ),
@@ -310,7 +309,7 @@ class SignUp4View extends StatelessWidget {
                   text: 'Financial Reasons:',
                   style:
                       newFontStyleSize12.copyWith(fontWeight: FontWeight.w700)),
-              TextSpan(
+              const TextSpan(
                 text:
                     ' Issues related to financial stability, such as insufficient credit or financial history, may also result in rejection.',
               ),

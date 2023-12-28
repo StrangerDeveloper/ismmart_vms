@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 // import 'package:ism_mart/exports/export_presentation.dart';
 // import 'package:ism_mart/exports/exports_utils.dart';
 // import 'package:ism_mart/helper/global_variables.dart';
-import 'package:ismmart_vms/helper/languages/translations_key.dart' as langKey;
+import 'package:ismmart_vms/helper/languages/translations_key.dart';
 import 'package:ismmart_vms/screens/auth/login/login_view.dart';
 // import 'package:ism_mart/screens/forgot_password/forgot_password_viewmodel.dart';
 // import 'package:ism_mart/widgets/custom_appbar.dart';
@@ -27,7 +26,7 @@ class ForgotPasswordView extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: CustomAppBar(
+        appBar: const CustomAppBar(
           title: "Forget Password",
         ),
         body: SingleChildScrollView(
@@ -71,7 +70,7 @@ class ForgotPasswordView extends StatelessWidget {
                   title: 'Email / Phone Number',
                   style: newFontStyleSize14,
                 )),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             CustomTextField2(
@@ -106,10 +105,10 @@ class ForgotPasswordView extends StatelessWidget {
                       style: newFontStyleSize14.copyWith(
                           fontWeight: FontWeight.w500, color: kWhiteColor),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 4,
                     ),
-                    Icon(
+                    const Icon(
                       Icons.arrow_forward,
                       size: 20,
                     ),
@@ -128,7 +127,7 @@ class ForgotPasswordView extends StatelessWidget {
       () => GlobalVariable.showLoader.value
           ? const CustomLoading(isItBtn: true)
           : CustomTextBtn(
-              title: langKey.send.tr,
+              title: send.tr,
               height: 48,
               onPressed: () {
                 viewModel.sendBtn();

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/screens/create_payout/create_payout_viewmodel.dart';
@@ -118,7 +117,6 @@ class CreatePayoutView extends StatelessWidget {
                 value: 'manual',
                 onChanged: (value) {
                   viewModel.radioBtn.value = value;
-                  print(value);
                 },
               ),
             ),
@@ -128,7 +126,6 @@ class CreatePayoutView extends StatelessWidget {
                 value: 'automatic',
                 onChanged: (value) {
                   viewModel.radioBtn.value = value;
-                  print(value);
                 },
                 title: 'Automatic',
               ),

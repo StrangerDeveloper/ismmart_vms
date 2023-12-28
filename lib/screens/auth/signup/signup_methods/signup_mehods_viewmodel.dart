@@ -21,8 +21,6 @@ class SignupMehtodsViewModel extends GetxController {
     try {
       credential = await googleSignIn.signIn();
       credential?.authentication.then((value) {
-        print(value.idToken);
-        print(value.accessToken);
       });
     } catch (error) {
       debugPrint("$error");
@@ -48,9 +46,4 @@ class SignupMehtodsViewModel extends GetxController {
     }
   }
 
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-  }
 }
