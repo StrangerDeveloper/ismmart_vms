@@ -33,7 +33,6 @@ class AddProduct2ViewModel extends GetxController {
     scrollController.addListener(() {
       if (scrollController.offset ==
           scrollController.position.maxScrollExtent) {
-        print('Reached max');
         listOfOptionsAdded.refresh();
       }
     });
@@ -54,7 +53,6 @@ class AddProduct2ViewModel extends GetxController {
         });
       }
     } else {
-      print('Empty');
     }
   }
 
@@ -82,7 +80,7 @@ class AddProduct2ViewModel extends GetxController {
         });
       });
     } else {
-      combinations.forEach((element) {
+      for (var element in combinations) {
         String name = element;
         listOfOptionsAdded[nextIndex].optionValues?.forEach((listElement) {
           name = '$element - ${listElement.text}';
@@ -101,7 +99,7 @@ class AddProduct2ViewModel extends GetxController {
             }
           }
         });
-      });
+      }
     }
   }
 }

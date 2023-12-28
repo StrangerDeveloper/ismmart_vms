@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:ismmart_vms/helper/languages/translations_key.dart';
 
 class ProductListViewModel extends GetxController {
   RxString searchBy = 'All'.obs;
@@ -13,16 +12,13 @@ class ProductListViewModel extends GetxController {
   RxBool searchAndFilterIconVisibility = false.obs;
   RxBool searchByContainerIconVisibility = true.obs;
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
+
 
   @override
   void onReady() {
     dropdownSelectionContainerWidth.value = Get.width * higherContainerWidth;
     searchAndFilterContainerWidth.value = Get.width * lowerContainerWidth;
-    Future.delayed(Duration(milliseconds: 800), () {
+    Future.delayed(const Duration(milliseconds: 800), () {
       searchAndFilterIconVisibility.value = true;
     });
     super.onReady();

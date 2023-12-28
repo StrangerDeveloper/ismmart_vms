@@ -38,7 +38,6 @@ class LogInViewModel extends GetxController {
       ApiBaseHelper()
           .postMethod(url: Urls.login, body: param)
           .then((parsedJson) async {
-        print(parsedJson);
         if (parsedJson['success'] == true) {
           GlobalVariable.showLoader.value = false;
           GlobalVariable.noInternet(false);
@@ -65,7 +64,6 @@ class LogInViewModel extends GetxController {
         //   langKey.errorTitle.tr,
         //   e,
         // );
-        print(e);
         GlobalVariable.showLoader.value = false;
       });
     }
@@ -85,8 +83,6 @@ class LogInViewModel extends GetxController {
     try {
       credential = await googleSignIn.signIn();
       credential?.authentication.then((value) {
-        print(value.idToken);
-        print(value.accessToken);
       });
     } catch (error) {
       debugPrint("$error");

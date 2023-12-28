@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/models/bank_details_model.dart';
 import 'package:ismmart_vms/screens/auth/signup/signup_3/sign_up_3_viewmodel.dart';
@@ -183,9 +181,9 @@ class SignUp3View extends StatelessWidget {
             radius: 33,
             lineWidth: 6,
             percent: 0.7,
-            backgroundColor: Color(0xffEBEFF3),
+            backgroundColor: const Color(0xffEBEFF3),
             progressColor: newColorBlue,
-            center: new Text(
+            center: Text(
               "3 of 4",
               style: poppinsH2.copyWith(
                 color: newColorBlue2,
@@ -247,7 +245,7 @@ class SignUp3View extends StatelessWidget {
       alignment: Alignment.topLeft,
       child: Row(
         children: [
-          IconButton(
+          const IconButton(
               onPressed: null,
               icon: Icon(
                 Icons.add,
@@ -262,7 +260,7 @@ class SignUp3View extends StatelessWidget {
         ],
       ),
     );
-    ;
+    
   }
 
   Widget bankAccountsList(BuildContext context) {

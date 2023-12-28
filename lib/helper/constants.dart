@@ -4,9 +4,6 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:ismmart_vms/screens/order_listing/model/orderModel.dart';
-
-import '../screens/order_listing/model/orderModel.dart';
-import 'languages/translations_key.dart';
 //import 'package:ism_mart/exports/exports_model.dart';
 //import 'package:ism_mart/helper/languages/translations_key.dart' as langKey;
 
@@ -223,8 +220,8 @@ class AppConstant {
 
   static const defaultImgUrl =
       "https://i.ibb.co/dLxHqcR/vecteezy-icon-image-not-found-vector.jpg";
-  static const SESSION_EXPIRED = "session is expired";
-  static const INVALID_USER = "invalid user recieved";
+  // static const SESSION_EXPIRED = "session is expired";
+  // static const INVALID_USER = "invalid user recieved";
 
   // static searchFieldProp() {
   //   return TextFieldProps(
@@ -280,13 +277,13 @@ class AppConstant {
     }
 
     var messageNew = message;
-    if (message.toString().toLowerCase().contains(SESSION_EXPIRED)) {
-      messageNew =
-          "Your session has expired. For security reasons, please sign in again to continue.";
-    } else if (message.toString().toLowerCase().contains(INVALID_USER)) {
-      messageNew =
-          "We're sorry, but we couldn't recognize that user. Please double-check and try again, or contact support for assistance.";
-    }
+    // if (message.toString().toLowerCase().contains(SESSION_EXPIRED)) {
+    //   messageNew =
+    //       "Your session has expired. For security reasons, please sign in again to continue.";
+    // } else if (message.toString().toLowerCase().contains(INVALID_USER)) {
+    //   messageNew =
+    //       "We're sorry, but we couldn't recognize that user. Please double-check and try again, or contact support for assistance.";
+    // }
 
     Get.snackbar(titleNew.capitalizeFirst!.toString(), messageNew.toString(),
         duration: const Duration(milliseconds: 1000),

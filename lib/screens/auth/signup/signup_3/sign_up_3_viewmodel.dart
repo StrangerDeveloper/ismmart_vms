@@ -50,9 +50,7 @@ class SignUp3ViewModel extends GetxController {
       param['banks[0][title]'] = bankAccTitleController.text;
       param['banks[0][iban'] = bankAccNumberController.text;
       param['step'] = '3';
-      print(param);
       var parseJson = await ApiBaseHelper().getMethod(url: Urls.bank);
-      print(parseJson);
       if (parseJson['success'] == true) {
         finalRegistration(param);
       }
@@ -60,32 +58,31 @@ class SignUp3ViewModel extends GetxController {
   }
 
   Future<void> finalRegistration(Map<String, String> param) async {
-    final SignUpScreen1ViewModel _viewModel1 =
-        Get.put(SignUpScreen1ViewModel());
-    final SignUp2ViewModel _viewModel2 = Get.put(SignUp2ViewModel());
+    final SignUpScreen1ViewModel viewModel1 = Get.put(SignUpScreen1ViewModel());
+    final SignUp2ViewModel viewModel2 = Get.put(SignUp2ViewModel());
     param['step'] = '4';
-    print(param);
+    //print(param);
 
     //-------Images Files add of All signup Steps------------
     List<http.MultipartFile> fileList = [];
     fileList.add(
       await http.MultipartFile.fromPath(
         'cnicImages',
-        _viewModel1.cnicFrontImage.value!,
+        viewModel1.cnicFrontImage.value,
         contentType: MediaType.parse('image/jpeg'),
       ),
     );
     fileList.add(
       await http.MultipartFile.fromPath(
         'cnicImages',
-        _viewModel1.cnicBackImage.value!,
+        viewModel1.cnicBackImage.value,
         contentType: MediaType.parse('image/jpeg'),
       ),
     );
     fileList.add(
       await http.MultipartFile.fromPath(
         'storeImage',
-        _viewModel2.shopLogoImage.value!,
+        viewModel2.shopLogoImage.value,
         contentType: MediaType.parse('image/jpeg'),
       ),
     );
@@ -94,7 +91,6 @@ class SignUp3ViewModel extends GetxController {
         .postMethodForImage(url: Urls.register, files: fileList, fields: param);
 
     if (parsedJson['success'] == true) {
-      print("---------successfully Applied for Registraion---------");
       Get.offAll(() => SignUp4View());
     }
   }
@@ -115,14 +111,14 @@ class SignUp3ViewModel extends GetxController {
       filteredBankList.clear();
       List rawList = parseJson['data']['items'];
 
-      rawList.forEach((e) {
+      for (var e in rawList) {
         allBankist.add(e['name'].toString());
         bankIdList.add(e['_id'].toString());
-      });
+      }
 
       //print country with Id for Test------
-      print(allBankist);
-      print(bankIdList);
+      //print(allBankist);
+      //print(bankIdList);
     }
   }
 

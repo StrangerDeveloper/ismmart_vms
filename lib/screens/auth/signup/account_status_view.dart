@@ -1,9 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ismmart_vms/helper/theme_helper.dart';
+import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/screens/auth/login/login_view.dart';
 import 'package:ismmart_vms/screens/auth/signup/signup_4/sign_up_4_viewmodel.dart';
 import 'package:ismmart_vms/widgets/scrollable_column.dart';
@@ -15,7 +14,7 @@ import '../../../helper/global_variables.dart';
 import '../../../widgets/custom_loading.dart';
 
 class AccountStatusView extends StatelessWidget {
-  AccountStatusView({Key? key}) : super(key: key);
+  AccountStatusView({super.key});
   final SignUp4ViewModel viewModel = Get.put(SignUp4ViewModel());
 
   @override
@@ -31,7 +30,7 @@ class AccountStatusView extends StatelessWidget {
               titleAndBackBtn(),
               subtitle(),
               progress(),
-              SizedBox(height: 50),
+              SizedBox(height: 50.h),
               waitingVerificationText(),
               requestBtn()
             ],
@@ -42,7 +41,7 @@ class AccountStatusView extends StatelessWidget {
   }
 
   Widget titleAndBackBtn() {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       child: Stack(
         alignment: Alignment.centerLeft,
@@ -52,7 +51,7 @@ class AccountStatusView extends StatelessWidget {
             child: Text(
               'ISMMART',
               style: GoogleFonts.dmSerifText(
-                color: Color(0xff333333),
+                color: const Color(0xff333333),
                 fontSize: 20,
                 fontWeight: FontWeight.w400,
               ),
@@ -93,7 +92,7 @@ class AccountStatusView extends StatelessWidget {
                 ),
               ),
               TextSpan(
-                text: 'Submitted' + '!',
+                text: 'Submitted' '!',
                 style: newFontStyle2.copyWith(
                   fontSize: 20,
                   color: newColorDarkBlack2,
@@ -138,9 +137,9 @@ class AccountStatusView extends StatelessWidget {
             radius: 33,
             lineWidth: 6,
             percent: 1,
-            backgroundColor: Color(0xffEBEFF3),
+            backgroundColor: const Color(0xffEBEFF3),
             progressColor: newColorBlue,
-            center: new Text(
+            center: Text(
               "4 of 4",
               style: poppinsH2.copyWith(
                 color: newColorBlue2,
@@ -165,11 +164,11 @@ class AccountStatusView extends StatelessWidget {
           textAlign: TextAlign.center,
           text: TextSpan(
             style: newFontStyleSize14.copyWith(
-              color: Color(0xff667085),
+              color: const Color(0xff667085),
               height: 1.5,
             ),
             children: [
-              TextSpan(
+              const TextSpan(
                 text: 'Due to ',
               ),
               TextSpan(
@@ -179,7 +178,7 @@ class AccountStatusView extends StatelessWidget {
                   color: ThemeHelper.red1,
                 ),
               ),
-              TextSpan(
+              const TextSpan(
                   text:
                       ' vendor application lacks necessary details or contains inaccurate information, it might lead to rejection.'),
             ],
@@ -204,10 +203,10 @@ class AccountStatusView extends StatelessWidget {
                       style: newFontStyleSize14.copyWith(
                           fontWeight: FontWeight.w500, color: kWhiteColor),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 4,
                     ),
-                    Icon(
+                    const Icon(
                       Icons.sync,
                       size: 20,
                     ),

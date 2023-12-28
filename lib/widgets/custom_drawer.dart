@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/constants.dart';
+import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/screens/collection/collection_view.dart';
 import '../screens/add_location/add_location_view.dart';
 import '../screens/add_user/add_user_view.dart';
@@ -84,7 +85,7 @@ class CustomDrawer extends StatelessWidget {
                               ],
                             ),
                           )
-                        : SizedBox(),
+                        : const SizedBox(),
                   ),
                 ],
               ),
@@ -218,7 +219,7 @@ class CustomDrawer extends StatelessWidget {
         height: 54,
         padding: const EdgeInsets.all(8),
         decoration: ShapeDecoration(
-          color: Color(0xFFEFF5FB),
+          color: const Color(0xFFEFF5FB),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
@@ -238,10 +239,11 @@ class CustomDrawer extends StatelessWidget {
                 style: newFontStyleSize12.copyWith(fontWeight: FontWeight.w700),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 40,
             ),
-            IconButton(onPressed: () {}, icon: Icon(Icons.more_vert_outlined))
+            IconButton(
+                onPressed: () {}, icon: const Icon(Icons.more_vert_outlined))
           ],
         ),
       ),
@@ -253,7 +255,7 @@ class CustomDrawer extends StatelessWidget {
       bool? dropDwnIcon,
       double h = 54.0,
       void Function()? onTab}) {
-    bool isTab = false;
+    //bool isTab = false;
     return Padding(
       padding: const EdgeInsets.only(left: 15, bottom: 13),
       child: GestureDetector(
@@ -263,7 +265,7 @@ class CustomDrawer extends StatelessWidget {
           height: h,
           padding: const EdgeInsets.all(8),
           decoration: ShapeDecoration(
-            color: Color(0xFFEFF5FB),
+            color: const Color(0xFFEFF5FB),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
@@ -276,9 +278,9 @@ class CustomDrawer extends StatelessWidget {
                         width: 24,
                         height: 24,
                         clipBehavior: Clip.antiAlias,
-                        decoration: BoxDecoration(),
+                        decoration: const BoxDecoration(),
                         child: Image.asset(
-                          iconPath ?? "",
+                          iconPath,
                           height: 24,
                           width: 24,
                           color: viewModel.isTab.value
@@ -286,10 +288,8 @@ class CustomDrawer extends StatelessWidget {
                               : newColorLightGrey2,
                         ),
                       ))
-                  : SizedBox(),
-              SizedBox(
-                width: 10,
-              ),
+                  : Container(),
+              SizedBox(width: 10.h),
               Text(
                 title,
                 style: newFontStyleSize16,
@@ -302,8 +302,8 @@ class CustomDrawer extends StatelessWidget {
                       onPressed: () {
                         viewModel.moreOption.toggle();
                       },
-                      icon: Icon(Icons.arrow_drop_down))
-                  : SizedBox(),
+                      icon: const Icon(Icons.arrow_drop_down))
+                  : Container(),
             ],
           ),
         ),

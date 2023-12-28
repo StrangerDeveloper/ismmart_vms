@@ -11,7 +11,6 @@ import '../../widgets/custom_button.dart';
 import '../../widgets/custom_radiobtn.dart';
 import '../../widgets/custom_textfield.dart';
 import '../../widgets/loader_view.dart';
-import '../product_detail/product_detail_view.dart';
 
 class PayoutListView extends StatelessWidget {
   PayoutListView({super.key});

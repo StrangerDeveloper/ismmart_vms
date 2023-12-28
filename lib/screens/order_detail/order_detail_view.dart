@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ismmart_vms/helper/languages/translations_key.dart' as langKey;
+import 'package:ismmart_vms/helper/languages/translations_key.dart' as lang_key;
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/screens/order_listing/model/orderModel.dart';
-import 'package:ismmart_vms/screens/order_listing/model/order_model.dart';
 import 'package:ismmart_vms/screens/order_detail/model/ordertracking_item_model.dart';
 import 'package:ismmart_vms/screens/order_detail/order_detail_viewModel.dart';
 import 'package:ismmart_vms/screens/order_detail/order_tracking/order_tracking_view.dart';
@@ -22,10 +21,11 @@ import '../return/return_view.dart';
 
 // ignore: must_be_immutable
 class OrderDetailView extends StatelessWidget {
-  OrdersDetailPageController controller = Get.put(OrdersDetailPageController());
+  final OrdersDetailPageController controller =
+      Get.put(OrdersDetailPageController());
 
   final OrderItem order;
-  OrderDetailView({Key? key, required this.order}) : super(key: key) {
+  OrderDetailView({super.key, required this.order}) {
     //Get.put(OrderViewModel()).fetchOrderDetails();
   }
 
@@ -73,7 +73,7 @@ class OrderDetailView extends StatelessWidget {
           onTapArrowLeft();
         },
       ),
-      title: langKey.orderDetail.tr,
+      title: lang_key.orderDetail.tr,
     );
   }
 
@@ -110,7 +110,7 @@ class OrderDetailView extends StatelessWidget {
             radius: 33,
             lineWidth: 6,
             percent: 0.5,
-            backgroundColor: Color(0xffEBEFF3),
+            backgroundColor: const Color(0xffEBEFF3),
             progressColor: newColorBlue,
             center: Text(
               "2 of 3",
@@ -338,7 +338,7 @@ class OrderDetailView extends StatelessWidget {
       title: text,
       style: TextStyle(
         fontSize: 12.fSize,
-        color: Color(0xFF6B7280),
+        color: const Color(0xFF6B7280),
 
         ///fontWeight: FontWeight.w600,
       ),

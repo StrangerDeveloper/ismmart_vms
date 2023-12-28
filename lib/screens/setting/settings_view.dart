@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,7 +11,6 @@ import '../../widgets/custom_button.dart';
 import '../bank/bank_profile_view.dart';
 import '../location_list/location_list_view.dart';
 import '../payout_list/payout_list_view.dart';
-import '../profile/edit_profile_view.dart';
 import '../profile/profile_details/profile_detail_view.dart';
 
 class SettingsView extends StatelessWidget {
@@ -68,7 +67,7 @@ class SettingsView extends StatelessWidget {
                         color: newColorDarkBlack2,
                       ),
                     )),
-                Positioned(
+                const Positioned(
                   left: 40,
                   top: 80,
                   child: CircleAvatar(

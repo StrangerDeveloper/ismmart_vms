@@ -39,7 +39,7 @@ class AddProduct2View extends StatelessWidget {
                 child: CustomTextBtn(
                   title: 'Save & Next',
                   onPressed: () {
-                    Get.to(() => LocationInventoryView());
+                    Get.to(() => const LocationInventoryView());
                   },
                 ),
               ),
@@ -280,7 +280,7 @@ class AddProduct2View extends StatelessWidget {
                     Obx(
                       () => Column(
                         children: viewModel.listOfOptionsAdded.map((e1) {
-                          print(viewModel.listOfOptionsAdded.length);
+                          debugPrint("Length: ${viewModel.listOfOptionsAdded.length}");
                           TextEditingController optionName =
                               TextEditingController();
                           optionName.text = e1.optionName!;

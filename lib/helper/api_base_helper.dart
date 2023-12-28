@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:ismmart_vms/helper/common_function.dart';
 import 'package:ismmart_vms/helper/errors.dart';
@@ -38,7 +39,7 @@ class ApiBaseHelper {
       Map<String, dynamic> parsedJSON = jsonDecode(response.body);
       return parsedJSON;
     } on SocketException catch (e) {
-      print(e);
+      debugPrint("$e");
       GlobalVariable.showLoader.value = false;
       CustomSnackBar.showSnackBar(
           title: 'Error', message: Errors.noInternetError);
@@ -309,8 +310,8 @@ class ApiBaseHelper {
   }) async {
     try {
       Uri urlValue = Uri.parse(_baseUrl + url);
-      print('*********************** Request ********************************');
-      print(urlValue);
+      debugPrint('*********************** Request ********************************');
+      debugPrint("$urlValue");
 
       http.MultipartRequest request = http.MultipartRequest('POST', urlValue);
       request.headers.addAll(header);
@@ -320,10 +321,10 @@ class ApiBaseHelper {
       Map<String, dynamic> parsedJson =
           await jsonDecode(await response.stream.bytesToString());
 
-      print(
+      debugPrint(
           '*********************** Response ********************************');
-      print(urlValue);
-      print(parsedJson.toString());
+      debugPrint("$urlValue");
+      debugPrint(parsedJson.toString());
       AppConstant.colorConsole(
           '****************************************************************************************');
       return parsedJson;

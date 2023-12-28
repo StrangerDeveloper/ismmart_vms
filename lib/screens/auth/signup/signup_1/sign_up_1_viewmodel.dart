@@ -1,16 +1,18 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+
 import 'package:ismmart_vms/helper/global_variables.dart';
 import 'package:ismmart_vms/helper/urls.dart';
 import 'package:ismmart_vms/screens/auth/signup/signup_2/sign_up_2_view.dart';
 import 'package:ismmart_vms/widgets/pick_image.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-import 'package:http/http.dart' as http;
-import '../../../../helper/api_base_helper.dart';
-import 'package:http_parser/http_parser.dart';
 
+import '../../../../helper/api_base_helper.dart';
 import '../../../../helper/constants.dart';
 
 class SignUpScreen1ViewModel extends GetxController {
@@ -53,12 +55,6 @@ class SignUpScreen1ViewModel extends GetxController {
   }
 
   @override
-  void onInit() {
-    // TODO: implement onInit
-    super.onInit();
-  }
-
-  @override
   void onClose() {
     nameController.dispose();
     emailController.dispose();
@@ -76,19 +72,19 @@ class SignUpScreen1ViewModel extends GetxController {
         fileList.add(
           await http.MultipartFile.fromPath(
             'cnicImages',
-            cnicFrontImage.value!,
+            cnicFrontImage.value,
             contentType: MediaType.parse('image/jpeg'),
           ),
         );
         fileList.add(
           await http.MultipartFile.fromPath(
             'cnicImages',
-            cnicBackImage.value!,
+            cnicBackImage.value,
             contentType: MediaType.parse('image/jpeg'),
           ),
         );
       } else {
-        return AppConstant.displaySnackBar(
+        AppConstant.displaySnackBar(
           " Error",
           " please upload CNIC Images",
         );
@@ -111,7 +107,7 @@ class SignUpScreen1ViewModel extends GetxController {
           .postMethodForImage(
               url: Urls.register, files: fileList, fields: param)
           .then((parsedJson) {
-        print(parsedJson);
+        //print(parsedJson);
         if (parsedJson['success'] == true) {
           param.removeWhere((key, value) => value == "1");
           Get.to(() => SignUp2View(), arguments: param);
@@ -126,16 +122,16 @@ class SignUpScreen1ViewModel extends GetxController {
   }
 
   //Google singin
-  RxString socialSignUP_Id = ''.obs;
-  RxString socialSignUp_Name = ''.obs;
-  RxString socialsignUp_Email = ''.obs;
-  RxString socialSignUP_imgUrl = ''.obs;
+  RxString socialSignUpId = ''.obs;
+  RxString socialSignUpName = ''.obs;
+  RxString socialsignUpEmail = ''.obs;
+  RxString socialSignUPimgUrl = ''.obs;
 
   final googleSignin = GoogleSignIn();
   GoogleSignInAccount? _user;
   GoogleSignInAccount get user => _user!;
   Future googleLogIn() async {
-    GoogleSignIn _googleSignIn = GoogleSignIn(
+    GoogleSignIn googleSignIn = GoogleSignIn(
       scopes: [
         'email',
         'https://www.googleapis.com/auth/contacts.readonly',
@@ -143,16 +139,16 @@ class SignUpScreen1ViewModel extends GetxController {
     );
 
     try {
-      GoogleSignInAccount? credential = await _googleSignIn.signIn();
-      print(credential);
-      socialSignUP_Id.value = credential?.id ?? "";
-      socialSignUp_Name.value = credential?.displayName ?? "";
-      socialsignUp_Email.value = credential?.email ?? "";
-      socialSignUP_imgUrl.value = credential?.photoUrl ?? "";
+      GoogleSignInAccount? credential = await googleSignIn.signIn();
+      //print(credential);
+      socialSignUpId.value = credential?.id ?? "";
+      socialSignUpName.value = credential?.displayName ?? "";
+      socialsignUpEmail.value = credential?.email ?? "";
+      socialSignUPimgUrl.value = credential?.photoUrl ?? "";
     } catch (error) {
-      print(error);
+      debugPrint("$error");
     }
-    update();
+    //update();
     //  var a = credential['GoogleSignInAccount']['displayName'];
   }
 

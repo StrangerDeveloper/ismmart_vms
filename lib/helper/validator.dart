@@ -1,7 +1,7 @@
 import 'dart:core';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:ismmart_vms/helper/languages/translations_key.dart' as langKey;
+import 'package:ismmart_vms/helper/languages/translations_key.dart' as lang_key;
 
 class Validator {
   /////////////////////  Formatters  /////////////////////////
@@ -24,7 +24,7 @@ class Validator {
   String? validateDefaultTxtField(String? value, {String? errorPrompt}) {
     if (GetUtils.isBlank(value)!) {
       if (errorPrompt == null) {
-        return langKey.fieldIsRequired.tr;
+        return lang_key.fieldIsRequired.tr;
       } else {
         return errorPrompt;
       }

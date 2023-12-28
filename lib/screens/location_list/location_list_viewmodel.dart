@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:ismmart_vms/helper/common_function.dart';
 import 'package:ismmart_vms/screens/location_list/location_model.dart';
 

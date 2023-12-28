@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/global_variables.dart';
+import 'package:ismmart_vms/helper/languages/translations_key.dart';
 import 'package:ismmart_vms/helper/routes.dart';
+import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/helper/validator.dart';
 import 'package:ismmart_vms/widgets/custom_button.dart';
 import 'package:ismmart_vms/widgets/custom_loading.dart';
@@ -9,7 +11,6 @@ import 'package:ismmart_vms/widgets/custom_text.dart';
 import 'package:ismmart_vms/widgets/custom_textfield.dart';
 import 'package:ismmart_vms/widgets/obscure_suffix_icon.dart';
 import 'package:ismmart_vms/widgets/scrollable_column.dart';
-import 'package:ismmart_vms/helper/languages/translations_key.dart' as langKey;
 
 import '../../../helper/constants.dart';
 import '../signup/signup_1/sign_up_1_view.dart';
@@ -34,9 +35,7 @@ class LogInView extends StatelessWidget {
                 child: ScrollableColumn(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
-                      height: 30,
-                    ),
+                    SizedBox(height: 30.h),
                     titleAndBackBtn(),
                     const Spacer(),
                     Padding(
@@ -58,7 +57,7 @@ class LogInView extends StatelessWidget {
                     forgotPassword(),
                     logInBtn(),
 
-                    or(),
+                    orWidget(),
                     googlelogInBtn(),
                     // facebooklogInBtn(),
                     applelogInBtn(),
@@ -272,10 +271,8 @@ class LogInView extends StatelessWidget {
                       style: newFontStyleSize14.copyWith(
                           fontWeight: FontWeight.w500, color: kWhiteColor),
                     ),
-                    SizedBox(
-                      width: 4,
-                    ),
-                    Icon(
+                    SizedBox(width: 4.h),
+                    const Icon(
                       Icons.arrow_forward,
                       size: 20,
                     ),
@@ -329,7 +326,7 @@ class LogInView extends StatelessWidget {
     );
   }
 
-  Widget or() {
+  Widget orWidget() {
     return Padding(
       padding: const EdgeInsets.only(top: 16, bottom: 16),
       child: Row(
@@ -342,10 +339,9 @@ class LogInView extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Text(
-              langKey.or.tr,
-              //style: newFontStyle4,
-            ),
+            child: Text(or.tr
+                //style: newFontStyle4,
+                ),
           ),
           const Expanded(
             child: Divider(
@@ -361,7 +357,6 @@ class LogInView extends StatelessWidget {
   Widget doNotHaveAnAccount() {
     return TextButton(
       onPressed: () {
-        print("click");
         Get.to(() => SingupMethodsView());
       },
       child: Padding(
@@ -371,7 +366,7 @@ class LogInView extends StatelessWidget {
             text: TextSpan(
               children: [
                 TextSpan(
-                    text: 'Don’t have an account?',
+                    text: "Don't have an account?",
                     style:
                         newFontStyleSize14.copyWith(color: newColorLightGrey2)),
                 TextSpan(

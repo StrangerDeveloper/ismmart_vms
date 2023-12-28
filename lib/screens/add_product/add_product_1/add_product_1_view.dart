@@ -1,11 +1,9 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ismmart_vms/helper/common_function.dart';
-import 'package:ismmart_vms/helper/languages/translations_key.dart' as langKey;
 import 'package:ismmart_vms/screens/add_product/add_product_2/add_product_2_view.dart';
 import 'package:quill_html_editor/quill_html_editor.dart';
 
@@ -16,7 +14,6 @@ import '../../../widgets/custom_bottom_sheet.dart';
 import '../../../widgets/custom_button.dart';
 import '../../../widgets/custom_checkbox.dart';
 import '../../../widgets/custom_textfield.dart';
-import '../../../widgets/pick_image.dart';
 import '../../../widgets/stepperText.dart';
 import 'add_product_1_viewmodel.dart';
 
@@ -97,7 +94,7 @@ class AddProduct1View extends StatelessWidget {
           color: newColorLightGrey2,
         ),
       ),
-      title: Text('Add Product'),
+      title: const Text('Add Product'),
     );
   }
 
@@ -484,7 +481,7 @@ class AddProduct1View extends StatelessWidget {
                           controller: viewModel.prodProfitController,
                           readOnly: true,
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         CustomTextField5(
                           title: 'Margin',
                           hintText: '--',
@@ -573,17 +570,17 @@ class AddProduct1View extends StatelessWidget {
               onChanged: (value) {
                 if (value == '' || value.isEmpty) {
                   viewModel.searchedTags.clear();
-                  viewModel.tagsList.forEach((element) {
+                  for (var element in viewModel.tagsList) {
                     viewModel.searchedTags.add(element);
-                  });
+                  }
                 } else {
                   viewModel.searchedTags.clear();
-                  viewModel.tagsList.forEach((element) {
+                  for (var element in viewModel.tagsList) {
                     if (element.name!.toLowerCase().contains(value)) {
                       viewModel.searchedTags.add(element);
                       viewModel.searchedTags.refresh();
                     }
-                  });
+                  }
                 }
               },
               controller: viewModel.prodTagController,
@@ -761,87 +758,87 @@ class AddProduct1View extends StatelessWidget {
   //   );
   // }
 
-  Widget _showImages() {
-    return ListView.builder(
-      scrollDirection: Axis.horizontal,
-      itemCount: viewModel.productImages.length,
-      itemBuilder: (BuildContext, index) {
-        File file = viewModel.productImages[index];
-        return Container(
-          width: 60,
-          margin: const EdgeInsets.all(5),
-          padding: const EdgeInsets.all(8.0),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(15.0),
-          ),
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              Image.file(file),
-              Positioned(
-                right: 0,
-                child: CustomActionIcon(
-                  width: 25,
-                  height: 25,
-                  onTap: () {
-                    viewModel.imagesSizeInMb.value -=
-                        (file.lengthSync() * 0.000001);
-                    viewModel.productImages.removeAt(index);
-                    if (viewModel.productImages.isEmpty) {
-                      viewModel.uploadImagesError.value = true;
-                    }
-                  },
-                  hasShadow: false,
-                  icon: Icons.close_rounded,
-                  bgColor: ThemeHelper.primary.withOpacity(0.2),
-                  iconColor: ThemeHelper.primary,
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
+  // Widget _showImages() {
+  //   return ListView.builder(
+  //     scrollDirection: Axis.horizontal,
+  //     itemCount: viewModel.productImages.length,
+  //     itemBuilder: (context, index) {
+  //       File file = viewModel.productImages[index];
+  //       return Container(
+  //         width: 60,
+  //         margin: const EdgeInsets.all(5),
+  //         padding: const EdgeInsets.all(8.0),
+  //         decoration: BoxDecoration(
+  //           color: Colors.white,
+  //           borderRadius: BorderRadius.circular(15.0),
+  //         ),
+  //         child: Stack(
+  //           fit: StackFit.expand,
+  //           children: [
+  //             Image.file(file),
+  //             Positioned(
+  //               right: 0,
+  //               child: CustomActionIcon(
+  //                 width: 25,
+  //                 height: 25,
+  //                 onTap: () {
+  //                   viewModel.imagesSizeInMb.value -=
+  //                       (file.lengthSync() * 0.000001);
+  //                   viewModel.productImages.removeAt(index);
+  //                   if (viewModel.productImages.isEmpty) {
+  //                     viewModel.uploadImagesError.value = true;
+  //                   }
+  //                 },
+  //                 hasShadow: false,
+  //                 icon: Icons.close_rounded,
+  //                 bgColor: ThemeHelper.primary.withOpacity(0.2),
+  //                 iconColor: ThemeHelper.primary,
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
 
-  Widget _buildImageSection() {
-    return GestureDetector(
-        onTap: () async {
-          viewModel.productImages.addAll(await PickImage().pickMultipleImage());
-          if (viewModel.productImages.isNotEmpty) {
-            viewModel.uploadImagesError.value = false;
-          }
-        },
-        child: Obx(
-          () => Container(
-            width: double.infinity,
-            height: 150,
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-            ),
-            child: viewModel.productImages.isNotEmpty
-                ? _showImages()
-                : Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(
-                        Icons.cloud_upload_rounded,
-                        size: 30,
-                      ),
-                      const SizedBox(height: 5),
-                      Text(
-                        langKey.clickHereToUpload.tr,
-                        style: const TextStyle(
-                          color: kLightColor,
-                        ),
-                      )
-                    ],
-                  ),
-          ),
-        ));
-  }
+  // Widget _buildImageSection() {
+  //   return GestureDetector(
+  //       onTap: () async {
+  //         viewModel.productImages.addAll(await PickImage().pickMultipleImage());
+  //         if (viewModel.productImages.isNotEmpty) {
+  //           viewModel.uploadImagesError.value = false;
+  //         }
+  //       },
+  //       child: Obx(
+  //         () => Container(
+  //           width: double.infinity,
+  //           height: 150,
+  //           decoration: const BoxDecoration(
+  //             color: Colors.white,
+  //             borderRadius: BorderRadius.all(Radius.circular(10)),
+  //           ),
+  //           child: viewModel.productImages.isNotEmpty
+  //               ? _showImages()
+  //               : Column(
+  //                   mainAxisAlignment: MainAxisAlignment.center,
+  //                   children: [
+  //                     const Icon(
+  //                       Icons.cloud_upload_rounded,
+  //                       size: 30,
+  //                     ),
+  //                     const SizedBox(height: 5),
+  //                     Text(
+  //                       clickHereToUpload.tr,
+  //                       style: const TextStyle(
+  //                         color: kLightColor,
+  //                       ),
+  //                     )
+  //                   ],
+  //                 ),
+  //         ),
+  //       ));
+  // }
 
 // Widget productVariantsAndFeaturesField() {
 //   return Obx(

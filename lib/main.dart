@@ -4,15 +4,10 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ismmart_vms/helper/languages/translations_key.dart';
 import 'package:ismmart_vms/helper/theme_helper.dart';
-import 'package:ismmart_vms/screens/add_product/add_product_2/add_product_2_view.dart';
-import 'package:ismmart_vms/screens/order_detail/order_detail_view.dart';
 import 'package:ismmart_vms/screens/order_listing/order_view.dart';
-import 'package:ismmart_vms/screens/product_list/product_list_view.dart';
 import 'firebase_options.dart';
 import 'helper/routes.dart';
-import 'screens/Order/order_container/order_container_view.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
