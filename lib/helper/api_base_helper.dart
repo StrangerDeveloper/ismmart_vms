@@ -15,13 +15,12 @@ class ApiBaseHelper {
     'Authorization': 'Bearer ${GlobalVariable.token}',
   };
 
-  Future<dynamic> getMethod({
-    required String url
-  }) async {
+  Future<dynamic> getMethod({required String url}) async {
     try {
       print(header);
       Uri urlValue = Uri.parse(_baseUrl + url);
-      CommonFunction.debugPrint('*********************** Request ********************************');
+      CommonFunction.debugPrint(
+          '*********************** Request ********************************');
       CommonFunction.debugPrint(urlValue);
 
       http.Response response = await http
@@ -39,7 +38,8 @@ class ApiBaseHelper {
       return parsedJSON;
     } on SocketException catch (_) {
       GlobalVariable.showLoader.value = false;
-      CustomSnackBar.showSnackBar(title: 'Error', message: Errors.noInternetError);
+      CustomSnackBar.showSnackBar(
+          title: 'Error', message: Errors.noInternetError);
       throw Errors.noInternetError;
     } on TimeoutException catch (_) {
       GlobalVariable.showLoader.value = false;
@@ -68,7 +68,9 @@ class ApiBaseHelper {
     try {
       Map<String, String> header = {'Content-Type': 'application/json'};
       if (withAuthorization) {
-        header['Authorization'] = withBearer ? 'Bearer ${GlobalVariable.token}' : GlobalVariable.token;
+        header['Authorization'] = withBearer
+            ? 'Bearer ${GlobalVariable.token}'
+            : GlobalVariable.token;
       }
       if (body != null) {
         body = jsonEncode(body);
