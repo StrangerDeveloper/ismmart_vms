@@ -1,21 +1,21 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../widgets/pick_image.dart';
 
-class StoreViewModel extends GetxController{
-  GlobalKey<FormState> vendorSignUp2FormKey = GlobalKey<FormState>();
+class StoreViewModel extends GetxController {
+  GlobalKey<FormState> storeFormKey = GlobalKey<FormState>();
   TextEditingController storeNameController = TextEditingController();
-  TextEditingController storeAddressController = TextEditingController();
   TextEditingController storeSlugController = TextEditingController();
+  TextEditingController storeTypeController = TextEditingController();
+  Rx<File> pickedFile = File('').obs;
+
+  ////////////////////////
   RxBool shopImageErrorVisibility = false.obs;
   RxString shopLogoImage = ''.obs;
-  RxInt cityId = 0.obs;
-  RxInt countryId = 0.obs;
-  RxList<int> storeTypeList = <int>[].obs;
-  RxBool countryErrorVisibility = false.obs;
-  RxBool cityErrorVisibility = false.obs;
-  RxBool storeTypeErrorVisibility = false.obs;
+
   selectImage(RxString imageVar, RxBool imageVisibilityVar) async {
     final image = await PickImage().pickSingleImage();
     if (image != null) {
@@ -23,4 +23,5 @@ class StoreViewModel extends GetxController{
       imageVisibilityVar.value = false; //
     }
   }
+////////////////////////
 }
