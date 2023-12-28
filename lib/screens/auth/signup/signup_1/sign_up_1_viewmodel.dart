@@ -109,10 +109,7 @@ class SignUpScreen1ViewModel extends GetxController {
 
       await ApiBaseHelper()
           .postMethodForImage(
-              url: Urls.register,
-              withAuthorization: true,
-              files: fileList,
-              fields: param)
+              url: Urls.register, files: fileList, fields: param)
           .then((parsedJson) {
         print(parsedJson);
         if (parsedJson['success'] == true) {

@@ -88,11 +88,8 @@ class SignUp2ViewModel extends GetxController {
     }
     print("local list =====b${fileList.length}");
 
-    var parsedJson = await ApiBaseHelper().postMethodForImage(
-        url: Urls.register,
-        withAuthorization: true,
-        files: fileList,
-        fields: param);
+    var parsedJson = await ApiBaseHelper()
+        .postMethodForImage(url: Urls.register, files: fileList, fields: param);
 
     if (parsedJson['success'] == true) {
       param.removeWhere((key, value) => value == "2");

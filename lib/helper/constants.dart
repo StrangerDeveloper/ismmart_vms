@@ -4,7 +4,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-import '../screens/dashboard/model/order_model.dart';
+import '../screens/order_listing/model/orderModel.dart';
+import 'languages/translations_key.dart';
 //import 'package:ism_mart/exports/exports_model.dart';
 //import 'package:ism_mart/helper/languages/translations_key.dart' as langKey;
 
@@ -84,15 +85,10 @@ var poppinsH2 = GoogleFonts.poppins(
 );
 
 var interHeadingSize14 = GoogleFonts.inter(
-  fontSize: 14,
-  fontWeight: FontWeight.w500,
-  color: Colors.black
-);
+    fontSize: 14, fontWeight: FontWeight.w500, color: Colors.black);
 
-var interNormalText = GoogleFonts.inter(
-  fontWeight: FontWeight.w400,
-  color: Colors.black
-);
+var interNormalText =
+    GoogleFonts.inter(fontWeight: FontWeight.w400, color: Colors.black);
 
 var textContainerDecoration = BoxDecoration(
   color: kContainerFillColor,
@@ -219,10 +215,7 @@ var newFontStyleSize20DM = GoogleFonts.dmSerifText(
 );
 
 var stepperTextStyle = GoogleFonts.inter(
-  color: newColorBlue,
-  fontWeight: FontWeight.w500,
-  fontSize: 13
-);
+    color: newColorBlue, fontWeight: FontWeight.w500, fontSize: 13);
 
 class AppConstant {
   AppConstant._();

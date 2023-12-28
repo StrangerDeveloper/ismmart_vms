@@ -8,6 +8,8 @@ import 'package:ismmart_vms/helper/global_variables.dart';
 import 'package:ismmart_vms/helper/urls.dart';
 import 'package:ismmart_vms/widgets/custom_snackbar.dart';
 
+import 'constants.dart';
+
 class ApiBaseHelper {
   final String _baseUrl = Urls.baseUrl;
   Map<String, String> header = {
@@ -300,57 +302,51 @@ class ApiBaseHelper {
   //   }
   // }
   //
-  // Future<dynamic> postMethodForImage({
-  //   required String url,
-  //   required List<http.MultipartFile> files,
-  //   required Map<String, String> fields,
-  //   bool withBearer = false,
-  //   bool withAuthorization = false,
-  // }) async {
-  //   try {
-  //     Map<String, String> header = {'Content-Type': 'multipart/form-data'};
-  //     if (withAuthorization) {
-  //       header['Authorization'] = withBearer ? 'Bearer $token' : token;
-  //     }
-  //     Uri urlValue = Uri.parse(_baseUrl + url);
-  //     print('*********************** Request ********************************');
-  //     print(urlValue);
-  //
-  //     http.MultipartRequest request = http.MultipartRequest('POST', urlValue);
-  //     request.headers.addAll(header);
-  //     request.fields.addAll(fields);
-  //     request.files.addAll(files);
-  //     http.StreamedResponse response = await request.send();
-  //     Map<String, dynamic> parsedJson =
-  //         await jsonDecode(await response.stream.bytesToString());
-  //
-  //     print(
-  //         '*********************** Response ********************************');
-  //     print(urlValue);
-  //     print(parsedJson.toString());
-  //     AppConstant.colorConsole(
-  //         '****************************************************************************************');
-  //     return parsedJson;
-  //   } on SocketException catch (_) {
-  //     GlobalVariable.showLoader.value = false;
-  //     GlobalVariable.internetErr(true);
-  //     //AppConstant.displaySnackBar(titlege)(title, message: Errors.noInternetError);
-  //     throw Errors.noInternetError;
-  //   } on TimeoutException catch (_) {
-  //     GlobalVariable.showLoader.value = false;
-  //     AppConstant.displaySnackBar('Error', Errors.timeOutException);
-  //     throw Errors.timeOutException;
-  //   } on FormatException catch (_) {
-  //     GlobalVariable.showLoader.value = false;
-  //     AppConstant.displaySnackBar('Error', Errors.formatException);
-  //     throw Errors.formatException;
-  //   } catch (e) {
-  //     GlobalVariable.showLoader.value = false;
-  //     AppConstant.displaySnackBar('Error', Errors.generalApiError);
-  //     throw e.toString();
-  //   }
-  // }
-  //
+  Future<dynamic> postMethodForImage({
+    required String url,
+    required List<http.MultipartFile> files,
+    required Map<String, String> fields,
+  }) async {
+    try {
+      Uri urlValue = Uri.parse(_baseUrl + url);
+      print('*********************** Request ********************************');
+      print(urlValue);
+
+      http.MultipartRequest request = http.MultipartRequest('POST', urlValue);
+      request.headers.addAll(header);
+      request.fields.addAll(fields);
+      request.files.addAll(files);
+      http.StreamedResponse response = await request.send();
+      Map<String, dynamic> parsedJson =
+          await jsonDecode(await response.stream.bytesToString());
+
+      print(
+          '*********************** Response ********************************');
+      print(urlValue);
+      print(parsedJson.toString());
+      AppConstant.colorConsole(
+          '****************************************************************************************');
+      return parsedJson;
+    } on SocketException catch (_) {
+      GlobalVariable.showLoader.value = false;
+      GlobalVariable.noInternet(true);
+      //AppConstant.displaySnackBar(titlege)(title, message: Errors.noInternetError);
+      throw Errors.noInternetError;
+    } on TimeoutException catch (_) {
+      GlobalVariable.showLoader.value = false;
+      AppConstant.displaySnackBar('Error', Errors.timeOutException);
+      throw Errors.timeOutException;
+    } on FormatException catch (_) {
+      GlobalVariable.showLoader.value = false;
+      AppConstant.displaySnackBar('Error', Errors.formatException);
+      throw Errors.formatException;
+    } catch (e) {
+      GlobalVariable.showLoader.value = false;
+      AppConstant.displaySnackBar('Error', Errors.generalApiError);
+      throw e.toString();
+    }
+  }
+
   // Future<dynamic> patchMethodForImage({
   //   required String url,
   //   required List<http.MultipartFile> files,

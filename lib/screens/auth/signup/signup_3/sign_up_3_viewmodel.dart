@@ -90,11 +90,8 @@ class SignUp3ViewModel extends GetxController {
       ),
     );
 
-    var parsedJson = await ApiBaseHelper().postMethodForImage(
-        url: Urls.register,
-        withAuthorization: true,
-        files: fileList,
-        fields: param);
+    var parsedJson = await ApiBaseHelper()
+        .postMethodForImage(url: Urls.register, files: fileList, fields: param);
 
     if (parsedJson['success'] == true) {
       print("---------successfully Applied for Registraion---------");
