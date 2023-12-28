@@ -11,4 +11,5 @@ class Urls {
   static String getCities = "/places/cities?limit=0&country=";
   static String getCountries = "/places/countries?limit=0";
   static String addLocation = "/vendor/location/add";
+  static String updateLocation = "/vendor/location/update/";
 }

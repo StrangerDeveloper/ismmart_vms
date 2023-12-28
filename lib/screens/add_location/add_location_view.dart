@@ -7,6 +7,7 @@ import 'package:ismmart_vms/widgets/custom_textfield.dart';
 import 'package:ismmart_vms/widgets/loader_view.dart';
 
 import '../../helper/validator.dart';
+import '../../widgets/custom_appbar.dart';
 import '../../widgets/custom_bottom_sheet.dart';
 
 class AddLocationView extends StatelessWidget {
@@ -18,16 +19,14 @@ class AddLocationView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: const Text('Add Address'),
-      ),
+      appBar: CustomAppBar2(
+          title: viewModel.isEdit ? 'Update Address' : 'Add Address'),
       body: Stack(
         children: [
           SingleChildScrollView(
             padding: const EdgeInsets.all(16),
             child: Form(
               key: viewModel.addLocationFormKey,
-              // autovalidateMode: AutovalidateMode.onUserInteraction,
               child: Column(
                 children: [
                   nameTxtField(),
@@ -38,7 +37,7 @@ class AddLocationView extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(top: 40, bottom: 5),
                     child: CustomTextBtn(
-                      title: 'Save & Create',
+                      title: viewModel.isEdit ? 'Update' : 'Save & Create',
                       onPressed: () {
                         viewModel.saveAndCreateBtn();
                       },
@@ -81,7 +80,7 @@ class AddLocationView extends StatelessWidget {
         controller: viewModel.countryController,
         hintText: 'Select the country',
         onTap: () {
-          viewModel.resetCitiesCountryValue();
+          viewModel.resetForCitiesCountryValue();
           itemsBottomSheet();
         },
         isDropDown: true,
@@ -100,7 +99,7 @@ class AddLocationView extends StatelessWidget {
       controller: viewModel.cityController,
       isDropDown: true,
       onTap: () {
-        viewModel.resetCitiesCountryValue(isCity: true);
+        viewModel.resetForCitiesCountryValue(isCity: true);
         itemsBottomSheet(isCity: true);
       },
       validator: (value) {
@@ -200,7 +199,7 @@ class AddLocationView extends StatelessWidget {
                 hintText: 'Search ${isCity ? 'City' : 'Country'}...',
                 controller: viewModel.searchController,
                 onChanged: (value) {
-                  viewModel.onSearchCitiesCountries(value, isCity: isCity);
+                  viewModel.onSearchForCitiesCountries(value, isCity: isCity);
                 },
               ),
               Obx(
@@ -219,12 +218,22 @@ class AddLocationView extends StatelessWidget {
                               onTap: () {
                                 Get.back();
                                 if (isCity) {
-                                  viewModel.cityController.text = viewModel.filteredCitiesList[index].name ?? '';
-                                  viewModel.selectedCityId = viewModel.filteredCitiesList[index].sId ?? '';
+                                  viewModel.cityController.text = viewModel
+                                          .filteredCitiesList[index].name ??
+                                      '';
+                                  viewModel.selectedCityId =
+                                      viewModel.filteredCitiesList[index].sId ??
+                                          '';
                                 } else {
-                                  viewModel.countryController.text = viewModel.filteredCountriesList[index].name ?? '';
-                                  viewModel.getCities(viewModel.filteredCountriesList[index].sId ?? '');
-                                  viewModel.selectedCountryId = viewModel.filteredCountriesList[index].sId ?? '';
+                                  viewModel.countryController.text = viewModel
+                                          .filteredCountriesList[index].name ??
+                                      '';
+                                  viewModel.getCities(viewModel
+                                          .filteredCountriesList[index].sId ??
+                                      '');
+                                  viewModel.selectedCountryId = viewModel
+                                          .filteredCountriesList[index].sId ??
+                                      '';
                                 }
                               },
                               child: Padding(
