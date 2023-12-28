@@ -1,23 +1,17 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
-import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:ismmart_vms/helper/constants.dart';
-import 'package:ismmart_vms/screens/stores/stores_view.dart';
-import 'package:ismmart_vms/screens/stores/stores_viewmodel.dart';
-import 'package:ismmart_vms/widgets/image_layout_container.dart';
-import 'package:path/path.dart';
-import 'package:ismmart_vms/widgets/custom_button.dart';
-import 'package:ismmart_vms/widgets/custom_textfield.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
-import '../../../../helper/global_variables.dart';
-import '../../../../widgets/custom_loading.dart';
 
-class StoreEditView extends StatelessWidget {
-  StoreEditView({Key? key}) : super(key: key);
-  final StoresViewModel viewModel = Get.put(StoresViewModel());
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:ismmart_vms/screens/store/store_viewmodel.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
+import '../../helper/constants.dart';
+import '../../helper/global_variables.dart';
+import '../../widgets/custom_button.dart';
+import '../../widgets/custom_loading.dart';
+import '../../widgets/custom_textfield.dart';
+
+class StoreView extends StatelessWidget {
+  StoreView({Key? key}) : super(key: key);
+  final StoreViewModel viewModel = Get.put(StoreViewModel());
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +35,7 @@ class StoreEditView extends StatelessWidget {
                     ),
 
                     Obx(
-                      () => Center(
+                          () => Center(
                         child: Padding(
                           padding: const EdgeInsets.only(top: 30.0, bottom: 30),
                           child: Stack(
@@ -552,22 +546,22 @@ class StoreEditView extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 30),
       child: Obx(
-        () => GlobalVariable.showLoader.value
+            () => GlobalVariable.showLoader.value
             ? const CustomLoading(isItBtn: true)
             : CustomRoundedTextBtn(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Save & Update',
-                      style: newFontStyleSize14.copyWith(
-                          fontWeight: FontWeight.w500, color: kWhiteColor),
-                    ),
-                  ],
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Save & Update',
+                  style: newFontStyleSize14.copyWith(
+                      fontWeight: FontWeight.w500, color: kWhiteColor),
                 ),
-                onPressed: () {
-                  Get.off(StoresView());
-                }),
+              ],
+            ),
+            onPressed: () {
+              // Get.off(StoresView());
+            }),
       ),
     );
   }
@@ -576,24 +570,26 @@ class StoreEditView extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 10, bottom: 40),
       child: Obx(
-        () => GlobalVariable.showLoader.value
+            () => GlobalVariable.showLoader.value
             ? const CustomLoading(isItBtn: true)
             : CustomRoundedTextBtn(
-                backgroundColor: newColorDarkBlack,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Discard',
-                      style: newFontStyleSize14.copyWith(
-                          fontWeight: FontWeight.w500, color: kWhiteColor),
-                    ),
-                  ],
+            backgroundColor: newColorDarkBlack,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Discard',
+                  style: newFontStyleSize14.copyWith(
+                      fontWeight: FontWeight.w500, color: kWhiteColor),
                 ),
-                onPressed: () {
-                  Get.off(StoresView());
-                }),
+              ],
+            ),
+            onPressed: () {
+              // Get.off(StoresView());
+            }),
       ),
     );
   }
 }
+
+

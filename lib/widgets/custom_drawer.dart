@@ -9,7 +9,6 @@ import '../screens/bank/bank_profile_view.dart';
 import '../screens/dashboard/dashboard_viewmodel.dart';
 import '../screens/payout_list/payout_list_view.dart';
 import '../screens/shippings/shippings_view.dart';
-import '../screens/stores/stores_view.dart';
 
 class CustomDrawer extends StatelessWidget {
   CustomDrawer({super.key});
@@ -33,7 +32,7 @@ class CustomDrawer extends StatelessWidget {
                     'Store',
                     onTab: () {
                       viewModel.isTab.value = !viewModel.isTab.value;
-                      Get.to(StoresView());
+                      // Get.to(StoresView());
                     },
                     iconPath: 'assets/icons/overViewIcon.png',
                   ),

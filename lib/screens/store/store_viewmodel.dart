@@ -1,9 +1,9 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../widgets/pick_image.dart';
 
-class StoresViewModel extends GetxController {
+class StoreViewModel extends GetxController{
   GlobalKey<FormState> vendorSignUp2FormKey = GlobalKey<FormState>();
   TextEditingController storeNameController = TextEditingController();
   TextEditingController storeAddressController = TextEditingController();
