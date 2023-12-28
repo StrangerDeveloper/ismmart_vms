@@ -81,16 +81,17 @@ class Validator {
   //   }
   // }
   //
-  // ///CNIC
-  // String? validateCNIC(String? value) {
-  //   if (GetUtils.isBlank(value)!) {
-  //     return langKey.cnicReq.tr;
-  //   } else if (value!.length != 13) {
-  //     return langKey.incorrectCNIC.tr;
-  //   } else {
-  //     return null;
-  //   }
-  // }
+  ///CNIC
+  static String? validateCNIC(String? value) {
+    if (GetUtils.isBlank(value)!) {
+      return "CNIC Required";
+    } else if (value!.length != 13) {
+      return "Enter Valid CNIC";
+    } else {
+      return null;
+    }
+  }
+
   //
   // ///Name
   // String? validateName(String? value, {String? errorToPrompt}) {
@@ -139,15 +140,16 @@ class Validator {
   // }
   //
   ///Email
-  String? validateEmail(String? value) {
+  static String? validateEmail(String? value) {
     if (GetUtils.isBlank(value)!) {
-      return langKey.emailIsRequired.tr;
-    } else if (!GetUtils.isEmail(value!)) {
       return "Email is Required";
+    } else if (!GetUtils.isEmail(value!)) {
+      return "Enter Valid Email";
     } else {
       return null;
     }
   }
+
   //
   // ///Bank Account
   // String? validateBankAcc(String? value) {
@@ -194,27 +196,28 @@ class Validator {
   //   }
   // }
   //
-  // ///Password
-  // String? validatePassword(String? value) {
-  //   if (GetUtils.isBlank(value)!) {
-  //     return langKey.passwordIsRequired.tr;
-  //   } else if (GetUtils.isLengthLessThan(value, 8)) {
-  //     return langKey.passwordLengthReq.tr;
-  //   } else {
-  //     return null;
-  //   }
-  // }
+  ///Password
+  static String? validatePassword(String? value) {
+    if (GetUtils.isBlank(value)!) {
+      return "Password is Required";
+    } else if (GetUtils.isLengthLessThan(value, 8)) {
+      return "atleast 8 character";
+    } else {
+      return null;
+    }
+  }
+
   //
-  // ///Confirm Password
-  // String? validateConfirmPassword(String? value1, String? value2) {
-  //   if (GetUtils.isBlank(value1)!) {
-  //     return langKey.passwordConfirmIsRequired.tr;
-  //   } else if (value1 != value2) {
-  //     return langKey.passwordNotMatched.tr;
-  //   } else {
-  //     return null;
-  //   }
-  // }
+  ///Confirm Password
+  static String? validateConfirmPassword(String? value1, String? value2) {
+    if (GetUtils.isBlank(value1)!) {
+      return "Confirm Password Required";
+    } else if (value1 != value2) {
+      return "Password Not Matched";
+    } else {
+      return null;
+    }
+  }
   //
   // ///Weight
   // String? validateWeightField(String value) {

@@ -32,6 +32,14 @@ class BankProfileView extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           titleAndBackBtn(),
+                          const Divider(
+                            color: Color(0xffEEEEEE),
+                            thickness: 1,
+                            height: 20,
+                          ),
+                          SizedBox(
+                            height: 30,
+                          ),
                           SizedBox(
                             height: 30,
                           ),
@@ -61,23 +69,23 @@ class BankProfileView extends StatelessWidget {
   Widget titleAndBackBtn() {
     return SizedBox(
       width: double.infinity,
-      child: Stack(
-        alignment: Alignment.centerLeft,
-        children: [
-          const Align(
-            alignment: Alignment.center,
-            child: Text(
-              'Bank Profile',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 20,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 30, left: 20),
+        child: Stack(
+          alignment: Alignment.centerLeft,
+          children: [
+            Align(
+              alignment: Alignment.center,
+              child: Text(
+                'Store',
+                style: newFontStyleSize20DM,
               ),
             ),
-          ),
-          CustomBackButton(onTap: () {
-            Get.back();
-          }),
-        ],
+            CustomBackButton(onTap: () {
+              Get.back();
+            }),
+          ],
+        ),
       ),
     );
   }

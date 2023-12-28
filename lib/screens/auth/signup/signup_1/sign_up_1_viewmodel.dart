@@ -3,18 +3,24 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:ismmart_vms/helper/global_variables.dart';
+import 'package:ismmart_vms/helper/urls.dart';
 import 'package:ismmart_vms/screens/auth/signup/signup_2/sign_up_2_view.dart';
 import 'package:ismmart_vms/widgets/pick_image.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import 'package:http/http.dart' as http;
+import '../../../../helper/api_base_helper.dart';
+import 'package:http_parser/http_parser.dart';
+
+import '../../../../helper/constants.dart';
 
 class SignUpScreen1ViewModel extends GetxController {
   GlobalKey<FormState> signUpFormKey1 = GlobalKey<FormState>();
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
-  TextEditingController confirmPasswordController = TextEditingController();
   TextEditingController cnicController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
   RxString cnicFrontImage = ''.obs;
   RxString cnicBackImage = ''.obs;
   RxBool cnicFrontImageErrorVisibility = false.obs;
@@ -47,6 +53,12 @@ class SignUpScreen1ViewModel extends GetxController {
   }
 
   @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+  }
+
+  @override
   void onClose() {
     nameController.dispose();
     emailController.dispose();
@@ -56,51 +68,63 @@ class SignUpScreen1ViewModel extends GetxController {
     super.onClose();
   }
 
-  void signUp() {
+  List<http.MultipartFile> fileList = [];
+  void signUpStep1() async {
     if (signUpFormKey1.currentState?.validate() ?? false) {
-      Map<String, dynamic> param = {
-        "full_name": nameController.text,
+      fileList.clear();
+      if (cnicFrontImage.value.isNotEmpty && cnicBackImage.value.isNotEmpty) {
+        fileList.add(
+          await http.MultipartFile.fromPath(
+            'cnicImages',
+            cnicFrontImage.value!,
+            contentType: MediaType.parse('image/jpeg'),
+          ),
+        );
+        fileList.add(
+          await http.MultipartFile.fromPath(
+            'cnicImages',
+            cnicBackImage.value!,
+            contentType: MediaType.parse('image/jpeg'),
+          ),
+        );
+      } else {
+        return AppConstant.displaySnackBar(
+          " Error",
+          " please upload CNIC Images",
+        );
+      }
+      Map<String, String> param = {
+        "name": nameController.text,
         "email": emailController.text,
         "gender": selectedGender.value,
-        "cnic_front_image": cnicFrontImage.value,
-        "cnic_back_image": cnicBackImage.value,
-        "country_code": countryCode.value,
-        "phone": phoneNumberController.text,
+        "cnic": cnicController.text,
+        "phone": countryCode.value + phoneNumberController.text,
         "password": passwordController.text,
+        "confirmPassword": confirmPasswordController.text,
+        'step': '1'
       };
 
       changeView.value = true;
       body.value = param;
-      print(param);
-      Get.to(() => SignUp2View());
-      // ApiBaseHelper()
-      //     .postMethod(url: Urls.signUp, body: param)
-      //     .then((parsedJson) async {
-      //   GlobalVariable.showLoader.value = false;
-      //
-      //   if (parsedJson['message'] == 'User registered successfully.') {
-      //     Get.offNamed(Routes.loginRoute);
-      //     AppConstant.displaySnackBar(
-      //       langKey.successTitle.tr,
-      //       parsedJson['message'],
-      //     );
-      //     cityViewModel.cityId.value = 0;
-      //     cityViewModel.countryId.value = 0;
-      //     cityViewModel.authController.selectedCountry.value =
-      //         CountryModel();
-      //     cityViewModel.authController.selectedCity.value = CountryModel();
-      //     Get.offNamed(Routes.loginRoute);
-      //   } else {
-      //     AppConstant.displaySnackBar(
-      //       langKey.errorTitle.tr,
-      //       parsedJson['message'],
-      //     );
-      //   }
-      // }).catchError((e) {
-      //   //   GlobalVariable.internetErr(true);
-      //   print(e);
-      //   GlobalVariable.showLoader.value = false;
-      // });
+
+      await ApiBaseHelper()
+          .postMethodForImage(
+              url: Urls.register,
+              withAuthorization: true,
+              files: fileList,
+              fields: param)
+          .then((parsedJson) {
+        print(parsedJson);
+        if (parsedJson['success'] == true) {
+          param.removeWhere((key, value) => value == "1");
+          Get.to(() => SignUp2View(), arguments: param);
+        } else {
+          AppConstant.displaySnackBar(
+            "Error",
+            parsedJson['message'],
+          );
+        }
+      });
     }
   }
 

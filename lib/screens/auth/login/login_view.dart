@@ -1,7 +1,5 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:ismmart_vms/helper/global_variables.dart';
 import 'package:ismmart_vms/helper/routes.dart';
 import 'package:ismmart_vms/helper/validator.dart';
@@ -112,7 +110,7 @@ class LogInView extends StatelessWidget {
         controller: viewModel.emailController,
         autoValidateMode: AutovalidateMode.onUserInteraction,
         validator: (value) {
-          return Validator().validateEmail(value);
+          return Validator.validateEmail(value);
         },
         keyboardType: TextInputType.emailAddress,
       ),
@@ -284,8 +282,9 @@ class LogInView extends StatelessWidget {
                   ],
                 ),
                 onPressed: () {
-                  Get.offNamed(Routes.dashboard);
-                  // Get.to(DashboardView());
+                  viewModel.signIn();
+                  // Get.offNamed(Routes.dashboard);
+                  //
                 },
               ),
       ),

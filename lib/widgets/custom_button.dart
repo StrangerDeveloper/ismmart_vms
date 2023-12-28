@@ -48,9 +48,9 @@ class CustomTextBtn extends StatelessWidget {
         shape: (shape != null)
             ? shape
             : RoundedRectangleBorder(
-          side: borderSide,
-          borderRadius: BorderRadius.circular(radius),
-        ),
+                side: borderSide,
+                borderRadius: BorderRadius.circular(radius),
+              ),
       ),
       child: child ??
           Text(

@@ -11,6 +11,8 @@ import 'package:ismmart_vms/widgets/custom_appbar.dart';
 import 'package:ismmart_vms/widgets/custom_dropdown.dart';
 import 'package:ismmart_vms/widgets/custom_image_view.dart';
 
+import '../../widgets/custom_drawer.dart';
+
 class DashboardView extends StatelessWidget {
   DashboardView({super.key});
   final DashboardViewModel viewModel = Get.put(DashboardViewModel());
@@ -18,7 +20,7 @@ class DashboardView extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        //drawer: const CustomDrawer(),
+        drawer: CustomDrawer(),
         appBar: _buildAppBar(),
         body: _body(),
 
@@ -436,14 +438,14 @@ class DashboardView extends StatelessWidget {
   Widget _buildCharts() {
     return Container(
       padding: EdgeInsets.symmetric(
-        horizontal: 24.h,
+        horizontal: 22.h,
         vertical: 25.v,
       ),
       decoration: AppDecoration.shadow.copyWith(
         borderRadius: BorderRadiusStyle.roundedBorder10,
       ),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
+        // mainAxisSize: MainAxisSize.min,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -482,7 +484,7 @@ class DashboardView extends StatelessWidget {
           SizedBox(height: 24.v),
           SizedBox(
               height: 300.v,
-              width: 264.h,
+              width: 274.h,
               child: Stack(
                 children: [
                   Align(
@@ -727,7 +729,7 @@ class DashboardView extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(height: 24.v),
+        SizedBox(height: 23.v),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.start,
