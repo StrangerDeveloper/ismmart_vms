@@ -450,7 +450,7 @@ class DashboardView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Total Earning",
+                "Traffic",
                 style: TextStyle(
                     color: gray60001,
                     fontWeight: FontWeight.w600,
@@ -485,36 +485,36 @@ class DashboardView extends StatelessWidget {
               width: 264.h,
               child: Stack(
                 children: [
-                  Align(
-                    alignment: Alignment.topCenter,
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                        left: 80.h,
-                        top: 120.v,
-                        right: 80.h,
-                      ),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            "500,000",
-                            style: TextStyle(
-                                color: gray60001,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 20.fSize),
-                          ),
-                          SizedBox(height: 6.v),
-                          Text(
-                            "PKR",
-                            style: TextStyle(
-                                color: gray60001,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 18.fSize),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                  // Align(
+                  //   alignment: Alignment.topCenter,
+                  //   child: Padding(
+                  //     padding: EdgeInsets.only(
+                  //       left: 80.h,
+                  //       top: 120.v,
+                  //       right: 80.h,
+                  //     ),
+                  //     child: Column(
+                  //       mainAxisSize: MainAxisSize.min,
+                  //       children: [
+                  //         Text(
+                  //           "500,000",
+                  //           style: TextStyle(
+                  //               color: gray60001,
+                  //               fontWeight: FontWeight.w600,
+                  //               fontSize: 20.fSize),
+                  //         ),
+                  //         SizedBox(height: 6.v),
+                  //         Text(
+                  //           "PKR",
+                  //           style: TextStyle(
+                  //               color: gray60001,
+                  //               fontWeight: FontWeight.w600,
+                  //               fontSize: 18.fSize),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
                   _pieChart(),
                 ],
               )),
@@ -734,25 +734,25 @@ class DashboardView extends StatelessWidget {
           children: <Widget>[
             _indicator(
               color: blueA700,
-              text: 'Affialite Sold',
+              text: 'Direct',
               isSquare: true,
             ),
             const SizedBox(width: 4),
             _indicator(
               color: cyan800,
-              text: 'Direct Sold',
+              text: 'Affiliate',
               isSquare: true,
             ),
             const SizedBox(width: 4),
             _indicator(
               color: amber400,
-              text: 'Cancelled ',
+              text: 'Collections ',
               isSquare: true,
             ),
             const SizedBox(width: 4),
             _indicator(
-              color: pink400,
-              text: 'Item Returned',
+              color: kPurpleColor,
+              text: 'Search',
               isSquare: true,
             ),
             //const SizedBox(height: 18),
@@ -801,8 +801,8 @@ class DashboardView extends StatelessWidget {
         case 0:
           return PieChartSectionData(
             color: cyan800,
-            value: 30,
-            title: '',
+            value: 15,
+            title: 'Affiliate 15%',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
@@ -814,8 +814,8 @@ class DashboardView extends StatelessWidget {
         case 1:
           return PieChartSectionData(
             color: amber400,
-            value: 20,
-            title: '',
+            value: 15,
+            title: 'Search 15%',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
@@ -826,9 +826,9 @@ class DashboardView extends StatelessWidget {
           );
         case 2:
           return PieChartSectionData(
-            color: pink400,
-            value: 20,
-            title: '',
+            color: kPurpleColor,
+            value: 30,
+            title: 'Collection 30%',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
@@ -840,8 +840,8 @@ class DashboardView extends StatelessWidget {
         case 3:
           return PieChartSectionData(
             color: blueA700,
-            value: 30,
-            title: '',
+            value: 40,
+            title: 'Direact 40%',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
