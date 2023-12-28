@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
-import 'package:ismmart_vms/screens/order_listing/model/order_model.dart';
+import 'package:ismmart_vms/screens/order_listing/model/orderModel.dart';
 import 'package:ismmart_vms/screens/order_listing/order_viewModel.dart';
 import 'package:ismmart_vms/widgets/custom_appbar.dart';
 import 'package:ismmart_vms/widgets/custom_bottom_sheet.dart';
@@ -15,14 +15,20 @@ import '../../widgets/custom_image_view.dart';
 import '../order_detail/order_detail_view.dart';
 
 class OrderView extends StatelessWidget {
+  final OrderListingViewModel orderController =
+      Get.put(OrderListingViewModel());
+
   OrderView({super.key}) {
-    Get.put(OrderViewModel()).fetchOrderDetails();
+    //Get.put(OrderListingViewModel()).getOrderListing();
   }
+
+  // initState() {
+  //   Get.put(OrderListingViewModel()).getOrderListing();
+  //   orderController.isLoading.value = false;
+  // }
 
   @override
   Widget build(BuildContext context) {
-    final OrderViewModel orderController = Get.find<OrderViewModel>();
-
     return Scaffold(
       appBar: _buildAppBar(),
       body: SingleChildScrollView(
@@ -32,46 +38,34 @@ class OrderView extends StatelessWidget {
             _buildSearchRow(),
             SizedBox(height: 17.v),
             Obx(
-              () => orderController.orders.isEmpty
+              () => orderController.orderList.isEmpty
                   ? const Center(
                       child: CircularProgressIndicator(),
                     )
                   : Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ListView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: orderController.orders.length,
-                            itemBuilder: (context, index) {
-                              final detail = orderController.orders[index];
-                              return GestureDetector(
-                                onTap: () {
-                                  Get.to(() => OrderDetailView(order: detail));
-                                },
-                                child: _buildOrderCard(detail),
-                              );
-                            },
-                          ),
-                          //const SizedBox(height: 20),
-                          // Row(
-                          //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          //   children: [
-                          //     Expanded(
-                          //       child: ElevatedButton.icon(
-                          //         onPressed: () {
-                          //           // Get.to(() => AddOrderView());
-                          //         },
-                          //         icon: const Icon(Icons.add),
-                          //         label: const Text('Add Order'),
-                          //       ),
-                          //     ),
-                          //   ],
-                          // ),
-                        ],
-                      ),
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ListView.builder(
+                              controller: orderController.scrollController,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: orderController.orderList.length,
+                              itemBuilder: (context, index) {
+                                OrderItem detail =
+                                    orderController.orderList[index];
+                                return GestureDetector(
+                                  onTap: () {
+                                    Get.to(() => OrderDetailView(
+                                          order: detail,
+                                        ));
+                                  },
+                                  child: _buildOrderCard(detail),
+                                );
+                              },
+                            ),
+                          ]),
                     ),
             ),
           ],
@@ -153,7 +147,8 @@ class OrderView extends StatelessWidget {
     );
   }
 
-  Widget _buildOrderCard(Order detail) {
+  Widget _buildOrderCard(OrderItem detail) {
+    print("details ${detail.toJson()}");
     return Card(
       color: const Color(0xFFF9FAFB),
       shape: RoundedRectangleBorder(
@@ -182,18 +177,20 @@ class OrderView extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      _customField1(detail.customerName),
-                      _customField1(detail.amount.toString()),
+                      _customField1(detail.customer!.name!),
+                      _customField1(detail.customer!.phone),
                     ],
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8),
                     child: Row(
-                      children: [
-                        _status("Payment pending", "1"),
-                        SizedBox(width: 8.h),
-                        _status(detail.fulfillmentStatus, "2"),
-                      ],
+                      children: detail.items!
+                          .map((e) => _status(e.fulfilmentStatus!, "1"))
+                          .toList(),
+
+                      // _status("Payment pending", "1"),
+                      // SizedBox(width: 8.h),
+                      // _status(detail.items, "2"),
                     ),
                   ),
                   Row(
@@ -228,7 +225,7 @@ class OrderView extends StatelessWidget {
     );
   }
 
-  Widget _customField1(String text1) {
+  Widget _customField1(text1) {
     return Row(
       //mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -287,7 +284,7 @@ class OrderView extends StatelessWidget {
   }
 
   Color statusColor(String value) {
-    if (value == '1') {
+    if (value.toLowerCase() == '1') {
       return const Color(0xFFFDBA8C);
     }
     if (value == '2') {
