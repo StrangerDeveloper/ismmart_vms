@@ -12,16 +12,4 @@ class StoreViewModel extends GetxController {
   TextEditingController storeTypeController = TextEditingController();
   Rx<File> pickedFile = File('').obs;
 
-  ////////////////////////
-  RxBool shopImageErrorVisibility = false.obs;
-  RxString shopLogoImage = ''.obs;
-
-  selectImage(RxString imageVar, RxBool imageVisibilityVar) async {
-    final image = await PickImage().pickSingleImage();
-    if (image != null) {
-      imageVar.value = image.path;
-      imageVisibilityVar.value = false; //
-    }
-  }
-////////////////////////
 }
