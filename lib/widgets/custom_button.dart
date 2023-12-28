@@ -290,23 +290,27 @@ class CustomIconBtn extends StatelessWidget {
       borderRadius: BorderRadius.circular(8),
       child: Container(
         padding: const EdgeInsets.all(8),
-        child: enabled ? Icon(
-          icon,
-          size: iconSize ?? 15,
-        ) : Stack(
-          children: [
-            Icon(
-              icon,
-              size: iconSize ?? 15,
-            ),
-            Expanded(child: Container(color: Colors.grey.shade200,))
-          ],
-        ),
+        child: enabled
+            ? Icon(
+                icon,
+                size: iconSize ?? 15,
+              )
+            : Stack(
+                children: [
+                  Icon(
+                    icon,
+                    size: iconSize ?? 15,
+                  ),
+                  Expanded(
+                      child: Container(
+                    color: Colors.grey.shade200,
+                  ))
+                ],
+              ),
       ),
     );
   }
 }
-
 
 //FINAL VERSION...
 class CustomIconBtn2 extends StatelessWidget {
@@ -328,11 +332,7 @@ class CustomIconBtn2 extends StatelessWidget {
       borderRadius: BorderRadius.circular(8),
       child: Padding(
         padding: const EdgeInsets.all(8),
-        child: Icon(
-          icon,
-          size: 15,
-          color: color ?? Colors.black
-        ),
+        child: Icon(icon, size: 15, color: color ?? Colors.black),
       ),
     );
   }

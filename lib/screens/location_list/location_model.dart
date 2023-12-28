@@ -15,18 +15,18 @@ class LocationModel {
 
   LocationModel(
       {this.sId,
-        this.vendor,
-        this.store,
-        this.address,
-        this.city,
-        this.country,
-        this.deleted,
-        this.createdAt,
-        this.updatedAt,
-        this.iV,
-        this.name,
-        this.status,
-        this.phone});
+      this.vendor,
+      this.store,
+      this.address,
+      this.city,
+      this.country,
+      this.deleted,
+      this.createdAt,
+      this.updatedAt,
+      this.iV,
+      this.name,
+      this.status,
+      this.phone});
 
   LocationModel.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
@@ -35,7 +35,7 @@ class LocationModel {
     address = json['address'];
     city = json['city'] != null ? new City.fromJson(json['city']) : null;
     country =
-    json['country'] != null ? new City.fromJson(json['country']) : null;
+        json['country'] != null ? new City.fromJson(json['country']) : null;
     deleted = json['deleted'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];

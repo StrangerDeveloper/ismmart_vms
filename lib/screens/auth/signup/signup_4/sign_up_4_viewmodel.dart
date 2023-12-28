@@ -1,11 +1,10 @@
 import 'package:get/get.dart';
 
 class SignUp4ViewModel extends GetxController {
-
   RxBool fromSettings = false.obs;
 
   @override
-  void onInit()async {
+  void onInit() async {
     // fromSettings.value = Get.arguments['fromSettings'];
     // await getCurrentUser();
     super.onInit();

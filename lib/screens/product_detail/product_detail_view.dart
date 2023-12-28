@@ -32,7 +32,7 @@ class ProductDetailView extends StatelessWidget {
                   title: 'Product Inventory',
                   onPressed: () {
                     // itemsBottomSheet();
-                    Get.to(()=>ProductQuantity());
+                    Get.to(() => ProductQuantity());
                   },
                 ),
                 const SizedBox(height: 5),

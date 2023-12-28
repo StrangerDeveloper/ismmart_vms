@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class CommonFunction {
-
   // static DateTime convertStringToDate(String stringDate) {
   //   return DateFormat("yyyy-MM-dd hh:mm:ss").parse(stringDate);
   // }
@@ -20,17 +19,16 @@ class CommonFunction {
   // }
 
   static String convertDateFormat(String stringDate) {
-    DateTime inputDate = DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parseUtc(stringDate).toLocal();
+    DateTime inputDate = DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+        .parseUtc(stringDate)
+        .toLocal();
     String outputDate = DateFormat('dd MMM, yyyy').format(inputDate);
     return outputDate;
   }
 
-
-
   static void closeKeyboard() {
     FocusScope.of(Get.context!).requestFocus(FocusNode());
   }
-
 
   static colorConsole(String value) {
     debugPrint('\x1B[32m$value\x1B[0m');

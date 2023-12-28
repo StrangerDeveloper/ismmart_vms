@@ -67,14 +67,14 @@ class PayoutListView extends StatelessWidget {
             child: Row(
               children: [
                 Obx(
-                      () => CustomIconBtn2(
+                  () => CustomIconBtn2(
                     icon: CupertinoIcons.search,
                     color: viewModel.showSearchTxtField.value
                         ? ThemeHelper.blue1
                         : null,
                     onTap: () {
                       viewModel.showSearchTxtField.value =
-                      !viewModel.showSearchTxtField.value;
+                          !viewModel.showSearchTxtField.value;
                     },
                   ),
                 ),
@@ -92,43 +92,41 @@ class PayoutListView extends StatelessWidget {
     );
   }
 
-
-
   Widget searchTxtField() {
     return Obx(
-          () => viewModel.showSearchTxtField.value
+      () => viewModel.showSearchTxtField.value
           ? Padding(
-        padding: const EdgeInsets.all(16),
-        child: CustomTextField1(
-          controller: viewModel.searchController,
-          filled: false,
-          prefixIcon: CupertinoIcons.search,
-          hintText: 'Filter by name',
-          onFieldSubmitted: (value) {
-            viewModel.searchTxtFieldSubmitted(value);
-          },
-          suffixIconButton: IconButton(
-            visualDensity: VisualDensity.compact,
-            onPressed: () {
-              viewModel.searchController.clear();
-              viewModel.searchTxtFieldSubmitted('');
-            },
-            icon: const Icon(
-              Icons.close,
-              color: ThemeHelper.grey2,
-            ),
-          ),
-        ),
-      )
+              padding: const EdgeInsets.all(16),
+              child: CustomTextField1(
+                controller: viewModel.searchController,
+                filled: false,
+                prefixIcon: CupertinoIcons.search,
+                hintText: 'Filter by name',
+                onFieldSubmitted: (value) {
+                  viewModel.searchTxtFieldSubmitted(value);
+                },
+                suffixIconButton: IconButton(
+                  visualDensity: VisualDensity.compact,
+                  onPressed: () {
+                    viewModel.searchController.clear();
+                    viewModel.searchTxtFieldSubmitted('');
+                  },
+                  icon: const Icon(
+                    Icons.close,
+                    color: ThemeHelper.grey2,
+                  ),
+                ),
+              ),
+            )
           : const SizedBox(height: 16),
     );
   }
 
-  Widget pageNoView(){
+  Widget pageNoView() {
     return Padding(
       padding: const EdgeInsets.only(left: 16),
       child: Obx(
-            () => Text(
+        () => Text(
           '${viewModel.pageNo} of ${viewModel.totalPages.value}',
           style: const TextStyle(
             fontSize: 12,
@@ -139,43 +137,42 @@ class PayoutListView extends StatelessWidget {
     );
   }
 
-
   Widget listView() {
     return Obx(
-          () => viewModel.dataList.isNotEmpty
+      () => viewModel.dataList.isNotEmpty
           ? Expanded(
-        child: Column(
-          children: [
-            Expanded(
-              child: ListView.separated(
-                controller: viewModel.scrollController,
-                padding: const EdgeInsets.all(16),
-                itemCount: viewModel.dataList.length,
-                itemBuilder: (context, int index) {
-                  return listViewItem(index);
-                },
-                separatorBuilder: (BuildContext context, int index) {
-                  return const Divider(
-                    color: ThemeHelper.grey1,
-                    thickness: 0.8,
-                    height: 0,
-                  );
-                },
+              child: Column(
+                children: [
+                  Expanded(
+                    child: ListView.separated(
+                      controller: viewModel.scrollController,
+                      padding: const EdgeInsets.all(16),
+                      itemCount: viewModel.dataList.length,
+                      itemBuilder: (context, int index) {
+                        return listViewItem(index);
+                      },
+                      separatorBuilder: (BuildContext context, int index) {
+                        return const Divider(
+                          color: ThemeHelper.grey1,
+                          thickness: 0.8,
+                          height: 0,
+                        );
+                      },
+                    ),
+                  ),
+                  if (viewModel.paginationLoader.value)
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Center(
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      ),
+                    )
+                ],
               ),
-            ),
-            if (viewModel.paginationLoader.value)
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Center(
-                  child: CircularProgressIndicator(strokeWidth: 2),
-                ),
-              )
-          ],
-        ),
-      )
+            )
           : const Center(
-        child: Text('No Data Found'),
-      ),
+              child: Text('No Data Found'),
+            ),
     );
   }
 
@@ -298,7 +295,9 @@ class PayoutListView extends StatelessWidget {
                         ),
                       ),
                     ),
-                    status( viewModel.dataList[index].status ?? 'N/A',),
+                    status(
+                      viewModel.dataList[index].status ?? 'N/A',
+                    ),
                   ],
                 ),
               ),
@@ -353,7 +352,7 @@ class PayoutListView extends StatelessWidget {
   Color statusColor(String value) {
     if (value == 'Transfered') {
       return ThemeHelper.blue1;
-    } else if(value == 'Rejected') {
+    } else if (value == 'Rejected') {
       return const Color(0xFFFE3A30);
     } else {
       return const Color(0xffFFC120);
@@ -363,9 +362,9 @@ class PayoutListView extends StatelessWidget {
   Color statusTxtColor(String value) {
     if (value == 'Transfered') {
       return ThemeHelper.blue1;
-    } else if(value == 'Rejected') {
+    } else if (value == 'Rejected') {
       return const Color(0xFFFE3A30);
-    }  else {
+    } else {
       return Colors.black;
     }
   }

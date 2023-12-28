@@ -43,10 +43,9 @@ class CustomDropDownList1 extends StatelessWidget {
                   text: TextSpan(
                     text: title,
                     style: GoogleFonts.dmSans(
-                      color: Colors.black,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500
-                    ),
+                        color: Colors.black,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500),
                     children: [
                       (asterisk)
                           ? const TextSpan(
@@ -66,16 +65,16 @@ class CustomDropDownList1 extends StatelessWidget {
               fillColor: kContainerFillColor,
               hintText: hintText,
               hintStyle: GoogleFonts.dmSans(
-                color: newColorLightGrey2,
-                fontWeight: FontWeight.w400
-              ),
+                  color: newColorLightGrey2, fontWeight: FontWeight.w400),
               contentPadding: contentPadding,
               enabledBorder: OutlineInputBorder(
-                borderSide: const BorderSide(color: kTextfieldBorderColor, width: 0.8),
+                borderSide:
+                    const BorderSide(color: kTextfieldBorderColor, width: 0.8),
                 borderRadius: BorderRadius.circular(9),
               ),
               focusedBorder: OutlineInputBorder(
-                borderSide: const BorderSide(color: kTextfieldBorderColor, width: 0.8),
+                borderSide:
+                    const BorderSide(color: kTextfieldBorderColor, width: 0.8),
                 borderRadius: BorderRadius.circular(8),
               ),
               errorBorder: OutlineInputBorder(
@@ -98,10 +97,15 @@ class CustomDropDownList1 extends StatelessWidget {
               (DropDownModel dropDownItem) {
                 return DropdownMenuItem<String>(
                   value: dropDownItem.id,
-                  child: Text(dropDownItem.name ?? 'N/A',
+                  child: Text(
+                    dropDownItem.name ?? 'N/A',
                     style: GoogleFonts.dmSans(
-                      color: dropDownItem.id == '1' ? newColorLightGrey2 : Colors.black,
-                      fontWeight: dropDownItem.id == '1' ? FontWeight.w400 : FontWeight.w500,
+                      color: dropDownItem.id == '1'
+                          ? newColorLightGrey2
+                          : Colors.black,
+                      fontWeight: dropDownItem.id == '1'
+                          ? FontWeight.w400
+                          : FontWeight.w500,
                     ),
                   ),
                 );

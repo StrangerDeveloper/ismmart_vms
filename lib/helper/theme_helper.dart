@@ -11,8 +11,8 @@ class ThemeHelper {
   static const grey6 = Color(0xFFE5E7EB);
   static const red1 = Color(0xFFFE3A30);
 
-
-  static const MaterialColor plattet1 = MaterialColor(_platter1PrimaryValue, <int, Color>{
+  static const MaterialColor plattet1 =
+      MaterialColor(_platter1PrimaryValue, <int, Color>{
     50: Color(0xFFE7EDF9),
     100: Color(0xFFC3D2EF),
     200: Color(0xFF9BB4E4),
@@ -34,5 +34,4 @@ class ThemeHelper {
   //   colors: <Color>[Color(0xffe79141), Color(0xfff05f5f)],
   //   stops: <double>[0, 1],
   // );
-
 }

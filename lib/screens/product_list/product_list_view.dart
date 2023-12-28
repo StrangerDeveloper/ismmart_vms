@@ -24,11 +24,8 @@ class ProductListView extends StatelessWidget {
               Icons.menu,
               size: 25,
               color: Colors.black,
-            )
-        ),
-        title: const Text(
-          'Products'
-        ),
+            )),
+        title: const Text('Products'),
         bottom: PreferredSize(
             preferredSize: Size.fromHeight(110.0),
             child: Column(
@@ -36,49 +33,47 @@ class ProductListView extends StatelessWidget {
                 addProductSection(),
                 filterProductSection(),
               ],
-            )
-        ),
+            )),
       ),
       body: Stack(
         children: [
           listView(),
-          Obx(() => Visibility(
-            visible: viewModel.searchByDropdownVisibility.value,
-            child: Positioned(
-              top: 0,
-              left: 25,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(
-                    color: newColorLightGrey2.withOpacity(0.3),
-                    width: 0.7
+          Obx(
+            () => Visibility(
+              visible: viewModel.searchByDropdownVisibility.value,
+              child: Positioned(
+                top: 0,
+                left: 25,
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(
+                          color: newColorLightGrey2.withOpacity(0.3),
+                          width: 0.7),
+                      borderRadius: BorderRadius.circular(10)),
+                  width: Get.width * 0.4,
+                  // height: Get.height * 0.35,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: viewModel.searchFilters.map((e) {
+                      return InkWell(
+                          onTap: () {
+                            viewModel.searchBy.value = e;
+                            viewModel.searchByDropdownVisibility.value = false;
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8.0, vertical: 13),
+                            child: Text(
+                              e,
+                              style: interNormalText,
+                            ),
+                          ));
+                    }).toList(),
                   ),
-                  borderRadius: BorderRadius.circular(10)
-                ),
-                width: Get.width * 0.4,
-                // height: Get.height * 0.35,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: viewModel.searchFilters.map((e) {
-                    return InkWell(
-                        onTap: () {
-                          viewModel.searchBy.value = e;
-                          viewModel.searchByDropdownVisibility.value = false;
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 13),
-                          child: Text(
-                            e,
-                            style: interNormalText,
-                          ),
-                        )
-                    );
-                  }).toList(),
                 ),
               ),
             ),
-          ),
           )
         ],
       ),
@@ -93,7 +88,7 @@ class ProductListView extends StatelessWidget {
         children: [
           CustomRoundedTextBtn(
             borderRadius: 12,
-            width:  Get.width / 2.5,
+            width: Get.width / 2.5,
             onPressed: () {},
             title: '+ Add Product',
           ),
@@ -104,8 +99,7 @@ class ProductListView extends StatelessWidget {
                   color: newColorLightGrey2.withOpacity(0.5),
                   width: 1.2,
                 ),
-                borderRadius: BorderRadius.circular(8)
-            ),
+                borderRadius: BorderRadius.circular(8)),
             child: InkWell(
               onTap: () {},
               child: const Icon(
@@ -128,69 +122,75 @@ class ProductListView extends StatelessWidget {
         children: [
           InkWell(
             onTap: () {
-              if(viewModel.dropdownSelectionContainerWidth.value < viewModel.searchAndFilterContainerWidth.value) {
-                viewModel.searchAndFilterContainerWidth.value = Get.width * viewModel.lowerContainerWidth;
-                viewModel.dropdownSelectionContainerWidth.value = Get.width * viewModel.higherContainerWidth;
+              if (viewModel.dropdownSelectionContainerWidth.value <
+                  viewModel.searchAndFilterContainerWidth.value) {
+                viewModel.searchAndFilterContainerWidth.value =
+                    Get.width * viewModel.lowerContainerWidth;
+                viewModel.dropdownSelectionContainerWidth.value =
+                    Get.width * viewModel.higherContainerWidth;
                 Future.delayed(Duration(microseconds: 100), () {
                   viewModel.searchByContainerIconVisibility.value = true;
                 });
-              } else if(viewModel.searchByDropdownVisibility.value){
+              } else if (viewModel.searchByDropdownVisibility.value) {
                 viewModel.searchByDropdownVisibility.value = false;
               } else {
                 viewModel.searchByDropdownVisibility.value = true;
               }
             },
-            child: Obx(() => AnimatedContainer(
-              duration: const Duration(milliseconds: 600),
-              padding: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-              width: viewModel.dropdownSelectionContainerWidth.value,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(
-                      color: newColorLightGrey2.withOpacity(0.5),
-                      width: 1.2
-                  )
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    viewModel.searchBy.value,
-                    style: interNormalText,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  Obx(() => Visibility(
-                    visible: viewModel.searchByContainerIconVisibility.value,
-                    child: Icon(
-                      viewModel.searchByDropdownVisibility.value ? Icons.keyboard_arrow_up_rounded : Icons.keyboard_arrow_down_rounded,
-                      size: 18,
-                      color: Colors.black,
+            child: Obx(
+              () => AnimatedContainer(
+                duration: const Duration(milliseconds: 600),
+                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+                width: viewModel.dropdownSelectionContainerWidth.value,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                        color: newColorLightGrey2.withOpacity(0.5),
+                        width: 1.2)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      viewModel.searchBy.value,
+                      style: interNormalText,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                  )
-                  )
-                ],
+                    Obx(() => Visibility(
+                          visible:
+                              viewModel.searchByContainerIconVisibility.value,
+                          child: Icon(
+                            viewModel.searchByDropdownVisibility.value
+                                ? Icons.keyboard_arrow_up_rounded
+                                : Icons.keyboard_arrow_down_rounded,
+                            size: 18,
+                            color: Colors.black,
+                          ),
+                        ))
+                  ],
+                ),
               ),
-            ),
             ),
           ),
           InkWell(
             onTap: () {
-              viewModel.dropdownSelectionContainerWidth.value = Get.width * viewModel.lowerContainerWidth;
-              viewModel.searchAndFilterContainerWidth.value = Get.width * viewModel.higherContainerWidth;
+              viewModel.dropdownSelectionContainerWidth.value =
+                  Get.width * viewModel.lowerContainerWidth;
+              viewModel.searchAndFilterContainerWidth.value =
+                  Get.width * viewModel.higherContainerWidth;
               viewModel.searchByContainerIconVisibility.value = false;
             },
-            child: Obx(() => AnimatedContainer(
-              padding: const EdgeInsets.all(8),
+            child: Obx(
+              () => AnimatedContainer(
+                padding: const EdgeInsets.all(8),
                 width: viewModel.searchAndFilterContainerWidth.value,
                 duration: const Duration(milliseconds: 600),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(
                         color: newColorLightGrey2.withOpacity(0.5),
-                        width: 1.2
-                    )
-                ),
-                child: Obx(() => Visibility(
+                        width: 1.2)),
+                child: Obx(
+                  () => Visibility(
                     visible: viewModel.searchAndFilterIconVisibility.value,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -202,10 +202,13 @@ class ProductListView extends StatelessWidget {
                         ),
                         InkWell(
                           onTap: () {
-                            if(viewModel.dropdownSelectionContainerWidth.value < Get.width * viewModel.higherContainerWidth) {
-                              return ;
+                            if (viewModel
+                                    .dropdownSelectionContainerWidth.value <
+                                Get.width * viewModel.higherContainerWidth) {
+                              return;
                             } else {
-                              viewModel.filterDropdownVisibility.value = !viewModel.filterDropdownVisibility.value;
+                              viewModel.filterDropdownVisibility.value =
+                                  !viewModel.filterDropdownVisibility.value;
                             }
                           },
                           child: const Icon(
@@ -227,7 +230,6 @@ class ProductListView extends StatelessWidget {
   }
 
   Widget listView() {
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
       child: SingleChildScrollView(
@@ -235,7 +237,7 @@ class ProductListView extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               decoration: BoxDecoration(
                 color: newColorLightGrey2.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(15),
@@ -258,7 +260,6 @@ class ProductListView extends StatelessWidget {
   }
 
   Widget listViewItem(int index) {
-
     var rng = Random();
 
     return InkWell(
@@ -311,9 +312,7 @@ class ProductListView extends StatelessWidget {
                   children: [
                     Text(
                       'Product Name',
-                      style: interHeadingSize14.copyWith(
-                        color: newColorBlue
-                      ),
+                      style: interHeadingSize14.copyWith(color: newColorBlue),
                     ),
                     SizedBox(
                       height: 7,
@@ -321,43 +320,58 @@ class ProductListView extends StatelessWidget {
                     Text(
                       '${rng.nextInt(10)} in stock',
                       style: interNormalText.copyWith(
-                        fontWeight: FontWeight.w400,
-                        color: Colors.red,
-                        fontSize: 11
-                      ),
+                          fontWeight: FontWeight.w400,
+                          color: Colors.red,
+                          fontSize: 11),
                     ),
-                    SizedBox(height: 5,),
+                    SizedBox(
+                      height: 5,
+                    ),
                     Row(
                       children: [
                         Text(
                           'Category',
-                          style: interNormalText.copyWith(color: newColorLightGrey2, fontSize: 11),
+                          style: interNormalText.copyWith(
+                              color: newColorLightGrey2, fontSize: 11),
                         ),
-                        SizedBox(width: 10,),
+                        SizedBox(
+                          width: 10,
+                        ),
                         Text(
                           '• Variants ${rng.nextInt(10)}',
-                          style: interNormalText.copyWith(color: newColorLightGrey2, fontSize: 11),
+                          style: interNormalText.copyWith(
+                              color: newColorLightGrey2, fontSize: 11),
                         )
                       ],
                     ),
-                    SizedBox(height: 15,),
+                    SizedBox(
+                      height: 15,
+                    ),
                     Container(
                       padding: EdgeInsets.all(6),
                       decoration: BoxDecoration(
-                        color: index % 2 == 0 ? productActiveColor.withOpacity(0.25) : newColorLightGrey2.withOpacity(0.25),
-                        borderRadius: BorderRadius.circular(15)
-                      ),
+                          color: index % 2 == 0
+                              ? productActiveColor.withOpacity(0.25)
+                              : newColorLightGrey2.withOpacity(0.25),
+                          borderRadius: BorderRadius.circular(15)),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           CircleAvatar(
                             radius: 5,
-                            backgroundColor: index % 2 == 0 ? productActiveColor : newColorLightGrey2,
+                            backgroundColor: index % 2 == 0
+                                ? productActiveColor
+                                : newColorLightGrey2,
                           ),
-                          SizedBox(width: 10,),
+                          SizedBox(
+                            width: 10,
+                          ),
                           Text(
                             index % 2 == 0 ? 'Active' : 'Draft',
-                            style: interNormalText.copyWith(color: Colors.black, fontSize: 10, fontWeight: FontWeight.w400),
+                            style: interNormalText.copyWith(
+                                color: Colors.black,
+                                fontSize: 10,
+                                fontWeight: FontWeight.w400),
                           )
                         ],
                       ),
@@ -380,15 +394,20 @@ class ProductListView extends StatelessWidget {
         children: [
           Text(
             '1 - 20 of 50',
-            style: interNormalText.copyWith(color: newColorLightGrey, fontWeight: FontWeight.w400, fontSize: 11),
+            style: interNormalText.copyWith(
+                color: newColorLightGrey,
+                fontWeight: FontWeight.w400,
+                fontSize: 11),
           ),
           CustomIconBtn(
             iconSize: 10,
             enabled: false,
-              icon: Icons.arrow_back_ios_new_rounded,
+            icon: Icons.arrow_back_ios_new_rounded,
             onTap: () {},
           ),
-          SizedBox(width: 5,),
+          SizedBox(
+            width: 5,
+          ),
           CustomIconBtn(
             iconSize: 10,
             enabled: true,
@@ -399,5 +418,4 @@ class ProductListView extends StatelessWidget {
       ),
     );
   }
-
 }

@@ -4,7 +4,8 @@ import 'package:ismmart_vms/screens/product_quantity/product_quantity_viewmodel.
 
 class ProductQuantity extends StatelessWidget {
   ProductQuantity({super.key});
-  final ProductQuantityViewModel viewModel = Get.put(ProductQuantityViewModel());
+  final ProductQuantityViewModel viewModel =
+      Get.put(ProductQuantityViewModel());
 
   @override
   Widget build(BuildContext context) {

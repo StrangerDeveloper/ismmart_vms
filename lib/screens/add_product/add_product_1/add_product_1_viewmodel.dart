@@ -6,7 +6,6 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:quill_html_editor/quill_html_editor.dart';
 
 class AddProduct1ViewModel extends GetxController {
-
   RxBool isPhysicalProduct = false.obs;
   TextEditingController prodTitleController = TextEditingController();
   TextEditingController prodDiscountController = TextEditingController();
@@ -24,14 +23,20 @@ class AddProduct1ViewModel extends GetxController {
   String productTypeId = '';
   RxString productCategory = '1'.obs;
   RxList<MultiSelectModel> tagsList = <MultiSelectModel>[
-    MultiSelectModel(id: '1', name: 'Black',),
+    MultiSelectModel(
+      id: '1',
+      name: 'Black',
+    ),
     MultiSelectModel(id: '2', name: 'Orange'),
     MultiSelectModel(id: '3', name: 'Shoes'),
     MultiSelectModel(id: '4', name: 'Belt'),
     MultiSelectModel(id: '5', name: 'Accessories'),
   ].obs;
   RxList<MultiSelectModel> searchedTags = <MultiSelectModel>[
-    MultiSelectModel(id: '1', name: 'Black',),
+    MultiSelectModel(
+      id: '1',
+      name: 'Black',
+    ),
     MultiSelectModel(id: '2', name: 'Orange'),
     MultiSelectModel(id: '3', name: 'Shoes'),
     MultiSelectModel(id: '4', name: 'Belt'),
@@ -51,20 +56,12 @@ class AddProduct1ViewModel extends GetxController {
   //type
   TextEditingController typeController = TextEditingController();
   RxInt typeSelectedIndex = 0.obs;
-  List<String> typeList = const <String>[
-    'Dummy 1',
-    'Dummy 2',
-    'Dummy 3'
-  ];
+  List<String> typeList = const <String>['Dummy 1', 'Dummy 2', 'Dummy 3'];
 
   //category
   TextEditingController categoryController = TextEditingController();
   RxInt categorySelectedIndex = 0.obs;
-  List<String> categoryList = const <String>[
-    'Dummy 1',
-    'Dummy 2',
-    'Dummy 3'
-  ];
+  List<String> categoryList = const <String>['Dummy 1', 'Dummy 2', 'Dummy 3'];
 
   final customToolBarList = [
     ToolBarStyle.bold,
@@ -110,7 +107,7 @@ class AddProduct1ViewModel extends GetxController {
   @override
   void onReady() {
     tagsFieldFocusNode.addListener(() {
-      if(tagsFieldFocusNode.hasFocus) {
+      if (tagsFieldFocusNode.hasFocus) {
         showTagsList.value = true;
       } else {
         showTagsList.value = false;

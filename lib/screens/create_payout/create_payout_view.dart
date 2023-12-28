@@ -78,7 +78,7 @@ class CreatePayoutView extends StatelessWidget {
                   onChanged: (value) {
                     viewModel.paymentSelectedIndex.value = value;
                     viewModel.paymentTypeController.text =
-                    viewModel.paymentTypeList[value];
+                        viewModel.paymentTypeList[value];
                   },
                 ).show();
               },
@@ -169,8 +169,6 @@ class CreatePayoutView extends StatelessWidget {
     );
   }
 
-
-
   itemsBottomSheet() {
     showModalBottomSheet(
       context: Get.context!,
@@ -222,34 +220,35 @@ class CreatePayoutView extends StatelessWidget {
                 },
               ),
               Obx(
-                    () => (viewModel.filteredCitiesList.isNotEmpty)
+                () => (viewModel.filteredCitiesList.isNotEmpty)
                     ? Expanded(
-                  child: ListView.separated(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    itemCount: viewModel.filteredCitiesList.length,
-                    itemBuilder: (context, index) {
-                      return InkWell(
-                        borderRadius: BorderRadius.circular(8),
-                        onTap: () {
-                          viewModel.vendorNameController.text = viewModel.filteredCitiesList[index];
-                          Get.back();
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(12),
-                          child:
-                          Text(viewModel.filteredCitiesList[index]),
+                        child: ListView.separated(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          itemCount: viewModel.filteredCitiesList.length,
+                          itemBuilder: (context, index) {
+                            return InkWell(
+                              borderRadius: BorderRadius.circular(8),
+                              onTap: () {
+                                viewModel.vendorNameController.text =
+                                    viewModel.filteredCitiesList[index];
+                                Get.back();
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(12),
+                                child:
+                                    Text(viewModel.filteredCitiesList[index]),
+                              ),
+                            );
+                          },
+                          separatorBuilder: (context, index) {
+                            return const SizedBox(height: 3);
+                          },
                         ),
-                      );
-                    },
-                    separatorBuilder: (context, index) {
-                      return const SizedBox(height: 3);
-                    },
-                  ),
-                )
+                      )
                     : const Padding(
-                  padding: EdgeInsets.only(top: 30),
-                  child: Text('No City Found'),
-                ),
+                        padding: EdgeInsets.only(top: 30),
+                        child: Text('No City Found'),
+                      ),
               )
             ],
           ),

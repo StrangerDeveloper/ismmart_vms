@@ -74,7 +74,8 @@ class CustomTextField1 extends StatelessWidget {
     this.isDropDown = false,
     this.prefixIcon,
     this.suffixIconButton,
-    this.inputFormatters, this.onFieldSubmitted,
+    this.inputFormatters,
+    this.onFieldSubmitted,
   });
 
   @override
@@ -255,29 +256,29 @@ class CustomTextField5 extends StatelessWidget {
         (title == null)
             ? const SizedBox()
             : Padding(
-          padding: const EdgeInsets.only(bottom: 8.5),
-          child: RichText(
-            text: TextSpan(
-              text: title,
-              style: const TextStyle(
-                color: ThemeHelper.grey2,
-                fontWeight: FontWeight.w500,
-                fontSize: 12,
-              ),
-              children: [
-                (asterisk)
-                    ? const TextSpan(
-                  text: '*',
-                  style: TextStyle(
-                    color: Colors.red,
-                    fontSize: 16,
+                padding: const EdgeInsets.only(bottom: 8.5),
+                child: RichText(
+                  text: TextSpan(
+                    text: title,
+                    style: const TextStyle(
+                      color: ThemeHelper.grey2,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 12,
+                    ),
+                    children: [
+                      (asterisk)
+                          ? const TextSpan(
+                              text: '*',
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 16,
+                              ),
+                            )
+                          : const TextSpan(text: '')
+                    ],
                   ),
-                )
-                    : const TextSpan(text: '')
-              ],
-            ),
-          ),
-        ),
+                ),
+              ),
         TextFormField(
           inputFormatters: inputFormatters,
           controller: controller,
@@ -300,18 +301,18 @@ class CustomTextField5 extends StatelessWidget {
             errorText: errorText,
             suffixIcon: (suffixIcon != null || isDropDown)
                 ? Icon(
-              suffixIcon ?? Icons.keyboard_arrow_down_rounded,
-              size: 20,
-              color: ThemeHelper.grey2,
-            )
+                    suffixIcon ?? Icons.keyboard_arrow_down_rounded,
+                    size: 20,
+                    color: ThemeHelper.grey2,
+                  )
                 : suffixIconButton,
             suffixIconConstraints: BoxConstraints.tight(const Size(40, 30)),
             prefixIcon: prefixIcon != null
                 ? Icon(
-              prefixIcon,
-              size: 20,
-              color: ThemeHelper.grey2,
-            )
+                    prefixIcon,
+                    size: 20,
+                    color: ThemeHelper.grey2,
+                  )
                 : null,
             prefixIconConstraints: BoxConstraints.tight(const Size(40, 40)),
             contentPadding: contentPadding,
@@ -331,7 +332,7 @@ class CustomTextField5 extends StatelessWidget {
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
               borderSide:
-              const BorderSide(width: 1.5, color: ThemeHelper.grey1),
+                  const BorderSide(width: 1.5, color: ThemeHelper.grey1),
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),

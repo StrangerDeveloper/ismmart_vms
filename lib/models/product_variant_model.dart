@@ -11,17 +11,16 @@ class ProductVariantModel {
   Dimension? dimension;
   List<Stock>? stock;
 
-  ProductVariantModel({
-    this.id,
-    this.productId,
-    this.barcode,
-    this.sku,
-    this.name,
-    this.cutPrice,
-    this.weight,
-    this.dimension,
-    this.stock
-  });
+  ProductVariantModel(
+      {this.id,
+      this.productId,
+      this.barcode,
+      this.sku,
+      this.name,
+      this.cutPrice,
+      this.weight,
+      this.dimension,
+      this.stock});
 
   ProductVariantModel.fromJson(Map<String, dynamic> json) {
     id = json['_id'];
@@ -31,7 +30,7 @@ class ProductVariantModel {
     name = json['name'];
     cutPrice = json['cutPrice'];
     weight = json['weight'];
-    if(json['dimension'] != null) {
+    if (json['dimension'] != null) {
       dimension = Dimension.fromJson(json['dimension']);
     }
     if (json['stock'] != null) {
@@ -43,7 +42,7 @@ class ProductVariantModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String,dynamic> data = <String,dynamic>{};
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['_id'] = id;
     data['productId'] = productId;
     data['barcode'] = barcode;
@@ -51,7 +50,7 @@ class ProductVariantModel {
     data['name'] = name;
     data['cutPrice'] = cutPrice;
     data['weight'] = weight;
-    if(dimension != null){
+    if (dimension != null) {
       data['dimension'] = dimension!.toJson();
     }
     if (stock != null) {
@@ -66,20 +65,16 @@ class Dimension {
   double? length;
   double? height;
 
-  Dimension({
-    this.length,
-    this.width,
-    this.height
-  });
+  Dimension({this.length, this.width, this.height});
 
-  Dimension.fromJson(Map<String,dynamic> json) {
+  Dimension.fromJson(Map<String, dynamic> json) {
     length = json['length'];
     width = json['width'];
     height = json['height'];
   }
 
-  Map<String,dynamic> toJson() {
-    final Map<String,dynamic> data = <String,dynamic>{};
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['length'] = length;
     data['width'] = width;
     data['height'] = height;

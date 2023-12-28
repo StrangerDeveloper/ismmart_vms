@@ -9,7 +9,6 @@ import '../../helper/global_variables.dart';
 import '../../helper/urls.dart';
 
 class PayoutListViewModel extends GetxController {
-
   RxInt totalPages = 1.obs;
   TextEditingController searchController = TextEditingController();
   String radioBtnUrlValue = '';
@@ -68,13 +67,13 @@ class PayoutListViewModel extends GetxController {
     if (pageNo == 0
         ? true
         : (scrollController.hasClients &&
-        scrollController.position.maxScrollExtent ==
-            scrollController.offset)) {
+            scrollController.position.maxScrollExtent ==
+                scrollController.offset)) {
       pageNo++;
       paginationLoader.value = true;
       await ApiBaseHelper()
           .getMethod(
-          url: '${Urls.getPayout}$pageNo$radioBtnUrlValue$searchUrlValue')
+              url: '${Urls.getPayout}$pageNo$radioBtnUrlValue$searchUrlValue')
           .then((parsedJson) {
         if (parsedJson['success'] == true &&
             parsedJson['data']['items'] != null) {
@@ -93,6 +92,4 @@ class PayoutListViewModel extends GetxController {
       });
     }
   }
-
-
 }

@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -41,7 +39,6 @@ class CustomSnackBar {
   //     ),
   //   );
   // }
-
 
   // static displaySnackBar(String title, message, {SnackPosition? position}) {
   //   var bgColor = kLimeGreenColor;

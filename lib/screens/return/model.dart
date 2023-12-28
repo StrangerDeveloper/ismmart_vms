@@ -7,13 +7,12 @@ class ReturnModel {
   String? price;
   bool? isSelected;
 
-  ReturnModel({
-    this.id,
-    this.name,
-    this.description,
-    this.quantity,
-    this.color,
-    this.price,
-    this.isSelected
-  });
+  ReturnModel(
+      {this.id,
+      this.name,
+      this.description,
+      this.quantity,
+      this.color,
+      this.price,
+      this.isSelected});
 }

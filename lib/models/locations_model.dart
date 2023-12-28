@@ -1,5 +1,4 @@
 class Stock {
-
   String? locationName;
   String? locationAddress;
   String? country;
@@ -10,19 +9,18 @@ class Stock {
   int? committed;
   int? incoming;
 
-  Stock({
-    this.country,
-    this.city,
-    this.locationName,
-    this.locationAddress,
-    this.available,
-    this.committed,
-    this.incoming,
-    this.onHand,
-    this.unavailable
-  });
+  Stock(
+      {this.country,
+      this.city,
+      this.locationName,
+      this.locationAddress,
+      this.available,
+      this.committed,
+      this.incoming,
+      this.onHand,
+      this.unavailable});
 
-  Stock.fromJson(Map<String,dynamic> json) {
+  Stock.fromJson(Map<String, dynamic> json) {
     locationName = json['locationName'];
     locationAddress = json['locationAddress'];
     country = json['country'];
@@ -34,8 +32,8 @@ class Stock {
     incoming = json['incoming'];
   }
 
-  Map<String,dynamic> toJson() {
-    final Map<String,dynamic> data = <String,dynamic>{};
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['locationName'] = locationName;
     data['locationAddress'] = locationAddress;
     data['country'] = country;

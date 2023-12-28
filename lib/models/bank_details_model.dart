@@ -1,5 +1,4 @@
 class BankDetailsModel {
-
   String? bankName;
   String? accountTitle;
   String? accountNoOrIban;

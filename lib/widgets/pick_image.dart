@@ -114,7 +114,8 @@ class PickImage {
     double length = await checkImageSize(result!);
 
     if (length > 2) {
-      CustomSnackBar.showSnackBar(title : 'Error', message: "Image Size must be less than 2MB");
+      CustomSnackBar.showSnackBar(
+          title: 'Error', message: "Image Size must be less than 2MB");
       return null;
     }
 

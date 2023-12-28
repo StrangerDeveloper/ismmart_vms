@@ -17,17 +17,9 @@ class CreatePayoutViewModel extends GetxController {
 
   RxInt currencySelectedIndex = 0.obs;
   RxInt paymentSelectedIndex = 0.obs;
-  List<String> currencyList = const <String>[
-    'PKR',
-    'INR',
-    'DOLLAR'
-  ];
+  List<String> currencyList = const <String>['PKR', 'INR', 'DOLLAR'];
 
-  List<String> paymentTypeList = const <String>[
-    'Cash',
-    'Card',
-    'Online'
-  ];
+  List<String> paymentTypeList = const <String>['Cash', 'Card', 'Online'];
 
   List<String> allCitiesList = [
     'Faisal',

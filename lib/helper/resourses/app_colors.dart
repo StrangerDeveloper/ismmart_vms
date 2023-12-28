@@ -35,8 +35,6 @@ Color get blue5002 => const Color(0XFFDFEFFF);
 Color get blueA700 => const Color(0XFF0469FF);
 Color get blue20001 => const Color(0XFF1A56DB);
 
-
-
 // BlueGray
 Color get blueGray100 => const Color(0XFFD1D5DB);
 Color get blueGray300 => const Color(0XFF9CA3AF);
@@ -84,6 +82,3 @@ Color get whiteA700 => const Color(0XFFFFFFFF);
 // Yellow
 Color get yellow200 => const Color(0XFFFFE4A0);
 Color get yellow20001 => const Color(0XFFFFE8A4);
-
-
-

@@ -13,16 +13,16 @@ class PayoutModel {
 
   PayoutModel(
       {this.sId,
-        this.requestedDate,
-        this.amount,
-        this.method,
-        this.status,
-        this.bank,
-        this.vendor,
-        this.deleted,
-        this.createdAt,
-        this.updatedAt,
-        this.iV});
+      this.requestedDate,
+      this.amount,
+      this.method,
+      this.status,
+      this.bank,
+      this.vendor,
+      this.deleted,
+      this.createdAt,
+      this.updatedAt,
+      this.iV});
 
   PayoutModel.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];

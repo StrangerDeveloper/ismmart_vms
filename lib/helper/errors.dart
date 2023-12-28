@@ -1,4 +1,4 @@
-class Errors{
+class Errors {
   static String generalApiError = 'Something went wrong';
   static String noInternetError = 'No internet connection';
 
