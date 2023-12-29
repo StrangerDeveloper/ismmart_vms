@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/global_variables.dart';
@@ -5,7 +7,8 @@ import 'package:ismmart_vms/screens/auth/signup/signup_2/sign_up_2_view.dart';
 import 'package:ismmart_vms/widgets/pick_image.dart';
 
 class EditUserProfileViewModel extends GetxController {
-  GlobalKey<FormState> signUpFormKey = GlobalKey<FormState>();
+  Rx<File> pickedFile = File('').obs;
+  GlobalKey<FormState> userProfileFormKey = GlobalKey<FormState>();
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -22,7 +25,7 @@ class EditUserProfileViewModel extends GetxController {
   Rxn phoneErrorText = Rxn<String>();
   RxString countryCode = '+92'.obs;
   RxBool changeView = false.obs;
-  List genders = ['Male', 'Female', 'Other'];
+  List genderList = ['Male', 'Female', 'Other'];
   RxString selectedGender = ''.obs;
 
   validatorPhoneNumber(String? value) {
@@ -54,7 +57,7 @@ class EditUserProfileViewModel extends GetxController {
   }
 
   void signUp() {
-    if (signUpFormKey.currentState?.validate() ?? false) {
+    if (userProfileFormKey.currentState?.validate() ?? false) {
       Map<String, dynamic> param = {
         "full_name": nameController.text,
         "email": emailController.text,
