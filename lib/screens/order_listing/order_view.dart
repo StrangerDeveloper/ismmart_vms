@@ -53,15 +53,15 @@ class OrderView extends StatelessWidget {
                               physics: const NeverScrollableScrollPhysics(),
                               itemCount: orderController.orderList.length,
                               itemBuilder: (context, index) {
-                                OrderItem detail =
+                                OrderItem orderItems =
                                     orderController.orderList[index];
                                 return GestureDetector(
                                   onTap: () {
                                     Get.to(() => OrderDetailView(
-                                          order: detail,
+                                          order: orderItems,
                                         ));
                                   },
-                                  child: _buildOrderCard(detail),
+                                  child: _buildOrderCard(orderItems),
                                 );
                               },
                             ),
