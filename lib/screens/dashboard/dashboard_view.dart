@@ -72,10 +72,6 @@ class DashboardView extends StatelessWidget {
             fit: BoxFit.contain,
           ),
         ),
-
-        // AppbarImage(
-        //   imagePath: ImageConstant.imgMegaphone,
-        // ),
       ),
       centerTitle: true,
       title: Padding(

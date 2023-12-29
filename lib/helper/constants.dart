@@ -491,7 +491,7 @@ class AppConstant {
   //   return outputDate;
   // }
 
-  static Color getStatusColor(ProductItem? model) {
+  static Color getStatusColor(OrderProductItem? model) {
     switch (model!.fulfilmentStatus!.toLowerCase()) {
       case "pending":
         return Colors.deepOrange;
