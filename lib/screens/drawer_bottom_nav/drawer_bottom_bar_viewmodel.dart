@@ -4,6 +4,7 @@ import 'package:ismmart_vms/helper/languages/translations_key.dart';
 import 'package:ismmart_vms/screens/add_product/add_product_1/add_product_1_view.dart';
 import 'package:ismmart_vms/screens/location_list/location_list_view.dart';
 import 'package:ismmart_vms/screens/order_listing/order_view.dart';
+import 'package:ismmart_vms/screens/product_list/product_list_view.dart';
 import 'package:ismmart_vms/screens/setting/settings_view.dart';
 
 import '../dashboard/dashboard_view.dart';
@@ -14,9 +15,9 @@ class DrawerBottomBarViewModel extends GetxController {
 
   List<Widget> bottomNavScreens = [
     DashboardView(),
-    OrderView(),
+    ProductListView(),
     AddProduct1View(),
-    LocationListView(),
+    OrderView(),
     SettingsView(),
   ];
   void changePage(int index) {
