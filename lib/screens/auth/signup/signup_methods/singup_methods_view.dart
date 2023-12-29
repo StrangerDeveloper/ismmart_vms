@@ -109,9 +109,7 @@ class SingupMethodsView extends StatelessWidget {
                       style: newFontStyleSize14.copyWith(
                           fontWeight: FontWeight.w500, color: kWhiteColor),
                     ),
-                    SizedBox(
-                      width: 4.v
-                    ),
+                    SizedBox(width: 4.v),
                     const Icon(
                       Icons.arrow_forward,
                       size: 20,
@@ -195,48 +193,14 @@ class SingupMethodsView extends StatelessWidget {
     );
   }
 
-  //Google Button
+//Google Button
   Widget googlelogInBtn() {
-    return CustomRoundedTextBtn(
-      borderSide: const BorderSide(
-        //color: newColorDarkBlack, // your color here
-        width: 1,
-      ),
-      backgroundColor: Colors.white,
-      foregroundColor: Colors.black,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(50.0),
-            child: Image.asset(
-              'assets/logo/google_logo.png',
-              width: 36,
-              height: 36,
-            ),
-          ),
-          const SizedBox(
-            width: 10,
-          ),
-          Text(
-            'Sign in with Gmail',
-            style: newFontStyleSize14.copyWith(fontWeight: FontWeight.w500),
-          ),
-        ],
-      ),
-      onPressed: () {
-        viewModel.googleLogIn();
-      },
-    );
-  }
-
-  //apple button
-  Widget applelogInBtn() {
     return Padding(
-      padding: const EdgeInsets.only(top: 10),
-      child: CustomRoundedTextBtn(
+      padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+      child: CustomTextBtn(
+        radius: 30,
         borderSide: const BorderSide(
-          color: Colors.black, // your color here
+          //color: newColorDarkBlack, // your color here
           width: 1,
         ),
         backgroundColor: Colors.white,
@@ -247,17 +211,47 @@ class SingupMethodsView extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(50.0),
               child: Image.asset(
-                'assets/logo/apple_logo.png',
-                width: 36,
-                height: 36,
+                'assets/logo/google_logo.png',
               ),
+            ),
+            const SizedBox(
+              width: 8,
+            ),
+            Text(
+              'Sign in with Gmail',
+              // style: newFontStyleSize14.copyWith(fontWeight: FontWeight.w500),
+            ),
+          ],
+        ),
+        onPressed: () {
+          viewModel.googleLogIn();
+        },
+      ),
+    );
+  }
+
+  Widget applelogInBtn() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 10, 20, 25),
+      child: CustomTextBtn(
+        radius: 30,
+        borderSide: const BorderSide(
+          color: Colors.black, // your color here
+          width: 1,
+        ),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              'assets/logo/apple_logo.png',
             ),
             const SizedBox(
               width: 5,
             ),
             Text(
               "Signin with Apple ID",
-              style: newFontStyleSize14.copyWith(fontWeight: FontWeight.w500),
             ),
           ],
         ),

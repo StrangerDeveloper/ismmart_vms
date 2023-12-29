@@ -73,6 +73,7 @@ class LogInViewModel extends GetxController {
   GoogleSignInAccount? _user;
   GoogleSignInAccount get user => _user!;
   Future googleLogIn() async {
+    GlobalVariable.showLoader.value = true;
     GoogleSignIn googleSignIn = GoogleSignIn(
       scopes: [
         'email',
@@ -82,13 +83,30 @@ class LogInViewModel extends GetxController {
     GoogleSignInAccount? credential;
     try {
       credential = await googleSignIn.signIn();
-      credential?.authentication.then((value) {
+      credential?.authentication.then((value) async {
+        Map<dynamic, dynamic> param = {
+          "social": {
+            "name": "Google",
+            "token": '${value.accessToken}',
+          }
+        };
+        var parsedJson =
+            await ApiBaseHelper().postMethod(url: Urls.login, body: param);
+        print(parsedJson);
+        if (parsedJson['success'] == true) {
+          GlobalVariable.token = parsedJson['data']['token'];
+          GlobalVariable.showLoader.value = false;
+          Get.to(DashboardView());
+        } else {
+          GlobalVariable.showLoader.value = false;
+        }
       });
     } catch (error) {
-      debugPrint("$error");
+      GlobalVariable.showLoader.value = false;
+      //  debugPrint("$error");
     }
     update();
-    debugPrint("google signin Credential ===> $credential");
+    // debugPrint("google signin Credential ===> ${credential}");
   }
 
 //apple login
