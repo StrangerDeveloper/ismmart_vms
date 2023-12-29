@@ -145,39 +145,41 @@ class LogInView extends StatelessWidget {
 
 //Google Button
   Widget googlelogInBtn() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-      child: CustomTextBtn(
-        radius: 30,
-        borderSide: const BorderSide(
-          //color: newColorDarkBlack, // your color here
-          width: 1,
-        ),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(50.0),
-              child: Image.asset(
-                'assets/logo/google_logo.png',
+    return Obx(() => GlobalVariable.showLoader.value
+        ? const CustomLoading(isItBtn: true)
+        : Padding(
+            padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+            child: CustomTextBtn(
+              radius: 30,
+              borderSide: const BorderSide(
+                //color: newColorDarkBlack, // your color here
+                width: 1,
               ),
+              backgroundColor: Colors.white,
+              foregroundColor: Colors.black,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(50.0),
+                    child: Image.asset(
+                      'assets/logo/google_logo.png',
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  Text(
+                    'Sign in with Gmail',
+                    // style: newFontStyleSize14.copyWith(fontWeight: FontWeight.w500),
+                  ),
+                ],
+              ),
+              onPressed: () {
+                viewModel.googleLogIn();
+              },
             ),
-            const SizedBox(
-              width: 5,
-            ),
-            Text(
-              'Sign in with Gmail',
-              // style: newFontStyleSize14.copyWith(fontWeight: FontWeight.w500),
-            ),
-          ],
-        ),
-        onPressed: () {
-          viewModel.googleLogIn();
-        },
-      ),
-    );
+          ));
   }
 
   Widget applelogInBtn() {
@@ -336,7 +338,7 @@ class LogInView extends StatelessWidget {
         Get.to(() => SingupMethodsView());
       },
       child: Padding(
-        padding: const EdgeInsets.only(top: 133),
+        padding: const EdgeInsets.only(top: 50),
         child: Center(
           child: RichText(
             text: TextSpan(

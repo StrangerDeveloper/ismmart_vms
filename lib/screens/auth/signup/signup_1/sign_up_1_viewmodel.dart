@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -5,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
+import 'package:ismmart_vms/helper/languages/translations_key.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import 'package:ismmart_vms/helper/global_variables.dart';
@@ -14,6 +16,7 @@ import 'package:ismmart_vms/widgets/pick_image.dart';
 
 import '../../../../helper/api_base_helper.dart';
 import '../../../../helper/constants.dart';
+import '../signup_methods/signup_mehods_viewmodel.dart';
 
 class SignUpScreen1ViewModel extends GetxController {
   GlobalKey<FormState> signUpFormKey1 = GlobalKey<FormState>();
@@ -54,6 +57,21 @@ class SignUpScreen1ViewModel extends GetxController {
     }
   }
 
+  final SignupMehtodsViewModel _socialviewModel =
+      Get.put(SignupMehtodsViewModel());
+  String socialToken = '';
+  @override
+  void onReady() {
+    nameController.text = _socialviewModel.socialName.value;
+    emailController.text = _socialviewModel.socialEmail.value;
+    emailController.text = _socialviewModel.socialEmail.value;
+    socialToken = _socialviewModel.socialToken.value;
+
+    print("${socialToken}  ${emailController.text}");
+    // TODO: implement onReady
+    super.onReady();
+  }
+
   @override
   void onClose() {
     nameController.dispose();
@@ -68,6 +86,8 @@ class SignUpScreen1ViewModel extends GetxController {
   void signUpStep1() async {
     if (signUpFormKey1.currentState?.validate() ?? false) {
       fileList.clear();
+
+      //------    Image Varification and Send To Api ------------
       if (cnicFrontImage.value.isNotEmpty && cnicBackImage.value.isNotEmpty) {
         fileList.add(
           await http.MultipartFile.fromPath(
@@ -89,16 +109,35 @@ class SignUpScreen1ViewModel extends GetxController {
           " please upload CNIC Images",
         );
       }
-      Map<String, String> param = {
-        "name": nameController.text,
-        "email": emailController.text,
-        "gender": selectedGender.value,
-        "cnic": cnicController.text,
-        "phone": countryCode.value + phoneNumberController.text,
-        "password": passwordController.text,
-        "confirmPassword": confirmPasswordController.text,
-        'step': '1'
-      };
+
+      //------- Social Signup Checks ----------
+      Map<String, String> param = {};
+      if (_socialviewModel.socialPlatform.value != "" &&
+          _socialviewModel.socialToken.value != "") {
+        param = {
+          "name": nameController.text,
+          "email": emailController.text,
+          "gender": selectedGender.value,
+          "cnic": cnicController.text,
+          "phone": countryCode.value + phoneNumberController.text,
+          "password": passwordController.text,
+          "confirmPassword": confirmPasswordController.text,
+          "Socila":
+              "{ social[name]: ${_socialviewModel.socialPlatform.value}, 'social[token]': ${_socialviewModel.socialToken.value}   }",
+          'step': '1'
+        };
+      } else {
+        param = {
+          "name": nameController.text,
+          "email": emailController.text,
+          "gender": selectedGender.value,
+          "cnic": cnicController.text,
+          "phone": countryCode.value + phoneNumberController.text,
+          "password": passwordController.text,
+          "confirmPassword": confirmPasswordController.text,
+          'step': '1'
+        };
+      }
 
       changeView.value = true;
       body.value = param;

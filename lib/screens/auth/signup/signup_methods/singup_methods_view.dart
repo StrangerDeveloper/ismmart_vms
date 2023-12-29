@@ -100,16 +100,17 @@ class SingupMethodsView extends StatelessWidget {
       child: Obx(
         () => GlobalVariable.showLoader.value
             ? const CustomLoading(isItBtn: true)
-            : CustomRoundedTextBtn(
+            : CustomTextBtn(
+                radius: 30,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       'Continue with email',
-                      style: newFontStyleSize14.copyWith(
-                          fontWeight: FontWeight.w500, color: kWhiteColor),
+                      // style: newFontStyleSize14.copyWith(
+                      //     fontWeight: FontWeight.w500, color: kWhiteColor),kWhiteColor
                     ),
-                    SizedBox(width: 4.v),
+                    SizedBox(width: 4.h),
                     const Icon(
                       Icons.arrow_forward,
                       size: 20,
@@ -118,6 +119,8 @@ class SingupMethodsView extends StatelessWidget {
                 ),
                 onPressed: () {
                   Get.to(SignUp1View());
+                  // Get.offNamed(Routes.dashboard);
+                  //
                 },
               ),
       ),
@@ -126,6 +129,48 @@ class SingupMethodsView extends StatelessWidget {
 
   Widget signupNumber() {
     return Padding(
+      padding: const EdgeInsets.only(top: 22),
+      child: Obx(
+        () => GlobalVariable.showLoader.value
+            ? const CustomLoading(isItBtn: true)
+            : CustomTextBtn(
+                padding: EdgeInsets.only(top: 5),
+                backgroundColor: Colors.white,
+                radius: 30,
+                borderSide: const BorderSide(
+                  color: Colors.black, // your color here
+                  width: 1,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Continue with phone number',
+                      style: newFontStyleSize14.copyWith(
+                          color: newColorDarkBlack,
+                          fontWeight: FontWeight.w600),
+                    ),
+                    SizedBox(width: 4.h),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0),
+                      child: const Icon(
+                        Icons.arrow_forward,
+                        size: 20,
+                        color: newColorDarkBlack,
+                      ),
+                    ),
+                  ],
+                ),
+                onPressed: () {
+                  Get.to(SignUp1View());
+                  // Get.offNamed(Routes.dashboard);
+                  //
+                },
+              ),
+      ),
+    );
+
+    Padding(
       padding: const EdgeInsets.only(top: 10),
       child: Obx(
         () => GlobalVariable.showLoader.value
@@ -195,44 +240,46 @@ class SingupMethodsView extends StatelessWidget {
 
 //Google Button
   Widget googlelogInBtn() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-      child: CustomTextBtn(
-        radius: 30,
-        borderSide: const BorderSide(
-          //color: newColorDarkBlack, // your color here
-          width: 1,
-        ),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(50.0),
-              child: Image.asset(
-                'assets/logo/google_logo.png',
+    return Obx(() => GlobalVariable.showLoader.value
+        ? const CustomLoading(isItBtn: true)
+        : Padding(
+            padding: const EdgeInsets.only(top: 5),
+            child: CustomTextBtn(
+              radius: 30,
+              borderSide: const BorderSide(
+                //color: newColorDarkBlack, // your color here
+                width: 1,
               ),
+              backgroundColor: Colors.white,
+              foregroundColor: Colors.black,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(50.0),
+                    child: Image.asset(
+                      'assets/logo/google_logo.png',
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  Text(
+                    'Sign in with Gmail',
+                    // style: newFontStyleSize14.copyWith(fontWeight: FontWeight.w500),
+                  ),
+                ],
+              ),
+              onPressed: () {
+                viewModel.googleLogIn();
+              },
             ),
-            const SizedBox(
-              width: 8,
-            ),
-            Text(
-              'Sign in with Gmail',
-              // style: newFontStyleSize14.copyWith(fontWeight: FontWeight.w500),
-            ),
-          ],
-        ),
-        onPressed: () {
-          viewModel.googleLogIn();
-        },
-      ),
-    );
+          ));
   }
 
   Widget applelogInBtn() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 10, 20, 25),
+      padding: const EdgeInsets.only(top: 20),
       child: CustomTextBtn(
         radius: 30,
         borderSide: const BorderSide(
