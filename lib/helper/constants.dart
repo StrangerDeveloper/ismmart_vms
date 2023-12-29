@@ -9,7 +9,7 @@ import 'package:ismmart_vms/screens/order_listing/model/orderModel.dart';
 
 const productActiveColor = Color(0xff07D38F);
 const kLimeGreenColor = Color(0xFFACC254);
-const kPurpleColor = Color(0xFF9D50DD);
+const kPurpleColor = Colors.deepPurpleAccent;
 const kPrimaryColor = kDarkColor;
 const kAppBarColor = kWhiteColor;
 const kTextfieldBorderColor = Color(0xffEEEEEE);
