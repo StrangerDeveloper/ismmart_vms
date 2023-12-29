@@ -89,7 +89,7 @@ class SettingsView extends StatelessWidget {
             title: const Text(' Profile '),
             onTap: () {
               //Navigator.pop(context);
-              Get.to(() => UserProfileView());
+              //Get.to(() => VendorProfileDetailView());
             },
           ),
           ListTile(
