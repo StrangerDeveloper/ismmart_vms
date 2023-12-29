@@ -140,39 +140,44 @@ class ProductListView extends StatelessWidget {
                 }
               },
               child: Obx(
-                () => AnimatedContainer(
-                  duration: const Duration(milliseconds: 600),
-                  padding:
+                    () =>
+                    AnimatedContainer(
+                      duration: const Duration(milliseconds: 600),
+                      padding:
                       const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-                  width: viewModel.dropdownSelectionContainerWidth.value,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(
-                          color: newColorLightGrey2.withOpacity(0.5),
-                          width: 1.2)),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        viewModel.searchBy.value,
-                        style: interNormalText,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      Visibility(
-                        visible:
+                      width: viewModel.dropdownSelectionContainerWidth.value,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                              color: newColorLightGrey2.withOpacity(0.5),
+                              width: 1.2)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            viewModel.searchBy.value,
+                            style: interNormalText,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          Visibility(
+                            visible:
                             viewModel.searchByContainerIconVisibility.value,
-                        child: Icon(
-                          viewModel.searchByDropdownVisibility.value
-                              ? Icons.keyboard_arrow_up_rounded
-                              : Icons.keyboard_arrow_down_rounded,
-                          size: 18,
-                          color: Colors.black,
-                        ),
-                      )
-                      //Obx(() =>)
-                    ],
-                  ),
-    SizedBox(
+                            child: Icon(
+                              viewModel.searchByDropdownVisibility.value
+                                  ? Icons.keyboard_arrow_up_rounded
+                                  : Icons.keyboard_arrow_down_rounded,
+                              size: 18,
+                              color: Colors.black,
+                            ),
+                          )
+                          //Obx(() =>)
+                        ],
+                      ),
+                    ),
+              ),
+            ),
+          ),
+          SizedBox(
             width: 10.v,
           ),
           InkWell(
@@ -184,48 +189,52 @@ class ProductListView extends StatelessWidget {
               viewModel.searchByContainerIconVisibility.value = false;
             },
             child: Obx(
-              () => AnimatedContainer(
-                padding: const EdgeInsets.all(8),
-                width: viewModel.searchAndFilterContainerWidth.value,
-                duration: const Duration(milliseconds: 600),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(
-                        color: newColorLightGrey2.withOpacity(0.5),
-                        width: 1.2)),
-                child: Obx(
-                  () => Visibility(
-                    visible: viewModel.searchAndFilterIconVisibility.value,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Icon(
-                          Icons.search,
-                          size: 18,
-                          color: newColorLightGrey2,
-                        ),
-                        InkWell(
-                          onTap: () {
-                            if (viewModel
-                                    .dropdownSelectionContainerWidth.value <
-                                Get.width * viewModel.higherContainerWidth) {
-                              return;
-                            } else {
-                              viewModel.filterDropdownVisibility.value =
-                                  !viewModel.filterDropdownVisibility.value;
-                            }
-                          },
-                          child: const Icon(
-                            Icons.filter_list_rounded,
-                            size: 18,
-                            color: Colors.black,
+                  () =>
+                  AnimatedContainer(
+                    padding: const EdgeInsets.all(8),
+                    width: viewModel.searchAndFilterContainerWidth.value,
+                    duration: const Duration(milliseconds: 600),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                            color: newColorLightGrey2.withOpacity(0.5),
+                            width: 1.2)),
+                    child: Obx(
+                          () =>
+                          Visibility(
+                            visible: viewModel.searchAndFilterIconVisibility
+                                .value,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Icon(
+                                  Icons.search,
+                                  size: 18,
+                                  color: newColorLightGrey2,
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    if (viewModel
+                                        .dropdownSelectionContainerWidth.value <
+                                        Get.width *
+                                            viewModel.higherContainerWidth) {
+                                      return;
+                                    } else {
+                                      viewModel.filterDropdownVisibility.value =
+                                      !viewModel.filterDropdownVisibility.value;
+                                    }
+                                  },
+                                  child: const Icon(
+                                    Icons.filter_list_rounded,
+                                    size: 18,
+                                    color: Colors.black,
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
-                        )
-                      ],
                     ),
                   ),
-                ),
-              ),
             ),
           )
         ],
@@ -235,33 +244,45 @@ class ProductListView extends StatelessWidget {
 
   Widget listView() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
-      child: SingleChildScrollView(
-        physics: const ScrollPhysics(),
-    child: Column(
-        children: [
-          nextPageData(),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-            decoration: BoxDecoration(
-              color: newColorLightGrey2.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(15),
-            ),
-            // color: newColorLightGrey2,
-            child: Obx(
-              () => ListView.builder(
-                shrinkWrap: true,
-                itemCount: viewModel.productItemsList.length,
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (_, int index) {
-                  ProductsItem items = viewModel.productItemsList[index];
-                  return listViewItem(model: items);
-                },
-              ),
-            ),
+        padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
+        child: SingleChildScrollView(
+          physics: const ScrollPhysics(),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: viewModel.productItemsList.isEmpty ? [
+              Center(
+                child: Text(
+                  'No Products Found',
+                  style: interHeadingSize14.copyWith(
+                      color: Colors.black,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 17
+                  ),
+                ),
+              )
+            ] : [
+              nextPageData(),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                decoration: BoxDecoration(
+                  color: newColorLightGrey2.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: viewModel.productItemsList.length,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (_, int index) {
+                          ProductsItem items = viewModel
+                              .productItemsList[index];
+                          return listViewItem(model: items);
+                        },
+                      ),
+                ),
+            ],
           ),
-        ],
-    )
+        )
+    );
   }
 
   Widget listViewItem({ProductsItem? model}) {
