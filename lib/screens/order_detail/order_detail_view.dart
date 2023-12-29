@@ -276,14 +276,6 @@ class OrderDetailView extends StatelessWidget {
                               _customField2("+92 333 1234567"),
                             ],
                           ),
-                          //SizedBox(width: 8.h),
-                          // IconButton(
-                          //   onPressed: () {},
-                          //   icon: Icon(
-                          //     Icons.edit,
-                          //     size: 16.fSize,
-                          //   ),
-                          // ),
                         ],
                       ),
                       SizedBox(height: 8.v),
@@ -351,7 +343,6 @@ class OrderDetailView extends StatelessWidget {
     return FittedBox(
       fit: BoxFit.contain,
       child: Container(
-        //margin: const EdgeInsets.only(left: 10),
         padding: const EdgeInsets.only(left: 4, top: 3, bottom: 3, right: 6),
         decoration: BoxDecoration(
             color: color.withOpacity(0.25),
