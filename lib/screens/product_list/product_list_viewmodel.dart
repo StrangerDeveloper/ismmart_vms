@@ -17,6 +17,10 @@ class ProductListViewModel extends GetxController {
 
   RxList<ProductsItem> productItemsList = <ProductsItem>[].obs;
 
+  RxInt page = 1.obs;
+  int limit = 10;
+  Rx<ProductModel> productModel = ProductModel().obs;
+
   @override
   void onReady() {
     dropdownSelectionContainerWidth.value = Get.width * higherContainerWidth;
@@ -29,14 +33,18 @@ class ProductListViewModel extends GetxController {
     super.onReady();
   }
 
-  Future<void> getProductItems() async{
+  void changePage() {
+    page.value++;
+  }
+
+  Future<void> getProductItems() async {
     await ApiBaseHelper()
-        .getMethod(url: "vendor/product?page=1&limit=10")
+        .getMethod(url: "/vendor/product?page=${page.value}&limit=$limit")
         .then((parsedJson) {
       final data = parsedJson['data'];
       if (data != null) {
-        ProductModel model = ProductModel.fromJson(data);
-        productItemsList.addAll(model.items!);
+        productModel.value = ProductModel.fromJson(data);
+        productItemsList.addAll(productModel.value.items!);
       }
     }).catchError((e) {
       debugPrint("GetProductItem: $e");
