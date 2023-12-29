@@ -4,7 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:ismmart_vms/helper/languages/translations_key.dart' as lang_key;
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/screens/order_listing/model/orderModel.dart';
-import 'package:ismmart_vms/screens/order_detail/order_detail_viewModel.dart';
 import 'package:ismmart_vms/widgets/custom_appbar.dart';
 import 'package:ismmart_vms/widgets/custom_text.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -20,18 +19,11 @@ import '../return/return_view.dart';
 
 // ignore: must_be_immutable
 class OrderDetailView extends StatelessWidget {
-  final OrdersDetailPageController controller =
-      Get.put(OrdersDetailPageController());
-
   final OrderItem order;
-  OrderDetailView({super.key, required this.order}) {
-    //Get.put(OrderViewModel()).fetchOrderDetails();
-  }
+  OrderDetailView({super.key, required this.order}) {}
 
   @override
   Widget build(BuildContext context) {
-    //final OrderViewModel orderController = Get.find<OrderViewModel>();
-
     return SafeArea(
       child: Scaffold(
         appBar: _buildAppBar(),
