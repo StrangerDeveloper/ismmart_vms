@@ -11,7 +11,6 @@ import '../../widgets/custom_button.dart';
 import '../bank/bank_profile_view.dart';
 import '../location_list/location_list_view.dart';
 import '../payout_list/payout_list_view.dart';
-import '../profile/profile_details/profile_detail_view.dart';
 
 class SettingsView extends StatelessWidget {
   SettingsView({super.key});
@@ -89,7 +88,7 @@ class SettingsView extends StatelessWidget {
             title: const Text(' Profile '),
             onTap: () {
               //Navigator.pop(context);
-              Get.to(() => VendorProfileDetailView());
+              //Get.to(() => VendorProfileDetailView());
             },
           ),
           ListTile(

@@ -1,11 +1,12 @@
-import 'dart:math';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/constants.dart';
+import 'package:ismmart_vms/helper/resourses/app_colors.dart';
+import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/screens/product_list/product_list_viewmodel.dart';
+import 'package:ismmart_vms/screens/product_list/product_model.dart';
 import 'package:ismmart_vms/widgets/custom_button.dart';
-import '../product_detail/product_detail_view.dart';
 
 class ProductListView extends StatelessWidget {
   ProductListView({super.key});
@@ -18,26 +19,28 @@ class ProductListView extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         centerTitle: true,
-        leading: IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.menu,
-              size: 25,
-              color: Colors.black,
-            )),
+        // leading: IconButton(
+        //     onPressed: () {},
+        //     icon: const Icon(
+        //       Icons.menu,
+        //       size: 25,
+        //       color: Colors.black,
+        //     )),
         title: const Text('Products'),
-        bottom: PreferredSize(
-            preferredSize: Size.fromHeight(110.0),
-            child: Column(
-              children: [
-                addProductSection(),
-                filterProductSection(),
-              ],
-            )),
+        // bottom: PreferredSize(
+        //   preferredSize: const Size.fromHeight(110.0),
+        //   child: Column(
+        //     children: [
+        //       addProductSection(),
+        //       filterProductSection(),
+        //     ],
+        //   ),
+        // ),
       ),
-      body: Stack(
+      body: Column(
         children: [
-          listView(),
+          addProductSection(),
+          filterProductSection(),
           Obx(
             () => Visibility(
               visible: viewModel.searchByDropdownVisibility.value,
@@ -74,7 +77,8 @@ class ProductListView extends StatelessWidget {
                 ),
               ),
             ),
-          )
+          ),
+          listView(),
         ],
       ),
     );
@@ -120,56 +124,63 @@ class ProductListView extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          InkWell(
-            onTap: () {
-              if (viewModel.dropdownSelectionContainerWidth.value <
-                  viewModel.searchAndFilterContainerWidth.value) {
-                viewModel.searchAndFilterContainerWidth.value =
-                    Get.width * viewModel.lowerContainerWidth;
-                viewModel.dropdownSelectionContainerWidth.value =
-                    Get.width * viewModel.higherContainerWidth;
-                Future.delayed(Duration(microseconds: 100), () {
-                  viewModel.searchByContainerIconVisibility.value = true;
-                });
-              } else if (viewModel.searchByDropdownVisibility.value) {
-                viewModel.searchByDropdownVisibility.value = false;
-              } else {
-                viewModel.searchByDropdownVisibility.value = true;
-              }
-            },
-            child: Obx(
-              () => AnimatedContainer(
-                duration: const Duration(milliseconds: 600),
-                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-                width: viewModel.dropdownSelectionContainerWidth.value,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                        color: newColorLightGrey2.withOpacity(0.5),
-                        width: 1.2)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      viewModel.searchBy.value,
-                      style: interNormalText,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    Obx(() => Visibility(
-                          visible:
-                              viewModel.searchByContainerIconVisibility.value,
-                          child: Icon(
-                            viewModel.searchByDropdownVisibility.value
-                                ? Icons.keyboard_arrow_up_rounded
-                                : Icons.keyboard_arrow_down_rounded,
-                            size: 18,
-                            color: Colors.black,
-                          ),
-                        ))
-                  ],
+          Expanded(
+            child: InkWell(
+              onTap: () {
+                if (viewModel.dropdownSelectionContainerWidth.value <
+                    viewModel.searchAndFilterContainerWidth.value) {
+                  viewModel.searchAndFilterContainerWidth.value =
+                      Get.width * viewModel.lowerContainerWidth;
+                  viewModel.dropdownSelectionContainerWidth.value =
+                      Get.width * viewModel.higherContainerWidth;
+                  Future.delayed(const Duration(microseconds: 100), () {
+                    viewModel.searchByContainerIconVisibility.value = true;
+                  });
+                } else if (viewModel.searchByDropdownVisibility.value) {
+                  viewModel.searchByDropdownVisibility.value = false;
+                } else {
+                  viewModel.searchByDropdownVisibility.value = true;
+                }
+              },
+              child: Obx(
+                () => AnimatedContainer(
+                  duration: const Duration(milliseconds: 600),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+                  width: viewModel.dropdownSelectionContainerWidth.value,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                          color: newColorLightGrey2.withOpacity(0.5),
+                          width: 1.2)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        viewModel.searchBy.value,
+                        style: interNormalText,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Visibility(
+                        visible:
+                            viewModel.searchByContainerIconVisibility.value,
+                        child: Icon(
+                          viewModel.searchByDropdownVisibility.value
+                              ? Icons.keyboard_arrow_up_rounded
+                              : Icons.keyboard_arrow_down_rounded,
+                          size: 18,
+                          color: Colors.black,
+                        ),
+                      )
+                      //Obx(() =>)
+                    ],
+                  ),
                 ),
               ),
             ),
+          ),
+          SizedBox(
+            width: 10.v,
           ),
           InkWell(
             onTap: () {
@@ -232,39 +243,39 @@ class ProductListView extends StatelessWidget {
   Widget listView() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
-      child: SingleChildScrollView(
-        physics: ScrollPhysics(),
-        child: Column(
-          children: [
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              decoration: BoxDecoration(
-                color: newColorLightGrey2.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(15),
-              ),
-              // color: newColorLightGrey2,
-              child: ListView.builder(
-                itemCount: 10,
-                // physics: ScrollPhysics(),
+      child: Column(
+        children: [
+          nextPageData(),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            decoration: BoxDecoration(
+              color: newColorLightGrey2.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(15),
+            ),
+            // color: newColorLightGrey2,
+            child: Obx(
+              () => ListView.builder(
                 shrinkWrap: true,
-                itemBuilder: (context, int index) {
-                  return listViewItem(index);
+                itemCount: viewModel.productItemsList.length,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (_, int index) {
+                  ProductsItem items = viewModel.productItemsList[index];
+                  return listViewItem(model: items);
                 },
               ),
             ),
-            nextPageData()
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 
-  Widget listViewItem(int index) {
-    var rng = Random();
+  Widget listViewItem({ProductsItem? model}) {
+    //var rng = Random();
 
     return InkWell(
       onTap: () {
-        Get.to(() => ProductDetailView());
+        // Get.to(() => ProductDetailView());
       },
       child: Container(
         padding: const EdgeInsets.only(left: 5, right: 5, top: 5, bottom: 5),
@@ -274,7 +285,7 @@ class ProductListView extends StatelessWidget {
             CachedNetworkImage(
               height: 65,
               width: 65,
-              imageUrl: "",
+              imageUrl: model!.media![0].url!,
               imageBuilder: (context, imageProvider) {
                 return Container(
                   decoration: BoxDecoration(
@@ -304,81 +315,69 @@ class ProductListView extends StatelessWidget {
               },
             ),
             const SizedBox(width: 10),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 5.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '${model.name}',
+                  style: interHeadingSize14.copyWith(color: newColorBlue),
+                ),
+                SizedBox(height: 7.h),
+                // Text(
+                //   '${model.} in stock',
+                //   style: interNormalText.copyWith(
+                //       fontWeight: FontWeight.w400,
+                //       color: Colors.red,
+                //       fontSize: 11),
+                // ),
+                // const SizedBox(
+                //   height: 5,
+                // ),
+                Row(
                   children: [
                     Text(
-                      'Product Name',
-                      style: interHeadingSize14.copyWith(color: newColorBlue),
-                    ),
-                    SizedBox(
-                      height: 7,
-                    ),
-                    Text(
-                      '${rng.nextInt(10)} in stock',
+                      '${model.categories![0].name}',
                       style: interNormalText.copyWith(
-                          fontWeight: FontWeight.w400,
-                          color: Colors.red,
-                          fontSize: 11),
+                          color: newColorLightGrey2, fontSize: 11),
                     ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'Category',
-                          style: interNormalText.copyWith(
-                              color: newColorLightGrey2, fontSize: 11),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          '• Variants ${rng.nextInt(10)}',
-                          style: interNormalText.copyWith(
-                              color: newColorLightGrey2, fontSize: 11),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Container(
-                      padding: EdgeInsets.all(6),
-                      decoration: BoxDecoration(
-                          color: index % 2 == 0
-                              ? productActiveColor.withOpacity(0.25)
-                              : newColorLightGrey2.withOpacity(0.25),
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          CircleAvatar(
-                            radius: 5,
-                            backgroundColor: index % 2 == 0
-                                ? productActiveColor
-                                : newColorLightGrey2,
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            index % 2 == 0 ? 'Active' : 'Draft',
-                            style: interNormalText.copyWith(
-                                color: Colors.black,
-                                fontSize: 10,
-                                fontWeight: FontWeight.w400),
-                          )
-                        ],
-                      ),
-                    ),
+                    SizedBox(width: 10.v),
+                    Text(
+                      '• Variants ${model.variants!.length}',
+                      style: interNormalText.copyWith(
+                          color: newColorLightGrey2, fontSize: 11),
+                    )
                   ],
                 ),
-              ),
+                SizedBox(height: 15.h),
+                Container(
+                  padding: const EdgeInsets.all(6),
+                  decoration: BoxDecoration(
+                      color: model.status!.toLowerCase().contains("active")
+                          ? productActiveColor.withOpacity(0.25)
+                          : newColorLightGrey2.withOpacity(0.25),
+                      borderRadius: BorderRadius.circular(15)),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      CircleAvatar(
+                        radius: 5,
+                        backgroundColor:
+                            model.status!.toLowerCase().contains("active")
+                                ? productActiveColor
+                                : newColorLightGrey2,
+                      ),
+                      SizedBox(width: 10.v),
+                      Text(
+                        "${model.status}",
+                        style: interNormalText.copyWith(
+                            color: Colors.black,
+                            fontSize: 10,
+                            fontWeight: FontWeight.w400),
+                      )
+                    ],
+                  ),
+                ),
+              ],
             ),
           ],
         ),
@@ -392,27 +391,29 @@ class ProductListView extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            '1 - 20 of 50',
-            style: interNormalText.copyWith(
-                color: newColorLightGrey,
-                fontWeight: FontWeight.w400,
-                fontSize: 11),
+          Obx(
+            () => Text(
+              '${viewModel.productModel.value.page} - ${viewModel.productModel.value.pages} of ${viewModel.productModel.value.total}',
+              style: interNormalText.copyWith(
+                  color: gray900, fontWeight: FontWeight.w400, fontSize: 11),
+            ),
           ),
-          CustomIconBtn(
-            iconSize: 10,
-            enabled: false,
-            icon: Icons.arrow_back_ios_new_rounded,
-            onTap: () {},
-          ),
-          SizedBox(
-            width: 5,
-          ),
-          CustomIconBtn(
-            iconSize: 10,
-            enabled: true,
-            icon: Icons.arrow_forward_ios_rounded,
-            onTap: () {},
+          Row(
+            children: [
+              CustomIconBtn(
+                iconSize: 10,
+                enabled: false,
+                icon: Icons.arrow_back_ios_new_rounded,
+                onTap: () {},
+              ),
+              const SizedBox(width: 5),
+              CustomIconBtn(
+                iconSize: 10,
+                enabled: true,
+                icon: Icons.arrow_forward_ios_rounded,
+                onTap: () {},
+              ),
+            ],
           ),
         ],
       ),

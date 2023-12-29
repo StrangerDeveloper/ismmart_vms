@@ -54,6 +54,7 @@ Color get black900 => const Color(0XFF000000);
 // Cyan
 Color get cyan50 => const Color(0XFFD5F5F6);
 Color get cyan800 => const Color(0XFF047481);
+Color get cyan => Colors.cyan;
 
 // DeepOrange
 Color get deepOrange200 => const Color(0XFFFDBA8C);
