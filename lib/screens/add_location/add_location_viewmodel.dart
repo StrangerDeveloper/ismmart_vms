@@ -70,8 +70,7 @@ class AddLocationViewModel extends GetxController {
       cityController.text = locationModel.city?.name ?? '';
       selectedCityId = locationModel.city?.sId ?? '';
       addressController.text = locationModel.address ?? '';
-      statusSelectedIndex.value =
-          statusList.indexOf(locationModel.status ?? '');
+      statusSelectedIndex.value = statusList.indexOf(locationModel.status ?? '');
       statusController.text = locationModel.status ?? '';
     }
   }
