@@ -1,4 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ismmart_vms/helper/api_base_helper.dart';
+import 'package:ismmart_vms/screens/product_list/product_model.dart';
 
 class ProductListViewModel extends GetxController {
   RxString searchBy = 'All'.obs;
@@ -12,7 +15,7 @@ class ProductListViewModel extends GetxController {
   RxBool searchAndFilterIconVisibility = false.obs;
   RxBool searchByContainerIconVisibility = true.obs;
 
-
+  RxList<ProductsItem> productItemsList = <ProductsItem>[].obs;
 
   @override
   void onReady() {
@@ -21,6 +24,22 @@ class ProductListViewModel extends GetxController {
     Future.delayed(const Duration(milliseconds: 800), () {
       searchAndFilterIconVisibility.value = true;
     });
+
+    getProductItems();
     super.onReady();
+  }
+
+  Future<void> getProductItems() async{
+    await ApiBaseHelper()
+        .getMethod(url: "vendor/product?page=1&limit=10")
+        .then((parsedJson) {
+      final data = parsedJson['data'];
+      if (data != null) {
+        ProductModel model = ProductModel.fromJson(data);
+        productItemsList.addAll(model.items!);
+      }
+    }).catchError((e) {
+      debugPrint("GetProductItem: $e");
+    });
   }
 }

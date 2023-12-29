@@ -4,6 +4,8 @@ import 'package:ismmart_vms/helper/api_base_helper.dart';
 import 'package:ismmart_vms/helper/global_variables.dart';
 import 'package:ismmart_vms/screens/order_listing/model/orderModel.dart';
 
+import '../../helper/urls.dart';
+
 class OrderListingViewModel extends GetxController {
   RxList<OrderItem> orderList = <OrderItem>[].obs;
   ScrollController scrollController = ScrollController();
@@ -22,7 +24,7 @@ class OrderListingViewModel extends GetxController {
   Future<void> getOrderListing() async {
     isLoading.value = true;
 
-    await ApiBaseHelper().getMethod(url: '/vendor/order').then((response) {
+    await ApiBaseHelper().getMethod(url: Urls.getOrders).then((response) {
       final data = response['data'];
       if (data != null) {
         print("OrderITems: $data");

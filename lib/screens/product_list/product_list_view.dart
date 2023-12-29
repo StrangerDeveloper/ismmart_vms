@@ -27,7 +27,7 @@ class ProductListView extends StatelessWidget {
             )),
         title: const Text('Products'),
         bottom: PreferredSize(
-            preferredSize: Size.fromHeight(110.0),
+            preferredSize: const Size.fromHeight(110.0),
             child: Column(
               children: [
                 addProductSection(),
@@ -128,7 +128,7 @@ class ProductListView extends StatelessWidget {
                     Get.width * viewModel.lowerContainerWidth;
                 viewModel.dropdownSelectionContainerWidth.value =
                     Get.width * viewModel.higherContainerWidth;
-                Future.delayed(Duration(microseconds: 100), () {
+                Future.delayed(const Duration(microseconds: 100), () {
                   viewModel.searchByContainerIconVisibility.value = true;
                 });
               } else if (viewModel.searchByDropdownVisibility.value) {
@@ -140,7 +140,7 @@ class ProductListView extends StatelessWidget {
             child: Obx(
               () => AnimatedContainer(
                 duration: const Duration(milliseconds: 600),
-                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
                 width: viewModel.dropdownSelectionContainerWidth.value,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
@@ -233,23 +233,25 @@ class ProductListView extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
       child: SingleChildScrollView(
-        physics: ScrollPhysics(),
+        physics: const ScrollPhysics(),
         child: Column(
           children: [
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               decoration: BoxDecoration(
                 color: newColorLightGrey2.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(15),
               ),
               // color: newColorLightGrey2,
-              child: ListView.builder(
-                itemCount: 10,
-                // physics: ScrollPhysics(),
-                shrinkWrap: true,
-                itemBuilder: (context, int index) {
-                  return listViewItem(index);
-                },
+              child: Obx(
+                ()=> ListView.builder(
+                  itemCount: 10,
+                  // physics: ScrollPhysics(),
+                  shrinkWrap: true,
+                  itemBuilder: (context, int index) {
+                    return listViewItem(index);
+                  },
+                ),
               ),
             ),
             nextPageData()
@@ -314,7 +316,7 @@ class ProductListView extends StatelessWidget {
                       'Product Name',
                       style: interHeadingSize14.copyWith(color: newColorBlue),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 7,
                     ),
                     Text(
@@ -324,7 +326,7 @@ class ProductListView extends StatelessWidget {
                           color: Colors.red,
                           fontSize: 11),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 5,
                     ),
                     Row(
@@ -334,7 +336,7 @@ class ProductListView extends StatelessWidget {
                           style: interNormalText.copyWith(
                               color: newColorLightGrey2, fontSize: 11),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         Text(
@@ -344,11 +346,11 @@ class ProductListView extends StatelessWidget {
                         )
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 15,
                     ),
                     Container(
-                      padding: EdgeInsets.all(6),
+                      padding: const EdgeInsets.all(6),
                       decoration: BoxDecoration(
                           color: index % 2 == 0
                               ? productActiveColor.withOpacity(0.25)
@@ -363,7 +365,7 @@ class ProductListView extends StatelessWidget {
                                 ? productActiveColor
                                 : newColorLightGrey2,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 10,
                           ),
                           Text(
@@ -405,7 +407,7 @@ class ProductListView extends StatelessWidget {
             icon: Icons.arrow_back_ios_new_rounded,
             onTap: () {},
           ),
-          SizedBox(
+          const SizedBox(
             width: 5,
           ),
           CustomIconBtn(

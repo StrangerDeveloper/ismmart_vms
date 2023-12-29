@@ -4,7 +4,7 @@ import 'package:ismmart_vms/helper/global_variables.dart';
 import 'package:ismmart_vms/screens/auth/signup/signup_2/sign_up_2_view.dart';
 import 'package:ismmart_vms/widgets/pick_image.dart';
 
-class VendorProfileViewModel extends GetxController {
+class EditUserProfileViewModel extends GetxController {
   GlobalKey<FormState> signUpFormKey = GlobalKey<FormState>();
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();

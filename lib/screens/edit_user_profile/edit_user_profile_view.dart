@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:ismmart_vms/screens/profile/edit_profile_viewmodel.dart';
-import 'package:ismmart_vms/screens/profile/widget/user_image_picker_widget.dart';
 import 'package:ismmart_vms/widgets/image_layout_container.dart';
 import 'package:path/path.dart';
 import 'package:ismmart_vms/widgets/custom_textfield.dart';
 import 'package:ismmart_vms/widgets/obscure_suffix_icon.dart';
 import 'package:ismmart_vms/widgets/custom_button.dart';
 
-class VendorProfileView extends StatelessWidget {
-  VendorProfileView({super.key});
-  final VendorProfileViewModel viewModel = Get.put(VendorProfileViewModel());
+import 'edit_user_profile_viewmodel.dart';
+
+class EditUserProfileView extends StatelessWidget {
+  EditUserProfileView({super.key});
+  final EditUserProfileViewModel viewModel = Get.put(EditUserProfileViewModel());
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +31,6 @@ class VendorProfileView extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         titleAndBackBtn(),
-                        const SizedBox(height: 40),
-                        UserImagePicker((pickedImage) => null),
                         const SizedBox(height: 40),
                         nameField(),
                         const SizedBox(height: 20),

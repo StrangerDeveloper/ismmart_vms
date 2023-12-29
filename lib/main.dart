@@ -8,6 +8,7 @@ import 'package:ismmart_vms/helper/theme_helper.dart';
 import 'package:ismmart_vms/screens/order_listing/order_view.dart';
 import 'firebase_options.dart';
 import 'helper/routes.dart';
+import 'screens/dashboard/dashboard_view.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -47,7 +48,7 @@ class MyApp extends StatelessWidget {
             elevation: 3,
             shadowColor: Colors.black12),
       ),
-      home: OrderView(),
+      home: DashboardView(),
       initialRoute: Routes.initRoute,
       getPages: Routes.pages,
     );
