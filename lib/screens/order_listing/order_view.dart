@@ -216,12 +216,6 @@ class OrderView extends StatelessWidget {
                 ],
               ),
             ),
-            // _buildOrderCardContent("Order ID", detail.orderId.toString()),
-            // _buildOrderCardContent("Customer Name", detail.customerName),
-            // _buildOrderCardContent("Date", detail.date.toString()),
-            // _buildOrderCardContent(
-            //     "Fulfillment Status", detail.fulfillmentStatus),
-            // _buildOrderCardContent("Total Amount", detail.amount.toString()),
           ],
         ),
       ),
@@ -298,21 +292,6 @@ class OrderView extends StatelessWidget {
       default:
         return Colors.blue;
     }
-  }
-
-  Widget _buildOrderCardContent(String title, String value) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          CustomText(title: "$title:"),
-          CustomText(
-            title: value,
-          ),
-        ],
-      ),
-    );
   }
 
   onTapArrowLeft() {
