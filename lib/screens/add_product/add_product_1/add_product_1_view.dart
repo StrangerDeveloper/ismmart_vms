@@ -1,16 +1,15 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ismmart_vms/helper/common_function.dart';
 import 'package:ismmart_vms/screens/add_product/add_product_2/add_product_2_view.dart';
+import 'package:ismmart_vms/widgets/custom_bottom_sheet2.dart';
 import 'package:quill_html_editor/quill_html_editor.dart';
 
 import '../../../helper/constants.dart';
 import '../../../helper/theme_helper.dart';
 import '../../../widgets/bottomsheet_item.dart';
-import '../../../widgets/custom_bottom_sheet.dart';
 import '../../../widgets/custom_button.dart';
 import '../../../widgets/custom_checkbox.dart';
 import '../../../widgets/custom_textfield.dart';
@@ -86,14 +85,14 @@ class AddProduct1View extends StatelessWidget {
   AppBar appBar() {
     return AppBar(
       backgroundColor: Colors.white,
-      leading: IconButton(
-        onPressed: () => Get.back(),
-        icon: const Icon(
-          Icons.arrow_back_ios_new_rounded,
-          size: 22,
-          color: newColorLightGrey2,
-        ),
-      ),
+      // leading: IconButton(
+      //   onPressed: () => Get.back(),
+      //   icon: const Icon(
+      //     Icons.arrow_back_ios_new_rounded,
+      //     size: 22,
+      //     color: newColorLightGrey2,
+      //   ),
+      // ),
       title: const Text('Add Product'),
     );
   }
@@ -517,12 +516,12 @@ class AddProduct1View extends StatelessWidget {
         hintText: 'Select product type',
         isDropDown: true,
         onTap: () {
-          CustomBottomSheet1(
+          CustomBottomSheet2(
             selectedIndex: viewModel.typeSelectedIndex.value,
-            list: viewModel.typeList,
+            typeList: viewModel.typeList,
             onChanged: (value) {
               viewModel.typeSelectedIndex.value = value;
-              viewModel.typeController.text = viewModel.typeList[value];
+              viewModel.typeController.text = viewModel.typeList[value].name!;
             },
           ).show();
         },
@@ -537,12 +536,13 @@ class AddProduct1View extends StatelessWidget {
       hintText: 'Select product category',
       isDropDown: true,
       onTap: () {
-        CustomBottomSheet1(
+        CustomBottomSheet2(
           selectedIndex: viewModel.categorySelectedIndex.value,
-          list: viewModel.categoryList,
+          categoryList: viewModel.categoryList,
           onChanged: (value) {
             viewModel.categorySelectedIndex.value = value;
-            viewModel.categoryController.text = viewModel.categoryList[value];
+            viewModel.categoryController.text =
+                viewModel.categoryList[value].name!;
           },
         ).show();
       },
