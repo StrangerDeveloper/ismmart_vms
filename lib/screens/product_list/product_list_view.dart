@@ -139,7 +139,7 @@ class ProductListView extends StatelessWidget {
             },
             child: Obx(
               () => AnimatedContainer(
-                duration: const Duration(milliseconds: 600),
+                duration: const Duration(milliseconds: 500),
                 padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
                 width: viewModel.dropdownSelectionContainerWidth.value,
                 decoration: BoxDecoration(
@@ -246,7 +246,6 @@ class ProductListView extends StatelessWidget {
               child: Obx(
                 ()=> ListView.builder(
                   itemCount: 10,
-                  // physics: ScrollPhysics(),
                   shrinkWrap: true,
                   itemBuilder: (context, int index) {
                     return listViewItem(index);
@@ -306,80 +305,78 @@ class ProductListView extends StatelessWidget {
               },
             ),
             const SizedBox(width: 10),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 5.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Product Name',
-                      style: interHeadingSize14.copyWith(color: newColorBlue),
-                    ),
-                    const SizedBox(
-                      height: 7,
-                    ),
-                    Text(
-                      '${rng.nextInt(10)} in stock',
-                      style: interNormalText.copyWith(
-                          fontWeight: FontWeight.w400,
-                          color: Colors.red,
-                          fontSize: 11),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Row(
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Product Name',
+                    style: interHeadingSize14.copyWith(color: newColorBlue),
+                  ),
+                  const SizedBox(
+                    height: 7,
+                  ),
+                  Text(
+                    '${rng.nextInt(10)} in stock',
+                    style: interNormalText.copyWith(
+                        fontWeight: FontWeight.w400,
+                        color: Colors.red,
+                        fontSize: 11),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        'Category',
+                        style: interNormalText.copyWith(
+                            color: newColorLightGrey2, fontSize: 11),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        '• Variants ${rng.nextInt(10)}',
+                        style: interNormalText.copyWith(
+                            color: newColorLightGrey2, fontSize: 11),
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(6),
+                    decoration: BoxDecoration(
+                        color: index % 2 == 0
+                            ? productActiveColor.withOpacity(0.25)
+                            : newColorLightGrey2.withOpacity(0.25),
+                        borderRadius: BorderRadius.circular(15)),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text(
-                          'Category',
-                          style: interNormalText.copyWith(
-                              color: newColorLightGrey2, fontSize: 11),
+                        CircleAvatar(
+                          radius: 5,
+                          backgroundColor: index % 2 == 0
+                              ? productActiveColor
+                              : newColorLightGrey2,
                         ),
                         const SizedBox(
                           width: 10,
                         ),
                         Text(
-                          '• Variants ${rng.nextInt(10)}',
+                          index % 2 == 0 ? 'Active' : 'Draft',
                           style: interNormalText.copyWith(
-                              color: newColorLightGrey2, fontSize: 11),
+                              color: Colors.black,
+                              fontSize: 10,
+                              fontWeight: FontWeight.w400),
                         )
                       ],
                     ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    Container(
-                      padding: const EdgeInsets.all(6),
-                      decoration: BoxDecoration(
-                          color: index % 2 == 0
-                              ? productActiveColor.withOpacity(0.25)
-                              : newColorLightGrey2.withOpacity(0.25),
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          CircleAvatar(
-                            radius: 5,
-                            backgroundColor: index % 2 == 0
-                                ? productActiveColor
-                                : newColorLightGrey2,
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            index % 2 == 0 ? 'Active' : 'Draft',
-                            style: interNormalText.copyWith(
-                                color: Colors.black,
-                                fontSize: 10,
-                                fontWeight: FontWeight.w400),
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ],
@@ -390,31 +387,35 @@ class ProductListView extends StatelessWidget {
 
   Widget nextPageData() {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
             '1 - 20 of 50',
             style: interNormalText.copyWith(
-                color: newColorLightGrey,
+                color: Colors.grey.shade400,
                 fontWeight: FontWeight.w400,
                 fontSize: 11),
           ),
-          CustomIconBtn(
-            iconSize: 10,
-            enabled: false,
-            icon: Icons.arrow_back_ios_new_rounded,
-            onTap: () {},
-          ),
-          const SizedBox(
-            width: 5,
-          ),
-          CustomIconBtn(
-            iconSize: 10,
-            enabled: true,
-            icon: Icons.arrow_forward_ios_rounded,
-            onTap: () {},
+          Row(
+            children: [
+              CustomIconBtn(
+                iconSize: 10,
+                enabled: false,
+                icon: Icons.arrow_back_ios_new_rounded,
+                onTap: () {},
+              ),
+              const SizedBox(
+                width: 5,
+              ),
+              CustomIconBtn(
+                iconSize: 10,
+                enabled: true,
+                icon: Icons.arrow_forward_ios_rounded,
+                onTap: () {},
+              ),
+            ],
           ),
         ],
       ),

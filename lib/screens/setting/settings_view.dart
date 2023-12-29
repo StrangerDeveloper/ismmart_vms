@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ismmart_vms/screens/setting/settings_viewmodel.dart';
 import 'package:ismmart_vms/screens/shippings/shippings_view.dart';
+import 'package:ismmart_vms/screens/user_profile/user_profile_view.dart';
 import 'package:ismmart_vms/widgets/custom_text.dart';
 
 import '../../helper/constants.dart';
@@ -11,7 +12,6 @@ import '../../widgets/custom_button.dart';
 import '../bank/bank_profile_view.dart';
 import '../location_list/location_list_view.dart';
 import '../payout_list/payout_list_view.dart';
-import '../profile/profile_details/profile_detail_view.dart';
 
 class SettingsView extends StatelessWidget {
   SettingsView({super.key});
@@ -89,7 +89,7 @@ class SettingsView extends StatelessWidget {
             title: const Text(' Profile '),
             onTap: () {
               //Navigator.pop(context);
-              Get.to(() => VendorProfileDetailView());
+              Get.to(() => UserProfileView());
             },
           ),
           ListTile(
