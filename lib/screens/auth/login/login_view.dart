@@ -147,7 +147,8 @@ class LogInView extends StatelessWidget {
   Widget googlelogInBtn() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-      child: CustomRoundedTextBtn(
+      child: CustomTextBtn(
+        radius: 30,
         borderSide: const BorderSide(
           //color: newColorDarkBlack, // your color here
           width: 1,
@@ -161,8 +162,6 @@ class LogInView extends StatelessWidget {
               borderRadius: BorderRadius.circular(50.0),
               child: Image.asset(
                 'assets/logo/google_logo.png',
-                width: 36,
-                height: 36,
               ),
             ),
             const SizedBox(
@@ -170,7 +169,7 @@ class LogInView extends StatelessWidget {
             ),
             Text(
               'Sign in with Gmail',
-              style: newFontStyleSize14.copyWith(fontWeight: FontWeight.w500),
+              // style: newFontStyleSize14.copyWith(fontWeight: FontWeight.w500),
             ),
           ],
         ),
@@ -184,7 +183,8 @@ class LogInView extends StatelessWidget {
   Widget applelogInBtn() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 10, 20, 25),
-      child: CustomRoundedTextBtn(
+      child: CustomTextBtn(
+        radius: 30,
         borderSide: const BorderSide(
           color: Colors.black, // your color here
           width: 1,
@@ -194,20 +194,14 @@ class LogInView extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(50.0),
-              child: Image.asset(
-                'assets/logo/apple_logo.png',
-                width: 36,
-                height: 36,
-              ),
+            Image.asset(
+              'assets/logo/apple_logo.png',
             ),
             const SizedBox(
               width: 5,
             ),
             Text(
               "Signin with Apple ID",
-              style: newFontStyleSize14.copyWith(fontWeight: FontWeight.w500),
             ),
           ],
         ),
@@ -262,14 +256,15 @@ class LogInView extends StatelessWidget {
       child: Obx(
         () => GlobalVariable.showLoader.value
             ? const CustomLoading(isItBtn: true)
-            : CustomRoundedTextBtn(
+            : CustomTextBtn(
+                radius: 30,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       "Login",
-                      style: newFontStyleSize14.copyWith(
-                          fontWeight: FontWeight.w500, color: kWhiteColor),
+                      // style: newFontStyleSize14.copyWith(
+                      //     fontWeight: FontWeight.w500, color: kWhiteColor),kWhiteColor
                     ),
                     SizedBox(width: 4.h),
                     const Icon(
@@ -282,25 +277,6 @@ class LogInView extends StatelessWidget {
                   viewModel.signIn();
                   // Get.offNamed(Routes.dashboard);
                   //
-                },
-              ),
-      ),
-    );
-  }
-
-  Widget signUpBtn() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 20, 20, 25),
-      child: Obx(
-        () => GlobalVariable.showLoader.value
-            ? const CustomLoading(isItBtn: true)
-            : CustomRoundedTextBtn(
-                backgroundColor: Colors.black,
-                child: const Text(
-                  "Signup",
-                ),
-                onPressed: () {
-                  Get.off(SignUp1View());
                 },
               ),
       ),

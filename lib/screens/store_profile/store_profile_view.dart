@@ -2,17 +2,17 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/theme_helper.dart';
-import 'package:ismmart_vms/screens/store/store_viewmodel.dart';
+import 'package:ismmart_vms/screens/store_profile/store_profile_viewmodel.dart';
 import 'package:ismmart_vms/widgets/custom_appbar.dart';
 
 import '../../helper/validator.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/custom_textfield.dart';
 
-class StoreView extends StatelessWidget {
-  StoreView({super.key});
+class StoreProfileView extends StatelessWidget {
+  StoreProfileView({super.key});
 
-  final StoreViewModel viewModel = Get.put(StoreViewModel());
+  final StoreProfileViewModel viewModel = Get.put(StoreProfileViewModel());
 
   @override
   Widget build(BuildContext context) {
