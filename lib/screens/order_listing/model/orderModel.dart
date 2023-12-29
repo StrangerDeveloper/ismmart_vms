@@ -39,7 +39,7 @@ class OrderItem {
   final String? id;
   final Customer? customer;
   final Address? address;
-  final List<ProductItem>? items;
+  final List<OrderProductItem>? items;
   final OrderDetails? orderDetails;
   final Totals? totals;
   final String? paymentType;
@@ -73,8 +73,8 @@ class OrderItem {
             json["address"] == null ? null : Address.fromJson(json["address"]),
         items: json["items"] == null
             ? []
-            : List<ProductItem>.from(
-                json["items"]!.map((x) => ProductItem.fromJson(x))),
+            : List<OrderProductItem>.from(
+                json["items"]!.map((x) => OrderProductItem.fromJson(x))),
         orderDetails: json["orderDetails"] == null
             ? null
             : OrderDetails.fromJson(json["orderDetails"]),
@@ -200,7 +200,7 @@ class Customer {
       };
 }
 
-class ProductItem {
+class OrderProductItem {
   final String? id;
   final String? product;
   final String? vendor;
@@ -228,7 +228,7 @@ class ProductItem {
 
   final List<dynamic>? assignedRider;
 
-  ProductItem({
+  OrderProductItem({
     this.id,
     this.product,
     this.vendor,
@@ -256,7 +256,8 @@ class ProductItem {
     this.assignedRider,
   });
 
-  factory ProductItem.fromJson(Map<String, dynamic> json) => ProductItem(
+  factory OrderProductItem.fromJson(Map<String, dynamic> json) =>
+      OrderProductItem(
         id: json["_id"],
         product: json["product"],
         vendor: json["vendor"],
