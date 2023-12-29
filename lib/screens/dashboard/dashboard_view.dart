@@ -473,44 +473,7 @@ class DashboardView extends StatelessWidget {
             ],
           ),
           SizedBox(height: 24.v),
-          SizedBox(
-              height: 300.v,
-              width: 264.h,
-              child: Stack(
-                children: [
-                  // Align(
-                  //   alignment: Alignment.topCenter,
-                  //   child: Padding(
-                  //     padding: EdgeInsets.only(
-                  //       left: 80.h,
-                  //       top: 120.v,
-                  //       right: 80.h,
-                  //     ),
-                  //     child: Column(
-                  //       mainAxisSize: MainAxisSize.min,
-                  //       children: [
-                  //         Text(
-                  //           "500,000",
-                  //           style: TextStyle(
-                  //               color: gray60001,
-                  //               fontWeight: FontWeight.w600,
-                  //               fontSize: 20.fSize),
-                  //         ),
-                  //         SizedBox(height: 6.v),
-                  //         Text(
-                  //           "PKR",
-                  //           style: TextStyle(
-                  //               color: gray60001,
-                  //               fontWeight: FontWeight.w600,
-                  //               fontSize: 18.fSize),
-                  //         ),
-                  //       ],
-                  //     ),
-                  //   ),
-                  // ),
-                  _pieChart(),
-                ],
-              )),
+          SizedBox(height: 300.v, width: 264.h, child: _pieChart()),
         ],
       ),
     );
@@ -692,7 +655,7 @@ class DashboardView extends StatelessWidget {
         SizedBox(height: 18.v),
         Expanded(
           child: AspectRatio(
-            aspectRatio: 1.5,
+            aspectRatio: 1.3,
             child: PieChart(
               PieChartData(
                 pieTouchData: PieTouchData(
@@ -708,15 +671,15 @@ class DashboardView extends StatelessWidget {
                   },
                 ),
                 borderData: FlBorderData(
-                  show: true,
+                  show: false,
                 ),
-                sectionsSpace: 10,
-                centerSpaceRadius: 90,
+                sectionsSpace: 2,
+                centerSpaceRadius: 1,
                 sections: showingSections(),
               ),
               swapAnimationDuration:
                   const Duration(milliseconds: 150), // Optional
-              swapAnimationCurve: Curves.linear,
+              swapAnimationCurve: Curves.bounceIn,
             ),
           ),
         ),
@@ -732,7 +695,7 @@ class DashboardView extends StatelessWidget {
             ),
             const SizedBox(width: 4),
             _indicator(
-              color: cyan800,
+              color: cyan,
               text: 'Affiliate',
               isSquare: true,
             ),
@@ -787,60 +750,62 @@ class DashboardView extends StatelessWidget {
   List<PieChartSectionData> showingSections() {
     return List.generate(4, (i) {
       final isTouched = i == viewModel.pieTouchIndex;
-      final fontSize = isTouched ? 25.0 : 16.0;
-      final radius = isTouched ? 25.0 : 15.0;
-      const shadows = [Shadow(color: Colors.black, blurRadius: 2)];
+      final fontSize = isTouched ? 15.0 : 13.0;
+      final radius = isTouched ? 110.0 : 120.0;
+      // const shadows = [
+      //   Shadow(color: Color.fromARGB(255, 5, 5, 5), blurRadius: 2)
+      // ];
       switch (i) {
         case 0:
           return PieChartSectionData(
-            color: cyan800,
+            color: cyan,
             value: 15,
-            title: 'Affiliate 15%',
+            title: '15%\nAffiliate',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
-              fontWeight: FontWeight.bold,
-              color: kPrimaryColor,
-              shadows: shadows,
+              fontWeight: FontWeight.w600,
+              color: kWhiteColor,
+              //shadows: shadows,
             ),
           );
         case 1:
           return PieChartSectionData(
             color: amber400,
             value: 15,
-            title: 'Search 15%',
+            title: '15%\nSearch',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
-              fontWeight: FontWeight.bold,
-              color: kPrimaryColor,
-              shadows: shadows,
+              fontWeight: FontWeight.w600,
+              color: kWhiteColor,
+              //shadows: shadows,
             ),
           );
         case 2:
           return PieChartSectionData(
             color: kPurpleColor,
             value: 30,
-            title: 'Collection 30%',
+            title: ' 30%\nCollection',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
-              fontWeight: FontWeight.bold,
-              color: kPrimaryColor,
-              shadows: shadows,
+              fontWeight: FontWeight.w600,
+              color: kWhiteColor,
+              //shadows: shadows,
             ),
           );
         case 3:
           return PieChartSectionData(
             color: blueA700,
             value: 40,
-            title: 'Direact 40%',
+            title: ' 40%\nDireact',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
-              fontWeight: FontWeight.bold,
-              color: kPrimaryColor,
-              shadows: shadows,
+              fontWeight: FontWeight.w600,
+              color: kWhiteColor,
+              //shadows: shadows,
             ),
           );
         default:

@@ -1,29 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ismmart_vms/helper/constants.dart';
 import 'package:ismmart_vms/helper/theme_helper.dart';
 
 class ImageLayoutContainer extends StatelessWidget {
-  const ImageLayoutContainer({
-    super.key,
-    required this.onTap,
-    required this.title,
-    this.subTitle,
-    required this.filePath,
-    this.required = true,
-    this.errorPrompt = '',
-    this.errorVisibility = false,
-    this.description = false,
-  });
-
   final void Function() onTap;
   final String title;
-  final String? subTitle;
   final String filePath;
   final bool required;
   final String errorPrompt;
   final bool errorVisibility;
   final bool description;
+
+  const ImageLayoutContainer({
+    super.key,
+    required this.onTap,
+    required this.title,
+    required this.filePath,
+    this.required = false,
+    this.errorPrompt = '',
+    this.errorVisibility = false,
+    this.description = false,
+  });
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -31,11 +29,15 @@ class ImageLayoutContainer extends StatelessWidget {
       child: Column(
         children: [
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               RichText(
                 text: TextSpan(
                   text: title,
-                  style: newFontStyleSize14,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w500,
+                  ),
                   children: [
                     if (required)
                       const TextSpan(
@@ -45,17 +47,6 @@ class ImageLayoutContainer extends StatelessWidget {
                   ],
                 ),
               ),
-              if (subTitle != null)
-                Padding(
-                  padding: const EdgeInsets.only(left: 8),
-                  child: Text(
-                    subTitle!,
-                    style: const TextStyle(
-                      color: ThemeHelper.fadedBlue,
-                    ),
-                  ),
-                ),
-              const Spacer(),
               const Text(
                 'Image should be less than 2 MB',
                 style: TextStyle(
@@ -65,68 +56,50 @@ class ImageLayoutContainer extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 3),
+          const SizedBox(height: 8.5),
           Row(
             children: [
-              InkWell(
-                onTap: onTap,
-                child: Container(
-                  alignment: Alignment.center,
-                  height: 37,
-                  width: 115,
-                  decoration: const BoxDecoration(
-                      color: Color(0xFF929AAB),
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(10.0),
-                        bottomLeft: Radius.circular(10.0),
-                      )),
-                  child: const Text(
-                    'Choose File',
-                    style: TextStyle(
-                      color: Color(0xFFF9FAFB),
-                      fontSize: 12,
+              Expanded(
+                flex: 2,
+                child: InkWell(
+                  onTap: onTap,
+                  child: Container(
+                    alignment: Alignment.center,
+                    padding: const EdgeInsets.symmetric(vertical: 11),
+                    decoration: BoxDecoration(
+                      color: ThemeHelper.grey2.withOpacity(0.8),
+                      borderRadius: const BorderRadius.horizontal(
+                        left: Radius.circular(8),
+                      ),
+                    ),
+                    child: const Text(
+                      'Choose file',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
                 ),
               ),
-              Container(
-                alignment: Alignment.centerLeft,
-                // padding: const EdgeInsets.only(left: 10, top: 17),
-                width: 200,
-                height: 37,
-                decoration: const ShapeDecoration(
-                  color: Color(0xFFF9FAFB),
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                      width: 1,
-                      strokeAlign: BorderSide.strokeAlignOutside,
-                      color: Color(0xFFEEEEEE),
+              Expanded(
+                flex: 4,
+                child: Container(
+                  padding: const EdgeInsets.only(left: 15, top: 10, bottom: 10),
+                  decoration: BoxDecoration(
+                    color: ThemeHelper.grey3,
+                    border: Border.all(
+                      color: ThemeHelper.grey1,
                     ),
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(8),
-                      bottomRight: Radius.circular(8),
+                    borderRadius: const BorderRadius.horizontal(
+                      right: Radius.circular(8),
                     ),
                   ),
+                  child: Text(filePath == '' ? 'No file chosen' : filePath),
                 ),
-                child: Text(
-                  filePath == '' ? 'No file chosen' : filePath,
-                  style: const TextStyle(
-                    color: Color(0xFF24272C),
-                    fontSize: 14,
-                    fontFamily: 'Inter',
-                    fontWeight: FontWeight.w400,
-                    height: 0.09,
-                  ),
-                ),
-              )
+              ),
             ],
           ),
-
-          // Divider(
-          //   color: Color(0xffEEEEEE),
-          //   thickness: 1,
-          //   height: 20,
-          // ),
           if (description)
             Text(
               "This cheque image should have the same bank details visible as you mentioned above",
