@@ -84,8 +84,10 @@ class StoreProfileView extends StatelessWidget {
                 : CachedNetworkImage(
                     height: 80,
                     width: 80,
-                    imageUrl:
-                        viewModel.userProfileModel.value.store?.logo ?? '',
+                    imageUrl: viewModel.userProfileModel.value.store?.logo !=
+                            null
+                        ? '${viewModel.userProfileModel.value.store!.logo}?datetime=${DateTime.now().millisecondsSinceEpoch}'
+                        : '',
                     imageBuilder: (context, imageProvider) {
                       return Container(
                         decoration: BoxDecoration(
@@ -98,6 +100,7 @@ class StoreProfileView extends StatelessWidget {
                       );
                     },
                     errorWidget: (context, url, error) {
+                      print(error);
                       return Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
@@ -157,7 +160,7 @@ class StoreProfileView extends StatelessWidget {
   Widget storeSlug() {
     return CustomTextField1(
       title: 'Store Slug',
-      hintText: '/ ismmartshop',
+      hintText: 'ismmartshop',
       controller: viewModel.storeSlugController,
       autoValidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
@@ -271,35 +274,22 @@ class StoreProfileView extends StatelessWidget {
                     ),
                   ),
                   const Spacer(),
-                  IconButton(
-                    visualDensity: VisualDensity.compact,
-                    onPressed: () {
-                      Get.back();
-                    },
-                    icon: const Icon(
-                      Icons.close,
-                      color: Colors.red,
+                  Obx(
+                    () => CustomTextBtn(
+                      backgroundColor: Colors.transparent,
+                      foregroundColor: Get.theme.primaryColor,
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      radius: 4,
+                      width: 100,
+                      child: Text(viewModel.selectAllValue.value
+                          ? 'Unselect'
+                          : 'Select All'),
+                      onPressed: () {
+                        viewModel.selectAllItems();
+                      },
                     ),
                   ),
                 ],
-              ),
-              Obx(
-                () => Align(
-                  alignment: Alignment.centerRight,
-                  child: CustomTextBtn(
-                    backgroundColor: Colors.transparent,
-                    foregroundColor: Get.theme.primaryColor,
-                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    radius: 4,
-                    width: 100,
-                    child: Text(viewModel.selectAllValue.value
-                        ? 'Unselect'
-                        : 'Select All'),
-                    onPressed: () {
-                      viewModel.selectAllItems();
-                    },
-                  ),
-                ),
               ),
               const Divider(),
               Expanded(
@@ -310,16 +300,14 @@ class StoreProfileView extends StatelessWidget {
                           itemBuilder: (BuildContext context, int index) {
                             return Obx(
                               () => CheckBoxListTile1(
-                                title: viewModel
-                                        .storeTypeList[index].name ??
-                                    '',
-                                value: viewModel.storeTypeList[index]
-                                        .isSelected ??
-                                    false,
-                                isSelected: viewModel
-                                        .storeTypeList[index]
-                                        .isSelected ??
-                                    false,
+                                title:
+                                    viewModel.storeTypeList[index].name ?? '',
+                                value:
+                                    viewModel.storeTypeList[index].isSelected ??
+                                        false,
+                                isSelected:
+                                    viewModel.storeTypeList[index].isSelected ??
+                                        false,
                                 onChanged: (value) {
                                   viewModel.selectSingleItem(value, index);
                                 },

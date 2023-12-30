@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:http_parser/http_parser.dart';
 import 'package:ismmart_vms/screens/store_profile/store_type_model.dart';
 
 import '../../helper/api_base_helper.dart';
@@ -75,11 +74,15 @@ class StoreProfileViewModel extends GetxController {
         userProfileModel.value = UserProfileModel.fromJson(parsedJson['data']);
         storeNameController.text = userProfileModel.value.store?.name ?? '';
         storeSlugController.text = userProfileModel.value.store?.slug ?? '';
-        // for (StoreTypeModel e in storeTypeList) {
-        //   for (StoreTypeModel e in storeTypeList) {
-        //     userProfileModel.value.store?.types?.contains(e);
-        //   }
-        // }
+
+        userProfileModel.value.store?.types?.forEach((e) {
+          int index = storeTypeList.indexWhere((e1) => e1.sId == e.sId);
+          if (index >= 0) {
+            StoreTypeModel model = storeTypeList[index];
+            model.isSelected = true;
+            storeTypeList[index] = model;
+          }
+        });
       }
     }).catchError((e) {
       CommonFunction.debugPrint(e);
@@ -107,9 +110,9 @@ class StoreProfileViewModel extends GetxController {
       if (storeProfileImage.value.path != '') {
         fileList.add(
           await http.MultipartFile.fromPath(
-            'image',
+            'storeImage',
             storeProfileImage.value.path,
-            contentType: MediaType.parse('image/jpeg'),
+            // contentType: MediaType.parse('image/jpeg'),
           ),
         );
       }
@@ -117,9 +120,15 @@ class StoreProfileViewModel extends GetxController {
       Map<String, String> param = {
         "storeName": storeNameController.text,
         "storeSlug": storeSlugController.text,
-        for (int i = 0; i < storeTypeList.length; i++)
-          "storeTypes[$i]": storeTypeList[i].sId!
       };
+      int index = 0;
+      for (int i = 0; i < storeTypeList.length; i++) {
+        if (storeTypeList[i].isSelected == true) {
+          param["storeTypes[${index++}]"] = storeTypeList[i].sId!;
+        }
+      }
+
+      print(param);
 
       GlobalVariable.showLoader.value = true;
       await ApiBaseHelper()
