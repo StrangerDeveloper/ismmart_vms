@@ -48,7 +48,7 @@ class LocationListView extends StatelessWidget {
           CustomIconTextBtn(
             width: double.minPositive,
             onPressed: () {
-              Get.to(() => AddLocationView(), arguments: {'editData' : false});
+              Get.to(() => AddLocationView(), arguments: {'editData': false});
             },
             icon: CupertinoIcons.plus,
             title: 'Add Location',
@@ -105,6 +105,7 @@ class LocationListView extends StatelessWidget {
                 suffixIconButton: IconButton(
                   visualDensity: VisualDensity.compact,
                   onPressed: () {
+                    if (viewModel.searchController.text.isEmpty) return;
                     viewModel.searchController.clear();
                     viewModel.searchTxtFieldSubmitted('');
                   },

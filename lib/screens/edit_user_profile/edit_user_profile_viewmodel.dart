@@ -28,12 +28,9 @@ class EditUserProfileViewModel extends GetxController {
   RxBool showCNICBackImageError = false.obs;
 
   //Gender
-  RxInt genderSelectedIndex = (-1).obs;
+  RxInt genderSelectedIndex = 0.obs;
   List genderList = ['Male', 'Female', 'Other'];
 
-  //phoneNumber
-  Rxn phoneErrorText = Rxn<String>();
-  RxString countryCode = '+92'.obs;
 
   @override
   void onInit() {
@@ -90,7 +87,7 @@ class EditUserProfileViewModel extends GetxController {
           await http.MultipartFile.fromPath(
             'image',
             userProfileImage.value.path,
-            contentType: MediaType.parse('image/jpeg'),
+            // contentType: MediaType.parse('image/jpeg'),
           ),
         );
       }
@@ -113,26 +110,24 @@ class EditUserProfileViewModel extends GetxController {
           return;
         }
 
-        if (cNICFrontImage.value.path != '') {
+        // if (cNICFrontImage.value.path != '') {
           fileList.add(
             await http.MultipartFile.fromPath(
-              'cnicImages[0]',
+              'cnicImages',
               cNICFrontImage.value.path,
-              contentType: MediaType.parse('image/jpeg'),
             ),
           );
-        }
+        // }
 
-        if (cNICBackImage.value.path != '') {
+        // if (cNICBackImage.value.path != '') {
           fileList.add(
             await http.MultipartFile.fromPath(
-              'cnicImages[1]',
+              'cnicImages',
               cNICBackImage.value.path,
-              contentType: MediaType.parse('image/jpeg'),
             ),
           );
         }
-      }
+      // }
 
 
 

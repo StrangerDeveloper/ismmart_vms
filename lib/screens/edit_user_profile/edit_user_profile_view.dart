@@ -109,7 +109,10 @@ class EditUserProfileView extends StatelessWidget {
                     : CachedNetworkImage(
                         height: 80,
                         width: 80,
-                        imageUrl: viewModel.userProfileModel.value.image ?? '',
+                        imageUrl:    viewModel.userProfileModel.value.image !=
+                            null
+                            ? '${viewModel.userProfileModel.value.image}?datetime=${DateTime.now().millisecondsSinceEpoch}'
+                            : '',
                         imageBuilder: (context, imageProvider) {
                           return Container(
                             decoration: BoxDecoration(
