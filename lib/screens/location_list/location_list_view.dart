@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:ismmart_vms/helper/theme_helper.dart';
 import 'package:ismmart_vms/screens/add_location/add_location_view.dart';
 import 'package:ismmart_vms/screens/location_list/location_list_viewmodel.dart';
@@ -125,7 +126,7 @@ class LocationListView extends StatelessWidget {
       padding: const EdgeInsets.only(left: 16),
       child: Obx(
         () => Text(
-          '${viewModel.pageNo} of ${viewModel.totalPages.value}',
+          '${viewModel.currentPage.value} of ${viewModel.totalPages.value}',
           style: const TextStyle(
             fontSize: 12,
             color: ThemeHelper.grey2,
