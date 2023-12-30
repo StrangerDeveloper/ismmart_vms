@@ -726,7 +726,7 @@ class CountryCodePickerTextField extends StatelessWidget {
                     borderRadius: BorderRadius.circular(2),
                   ),
                   searchDecoration: InputDecoration(
-                    isDense : true,
+                    isDense: true,
                     prefixIconColor: Colors.black,
                     contentPadding: EdgeInsets.zero,
                     labelText: labelText,
@@ -783,7 +783,6 @@ class CountryCodePickerTextField extends StatelessWidget {
               borderRadius: BorderRadius.circular(8),
             ),
           ),
-
         ),
       ],
     );

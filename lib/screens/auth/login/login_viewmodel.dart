@@ -92,16 +92,16 @@ class LogInViewModel extends GetxController {
             "token": '${value.accessToken}',
           }
         };
-        var parsedJson =
-            await ApiBaseHelper().postMethod(url: Urls.login, body: param);
-        print(parsedJson);
-        if (parsedJson['success'] == true) {
-          GlobalVariable.token = parsedJson['data']['token'];
-          GlobalVariable.showLoader.value = false;
-          Get.to(DrawerBottomBarView());
-        } else {
-          GlobalVariable.showLoader.value = false;
-        }
+        // var parsedJson =
+        //     await ApiBaseHelper().postMethod(url: Urls.login, body: param);
+        // print(parsedJson);
+        // if (parsedJson['success'] == true) {
+        //   GlobalVariable.token = parsedJson['data']['token'];
+        //   GlobalVariable.showLoader.value = false;
+        //   Get.to(DrawerBottomBarView());
+        // } else {
+        //   GlobalVariable.showLoader.value = false;
+        // }
       });
     } catch (error) {
       GlobalVariable.showLoader.value = false;

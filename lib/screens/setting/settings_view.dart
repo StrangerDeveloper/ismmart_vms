@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,7 +12,7 @@ import '../../helper/constants.dart';
 import '../../widgets/custom_button.dart';
 import '../add_location/add_location_view.dart';
 import '../add_user/add_user_view.dart';
-import '../bank/bank_profile_view.dart';
+import '../collection/collection_list_view.dart';
 import '../collection/collection_view.dart';
 import '../dashboard/dashboard_viewmodel.dart';
 import '../location_list/location_list_view.dart';
@@ -35,14 +36,14 @@ class SettingsView extends StatelessWidget {
               'Store',
               onTab: () {
                 viewModel.isTab.value = !viewModel.isTab.value;
-                // Get.to(StoresView());
+                //  Get.to(StoresView());
               },
               iconPath: 'assets/icons/overViewIcon.png',
             ),
             drawerListItems(
               'Collections',
               iconPath: 'assets/icons/layers.png',
-              onTab: () => Get.to(CollectionView()),
+              onTab: () => Get.to(CollectionListView()),
             ),
             drawerListItems('Locations',
                 iconPath: 'assets/icons/pin.png',
@@ -75,7 +76,7 @@ class SettingsView extends StatelessWidget {
                             iconPath: 'assets/icons/wallet.png',
                             'Banking',
                             h: 45,
-                            onTab: () => Get.to(BankProfileView()),
+                            // onTab: () => Get.to(Bank()),
                           ),
                           drawerListItems(
                               iconPath: 'assets/icons/Vector.png',
@@ -91,6 +92,14 @@ class SettingsView extends StatelessWidget {
                       ),
                     )
                   : const SizedBox(),
+            ),
+
+            drawerListItems(
+              'Logout',
+              onTab: () {
+                viewModel.isTab.value = !viewModel.isTab.value;
+                //  Get.to(StoresView());
+              },
             ),
           ],
         ),
@@ -265,7 +274,7 @@ class SettingsView extends StatelessWidget {
           height: h,
           padding: const EdgeInsets.all(8),
           decoration: ShapeDecoration(
-            color: const Color(0xFFEFF5FB),
+            color: Colors.white,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
@@ -282,7 +291,11 @@ class SettingsView extends StatelessWidget {
                             ? newColorBlue
                             : newColorLightGrey2,
                       ))
-                  : Container(),
+                  : Icon(
+                      Icons.logout,
+                      size: 24,
+                      color: Colors.red.shade300,
+                    ),
               SizedBox(width: 20.h),
               Padding(
                 padding: const EdgeInsets.only(top: 10.0),
@@ -299,7 +312,9 @@ class SettingsView extends StatelessWidget {
                       onPressed: () {
                         viewModel.moreOption.toggle();
                       },
-                      icon: const Icon(Icons.arrow_drop_down))
+                      icon: const Icon(
+                        Icons.arrow_drop_down,
+                      ))
                   : Container(),
             ],
           ),
