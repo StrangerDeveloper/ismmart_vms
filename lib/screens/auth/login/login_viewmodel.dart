@@ -10,6 +10,7 @@ import '../../../helper/constants.dart';
 import '../../../helper/global_variables.dart';
 import '../../../helper/urls.dart';
 import '../../dashboard/dashboard_view.dart';
+import '../../drawer_bottom_nav/drawer_bottom_bar_view.dart';
 
 class LogInViewModel extends GetxController {
   TextEditingController emailController = TextEditingController();
@@ -42,7 +43,7 @@ class LogInViewModel extends GetxController {
           GlobalVariable.showLoader.value = false;
           GlobalVariable.noInternet(false);
           GlobalVariable.token = parsedJson['data']['token'];
-          Get.to(DashboardView());
+          Get.to(DrawerBottomBarView());
         } else if (parsedJson['message'] == 'Invalid credentials') {
           AppConstant.displaySnackBar(
             "Error",
@@ -82,6 +83,7 @@ class LogInViewModel extends GetxController {
     );
     GoogleSignInAccount? credential;
     try {
+      Get.to(DrawerBottomBarView());
       credential = await googleSignIn.signIn();
       credential?.authentication.then((value) async {
         Map<dynamic, dynamic> param = {
@@ -96,7 +98,7 @@ class LogInViewModel extends GetxController {
         if (parsedJson['success'] == true) {
           GlobalVariable.token = parsedJson['data']['token'];
           GlobalVariable.showLoader.value = false;
-          Get.to(DashboardView());
+          Get.to(DrawerBottomBarView());
         } else {
           GlobalVariable.showLoader.value = false;
         }
