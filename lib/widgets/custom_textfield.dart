@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ismmart_vms/helper/common_function.dart';
 import 'package:ismmart_vms/helper/theme_helper.dart';
 
 import '../helper/constants.dart';
@@ -113,6 +114,9 @@ class CustomTextField1 extends StatelessWidget {
           inputFormatters: inputFormatters,
           controller: controller,
           keyboardType: keyboardType,
+          onTapOutside: (event){
+            CommonFunction.closeKeyboard();
+          },
           minLines: minLines,
           maxLines: maxLines,
           onChanged: onChanged,

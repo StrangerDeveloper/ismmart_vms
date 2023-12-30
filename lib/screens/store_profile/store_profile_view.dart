@@ -36,26 +36,6 @@ class StoreProfileView extends StatelessWidget {
                   storeSlug(),
                   const SizedBox(height: 18),
                   storeType(),
-                  Obx(
-                    () => Wrap(
-                      children: viewModel.filteredStoreTypeList
-                          .map(
-                            (e) => e.isSelected == true
-                                ? Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 6),
-                                    margin: const EdgeInsets.only(left: 5),
-                                    decoration: BoxDecoration(
-                                      color: Colors.amberAccent,
-                                      borderRadius: BorderRadius.circular(4),
-                                    ),
-                                    child: Text(e.name ?? ''),
-                                  )
-                                : const SizedBox(),
-                          )
-                          .toList(),
-                    ),
-                  ),
                   Padding(
                     padding: const EdgeInsets.only(top: 30, bottom: 5),
                     child: CustomTextBtn(
@@ -104,8 +84,10 @@ class StoreProfileView extends StatelessWidget {
                 : CachedNetworkImage(
                     height: 80,
                     width: 80,
-                    imageUrl:
-                        viewModel.userProfileModel.value.store?.logo ?? '',
+                    imageUrl: viewModel.userProfileModel.value.store?.logo !=
+                            null
+                        ? '${viewModel.userProfileModel.value.store!.logo}?datetime=${DateTime.now().millisecondsSinceEpoch}'
+                        : '',
                     imageBuilder: (context, imageProvider) {
                       return Container(
                         decoration: BoxDecoration(
@@ -118,6 +100,7 @@ class StoreProfileView extends StatelessWidget {
                       );
                     },
                     errorWidget: (context, url, error) {
+                      print(error);
                       return Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
@@ -177,7 +160,7 @@ class StoreProfileView extends StatelessWidget {
   Widget storeSlug() {
     return CustomTextField1(
       title: 'Store Slug',
-      hintText: '/ ismmartshop',
+      hintText: 'ismmartshop',
       controller: viewModel.storeSlugController,
       autoValidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
@@ -187,27 +170,88 @@ class StoreProfileView extends StatelessWidget {
   }
 
   Widget storeType() {
-    return CustomTextField1(
-      isDropDown: true,
-      title: 'Store Type',
-      hintText: 'Home Decor',
-      controller: viewModel.storeTypeController,
-      // autoValidateMode: AutovalidateMode.onUserInteraction,
-      // validator: (value) {
-      //   return Validator.validateDefaultField(value);
-      // },
+    return InkWell(
       onTap: () {
         itemsBottomSheet();
       },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Store Type',
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.only(top: 8),
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+            decoration: BoxDecoration(
+              color: ThemeHelper.grey3,
+              border: Border.all(color: ThemeHelper.grey1, width: 1),
+              borderRadius: BorderRadius.circular(7),
+            ),
+            child: Obx(
+              () => viewModel.storeTypeList
+                      .where((element) => element.isSelected == true)
+                      .isNotEmpty
+                  ? Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: viewModel.storeTypeList
+                          .map(
+                            (e) => e.isSelected == true
+                                ? Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10, vertical: 6),
+                                    decoration: ShapeDecoration(
+                                      color: const Color(0xFFEFF5FB),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(7),
+                                      ),
+                                    ),
+                                    child: Text(
+                                      e.name ?? '',
+                                      style: const TextStyle(
+                                        color: ThemeHelper.grey2,
+                                      ),
+                                    ),
+                                  )
+                                : const SizedBox(),
+                          )
+                          .toList(),
+                    )
+                  : const Padding(
+                      padding: EdgeInsets.only(left: 2, top: 5, bottom: 5),
+                      child: Text(
+                        'Home Decor',
+                        style: TextStyle(
+                          color: ThemeHelper.grey2,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
-  //////////////
   itemsBottomSheet() {
     showModalBottomSheet(
       context: Get.context!,
       isScrollControlled: true,
       constraints: BoxConstraints(maxHeight: Get.height * 0.7),
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+      ),
       builder: (BuildContext context) {
         return Padding(
           padding: const EdgeInsets.fromLTRB(16, 16, 10, 3),
@@ -216,13 +260,20 @@ class StoreProfileView extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  const Icon(
+                    Icons.menu,
+                    color: ThemeHelper.blue1,
+                  ),
+                  const SizedBox(width: 10),
                   const Text(
-                    'Select Sources',
+                    'Store Type',
                     style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 16.5,
+                      fontWeight: FontWeight.w600,
+                      color: ThemeHelper.blue1,
+                      fontSize: 16,
                     ),
                   ),
+                  const Spacer(),
                   Obx(
                     () => CustomTextBtn(
                       backgroundColor: Colors.transparent,
@@ -243,19 +294,20 @@ class StoreProfileView extends StatelessWidget {
               const Divider(),
               Expanded(
                 child: Obx(
-                  () => viewModel.filteredStoreTypeList.isNotEmpty
+                  () => viewModel.storeTypeList.isNotEmpty
                       ? ListView.builder(
-                          itemCount: viewModel.filteredStoreTypeList.length,
+                          itemCount: viewModel.storeTypeList.length,
                           itemBuilder: (BuildContext context, int index) {
                             return Obx(
                               () => CheckBoxListTile1(
-                                title: viewModel
-                                        .filteredStoreTypeList[index].name ??
-                                    '',
-                                value: viewModel
-                                    .filteredStoreTypeList[index].isSelected ?? false,
-                                isSelected: viewModel
-                                    .filteredStoreTypeList[index].isSelected ?? false,
+                                title:
+                                    viewModel.storeTypeList[index].name ?? '',
+                                value:
+                                    viewModel.storeTypeList[index].isSelected ??
+                                        false,
+                                isSelected:
+                                    viewModel.storeTypeList[index].isSelected ??
+                                        false,
                                 onChanged: (value) {
                                   viewModel.selectSingleItem(value, index);
                                 },

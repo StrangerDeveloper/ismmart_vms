@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:http_parser/http_parser.dart';
 import 'package:ismmart_vms/screens/store_profile/store_type_model.dart';
 
 import '../../helper/api_base_helper.dart';
@@ -19,12 +18,13 @@ class StoreProfileViewModel extends GetxController {
   GlobalKey<FormState> storeFormKey = GlobalKey<FormState>();
   TextEditingController storeNameController = TextEditingController();
   TextEditingController storeSlugController = TextEditingController();
-  TextEditingController storeTypeController = TextEditingController();
+  List<StoreTypeModel> storeTypeList = <StoreTypeModel>[].obs;
+  RxBool selectAllValue = false.obs;
 
   @override
-  void onReady() {
+  Future<void> onReady() async {
+    await getStoreTypes();
     getUserData();
-    getStoreTypes();
     super.onReady();
   }
 
@@ -32,45 +32,24 @@ class StoreProfileViewModel extends GetxController {
   void onClose() {
     storeNameController.dispose();
     storeSlugController.dispose();
-    storeTypeController.dispose();
-    // searchController.dispose();
     GlobalVariable.showLoader.value = false;
     super.onClose();
   }
 
-  ///////////
-  // List<StoreTypeModel> allStoreTypeList = <StoreTypeModel>[].obs;
-  List<StoreTypeModel> filteredStoreTypeList = <StoreTypeModel>[].obs;
-  TextEditingController searchController = TextEditingController();
-  RxBool selectAllValue = false.obs;
-
   selectAllItems() {
     selectAllValue.value = !selectAllValue.value;
-
-    for (int i = 0; i < filteredStoreTypeList.length; i++) {
-      StoreTypeModel model1 = filteredStoreTypeList[i];
+    for (int i = 0; i < storeTypeList.length; i++) {
+      StoreTypeModel model1 = storeTypeList[i];
       model1.isSelected = selectAllValue.value;
-      filteredStoreTypeList[i] = model1;
+      storeTypeList[i] = model1;
     }
   }
 
   selectSingleItem(bool value, int index) {
-    StoreTypeModel model1 = filteredStoreTypeList[index];
+    StoreTypeModel model1 = storeTypeList[index];
     model1.isSelected = value;
-    filteredStoreTypeList[index] = model1;
+    storeTypeList[index] = model1;
   }
-
-  // resetForCitiesCountryValue({bool isCity = false}) {
-  //   searchController.text = '';
-  //   filteredStoreTypeList.clear();
-  //   filteredStoreTypeList.addAll(allStoreTypeList);
-  // }
-  //
-  // onSearchForCitiesCountries(String value, {bool isCity = false}) {
-  //   filteredStoreTypeList.clear();
-  //   filteredStoreTypeList.addAll(allStoreTypeList.where((e) => e.name?.toLowerCase().contains(value.toLowerCase()) ?? false));
-  // }
-  //////////////
 
   getStoreTypes() async {
     GlobalVariable.showLoader.value = true;
@@ -79,8 +58,7 @@ class StoreProfileViewModel extends GetxController {
       if (parsedJson['success'] == true &&
           parsedJson['data']['items'] != null) {
         var data = parsedJson['data']['items'] as List;
-        filteredStoreTypeList
-            .addAll(data.map((e) => StoreTypeModel.fromJson(e)));
+        storeTypeList.addAll(data.map((e) => StoreTypeModel.fromJson(e)));
       }
     }).catchError((e) {
       CommonFunction.debugPrint(e);
@@ -96,6 +74,15 @@ class StoreProfileViewModel extends GetxController {
         userProfileModel.value = UserProfileModel.fromJson(parsedJson['data']);
         storeNameController.text = userProfileModel.value.store?.name ?? '';
         storeSlugController.text = userProfileModel.value.store?.slug ?? '';
+
+        userProfileModel.value.store?.types?.forEach((e) {
+          int index = storeTypeList.indexWhere((e1) => e1.sId == e.sId);
+          if (index >= 0) {
+            StoreTypeModel model = storeTypeList[index];
+            model.isSelected = true;
+            storeTypeList[index] = model;
+          }
+        });
       }
     }).catchError((e) {
       CommonFunction.debugPrint(e);
@@ -105,7 +92,7 @@ class StoreProfileViewModel extends GetxController {
   saveAndCreateBtn() async {
     if (storeFormKey.currentState?.validate() ?? false) {
       //storeType
-      if (filteredStoreTypeList
+      if (storeTypeList
           .where((element) => element.isSelected ?? false)
           .isEmpty) {
         AppConstant.displaySnackBar('Error', 'Please select Store Type');
@@ -123,9 +110,9 @@ class StoreProfileViewModel extends GetxController {
       if (storeProfileImage.value.path != '') {
         fileList.add(
           await http.MultipartFile.fromPath(
-            'image',
+            'storeImage',
             storeProfileImage.value.path,
-            contentType: MediaType.parse('image/jpeg'),
+            // contentType: MediaType.parse('image/jpeg'),
           ),
         );
       }
@@ -133,9 +120,15 @@ class StoreProfileViewModel extends GetxController {
       Map<String, String> param = {
         "storeName": storeNameController.text,
         "storeSlug": storeSlugController.text,
-        for (int i = 0; i < filteredStoreTypeList.length; i++)
-          "storeTypes[$i]": filteredStoreTypeList[i].sId!
       };
+      int index = 0;
+      for (int i = 0; i < storeTypeList.length; i++) {
+        if (storeTypeList[i].isSelected == true) {
+          param["storeTypes[${index++}]"] = storeTypeList[i].sId!;
+        }
+      }
+
+      print(param);
 
       GlobalVariable.showLoader.value = true;
       await ApiBaseHelper()

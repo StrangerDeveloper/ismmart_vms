@@ -28,7 +28,6 @@ class BankListView extends StatelessWidget {
             child: Column(
               children: [
                 topBar(),
-                searchTxtField(),
                 listView(),
                 addNewBankBtn(),
               ],
@@ -46,7 +45,9 @@ class BankListView extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+         searchTxtField(),
           Container(
+            margin: const EdgeInsets.only(left: 8),
             padding: const EdgeInsets.all(2),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
@@ -85,30 +86,29 @@ class BankListView extends StatelessWidget {
   Widget searchTxtField() {
     return Obx(
       () => viewModel.showSearchTxtField.value
-          ? Padding(
-              padding: const EdgeInsets.all(16),
-              child: CustomTextField1(
-                controller: viewModel.searchController,
-                filled: false,
-                prefixIcon: CupertinoIcons.search,
-                hintText: 'Filter by name',
-                onFieldSubmitted: (value) {
-                  viewModel.searchTxtFieldSubmitted(value);
+          ? Expanded(
+            child: CustomTextField1(
+              controller: viewModel.searchController,
+              filled: false,
+              prefixIcon: CupertinoIcons.search,
+              hintText: 'Filter by name',
+              onFieldSubmitted: (value) {
+                viewModel.searchTxtFieldSubmitted(value);
+              },
+              suffixIconButton: IconButton(
+                visualDensity: VisualDensity.compact,
+                onPressed: () {
+                  viewModel.searchController.clear();
+                  viewModel.searchTxtFieldSubmitted('');
                 },
-                suffixIconButton: IconButton(
-                  visualDensity: VisualDensity.compact,
-                  onPressed: () {
-                    viewModel.searchController.clear();
-                    viewModel.searchTxtFieldSubmitted('');
-                  },
-                  icon: const Icon(
-                    Icons.close,
-                    color: ThemeHelper.grey2,
-                  ),
+                icon: const Icon(
+                  Icons.close,
+                  color: ThemeHelper.grey2,
                 ),
               ),
-            )
-          : const SizedBox(height: 16),
+            ),
+          )
+          : const SizedBox(),
     );
   }
 
