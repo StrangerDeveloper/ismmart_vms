@@ -7,9 +7,8 @@ import 'package:ismmart_vms/screens/order_listing/model/orderModel.dart';
 import '../../helper/urls.dart';
 
 class OrderListingViewModel extends GetxController {
-  RxList<OrderItem> orderList = <OrderItem>[].obs;
+  RxList<OrderItem> orderItemList = <OrderItem>[].obs;
   ScrollController scrollController = ScrollController();
-  RxBool isLoading = false.obs;
 
   @override
   void onReady() {
@@ -22,16 +21,13 @@ class OrderListingViewModel extends GetxController {
   }
 
   Future<void> getOrderListing() async {
-    isLoading.value = true;
-
     await ApiBaseHelper().getMethod(url: Urls.getOrders).then((response) {
       final data = response['data'];
       if (data != null) {
         print("OrderITems: $data");
         OrderModel orderModel = OrderModel.fromJson(data);
-        //orderList.add(data['items'].map((json) => OrderItem.fromJson(json)));
-        orderList.addAll(orderModel.items!);
-        orderList.refresh();
+        orderItemList.addAll(orderModel.items!);
+        orderItemList.refresh();
       } else {
         scrollController.dispose();
         GlobalVariable.showLoader.value = false;
@@ -41,17 +37,6 @@ class OrderListingViewModel extends GetxController {
       scrollController.dispose();
       GlobalVariable.showLoader.value = false;
     });
-
-    // final response = await http.get(Uri.parse(
-    //     'https://ismmart-ecommerce-backend-e233368b3b0d.herokuapp.com/api/vendor/order'));
-
-    // print("response body ${response.body}");
-    // if (response.statusCode == 200) {
-    //   var data = jsonDecode(response.body.toString());
-    //   return OrderListingModel.fromJson(data);
-    // } else {
-    //   throw Exception('Failed to load album');
-    // }
   }
 }
 

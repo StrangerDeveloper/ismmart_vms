@@ -117,17 +117,17 @@ class Validator {
   // //   }
   // // }
   //
-  // ///Phone Number : that should NOT start from + sign...
-  // String? validatePhoneNumber(String? value) {
-  //   if (GetUtils.isBlank(value)!) {
-  //     return langKey.phoneReq.tr;
-  //   } else if (value!.length > 16 || value.length < 7) {
-  //     return langKey.phoneValidate.tr;
-  //   } else {
-  //     return null;
-  //   }
-  // }
-  //
+  ///Phone Number : that should NOT start from + sign...
+  String? validatePhoneNumber(String? value) {
+    if (GetUtils.isBlank(value)!) {
+      return 'Phone No is required';
+    } else if (value!.length > 16 || value.length < 7) {
+      return 'char length should be between 7 to 16';
+    } else {
+      return null;
+    }
+  }
+
   // ///NTN
   // String? validateNTN(String? value) {
   //   if (GetUtils.isBlank(value)!) {

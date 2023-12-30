@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/screens/order_listing/model/orderModel.dart';
@@ -38,7 +39,7 @@ class OrderView extends StatelessWidget {
             _buildSearchRow(),
             SizedBox(height: 17.v),
             Obx(
-              () => orderController.orderList.isEmpty
+              () => orderController.orderItemList.isEmpty
                   ? const Center(
                       child: CircularProgressIndicator(),
                     )
@@ -51,10 +52,10 @@ class OrderView extends StatelessWidget {
                               controller: orderController.scrollController,
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
-                              itemCount: orderController.orderList.length,
+                              itemCount: orderController.orderItemList.length,
                               itemBuilder: (context, index) {
                                 OrderItem orderItems =
-                                    orderController.orderList[index];
+                                    orderController.orderItemList[index];
                                 return GestureDetector(
                                   onTap: () {
                                     Get.to(() => OrderDetailView(
@@ -147,8 +148,8 @@ class OrderView extends StatelessWidget {
     );
   }
 
-  Widget _buildOrderCard(OrderItem detail) {
-    print("details ${detail.toJson()}");
+  Widget _buildOrderCard(OrderItem orderItemDetail) {
+    print("details ${orderItemDetail.toJson()}");
     return Card(
       color: const Color(0xFFF9FAFB),
       shape: RoundedRectangleBorder(
@@ -165,8 +166,9 @@ class OrderView extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _customField2("12 Decemeber 2023"),
-                _customField2("Online Store"),
+                _customField2(
+                    DateFormat.yMMMd().format(orderItemDetail.createdAt!)),
+                _customField2(orderItemDetail.orderDetails!.market.toString()),
               ],
             ),
             Container(
@@ -177,15 +179,15 @@ class OrderView extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      _customField1(detail.customer!.name!),
-                      _customField1(detail.customer!.phone),
+                      _customField1(orderItemDetail.customer!.name!),
+                      _customField1(orderItemDetail.totals!.total.toString()),
                     ],
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8),
                     child: Row(
-                      children: detail.items!
-                          .map((e) => _status(e.fulfilmentStatus!, "1"))
+                      children: orderItemDetail.items!
+                          .map((e) => _status(e.fulfilmentStatus!))
                           .toList(),
 
                       // _status("Payment pending", "1"),
@@ -195,7 +197,8 @@ class OrderView extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      _customField2("4 items"),
+                      _customField2(
+                          "${orderItemDetail.items!.length.toString()} items"),
                       SizedBox(width: 8.h),
                       Icon(
                         Icons.circle,
@@ -208,17 +211,11 @@ class OrderView extends StatelessWidget {
                   ),
                   Padding(
                     padding: EdgeInsets.only(top: 8.v, left: 8.h),
-                    child: _status("COD Verified", "3"),
+                    child: _status("COD Verified"),
                   ),
                 ],
               ),
             ),
-            // _buildOrderCardContent("Order ID", detail.orderId.toString()),
-            // _buildOrderCardContent("Customer Name", detail.customerName),
-            // _buildOrderCardContent("Date", detail.date.toString()),
-            // _buildOrderCardContent(
-            //     "Fulfillment Status", detail.fulfillmentStatus),
-            // _buildOrderCardContent("Total Amount", detail.amount.toString()),
           ],
         ),
       ),
@@ -240,9 +237,9 @@ class OrderView extends StatelessWidget {
     );
   }
 
-  Widget _customField2(String text) {
+  Widget _customField2(text) {
     return CustomText(
-      title: text,
+      title: text.toString(),
       style: TextStyle(
         fontSize: 12.fSize,
         color: const Color(0xFF6B7280),
@@ -252,8 +249,10 @@ class OrderView extends StatelessWidget {
     );
   }
 
-  Widget _status(String text, String value) {
-    Color color = statusColor(value);
+  Widget _status(
+    String text,
+  ) {
+    Color color = statusColor(text);
     return FittedBox(
       fit: BoxFit.contain,
       child: Container(
@@ -284,32 +283,15 @@ class OrderView extends StatelessWidget {
   }
 
   Color statusColor(String value) {
-    if (value.toLowerCase() == '1') {
-      return const Color(0xFFFDBA8C);
+    switch (value.toLowerCase()) {
+      case "pending":
+        return Colors.deepOrange;
+      case "approved":
+      case "completed":
+        return Colors.teal;
+      default:
+        return Colors.blue;
     }
-    if (value == '2') {
-      return const Color(0xFFFFE5A0);
-    }
-    if (value == '3') {
-      return const Color(0xFFBDE9DA);
-    } else {
-      return const Color(0xFFFE3A30);
-    }
-  }
-
-  Widget _buildOrderCardContent(String title, String value) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          CustomText(title: "$title:"),
-          CustomText(
-            title: value,
-          ),
-        ],
-      ),
-    );
   }
 
   onTapArrowLeft() {

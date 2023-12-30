@@ -25,7 +25,7 @@ class ImageLayoutContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16.0),
+      padding: const EdgeInsets.symmetric(vertical: 16),
       child: Column(
         children: [
           Row(
@@ -104,16 +104,23 @@ class ImageLayoutContainer extends StatelessWidget {
             Text(
               "This cheque image should have the same bank details visible as you mentioned above",
               style: GoogleFonts.dmSans(
-                  fontSize: 12, color: ThemeHelper.lightGrey),
+                fontSize: 12,
+                color: ThemeHelper.lightGrey,
+              ),
             ),
           Visibility(
             visible: errorVisibility,
             child: Align(
               alignment: Alignment.centerLeft,
-              child: Text(
-                errorPrompt,
-                style: GoogleFonts.dmSans(
-                    color: Colors.red.shade700, fontSize: 12),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 8, left: 8),
+                child: Text(
+                  errorPrompt,
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.red.shade700,
+                  ),
+                ),
               ),
             ),
           )
