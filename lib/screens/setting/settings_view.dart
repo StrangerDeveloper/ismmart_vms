@@ -8,7 +8,6 @@ import 'package:ismmart_vms/widgets/custom_text.dart';
 
 import '../../helper/constants.dart';
 import '../../widgets/custom_button.dart';
-import '../bank/bank_profile_view.dart';
 import '../location_list/location_list_view.dart';
 import '../payout_list/payout_list_view.dart';
 
@@ -109,7 +108,7 @@ class SettingsView extends StatelessWidget {
             leading: const Icon(Icons.currency_exchange_rounded),
             title: const Text(' Banking '),
             onTap: () {
-              Get.to(BankProfileView());
+
             },
           ),
           ListTile(
