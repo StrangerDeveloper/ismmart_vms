@@ -3,7 +3,9 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:ismmart_vms/helper/languages/translations_key.dart' as lang_key;
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
+import 'package:ismmart_vms/screens/order_detail/cancel_order_view.dart';
 import 'package:ismmart_vms/screens/order_listing/model/orderModel.dart';
+import 'package:ismmart_vms/screens/order_listing/order_view.dart';
 import 'package:ismmart_vms/widgets/custom_appbar.dart';
 import 'package:ismmart_vms/widgets/custom_text.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -145,28 +147,66 @@ class OrderDetailView extends StatelessWidget {
           ),
         ),
         const Spacer(),
-        CustomTextBtn(
-          width: 109.h,
-          height: 10.v,
-          title: "More actions",
-          backgroundColor: Colors.grey.shade200,
-          onPressed: () {},
+        PopupMenuButton(
+          itemBuilder: (context) => [
+            PopupMenuItem(
+              value: 1,
+              child: Row(
+                children: [
+                  const Icon(Icons.download_outlined),
+                  SizedBox(width: 8.h),
+                  const Text(
+                    "Export",
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            PopupMenuItem(
+              value: 2,
+              child: Row(
+                children: [
+                  const Icon(Icons.cancel_outlined),
+                  SizedBox(width: 8.h),
+                  const Text(
+                    "Cancel Order",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ],
+              ),
+            ),
+          ],
+          onSelected: (value) {
+            if (value == 1) {
+              Get.to(OrderView());
+            }
+            if (value == 2) {
+              Get.to(CancelOrderView(
+                orderItems: order,
+              ));
+            }
+          },
           child: Container(
-            margin: EdgeInsets.only(left: 8.h),
+            //margin: EdgeInsets.only(right: 8.h),
+            padding: EdgeInsets.symmetric(horizontal: 8.h, vertical: 8.v),
+            decoration: BoxDecoration(
+              color: Colors.grey.shade100,
+              borderRadius: BorderRadius.circular(5),
+            ),
             child: Row(
               children: [
                 CustomText(
                   title: "More actions",
                   style: TextStyle(
-                    fontSize: 10.fSize,
+                    fontSize: 12.fSize,
                     fontWeight: FontWeight.w600,
-                    color: Colors.black,
                   ),
                 ),
                 Icon(
                   Icons.more_vert_rounded,
                   size: 16.fSize,
-                  color: Colors.black,
                 )
               ],
             ),
@@ -188,8 +228,9 @@ class OrderDetailView extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            _customField2(DateFormat.yMMMd().format(order.createdAt!)),
-            _customField2(order.orderDetails!.market.toString()),
+            _customField2(
+                DateFormat.yMMMd().format(order.createdAt ?? DateTime.now())),
+            _customField2(order.orderDetails?.market.toString() ?? "market"),
           ],
         ),
         Container(
@@ -200,23 +241,23 @@ class OrderDetailView extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  _customField1(order.customer!.name.toString()),
-                  _customField1(order.totals!.total.toString()),
+                  _customField1(order.customer?.name.toString() ?? "name"),
+                  _customField1(order.totals?.total.toString() ?? "total"),
                 ],
               ),
               Padding(
                 padding: const EdgeInsets.all(8),
                 child: Row(
                   children: [
-                    _status("Payment pending", "1"),
+                    _status("Payment pending"),
                     SizedBox(width: 8.h),
-                    _status("unfulfilled", "2"),
+                    _status("unfulfilled"),
                   ],
                 ),
               ),
               Row(
                 children: [
-                  _customField2("${order.items!.length.toString()} items"),
+                  _customField2("${order.items?.length.toString()} items"),
                   SizedBox(width: 8.h),
                   Icon(
                     Icons.circle,
@@ -229,7 +270,7 @@ class OrderDetailView extends StatelessWidget {
               ),
               Padding(
                 padding: EdgeInsets.only(top: 8.v, left: 8.h),
-                child: _status("COD Verified", "3"),
+                child: _status("COD Verified"),
               ),
             ],
           ),
@@ -294,7 +335,7 @@ class OrderDetailView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             _customField1("Item list"),
-            _customField1(order.items!.length.toString()),
+            _customField1(order.items?.length.toString() ?? "length"),
           ],
         ),
         const Divider(),
@@ -330,7 +371,7 @@ class OrderDetailView extends StatelessWidget {
     );
   }
 
-  Widget _status(String text, String value) {
+  Widget _status(String value) {
     Color color = statusColor(value);
     return FittedBox(
       fit: BoxFit.contain,
@@ -348,7 +389,7 @@ class OrderDetailView extends StatelessWidget {
             ),
             SizedBox(width: 4.h),
             Text(
-              text,
+              value,
               style: const TextStyle(
                 color: Colors.black,
                 fontSize: 10,
@@ -361,13 +402,13 @@ class OrderDetailView extends StatelessWidget {
   }
 
   Color statusColor(String value) {
-    if (value == '1') {
+    if (value == "Payment pending") {
       return const Color(0xFFFDBA8C);
     }
-    if (value == '2') {
+    if (value == "unfulfilled") {
       return const Color(0xFFFFE5A0);
     }
-    if (value == '3') {
+    if (value == "COD Verified") {
       return const Color(0xFFBDE9DA);
     } else {
       return const Color(0xFFFE3A30);
@@ -385,28 +426,28 @@ class OrderDetailView extends StatelessWidget {
         children: [
           ListView.builder(
             shrinkWrap: true,
-            itemCount: order.items!.length,
+            itemCount: order.items?.length,
             itemBuilder: (context, index) {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ListView.builder(
                     shrinkWrap: true,
-                    itemCount: order.items![index].media!.length,
+                    itemCount: order.items![index].media?.length,
                     itemBuilder: (context, index2) {
                       return ListTile(
                         leading: CircleAvatar(
-                          backgroundImage:
-                              NetworkImage(order.items![index].media![index2]),
+                          backgroundImage: NetworkImage(
+                              order.items?[index].media?[index2] ?? "image"),
                         ),
                         title: Text(
                           order.items![index].name ?? "",
                         ),
                         subtitle: Text(
-                          order.items![index].vendor!,
+                          order.items?[index].vendor ?? "",
                         ),
                         trailing: Text(
-                          "Rs. ${order.items![index].totals!.total.toString()}",
+                          "Rs. ${order.items?[index].totals?.total.toString()}",
                         ),
                       );
                     },
@@ -414,7 +455,7 @@ class OrderDetailView extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 70),
                     child: Text(
-                      "Rs. ${order.items![index].totals!.total.toString()}  x ${order.items![index].qty!.toString()}",
+                      "Rs. ${order.items?[index].totals?.total.toString()}  x ${order.items?[index].qty?.toString()}",
                     ),
                   ),
                 ],
@@ -438,7 +479,7 @@ class OrderDetailView extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        "Rs. ${order.totals!.total.toString()}",
+                        "Rs. ${order.totals?.total.toString()}",
                         style: TextStyle(
                           fontSize: 12.fSize,
                           fontWeight: FontWeight.w600,
@@ -467,7 +508,7 @@ class OrderDetailView extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        "Rs. ${order.totals!.coupon.toString()}",
+                        "Rs. ${order.totals?.coupon.toString()}",
                         style: TextStyle(
                           fontSize: 12.fSize,
                           fontWeight: FontWeight.w600,
@@ -496,7 +537,7 @@ class OrderDetailView extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        "Rs. ${order.totals!.coupon.toString()}",
+                        "Rs. ${order.totals?.coupon.toString()}",
                         style: TextStyle(
                           fontSize: 12.fSize,
                           fontWeight: FontWeight.w600,
@@ -525,7 +566,7 @@ class OrderDetailView extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        "Rs. ${order.totals!.coupon.toString()}",
+                        "Rs. ${order.totals?.coupon.toString()}",
                         style: TextStyle(
                           fontSize: 12.fSize,
                           fontWeight: FontWeight.w600,
@@ -554,7 +595,7 @@ class OrderDetailView extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        "Rs. ${order.totals!.coupon.toString()}",
+                        "Rs. ${order.totals?.coupon.toString()}",
                         style: TextStyle(
                           fontSize: 12.fSize,
                           fontWeight: FontWeight.w600,

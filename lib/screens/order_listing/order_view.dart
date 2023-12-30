@@ -179,8 +179,8 @@ class OrderView extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      _customField1(orderItemDetail.customer!.name!),
-                      _customField1(orderItemDetail.totals!.total.toString()),
+                      _customField1(orderItemDetail.customer?.name!),
+                      _customField1(orderItemDetail.totals?.total.toString()),
                     ],
                   ),
                   Padding(
@@ -227,7 +227,7 @@ class OrderView extends StatelessWidget {
       //mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         CustomText(
-          title: text1,
+          title: text1 ?? "LoL",
           style: TextStyle(
             fontSize: 16.fSize,
             fontWeight: FontWeight.w600,
