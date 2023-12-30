@@ -11,4 +11,5 @@ class AddBankViewModel extends GetxController {
   RxString bankName = 'Meezan Bank'.obs;
   RxString cardHolder = 'Card Holder'.obs;
   RxString cardNumber = '0000 0000 0000 0000'.obs;
+
 }
