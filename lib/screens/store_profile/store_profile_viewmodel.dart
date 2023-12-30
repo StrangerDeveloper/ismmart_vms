@@ -19,12 +19,13 @@ class StoreProfileViewModel extends GetxController {
   GlobalKey<FormState> storeFormKey = GlobalKey<FormState>();
   TextEditingController storeNameController = TextEditingController();
   TextEditingController storeSlugController = TextEditingController();
-  TextEditingController storeTypeController = TextEditingController();
+  List<StoreTypeModel> storeTypeList = <StoreTypeModel>[].obs;
+  RxBool selectAllValue = false.obs;
 
   @override
-  void onReady() {
+  Future<void> onReady() async {
+    await getStoreTypes();
     getUserData();
-    getStoreTypes();
     super.onReady();
   }
 
@@ -32,45 +33,24 @@ class StoreProfileViewModel extends GetxController {
   void onClose() {
     storeNameController.dispose();
     storeSlugController.dispose();
-    storeTypeController.dispose();
-    // searchController.dispose();
     GlobalVariable.showLoader.value = false;
     super.onClose();
   }
 
-  ///////////
-  // List<StoreTypeModel> allStoreTypeList = <StoreTypeModel>[].obs;
-  List<StoreTypeModel> filteredStoreTypeList = <StoreTypeModel>[].obs;
-  TextEditingController searchController = TextEditingController();
-  RxBool selectAllValue = false.obs;
-
   selectAllItems() {
     selectAllValue.value = !selectAllValue.value;
-
-    for (int i = 0; i < filteredStoreTypeList.length; i++) {
-      StoreTypeModel model1 = filteredStoreTypeList[i];
+    for (int i = 0; i < storeTypeList.length; i++) {
+      StoreTypeModel model1 = storeTypeList[i];
       model1.isSelected = selectAllValue.value;
-      filteredStoreTypeList[i] = model1;
+      storeTypeList[i] = model1;
     }
   }
 
   selectSingleItem(bool value, int index) {
-    StoreTypeModel model1 = filteredStoreTypeList[index];
+    StoreTypeModel model1 = storeTypeList[index];
     model1.isSelected = value;
-    filteredStoreTypeList[index] = model1;
+    storeTypeList[index] = model1;
   }
-
-  // resetForCitiesCountryValue({bool isCity = false}) {
-  //   searchController.text = '';
-  //   filteredStoreTypeList.clear();
-  //   filteredStoreTypeList.addAll(allStoreTypeList);
-  // }
-  //
-  // onSearchForCitiesCountries(String value, {bool isCity = false}) {
-  //   filteredStoreTypeList.clear();
-  //   filteredStoreTypeList.addAll(allStoreTypeList.where((e) => e.name?.toLowerCase().contains(value.toLowerCase()) ?? false));
-  // }
-  //////////////
 
   getStoreTypes() async {
     GlobalVariable.showLoader.value = true;
@@ -79,8 +59,7 @@ class StoreProfileViewModel extends GetxController {
       if (parsedJson['success'] == true &&
           parsedJson['data']['items'] != null) {
         var data = parsedJson['data']['items'] as List;
-        filteredStoreTypeList
-            .addAll(data.map((e) => StoreTypeModel.fromJson(e)));
+        storeTypeList.addAll(data.map((e) => StoreTypeModel.fromJson(e)));
       }
     }).catchError((e) {
       CommonFunction.debugPrint(e);
@@ -96,6 +75,11 @@ class StoreProfileViewModel extends GetxController {
         userProfileModel.value = UserProfileModel.fromJson(parsedJson['data']);
         storeNameController.text = userProfileModel.value.store?.name ?? '';
         storeSlugController.text = userProfileModel.value.store?.slug ?? '';
+        // for (StoreTypeModel e in storeTypeList) {
+        //   for (StoreTypeModel e in storeTypeList) {
+        //     userProfileModel.value.store?.types?.contains(e);
+        //   }
+        // }
       }
     }).catchError((e) {
       CommonFunction.debugPrint(e);
@@ -105,7 +89,7 @@ class StoreProfileViewModel extends GetxController {
   saveAndCreateBtn() async {
     if (storeFormKey.currentState?.validate() ?? false) {
       //storeType
-      if (filteredStoreTypeList
+      if (storeTypeList
           .where((element) => element.isSelected ?? false)
           .isEmpty) {
         AppConstant.displaySnackBar('Error', 'Please select Store Type');
@@ -133,8 +117,8 @@ class StoreProfileViewModel extends GetxController {
       Map<String, String> param = {
         "storeName": storeNameController.text,
         "storeSlug": storeSlugController.text,
-        for (int i = 0; i < filteredStoreTypeList.length; i++)
-          "storeTypes[$i]": filteredStoreTypeList[i].sId!
+        for (int i = 0; i < storeTypeList.length; i++)
+          "storeTypes[$i]": storeTypeList[i].sId!
       };
 
       GlobalVariable.showLoader.value = true;
