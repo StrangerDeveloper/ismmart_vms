@@ -1,11 +1,11 @@
-class OrderModel {
+class Data {
   final List<OrderItem>? items;
   final int? page;
   final int? limit;
   final int? pages;
   final int? total;
 
-  OrderModel({
+  Data({
     this.items,
     this.page,
     this.limit,
@@ -13,7 +13,7 @@ class OrderModel {
     this.total,
   });
 
-  factory OrderModel.fromJson(Map<String, dynamic> json) => OrderModel(
+  factory Data.fromJson(Map<String, dynamic> json) => Data(
         items: json["items"] == null
             ? []
             : List<OrderItem>.from(
@@ -38,30 +38,32 @@ class OrderModel {
 class OrderItem {
   final String? id;
   final Customer? customer;
+  final ContactInfo? contactInfo;
   final Address? address;
-  final List<OrderProductItem>? items;
+  final List<Lineitem>? lineitems;
   final OrderDetails? orderDetails;
-  final Totals? totals;
   final String? paymentType;
   final ShippingMethod? shippingMethod;
-  final List<Timeline>? timeline;
   final bool? deleted;
   final DateTime? createdAt;
   final DateTime? updatedAt;
+  final int? v;
+  final String? orderId;
 
   OrderItem({
     this.id,
     this.customer,
+    this.contactInfo,
     this.address,
-    this.items,
+    this.lineitems,
     this.orderDetails,
-    this.totals,
     this.paymentType,
     this.shippingMethod,
-    this.timeline,
     this.deleted,
     this.createdAt,
     this.updatedAt,
+    this.v,
+    this.orderId,
   });
 
   factory OrderItem.fromJson(Map<String, dynamic> json) => OrderItem(
@@ -69,24 +71,22 @@ class OrderItem {
         customer: json["customer"] == null
             ? null
             : Customer.fromJson(json["customer"]),
+        contactInfo: json["contactInfo"] == null
+            ? null
+            : ContactInfo.fromJson(json["contactInfo"]),
         address:
             json["address"] == null ? null : Address.fromJson(json["address"]),
-        items: json["items"] == null
+        lineitems: json["lineitems"] == null
             ? []
-            : List<OrderProductItem>.from(
-                json["items"]!.map((x) => OrderProductItem.fromJson(x))),
+            : List<Lineitem>.from(
+                json["lineitems"]!.map((x) => Lineitem.fromJson(x))),
         orderDetails: json["orderDetails"] == null
             ? null
             : OrderDetails.fromJson(json["orderDetails"]),
-        totals: json["totals"] == null ? null : Totals.fromJson(json["totals"]),
         paymentType: json["paymentType"],
         shippingMethod: json["shippingMethod"] == null
             ? null
             : ShippingMethod.fromJson(json["shippingMethod"]),
-        timeline: json["timeline"] == null
-            ? []
-            : List<Timeline>.from(
-                json["timeline"]!.map((x) => Timeline.fromJson(x))),
         deleted: json["deleted"],
         createdAt: json["createdAt"] == null
             ? null
@@ -94,43 +94,42 @@ class OrderItem {
         updatedAt: json["updatedAt"] == null
             ? null
             : DateTime.parse(json["updatedAt"]),
+        v: json["__v"],
+        orderId: json["orderId"],
       );
 
   Map<String, dynamic> toJson() => {
         "_id": id,
         "customer": customer?.toJson(),
+        "contactInfo": contactInfo?.toJson(),
         "address": address?.toJson(),
-        "items": items == null
+        "lineitems": lineitems == null
             ? []
-            : List<dynamic>.from(items!.map((x) => x.toJson())),
+            : List<dynamic>.from(lineitems!.map((x) => x.toJson())),
         "orderDetails": orderDetails?.toJson(),
-        "totals": totals?.toJson(),
         "paymentType": paymentType,
         "shippingMethod": shippingMethod?.toJson(),
-        "timeline": timeline == null
-            ? []
-            : List<dynamic>.from(timeline!.map((x) => x.toJson())),
         "deleted": deleted,
         "createdAt": createdAt?.toIso8601String(),
         "updatedAt": updatedAt?.toIso8601String(),
+        "__v": v,
+        "orderId": orderId,
       };
 }
 
 class Address {
-  final BillingShipping? shipping;
-  final BillingShipping? billing;
+  final Ing? shipping;
+  final Ing? billing;
 
   Address({
     this.shipping,
     this.billing,
   });
+
   factory Address.fromJson(Map<String, dynamic> json) => Address(
-        shipping: json["shipping"] == null
-            ? null
-            : BillingShipping.fromJson(json["shipping"]),
-        billing: json["billing"] == null
-            ? null
-            : BillingShipping.fromJson(json["billing"]),
+        shipping:
+            json["shipping"] == null ? null : Ing.fromJson(json["shipping"]),
+        billing: json["billing"] == null ? null : Ing.fromJson(json["billing"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -139,37 +138,60 @@ class Address {
       };
 }
 
-class BillingShipping {
+class Ing {
   final String? city;
   final String? country;
   final String? address;
+  final String? phone;
 
-  BillingShipping({
+  Ing({
     this.city,
     this.country,
     this.address,
+    this.phone,
   });
 
-  factory BillingShipping.fromJson(Map<String, dynamic> json) =>
-      BillingShipping(
+  factory Ing.fromJson(Map<String, dynamic> json) => Ing(
         city: json["city"],
         country: json["country"],
         address: json["address"],
+        phone: json["phone"],
       );
 
   Map<String, dynamic> toJson() => {
         "city": city,
         "country": country,
         "address": address,
+        "phone": phone,
+      };
+}
+
+class ContactInfo {
+  final String? email;
+  final String? phone;
+
+  ContactInfo({
+    this.email,
+    this.phone,
+  });
+
+  factory ContactInfo.fromJson(Map<String, dynamic> json) => ContactInfo(
+        email: json["email"],
+        phone: json["phone"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "email": email,
+        "phone": phone,
       };
 }
 
 class Customer {
-  final String? id;
-  final String? email;
-  final String? name;
+  final Id? id;
+  final Email? email;
+  final Name? name;
   final String? phone;
-  final String? gender;
+  final Gender? gender;
   final String? cnic;
 
   Customer({
@@ -182,31 +204,49 @@ class Customer {
   });
 
   factory Customer.fromJson(Map<String, dynamic> json) => Customer(
-        id: json["_id"],
-        email: json["email"],
-        name: json["name"],
+        id: idValues.map[json["_id"]]!,
+        email: emailValues.map[json["email"]]!,
+        name: nameValues.map[json["name"]]!,
         phone: json["phone"],
-        gender: json["gender"],
+        gender: genderValues.map[json["gender"]]!,
         cnic: json["cnic"],
       );
 
   Map<String, dynamic> toJson() => {
-        "_id": id,
-        "email": email,
-        "name": name,
+        "_id": idValues.reverse[id],
+        "email": emailValues.reverse[email],
+        "name": nameValues.reverse[name],
         "phone": phone,
-        "gender": gender,
+        "gender": genderValues.reverse[gender],
         "cnic": cnic,
       };
 }
 
-class OrderProductItem {
+enum Email { HMIRRAI_GMAIL_COM }
+
+final emailValues = EnumValues({"hmirrai@gmail.com": Email.HMIRRAI_GMAIL_COM});
+
+enum Gender { MALE }
+
+final genderValues = EnumValues({"Male": Gender.MALE});
+
+enum Id { THE_657809_D663534_E3_FCFB19_C72 }
+
+final idValues = EnumValues(
+    {"657809d663534e3fcfb19c72": Id.THE_657809_D663534_E3_FCFB19_C72});
+
+enum Name { VENDOR1 }
+
+final nameValues = EnumValues({"Vendor1": Name.VENDOR1});
+
+class Lineitem {
   final String? id;
   final String? product;
-  final String? vendor;
+  final Id? vendor;
   final String? name;
-  final List<String>? media;
+  final String? media;
   final int? qty;
+  final int? amount;
   final Totals? totals;
   final bool? refund;
   final String? paymentStatus;
@@ -222,19 +262,21 @@ class OrderProductItem {
   final String? barcode;
   final double? weight;
   final Dimensions? dimensions;
+  final Customer? assignedRider;
+  final List<Timeline>? timeline;
   final bool? deleted;
   final DateTime? createdAt;
   final DateTime? updatedAt;
+  final int? v;
 
-  final List<dynamic>? assignedRider;
-
-  OrderProductItem({
+  Lineitem({
     this.id,
     this.product,
     this.vendor,
     this.name,
     this.media,
     this.qty,
+    this.amount,
     this.totals,
     this.refund,
     this.paymentStatus,
@@ -250,22 +292,22 @@ class OrderProductItem {
     this.barcode,
     this.weight,
     this.dimensions,
+    this.assignedRider,
+    this.timeline,
     this.deleted,
     this.createdAt,
     this.updatedAt,
-    this.assignedRider,
+    this.v,
   });
 
-  factory OrderProductItem.fromJson(Map<String, dynamic> json) =>
-      OrderProductItem(
+  factory Lineitem.fromJson(Map<String, dynamic> json) => Lineitem(
         id: json["_id"],
         product: json["product"],
-        vendor: json["vendor"],
+        vendor: idValues.map[json["vendor"]]!,
         name: json["name"],
-        media: json["media"] == null
-            ? []
-            : List<String>.from(json["media"]!.map((x) => x)),
+        media: json["media"],
         qty: json["qty"],
+        amount: json["amount"],
         totals: json["totals"] == null ? null : Totals.fromJson(json["totals"]),
         refund: json["refund"],
         paymentStatus: json["paymentStatus"],
@@ -283,6 +325,13 @@ class OrderProductItem {
         dimensions: json["dimensions"] == null
             ? null
             : Dimensions.fromJson(json["dimensions"]),
+        assignedRider: json["assignedRider"] == null
+            ? null
+            : Customer.fromJson(json["assignedRider"]),
+        timeline: json["timeline"] == null
+            ? []
+            : List<Timeline>.from(
+                json["timeline"]!.map((x) => Timeline.fromJson(x))),
         deleted: json["deleted"],
         createdAt: json["createdAt"] == null
             ? null
@@ -290,18 +339,17 @@ class OrderProductItem {
         updatedAt: json["updatedAt"] == null
             ? null
             : DateTime.parse(json["updatedAt"]),
-        assignedRider: json["assignedRider"] == null
-            ? []
-            : List<dynamic>.from(json["assignedRider"]!.map((x) => x)),
+        v: json["__v"],
       );
 
   Map<String, dynamic> toJson() => {
         "_id": id,
         "product": product,
-        "vendor": vendor,
+        "vendor": idValues.reverse[vendor],
         "name": name,
-        "media": media == null ? [] : List<dynamic>.from(media!.map((x) => x)),
+        "media": media,
         "qty": qty,
+        "amount": amount,
         "totals": totals?.toJson(),
         "refund": refund,
         "paymentStatus": paymentStatus,
@@ -317,12 +365,14 @@ class OrderProductItem {
         "barcode": barcode,
         "weight": weight,
         "dimensions": dimensions?.toJson(),
+        "assignedRider": assignedRider?.toJson(),
+        "timeline": timeline == null
+            ? []
+            : List<dynamic>.from(timeline!.map((x) => x.toJson())),
         "deleted": deleted,
         "createdAt": createdAt?.toIso8601String(),
         "updatedAt": updatedAt?.toIso8601String(),
-        "assignedRider": assignedRider == null
-            ? []
-            : List<dynamic>.from(assignedRider!.map((x) => x)),
+        "__v": v,
       };
 }
 
@@ -350,6 +400,42 @@ class Dimensions {
       };
 }
 
+class Timeline {
+  final Status? status;
+  final DateTime? dated;
+  final Id? user;
+  final String? id;
+
+  Timeline({
+    this.status,
+    this.dated,
+    this.user,
+    this.id,
+  });
+
+  factory Timeline.fromJson(Map<String, dynamic> json) => Timeline(
+        status: statusValues.map[json["status"]]!,
+        dated: json["dated"] == null ? null : DateTime.parse(json["dated"]),
+        user: idValues.map[json["user"]]!,
+        id: json["_id"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "status": statusValues.reverse[status],
+        "dated": dated?.toIso8601String(),
+        "user": idValues.reverse[user],
+        "_id": id,
+      };
+}
+
+enum Status { DELIVERED, PROCESSING, SHIPPED }
+
+final statusValues = EnumValues({
+  "Delivered": Status.DELIVERED,
+  "Processing": Status.PROCESSING,
+  "Shipped": Status.SHIPPED
+});
+
 class Totals {
   final int? subTotal;
   final int? tax;
@@ -364,6 +450,7 @@ class Totals {
     this.coupon,
     this.total,
   });
+
   factory Totals.fromJson(Map<String, dynamic> json) => Totals(
         subTotal: json["subTotal"],
         tax: json["tax"],
@@ -453,29 +540,14 @@ class ShippingMethod {
       };
 }
 
-class Timeline {
-  final String? status;
-  final DateTime? dated;
-  final String? user;
-  final String? id;
+class EnumValues<T> {
+  Map<String, T> map;
+  late Map<T, String> reverseMap;
 
-  Timeline({
-    this.status,
-    this.dated,
-    this.user,
-    this.id,
-  });
-  factory Timeline.fromJson(Map<String, dynamic> json) => Timeline(
-        status: json["status"],
-        dated: json["dated"] == null ? null : DateTime.parse(json["dated"]),
-        user: json["user"],
-        id: json["_id"],
-      );
+  EnumValues(this.map);
 
-  Map<String, dynamic> toJson() => {
-        "status": status,
-        "dated": dated?.toIso8601String(),
-        "user": user,
-        "_id": id,
-      };
+  Map<T, String> get reverse {
+    reverseMap = map.map((k, v) => MapEntry(v, k));
+    return reverseMap;
+  }
 }
