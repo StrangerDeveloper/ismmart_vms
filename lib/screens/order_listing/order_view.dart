@@ -166,9 +166,10 @@ class OrderView extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _customField2(
-                    DateFormat.yMMMd().format(orderItemDetail.createdAt!)),
-                _customField2(orderItemDetail.orderDetails!.market.toString()),
+                _customField2(DateFormat.yMMMd()
+                    .format(orderItemDetail.createdAt ?? DateTime.now())),
+                _customField2(orderItemDetail.orderDetails?.market.toString() ??
+                    "market"),
               ],
             ),
             Container(
@@ -179,14 +180,15 @@ class OrderView extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      _customField1(orderItemDetail.customer?.name!),
-                      _customField1(orderItemDetail.totals?.total.toString()),
+                      _customField1(
+                          "${orderItemDetail.customer?.name ?? "naaam"}"),
+                      //_customField1(orderItemDetail.totals?.total ?? "0"),
                     ],
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8),
                     child: Row(
-                      children: orderItemDetail.items!
+                      children: orderItemDetail.lineitems!
                           .map((e) => _status(e.fulfilmentStatus!))
                           .toList(),
 
@@ -198,7 +200,7 @@ class OrderView extends StatelessWidget {
                   Row(
                     children: [
                       _customField2(
-                          "${orderItemDetail.items!.length.toString()} items"),
+                          "${orderItemDetail.lineitems?.length ?? "teeen"} items"),
                       SizedBox(width: 8.h),
                       Icon(
                         Icons.circle,
@@ -227,7 +229,7 @@ class OrderView extends StatelessWidget {
       //mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         CustomText(
-          title: text1 ?? "LoL",
+          title: text1,
           style: TextStyle(
             fontSize: 16.fSize,
             fontWeight: FontWeight.w600,
