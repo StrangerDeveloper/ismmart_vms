@@ -242,7 +242,7 @@ class OrderDetailView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   _customField1(order.customer?.name.toString() ?? "name"),
-                  _customField1(order.totals?.total.toString() ?? "total"),
+                  //_customField1(order.totals?.total.toString() ?? "total"),
                 ],
               ),
               Padding(
@@ -257,7 +257,7 @@ class OrderDetailView extends StatelessWidget {
               ),
               Row(
                 children: [
-                  _customField2("${order.items?.length.toString()} items"),
+                  _customField2("${order.lineitems?.length.toString()} items"),
                   SizedBox(width: 8.h),
                   Icon(
                     Icons.circle,
@@ -335,7 +335,7 @@ class OrderDetailView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             _customField1("Item list"),
-            _customField1(order.items?.length.toString() ?? "length"),
+            _customField1(order.lineitems?.length.toString() ?? "length"),
           ],
         ),
         const Divider(),
@@ -426,28 +426,29 @@ class OrderDetailView extends StatelessWidget {
         children: [
           ListView.builder(
             shrinkWrap: true,
-            itemCount: order.items?.length,
+            itemCount: order.lineitems?.length,
             itemBuilder: (context, index) {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ListView.builder(
                     shrinkWrap: true,
-                    itemCount: order.items![index].media?.length,
+                    itemCount: order.lineitems![index].media?.length,
                     itemBuilder: (context, index2) {
                       return ListTile(
                         leading: CircleAvatar(
                           backgroundImage: NetworkImage(
-                              order.items?[index].media?[index2] ?? "image"),
+                              order.lineitems?[index].media?[index2] ??
+                                  "image"),
                         ),
                         title: Text(
-                          order.items![index].name ?? "",
+                          order.lineitems![index].name ?? "",
                         ),
-                        subtitle: Text(
-                          order.items?[index].vendor ?? "",
-                        ),
+                        // subtitle: Text(
+                        //   order.lineitems?[index].vendor ?? "",
+                        // ),
                         trailing: Text(
-                          "Rs. ${order.items?[index].totals?.total.toString()}",
+                          "Rs. ${order.lineitems?[index].totals?.total.toString()}",
                         ),
                       );
                     },
@@ -455,7 +456,7 @@ class OrderDetailView extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 70),
                     child: Text(
-                      "Rs. ${order.items?[index].totals?.total.toString()}  x ${order.items?[index].qty?.toString()}",
+                      "Rs. ${order.lineitems?[index].totals?.total.toString()}  x ${order.lineitems?[index].qty?.toString()}",
                     ),
                   ),
                 ],
@@ -478,13 +479,13 @@ class OrderDetailView extends StatelessWidget {
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      Text(
-                        "Rs. ${order.totals?.total.toString()}",
-                        style: TextStyle(
-                          fontSize: 12.fSize,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
+                      // Text(
+                      //   "Rs. ${order.totals?.total.toString()}",
+                      //   style: TextStyle(
+                      //     fontSize: 12.fSize,
+                      //     fontWeight: FontWeight.w600,
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),
@@ -507,13 +508,13 @@ class OrderDetailView extends StatelessWidget {
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      Text(
-                        "Rs. ${order.totals?.coupon.toString()}",
-                        style: TextStyle(
-                          fontSize: 12.fSize,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
+                      // Text(
+                      //   "Rs. ${order.totals?.coupon.toString()}",
+                      //   style: TextStyle(
+                      //     fontSize: 12.fSize,
+                      //     fontWeight: FontWeight.w600,
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),
@@ -536,13 +537,13 @@ class OrderDetailView extends StatelessWidget {
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      Text(
-                        "Rs. ${order.totals?.coupon.toString()}",
-                        style: TextStyle(
-                          fontSize: 12.fSize,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
+                      // Text(
+                      //   "Rs. ${order.totals?.coupon.toString()}",
+                      //   style: TextStyle(
+                      //     fontSize: 12.fSize,
+                      //     fontWeight: FontWeight.w600,
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),
@@ -565,13 +566,13 @@ class OrderDetailView extends StatelessWidget {
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      Text(
-                        "Rs. ${order.totals?.coupon.toString()}",
-                        style: TextStyle(
-                          fontSize: 12.fSize,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
+                      // Text(
+                      //   "Rs. ${order.totals?.coupon.toString()}",
+                      //   style: TextStyle(
+                      //     fontSize: 12.fSize,
+                      //     fontWeight: FontWeight.w600,
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),
@@ -594,13 +595,13 @@ class OrderDetailView extends StatelessWidget {
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      Text(
-                        "Rs. ${order.totals?.coupon.toString()}",
-                        style: TextStyle(
-                          fontSize: 12.fSize,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
+                      // Text(
+                      //   "Rs. ${order.totals?.coupon.toString()}",
+                      //   style: TextStyle(
+                      //     fontSize: 12.fSize,
+                      //     fontWeight: FontWeight.w600,
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),
