@@ -4,13 +4,10 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/helper/languages/translations_key.dart' as lang_key;
-import 'package:ismmart_vms/screens/order_listing/order_viewModel.dart';
-import 'package:ismmart_vms/screens/product_list/product_model.dart';
 import 'package:ismmart_vms/widgets/custom_image_view.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 import '../../helper/constants.dart';
-import '../../helper/languages/translations_key.dart';
 import '../../helper/utils/image_constant.dart';
 import '../../widgets/appBar_leading_image.dart';
 import '../../widgets/custom_appbar.dart';
@@ -162,21 +159,21 @@ class CancelOrderView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               _customField1(orderItems.customer?.name.toString() ?? "name"),
-              _customField1(orderItems.totals?.subTotal.toString() ?? "total"),
+              //_customField1(orderItems.totals?.subTotal.toString() ?? "total"),
             ],
           ),
           SizedBox(height: 10.v),
           Row(
             children: [
-              _status(orderItems.items![0].paymentStatus ?? "status"),
+              _status(orderItems.lineitems![0].paymentStatus ?? "status"),
               SizedBox(width: 8.h),
-              _status(orderItems.items![1].fulfilmentStatus ?? "status"),
+              _status(orderItems.lineitems![1].fulfilmentStatus ?? "status"),
             ],
           ),
           SizedBox(height: 10.v),
           Row(
             children: [
-              _customField2("${orderItems.items?.length.toString()} items"),
+              _customField2("${orderItems.lineitems?.length.toString()} items"),
               SizedBox(width: 8.h),
               _customField2("Standard")
             ],
@@ -194,7 +191,8 @@ class CancelOrderView extends StatelessWidget {
             children: [
               _customField1("Item list"),
               SizedBox(width: 8.h),
-              _customField1(orderItems.items?.length.toString() ?? "length"),
+              _customField1(
+                  orderItems.lineitems?.length.toString() ?? "length"),
             ],
           ),
           SizedBox(height: 10.v),
@@ -207,26 +205,34 @@ class CancelOrderView extends StatelessWidget {
               borderRadius: BorderRadius.circular(5),
             ),
             child: ListView.builder(
-              itemCount: orderItems.items?.length ?? 0,
+              itemCount: orderItems.lineitems?.length ?? 0,
               itemBuilder: (context, index) {
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    CircleAvatar(
+                      backgroundImage: NetworkImage(
+                          orderItems.lineitems?[index].media ?? "image"),
+                    ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         _customField1(
-                            orderItems.items?[index].name ?? "product"),
+                            orderItems.lineitems?[index].name ?? "product"),
                         _customField2(
-                            orderItems.items?[index].vendor.toString() ?? "1"),
+                            orderItems.lineitems?[index].vendor.toString() ??
+                                "1"),
                         _customField2(
-                            orderItems.items?[index].sku.toString() ?? "1"),
+                            orderItems.lineitems?[index].sku.toString() ?? "1"),
                         _customField2(
-                            "Rs. ${orderItems.items?[index].totals?.total.toString()}  x ${orderItems.items?[index].qty?.toString()}"),
+                            "Rs. ${orderItems.lineitems?[index].totals?.total.toString()}  x ${orderItems.lineitems?[index].qty?.toString()}"),
+                        SizedBox(
+                          height: 8,
+                        )
                       ],
                     ),
                     _customField1(
-                        orderItems.items?[index].totals?.total.toString() ??
+                        orderItems.lineitems?[index].totals?.total.toString() ??
                             "total"),
                   ],
                 );
@@ -240,8 +246,8 @@ class CancelOrderView extends StatelessWidget {
                 children: [
                   _customField2("Sub Total"),
                   SizedBox(width: 8.h),
-                  _customField2(
-                      "Rs. ${orderItems.totals?.total.toString() ?? "0"}"),
+                  // _customField2(
+                  //     "Rs. ${orderItems.totals?.total.toString() ?? "0"}"),
                 ],
               ),
               SizedBox(height: 8.v),
@@ -250,8 +256,8 @@ class CancelOrderView extends StatelessWidget {
                 children: [
                   _customField2("Shipping Fee"),
                   SizedBox(width: 8.h),
-                  _customField2(
-                      "Rs. ${orderItems.totals?.total.toString() ?? "0"}"),
+                  // _customField2(
+                  //     "Rs. ${orderItems.totals?.total.toString() ?? "0"}"),
                 ],
               ),
               SizedBox(height: 8.v),
@@ -260,8 +266,8 @@ class CancelOrderView extends StatelessWidget {
                 children: [
                   _customField2("Sales Tax"),
                   SizedBox(width: 8.h),
-                  _customField2(
-                      "Rs. ${orderItems.totals?.total.toString() ?? "0"}"),
+                  // _customField2(
+                  //     "Rs. ${orderItems.totals?.total.toString() ?? "0"}"),
                 ],
               ),
               SizedBox(height: 8.v),
@@ -270,8 +276,8 @@ class CancelOrderView extends StatelessWidget {
                 children: [
                   _customField2("Promo Discount"),
                   SizedBox(width: 8.h),
-                  _customField2(
-                      "Rs. ${orderItems.totals?.total.toString() ?? "0"}"),
+                  // _customField2(
+                  //     "Rs. ${orderItems.totals?.total.toString() ?? "0"}"),
                 ],
               ),
               SizedBox(height: 8.v),
@@ -280,14 +286,14 @@ class CancelOrderView extends StatelessWidget {
                 children: [
                   _customField2("Total Amount"),
                   SizedBox(width: 8.h),
-                  _customField2(
-                      "Rs. ${orderItems.totals?.total.toString() ?? "0"}"),
+                  // _customField2(
+                  //     "Rs. ${orderItems.totals?.total.toString() ?? "0"}"),
                 ],
               ),
             ],
           ),
           SizedBox(height: 10.v),
-          _customField1("Item list"),
+          _customField1("Delivery Status"),
           SizedBox(height: 10.v),
           const Divider(),
           Container(
@@ -302,7 +308,7 @@ class CancelOrderView extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _status(orderItems.items?[0].fulfilmentStatus ?? "status"),
+                _status(orderItems.lineitems?[0].fulfilmentStatus ?? "status"),
                 SizedBox(height: 10.v),
                 _customField2("Rider"),
                 Row(
