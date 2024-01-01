@@ -10,15 +10,11 @@ import 'package:ismmart_vms/widgets/custom_image_view.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 import '../../helper/constants.dart';
-import '../../helper/global_variables.dart';
 import '../../helper/utils/image_constant.dart';
 import '../../widgets/appBar_leading_image.dart';
 import '../../widgets/custom_appbar.dart';
 import '../../widgets/custom_button.dart';
-import '../../widgets/custom_loading.dart';
 import '../../widgets/custom_text.dart';
-import '../order_listing/model/orderModel.dart';
-import '../order_listing/order_viewModel.dart';
 
 class CancelOrderView extends StatelessWidget {
   //final OrderItem orderItems;
