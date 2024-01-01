@@ -44,7 +44,7 @@ class CancelOrderView extends StatelessWidget {
               SizedBox(height: 17.v),
               _buildOrderDetail(context),
               SizedBox(height: 10.v),
-              _acceptBtn(),
+              _acceptBtn(context),
             ],
           ),
         ),
@@ -266,8 +266,8 @@ class CancelOrderView extends StatelessWidget {
                           children: [
                             _customField1(viewModel.lineItemList[index].name ??
                                 "product"),
-                            _customField2(
-                                viewModel.lineItemList[index].vendor ?? 'N/A'),
+                            // _customField2(
+                            //     viewModel.lineItemList[index].vendor ?? 'N/A'),
                             _customField2(
                                 viewModel.lineItemList[index].sku ?? 'N/A'),
                             _customField2(
@@ -376,9 +376,9 @@ class CancelOrderView extends StatelessWidget {
                               _customField1(
                                   viewModel.selectedItems[index].name ??
                                       "product"),
-                              _customField2(
-                                  viewModel.selectedItems[index].vendor ??
-                                      'N/A'),
+                              // _customField2(
+                              //     viewModel.selectedItems[index].vendor ??
+                              //         'N/A'),
                               _customField2(
                                   viewModel.selectedItems[index].sku ?? 'N/A'),
                               _customField2(
@@ -497,7 +497,7 @@ class CancelOrderView extends StatelessWidget {
     }
   }
 
-  Widget _acceptBtn() {
+  Widget _acceptBtn(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 20, 20, 25),
       child: CustomRoundedTextBtn(
@@ -506,19 +506,48 @@ class CancelOrderView extends StatelessWidget {
           //style: newFontStyle3,
         ),
         onPressed: () {
-          AlertDialog(
-            title: const Text('AlertDialog Title'),
-            content: const Text('AlertDialog description'),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () => Get.back(),
-                child: const Text('Cancel'),
-              ),
-              TextButton(
-                onPressed: () => Get.back(),
-                child: const Text('OK'),
-              ),
-            ],
+          // Show confirmation dialog
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text("Cancel Order"),
+                content: Obx(() => Text(
+                    "Are you sure you want to cancel them item from Order # ${viewModel.orderItemModel.value.orderId} ?")),
+                actions: [
+                  CustomTextBtn(
+                    backgroundColor: Colors.grey.shade200,
+                    foregroundColor: ThemeHelper.blue1,
+                    onPressed: () {
+                      Get.back();
+                    },
+                    title: "Cancel",
+                  ),
+                  CustomTextBtn(
+                    onPressed: () {
+                      Get.back();
+                    },
+                    title: "Confirm",
+                  ),
+                  // TextButton(
+                  //   onPressed: () {
+                  //     // Close the dialog and perform cancellation logic here
+                  //     // Navigator.of(context).pop();
+                  //     // // Add cancellation logic here
+                  //     // _performCancellation();
+                  //   },
+                  //   child: const Text("Cancel"),
+                  // ),
+                  // TextButton(
+                  //   onPressed: () {
+                  //     // Close the dialog
+                  //     Navigator.of(context).pop();
+                  //   },
+                  //   child: const Text("Confirm"),
+                  // ),
+                ],
+              );
+            },
           );
         },
       ),
@@ -526,6 +555,14 @@ class CancelOrderView extends StatelessWidget {
   }
 
   onTapArrowLeft() {
+    //clear the checkbox as well
+    viewModel.orderItemModel.value.lineitems?.forEach((element) {
+      element.isSelected = false;
+    });
+    viewModel.selectedItems.refresh();
+    viewModel.selectAllValue.value = false;
+    viewModel.lineItemList.clear();
+    viewModel.lineItemList.refresh();
     Get.back();
   }
 }
