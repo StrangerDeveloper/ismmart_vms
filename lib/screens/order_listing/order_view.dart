@@ -166,8 +166,20 @@ class OrderView extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _customField2(DateFormat.yMMMd()
-                    .format(DateTime.parse(orderItemDetail.createdAt!))),
+                Row(
+                  children: [
+                    _customField2(orderItemDetail.orderId ?? "id"),
+                    SizedBox(width: 8.h),
+                    Icon(
+                      Icons.circle,
+                      color: Colors.grey.shade400,
+                      size: 5,
+                    ),
+                    SizedBox(width: 8.h),
+                    _customField2(DateFormat.yMMMd()
+                        .format(DateTime.parse(orderItemDetail.createdAt!))),
+                  ],
+                ),
                 _customField2(orderItemDetail.orderDetails?.market.toString() ??
                     "market"),
               ],
