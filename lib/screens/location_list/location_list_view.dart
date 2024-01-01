@@ -220,11 +220,16 @@ class LocationListView extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              viewModel.dataList[index].name ?? 'N/A',
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w500,
+                            SizedBox(
+                              width: Get.width * 0.4,
+                              child: Text(
+                                viewModel.dataList[index].name ?? 'N/A',
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
                             status(

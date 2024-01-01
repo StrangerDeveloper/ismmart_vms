@@ -14,9 +14,9 @@ class DrawerBottomBarViewModel extends GetxController {
 
   List<Widget> bottomNavScreens = [
     DashboardView(),
-    ProductListView(),
-    AddProduct1View(),
     OrderView(),
+    AddProduct1View(),
+    ProductListView(),
     SettingsView(),
   ];
   void changePage(int index) {

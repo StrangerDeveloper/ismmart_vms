@@ -241,17 +241,17 @@ class CustomAppBar2 extends StatelessWidget implements PreferredSizeWidget {
             )
           : null,
       backgroundColor: appBarColor,
-      leading: leading ??
-          IconButton(
-            onPressed: () {
-              Get.back();
-            },
-            icon: Icon(
-              Icons.arrow_back_ios_new_rounded,
-              color: appBarColor == null ? Colors.black : Colors.white,
-              size: 16,
-            ),
-          ),
+      // leading: leading ??
+      //     IconButton(
+      //       onPressed: () {
+      //         Get.back();
+      //       },
+      //       icon: Icon(
+      //         Icons.arrow_back_ios_new_rounded,
+      //         color: appBarColor == null ? Colors.black : Colors.white,
+      //         size: 16,
+      //       ),
+      //     ),
       actions: actions,
       bottom: bottom,
     );

@@ -14,6 +14,7 @@ import 'package:ismmart_vms/widgets/custom_image_view.dart';
 import 'package:ismmart_vms/widgets/loader_view.dart';
 
 import '../../helper/resourses/app_colors.dart';
+import '../../widgets/custom_drawer.dart';
 
 class DashboardView extends StatelessWidget {
   DashboardView({super.key});

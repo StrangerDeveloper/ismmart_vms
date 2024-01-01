@@ -103,7 +103,7 @@ flutter:
     - assets/icons/
     - assets/images/
     - assets/dialog_flow_auth.json
-
+    - assets/icons/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

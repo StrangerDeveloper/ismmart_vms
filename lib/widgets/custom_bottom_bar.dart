@@ -14,42 +14,40 @@ class CustomBottomBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(4.0),
-      child: Container(
-        height: 64.v,
-        padding: const EdgeInsets.only(left: 15, right: 15, top: 3, bottom: 3),
-        decoration: BoxDecoration(
-          color: kWhiteColor,
-          borderRadius: BorderRadius.circular(32.h),
-          border: Border.all(
-            color: kGrey600,
-            width: 1.h,
-          ),
+    return Container(
+      height: 64.v,
+      padding: const EdgeInsets.only(left: 15, right: 15, top: 3, bottom: 3),
+      decoration: BoxDecoration(
+        color: kWhiteColor,
+        borderRadius: BorderRadius.circular(32.h),
+        border: Border.all(
+          color: kGrey600,
+          width: 1.h,
         ),
-        child: BottomNavigationBar(
-          backgroundColor: Colors.transparent,
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          selectedFontSize: 0,
-          elevation: 0,
-          currentIndex: currentIndex!,
-          items: [
-            //"assets/svg/img_home.svg"
-            _bottomBarItem(iconImage: ImageConstant.imgHome),
-            _bottomBarItem(iconImage: ImageConstant.imgBag),
-            _bottomBarItem(iconImage: ImageConstant.imgPlus),
-            _bottomBarItem(iconImage: ImageConstant.imgTag),
-            _bottomBarItem(iconImage: ImageConstant.imgAvatar),
-          ],
-          onTap: onTap,
-        ),
+      ),
+      child: BottomNavigationBar(
+        backgroundColor: kWhiteColor,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        selectedFontSize: 0,
+        elevation: 0,
+        currentIndex: currentIndex!,
+        items: [
+          //"assets/svg/img_home.svg"
+          _bottomBarItem(iconImage: ImageConstant.imgHome),
+          _bottomBarItem(iconImage: ImageConstant.imgBag),
+          _bottomBarItem(iconImage: ImageConstant.imgPlus),
+          _bottomBarItem(iconImage: ImageConstant.imgTag),
+          _bottomBarItem(iconImage: ImageConstant.imgAvatar),
+        ],
+        onTap: onTap,
       ),
     );
   }
 
   BottomNavigationBarItem _bottomBarItem({iconImage}) {
     return BottomNavigationBarItem(
+      backgroundColor: Colors.white,
       icon: CustomImageView(
         imagePath: iconImage,
         height: 24.adaptSize,
