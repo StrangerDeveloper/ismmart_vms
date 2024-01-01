@@ -379,8 +379,21 @@ class OrderDetailView extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _customField2(DateFormat.yMMMd().format(DateTime.parse(
-                  order.createdAt ?? "2021-09-09T09:09:09.000Z"))),
+              Row(
+                children: [
+                  _customField2(order.orderId ?? "id"),
+                  SizedBox(width: 8.h),
+                  Icon(
+                    Icons.circle,
+                    color: Colors.grey.shade400,
+                    size: 5,
+                  ),
+                  SizedBox(width: 8.h),
+                  _customField2(DateFormat.yMMMd().format(DateTime.parse(
+                      order.createdAt ?? "2021-09-09T09:09:09.000Z"))),
+                  SizedBox(width: 8.h),
+                ],
+              ),
               _customField2(order.orderDetails?.market.toString() ?? "market"),
             ],
           ),
@@ -450,8 +463,6 @@ class OrderDetailView extends StatelessWidget {
                       children: [
                         _customField1(
                             order.lineitems?[index].name ?? "product"),
-                        _customField2(
-                            order.lineitems?[index].vendor.toString() ?? "1"),
                         _customField2(
                             "SKU: ${order.lineitems?[index].sku.toString() ?? "1"}"),
                         _customField2(
