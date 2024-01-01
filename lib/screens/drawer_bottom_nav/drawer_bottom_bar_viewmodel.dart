@@ -79,6 +79,7 @@ class DrawerBottomBarViewModel extends GetxController {
       return value == true;
     } else {
       currentPageIndex(0);
+      changePage(currentPageIndex.value);
       return false;
     }
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ismmart_vms/helper/constants.dart';
+import 'package:ismmart_vms/helper/languages/translations_key.dart';
 import 'package:ismmart_vms/helper/utils/image_constant.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/widgets/custom_image_view.dart';
@@ -48,13 +49,13 @@ class CustomBottomBar extends StatelessWidget {
     );
   }
 
-  BottomNavigationBarItem _bottomBarItem({iconImage}) {
+  BottomNavigationBarItem _bottomBarItem({iconImage, color}) {
     return BottomNavigationBarItem(
       icon: CustomImageView(
         imagePath: iconImage,
         height: 24.adaptSize,
         width: 24.adaptSize,
-        color: kGrey400,
+        color: color ?? kGrey600,
       ),
       activeIcon: CustomImageView(
         imagePath: iconImage,

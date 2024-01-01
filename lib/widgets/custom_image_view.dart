@@ -97,7 +97,7 @@ class CustomImageView extends StatelessWidget {
               height: height,
               width: width,
               fit: fit ?? BoxFit.contain,
-              //color: color,
+              color: color,
             ),
           );
         case ImageType.file:
@@ -137,7 +137,7 @@ class CustomImageView extends StatelessWidget {
             height: height,
             width: width,
             fit: fit ?? BoxFit.cover,
-            color: color,
+            //color: color,
           );
       }
     }
