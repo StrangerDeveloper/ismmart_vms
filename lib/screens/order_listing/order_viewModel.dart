@@ -9,6 +9,7 @@ import '../../helper/urls.dart';
 class OrderListingViewModel extends GetxController {
   RxList<OrderItem> orderItemList = <OrderItem>[].obs;
   RxBool showSearchTxtField = false.obs;
+
   TextEditingController searchController = TextEditingController();
 
   ScrollController scrollController = ScrollController();
