@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/global_variables.dart';
@@ -26,7 +28,7 @@ class LogInView extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.white,
         body: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 25),
+          padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 25),
           child: Stack(
             children: [
               Form(
@@ -59,7 +61,8 @@ class LogInView extends StatelessWidget {
                     orWidget(),
                     googlelogInBtn(),
                     // facebooklogInBtn(),
-                    applelogInBtn(),
+                    if (Platform.isIOS) applelogInBtn(),
+
                     doNotHaveAnAccount(),
                   ],
                 ),
