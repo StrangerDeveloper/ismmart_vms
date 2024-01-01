@@ -1,4 +1,4 @@
-import 'dart:ffi';
+
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
-import 'package:ismmart_vms/helper/languages/translations_key.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import 'package:ismmart_vms/helper/global_variables.dart';
@@ -66,9 +65,7 @@ class SignUpScreen1ViewModel extends GetxController {
     emailController.text = _socialviewModel.socialEmail.value;
     emailController.text = _socialviewModel.socialEmail.value;
     socialToken = _socialviewModel.socialToken.value;
-
-    print("${socialToken}  ${emailController.text}");
-    // TODO: implement onReady
+    
     super.onReady();
   }
 

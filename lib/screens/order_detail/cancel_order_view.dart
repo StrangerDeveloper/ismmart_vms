@@ -506,7 +506,11 @@ class CancelOrderView extends StatelessWidget {
           //style: newFontStyle3,
         ),
         onPressed: () {
-          // Show confirmation dialog
+          if (viewModel.selectedItems.isEmpty) {
+            AppConstant.displaySnackBar(
+                'Error', 'Please select at least one item');
+            return;
+          }
           showDialog(
             context: context,
             builder: (BuildContext context) {

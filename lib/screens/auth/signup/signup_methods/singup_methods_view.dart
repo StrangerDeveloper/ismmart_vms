@@ -105,7 +105,7 @@ class SingupMethodsView extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
+                    const Text(
                       'Continue with email',
                       // style: newFontStyleSize14.copyWith(
                       //     fontWeight: FontWeight.w500, color: kWhiteColor),kWhiteColor
@@ -134,7 +134,7 @@ class SingupMethodsView extends StatelessWidget {
         () => GlobalVariable.showLoader.value
             ? const CustomLoading(isItBtn: true)
             : CustomTextBtn(
-                padding: EdgeInsets.only(top: 5),
+                padding: const EdgeInsets.only(top: 5),
                 backgroundColor: Colors.white,
                 radius: 30,
                 borderSide: const BorderSide(
@@ -151,9 +151,9 @@ class SingupMethodsView extends StatelessWidget {
                           fontWeight: FontWeight.w600),
                     ),
                     SizedBox(width: 4.h),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 8.0),
-                      child: const Icon(
+                    const Padding(
+                      padding: EdgeInsets.only(bottom: 8.0),
+                      child: Icon(
                         Icons.arrow_forward,
                         size: 20,
                         color: newColorDarkBlack,
@@ -170,43 +170,43 @@ class SingupMethodsView extends StatelessWidget {
       ),
     );
 
-    Padding(
-      padding: const EdgeInsets.only(top: 10),
-      child: Obx(
-        () => GlobalVariable.showLoader.value
-            ? const CustomLoading(isItBtn: true)
-            : CustomRoundedTextBtn(
-                borderSide: const BorderSide(
-                  color: Colors.black, // your color here
-                  width: 1,
-                ),
-                backgroundColor: Colors.white,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Continue with phone number',
-                      style: newFontStyleSize14.copyWith(
-                          fontWeight: FontWeight.w500,
-                          color: newColorDarkBlack),
-                    ),
-                    const SizedBox(
-                      width: 4,
-                    ),
-                    const Icon(
-                      Icons.arrow_forward,
-                      size: 20,
-                      color: newColorDarkBlack,
-                    ),
-                  ],
-                ),
-                onPressed: () {
-                  // Get.offNamed(Routes.dashboard);
-                  // Get.to(DashboardView());
-                },
-              ),
-      ),
-    );
+    // Padding(
+    //   padding: const EdgeInsets.only(top: 10),
+    //   child: Obx(
+    //     () => GlobalVariable.showLoader.value
+    //         ? const CustomLoading(isItBtn: true)
+    //         : CustomRoundedTextBtn(
+    //             borderSide: const BorderSide(
+    //               color: Colors.black, // your color here
+    //               width: 1,
+    //             ),
+    //             backgroundColor: Colors.white,
+    //             child: Row(
+    //               mainAxisAlignment: MainAxisAlignment.center,
+    //               children: [
+    //                 Text(
+    //                   'Continue with phone number',
+    //                   style: newFontStyleSize14.copyWith(
+    //                       fontWeight: FontWeight.w500,
+    //                       color: newColorDarkBlack),
+    //                 ),
+    //                 const SizedBox(
+    //                   width: 4,
+    //                 ),
+    //                 const Icon(
+    //                   Icons.arrow_forward,
+    //                   size: 20,
+    //                   color: newColorDarkBlack,
+    //                 ),
+    //               ],
+    //             ),
+    //             onPressed: () {
+    //               // Get.offNamed(Routes.dashboard);
+    //               // Get.to(DashboardView());
+    //             },
+    //           ),
+    //   ),
+    // );
   }
 
   Widget orWidget() {
@@ -264,7 +264,7 @@ class SingupMethodsView extends StatelessWidget {
                   const SizedBox(
                     width: 8,
                   ),
-                  Text(
+                  const Text(
                     'Sign in with Gmail',
                     // style: newFontStyleSize14.copyWith(fontWeight: FontWeight.w500),
                   ),
@@ -297,7 +297,7 @@ class SingupMethodsView extends StatelessWidget {
             const SizedBox(
               width: 5,
             ),
-            Text(
+            const Text(
               "Signin with Apple ID",
             ),
           ],

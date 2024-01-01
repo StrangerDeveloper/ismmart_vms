@@ -9,7 +9,6 @@ import '../../../helper/api_base_helper.dart';
 import '../../../helper/constants.dart';
 import '../../../helper/global_variables.dart';
 import '../../../helper/urls.dart';
-import '../../dashboard/dashboard_view.dart';
 import '../../drawer_bottom_nav/drawer_bottom_bar_view.dart';
 
 class LogInViewModel extends GetxController {
@@ -94,7 +93,6 @@ class LogInViewModel extends GetxController {
         };
         var parsedJson =
             await ApiBaseHelper().postMethod(url: Urls.login, body: param);
-        print(parsedJson);
         if (parsedJson['success'] == true) {
           GlobalVariable.token = parsedJson['data']['token'];
           GlobalVariable.showLoader.value = false;

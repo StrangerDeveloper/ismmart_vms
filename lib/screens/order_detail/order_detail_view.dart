@@ -454,22 +454,27 @@ class OrderDetailView extends StatelessWidget {
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    CircleAvatar(
-                      backgroundImage: NetworkImage(
-                          order.lineitems?[index].media ?? "image"),
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    Row(
                       children: [
-                        _customField1(
-                            order.lineitems?[index].name ?? "product"),
-                        _customField2(
-                            "SKU: ${order.lineitems?[index].sku.toString() ?? "1"}"),
-                        _customField2(
-                            "Rs. ${order.lineitems?[index].totals?.total.toString()}  x ${order.lineitems?[index].qty?.toString()}"),
-                        const SizedBox(
-                          height: 8,
-                        )
+                        CircleAvatar(
+                          backgroundImage: NetworkImage(
+                              order.lineitems?[index].media ?? "image"),
+                        ),
+                        SizedBox(width: 10.h),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            _customField1(
+                                order.lineitems?[index].name ?? "product"),
+                            _customField2(
+                                "SKU: ${order.lineitems?[index].sku.toString() ?? "1"}"),
+                            _customField2(
+                                "Rs. ${order.lineitems?[index].totals?.total.toString()}  x ${order.lineitems?[index].qty?.toString()}"),
+                            SizedBox(
+                              height: 12.h,
+                            )
+                          ],
+                        ),
                       ],
                     ),
                     _customField1(

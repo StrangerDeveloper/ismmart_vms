@@ -13,7 +13,6 @@ import 'package:ismmart_vms/widgets/obscure_suffix_icon.dart';
 import 'package:ismmart_vms/widgets/scrollable_column.dart';
 
 import '../../../helper/constants.dart';
-import '../signup/signup_1/sign_up_1_view.dart';
 import '../signup/signup_methods/singup_methods_view.dart';
 import 'login_viewmodel.dart';
 
@@ -169,7 +168,7 @@ class LogInView extends StatelessWidget {
                   const SizedBox(
                     width: 5,
                   ),
-                  Text(
+                  const Text(
                     'Sign in with Gmail',
                     // style: newFontStyleSize14.copyWith(fontWeight: FontWeight.w500),
                   ),
@@ -202,7 +201,7 @@ class LogInView extends StatelessWidget {
             const SizedBox(
               width: 5,
             ),
-            Text(
+            const Text(
               "Signin with Apple ID",
             ),
           ],
@@ -263,7 +262,7 @@ class LogInView extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
+                    const Text(
                       "Login",
                       // style: newFontStyleSize14.copyWith(
                       //     fontWeight: FontWeight.w500, color: kWhiteColor),kWhiteColor

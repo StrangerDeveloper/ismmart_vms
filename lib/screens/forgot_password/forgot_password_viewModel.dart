@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-// import 'package:ism_mart/exports/exports_utils.dart';
-// import 'package:ism_mart/helper/api_base_helper.dart';
-// import 'package:ism_mart/helper/global_variables.dart';
-// import 'package:ism_mart/helper/urls.dart';
 
 import '../../helper/global_variables.dart';
 
