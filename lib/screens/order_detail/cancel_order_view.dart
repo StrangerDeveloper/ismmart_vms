@@ -505,22 +505,7 @@ class CancelOrderView extends StatelessWidget {
           "Cancel Order",
           //style: newFontStyle3,
         ),
-        onPressed: () {
-          AlertDialog(
-            title: const Text('AlertDialog Title'),
-            content: const Text('AlertDialog description'),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () => Get.back(),
-                child: const Text('Cancel'),
-              ),
-              TextButton(
-                onPressed: () => Get.back(),
-                child: const Text('OK'),
-              ),
-            ],
-          );
-        },
+        onPressed: () {},
       ),
     );
   }
