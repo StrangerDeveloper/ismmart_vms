@@ -5,7 +5,8 @@ import 'package:ismmart_vms/screens/product_list/product_model.dart';
 
 class ProductListViewModel extends GetxController {
   RxString searchBy = 'All'.obs;
-  List<String> searchFilters = <String>['All', 'Status', 'Location', 'Variant'];
+  List<String> searchFilters = <String>['All', 'Active', 'InActive'];
+  
   RxDouble dropdownSelectionContainerWidth = 0.0.obs;
   RxDouble searchAndFilterContainerWidth = 0.0.obs;
   double higherContainerWidth = 0.65;
