@@ -8,10 +8,6 @@ class CancelORderViewMOdel extends GetxController {
   RxList<Lineitem> lineItemList = <Lineitem>[].obs;
   RxList<Lineitem> selectedItems = <Lineitem>[].obs;
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
 
   @override
   void onInit() {
@@ -51,8 +47,6 @@ class CancelORderViewMOdel extends GetxController {
   }
 
   selectSingleItem(bool value, int index) {
-    print(value);
-    print(index);
     Lineitem model = lineItemList[index];
     model.isSelected = value;
     lineItemList[index] = model;

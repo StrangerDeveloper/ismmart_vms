@@ -757,7 +757,7 @@ class CountryCodePickerTextField extends StatelessWidget {
                   onChanged: onChanged,
                   // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
                   initialSelection: initialValue,
-                  favorite: ['+92'],
+                  favorite: const ['+92'],
                 ),
               ),
             ),

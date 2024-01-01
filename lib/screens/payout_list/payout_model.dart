@@ -30,7 +30,7 @@ class PayoutModel {
     amount = json['amount'];
     method = json['method'];
     status = json['status'];
-    bank = json['bank'] != null ? new Bank.fromJson(json['bank']) : null;
+    bank = json['bank'] != null ? Bank.fromJson(json['bank']) : null;
     vendor = json['vendor'];
     deleted = json['deleted'];
     createdAt = json['createdAt'];
@@ -39,20 +39,20 @@ class PayoutModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    data['requestedDate'] = this.requestedDate;
-    data['amount'] = this.amount;
-    data['method'] = this.method;
-    data['status'] = this.status;
-    if (this.bank != null) {
-      data['bank'] = this.bank!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['_id'] = sId;
+    data['requestedDate'] = requestedDate;
+    data['amount'] = amount;
+    data['method'] = method;
+    data['status'] = status;
+    if (bank != null) {
+      data['bank'] = bank!.toJson();
     }
-    data['vendor'] = this.vendor;
-    data['deleted'] = this.deleted;
-    data['createdAt'] = this.createdAt;
-    data['updatedAt'] = this.updatedAt;
-    data['__v'] = this.iV;
+    data['vendor'] = vendor;
+    data['deleted'] = deleted;
+    data['createdAt'] = createdAt;
+    data['updatedAt'] = updatedAt;
+    data['__v'] = iV;
     return data;
   }
 }
@@ -73,11 +73,11 @@ class Bank {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    data['name'] = this.name;
-    data['title'] = this.title;
-    data['iban'] = this.iban;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['_id'] = sId;
+    data['name'] = name;
+    data['title'] = title;
+    data['iban'] = iban;
     return data;
   }
 }

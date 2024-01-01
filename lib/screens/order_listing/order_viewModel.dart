@@ -28,18 +28,15 @@ class OrderListingViewModel extends GetxController {
     await ApiBaseHelper().getMethod(url: Urls.getOrders).then((response) {
       final data = response['data'];
       if (data != null) {
-        print("OrderITems: $data");
         Data orderModel = Data.fromJson(data);
 
         orderItemList.addAll(orderModel.items!);
-        print("OrderITemsL: ${orderItemList[0].customer?.phone} ");
         orderItemList.refresh();
       } else {
         scrollController.dispose();
         GlobalVariable.showLoader.value = false;
       }
     }).catchError((error) {
-      print("Error: $error");
       scrollController.dispose();
       GlobalVariable.showLoader.value = false;
     });

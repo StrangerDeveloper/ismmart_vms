@@ -33,9 +33,9 @@ class LocationModel {
     vendor = json['vendor'];
     store = json['store'];
     address = json['address'];
-    city = json['city'] != null ? new City.fromJson(json['city']) : null;
+    city = json['city'] != null ? City.fromJson(json['city']) : null;
     country =
-        json['country'] != null ? new City.fromJson(json['country']) : null;
+        json['country'] != null ? City.fromJson(json['country']) : null;
     deleted = json['deleted'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
@@ -46,24 +46,24 @@ class LocationModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    data['vendor'] = this.vendor;
-    data['store'] = this.store;
-    data['address'] = this.address;
-    if (this.city != null) {
-      data['city'] = this.city!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['_id'] = sId;
+    data['vendor'] = vendor;
+    data['store'] = store;
+    data['address'] = address;
+    if (city != null) {
+      data['city'] = city!.toJson();
     }
-    if (this.country != null) {
-      data['country'] = this.country!.toJson();
+    if (country != null) {
+      data['country'] = country!.toJson();
     }
-    data['deleted'] = this.deleted;
-    data['createdAt'] = this.createdAt;
-    data['updatedAt'] = this.updatedAt;
-    data['__v'] = this.iV;
-    data['name'] = this.name;
-    data['status'] = this.status;
-    data['phone'] = this.phone;
+    data['deleted'] = deleted;
+    data['createdAt'] = createdAt;
+    data['updatedAt'] = updatedAt;
+    data['__v'] = iV;
+    data['name'] = name;
+    data['status'] = status;
+    data['phone'] = phone;
     return data;
   }
 }
@@ -80,9 +80,9 @@ class City {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    data['name'] = this.name;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['_id'] = sId;
+    data['name'] = name;
     return data;
   }
 }

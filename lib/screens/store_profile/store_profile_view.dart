@@ -100,7 +100,6 @@ class StoreProfileView extends StatelessWidget {
                       );
                     },
                     errorWidget: (context, url, error) {
-                      print(error);
                       return Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
