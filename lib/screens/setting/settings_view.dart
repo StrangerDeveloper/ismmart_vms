@@ -6,13 +6,10 @@ import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/screens/auth/login/login_view.dart';
 import 'package:ismmart_vms/screens/bank_list/bank_list_view.dart';
 import 'package:ismmart_vms/screens/location_list/location_list_view.dart';
-import 'package:ismmart_vms/screens/shippings/shippings_view.dart';
 import 'package:ismmart_vms/screens/store_profile/store_profile_view.dart';
 import 'package:ismmart_vms/screens/user_profile/user_profile_view.dart';
 
 import '../../helper/constants.dart';
-import '../add_user/add_user_view.dart';
-import '../collection/collection_view.dart';
 import '../dashboard/dashboard_viewmodel.dart';
 import '../payout_list/payout_list_view.dart';
 
