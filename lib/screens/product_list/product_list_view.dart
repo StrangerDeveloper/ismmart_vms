@@ -182,9 +182,7 @@ class ProductListView extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(
-            width: 10.v,
-          ),
+          SizedBox(width: 10.v),
           InkWell(
             onTap: () {
               viewModel.dropdownSelectionContainerWidth.value =
@@ -247,51 +245,48 @@ class ProductListView extends StatelessWidget {
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
         child: SingleChildScrollView(
-          physics: const ScrollPhysics(),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: viewModel.productItemsList.isEmpty
-                ? [
-                    Center(
-                      child: Text(
-                        'No Products Found',
-                        style: interHeadingSize14.copyWith(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 17),
-                      ),
-                    )
-                  ]
-                : [
-                    nextPageData(),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 5),
-                      decoration: BoxDecoration(
-                        color: newColorLightGrey2.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: Obx(
-                        () => ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: viewModel.productItemsList.length,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemBuilder: (_, int index) {
-                            ProductsItem items =
-                                viewModel.productItemsList[index];
-                            return listViewItem(model: items);
-                          },
+          physics: const BouncingScrollPhysics(),
+          child: Obx(() => Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: viewModel.productItemsList.isEmpty
+                    ? [
+                        Center(
+                          child: Text(
+                            'No Products Found',
+                            style: interHeadingSize14.copyWith(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 17),
+                          ),
+                        )
+                      ]
+                    : [
+                        nextPageData(),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 5),
+                          decoration: BoxDecoration(
+                            color: newColorLightGrey2.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: viewModel.productItemsList.length,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemBuilder: (_, int index) {
+                              ProductsItem items =
+                                  viewModel.productItemsList[index];
+                              return listViewItem(model: items);
+                            },
+                          ),
                         ),
-                      ),
-                    ),
-                  ],
-          ),
+                      ],
+              )),
         ));
   }
 
   Widget listViewItem({ProductsItem? model}) {
     //var rng = Random();
-
     return InkWell(
       onTap: () {
         //Get.to(() => ProductDetailView());
