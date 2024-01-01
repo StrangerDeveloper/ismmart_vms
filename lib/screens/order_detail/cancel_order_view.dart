@@ -110,7 +110,8 @@ class CancelOrderView extends StatelessWidget {
                       style: newFontStyleSize14,
                     ),
                     TextSpan(
-                      text: 'Ready to Transit',
+                      text: viewModel.orderItemModel.value.deliveryStatus ??
+                          "status",
                       style: newFontStyleSize14.copyWith(
                           color: newColorLightGrey2),
                     ),
@@ -503,19 +504,27 @@ class CancelOrderView extends StatelessWidget {
   Widget _acceptBtn() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 20, 20, 25),
-      child: Obx(
-        () => GlobalVariable.showLoader.value
-            ? const CustomLoading(isItBtn: true)
-            : CustomRoundedTextBtn(
-                backgroundColor: Colors.deepPurple,
-                child: const Text(
-                  "Cancel Order",
-                  //style: newFontStyle3,
-                ),
-                onPressed: () {
-                  //Get.to(RefundView());
-                },
+      child: CustomRoundedTextBtn(
+        child: const Text(
+          "Cancel Order",
+          //style: newFontStyle3,
+        ),
+        onPressed: () {
+          AlertDialog(
+            title: const Text('AlertDialog Title'),
+            content: const Text('AlertDialog description'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Get.back(),
+                child: const Text('Cancel'),
               ),
+              TextButton(
+                onPressed: () => Get.back(),
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
