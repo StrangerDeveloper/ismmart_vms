@@ -70,8 +70,7 @@ class AddLocationViewModel extends GetxController {
       cityController.text = locationModel.city?.name ?? '';
       selectedCityId = locationModel.city?.sId ?? '';
       addressController.text = locationModel.address ?? '';
-      statusSelectedIndex.value =
-          statusList.indexOf(locationModel.status ?? '');
+      statusSelectedIndex.value = statusList.indexOf(locationModel.status ?? '');
       statusController.text = locationModel.status ?? '';
     }
   }
@@ -154,9 +153,11 @@ class AddLocationViewModel extends GetxController {
   //////////////////////////////////////
 
   getCountries() async {
+    GlobalVariable.showLoader.value = true;
     await ApiBaseHelper().getMethod(url: Urls.getCountries).then((parsedJson) {
       if (parsedJson['success'] == true &&
           parsedJson['data']['items'] != null) {
+        GlobalVariable.showLoader.value = false;
         var data = parsedJson['data']['items'] as List;
         allCountriesList.addAll(data.map((e) => CountriesModel.fromJson(e)));
         filteredCountriesList.addAll(allCountriesList);

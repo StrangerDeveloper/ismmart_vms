@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ismmart_vms/helper/common_function.dart';
 import 'package:ismmart_vms/helper/theme_helper.dart';
 
 import '../helper/constants.dart';
@@ -113,6 +114,9 @@ class CustomTextField1 extends StatelessWidget {
           inputFormatters: inputFormatters,
           controller: controller,
           keyboardType: keyboardType,
+          onTapOutside: (event){
+            CommonFunction.closeKeyboard();
+          },
           minLines: minLines,
           maxLines: maxLines,
           onChanged: onChanged,
@@ -630,6 +634,7 @@ class CustomTextField3 extends StatelessWidget {
 }
 
 class CountryCodePickerTextField extends StatelessWidget {
+  final String? title;
   final TextEditingController? controller;
   final TextInputType? keyboardType;
   final String? initialValue;
@@ -643,6 +648,8 @@ class CountryCodePickerTextField extends StatelessWidget {
   final String? labelText, errorText;
   final TextStyle? textStyle;
   final List<TextInputFormatter>? inputFormatters;
+  final bool required;
+  final String? hintText;
 
   const CountryCodePickerTextField({
     super.key,
@@ -660,98 +667,129 @@ class CountryCodePickerTextField extends StatelessWidget {
     this.onPhoneFieldChange,
     this.labelText,
     this.textStyle,
+    this.title,
+    this.required = false,
+    this.hintText,
   });
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      inputFormatters: inputFormatters,
-      showCursor: showCursor,
-      readOnly: readOnly,
-      autovalidateMode: autoValidateMode,
-      validator: validator,
-      onChanged: onPhoneFieldChange,
-      decoration: InputDecoration(
-        errorText: errorText,
-        fillColor: Colors.white,
-        labelText: labelText,
-        labelStyle: textStyle,
-        prefixIcon: Container(
-          margin: const EdgeInsets.fromLTRB(1, 1, 10, 1),
-          decoration: const BoxDecoration(
-            border: Border(right: BorderSide(width: 1)),
-          ),
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.grey[200],
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(6),
-                bottomLeft: Radius.circular(6),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (title != null)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 3),
+            child: RichText(
+              text: TextSpan(
+                text: title!,
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w500,
+                ),
+                children: [
+                  if (required)
+                    const TextSpan(
+                      text: ' *',
+                      style: TextStyle(color: Colors.red),
+                    )
+                ],
               ),
             ),
-            child: CountryCodePicker(
-              flagDecoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(1),
+          ),
+        TextFormField(
+          controller: controller,
+          keyboardType: keyboardType,
+          inputFormatters: inputFormatters,
+          showCursor: showCursor,
+          readOnly: readOnly,
+          autovalidateMode: autoValidateMode,
+          validator: validator,
+          onChanged: onPhoneFieldChange,
+          decoration: InputDecoration(
+            errorText: errorText,
+            fillColor: Colors.white,
+            labelText: labelText,
+            labelStyle: textStyle,
+            hintText: hintText,
+            prefixIcon: Container(
+              margin: const EdgeInsets.fromLTRB(1, 1, 10, 1),
+              decoration: const BoxDecoration(
+                border: Border(right: BorderSide(width: 1)),
               ),
-              searchDecoration: InputDecoration(
-                prefixIconColor: Colors.black,
-                contentPadding: EdgeInsets.zero,
-                labelText: labelText,
-                labelStyle: textStyle,
-                enabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(
-                    color: Colors.black,
-                    width: 1,
-                    style: BorderStyle.solid,
-                  ), //B
-                  borderRadius: BorderRadius.circular(8),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(6),
+                    bottomLeft: Radius.circular(6),
+                  ),
                 ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(
-                    color: Colors.black,
-                    width: 1,
-                    style: BorderStyle.solid,
-                  ), //B
-                  borderRadius: BorderRadius.circular(8),
+                child: CountryCodePicker(
+                  flagDecoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                  searchDecoration: InputDecoration(
+                    isDense : true,
+                    prefixIconColor: Colors.black,
+                    contentPadding: EdgeInsets.zero,
+                    labelText: labelText,
+                    labelStyle: textStyle,
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(
+                        color: Colors.black,
+                        width: 1,
+                        style: BorderStyle.solid,
+                      ), //B
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(
+                        color: Colors.black,
+                        width: 1,
+                        style: BorderStyle.solid,
+                      ), //B
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  textStyle: const TextStyle(color: Colors.black),
+                  enabled: enabled,
+                  onChanged: onChanged,
+                  // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
+                  initialSelection: initialValue,
+                  favorite: ['+92'],
                 ),
               ),
-              textStyle: const TextStyle(color: Colors.black),
-              enabled: enabled,
-              onChanged: onChanged,
-              // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
-              initialSelection: initialValue,
-              favorite: ['+92'],
+            ),
+            contentPadding: const EdgeInsets.fromLTRB(0, 12, 6.5, 12),
+            enabledBorder: OutlineInputBorder(
+              borderSide: const BorderSide(
+                color: Colors.black,
+                width: 1,
+                style: BorderStyle.solid,
+              ), //B
+              borderRadius: BorderRadius.circular(8),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: const BorderSide(
+                color: Colors.black,
+                width: 1,
+                style: BorderStyle.solid,
+              ), //B
+              borderRadius: BorderRadius.circular(8),
+            ),
+            errorBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.red.shade700, width: 1),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.red.shade700, width: 1.5),
+              borderRadius: BorderRadius.circular(8),
             ),
           ),
+
         ),
-        contentPadding: const EdgeInsets.fromLTRB(0, 12, 6.5, 12),
-        enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(
-            color: Colors.black,
-            width: 1,
-            style: BorderStyle.solid,
-          ), //B
-          borderRadius: BorderRadius.circular(8),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(
-            color: Colors.black,
-            width: 1,
-            style: BorderStyle.solid,
-          ), //B
-          borderRadius: BorderRadius.circular(8),
-        ),
-        errorBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.red.shade700, width: 1),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        focusedErrorBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.red.shade700, width: 1.5),
-          borderRadius: BorderRadius.circular(8),
-        ),
-      ),
-      controller: controller,
-      keyboardType: keyboardType,
+      ],
     );
   }
 }
@@ -791,7 +829,7 @@ class CountryCodePickerTextField2 extends StatelessWidget {
     this.textStyle,
     this.title,
     this.hintText,
-    this.required = true,
+    this.required = false,
   });
 
   @override
@@ -805,10 +843,9 @@ class CountryCodePickerTextField2 extends StatelessWidget {
             child: RichText(
               text: TextSpan(
                 text: title!,
-                style: GoogleFonts.dmSans(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w700,
+                style: const TextStyle(
                   color: Colors.black,
+                  fontWeight: FontWeight.w500,
                 ),
                 children: [
                   if (required)

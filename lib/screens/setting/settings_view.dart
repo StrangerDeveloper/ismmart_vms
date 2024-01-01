@@ -1,7 +1,8 @@
-
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/screens/setting/settings_viewmodel.dart';
 import 'package:ismmart_vms/screens/shippings/shippings_view.dart';
 import 'package:ismmart_vms/screens/user_profile/user_profile_view.dart';
@@ -9,151 +10,301 @@ import 'package:ismmart_vms/widgets/custom_text.dart';
 
 import '../../helper/constants.dart';
 import '../../widgets/custom_button.dart';
+import '../add_location/add_location_view.dart';
+import '../add_user/add_user_view.dart';
 import '../bank/bank_profile_view.dart';
+import '../collection/collection_view.dart';
+import '../dashboard/dashboard_viewmodel.dart';
 import '../location_list/location_list_view.dart';
 import '../payout_list/payout_list_view.dart';
 
 class SettingsView extends StatelessWidget {
   SettingsView({super.key});
-  final SettingViewModel viewModel = Get.put(SettingViewModel());
+  final DashboardViewModel viewModel = Get.put(DashboardViewModel());
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          Container(
-            width: double.infinity,
-            height: MediaQuery.of(context).size.height * .24,
-            color: Colors.greenAccent,
-            child: Stack(
-              children: [
-                Positioned(
-                    left: 30,
-                    top: 180,
-                    child: CustomText(
-                      title: "Hasnain Mirrani",
-                      size: 14,
-                      textAlign: TextAlign.start,
-                      style: GoogleFonts.dmSans(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
-                        color: newColorDarkBlack2,
-                      ),
-                    )),
-                Positioned(
-                    left: 30,
-                    top: 200,
-                    child: CustomText(
-                      title: "hmirrani@gmail.com",
-                      size: 14,
-                      textAlign: TextAlign.start,
-                      style: GoogleFonts.dmSans(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
-                        color: newColorDarkBlack2,
-                      ),
-                    )),
-                Positioned(
-                    left: 180,
-                    top: 120,
-                    child: CustomText(
-                      title: "Seetings",
-                      size: 14,
-                      textAlign: TextAlign.start,
-                      style: GoogleFonts.dmSans(
-                        fontSize: 26,
-                        fontWeight: FontWeight.w700,
-                        color: newColorDarkBlack2,
-                      ),
-                    )),
-                const Positioned(
-                  left: 40,
-                  top: 80,
-                  child: CircleAvatar(
-                    backgroundColor: Colors.black26,
+    return SafeArea(
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            titleAndBackBtn(),
+            // drawerHeader(),
+            drawerListItems(
+              'Store',
+              onTab: () {
+                viewModel.isTab.value = !viewModel.isTab.value;
+                // Get.to(StoresView());
+              },
+              iconPath: 'assets/icons/overViewIcon.png',
+            ),
+            drawerListItems(
+              'Collections',
+              iconPath: 'assets/icons/layers.png',
+              onTab: () => Get.to(CollectionView()),
+            ),
+            drawerListItems('Locations',
+                iconPath: 'assets/icons/pin.png',
+                onTab: () => Get.to(AddLocationView())),
+            const Divider(
+              color: Color(0xffE5E7EB),
+              thickness: 2,
+              indent: 15,
+              endIndent: 15,
+              // height: 20
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            drawerListItems('Payouts',
+                iconPath: 'assets/icons/credit-card.png',
+                onTab: () => Get.to(PayoutListView())),
+            drawerListItems(
+                iconPath: 'assets/icons/settingIcon.png',
+                'Settings and privacy',
+                dropDwnIcon: true),
 
-                    radius: 50,
-                    child: Icon(
-                      Icons.person,
-                      size: 50,
-                    ), //Text
+            Obx(
+              () => viewModel.moreOption.value
+                  ? Padding(
+                      padding: const EdgeInsets.only(left: 20),
+                      child: Column(
+                        children: [
+                          drawerListItems(
+                            iconPath: 'assets/icons/wallet.png',
+                            'Banking',
+                            h: 45,
+                            onTab: () => Get.to(BankProfileView()),
+                          ),
+                          drawerListItems(
+                              iconPath: 'assets/icons/Vector.png',
+                              'Shipping',
+                              h: 45,
+                              onTab: () => Get.to(ShippingMethodsView())),
+                          drawerListItems(
+                              iconPath: 'assets/icons/edit-user.png',
+                              'Users & Permissions',
+                              h: 45,
+                              onTab: () => Get.to(AddUserView())),
+                        ],
+                      ),
+                    )
+                  : const SizedBox(),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget drawerHeader() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 20, top: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          CachedNetworkImage(
+            height: 75,
+            width: 75,
+            imageUrl: AppConstant.defaultImgUrl,
+            imageBuilder: (context, imageProvider) {
+              return Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    image: imageProvider,
+                    fit: BoxFit.fill,
                   ),
                 ),
-                Positioned(left: 20, top: 50, child: titleAndBackBtn()),
-              ],
+              );
+            },
+            errorWidget: (context, url, error) {
+              return CircleAvatar(
+                  radius: 35,
+                  backgroundColor: Colors.grey.shade300,
+                  child: const Icon(
+                    Icons.person,
+                    size: 45,
+                    color: Colors.grey,
+                  ));
+            },
+            placeholder: (context, url) {
+              return const Center(
+                child: CircularProgressIndicator(strokeWidth: 0.5),
+              );
+            },
+          ),
+          const SizedBox(height: 20),
+          const Padding(
+            padding: EdgeInsets.only(left: 2),
+            child: Text(
+              'Abc UserNAme',
+              style: TextStyle(
+                fontSize: 18,
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
-          ListTile(
-            leading: const Icon(Icons.person),
-            title: const Text(' Profile '),
-            onTap: () {
-              //Navigator.pop(context);
-              //Get.to(() => VendorProfileDetailView());
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.book),
-            title: const Text('Store '),
-            onTap: () {
-              // Get.to(StoreView());
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.workspace_premium),
-            title: const Text('Payouts'),
-            onTap: () {
-              Get.to(() => PayoutListView());
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.currency_exchange_rounded),
-            title: const Text(' Banking '),
-            onTap: () {
-              Get.to(BankProfileView());
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.local_shipping),
-            title: const Text(' Shipping '),
-            onTap: () {
-              //Navigator.pop(context);
-              Get.to(() => ShippingMethodsView());
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.map_outlined),
-            title: const Text('Address'),
-            onTap: () {
-              //Navigator.pop(context);
-              Get.to(() => LocationListView());
-            },
-          ),
+          const Divider(height: 30),
         ],
       ),
     );
   }
 
+  Widget drawerItem({
+    String title = '',
+    required IconData icon,
+    double iconSize = 22,
+    required GestureTapCallback onTap,
+  }) {
+    return ListTile(
+      onTap: onTap,
+      horizontalTitleGap: 2,
+      dense: true,
+      contentPadding: const EdgeInsets.only(left: 22, top: 10, bottom: 10),
+      leading: Icon(
+        icon,
+        size: iconSize,
+        color: Colors.grey.shade500,
+        //color: Get.theme.primaryColor.withOpacity(0.7),
+      ),
+      title: Text(
+        title,
+        style: const TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
+    );
+  }
+
+//   Widget drawerExpandableItem(
+//       {String title = '',
+//       required IconData icon,
+//       double iconSize = 19,
+//       required List<Widget> children}) {
+//     return ListTileTheme(
+//       horizontalTitleGap: -14,
+//       dense: true,
+//       child: ExpansionTile(
+// // textColor: Color(0xff622260),
+// // iconColor: Color(0xff622260),
+//         tilePadding: EdgeInsets.only(left: 10, right: 20),
+//         title: Text(
+//           title,
+//           style: TextStyle(
+//             fontSize: 16,
+//             fontFamily: 'Roboto-Regular',
+// //fontWeight: FontWeight.w00
+//           ),
+//         ),
+//         leading: Container(
+//           child: Icon(
+//             icon,
+//             size: iconSize,
+//             color: Colors.grey,
+//           ),
+//         ),
+//         children: children,
+//       ),
+//     );
+//   }
+
   Widget titleAndBackBtn() {
-    return SizedBox(
-      width: 40,
-      child: Stack(
-        alignment: Alignment.centerLeft,
-        children: [
-          const Align(
-            alignment: Alignment.center,
-            // child: Text(
-            //   'Store Profile',
-            //   style: TextStyle(
-            //     color: Colors.black,
-            //     fontSize: 20,
-            //   ),
-            // ),
+    return Padding(
+      padding: const EdgeInsets.only(top: 60, left: 15, bottom: 33, right: 15),
+      child: Container(
+        height: 54,
+        padding: const EdgeInsets.all(8),
+        decoration: ShapeDecoration(
+          color: const Color(0xFFEFF5FB),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
           ),
-          CustomBackButton(onTap: () {
-            Get.back();
-          }),
-        ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Image.asset(
+              'assets/icons/ismmart_logo.png',
+              height: 40,
+              width: 40,
+            ),
+            Align(
+              alignment: Alignment.center,
+              child: Text(
+                'ISMMART',
+                style: newFontStyleSize12.copyWith(fontWeight: FontWeight.w700),
+              ),
+            ),
+            const SizedBox(
+              width: 40,
+            ),
+            IconButton(
+                onPressed: () {}, icon: const Icon(Icons.more_vert_outlined))
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget drawerListItems(String title,
+      {String? iconPath,
+      bool? dropDwnIcon,
+      double h = 54.0,
+      void Function()? onTab}) {
+    //bool isTab = false;
+    return Padding(
+      padding: const EdgeInsets.only(left: 15, bottom: 13, right: 15),
+      child: GestureDetector(
+        onTap: onTab,
+        child: Container(
+          //  width: Get.width * .8,
+          height: h,
+          padding: const EdgeInsets.all(8),
+          decoration: ShapeDecoration(
+            color: const Color(0xFFEFF5FB),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              iconPath != null
+                  ? Obx(() => Image.asset(
+                        iconPath,
+                        height: 24,
+                        width: 24,
+                        color: viewModel.isTab.value
+                            ? newColorBlue
+                            : newColorLightGrey2,
+                      ))
+                  : Container(),
+              SizedBox(width: 20.h),
+              Padding(
+                padding: const EdgeInsets.only(top: 10.0),
+                child: Text(
+                  title,
+                  style: newFontStyleSize16,
+                ),
+              ),
+              SizedBox(
+                width: Get.width * .25,
+              ),
+              dropDwnIcon ?? false
+                  ? IconButton(
+                      onPressed: () {
+                        viewModel.moreOption.toggle();
+                      },
+                      icon: const Icon(Icons.arrow_drop_down))
+                  : Container(),
+            ],
+          ),
+        ),
       ),
     );
   }

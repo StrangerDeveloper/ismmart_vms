@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:ismmart_vms/helper/languages/translations_key.dart' as lang_key;
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
+import 'package:ismmart_vms/screens/order_detail/cancel_order_view.dart';
 import 'package:ismmart_vms/screens/order_listing/model/orderModel.dart';
-import 'package:ismmart_vms/screens/order_detail/model/ordertracking_item_model.dart';
-import 'package:ismmart_vms/screens/order_detail/order_detail_viewModel.dart';
-import 'package:ismmart_vms/screens/order_detail/order_tracking/order_tracking_view.dart';
+import 'package:ismmart_vms/screens/order_listing/order_view.dart';
 import 'package:ismmart_vms/widgets/custom_appbar.dart';
 import 'package:ismmart_vms/widgets/custom_text.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -21,42 +21,30 @@ import '../return/return_view.dart';
 
 // ignore: must_be_immutable
 class OrderDetailView extends StatelessWidget {
-  final OrdersDetailPageController controller =
-      Get.put(OrdersDetailPageController());
-
   final OrderItem order;
-  OrderDetailView({super.key, required this.order}) {
-    //Get.put(OrderViewModel()).fetchOrderDetails();
-  }
+  OrderDetailView({super.key, required this.order}) {}
 
   @override
   Widget build(BuildContext context) {
-    //final OrderViewModel orderController = Get.find<OrderViewModel>();
-
     return SafeArea(
       child: Scaffold(
         appBar: _buildAppBar(),
-        body: SizedBox(
-          child: Column(
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: EdgeInsets.all(16.h),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _buildFrame(),
-                        SizedBox(height: 16.v),
-                        progress(),
-                        _buildFrame2(),
-                        logInBtn(),
-                      ],
-                    ),
-                  ),
-                ),
+        body: Expanded(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.all(16.h),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildFrame(),
+                  SizedBox(height: 16.v),
+                  progress(),
+                  _buildFrame2(),
+                  _buildOrderTracking(order),
+                  logInBtn(),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),
@@ -159,28 +147,66 @@ class OrderDetailView extends StatelessWidget {
           ),
         ),
         const Spacer(),
-        CustomTextBtn(
-          width: 109.h,
-          height: 10.v,
-          title: "More actions",
-          backgroundColor: Colors.grey.shade200,
-          onPressed: () {},
+        PopupMenuButton(
+          itemBuilder: (context) => [
+            PopupMenuItem(
+              value: 1,
+              child: Row(
+                children: [
+                  const Icon(Icons.download_outlined),
+                  SizedBox(width: 8.h),
+                  const Text(
+                    "Export",
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            PopupMenuItem(
+              value: 2,
+              child: Row(
+                children: [
+                  const Icon(Icons.cancel_outlined),
+                  SizedBox(width: 8.h),
+                  const Text(
+                    "Cancel Order",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ],
+              ),
+            ),
+          ],
+          onSelected: (value) {
+            if (value == 1) {
+              Get.to(OrderView());
+            }
+            if (value == 2) {
+              Get.to(CancelOrderView(
+                orderItems: order,
+              ));
+            }
+          },
           child: Container(
-            margin: EdgeInsets.only(left: 8.h),
+            //margin: EdgeInsets.only(right: 8.h),
+            padding: EdgeInsets.symmetric(horizontal: 8.h, vertical: 8.v),
+            decoration: BoxDecoration(
+              color: Colors.grey.shade100,
+              borderRadius: BorderRadius.circular(5),
+            ),
             child: Row(
               children: [
                 CustomText(
                   title: "More actions",
                   style: TextStyle(
-                    fontSize: 10.fSize,
+                    fontSize: 12.fSize,
                     fontWeight: FontWeight.w600,
-                    color: Colors.black,
                   ),
                 ),
                 Icon(
                   Icons.more_vert_rounded,
                   size: 16.fSize,
-                  color: Colors.black,
                 )
               ],
             ),
@@ -202,8 +228,9 @@ class OrderDetailView extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            _customField2("12 Decemeber 2023 at 12:18 pm"),
-            _customField2("Online Store"),
+            _customField2(
+                DateFormat.yMMMd().format(order.createdAt ?? DateTime.now())),
+            _customField2(order.orderDetails?.market.toString() ?? "market"),
           ],
         ),
         Container(
@@ -214,23 +241,23 @@ class OrderDetailView extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  _customField1(order.customer!.name.toString()),
-                  _customField1(order.customer!.email.toString()),
+                  _customField1(order.customer?.name.toString() ?? "name"),
+                  //_customField1(order.totals?.total.toString() ?? "total"),
                 ],
               ),
               Padding(
                 padding: const EdgeInsets.all(8),
                 child: Row(
                   children: [
-                    _status("Payment pending", "1"),
+                    _status("Payment pending"),
                     SizedBox(width: 8.h),
-                    _status("unfulfilled", "2"),
+                    _status("unfulfilled"),
                   ],
                 ),
               ),
               Row(
                 children: [
-                  _customField2("4 items"),
+                  _customField2("${order.lineitems?.length.toString()} items"),
                   SizedBox(width: 8.h),
                   Icon(
                     Icons.circle,
@@ -243,7 +270,7 @@ class OrderDetailView extends StatelessWidget {
               ),
               Padding(
                 padding: EdgeInsets.only(top: 8.v, left: 8.h),
-                child: _status("COD Verified", "3"),
+                child: _status("COD Verified"),
               ),
             ],
           ),
@@ -282,27 +309,19 @@ class OrderDetailView extends StatelessWidget {
                               _customField2("+92 333 1234567"),
                             ],
                           ),
-                          //SizedBox(width: 8.h),
-                          // IconButton(
-                          //   onPressed: () {},
-                          //   icon: Icon(
-                          //     Icons.edit,
-                          //     size: 16.fSize,
-                          //   ),
-                          // ),
                         ],
                       ),
                       SizedBox(height: 8.v),
                       _customField1("Shipping adress"),
                       _customField2("Shehzad Khan"),
                       _customField2(
-                          "Dha phase 2 sector C street 8A house 34, \nIslamabad 04403, Pakistan"),
+                          "${order.address!.shipping!.address!}\n${order.address!.shipping!.city!}, ${order.address!.shipping!.country!}"),
                       _customField2("+92 333 1234567"),
                       SizedBox(height: 8.v),
                       _customField1("Billing adress"),
                       _customField2("Shehzad Khan"),
                       _customField2(
-                          "Dha phase 2 sector C street 8A house 34, \nIslamabad 04403, Pakistan"),
+                          "${order.address!.billing!.address!}\n${order.address!.billing!.city!}, ${order.address!.billing!.country!}"),
                       _customField2("+92 333 1234567"),
                     ],
                   ),
@@ -312,8 +331,15 @@ class OrderDetailView extends StatelessWidget {
           ),
         ),
         SizedBox(height: 8.v),
-        _customField1("Item list"),
-        _buildOrderTracking(),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            _customField1("Item list"),
+            _customField1(order.lineitems?.length.toString() ?? "length"),
+          ],
+        ),
+        const Divider(),
+        SizedBox(height: 12.v),
       ],
     );
   }
@@ -345,12 +371,11 @@ class OrderDetailView extends StatelessWidget {
     );
   }
 
-  Widget _status(String text, String value) {
+  Widget _status(String value) {
     Color color = statusColor(value);
     return FittedBox(
       fit: BoxFit.contain,
       child: Container(
-        //margin: const EdgeInsets.only(left: 10),
         padding: const EdgeInsets.only(left: 4, top: 3, bottom: 3, right: 6),
         decoration: BoxDecoration(
             color: color.withOpacity(0.25),
@@ -364,7 +389,7 @@ class OrderDetailView extends StatelessWidget {
             ),
             SizedBox(width: 4.h),
             Text(
-              text,
+              value,
               style: const TextStyle(
                 color: Colors.black,
                 fontSize: 10,
@@ -377,34 +402,213 @@ class OrderDetailView extends StatelessWidget {
   }
 
   Color statusColor(String value) {
-    if (value == '1') {
+    if (value == "Payment pending") {
       return const Color(0xFFFDBA8C);
     }
-    if (value == '2') {
+    if (value == "unfulfilled") {
       return const Color(0xFFFFE5A0);
     }
-    if (value == '3') {
+    if (value == "COD Verified") {
       return const Color(0xFFBDE9DA);
     } else {
       return const Color(0xFFFE3A30);
     }
   }
 
-  Widget _buildOrderTracking() {
-    return Obx(
-      () => ListView.separated(
-        physics: const NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        separatorBuilder: (context, index) {
-          return SizedBox(height: 16.v);
-        },
-        itemCount: controller
-            .ordersDetailPageModelObj.value.ordertrackingItemList.value.length,
-        itemBuilder: (context, index) {
-          OrdertrackingItemModel model = controller.ordersDetailPageModelObj
-              .value.ordertrackingItemList.value[index];
-          return OrdertrackingItemWidget(model);
-        },
+  Widget _buildOrderTracking(OrderItem order) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.grey.shade200,
+        borderRadius: BorderRadius.circular(5),
+      ),
+      padding: EdgeInsets.only(left: 8.h, right: 8.v, top: 8.v, bottom: 8.v),
+      child: Column(
+        children: [
+          ListView.builder(
+            shrinkWrap: true,
+            itemCount: order.lineitems?.length,
+            itemBuilder: (context, index) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: order.lineitems![index].media?.length,
+                    itemBuilder: (context, index2) {
+                      return ListTile(
+                        leading: CircleAvatar(
+                          backgroundImage: NetworkImage(
+                              order.lineitems?[index].media?[index2] ??
+                                  "image"),
+                        ),
+                        title: Text(
+                          order.lineitems![index].name ?? "",
+                        ),
+                        // subtitle: Text(
+                        //   order.lineitems?[index].vendor ?? "",
+                        // ),
+                        trailing: Text(
+                          "Rs. ${order.lineitems?[index].totals?.total.toString()}",
+                        ),
+                      );
+                    },
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 70),
+                    child: Text(
+                      "Rs. ${order.lineitems?[index].totals?.total.toString()}  x ${order.lineitems?[index].qty?.toString()}",
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
+          SizedBox(height: 8.v),
+          Row(
+            children: [
+              Expanded(
+                child: Container(
+                  margin: EdgeInsets.only(left: 8.h),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Total",
+                        style: TextStyle(
+                          fontSize: 12.fSize,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      // Text(
+                      //   "Rs. ${order.totals?.total.toString()}",
+                      //   style: TextStyle(
+                      //     fontSize: 12.fSize,
+                      //     fontWeight: FontWeight.w600,
+                      //   ),
+                      // ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 8.v),
+          Row(
+            children: [
+              Expanded(
+                child: Container(
+                  margin: EdgeInsets.only(left: 8.h),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Discount",
+                        style: TextStyle(
+                          fontSize: 12.fSize,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      // Text(
+                      //   "Rs. ${order.totals?.coupon.toString()}",
+                      //   style: TextStyle(
+                      //     fontSize: 12.fSize,
+                      //     fontWeight: FontWeight.w600,
+                      //   ),
+                      // ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 8.v),
+          Row(
+            children: [
+              Expanded(
+                child: Container(
+                  margin: EdgeInsets.only(left: 8.h),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Shipping Fee",
+                        style: TextStyle(
+                          fontSize: 12.fSize,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      // Text(
+                      //   "Rs. ${order.totals?.coupon.toString()}",
+                      //   style: TextStyle(
+                      //     fontSize: 12.fSize,
+                      //     fontWeight: FontWeight.w600,
+                      //   ),
+                      // ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 8.v),
+          Row(
+            children: [
+              Expanded(
+                child: Container(
+                  margin: EdgeInsets.only(left: 8.h),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Promo Discount",
+                        style: TextStyle(
+                          fontSize: 12.fSize,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      // Text(
+                      //   "Rs. ${order.totals?.coupon.toString()}",
+                      //   style: TextStyle(
+                      //     fontSize: 12.fSize,
+                      //     fontWeight: FontWeight.w600,
+                      //   ),
+                      // ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 8.v),
+          Row(
+            children: [
+              Expanded(
+                child: Container(
+                  margin: EdgeInsets.only(left: 8.h),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Total Amount",
+                        style: TextStyle(
+                          fontSize: 12.fSize,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      // Text(
+                      //   "Rs. ${order.totals?.coupon.toString()}",
+                      //   style: TextStyle(
+                      //     fontSize: 12.fSize,
+                      //     fontWeight: FontWeight.w600,
+                      //   ),
+                      // ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          )
+        ],
       ),
     );
   }

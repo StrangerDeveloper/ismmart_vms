@@ -19,4 +19,7 @@ class Urls {
   static String addLocation = "/vendor/location/add";
   static String updateLocation = "/vendor/location/update/";
   static String getOrders = "/vendor/order";
+  static String getUserData = "/auth/profile";
+  static String updateUserData = "/vendor/auth/update";
+  static String getStoreType = "/public/storeType";
 }

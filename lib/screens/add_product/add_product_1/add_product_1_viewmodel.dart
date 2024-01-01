@@ -1,6 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ismmart_vms/helper/api_base_helper.dart';
+import 'package:ismmart_vms/screens/add_product/add_product_1/model/category_model.dart';
+import 'package:ismmart_vms/screens/add_product/add_product_1/model/types_model.dart';
 import 'package:ismmart_vms/widgets/widget_models/dropdown_model.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:quill_html_editor/quill_html_editor.dart';
@@ -16,32 +19,31 @@ class AddProduct1ViewModel extends GetxController {
   TextEditingController prodProfitController = TextEditingController();
   TextEditingController prodMarginController = TextEditingController();
   TextEditingController prodTagController = TextEditingController();
+  
   FocusNode tagsFieldFocusNode = FocusNode();
   RxBool showTagsList = false.obs;
   RxBool chargeTaxOnProduct = true.obs;
   RxBool productPriceUpdate = false.obs;
   String productTypeId = '';
   RxString productCategory = '1'.obs;
+
   RxList<MultiSelectModel> tagsList = <MultiSelectModel>[
-    MultiSelectModel(
-      id: '1',
-      name: 'Black',
-    ),
+    MultiSelectModel(id: '1', name: 'Black'),
     MultiSelectModel(id: '2', name: 'Orange'),
     MultiSelectModel(id: '3', name: 'Shoes'),
     MultiSelectModel(id: '4', name: 'Belt'),
     MultiSelectModel(id: '5', name: 'Accessories'),
   ].obs;
+
   RxList<MultiSelectModel> searchedTags = <MultiSelectModel>[
-    MultiSelectModel(
-      id: '1',
-      name: 'Black',
-    ),
+    MultiSelectModel(id: '1', name: 'Black'),
     MultiSelectModel(id: '2', name: 'Orange'),
     MultiSelectModel(id: '3', name: 'Shoes'),
     MultiSelectModel(id: '4', name: 'Belt'),
     MultiSelectModel(id: '5', name: 'Accessories'),
   ].obs;
+
+
   RxList<MultiSelectModel> chosenTagsList = <MultiSelectModel>[].obs;
   RxList<MultiSelectModel> chosenCategoriesList = <MultiSelectModel>[].obs;
   RxList<MultiSelectModel> productCategoryList = <MultiSelectModel>[
@@ -56,12 +58,13 @@ class AddProduct1ViewModel extends GetxController {
   //type
   TextEditingController typeController = TextEditingController();
   RxInt typeSelectedIndex = 0.obs;
-  List<String> typeList = const <String>['Dummy 1', 'Dummy 2', 'Dummy 3'];
+  RxList<TypesItem> typeList =  <TypesItem>[].obs;
 
   //category
   TextEditingController categoryController = TextEditingController();
   RxInt categorySelectedIndex = 0.obs;
-  List<String> categoryList = const <String>['Dummy 1', 'Dummy 2', 'Dummy 3'];
+  //List<String> categoryList = const <String>['Dummy 1', 'Dummy 2', 'Dummy 3'];
+  RxList<CategoryItem> categoryList = <CategoryItem>[].obs;
 
   final customToolBarList = [
     ToolBarStyle.bold,
@@ -114,7 +117,7 @@ class AddProduct1ViewModel extends GetxController {
         prodTagController.clear();
       }
     });
-    // fetchCategories();
+    fetchCategories();
     // print('>>>Selected Category: ${selectedCategory.value.id}');
     super.onReady();
   }
@@ -144,21 +147,37 @@ class AddProduct1ViewModel extends GetxController {
   //   priceAfterCommission.value = priceAfterCommission.value + a.toInt();
   // }
 
-  // void fetchCategories() async {
-  //   categoriesList.clear();
-  //   categoriesList.insert(0, CategoryModel(name: chooseCategory.value, id: 0));
-  //   await ApiBaseHelper().getMethod(url: 'category/all').then((parsedJson) {
-  //     if (parsedJson['success'] == true) {
-  //       GlobalVariable.internetErr(false);
-  //       var parsedJsonData = parsedJson['data'] as List;
-  //       categoriesList
-  //           .addAll(parsedJsonData.map((e) => CategoryModel.fromJson(e)));
-  //     }
-  //   }).catchError((e) {
-  //     GlobalVariable.internetErr(true);
-  //     print(e);
-  //   });
-  // }
+  void fetchTypes() async {
+    // categoryList.clear();
+    // categoriesList.insert(0, CategoryModel(name: chooseCategory.value, id: 0));
+    await ApiBaseHelper().getMethod(url: '/public/type').then((parsedJson) {
+      if (parsedJson['success'] == true) {
+        //GlobalVariable.internetErr(false);
+        var data = parsedJson['data'];
+        TypesModel typesModel = TypesModel.fromJson(data);
+        typeList.addAll(typesModel.items!);
+      }
+    }).catchError((e) {
+      //GlobalVariable.internetErr(true);
+      debugPrint("fetchTypes: $e");
+    });
+  }
+
+  void fetchCategories() async {
+    // categoryList.clear();
+    // categoriesList.insert(0, CategoryModel(name: chooseCategory.value, id: 0));
+    await ApiBaseHelper().getMethod(url: '/public/category').then((parsedJson) {
+      if (parsedJson['success'] == true) {
+        //GlobalVariable.internetErr(false);
+        var data = parsedJson['data'];
+        CategoryModel categoryModel = CategoryModel.fromJson(data);
+        categoryList.addAll(categoryModel.items!);
+      }
+    }).catchError((e) {
+      //GlobalVariable.internetErr(true);
+      debugPrint("FetchCategories: $e");
+    });
+  }
 
   // fetchSubCategories(int categoryID) async {
   //   await ApiBaseHelper()
@@ -175,7 +194,7 @@ class AddProduct1ViewModel extends GetxController {
   //     }
   //   }).catchError((e) {
   //     GlobalVariable.internetErr(true);
-  //
+
   //     print(e);
   //   });
   // }

@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ismmart_vms/screens/edit_user_profile/edit_user_profile_view.dart';
 import 'package:ismmart_vms/screens/user_profile/user_profile_viewmodel.dart';
 import 'package:ismmart_vms/widgets/custom_appbar.dart';
 import 'package:ismmart_vms/widgets/loader_view.dart';
@@ -31,38 +32,52 @@ class UserProfileView extends StatelessWidget {
                   headingItem('Personal Info'),
                   containerDecoration(
                     children: [
-                      item1("Name", "Farhaad Khan"),
+                      Obx(
+                        () => item1(
+                          title: "Name",
+                          value: viewModel.userProfileModel.value.name ?? 'N/A',
+                        ),
+                      ),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 25),
-                        child: item1("Email", "farhad@gmail.com"),
+                        child: Obx(
+                          () => item1(
+                            title: "Email",
+                            value:
+                                viewModel.userProfileModel.value.email ?? 'N/A',
+                          ),
+                        ),
                       ),
-                      item1("Phone", "+923409+508537"),
+                      Obx(
+                        () => item1(
+                          title: "Phone",
+                          value:
+                              viewModel.userProfileModel.value.phone ?? 'N/A',
+                        ),
+                      ),
                       const SizedBox(height: 25),
-                      item1("Gender", "Male"),
+                      Obx(
+                        () => item1(
+                          title: "Gender",
+                          value:
+                              viewModel.userProfileModel.value.gender ?? 'N/A',
+                        ),
+                      ),
                     ],
                   ),
                   headingItem('Contact Info'),
                   containerDecoration(
                     children: [
-                      item1("CNIC Number", "Farhaad Khan"),
-                      const SizedBox(height: 25),
-                      item1("Password", "***********"),
+                      Obx(
+                        () => item1(
+                          title: "CNIC Number",
+                          value: viewModel.userProfileModel.value.cnic ?? 'N/A',
+                        ),
+                      ),
                     ],
                   ),
-                  SizedBox(height: 25),
-                  CustomTextBtn(
-                    title: 'Edit',
-                    backgroundColor: Colors.transparent,
-                    foregroundColor: ThemeHelper.blue1,
-                    onPressed: () {},
-                    child: const Text(
-                      'Edit',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ),
+                  const SizedBox(height: 25),
+                  editBtn(),
                 ],
               ),
             ),
@@ -76,93 +91,42 @@ class UserProfileView extends StatelessWidget {
   Widget profileImage() {
     return Align(
       alignment: Alignment.center,
-      child: Stack(
-        alignment: Alignment.bottomRight,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.shade200,
-                  spreadRadius: 5,
-                  blurRadius: 7,
-                  offset: const Offset(0, 3), // changes position of shadow
-                ),
-              ],
-            ),
-            child: Obx(
-              () => (viewModel.pickedFile.value.path != "")
-                  ? Container(
-                      height: 80,
-                      width: 80,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                          image: FileImage(viewModel.pickedFile.value),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    )
-                  : CachedNetworkImage(
-                      height: 80,
-                      width: 80,
-                      imageUrl: '',
-                      imageBuilder: (context, imageProvider) {
-                        return Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                              image: imageProvider,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        );
-                      },
-                      errorWidget: (context, url, error) {
-                        return Container(
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                              image: AssetImage('assets/logo/logo_new.png'),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        );
-                      },
-                      placeholder: (context, url) {
-                        return const Center(
-                          child: CircularProgressIndicator(strokeWidth: 2.0),
-                        );
-                      },
-                    ),
-            ),
-          ),
-          Positioned(
-            right: 8,
-            bottom: 4,
-            child: InkWell(
-              onTap: () {
-                // showPicker(context);
-              },
-              child: Container(
-                padding: const EdgeInsets.all(3.5),
-                decoration: BoxDecoration(
-                  color: ThemeHelper.blue1,
-                  shape: BoxShape.circle,
-                  border: Border.all(color: Colors.white, width: 1.8),
-                ),
-                child: const Icon(
-                  Icons.edit_outlined,
-                  size: 14,
-                  color: Colors.white,
+      child: Obx(
+        () => CachedNetworkImage(
+          height: 80,
+          width: 80,
+          imageUrl:viewModel.userProfileModel.value.image !=
+              null
+              ? '${viewModel.userProfileModel.value.image}?datetime=${DateTime.now().millisecondsSinceEpoch}'
+              : '',
+          imageBuilder: (context, imageProvider) {
+            return Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                  image: imageProvider,
+                  fit: BoxFit.cover,
                 ),
               ),
-            ),
-          ),
-        ],
+            );
+          },
+          errorWidget: (context, url, error) {
+            return Container(
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                  image: AssetImage('assets/logo/logo_new.png'),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            );
+          },
+          placeholder: (context, url) {
+            return const Center(
+              child: CircularProgressIndicator(strokeWidth: 2.0),
+            );
+          },
+        ),
       ),
     );
   }
@@ -181,11 +145,11 @@ class UserProfileView extends StatelessWidget {
     );
   }
 
-  Widget item1(String field1, String field2) {
+  Widget item1({required String title, required String value}) {
     return Row(
       children: [
         Text(
-          field1,
+          title,
           style: const TextStyle(
             color: ThemeHelper.grey5,
             fontWeight: FontWeight.w600,
@@ -194,7 +158,7 @@ class UserProfileView extends StatelessWidget {
         const SizedBox(width: 10),
         Expanded(
           child: Text(
-            field2,
+            value,
             textAlign: TextAlign.right,
             style: const TextStyle(
               color: ThemeHelper.blue1,
@@ -215,6 +179,25 @@ class UserProfileView extends StatelessWidget {
       ),
       child: Column(
         children: children,
+      ),
+    );
+  }
+
+  Widget editBtn() {
+    return CustomTextBtn(
+      title: 'Edit',
+      backgroundColor: Colors.transparent,
+      foregroundColor: ThemeHelper.blue1,
+      onPressed: () {
+        Get.to(() => EditUserProfileView(),
+            arguments: {'model': viewModel.userProfileModel});
+      },
+      child: const Text(
+        'Edit',
+        style: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w700,
+        ),
       ),
     );
   }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,11 +9,12 @@ import 'package:ismmart_vms/widgets/custom_button.dart';
 import 'package:ismmart_vms/widgets/custom_textfield.dart';
 import 'package:ismmart_vms/widgets/image_layout_container.dart';
 import 'package:ismmart_vms/widgets/loader_view.dart';
-import 'package:ismmart_vms/widgets/obscure_suffix_icon.dart';
 import 'package:path/path.dart';
 
 import '../../helper/theme_helper.dart';
 import '../../helper/validator.dart';
+import '../../widgets/custom_bottom_sheet.dart';
+import '../../widgets/pick_image.dart';
 import 'edit_user_profile_viewmodel.dart';
 
 class EditUserProfileView extends StatelessWidget {
@@ -42,12 +45,18 @@ class EditUserProfileView extends StatelessWidget {
                         emailTextField(),
                         phoneNumberTextField(),
                         genderTextField(),
-                        passwordTextField(),
-                        confirmPasswordTextField(),
-                        cNICNumberField(),
-                        cnicFrontImage(),
-                        cnicBackImage(),
-                        signUpBtn(),
+                        (viewModel.userProfileModel.value.status != null &&
+                                viewModel.userProfileModel.value.status !=
+                                    'Approved')
+                            ? Column(
+                                children: [
+                                  cNICNumberField(),
+                                  cNICFrontImage(),
+                                  cNICBackImage(),
+                                ],
+                              )
+                            : const SizedBox(),
+                        updateBtn(),
                         discardBtn(),
                       ],
                     ),
@@ -85,14 +94,14 @@ class EditUserProfileView extends StatelessWidget {
                 ],
               ),
               child: Obx(
-                () => (viewModel.pickedFile.value.path != "")
+                () => (viewModel.userProfileImage.value.path != "")
                     ? Container(
                         height: 80,
                         width: 80,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           image: DecorationImage(
-                            image: FileImage(viewModel.pickedFile.value),
+                            image: FileImage(viewModel.userProfileImage.value),
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -100,7 +109,10 @@ class EditUserProfileView extends StatelessWidget {
                     : CachedNetworkImage(
                         height: 80,
                         width: 80,
-                        imageUrl: '',
+                        imageUrl:    viewModel.userProfileModel.value.image !=
+                            null
+                            ? '${viewModel.userProfileModel.value.image}?datetime=${DateTime.now().millisecondsSinceEpoch}'
+                            : '',
                         imageBuilder: (context, imageProvider) {
                           return Container(
                             decoration: BoxDecoration(
@@ -135,8 +147,9 @@ class EditUserProfileView extends StatelessWidget {
               right: 8,
               bottom: 4,
               child: InkWell(
-                onTap: () {
-                  // showPicker(context);
+                onTap: () async {
+                  viewModel.userProfileImage.value =
+                      await PickImage().pickSingleImage() ?? File('');
                 },
                 child: Container(
                   padding: const EdgeInsets.all(3.5),
@@ -179,7 +192,7 @@ class EditUserProfileView extends StatelessWidget {
         hintText: 'johndoe11@gmail.com',
         controller: viewModel.emailController,
         validator: (value) {
-          return Validator.validateDefaultField(value);
+          return Validator.validateEmail(value);
         },
         autoValidateMode: AutovalidateMode.onUserInteraction,
         keyboardType: TextInputType.emailAddress,
@@ -188,36 +201,49 @@ class EditUserProfileView extends StatelessWidget {
   }
 
   Widget phoneNumberTextField() {
-    return Obx(
-      () => CountryCodePickerTextField2(
-        // validator: (value) {
-        //   return Validator().validatePhoneNumber(value);
-        // },
-        title: 'Phone Number',
-        hintText: '336 5563138',
-        keyboardType: TextInputType.number,
-        controller: viewModel.phoneNumberController,
-        initialValue: viewModel.countryCode.value,
-        textStyle:
-            const TextStyle(color: Colors.grey, fontWeight: FontWeight.w600),
-        autoValidateMode: AutovalidateMode.onUserInteraction,
-        inputFormatters: [
-          FilteringTextInputFormatter.allow(RegExp(r'^\d+?\d*')),
-        ],
-        errorText: viewModel.phoneErrorText.value,
-        onPhoneFieldChange: (value) {
-          String newPhoneValue = viewModel.countryCode.value + value;
-          viewModel.validatorPhoneNumber(newPhoneValue);
-        },
-        onChanged: (value) {
-          viewModel.countryCode.value = value.dialCode ?? '+92';
-          String newPhoneValue = viewModel.countryCode.value +
-              viewModel.phoneNumberController.text;
-          viewModel.validatorPhoneNumber(newPhoneValue);
-        },
-      ),
+    return CustomTextField1(
+      title: 'Phone Number',
+      hintText: '336 5563138',
+      controller: viewModel.phoneNumberController,
+      validator: (value) {
+        return Validator().validatePhoneNumber(value);
+      },
+      autoValidateMode: AutovalidateMode.onUserInteraction,
+      keyboardType: TextInputType.phone,
     );
   }
+
+  // Widget phoneNumberTextField() {
+  //   return Obx(
+  //     () => CountryCodePickerTextField(
+  //       validator: (value) {
+  //         return Validator().validatePhoneNumber(value);
+  //       },
+  //       title: 'Phone Number',
+  //       hintText: '336 5563138',
+  //       keyboardType: TextInputType.number,
+  //       controller: viewModel.phoneNumberController,
+  //       initialValue: viewModel.countryCode.value,
+  //       textStyle:
+  //           const TextStyle(color: Colors.grey, fontWeight: FontWeight.w600),
+  //       autoValidateMode: AutovalidateMode.onUserInteraction,
+  //       inputFormatters: [
+  //         FilteringTextInputFormatter.allow(RegExp(r'^\d+?\d*')),
+  //       ],
+  //       errorText: viewModel.phoneErrorText.value,
+  //       onPhoneFieldChange: (value) {
+  //         String newPhoneValue = viewModel.countryCode.value + value;
+  //         viewModel.validatorPhoneNumber(newPhoneValue);
+  //       },
+  //       onChanged: (value) {
+  //         viewModel.countryCode.value = value.dialCode ?? '+92';
+  //         String newPhoneValue = viewModel.countryCode.value +
+  //             viewModel.phoneNumberController.text;
+  //         viewModel.validatorPhoneNumber(newPhoneValue);
+  //       },
+  //     ),
+  //   );
+  // }
 
   Widget genderTextField() {
     return Padding(
@@ -226,56 +252,21 @@ class EditUserProfileView extends StatelessWidget {
         title: 'Gender',
         hintText: 'Male',
         isDropDown: true,
-        // controller: viewModel.emailController,
+        controller: viewModel.genderController,
         validator: (value) {
           return Validator.validateDefaultField(value);
         },
         autoValidateMode: AutovalidateMode.onUserInteraction,
-      ),
-    );
-  }
-
-  Widget passwordTextField() {
-    return Obx(
-      () => CustomTextField1(
-        controller: viewModel.passwordController,
-        title: 'Password',
-        hintText: '● ● ● ● ● ● ● ● ● ●',
-        validator: (value) {
-          return Validator.validateDefaultField(value);
-        },
-        autoValidateMode: AutovalidateMode.onUserInteraction,
-        obscureText: viewModel.obscurePassword.value ? true : false,
-        suffixIconButton: ObscureSuffixIcon(
-          isObscured: viewModel.obscurePassword.value ? true : false,
-          onPressed: () {
-            viewModel.obscurePassword.value = !viewModel.obscurePassword.value;
-          },
-        ),
-      ),
-    );
-  }
-
-  Widget confirmPasswordTextField() {
-    return Obx(
-      () => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 18),
-        child: CustomTextField1(
-          controller: viewModel.confirmPasswordController,
-          title: 'Confirm Password',
-          hintText: '● ● ● ● ● ● ● ● ● ●',
-          validator: (value) {
-            return Validator.validateDefaultField(value);
-          },
-          autoValidateMode: AutovalidateMode.onUserInteraction,
-          obscureText: viewModel.obscurePassword.value ? true : false,
-          suffixIconButton: ObscureSuffixIcon(
-            isObscured: viewModel.obscurePassword.value ? true : false,
-            onPressed: () {
-              viewModel.obscurePassword.value = !viewModel.obscurePassword.value;
+        onTap: () {
+          CustomBottomSheet1(
+            selectedIndex: viewModel.genderSelectedIndex.value,
+            list: viewModel.genderList,
+            onChanged: (value) {
+              viewModel.genderSelectedIndex.value = value;
+              viewModel.genderController.text = viewModel.genderList[value];
             },
-          ),
-        ),
+          ).show();
+        },
       ),
     );
   }
@@ -284,12 +275,11 @@ class EditUserProfileView extends StatelessWidget {
     return CustomTextField1(
       keyboardType: TextInputType.number,
       inputFormatters: [
-        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
         FilteringTextInputFormatter.digitsOnly,
       ],
       title: 'CNIC Number',
       hintText: '42101153225204',
-      controller: viewModel.cnicController,
+      controller: viewModel.cNICNumberController,
       autoValidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
         return Validator.validateDefaultField(value);
@@ -297,46 +287,44 @@ class EditUserProfileView extends StatelessWidget {
     );
   }
 
-  Widget cnicFrontImage() {
-    return Obx(
-      () => ImageLayoutContainer(
-        title: 'CNIC Front Image',
-        filePath: viewModel.cnicFrontImage.value == ''
-            ? ''
-            : basename(viewModel.cnicFrontImage.value),
-        onTap: () async {
-          await viewModel.selectImage(viewModel.cnicFrontImage,
-              viewModel.cnicFrontImageErrorVisibility);
-        },
-        errorVisibility: viewModel.cnicFrontImageErrorVisibility.value,
-        errorPrompt: 'CNIC Front Image is required',
-      ),
-    );
+  Widget cNICFrontImage() {
+    return Obx(() => Padding(
+          padding: const EdgeInsets.only(top: 18, bottom: 2),
+          child: ImageLayoutContainer(
+            title: 'CNIC Front Image',
+            filePath: basename(viewModel.cNICFrontImage.value.path),
+            onTap: () async {
+              viewModel.cNICFrontImage.value =
+                  await PickImage().pickSingleImage() ?? File('');
+            },
+            errorVisibility: viewModel.showCNICFrontImageError.value,
+            errorPrompt: 'CNIC Front Image is required',
+          ),
+        ));
   }
 
-  Widget cnicBackImage() {
+  Widget cNICBackImage() {
     return Obx(
       () => ImageLayoutContainer(
         title: 'CNIC Back Image',
-        filePath: viewModel.cnicBackImage.value == ''
-            ? ''
-            : basename(viewModel.cnicBackImage.value),
+        filePath: basename(viewModel.cNICBackImage.value.path),
         onTap: () async {
-          await viewModel.selectImage(
-              viewModel.cnicBackImage, viewModel.cnicBackImageErrorVisibility);
+          viewModel.cNICBackImage.value = await PickImage().pickSingleImage() ?? File('');
         },
-        errorVisibility: viewModel.cnicBackImageErrorVisibility.value,
+        errorVisibility: viewModel.showCNICBackImageError.value,
         errorPrompt: 'CNIC Back Image is required',
       ),
     );
   }
 
-  Widget signUpBtn() {
+  Widget updateBtn() {
     return Padding(
       padding: const EdgeInsets.only(top: 25, bottom: 5),
       child: CustomTextBtn(
         title: 'Save & Update',
-        onPressed: () {},
+        onPressed: () {
+          viewModel.saveAndCreateBtn();
+        },
       ),
     );
   }
@@ -344,7 +332,9 @@ class EditUserProfileView extends StatelessWidget {
   Widget discardBtn() {
     return CustomTextBtn(
       title: 'Discard',
-      onPressed: () {},
+      onPressed: () {
+        Get.back();
+      },
       backgroundColor: Colors.black,
     );
   }

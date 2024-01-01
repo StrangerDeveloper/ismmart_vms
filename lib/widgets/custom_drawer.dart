@@ -6,7 +6,6 @@ import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/screens/collection/collection_view.dart';
 import '../screens/add_location/add_location_view.dart';
 import '../screens/add_user/add_user_view.dart';
-import '../screens/bank/bank_profile_view.dart';
 import '../screens/dashboard/dashboard_viewmodel.dart';
 import '../screens/payout_list/payout_list_view.dart';
 import '../screens/shippings/shippings_view.dart';
@@ -66,12 +65,12 @@ class CustomDrawer extends StatelessWidget {
                             padding: const EdgeInsets.only(left: 20),
                             child: Column(
                               children: [
-                                drawerListItems(
-                                  iconPath: 'assets/icons/wallet.png',
-                                  'Banking',
-                                  h: 35,
-                                  onTab: () => Get.to(BankProfileView()),
-                                ),
+                                // drawerListItems(
+                                //   iconPath: 'assets/icons/wallet.png',
+                                //   'Banking',
+                                //   h: 35,
+                                //   onTab: () => Get.to(BankProfileView()),
+                                // ),
                                 drawerListItems(
                                     iconPath: 'assets/icons/Vector.png',
                                     'Shipping',

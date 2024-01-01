@@ -5,10 +5,11 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ismmart_vms/helper/theme_helper.dart';
-import 'package:ismmart_vms/screens/drawer_bottom_nav/drawer_bottom_bar_view.dart';
-import 'package:ismmart_vms/screens/product_list/product_list_view.dart';
+import 'package:ismmart_vms/screens/auth/login/login_view.dart';
+import 'package:ismmart_vms/screens/order_listing/order_view.dart';
 import 'firebase_options.dart';
 import 'helper/routes.dart';
+import 'screens/dashboard/dashboard_view.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -48,7 +49,7 @@ class MyApp extends StatelessWidget {
             elevation: 3,
             shadowColor: Colors.black12),
       ),
-      home: DrawerBottomBarView(),
+      home: LogInView(),
       initialRoute: Routes.initRoute,
       getPages: Routes.pages,
     );

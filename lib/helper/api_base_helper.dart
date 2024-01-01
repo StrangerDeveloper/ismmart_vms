@@ -348,6 +348,51 @@ class ApiBaseHelper {
     }
   }
 
+  Future<dynamic> putMethodForImage({
+    required String url,
+    required List<http.MultipartFile> files,
+    required Map<String, String> fields,
+  }) async {
+    try {
+      Uri urlValue = Uri.parse(_baseUrl + url);
+      debugPrint('*********************** Request ********************************');
+      debugPrint("$urlValue");
+
+      http.MultipartRequest request = http.MultipartRequest('PUT', urlValue);
+      request.headers.addAll(header);
+      request.fields.addAll(fields);
+      request.files.addAll(files);
+      http.StreamedResponse response = await request.send();
+      Map<String, dynamic> parsedJson =
+      await jsonDecode(await response.stream.bytesToString());
+
+      debugPrint(
+          '*********************** Response ********************************');
+      debugPrint("$urlValue");
+      debugPrint(parsedJson.toString());
+      AppConstant.colorConsole(
+          '****************************************************************************************');
+      return parsedJson;
+    } on SocketException catch (_) {
+      GlobalVariable.showLoader.value = false;
+      GlobalVariable.noInternet(true);
+      //AppConstant.displaySnackBar(titlege)(title, message: Errors.noInternetError);
+      throw Errors.noInternetError;
+    } on TimeoutException catch (_) {
+      GlobalVariable.showLoader.value = false;
+      AppConstant.displaySnackBar('Error', Errors.timeOutException);
+      throw Errors.timeOutException;
+    } on FormatException catch (_) {
+      GlobalVariable.showLoader.value = false;
+      AppConstant.displaySnackBar('Error', Errors.formatException);
+      throw Errors.formatException;
+    } catch (e) {
+      GlobalVariable.showLoader.value = false;
+      AppConstant.displaySnackBar('Error', Errors.generalApiError);
+      throw e.toString();
+    }
+  }
+
   // Future<dynamic> patchMethodForImage({
   //   required String url,
   //   required List<http.MultipartFile> files,
