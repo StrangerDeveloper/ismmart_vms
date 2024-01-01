@@ -5,6 +5,7 @@ import 'package:ismmart_vms/helper/constants.dart';
 import 'package:ismmart_vms/widgets/widget_models/dropdown_model.dart';
 
 class DashboardViewModel extends GetxController {
+  RxBool showMoreDetails = false.obs;
   RxString dateSelected = '1'.obs;
   List<DropDownModel> dateDropDownList = <DropDownModel>[
     DropDownModel(id: "1", name: "Today"),
