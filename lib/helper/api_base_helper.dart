@@ -62,6 +62,50 @@ class ApiBaseHelper {
     }
   }
 
+  Future<dynamic> deleteMethod({required String url}) async {
+    try {
+      Uri urlValue = Uri.parse(_baseUrl + url);
+      CommonFunction.debugPrint(
+          '*********************** Request ********************************');
+      CommonFunction.debugPrint(urlValue);
+
+      http.Response response = await http
+          .delete(urlValue, headers: header)
+          .timeout(const Duration(seconds: 30));
+
+      CommonFunction.debugPrint(
+          '*********************** Response ********************************');
+      CommonFunction.debugPrint(urlValue);
+      CommonFunction.debugPrint(response.body);
+      CommonFunction.colorConsole(
+          '****************************************************************************************');
+
+      Map<String, dynamic> parsedJSON = jsonDecode(response.body);
+      return parsedJSON;
+    } on SocketException catch (e) {
+      debugPrint("$e");
+      GlobalVariable.showLoader.value = false;
+      CustomSnackBar.showSnackBar(
+          title: 'Error', message: Errors.noInternetError);
+      throw Errors.noInternetError;
+    } on TimeoutException catch (_) {
+      GlobalVariable.showLoader.value = false;
+      CustomSnackBar.showSnackBar(
+          title: 'Error', message: Errors.timeOutException);
+      throw Errors.timeOutException;
+    } on FormatException catch (_) {
+      GlobalVariable.showLoader.value = false;
+      CustomSnackBar.showSnackBar(
+          title: 'Error', message: Errors.formatException);
+      throw Errors.formatException;
+    } catch (e) {
+      GlobalVariable.showLoader.value = false;
+      CustomSnackBar.showSnackBar(
+          title: 'Error', message: Errors.generalApiError);
+      throw e.toString();
+    }
+  }
+
   Future<dynamic> postMethod({
     required String url,
     Object? body,
@@ -162,147 +206,7 @@ class ApiBaseHelper {
     }
   }
 
-// Future<dynamic> patchMethod({
-  //   required String url,
-  //   Object? body,
-  //   bool withBearer = false,
-  //   bool withAuthorization = false,
-  // }) async {
-  //   try {
-  //     Map<String, String> header = {'Content-Type': 'application/json'};
-  //     if (withAuthorization) {
-  //       header['Authorization'] = withBearer ? 'Bearer $token' : token;
-  //     }
-  //     if (body != null) {
-  //       body = jsonEncode(body);
-  //     }
-  //     Uri urlValue = Uri.parse(_baseUrl + url);
-  //     print('*********************** Request ********************************');
-  //     print(urlValue);
-  //     print(body);
-  //
-  //     http.Response response = await http
-  //         .patch(urlValue, headers: header, body: body)
-  //         .timeout(Duration(seconds: 30));
-  //
-  //     print(
-  //         '*********************** Response ********************************');
-  //     print(urlValue);
-  //     print(response.body);
-  //     AppConstant.colorConsole(
-  //         '****************************************************************************************');
-  //
-  //     Map<String, dynamic> parsedJSON = jsonDecode(response.body);
-  //     return parsedJSON;
-  //   } on SocketException catch (_) {
-  //     GlobalVariable.showLoader.value = false;
-  //     GlobalVariable.internetErr(true);
-  //     //  AppConstant.displaySnackBar(titlege)(title, message: Errors.noInternetError);
-  //   //  throw Errors.noInternetError;
-  //   } on TimeoutException catch (_) {
-  //     GlobalVariable.showLoader.value = false;
-  //     AppConstant.displaySnackBar('Error', Errors.timeOutException);
-  //     throw Errors.timeOutException;
-  //   } on FormatException catch (_) {
-  //     GlobalVariable.showLoader.value = false;
-  //     AppConstant.displaySnackBar('Error', Errors.formatException);
-  //     throw Errors.formatException;
-  //   } catch (e) {
-  //     GlobalVariable.showLoader.value = false;
-  //     AppConstant.displaySnackBar('Error', Errors.generalApiError);
-  //     throw e.toString();
-  //   }
-  // }
-  //
-  // Future<dynamic> getMethod({
-  //   required String url,
-  //   bool withBearer = false,
-  //   bool withAuthorization = false,
-  // }) async {
-  //   try {
-  //     Map<String, String> header = {
-  //       'Content-Type': 'application/json',
-  //       'Cookie': 'XSRF-token=$token'
-  //     };
-  //     if (withAuthorization) {
-  //       header['Authorization'] = withBearer ? 'Bearer $token' : token;
-  //     }
-  //     Uri urlValue = Uri.parse(_baseUrl + url);
-  //     print('*********************** Request ********************************');
-  //     print(urlValue);
-  //
-  //     http.Response response = await http
-  //         .get(urlValue, headers: header)
-  //         .timeout(Duration(seconds: 50));
-  //
-  //     print(
-  //         '*********************** Response ********************************');
-  //     print(urlValue);
-  //     print(response.body);
-  //     AppConstant.colorConsole(
-  //         '****************************************************************************************');
-  //
-  //     Map<String, dynamic> parsedJSON = jsonDecode(response.body);
-  //     return parsedJSON;
-  //   } on SocketException {
-  //     GlobalVariable.showLoader.value = false;
-  //     GlobalVariable.internetErr(true);
-  //     //  AppConstant.displaySnackBar(titlege)(title.errorTitle.tr, message: Errors.noInternetError);
-  //   //  throw Errors.noInternetError;
-  //   } on TimeoutException {
-  //     GlobalVariable.showLoader.value = false;
-  //     AppConstant.displaySnackBar(langKey.errorTitle.tr, Errors.timeOutException);
-  //     throw Errors.timeOutException + url;
-  //   } catch (e) {
-  //     GlobalVariable.showLoader.value = false;
-  //     print(e);
-  //     AppConstant.displaySnackBar(langKey.errorTitle.tr, e.toString());
-  //     throw e.toString();
-  //   }
-  // }
-  //
-  // Future<dynamic> deleteMethod({
-  //   required String url,
-  //   bool withBearer = false,
-  //   bool withAuthorization = false,
-  // }) async {
-  //   try {
-  //     Map<String, String> header = {'Content-Type': 'application/json'};
-  //     if (withAuthorization) {
-  //       header['Authorization'] = withBearer ? 'Bearer $token' : token;
-  //     }
-  //     Uri urlValue = Uri.parse(_baseUrl + url);
-  //     print('*********************** Request ********************************');
-  //     print(urlValue);
-  //
-  //     http.Response response = await http
-  //         .delete(urlValue, headers: header)
-  //         .timeout(Duration(seconds: 50));
-  //
-  //     print(
-  //         '*********************** Response ********************************');
-  //     print(urlValue);
-  //     print(response.body);
-  //     AppConstant.colorConsole(
-  //         '****************************************************************************************');
-  //     Map<String, dynamic> parsedJSON = jsonDecode(response.body);
-  //     return parsedJSON;
-  //   } on SocketException {
-  //     GlobalVariable.showLoader.value = false;
-  //     GlobalVariable.internetErr(true);
-  //     throw Errors.noInternetError;
-  //   } on TimeoutException {
-  //     GlobalVariable.showLoader.value = false;
-  //     AppConstant.displaySnackBar(langKey.errorTitle.tr, Errors.timeOutException);
-  //     throw Errors.timeOutException + url;
-  //   } catch (e) {
-  //     GlobalVariable.showLoader.value = false;
-  //     print(e);
-  //     AppConstant.displaySnackBar(langKey.errorTitle.tr, e.toString());
-  //     throw e.toString();
-  //   }
-  // }
-  //
+
   Future<dynamic> postMethodForImage({
     required String url,
     required List<http.MultipartFile> files,

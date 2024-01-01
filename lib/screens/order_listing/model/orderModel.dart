@@ -1,553 +1,578 @@
 class Data {
-  final List<OrderItem>? items;
-  final int? page;
-  final int? limit;
-  final int? pages;
-  final int? total;
+  List<OrderItem>? items;
+  int? page;
+  int? limit;
+  int? pages;
+  int? total;
 
-  Data({
-    this.items,
-    this.page,
-    this.limit,
-    this.pages,
-    this.total,
-  });
+  Data({this.items, this.page, this.limit, this.pages, this.total});
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
-        items: json["items"] == null
-            ? []
-            : List<OrderItem>.from(
-                json["items"]!.map((x) => OrderItem.fromJson(x))),
-        page: json["page"],
-        limit: json["limit"],
-        pages: json["pages"],
-        total: json["total"],
-      );
+  Data.fromJson(Map<String, dynamic> json) {
+    if (json['items'] != null) {
+      items = <OrderItem>[];
+      json['items'].forEach((v) {
+        items!.add(new OrderItem.fromJson(v));
+      });
+    }
+    page = json['page'];
+    limit = json['limit'];
+    pages = json['pages'];
+    total = json['total'];
+  }
 
-  Map<String, dynamic> toJson() => {
-        "items": items == null
-            ? []
-            : List<dynamic>.from(items!.map((x) => x.toJson())),
-        "page": page,
-        "limit": limit,
-        "pages": pages,
-        "total": total,
-      };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.items != null) {
+      data['items'] = this.items!.map((v) => v.toJson()).toList();
+    }
+    data['page'] = this.page;
+    data['limit'] = this.limit;
+    data['pages'] = this.pages;
+    data['total'] = this.total;
+    return data;
+  }
 }
 
 class OrderItem {
-  final String? id;
-  final Customer? customer;
-  final ContactInfo? contactInfo;
-  final Address? address;
-  final List<Lineitem>? lineitems;
-  final OrderDetails? orderDetails;
-  final String? paymentType;
-  final ShippingMethod? shippingMethod;
-  final bool? deleted;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
-  final int? v;
-  final String? orderId;
+  String? sId;
+  Customer? customer;
+  ContactInfo? contactInfo;
+  Address? address;
+  List<Lineitem>? lineitems;
+  String? status;
+  OrderDetails? orderDetails;
+  String? paymentType;
+  ShippingMethod? shippingMethod;
+  bool? deleted;
+  String? createdAt;
+  String? updatedAt;
+  String? orderId;
+  int? iV;
+  OrderTotals? totals;
+  String? paymentStatus;
+  String? fulfilmentStatus;
+  String? deliveryStatus;
+  String? returnStatus;
 
-  OrderItem({
-    this.id,
-    this.customer,
-    this.contactInfo,
-    this.address,
-    this.lineitems,
-    this.orderDetails,
-    this.paymentType,
-    this.shippingMethod,
-    this.deleted,
-    this.createdAt,
-    this.updatedAt,
-    this.v,
-    this.orderId,
-  });
+  OrderItem(
+      {this.sId,
+      this.customer,
+      this.contactInfo,
+      this.address,
+      this.lineitems,
+      this.status,
+      this.orderDetails,
+      this.paymentType,
+      this.shippingMethod,
+      this.deleted,
+      this.createdAt,
+      this.updatedAt,
+      this.orderId,
+      this.iV,
+      this.totals,
+      this.paymentStatus,
+      this.fulfilmentStatus,
+      this.deliveryStatus,
+      this.returnStatus});
 
-  factory OrderItem.fromJson(Map<String, dynamic> json) => OrderItem(
-        id: json["_id"],
-        customer: json["customer"] == null
-            ? null
-            : Customer.fromJson(json["customer"]),
-        contactInfo: json["contactInfo"] == null
-            ? null
-            : ContactInfo.fromJson(json["contactInfo"]),
-        address:
-            json["address"] == null ? null : Address.fromJson(json["address"]),
-        lineitems: json["lineitems"] == null
-            ? []
-            : List<Lineitem>.from(
-                json["lineitems"]!.map((x) => Lineitem.fromJson(x))),
-        orderDetails: json["orderDetails"] == null
-            ? null
-            : OrderDetails.fromJson(json["orderDetails"]),
-        paymentType: json["paymentType"],
-        shippingMethod: json["shippingMethod"] == null
-            ? null
-            : ShippingMethod.fromJson(json["shippingMethod"]),
-        deleted: json["deleted"],
-        createdAt: json["createdAt"] == null
-            ? null
-            : DateTime.parse(json["createdAt"]),
-        updatedAt: json["updatedAt"] == null
-            ? null
-            : DateTime.parse(json["updatedAt"]),
-        v: json["__v"],
-        orderId: json["orderId"],
-      );
+  OrderItem.fromJson(Map<String, dynamic> json) {
+    sId = json['_id'];
+    customer = json['customer'] != null
+        ? new Customer.fromJson(json['customer'])
+        : null;
+    contactInfo = json['contactInfo'] != null
+        ? new ContactInfo.fromJson(json['contactInfo'])
+        : null;
+    address =
+        json['address'] != null ? new Address.fromJson(json['address']) : null;
+    if (json['lineitems'] != null) {
+      lineitems = <Lineitem>[];
+      json['lineitems'].forEach((v) {
+        lineitems!.add(new Lineitem.fromJson(v));
+      });
+    }
+    status = json['status'];
+    orderDetails = json['orderDetails'] != null
+        ? new OrderDetails.fromJson(json['orderDetails'])
+        : null;
+    paymentType = json['paymentType'];
+    shippingMethod = json['shippingMethod'] != null
+        ? new ShippingMethod.fromJson(json['shippingMethod'])
+        : null;
+    deleted = json['deleted'];
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
+    orderId = json['orderId'];
+    iV = json['__v'];
+    totals = json['totals'] != null
+        ? new OrderTotals.fromJson(json['totals'])
+        : null;
+    paymentStatus = json['paymentStatus'];
+    fulfilmentStatus = json['fulfilmentStatus'];
+    deliveryStatus = json['deliveryStatus'];
+    returnStatus = json['returnStatus'];
+  }
 
-  Map<String, dynamic> toJson() => {
-        "_id": id,
-        "customer": customer?.toJson(),
-        "contactInfo": contactInfo?.toJson(),
-        "address": address?.toJson(),
-        "lineitems": lineitems == null
-            ? []
-            : List<dynamic>.from(lineitems!.map((x) => x.toJson())),
-        "orderDetails": orderDetails?.toJson(),
-        "paymentType": paymentType,
-        "shippingMethod": shippingMethod?.toJson(),
-        "deleted": deleted,
-        "createdAt": createdAt?.toIso8601String(),
-        "updatedAt": updatedAt?.toIso8601String(),
-        "__v": v,
-        "orderId": orderId,
-      };
-}
-
-class Address {
-  final Ing? shipping;
-  final Ing? billing;
-
-  Address({
-    this.shipping,
-    this.billing,
-  });
-
-  factory Address.fromJson(Map<String, dynamic> json) => Address(
-        shipping:
-            json["shipping"] == null ? null : Ing.fromJson(json["shipping"]),
-        billing: json["billing"] == null ? null : Ing.fromJson(json["billing"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "shipping": shipping?.toJson(),
-        "billing": billing?.toJson(),
-      };
-}
-
-class Ing {
-  final String? city;
-  final String? country;
-  final String? address;
-  final String? phone;
-
-  Ing({
-    this.city,
-    this.country,
-    this.address,
-    this.phone,
-  });
-
-  factory Ing.fromJson(Map<String, dynamic> json) => Ing(
-        city: json["city"],
-        country: json["country"],
-        address: json["address"],
-        phone: json["phone"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "city": city,
-        "country": country,
-        "address": address,
-        "phone": phone,
-      };
-}
-
-class ContactInfo {
-  final String? email;
-  final String? phone;
-
-  ContactInfo({
-    this.email,
-    this.phone,
-  });
-
-  factory ContactInfo.fromJson(Map<String, dynamic> json) => ContactInfo(
-        email: json["email"],
-        phone: json["phone"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "email": email,
-        "phone": phone,
-      };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['_id'] = this.sId;
+    if (this.customer != null) {
+      data['customer'] = this.customer!.toJson();
+    }
+    if (this.contactInfo != null) {
+      data['contactInfo'] = this.contactInfo!.toJson();
+    }
+    if (this.address != null) {
+      data['address'] = this.address!.toJson();
+    }
+    if (this.lineitems != null) {
+      data['lineitems'] = this.lineitems!.map((v) => v.toJson()).toList();
+    }
+    data['status'] = this.status;
+    if (this.orderDetails != null) {
+      data['orderDetails'] = this.orderDetails!.toJson();
+    }
+    data['paymentType'] = this.paymentType;
+    if (this.shippingMethod != null) {
+      data['shippingMethod'] = this.shippingMethod!.toJson();
+    }
+    data['deleted'] = this.deleted;
+    data['createdAt'] = this.createdAt;
+    data['updatedAt'] = this.updatedAt;
+    data['orderId'] = this.orderId;
+    data['__v'] = this.iV;
+    if (this.totals != null) {
+      data['totals'] = this.totals!.toJson();
+    }
+    data['paymentStatus'] = this.paymentStatus;
+    data['fulfilmentStatus'] = this.fulfilmentStatus;
+    data['deliveryStatus'] = this.deliveryStatus;
+    data['returnStatus'] = this.returnStatus;
+    return data;
+  }
 }
 
 class Customer {
-  final Id? id;
-  final Email? email;
-  final Name? name;
-  final String? phone;
-  final Gender? gender;
-  final String? cnic;
+  String? sId;
+  String? email;
+  String? name;
+  String? phone;
+  String? gender;
+  String? cnic;
 
-  Customer({
-    this.id,
-    this.email,
-    this.name,
-    this.phone,
-    this.gender,
-    this.cnic,
-  });
+  Customer(
+      {this.sId, this.email, this.name, this.phone, this.gender, this.cnic});
 
-  factory Customer.fromJson(Map<String, dynamic> json) => Customer(
-        id: idValues.map[json["_id"]]!,
-        email: emailValues.map[json["email"]]!,
-        name: nameValues.map[json["name"]]!,
-        phone: json["phone"],
-        gender: genderValues.map[json["gender"]]!,
-        cnic: json["cnic"],
-      );
+  Customer.fromJson(Map<String, dynamic> json) {
+    sId = json['_id'];
+    email = json['email'];
+    name = json['name'];
+    phone = json['phone'];
+    gender = json['gender'];
+    cnic = json['cnic'];
+  }
 
-  Map<String, dynamic> toJson() => {
-        "_id": idValues.reverse[id],
-        "email": emailValues.reverse[email],
-        "name": nameValues.reverse[name],
-        "phone": phone,
-        "gender": genderValues.reverse[gender],
-        "cnic": cnic,
-      };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['_id'] = this.sId;
+    data['email'] = this.email;
+    data['name'] = this.name;
+    data['phone'] = this.phone;
+    data['gender'] = this.gender;
+    data['cnic'] = this.cnic;
+    return data;
+  }
 }
 
-enum Email { HMIRRAI_GMAIL_COM }
+class ContactInfo {
+  String? email;
+  String? phone;
 
-final emailValues = EnumValues({"hmirrai@gmail.com": Email.HMIRRAI_GMAIL_COM});
+  ContactInfo({this.email, this.phone});
 
-enum Gender { MALE }
+  ContactInfo.fromJson(Map<String, dynamic> json) {
+    email = json['email'];
+    phone = json['phone'];
+  }
 
-final genderValues = EnumValues({"Male": Gender.MALE});
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['email'] = this.email;
+    data['phone'] = this.phone;
+    return data;
+  }
+}
 
-enum Id { THE_657809_D663534_E3_FCFB19_C72 }
+class Address {
+  Shipping? shipping;
+  Shipping? billing;
 
-final idValues = EnumValues(
-    {"657809d663534e3fcfb19c72": Id.THE_657809_D663534_E3_FCFB19_C72});
+  Address({this.shipping, this.billing});
 
-enum Name { VENDOR1 }
+  Address.fromJson(Map<String, dynamic> json) {
+    shipping = json['shipping'] != null
+        ? new Shipping.fromJson(json['shipping'])
+        : null;
+    billing =
+        json['billing'] != null ? new Shipping.fromJson(json['billing']) : null;
+  }
 
-final nameValues = EnumValues({"Vendor1": Name.VENDOR1});
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.shipping != null) {
+      data['shipping'] = this.shipping!.toJson();
+    }
+    if (this.billing != null) {
+      data['billing'] = this.billing!.toJson();
+    }
+    return data;
+  }
+}
+
+class Shipping {
+  String? city;
+  String? country;
+  String? address;
+  String? phone;
+
+  Shipping({this.city, this.country, this.address, this.phone});
+
+  Shipping.fromJson(Map<String, dynamic> json) {
+    city = json['city'];
+    country = json['country'];
+    address = json['address'];
+    phone = json['phone'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['city'] = this.city;
+    data['country'] = this.country;
+    data['address'] = this.address;
+    data['phone'] = this.phone;
+    return data;
+  }
+}
 
 class Lineitem {
-  final String? id;
-  final String? product;
-  final Id? vendor;
-  final String? name;
-  final String? media;
-  final int? qty;
-  final int? amount;
-  final Totals? totals;
-  final bool? refund;
-  final String? paymentStatus;
-  final String? fulfilmentStatus;
-  final String? deliveryStatus;
-  final int? discountPercentage;
-  final int? couponPercentage;
-  final String? variantName;
-  final int? customShipping;
-  final String? type;
-  final String? category;
-  final String? sku;
-  final String? barcode;
-  final double? weight;
-  final Dimensions? dimensions;
-  final Customer? assignedRider;
-  final List<Timeline>? timeline;
-  final bool? deleted;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
-  final int? v;
+  String? sId;
+  String? product;
+  String? vendor;
+  String? name;
+  String? media;
+  int? qty;
+  int? amount;
+  Totals? totals;
+  String? paymentStatus;
+  String? fulfilmentStatus;
+  String? deliveryStatus;
+  String? returnStatus;
+  int? discountPercentage;
+  int? couponPercentage;
+  String? variantName;
+  int? customShipping;
+  String? type;
+  String? category;
+  String? sku;
+  String? barcode;
+  double? weight;
+  Dimensions? dimensions;
+  Customer? assignedRider;
+  List<Timeline>? timeline;
+  bool? deleted;
+  String? createdAt;
+  String? updatedAt;
+  int? iV;
+  bool? isSelected = false;
 
-  Lineitem({
-    this.id,
-    this.product,
-    this.vendor,
-    this.name,
-    this.media,
-    this.qty,
-    this.amount,
-    this.totals,
-    this.refund,
-    this.paymentStatus,
-    this.fulfilmentStatus,
-    this.deliveryStatus,
-    this.discountPercentage,
-    this.couponPercentage,
-    this.variantName,
-    this.customShipping,
-    this.type,
-    this.category,
-    this.sku,
-    this.barcode,
-    this.weight,
-    this.dimensions,
-    this.assignedRider,
-    this.timeline,
-    this.deleted,
-    this.createdAt,
-    this.updatedAt,
-    this.v,
-  });
+  Lineitem(
+      {this.sId,
+      this.product,
+      this.vendor,
+      this.name,
+      this.media,
+      this.qty,
+      this.amount,
+      this.totals,
+      this.paymentStatus,
+      this.fulfilmentStatus,
+      this.deliveryStatus,
+      this.returnStatus,
+      this.discountPercentage,
+      this.couponPercentage,
+      this.variantName,
+      this.customShipping,
+      this.type,
+      this.category,
+      this.sku,
+      this.barcode,
+      this.weight,
+      this.dimensions,
+      this.assignedRider,
+      this.timeline,
+      this.deleted,
+      this.createdAt,
+      this.updatedAt,
+      this.iV,
+      this.isSelected});
 
-  factory Lineitem.fromJson(Map<String, dynamic> json) => Lineitem(
-        id: json["_id"],
-        product: json["product"],
-        vendor: idValues.map[json["vendor"]]!,
-        name: json["name"],
-        media: json["media"],
-        qty: json["qty"],
-        amount: json["amount"],
-        totals: json["totals"] == null ? null : Totals.fromJson(json["totals"]),
-        refund: json["refund"],
-        paymentStatus: json["paymentStatus"],
-        fulfilmentStatus: json["fulfilmentStatus"],
-        deliveryStatus: json["deliveryStatus"],
-        discountPercentage: json["discountPercentage"],
-        couponPercentage: json["couponPercentage"],
-        variantName: json["variantName"],
-        customShipping: json["customShipping"],
-        type: json["type"],
-        category: json["category"],
-        sku: json["sku"],
-        barcode: json["barcode"],
-        weight: json["weight"]?.toDouble(),
-        dimensions: json["dimensions"] == null
-            ? null
-            : Dimensions.fromJson(json["dimensions"]),
-        assignedRider: json["assignedRider"] == null
-            ? null
-            : Customer.fromJson(json["assignedRider"]),
-        timeline: json["timeline"] == null
-            ? []
-            : List<Timeline>.from(
-                json["timeline"]!.map((x) => Timeline.fromJson(x))),
-        deleted: json["deleted"],
-        createdAt: json["createdAt"] == null
-            ? null
-            : DateTime.parse(json["createdAt"]),
-        updatedAt: json["updatedAt"] == null
-            ? null
-            : DateTime.parse(json["updatedAt"]),
-        v: json["__v"],
-      );
+  Lineitem.fromJson(Map<String, dynamic> json) {
+    sId = json['_id'];
+    product = json['product'];
+    vendor = json['vendor'];
+    name = json['name'];
+    media = json['media'];
+    qty = json['qty'];
+    amount = json['amount'];
+    totals =
+        json['totals'] != null ? new Totals.fromJson(json['totals']) : null;
+    paymentStatus = json['paymentStatus'];
+    fulfilmentStatus = json['fulfilmentStatus'];
+    deliveryStatus = json['deliveryStatus'];
+    returnStatus = json['returnStatus'];
+    discountPercentage = json['discountPercentage'];
+    couponPercentage = json['couponPercentage'];
+    variantName = json['variantName'];
+    customShipping = json['customShipping'];
+    type = json['type'];
+    category = json['category'];
+    sku = json['sku'];
+    barcode = json['barcode'];
+    weight = json['weight'];
+    dimensions = json['dimensions'] != null
+        ? new Dimensions.fromJson(json['dimensions'])
+        : null;
+    assignedRider = json['assignedRider'] != null
+        ? new Customer.fromJson(json['assignedRider'])
+        : null;
+    if (json['timeline'] != null) {
+      timeline = <Timeline>[];
+      json['timeline'].forEach((v) {
+        timeline!.add(new Timeline.fromJson(v));
+      });
+    }
+    deleted = json['deleted'];
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
+    iV = json['__v'];
+  }
 
-  Map<String, dynamic> toJson() => {
-        "_id": id,
-        "product": product,
-        "vendor": idValues.reverse[vendor],
-        "name": name,
-        "media": media,
-        "qty": qty,
-        "amount": amount,
-        "totals": totals?.toJson(),
-        "refund": refund,
-        "paymentStatus": paymentStatus,
-        "fulfilmentStatus": fulfilmentStatus,
-        "deliveryStatus": deliveryStatus,
-        "discountPercentage": discountPercentage,
-        "couponPercentage": couponPercentage,
-        "variantName": variantName,
-        "customShipping": customShipping,
-        "type": type,
-        "category": category,
-        "sku": sku,
-        "barcode": barcode,
-        "weight": weight,
-        "dimensions": dimensions?.toJson(),
-        "assignedRider": assignedRider?.toJson(),
-        "timeline": timeline == null
-            ? []
-            : List<dynamic>.from(timeline!.map((x) => x.toJson())),
-        "deleted": deleted,
-        "createdAt": createdAt?.toIso8601String(),
-        "updatedAt": updatedAt?.toIso8601String(),
-        "__v": v,
-      };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['_id'] = this.sId;
+    data['product'] = this.product;
+    data['vendor'] = this.vendor;
+    data['name'] = this.name;
+    data['media'] = this.media;
+    data['qty'] = this.qty;
+    data['amount'] = this.amount;
+    if (this.totals != null) {
+      data['totals'] = this.totals!.toJson();
+    }
+    data['paymentStatus'] = this.paymentStatus;
+    data['fulfilmentStatus'] = this.fulfilmentStatus;
+    data['deliveryStatus'] = this.deliveryStatus;
+    data['returnStatus'] = this.returnStatus;
+    data['discountPercentage'] = this.discountPercentage;
+    data['couponPercentage'] = this.couponPercentage;
+    data['variantName'] = this.variantName;
+    data['customShipping'] = this.customShipping;
+    data['type'] = this.type;
+    data['category'] = this.category;
+    data['sku'] = this.sku;
+    data['barcode'] = this.barcode;
+    data['weight'] = this.weight;
+    if (this.dimensions != null) {
+      data['dimensions'] = this.dimensions!.toJson();
+    }
+    if (this.assignedRider != null) {
+      data['assignedRider'] = this.assignedRider!.toJson();
+    }
+    if (this.timeline != null) {
+      data['timeline'] = this.timeline!.map((v) => v.toJson()).toList();
+    }
+    data['deleted'] = this.deleted;
+    data['createdAt'] = this.createdAt;
+    data['updatedAt'] = this.updatedAt;
+    data['__v'] = this.iV;
+    return data;
+  }
+}
+
+class Totals {
+  int? subTotal;
+  int? tax;
+  int? shipping;
+  int? coupon;
+  int? total;
+
+  Totals({this.subTotal, this.tax, this.shipping, this.coupon, this.total});
+
+  Totals.fromJson(Map<String, dynamic> json) {
+    subTotal = json['subTotal'];
+    tax = json['tax'];
+    shipping = json['shipping'];
+    coupon = json['coupon'];
+    total = json['total'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['subTotal'] = this.subTotal;
+    data['tax'] = this.tax;
+    data['shipping'] = this.shipping;
+    data['coupon'] = this.coupon;
+    data['total'] = this.total;
+    return data;
+  }
 }
 
 class Dimensions {
-  final int? width;
-  final int? height;
-  final int? length;
+  int? width;
+  int? height;
+  int? length;
 
-  Dimensions({
-    this.width,
-    this.height,
-    this.length,
-  });
+  Dimensions({this.width, this.height, this.length});
 
-  factory Dimensions.fromJson(Map<String, dynamic> json) => Dimensions(
-        width: json["width"],
-        height: json["height"],
-        length: json["length"],
-      );
+  Dimensions.fromJson(Map<String, dynamic> json) {
+    width = json['width'];
+    height = json['height'];
+    length = json['length'];
+  }
 
-  Map<String, dynamic> toJson() => {
-        "width": width,
-        "height": height,
-        "length": length,
-      };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['width'] = this.width;
+    data['height'] = this.height;
+    data['length'] = this.length;
+    return data;
+  }
 }
 
 class Timeline {
-  final Status? status;
-  final DateTime? dated;
-  final Id? user;
-  final String? id;
+  String? status;
+  String? dated;
+  String? user;
+  String? sId;
 
-  Timeline({
-    this.status,
-    this.dated,
-    this.user,
-    this.id,
-  });
+  Timeline({this.status, this.dated, this.user, this.sId});
 
-  factory Timeline.fromJson(Map<String, dynamic> json) => Timeline(
-        status: statusValues.map[json["status"]]!,
-        dated: json["dated"] == null ? null : DateTime.parse(json["dated"]),
-        user: idValues.map[json["user"]]!,
-        id: json["_id"],
-      );
+  Timeline.fromJson(Map<String, dynamic> json) {
+    status = json['status'];
+    dated = json['dated'];
+    user = json['user'];
+    sId = json['_id'];
+  }
 
-  Map<String, dynamic> toJson() => {
-        "status": statusValues.reverse[status],
-        "dated": dated?.toIso8601String(),
-        "user": idValues.reverse[user],
-        "_id": id,
-      };
-}
-
-enum Status { DELIVERED, PROCESSING, SHIPPED }
-
-final statusValues = EnumValues({
-  "Delivered": Status.DELIVERED,
-  "Processing": Status.PROCESSING,
-  "Shipped": Status.SHIPPED
-});
-
-class Totals {
-  final int? subTotal;
-  final int? tax;
-  final int? shipping;
-  final int? coupon;
-  final int? total;
-
-  Totals({
-    this.subTotal,
-    this.tax,
-    this.shipping,
-    this.coupon,
-    this.total,
-  });
-
-  factory Totals.fromJson(Map<String, dynamic> json) => Totals(
-        subTotal: json["subTotal"],
-        tax: json["tax"],
-        shipping: json["shipping"],
-        coupon: json["coupon"],
-        total: json["total"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "subTotal": subTotal,
-        "tax": tax,
-        "shipping": shipping,
-        "coupon": coupon,
-        "total": total,
-      };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['status'] = this.status;
+    data['dated'] = this.dated;
+    data['user'] = this.user;
+    data['_id'] = this.sId;
+    return data;
+  }
 }
 
 class OrderDetails {
-  final int? couponPercentage;
-  final String? market;
-  final String? channel;
-  final String? notes;
+  int? couponPercentage;
+  String? market;
+  String? channel;
+  String? notes;
 
-  OrderDetails({
-    this.couponPercentage,
-    this.market,
-    this.channel,
-    this.notes,
-  });
+  OrderDetails({this.couponPercentage, this.market, this.channel, this.notes});
 
-  factory OrderDetails.fromJson(Map<String, dynamic> json) => OrderDetails(
-        couponPercentage: json["couponPercentage"],
-        market: json["market"],
-        channel: json["channel"],
-        notes: json["notes"],
-      );
+  OrderDetails.fromJson(Map<String, dynamic> json) {
+    couponPercentage = json['couponPercentage'];
+    market = json['market'];
+    channel = json['channel'];
+    notes = json['notes'];
+  }
 
-  Map<String, dynamic> toJson() => {
-        "couponPercentage": couponPercentage,
-        "market": market,
-        "channel": channel,
-        "notes": notes,
-      };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['couponPercentage'] = this.couponPercentage;
+    data['market'] = this.market;
+    data['channel'] = this.channel;
+    data['notes'] = this.notes;
+    return data;
+  }
 }
 
 class ShippingMethod {
-  final String? id;
-  final String? type;
-  final int? amount;
-  final bool? deleted;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
-  final int? v;
+  String? sId;
+  String? type;
+  int? amount;
+  bool? deleted;
+  String? createdAt;
+  String? updatedAt;
+  int? iV;
 
-  ShippingMethod({
-    this.id,
-    this.type,
-    this.amount,
-    this.deleted,
-    this.createdAt,
-    this.updatedAt,
-    this.v,
-  });
+  ShippingMethod(
+      {this.sId,
+      this.type,
+      this.amount,
+      this.deleted,
+      this.createdAt,
+      this.updatedAt,
+      this.iV});
 
-  factory ShippingMethod.fromJson(Map<String, dynamic> json) => ShippingMethod(
-        id: json["_id"],
-        type: json["type"],
-        amount: json["amount"],
-        deleted: json["deleted"],
-        createdAt: json["createdAt"] == null
-            ? null
-            : DateTime.parse(json["createdAt"]),
-        updatedAt: json["updatedAt"] == null
-            ? null
-            : DateTime.parse(json["updatedAt"]),
-        v: json["__v"],
-      );
+  ShippingMethod.fromJson(Map<String, dynamic> json) {
+    sId = json['_id'];
+    type = json['type'];
+    amount = json['amount'];
+    deleted = json['deleted'];
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
+    iV = json['__v'];
+  }
 
-  Map<String, dynamic> toJson() => {
-        "_id": id,
-        "type": type,
-        "amount": amount,
-        "deleted": deleted,
-        "createdAt": createdAt?.toIso8601String(),
-        "updatedAt": updatedAt?.toIso8601String(),
-        "__v": v,
-      };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['_id'] = this.sId;
+    data['type'] = this.type;
+    data['amount'] = this.amount;
+    data['deleted'] = this.deleted;
+    data['createdAt'] = this.createdAt;
+    data['updatedAt'] = this.updatedAt;
+    data['__v'] = this.iV;
+    return data;
+  }
 }
 
-class EnumValues<T> {
-  Map<String, T> map;
-  late Map<T, String> reverseMap;
+class OrderTotals {
+  int? subTotal;
+  int? tax;
+  int? discount;
+  int? shipping;
+  int? coupon;
+  int? total;
 
-  EnumValues(this.map);
+  OrderTotals(
+      {this.subTotal,
+      this.tax,
+      this.discount,
+      this.shipping,
+      this.coupon,
+      this.total});
 
-  Map<T, String> get reverse {
-    reverseMap = map.map((k, v) => MapEntry(v, k));
-    return reverseMap;
+  OrderTotals.fromJson(Map<String, dynamic> json) {
+    subTotal = json['subTotal'];
+    tax = json['tax'];
+    discount = json['discount'];
+    shipping = json['shipping'];
+    coupon = json['coupon'];
+    total = json['total'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['subTotal'] = this.subTotal;
+    data['tax'] = this.tax;
+    data['discount'] = this.discount;
+    data['shipping'] = this.shipping;
+    data['coupon'] = this.coupon;
+    data['total'] = this.total;
+    return data;
   }
 }

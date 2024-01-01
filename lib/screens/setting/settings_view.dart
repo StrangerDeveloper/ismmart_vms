@@ -1,21 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
-import 'package:ismmart_vms/screens/setting/settings_viewmodel.dart';
+import 'package:ismmart_vms/screens/bank_list/bank_list_view.dart';
 import 'package:ismmart_vms/screens/shippings/shippings_view.dart';
-import 'package:ismmart_vms/screens/user_profile/user_profile_view.dart';
-import 'package:ismmart_vms/widgets/custom_text.dart';
 
 import '../../helper/constants.dart';
-import '../../widgets/custom_button.dart';
 import '../add_location/add_location_view.dart';
 import '../add_user/add_user_view.dart';
-import '../bank/bank_profile_view.dart';
 import '../collection/collection_view.dart';
 import '../dashboard/dashboard_viewmodel.dart';
-import '../location_list/location_list_view.dart';
 import '../payout_list/payout_list_view.dart';
 
 class SettingsView extends StatelessWidget {
@@ -76,7 +70,7 @@ class SettingsView extends StatelessWidget {
                             iconPath: 'assets/icons/wallet.png',
                             'Banking',
                             h: 45,
-                            onTab: () => Get.to(BankProfileView()),
+                            onTab: () => Get.to(BankListView()),
                           ),
                           drawerListItems(
                               iconPath: 'assets/icons/Vector.png',

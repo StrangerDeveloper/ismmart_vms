@@ -26,25 +26,28 @@ class OrderDetailView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: _buildAppBar(),
-        body: Expanded(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.all(16.h),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildFrame(),
-                  SizedBox(height: 16.v),
-                  progress(),
-                  _buildFrame2(),
-                  _buildOrderTracking(order),
-                  logInBtn(),
-                ],
-              ),
-            ),
+    return Scaffold(
+      appBar: _buildAppBar(),
+      body: Container(
+        width: MediaQuery.of(context).size.width * 1,
+        padding: EdgeInsets.all(8.h),
+        decoration: BoxDecoration(
+          //color: Colors.grey.shade200,
+          borderRadius: BorderRadius.circular(5),
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 17.v),
+              _buildOrderListFrame(),
+              SizedBox(height: 17.v),
+              progress(),
+              SizedBox(height: 10.v),
+              _buildOrderDetail(context, order),
+              SizedBox(height: 10.v),
+              logInBtn(),
+            ],
           ),
         ),
       ),
@@ -66,84 +69,68 @@ class OrderDetailView extends StatelessWidget {
   }
 
   Widget progress() {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 30),
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // SizedBox(height: 6),
-                RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: 'Delivery Status: ',
-                        style: newFontStyleSize14,
-                      ),
-                      TextSpan(
-                        text: 'Ready to Transit',
-                        style: newFontStyleSize14.copyWith(
-                            color: newColorLightGrey2),
-                      ),
-                    ],
-                  ),
+    return Row(
+      children: [
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // SizedBox(height: 6),
+              RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: 'Delivery Status: ',
+                      style: newFontStyleSize14,
+                    ),
+                    TextSpan(
+                      text: order.deliveryStatus ?? "status",
+                      style: newFontStyleSize14.copyWith(
+                          color: newColorLightGrey2),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
-          CircularPercentIndicator(
-            circularStrokeCap: CircularStrokeCap.round,
-            radius: 33,
-            lineWidth: 6,
-            percent: 0.5,
-            backgroundColor: const Color(0xffEBEFF3),
-            progressColor: newColorBlue,
-            center: Text(
-              "2 of 3",
-              style: poppinsH2.copyWith(
-                color: newColorBlue2,
               ),
+            ],
+          ),
+        ),
+        CircularPercentIndicator(
+          circularStrokeCap: CircularStrokeCap.round,
+          radius: 33,
+          lineWidth: 6,
+          percent: 0.5,
+          backgroundColor: const Color(0xffEBEFF3),
+          progressColor: newColorBlue,
+          center: Text(
+            "2 of 3",
+            style: poppinsH2.copyWith(
+              color: newColorBlue2,
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
-  Widget _buildFrame() {
+  Widget _buildOrderListFrame() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Padding(
-          padding: EdgeInsets.symmetric(vertical: 8.v),
-          child: CustomText(
-            title: "Order List",
-            style: TextStyle(
-              fontSize: 12.fSize,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ),
+        const Text("Order List"),
         CustomImageView(
           imagePath: ImageConstant.imgIconsArrowForward,
-          height: 8.adaptSize,
-          width: 8.adaptSize,
+          // height: 18.adaptSize,
+          // width: 8.adaptSize,
           margin: EdgeInsets.only(
-            left: 4.h,
-            top: 12.v,
-            bottom: 12.v,
+            left: 8.adaptSize,
+            right: 8.adaptSize,
           ),
         ),
-        Padding(
-          padding: EdgeInsets.only(left: 8.h, top: 8.v, bottom: 8.v),
-          child: CustomText(
-            title: "ISM1628MART".tr,
-            style: TextStyle(
-              fontSize: 10.fSize,
-              fontWeight: FontWeight.w600,
-            ),
+        CustomText(
+          title: "ISM1628MART".tr,
+          style: TextStyle(
+            fontSize: 10.fSize,
+            fontWeight: FontWeight.w600,
           ),
         ),
         const Spacer(),
@@ -183,9 +170,7 @@ class OrderDetailView extends StatelessWidget {
               Get.to(OrderView());
             }
             if (value == 2) {
-              Get.to(CancelOrderView(
-                orderItems: order,
-              ));
+              Get.to(() => CancelOrderView(), arguments: {"model": order});
             }
           },
           child: Container(
@@ -221,66 +206,6 @@ class OrderDetailView extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          "Multi vendor".tr,
-        ),
-        SizedBox(height: 8.v),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            _customField2(
-                DateFormat.yMMMd().format(order.createdAt ?? DateTime.now())),
-            _customField2(order.orderDetails?.market.toString() ?? "market"),
-          ],
-        ),
-        Container(
-          margin: EdgeInsets.only(top: 8.v),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _customField1(order.customer?.name.toString() ?? "name"),
-                  //_customField1(order.totals?.total.toString() ?? "total"),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8),
-                child: Row(
-                  children: [
-                    _status("Payment pending"),
-                    SizedBox(width: 8.h),
-                    _status("unfulfilled"),
-                  ],
-                ),
-              ),
-              Row(
-                children: [
-                  _customField2("${order.lineitems?.length.toString()} items"),
-                  SizedBox(width: 8.h),
-                  Icon(
-                    Icons.circle,
-                    color: Colors.grey.shade400,
-                    size: 5,
-                  ),
-                  SizedBox(width: 8.h),
-                  _customField2("Standard"),
-                ],
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 8.v, left: 8.h),
-                child: _status("COD Verified"),
-              ),
-            ],
-          ),
-        ),
-        SizedBox(height: 8.v),
-        _customField1("Location"),
-        SizedBox(height: 5.v),
-        _customField2(
-            "Plot No. 60, Street 12, G-8/1,Islamabad Capital Territory 44080 Pakistan"),
-        SizedBox(height: 8.v),
         Container(
           padding: EdgeInsets.symmetric(horizontal: 8.h, vertical: 7.v),
           decoration: BoxDecoration(
@@ -305,24 +230,26 @@ class OrderDetailView extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               _customField1("Contact Information"),
-                              _customField2("No email provided"),
-                              _customField2("+92 333 1234567"),
+                              _customField2(
+                                  order.contactInfo?.email ?? "email"),
+                              _customField2(
+                                  order.contactInfo?.phone ?? "phone"),
                             ],
                           ),
                         ],
                       ),
                       SizedBox(height: 8.v),
                       _customField1("Shipping adress"),
-                      _customField2("Shehzad Khan"),
+                      _customField2(order.customer?.name ?? "name"),
                       _customField2(
                           "${order.address!.shipping!.address!}\n${order.address!.shipping!.city!}, ${order.address!.shipping!.country!}"),
-                      _customField2("+92 333 1234567"),
+                      _customField2(order.address!.shipping!.phone ?? "phone"),
                       SizedBox(height: 8.v),
                       _customField1("Billing adress"),
-                      _customField2("Shehzad Khan"),
+                      _customField2(order.customer?.name ?? "name"),
                       _customField2(
                           "${order.address!.billing!.address!}\n${order.address!.billing!.city!}, ${order.address!.billing!.country!}"),
-                      _customField2("+92 333 1234567"),
+                      _customField2(order.address!.billing!.phone ?? "phone"),
                     ],
                   ),
                 ],
@@ -331,13 +258,6 @@ class OrderDetailView extends StatelessWidget {
           ),
         ),
         SizedBox(height: 8.v),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            _customField1("Item list"),
-            _customField1(order.lineitems?.length.toString() ?? "length"),
-          ],
-        ),
         const Divider(),
         SizedBox(height: 12.v),
       ],
@@ -402,11 +322,41 @@ class OrderDetailView extends StatelessWidget {
   }
 
   Color statusColor(String value) {
-    if (value == "Payment pending") {
+    if (value == "Pending") {
       return const Color(0xFFFDBA8C);
     }
-    if (value == "unfulfilled") {
+    if (value == "Paid") {
+      return const Color(0xFFFDBA8C);
+    }
+    if (value == "Partially Paid") {
       return const Color(0xFFFFE5A0);
+    }
+    if (value == "Refunded") {
+      return const Color(0xFFFDBA8C);
+    }
+    if (value == "Cancelled") {
+      return const Color(0xFFFE3A30);
+    }
+    if (value == "Processing") {
+      return const Color(0xFFFFE5A0);
+    }
+    if (value == "Shipped") {
+      return const Color(0xFFBDE9DA);
+    }
+    if (value == "Delivered") {
+      return const Color(0xFFBDE9DA);
+    }
+    if (value == "Returned") {
+      return const Color(0xFFFFE5A0);
+    }
+    if (value == "In Transit") {
+      return const Color(0xFFFFE5A0);
+    }
+    if (value == "Out for Delivery") {
+      return const Color(0xFFFFE5A0);
+    }
+    if (value == "Failed") {
+      return const Color(0xFFFE3A30);
     }
     if (value == "COD Verified") {
       return const Color(0xFFBDE9DA);
@@ -415,198 +365,204 @@ class OrderDetailView extends StatelessWidget {
     }
   }
 
-  Widget _buildOrderTracking(OrderItem order) {
+  Widget _buildOrderDetail(ctx, OrderItem order) {
     return Container(
+      width: MediaQuery.of(ctx).size.width * 1,
       decoration: BoxDecoration(
-        color: Colors.grey.shade200,
+        //color: Colors.red.shade100,
         borderRadius: BorderRadius.circular(5),
       ),
-      padding: EdgeInsets.only(left: 8.h, right: 8.v, top: 8.v, bottom: 8.v),
+      padding: EdgeInsets.all(8.h),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ListView.builder(
-            shrinkWrap: true,
-            itemCount: order.lineitems?.length,
-            itemBuilder: (context, index) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: order.lineitems![index].media?.length,
-                    itemBuilder: (context, index2) {
-                      return ListTile(
-                        leading: CircleAvatar(
-                          backgroundImage: NetworkImage(
-                              order.lineitems?[index].media?[index2] ??
-                                  "image"),
-                        ),
-                        title: Text(
-                          order.lineitems![index].name ?? "",
-                        ),
-                        // subtitle: Text(
-                        //   order.lineitems?[index].vendor ?? "",
-                        // ),
-                        trailing: Text(
-                          "Rs. ${order.lineitems?[index].totals?.total.toString()}",
-                        ),
-                      );
-                    },
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 70),
-                    child: Text(
-                      "Rs. ${order.lineitems?[index].totals?.total.toString()}  x ${order.lineitems?[index].qty?.toString()}",
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _customField2(DateFormat.yMMMd().format(DateTime.parse(
+                  order.createdAt ?? "2021-09-09T09:09:09.000Z"))),
+              _customField2(order.orderDetails?.market.toString() ?? "market"),
+            ],
+          ),
+          SizedBox(height: 10.v),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _customField1(order.customer?.name.toString() ?? "name"),
+              _customField1(order.totals?.total.toString() ?? "total"),
+            ],
+          ),
+          SizedBox(height: 10.v),
+          Row(
+            children: [
+              _status(order.paymentStatus ?? "status"),
+              SizedBox(width: 8.h),
+              _status(order.fulfilmentStatus ?? "status"),
+            ],
+          ),
+          SizedBox(height: 10.v),
+          Row(
+            children: [
+              _customField2("${order.lineitems?.length.toString()} items"),
+              SizedBox(width: 8.h),
+              _customField2("Standard")
+            ],
+          ),
+          SizedBox(height: 10.v),
+          _status("COD Verified"),
+          SizedBox(height: 10.v),
+          _customField1("Location"),
+          SizedBox(height: 10.v),
+          _customField2(
+              "Plot No. 60, Street 12, G-8/1,Islamabad Capital Territory 44080\nPakistan"),
+          SizedBox(height: 10.v),
+          _buildFrame2(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _customField1("Item list"),
+              SizedBox(width: 8.h),
+              _customField1(order.lineitems?.length.toString() ?? "length"),
+            ],
+          ),
+          SizedBox(height: 10.v),
+          Container(
+            padding: EdgeInsets.all(8.h),
+            margin: EdgeInsets.all(8.v),
+            decoration: BoxDecoration(
+              color: Colors.grey.shade100,
+              borderRadius: BorderRadius.circular(5),
+            ),
+            child: ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: order.lineitems?.length ?? 0,
+              itemBuilder: (context, index) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CircleAvatar(
+                      backgroundImage: NetworkImage(
+                          order.lineitems?[index].media ?? "image"),
                     ),
-                  ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _customField1(
+                            order.lineitems?[index].name ?? "product"),
+                        _customField2(
+                            order.lineitems?[index].vendor.toString() ?? "1"),
+                        _customField2(
+                            "SKU: ${order.lineitems?[index].sku.toString() ?? "1"}"),
+                        _customField2(
+                            "Rs. ${order.lineitems?[index].totals?.total.toString()}  x ${order.lineitems?[index].qty?.toString()}"),
+                        const SizedBox(
+                          height: 8,
+                        )
+                      ],
+                    ),
+                    _customField1(
+                        order.lineitems?[index].totals?.total.toString() ??
+                            "total"),
+                  ],
+                );
+              },
+            ),
+          ),
+          SizedBox(height: 10.v),
+          Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _customField2("Sub Total"),
+                  SizedBox(width: 8.h),
+                  _customField2(
+                      "Rs. ${order.totals?.subTotal.toString() ?? "0"}"),
                 ],
-              );
-            },
-          ),
-          SizedBox(height: 8.v),
-          Row(
-            children: [
-              Expanded(
-                child: Container(
-                  margin: EdgeInsets.only(left: 8.h),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Total",
-                        style: TextStyle(
-                          fontSize: 12.fSize,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      // Text(
-                      //   "Rs. ${order.totals?.total.toString()}",
-                      //   style: TextStyle(
-                      //     fontSize: 12.fSize,
-                      //     fontWeight: FontWeight.w600,
-                      //   ),
-                      // ),
-                    ],
-                  ),
-                ),
+              ),
+              SizedBox(height: 8.v),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _customField2("Shipping Fee"),
+                  SizedBox(width: 8.h),
+                  _customField2(
+                      "Rs. ${order.totals?.shipping.toString() ?? "0"}"),
+                ],
+              ),
+              SizedBox(height: 8.v),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _customField2("Sales Tax"),
+                  SizedBox(width: 8.h),
+                  _customField2("Rs. ${order.totals?.tax.toString() ?? "0"}"),
+                ],
+              ),
+              SizedBox(height: 8.v),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _customField2("Promo Discount"),
+                  SizedBox(width: 8.h),
+                  _customField2(
+                      "Rs. ${order.totals?.discount.toString() ?? "0"}"),
+                ],
+              ),
+              SizedBox(height: 8.v),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _customField2("Total Amount"),
+                  SizedBox(width: 8.h),
+                  _customField2("Rs. ${order.totals?.total.toString() ?? "0"}"),
+                ],
               ),
             ],
           ),
-          SizedBox(height: 8.v),
-          Row(
-            children: [
-              Expanded(
-                child: Container(
-                  margin: EdgeInsets.only(left: 8.h),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Discount",
-                        style: TextStyle(
-                          fontSize: 12.fSize,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      // Text(
-                      //   "Rs. ${order.totals?.coupon.toString()}",
-                      //   style: TextStyle(
-                      //     fontSize: 12.fSize,
-                      //     fontWeight: FontWeight.w600,
-                      //   ),
-                      // ),
-                    ],
-                  ),
+          SizedBox(height: 17.v),
+          _customField1("Delivery Status"),
+          const Divider(),
+          Container(
+            height: MediaQuery.of(ctx).size.height * 0.17,
+            width: MediaQuery.of(ctx).size.width * 1,
+            padding: EdgeInsets.all(8.h),
+            margin: EdgeInsets.all(8.v),
+            decoration: BoxDecoration(
+              color: Colors.grey.shade100,
+              borderRadius: BorderRadius.circular(5),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _status(order.fulfilmentStatus ?? "status"),
+                SizedBox(height: 10.v),
+                _customField2("Rider"),
+                SizedBox(height: 5.v),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _customField1(
+                        "${order.lineitems?[0].assignedRider?.name ?? "rider"}"),
+                    _customField1(
+                        order.lineitems?[0].assignedRider?.cnic ?? "id"),
+                  ],
                 ),
-              ),
-            ],
-          ),
-          SizedBox(height: 8.v),
-          Row(
-            children: [
-              Expanded(
-                child: Container(
-                  margin: EdgeInsets.only(left: 8.h),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Shipping Fee",
-                        style: TextStyle(
-                          fontSize: 12.fSize,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      // Text(
-                      //   "Rs. ${order.totals?.coupon.toString()}",
-                      //   style: TextStyle(
-                      //     fontSize: 12.fSize,
-                      //     fontWeight: FontWeight.w600,
-                      //   ),
-                      // ),
-                    ],
-                  ),
+                SizedBox(height: 10.v),
+                _customField2("Delivery Method"),
+                SizedBox(height: 5.v),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _customField1(
+                        "${order.lineitems?[0].assignedRider?.name ?? "rider"}"),
+                    //SizedBox(width: 8.h),
+                    _customField1(order.deliveryStatus ?? "id"),
+                  ],
                 ),
-              ),
-            ],
-          ),
-          SizedBox(height: 8.v),
-          Row(
-            children: [
-              Expanded(
-                child: Container(
-                  margin: EdgeInsets.only(left: 8.h),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Promo Discount",
-                        style: TextStyle(
-                          fontSize: 12.fSize,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      // Text(
-                      //   "Rs. ${order.totals?.coupon.toString()}",
-                      //   style: TextStyle(
-                      //     fontSize: 12.fSize,
-                      //     fontWeight: FontWeight.w600,
-                      //   ),
-                      // ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 8.v),
-          Row(
-            children: [
-              Expanded(
-                child: Container(
-                  margin: EdgeInsets.only(left: 8.h),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Total Amount",
-                        style: TextStyle(
-                          fontSize: 12.fSize,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      // Text(
-                      //   "Rs. ${order.totals?.coupon.toString()}",
-                      //   style: TextStyle(
-                      //     fontSize: 12.fSize,
-                      //     fontWeight: FontWeight.w600,
-                      //   ),
-                      // ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
+              ],
+            ),
           )
         ],
       ),
@@ -620,10 +576,8 @@ class OrderDetailView extends StatelessWidget {
         () => GlobalVariable.showLoader.value
             ? const CustomLoading(isItBtn: true)
             : CustomRoundedTextBtn(
-                backgroundColor: Colors.deepPurple,
                 child: const Text(
-                  "Return",
-                  //style: newFontStyle3,
+                  "Accept",
                 ),
                 onPressed: () {
                   Get.to(RefundView());
