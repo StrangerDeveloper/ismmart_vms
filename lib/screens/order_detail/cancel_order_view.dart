@@ -555,6 +555,14 @@ class CancelOrderView extends StatelessWidget {
   }
 
   onTapArrowLeft() {
+    //clear the checkbox as well
+    viewModel.orderItemModel.value.lineitems?.forEach((element) {
+      element.isSelected = false;
+    });
+    viewModel.selectedItems.refresh();
+    viewModel.selectAllValue.value = false;
+    viewModel.lineItemList.clear();
+    viewModel.lineItemList.refresh();
     Get.back();
   }
 }
