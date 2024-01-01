@@ -7,7 +7,7 @@ import 'package:ismmart_vms/helper/languages/translations_key.dart';
 import 'package:ismmart_vms/screens/auth/login/login_view.dart';
 // import 'package:ism_mart/screens/forgot_password/forgot_password_viewmodel.dart';
 // import 'package:ism_mart/widgets/custom_appbar.dart';
-import 'package:ismmart_vms/screens/forgot_password/forgot_password_viewModel.dart';
+import 'package:ismmart_vms/screens/forgot_password/forgot_password_viewmodel.dart';
 import 'package:ismmart_vms/widgets/custom_text.dart';
 
 import '../../helper/constants.dart';
