@@ -78,13 +78,14 @@ class OrderView extends StatelessWidget {
   PreferredSizeWidget _buildAppBar() {
     return CustomAppBar(
       leadingWidth: 48.h,
-      leading: AppbarLeadingImage(
-        imagePath: ImageConstant.imgArrowLeft,
-        margin: EdgeInsets.only(left: 24.h, top: 10.v, bottom: 10.v),
-        onTap: () {
-          onTapArrowLeft();
-        },
-      ),
+      leading: Container(),
+      // leading: AppbarLeadingImage(
+      //   imagePath: ImageConstant.imgArrowLeft,
+      //   margin: EdgeInsets.only(left: 24.h, top: 10.v, bottom: 10.v),
+      //   onTap: () {
+      //     onTapArrowLeft();
+      //   },
+      // ),
       title: "Order List",
     );
   }
@@ -192,8 +193,7 @@ class OrderView extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      _customField1(
-                          "${orderItemDetail.customer?.name ?? "naaam"}"),
+                      _customField1(orderItemDetail.customer?.name ?? "naaam"),
                       _customField1("${orderItemDetail.totals?.total ?? "0"}"),
                     ],
                   ),
@@ -358,7 +358,7 @@ class OrderView extends StatelessWidget {
     }
   }
 
-  onTapArrowLeft() {
-    Get.back();
-  }
+  // onTapArrowLeft() {
+  //   Get.back();
+  // }
 }

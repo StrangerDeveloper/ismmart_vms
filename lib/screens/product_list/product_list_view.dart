@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/constants.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/helper/resourses/app_colors.dart';
+import 'package:ismmart_vms/screens/add_product/add_product_1/add_product_1_view.dart';
 import 'package:ismmart_vms/screens/product_list/product_list_viewmodel.dart';
 import 'package:ismmart_vms/screens/product_list/product_model.dart';
 import 'package:ismmart_vms/widgets/custom_button.dart';
@@ -19,13 +20,15 @@ class ProductListView extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         centerTitle: true,
-        leading: IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.menu,
-              size: 25,
-              color: Colors.black,
-            )),
+        // leading: IconButton(
+        //     onPressed: () {
+        //       Get.to(SettingsView());
+        //     },
+        //     icon: const Icon(
+        //       Icons.menu,
+        //       size: 25,
+        //       color: Colors.black,
+        //     )),
         title: const Text('Products'),
         bottom: PreferredSize(
             preferredSize: const Size.fromHeight(110.0),
@@ -90,7 +93,9 @@ class ProductListView extends StatelessWidget {
           CustomRoundedTextBtn(
             borderRadius: 12,
             width: Get.width / 2.5,
-            onPressed: () {},
+            onPressed: () {
+              Get.to(AddProduct1View());
+            },
             title: '+ Add Product',
           ),
           Container(
@@ -140,40 +145,39 @@ class ProductListView extends StatelessWidget {
                 }
               },
               child: Obx(
-                    () =>
-                    AnimatedContainer(
-                      duration: const Duration(milliseconds: 600),
-                      padding:
+                () => AnimatedContainer(
+                  duration: const Duration(milliseconds: 600),
+                  padding:
                       const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-                      width: viewModel.dropdownSelectionContainerWidth.value,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(
-                              color: newColorLightGrey2.withOpacity(0.5),
-                              width: 1.2)),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            viewModel.searchBy.value,
-                            style: interNormalText,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          Visibility(
-                            visible:
-                            viewModel.searchByContainerIconVisibility.value,
-                            child: Icon(
-                              viewModel.searchByDropdownVisibility.value
-                                  ? Icons.keyboard_arrow_up_rounded
-                                  : Icons.keyboard_arrow_down_rounded,
-                              size: 18,
-                              color: Colors.black,
-                            ),
-                          )
-                          //Obx(() =>)
-                        ],
+                  width: viewModel.dropdownSelectionContainerWidth.value,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                          color: newColorLightGrey2.withOpacity(0.5),
+                          width: 1.2)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        viewModel.searchBy.value,
+                        style: interNormalText,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                    ),
+                      Visibility(
+                        visible:
+                            viewModel.searchByContainerIconVisibility.value,
+                        child: Icon(
+                          viewModel.searchByDropdownVisibility.value
+                              ? Icons.keyboard_arrow_up_rounded
+                              : Icons.keyboard_arrow_down_rounded,
+                          size: 18,
+                          color: Colors.black,
+                        ),
+                      )
+                      //Obx(() =>)
+                    ],
+                  ),
+                ),
               ),
             ),
           ),
@@ -189,52 +193,48 @@ class ProductListView extends StatelessWidget {
               viewModel.searchByContainerIconVisibility.value = false;
             },
             child: Obx(
-                  () =>
-                  AnimatedContainer(
-                    padding: const EdgeInsets.all(8),
-                    width: viewModel.searchAndFilterContainerWidth.value,
-                    duration: const Duration(milliseconds: 600),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(
-                            color: newColorLightGrey2.withOpacity(0.5),
-                            width: 1.2)),
-                    child: Obx(
-                          () =>
-                          Visibility(
-                            visible: viewModel.searchAndFilterIconVisibility
-                                .value,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Icon(
-                                  Icons.search,
-                                  size: 18,
-                                  color: newColorLightGrey2,
-                                ),
-                                InkWell(
-                                  onTap: () {
-                                    if (viewModel
-                                        .dropdownSelectionContainerWidth.value <
-                                        Get.width *
-                                            viewModel.higherContainerWidth) {
-                                      return;
-                                    } else {
-                                      viewModel.filterDropdownVisibility.value =
-                                      !viewModel.filterDropdownVisibility.value;
-                                    }
-                                  },
-                                  child: const Icon(
-                                    Icons.filter_list_rounded,
-                                    size: 18,
-                                    color: Colors.black,
-                                  ),
-                                )
-                              ],
-                            ),
+              () => AnimatedContainer(
+                padding: const EdgeInsets.all(8),
+                width: viewModel.searchAndFilterContainerWidth.value,
+                duration: const Duration(milliseconds: 600),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(
+                        color: newColorLightGrey2.withOpacity(0.5),
+                        width: 1.2)),
+                child: Obx(
+                  () => Visibility(
+                    visible: viewModel.searchAndFilterIconVisibility.value,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Icon(
+                          Icons.search,
+                          size: 18,
+                          color: newColorLightGrey2,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            if (viewModel
+                                    .dropdownSelectionContainerWidth.value <
+                                Get.width * viewModel.higherContainerWidth) {
+                              return;
+                            } else {
+                              viewModel.filterDropdownVisibility.value =
+                                  !viewModel.filterDropdownVisibility.value;
+                            }
+                          },
+                          child: const Icon(
+                            Icons.filter_list_rounded,
+                            size: 18,
+                            color: Colors.black,
                           ),
+                        )
+                      ],
                     ),
                   ),
+                ),
+              ),
             ),
           )
         ],
@@ -249,40 +249,41 @@ class ProductListView extends StatelessWidget {
           physics: const ScrollPhysics(),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: viewModel.productItemsList.isEmpty ? [
-              Center(
-                child: Text(
-                  'No Products Found',
-                  style: interHeadingSize14.copyWith(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 17
-                  ),
-                ),
-              )
-            ] : [
-              nextPageData(),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                decoration: BoxDecoration(
-                  color: newColorLightGrey2.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: ListView.builder(
+            children: viewModel.productItemsList.isEmpty
+                ? [
+                    Center(
+                      child: Text(
+                        'No Products Found',
+                        style: interHeadingSize14.copyWith(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 17),
+                      ),
+                    )
+                  ]
+                : [
+                    nextPageData(),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 5),
+                      decoration: BoxDecoration(
+                        color: newColorLightGrey2.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: ListView.builder(
                         shrinkWrap: true,
                         itemCount: viewModel.productItemsList.length,
                         physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (_, int index) {
-                          ProductsItem items = viewModel
-                              .productItemsList[index];
+                          ProductsItem items =
+                              viewModel.productItemsList[index];
                           return listViewItem(model: items);
                         },
                       ),
-                ),
-            ],
+                    ),
+                  ],
           ),
-        )
-    );
+        ));
   }
 
   Widget listViewItem({ProductsItem? model}) {
@@ -458,15 +459,13 @@ class ProductListView extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          
           Obx(
             () => Text(
               '${viewModel.productModel.value.page} - ${viewModel.productModel.value.pages} of ${viewModel.productModel.value.total}',
               style: interNormalText.copyWith(
                   color: gray900, fontWeight: FontWeight.w400, fontSize: 11),
             ),
-    ),
-          
+          ),
           Row(
             children: [
               CustomIconBtn(

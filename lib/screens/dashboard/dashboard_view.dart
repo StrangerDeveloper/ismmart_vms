@@ -50,7 +50,7 @@ class DashboardView extends StatelessWidget {
 
   CustomAppBar2 appBar() {
     return CustomAppBar2(
-      leading: const Icon(Icons.menu),
+      leading: Container(),
       title: 'Al - Jannat Mall',
       actions: [
         IconButton(
@@ -198,7 +198,8 @@ class DashboardView extends StatelessWidget {
                 ],
               ),
               onPressed: () {
-                viewModel.showMoreDetails.value = !viewModel.showMoreDetails.value;
+                viewModel.showMoreDetails.value =
+                    !viewModel.showMoreDetails.value;
               },
             ),
           ),
@@ -252,62 +253,64 @@ class DashboardView extends StatelessWidget {
   }
 
   Widget showMoreDetails() {
-    return Obx(() => viewModel.showMoreDetails.value ?  Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Divider(
-          color: Color(0xFFE5E7EB),
-          height: 0,
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 12, bottom: 6),
-          child: Column(
+    return Obx(() => viewModel.showMoreDetails.value
+        ? Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildShowMoreItems(
-                title: "Total Sales",
-                value: "",
-                customValue: Container(
-                  padding:
-                  const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
-                  decoration: BoxDecoration(
-                    color: const Color(0xff03543F).withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  child: const Row(
-                    children: [
-                      Icon(
-                        Icons.arrow_upward_rounded,
-                        color: Color(0xff03543F),
-                        size: 14,
-                      ),
-                      SizedBox(width: 5),
-                      Text(
-                        '78 %',
-                        style: TextStyle(
-                          color: Color(0xFF6B7280),
-                          fontSize: 12,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+              const Divider(
+                color: Color(0xFFE5E7EB),
+                height: 0,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 13),
-                child: _buildShowMoreItems(
-                  title: "Total Products",
-                  value: "20",
+                padding: const EdgeInsets.only(top: 12, bottom: 6),
+                child: Column(
+                  children: [
+                    _buildShowMoreItems(
+                      title: "Total Sales",
+                      value: "",
+                      customValue: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 3),
+                        decoration: BoxDecoration(
+                          color: const Color(0xff03543F).withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: const Row(
+                          children: [
+                            Icon(
+                              Icons.arrow_upward_rounded,
+                              color: Color(0xff03543F),
+                              size: 14,
+                            ),
+                            SizedBox(width: 5),
+                            Text(
+                              '78 %',
+                              style: TextStyle(
+                                color: Color(0xFF6B7280),
+                                fontSize: 12,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 13),
+                      child: _buildShowMoreItems(
+                        title: "Total Products",
+                        value: "20",
+                      ),
+                    ),
+                    _buildShowMoreItems(
+                      title: "Total Revenue",
+                      value: "500,000 PKR",
+                    ),
+                  ],
                 ),
-              ),
-              _buildShowMoreItems(
-                title: "Total Revenue",
-                value: "500,000 PKR",
-              ),
+              )
             ],
-          ),
-        )
-      ],
-    ) : const SizedBox());
+          )
+        : const SizedBox());
   }
 
   Widget _buildShowMoreItems({

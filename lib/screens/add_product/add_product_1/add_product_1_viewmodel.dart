@@ -19,7 +19,7 @@ class AddProduct1ViewModel extends GetxController {
   TextEditingController prodProfitController = TextEditingController();
   TextEditingController prodMarginController = TextEditingController();
   TextEditingController prodTagController = TextEditingController();
-  
+
   FocusNode tagsFieldFocusNode = FocusNode();
   RxBool showTagsList = false.obs;
   RxBool chargeTaxOnProduct = true.obs;
@@ -43,7 +43,6 @@ class AddProduct1ViewModel extends GetxController {
     MultiSelectModel(id: '5', name: 'Accessories'),
   ].obs;
 
-
   RxList<MultiSelectModel> chosenTagsList = <MultiSelectModel>[].obs;
   RxList<MultiSelectModel> chosenCategoriesList = <MultiSelectModel>[].obs;
   RxList<MultiSelectModel> productCategoryList = <MultiSelectModel>[
@@ -58,7 +57,7 @@ class AddProduct1ViewModel extends GetxController {
   //type
   TextEditingController typeController = TextEditingController();
   RxInt typeSelectedIndex = 0.obs;
-  RxList<TypesItem> typeList =  <TypesItem>[].obs;
+  RxList<TypesItem> typeList = <TypesItem>[].obs;
 
   //category
   TextEditingController categoryController = TextEditingController();
@@ -118,6 +117,7 @@ class AddProduct1ViewModel extends GetxController {
       }
     });
     fetchCategories();
+    fetchTypes();
     // print('>>>Selected Category: ${selectedCategory.value.id}');
     super.onReady();
   }
