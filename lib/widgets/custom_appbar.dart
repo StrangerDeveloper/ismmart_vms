@@ -215,7 +215,7 @@ class CustomAppBar1 extends StatelessWidget implements PreferredSizeWidget {
 
 class CustomAppBar2 extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
-  final bool showBackBtn;
+  final Widget? leading;
   final Color? appBarColor;
   final List<Widget>? actions;
   final PreferredSizeWidget? bottom;
@@ -226,7 +226,7 @@ class CustomAppBar2 extends StatelessWidget implements PreferredSizeWidget {
     this.title,
     this.appBarColor,
     this.actions,
-    this.showBackBtn = true,
+    this.leading,
     this.bottom,
     this.titleTextStyle,
   });
@@ -241,18 +241,17 @@ class CustomAppBar2 extends StatelessWidget implements PreferredSizeWidget {
             )
           : null,
       backgroundColor: appBarColor,
-      leading: showBackBtn
-          ? IconButton(
-              onPressed: () {
-                Get.back();
-              },
-              icon: Icon(
-                Icons.arrow_back_ios_new_rounded,
-                color: appBarColor == null ? Colors.black : Colors.white,
-                size: 16,
-              ),
-            )
-          : null,
+      leading: leading ??
+          IconButton(
+            onPressed: () {
+              Get.back();
+            },
+            icon: Icon(
+              Icons.arrow_back_ios_new_rounded,
+              color: appBarColor == null ? Colors.black : Colors.white,
+              size: 16,
+            ),
+          ),
       actions: actions,
       bottom: bottom,
     );
