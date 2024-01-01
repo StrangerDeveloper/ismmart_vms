@@ -84,7 +84,7 @@ class OrderDetailView extends StatelessWidget {
                       style: newFontStyleSize14,
                     ),
                     TextSpan(
-                      text: 'Ready to Transit',
+                      text: order.deliveryStatus ?? "status",
                       style: newFontStyleSize14.copyWith(
                           color: newColorLightGrey2),
                     ),
