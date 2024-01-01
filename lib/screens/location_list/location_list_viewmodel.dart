@@ -53,7 +53,6 @@ class LocationListViewModel extends GetxController {
   getDataFunction() async {
     pageNo = 0;
     currentPage.value = 0;
-    // dataList.clear();
     scrollController.removeListener(getData);
     GlobalVariable.showLoader.value = true;
     if (!scrollController.hasListeners) {
