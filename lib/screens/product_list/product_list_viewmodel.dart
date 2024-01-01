@@ -43,11 +43,12 @@ class ProductListViewModel extends GetxController {
         .then((parsedJson) {
       final data = parsedJson['data'];
       if (data != null) {
+        print("GetProductList: $data");
         productModel.value = ProductModel.fromJson(data);
         productItemsList.addAll(productModel.value.items!);
       }
     }).catchError((e) {
-      debugPrint("GetProductItem: $e");
+      debugPrint("GetProductList: $e");
     });
   }
 }

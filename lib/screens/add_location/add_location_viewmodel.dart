@@ -38,7 +38,9 @@ class AddLocationViewModel extends GetxController {
 
   @override
   void onInit() {
-    isEdit = Get.arguments['editData'];
+    if (Get.arguments != null) {
+      isEdit = Get.arguments['editData'];
+    }
     super.onInit();
   }
 
@@ -70,7 +72,8 @@ class AddLocationViewModel extends GetxController {
       cityController.text = locationModel.city?.name ?? '';
       selectedCityId = locationModel.city?.sId ?? '';
       addressController.text = locationModel.address ?? '';
-      statusSelectedIndex.value = statusList.indexOf(locationModel.status ?? '');
+      statusSelectedIndex.value =
+          statusList.indexOf(locationModel.status ?? '');
       statusController.text = locationModel.status ?? '';
     }
   }
@@ -115,10 +118,12 @@ class AddLocationViewModel extends GetxController {
 
       if (isEdit) {
         await ApiBaseHelper()
-            .putMethod(url: '${Urls.updateLocation}${locationModel.sId}', body: param)
+            .putMethod(
+                url: '${Urls.updateLocation}${locationModel.sId}', body: param)
             .then((parsedJson) {
           GlobalVariable.showLoader.value = false;
-          if (parsedJson['success'] == true && parsedJson['message'] == 'Location Updated Successfully') {
+          if (parsedJson['success'] == true &&
+              parsedJson['message'] == 'Location Updated Successfully') {
             LocationListViewModel viewModel = Get.find();
             viewModel.getDataFunction();
             Get.back();

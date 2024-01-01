@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:get/get.dart';
 import 'package:ismmart_vms/screens/user_profile/user_profile_model.dart';
 
@@ -23,14 +21,13 @@ class UserProfileViewModel extends GetxController {
     super.onClose();
   }
 
-
   getData() async {
     GlobalVariable.showLoader.value = true;
     await ApiBaseHelper().getMethod(url: Urls.getUserData).then((parsedJson) {
       GlobalVariable.showLoader.value = false;
-      if (parsedJson['success'] == true && parsedJson['message'] == "Profile fetched successuflly") {
+      if (parsedJson['success'] == true &&
+          parsedJson['message'] == "Profile fetched successuflly") {
         userProfileModel.value = UserProfileModel.fromJson(parsedJson['data']);
-
       }
     }).catchError((e) {
       CommonFunction.debugPrint(e);
