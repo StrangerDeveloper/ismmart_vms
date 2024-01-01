@@ -7,6 +7,7 @@ import 'package:ismmart_vms/screens/auth/login/login_view.dart';
 import 'package:ismmart_vms/screens/bank_list/bank_list_view.dart';
 import 'package:ismmart_vms/screens/shippings/shippings_view.dart';
 import 'package:ismmart_vms/screens/store_profile/store_profile_view.dart';
+import 'package:ismmart_vms/screens/user_profile/user_profile_view.dart';
 
 import '../../helper/constants.dart';
 import '../add_location/add_location_view.dart';
@@ -104,8 +105,11 @@ class SettingsView extends StatelessWidget {
                   : const SizedBox(),
             ),
 
-            titleAndBackBtn(
-                iconPath: ImageConstant.imgAvatar, title: 'User Name'),
+            InkWell(
+              onTap: () => Get.to(UserProfileView()),
+              child: titleAndBackBtn(
+                  iconPath: ImageConstant.imgAvatar, title: 'User Name'),
+            ),
 
             drawerListItems('Logout', iconPath: 'assets/images/settingIcon.png',
                 onTab: () {
