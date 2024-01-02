@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/constants.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/widgets/image_layout_container.dart';
+import 'package:ismmart_vms/widgets/loader_view.dart';
+import 'package:ismmart_vms/widgets/no_internet_view.dart';
 import 'package:path/path.dart';
 import 'package:ismmart_vms/widgets/custom_button.dart';
 import 'package:ismmart_vms/widgets/custom_textfield.dart';
@@ -10,6 +12,7 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import '../../../../helper/global_variables.dart';
 import '../../../../helper/theme_helper.dart';
 import 'package:path/path.dart' as p;
+import '../../../../helper/validator.dart';
 import '../../../../widgets/custom_bottom_sheet.dart';
 import '../../../../widgets/custom_checkbox_list_tile.dart';
 import '../../../../widgets/custom_loading.dart';
@@ -69,6 +72,9 @@ class SignUp2View extends StatelessWidget {
                         hintText: 'Select one',
                         controller: viewModel.countryController,
                         isDropDown: true,
+                        validator: (value) {
+                          return Validator.validateDefaultField(value);
+                        },
                         onTap: () {
                           viewModel.resetValue();
                           viewModel.getCountryList();
@@ -83,6 +89,9 @@ class SignUp2View extends StatelessWidget {
                         hintText: 'Select one',
                         controller: viewModel.cityController,
                         isDropDown: true,
+                        validator: (value) {
+                          return Validator.validateDefaultField(value);
+                        },
                         onTap: () {
                           viewModel.resetValueCity();
                           // viewModel.getCityList();
@@ -193,9 +202,9 @@ class SignUp2View extends StatelessWidget {
       hintText: 'Al-Jannat',
       controller: viewModel.storeNameController,
       autoValidateMode: AutovalidateMode.onUserInteraction,
-      // validator: (value) {
-      //   return Validator().validateName(value, errorToPrompt: langKey.storeNameReq.tr);
-      // },
+      validator: (value) {
+        return Validator.validateDefaultField(value);
+      },
     );
   }
 
@@ -208,9 +217,9 @@ class SignUp2View extends StatelessWidget {
         hintText: 'Al-Jannat Shopping Mall',
         controller: viewModel.storeSlugController,
         autoValidateMode: AutovalidateMode.onUserInteraction,
-        // validator: (value) {
-        //   return Validator().validateName(value, errorToPrompt: langKey.storeNameReq.tr);
-        // },
+        validator: (value) {
+          return Validator.validateDefaultField(value);
+        },
       ),
     );
   }
@@ -321,9 +330,9 @@ class SignUp2View extends StatelessWidget {
         hintText: 'Shop#748, Saddar Bazar, Rawalpindi',
         controller: viewModel.storeAddressController,
         autoValidateMode: AutovalidateMode.onUserInteraction,
-        // validator: (value) {
-        //   return Validator().validateAddress(value);
-        // },
+        validator: (value) {
+          return Validator.validateDefaultField(value);
+        },
       ),
     );
   }
@@ -366,7 +375,7 @@ class SignUp2View extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 32),
       child: Obx(
-        () => GlobalVariable.showLoader.value
+        () => GlobalVariable.showLoader.value == true
             ? const CustomLoading(isItBtn: true)
             : CustomRoundedTextBtn(
                 child: Row(
@@ -388,7 +397,6 @@ class SignUp2View extends StatelessWidget {
                 ),
                 onPressed: () {
                   viewModel.signUpStep2();
-                  //Get.to(SignUp3View());
                 },
               ),
       ),
@@ -525,101 +533,111 @@ class SignUp2View extends StatelessWidget {
       builder: (BuildContext context) {
         return Padding(
           padding: const EdgeInsets.fromLTRB(16, 10, 10, 3),
-          child: Column(
+          child: Stack(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              Column(
                 children: [
-                  const Icon(
-                    Icons.menu,
-                    color: ThemeHelper.blue1,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Icon(
+                        Icons.menu,
+                        color: ThemeHelper.blue1,
+                      ),
+                      const SizedBox(width: 10),
+                      const Text(
+                        'Select Country',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: ThemeHelper.blue1,
+                          fontSize: 16,
+                        ),
+                      ),
+                      const Spacer(),
+                      IconButton(
+                        onPressed: () {
+                          Get.back();
+                        },
+                        icon: const Icon(
+                          Icons.close,
+                          color: Colors.red,
+                        ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(width: 10),
-                  const Text(
-                    'Select Country',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      color: ThemeHelper.blue1,
-                      fontSize: 16,
-                    ),
-                  ),
-                  const Spacer(),
-                  IconButton(
-                    onPressed: () {
-                      Get.back();
+                  const SizedBox(height: 10),
+                  CustomTextField1(
+                    hintText: 'Search Country...',
+                    controller: viewModel.searchController,
+                    onChanged: (value) {
+                      viewModel.onSearch(value);
                     },
-                    icon: const Icon(
-                      Icons.close,
-                      color: Colors.red,
-                    ),
                   ),
+                  Obx(() => (viewModel.filteredCountryList.isNotEmpty)
+                          ? Expanded(
+                              child: ListView.separated(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 10),
+                                itemCount: viewModel.filteredCountryList.length,
+                                itemBuilder: (context, index) {
+                                  return InkWell(
+                                    borderRadius: BorderRadius.circular(8),
+                                    onTap: () {
+                                      viewModel.countryController.text =
+                                          viewModel.filteredCountryList[index];
+                                      viewModel.getCountryId(
+                                          viewModel.countryController.text);
+                                      GlobalVariable.showLoader.value == false;
+
+                                      Get.back();
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(12),
+                                      child: Text(
+                                          viewModel.filteredCountryList[index]),
+                                    ),
+                                  );
+                                },
+                                separatorBuilder: (context, index) {
+                                  return const SizedBox(height: 3);
+                                },
+                              ),
+                            )
+                          : Expanded(
+                              child: ListView.separated(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 10),
+                                itemCount: viewModel.allCountryList.length,
+                                itemBuilder: (context, index) {
+                                  return InkWell(
+                                    borderRadius: BorderRadius.circular(8),
+                                    onTap: () {
+                                      viewModel.countryController.text =
+                                          viewModel.allCountryList[index];
+                                      GlobalVariable.showLoader.value = false;
+                                      Get.back();
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(12),
+                                      child:
+                                          Text(viewModel.allCountryList[index]),
+                                    ),
+                                  );
+                                },
+                                separatorBuilder: (context, index) {
+                                  return const SizedBox(height: 3);
+                                },
+                              ),
+                            )
+
+                      // const Padding(
+                      //         padding: EdgeInsets.only(top: 30),
+                      //         child: Text('No Country Found'),
+                      //       ),
+                      )
                 ],
               ),
-              const SizedBox(height: 10),
-              CustomTextField1(
-                hintText: 'Search Country...',
-                controller: viewModel.searchController,
-                onChanged: (value) {
-                  viewModel.onSearch(value);
-                },
-              ),
-              Obx(() => (viewModel.filteredCountryList.isNotEmpty)
-                      ? Expanded(
-                          child: ListView.separated(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            itemCount: viewModel.filteredCountryList.length,
-                            itemBuilder: (context, index) {
-                              return InkWell(
-                                borderRadius: BorderRadius.circular(8),
-                                onTap: () {
-                                  viewModel.countryController.text =
-                                      viewModel.filteredCountryList[index];
-                                  viewModel.getCountryId(
-                                      viewModel.countryController.text);
-
-                                  Get.back();
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.all(12),
-                                  child: Text(
-                                      viewModel.filteredCountryList[index]),
-                                ),
-                              );
-                            },
-                            separatorBuilder: (context, index) {
-                              return const SizedBox(height: 3);
-                            },
-                          ),
-                        )
-                      : Expanded(
-                          child: ListView.separated(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            itemCount: viewModel.allCountryList.length,
-                            itemBuilder: (context, index) {
-                              return InkWell(
-                                borderRadius: BorderRadius.circular(8),
-                                onTap: () {
-                                  viewModel.countryController.text =
-                                      viewModel.allCountryList[index];
-                                  Get.back();
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.all(12),
-                                  child: Text(viewModel.allCountryList[index]),
-                                ),
-                              );
-                            },
-                            separatorBuilder: (context, index) {
-                              return const SizedBox(height: 3);
-                            },
-                          ),
-                        )
-
-                  // const Padding(
-                  //         padding: EdgeInsets.only(top: 30),
-                  //         child: Text('No Country Found'),
-                  //       ),
-                  )
+              viewModel.allCountryList.length <= 0 ? LoaderView() : SizedBox()
             ],
           ),
         );
@@ -675,7 +693,7 @@ class SignUp2View extends StatelessWidget {
                 hintText: 'Search City...',
                 controller: viewModel.citySearchController,
                 onChanged: (value) {
-                  viewModel.onSearch(value);
+                  viewModel.onSearchCity(value);
                 },
               ),
               Obx(() => (viewModel.filteredCityList.isNotEmpty)
@@ -687,11 +705,11 @@ class SignUp2View extends StatelessWidget {
                               return InkWell(
                                 borderRadius: BorderRadius.circular(8),
                                 onTap: () {
-                                  viewModel.getCityId(index);
                                   viewModel.cityController.text =
                                       viewModel.filteredCityList[index];
-                                  viewModel.cityIdList[index];
-
+                                  viewModel
+                                      .getCityId(viewModel.cityController.text);
+                                  GlobalVariable.showLoader.value = false;
                                   Get.back();
                                 },
                                 child: Padding(
@@ -709,18 +727,20 @@ class SignUp2View extends StatelessWidget {
                       : Expanded(
                           child: ListView.separated(
                             padding: const EdgeInsets.symmetric(vertical: 10),
-                            itemCount: viewModel.allCityList.length,
+                            itemCount: viewModel.filteredCityList.length,
                             itemBuilder: (context, index) {
                               return InkWell(
                                 borderRadius: BorderRadius.circular(8),
                                 onTap: () {
                                   viewModel.cityController.text =
-                                      viewModel.allCityList[index];
+                                      viewModel.filteredCityList[index];
+                                  GlobalVariable.showLoader.value = false;
                                   Get.back();
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.all(12),
-                                  child: Text(viewModel.allCityList[index]),
+                                  child:
+                                      Text(viewModel.filteredCityList[index]),
                                 ),
                               );
                             },

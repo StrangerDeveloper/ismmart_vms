@@ -402,7 +402,7 @@ class SignUp1View extends StatelessWidget {
       padding: const EdgeInsets.only(top: 32),
       child: Obx(
         () => GlobalVariable.showLoader.value
-            ? const CustomLoading(isItBtn: true)
+            ? CustomLoading(isItBtn: GlobalVariable.showLoader.value)
             : CustomRoundedTextBtn(
                 child: Text(
                   'Create Account',

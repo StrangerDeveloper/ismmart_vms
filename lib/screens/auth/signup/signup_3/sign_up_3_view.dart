@@ -10,7 +10,9 @@ import 'package:ismmart_vms/widgets/custom_textfield.dart';
 
 import '../../../../helper/global_variables.dart';
 import '../../../../helper/theme_helper.dart';
+import '../../../../helper/validator.dart';
 import '../../../../widgets/custom_loading.dart';
+import '../../../add_bank/add_bank_view.dart';
 
 class SignUp3View extends StatelessWidget {
   SignUp3View({super.key});
@@ -46,6 +48,9 @@ class SignUp3View extends StatelessWidget {
                         hintText: 'e.g Habib Bank',
                         controller: viewModel.bankController,
                         isDropDown: true,
+                        validator: (value) {
+                          return Validator.validateDefaultField(value);
+                        },
                         onTap: () {
                           viewModel.getBankList();
                           // viewModel.resetValue();
@@ -61,6 +66,7 @@ class SignUp3View extends StatelessWidget {
                     // Obx(() => branchCodeTextField()),
                     const SizedBox(height: 20),
                     addbanks(),
+                    addNewBankBtn(),
                     // addAccountBtn(),
                     singup3Btn(),
                   ],
@@ -203,9 +209,9 @@ class SignUp3View extends StatelessWidget {
         hintText: 'Enter Account Title',
         controller: viewModel.bankAccTitleController,
         autoValidateMode: AutovalidateMode.onUserInteraction,
-        // validator: (value) {
-        //   return Validator().validateName(value, errorToPrompt: langKey.bankAccHolderReq.tr);
-        // },
+        validator: (value) {
+          return Validator.validateDefaultField(value);
+        },
         keyboardType: TextInputType.text,
       ),
     );
@@ -219,10 +225,10 @@ class SignUp3View extends StatelessWidget {
         hintText: '0319010******324',
         controller: viewModel.bankAccNumberController,
         autoValidateMode: AutovalidateMode.onUserInteraction,
-        // validator: (value) {
-        //   return Validator().validateBankAcc(value);
-        // },
-        keyboardType: TextInputType.text,
+        validator: (value) {
+          return Validator.validateDefaultField(value);
+        },
+        keyboardType: TextInputType.number,
       ),
     );
   }
@@ -233,9 +239,9 @@ class SignUp3View extends StatelessWidget {
       hintText: 'PK51MEZN0003190106294217',
       controller: viewModel.bankIBANController,
       autoValidateMode: AutovalidateMode.onUserInteraction,
-      // validator: (value) {
-      //   return Validator().validateBankAcc(value);
-      // },
+      validator: (value) {
+        return Validator.validateDefaultField(value);
+      },
       keyboardType: TextInputType.text,
     );
   }
@@ -535,6 +541,38 @@ class SignUp3View extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+
+  Widget addNewBankBtn() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 30),
+      child: CustomTextBtn(
+        height: 56,
+        radius: 16,
+        backgroundColor: ThemeHelper.grey3,
+        foregroundColor: ThemeHelper.blue1,
+        onPressed: () {
+          Get.to(() => AddBankView(), arguments: {'editData': false});
+        },
+        child: const Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Text(
+              'Add new bank',
+              style: TextStyle(
+                color: ThemeHelper.blue1,
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            Icon(
+              Icons.chevron_right_rounded,
+              color: ThemeHelper.blue1,
+            )
+          ],
+        ),
+      ),
     );
   }
 }

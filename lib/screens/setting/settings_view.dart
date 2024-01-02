@@ -49,7 +49,7 @@ class SettingsView extends StatelessWidget {
             drawerListItems(
               'Collections',
               iconPath: 'assets/images/layers.png',
-              onTab: () => Get.to(CollectionView()),
+              // onTab: () => Get.to(CollectionView()),
             ),
 
             drawerListItems(

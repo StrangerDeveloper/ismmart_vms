@@ -29,13 +29,6 @@ class SignUp2ViewModel extends GetxController {
   RxBool storeTypeErrorVisibility = false.obs;
   RxList<CategoryModel> categoriesList = <CategoryModel>[].obs;
 
-  @override
-  void onInit() {
-    getCountryList();
-    getStoreTypes();
-    super.onInit();
-  }
-
   selectImage(RxString imageVar, RxBool imageVisibilityVar) async {
     final image = await PickImage().pickSingleImage();
     if (image != null) {
@@ -48,65 +41,71 @@ class SignUp2ViewModel extends GetxController {
   final SignUpScreen1ViewModel viewModel = Get.put(SignUpScreen1ViewModel());
   List<http.MultipartFile> fileList = [];
   Future<void> signUpStep2() async {
-    fileList.clear();
-    Map<String, String> param = Get.arguments;
-    param['storeName'] = storeNameController.text;
-    param['storeSlug'] = storeSlugController.text;
-    int index = 0;
-    for (int i = 0; i < storeTypeList.length; i++) {
-      if (storeTypeList[i].isSelected == true) {
-        param["storeTypes[${index++}]"] = storeTypeList[i].sId!;
+    if (vendorSignUp2FormKey.currentState?.validate() ?? false) {
+      GlobalVariable.showLoader.value = true;
+      fileList.clear();
+      Map<String, String> param = Get.arguments;
+      param['storeName'] = storeNameController.text;
+      param['storeSlug'] = storeSlugController.text;
+      int index = 0;
+      for (int i = 0; i < storeTypeList.length; i++) {
+        if (storeTypeList[i].isSelected == true) {
+          param["storeTypes[${index++}]"] = storeTypeList[i].sId!;
+        }
       }
-    }
-    param['country'] = selectedCountryId;
-    param['city'] = selectedCityId;
-    param['address'] = storeAddressController.text;
-    param['step'] = '2';
+      param['country'] = selectedCountryId;
+      param['city'] = selectedCityId.value;
+      param['address'] = storeAddressController.text.toString();
+      param['step'] = '2';
 
-    // cnicBackImage.value
+      // cnicBackImage.value
 
-    if (shopLogoImage.value.isNotEmpty) {
-      fileList.add(
-        await http.MultipartFile.fromPath(
-          'cnicImages',
-          viewModel.cnicFrontImage.value,
-          contentType: MediaType.parse('image/jpeg'),
-        ),
-      );
-      fileList.add(
-        await http.MultipartFile.fromPath(
-          'cnicImages',
-          viewModel.cnicBackImage.value,
-          contentType: MediaType.parse('image/jpeg'),
-        ),
-      );
-      fileList.add(
-        await http.MultipartFile.fromPath(
-          'storeImage',
-          shopLogoImage.value,
-          contentType: MediaType.parse('image/jpeg'),
-        ),
-      );
-    } else {
-      return AppConstant.displaySnackBar(
-        " Error",
-        " please upload Store Images",
-      );
-    }
-    print(param);
-    print(fileList.length);
+      if (shopLogoImage.value.isNotEmpty) {
+        fileList.add(
+          await http.MultipartFile.fromPath(
+            'cnicImages',
+            viewModel.cnicFrontImage.value,
+            contentType: MediaType.parse('image/jpeg'),
+          ),
+        );
+        fileList.add(
+          await http.MultipartFile.fromPath(
+            'cnicImages',
+            viewModel.cnicBackImage.value,
+            contentType: MediaType.parse('image/jpeg'),
+          ),
+        );
+        fileList.add(
+          await http.MultipartFile.fromPath(
+            'storeImage',
+            shopLogoImage.value,
+            contentType: MediaType.parse('image/jpeg'),
+          ),
+        );
+      } else {
+        GlobalVariable.showLoader.value = false;
+        return AppConstant.displaySnackBar(
+          " Error",
+          " please upload Store Images",
+        );
+      }
+      print(param);
+      print(fileList.length);
+      GlobalVariable.showLoader.value = true;
+      var parsedJson = await ApiBaseHelper().postMethodForImage(
+          url: Urls.register, files: fileList, fields: param);
 
-    var parsedJson = await ApiBaseHelper()
-        .postMethodForImage(url: Urls.register, files: fileList, fields: param);
-
-    if (parsedJson['success'] == true) {
-      param.removeWhere((key, value) => value == "2");
-      Get.to(() => SignUp3View(), arguments: param);
-    } else {
-      AppConstant.displaySnackBar(
-        "Error",
-        parsedJson['message'],
-      );
+      if (parsedJson['success'] == true) {
+        GlobalVariable.showLoader.value = false;
+        param.removeWhere((key, value) => value == "2");
+        Get.to(() => SignUp3View(), arguments: param);
+      } else {
+        GlobalVariable.showLoader.value = false;
+        AppConstant.displaySnackBar(
+          "Error",
+          parsedJson['message'],
+        );
+      }
     }
   }
 
@@ -152,6 +151,7 @@ class SignUp2ViewModel extends GetxController {
   RxList<String> filteredCountryList = <String>[].obs;
 
   Future<void> getCountryList() async {
+    GlobalVariable.showLoader(true);
     var parseJson = await ApiBaseHelper().getMethod(url: Urls.country);
     if (parseJson['success'] == true) {
       allCountryList.clear();
@@ -162,8 +162,11 @@ class SignUp2ViewModel extends GetxController {
         allCountryList.add(e['name'].toString());
         countryIdList.add(e['_id'].toString());
       }
-
+      GlobalVariable.showLoader.value = false;
+      print(GlobalVariable.showLoader(false));
       //print country with Id for Test------
+    } else {
+      GlobalVariable.showLoader(false);
     }
   }
 
@@ -196,6 +199,7 @@ class SignUp2ViewModel extends GetxController {
   RxList<String> filteredCityList = <String>[].obs;
 
   Future<void> getCityList(String countryId) async {
+    GlobalVariable.showLoader(true);
     var parseJson = await ApiBaseHelper()
         .getMethod(url: "/places/cities?limit=0&country=$countryId");
     if (parseJson['success'] == true) {
@@ -207,6 +211,9 @@ class SignUp2ViewModel extends GetxController {
         allCityList.add(e['name'].toString());
         cityIdList.add(e['_id'].toString());
       }
+      print(cityIdList);
+    } else {
+      GlobalVariable.showLoader(false);
     }
   }
 
@@ -216,14 +223,35 @@ class SignUp2ViewModel extends GetxController {
         .where((e) => e.toLowerCase().contains(value.toLowerCase())));
   }
 
-  String selectedCityId = '';
-  getCityId(int index) {
-    selectedCityId = cityIdList[index];
+  RxString selectedCityId = ''.obs;
+
+  getCityId(String cityname) async {
+    selectedCityId.value = '';
+
+    int i = allCityList.indexWhere((e) => e == cityname);
+    selectedCityId.value = cityIdList[i];
+    print("index $i city id ====> ${selectedCityId.value}");
   }
 
   resetValueCity() {
     citySearchController.text = '';
     filteredCityList.clear();
     filteredCityList.addAll(allCityList);
+  }
+
+  @override
+  void onReady() {
+    GlobalVariable.showLoader.value = false;
+    getCountryList();
+    getStoreTypes();
+    // TODO: implement onReady
+    super.onReady();
+  }
+
+  @override
+  void onClose() {
+    GlobalVariable.showLoader.value = false;
+    // TODO: implement onClose
+    super.onClose();
   }
 }
