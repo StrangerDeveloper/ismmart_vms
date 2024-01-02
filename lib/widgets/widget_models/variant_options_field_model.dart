@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 class VariantsOptionsFieldModel {
-  String? optionName;
+  TextEditingController? optionName;
   List<TextEditingController>? optionValues = <TextEditingController>[];
 
   VariantsOptionsFieldModel({this.optionName, this.optionValues});

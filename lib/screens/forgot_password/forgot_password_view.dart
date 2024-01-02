@@ -1,14 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-// import 'package:ism_mart/exports/export_presentation.dart';
-// import 'package:ism_mart/exports/exports_utils.dart';
-// import 'package:ism_mart/helper/global_variables.dart';
 import 'package:ismmart_vms/helper/languages/translations_key.dart';
-import 'package:ismmart_vms/screens/auth/login/login_view.dart';
-// import 'package:ism_mart/screens/forgot_password/forgot_password_viewmodel.dart';
-// import 'package:ism_mart/widgets/custom_appbar.dart';
-import 'package:ismmart_vms/screens/forgot_password/forgot_password_viewmodel.dart';
 import 'package:ismmart_vms/widgets/custom_text.dart';
 import 'package:ismmart_vms/widgets/loader_view.dart';
 
@@ -19,6 +12,7 @@ import '../../widgets/custom_appbar.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/custom_loading.dart';
 import '../../widgets/custom_textfield.dart';
+import 'forgot_password_viewModel.dart';
 
 class ForgotPasswordView extends StatelessWidget {
   ForgotPasswordView({super.key});
