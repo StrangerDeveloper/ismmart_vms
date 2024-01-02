@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 // import 'package:ism_mart/exports/export_presentation.dart';
@@ -32,7 +33,7 @@ class ForgotPasswordView extends StatelessWidget {
         ),
         body: Stack(
           children: [
-            SingleChildScrollView(
+            Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 26),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -101,53 +102,34 @@ class ForgotPasswordView extends StatelessWidget {
   Widget resetBtn() {
     return Padding(
       padding: const EdgeInsets.only(top: 32),
-      child: Obx(
-        () => GlobalVariable.showLoader.value
-            ? const CustomLoading(isItBtn: false)
-            : CustomRoundedTextBtn(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Reset",
-                        style: newFontStyleSize14.copyWith(
-                            fontWeight: FontWeight.w500, color: kWhiteColor),
-                      ),
-                      const SizedBox(
-                        width: 4,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
-                        child: const Icon(
-                          Icons.arrow_forward,
-                          size: 20,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                onPressed: () {
-                  viewModel.sendBtn();
-                  // Get.to(() => LogInView());
-                },
+      child: CustomRoundedTextBtn(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Reset",
+                style: newFontStyleSize14.copyWith(
+                    fontWeight: FontWeight.w500, color: kWhiteColor),
               ),
+              const SizedBox(
+                width: 4,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: const Icon(
+                  Icons.arrow_forward,
+                  size: 20,
+                ),
+              ),
+            ],
+          ),
+        ),
+        onPressed: () {
+          viewModel.sendBtn();
+        },
       ),
-    );
-  }
-
-  Widget sendBtn() {
-    return Obx(
-      () => GlobalVariable.showLoader.value
-          ? const CustomLoading(isItBtn: true)
-          : CustomTextBtn(
-              title: send.tr,
-              height: 48,
-              onPressed: () {
-                viewModel.sendBtn();
-              },
-            ),
     );
   }
 }
