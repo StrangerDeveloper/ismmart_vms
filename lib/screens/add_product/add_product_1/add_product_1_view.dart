@@ -69,6 +69,7 @@ class AddProduct1View extends StatelessWidget {
                     backgroundColor: Colors.black,
                     onPressed: () {},
                   ),
+                  SizedBox(height: 80),
                 ],
               ),
             ),

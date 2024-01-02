@@ -65,7 +65,7 @@ class ProductListView extends StatelessWidget {
                 ),
               ),
             ),
-          )
+          ),
         ],
       ),
     );

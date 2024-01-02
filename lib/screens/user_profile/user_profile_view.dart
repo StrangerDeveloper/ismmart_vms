@@ -75,6 +75,7 @@ class UserProfileView extends StatelessWidget {
                   ),
                   const SizedBox(height: 25),
                   editBtn(),
+                  SizedBox(height: 80),
                 ],
               ),
             ),
