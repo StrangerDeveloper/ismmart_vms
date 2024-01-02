@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:ismmart_vms/helper/theme_helper.dart';
 import 'package:ismmart_vms/screens/drawer_bottom_nav/drawer_bottom_bar_viewmodel.dart';
 import 'package:ismmart_vms/widgets/custom_drawer.dart';
@@ -22,26 +23,46 @@ class DrawerBottomBarView extends StatelessWidget {
         viewModel.onBackPressed(context);
       },
       child: Scaffold(
+        appBar: AppBar(
+          title: Obx(
+            () => Text(
+              viewModel.appBarTitle(GlobalVariable.selectedIndex.value),
+            ),
+          ),
+          actions: [
+            bellIcon(),
+          ],
+        ),
         resizeToAvoidBottomInset: false,
         extendBody: true,
         drawer: CustomDrawer(),
-        body:
-            Obx(() => viewModel.selectView(GlobalVariable.selectedIndex.value)),
+        body: Obx(
+          () => viewModel.selectView(GlobalVariable.selectedIndex.value),
+        ),
         bottomNavigationBar: bottomNavigationBar(context),
       ),
+    );
+  }
+
+  Widget bellIcon() {
+    return Obx(
+      () => GlobalVariable.selectedIndex.value == 0
+          ? IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.notifications),
+            )
+          : const SizedBox(),
     );
   }
 
   Widget bottomNavigationBar(BuildContext context) {
     return Obx(
       () => BottomAppBar(
-        // padding: const EdgeInsets.all(10),
         elevation: 0,
         color: Colors.transparent,
         child: Padding(
           padding: const EdgeInsets.all(10),
           child: Container(
-            // margin: const EdgeInsets.all(10),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(35),

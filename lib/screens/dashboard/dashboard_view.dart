@@ -23,8 +23,6 @@ class DashboardView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //drawer: const CustomDrawer(),
-      appBar: appBar(),
       body: Stack(
         children: [
           SingleChildScrollView(
@@ -46,18 +44,7 @@ class DashboardView extends StatelessWidget {
     );
   }
 
-  CustomAppBar2 appBar() {
-    return CustomAppBar2(
-      leading: Container(),
-      title: 'Al - Jannat Mall',
-      actions: [
-        IconButton(
-          onPressed: () {},
-          icon: const Icon(Icons.notifications),
-        )
-      ],
-    );
-  }
+
 
   Widget welcomeWidget() {
     return const Padding(
