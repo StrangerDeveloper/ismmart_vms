@@ -11,6 +11,7 @@ import 'package:ismmart_vms/screens/user_profile/user_profile_view.dart';
 
 import '../../helper/constants.dart';
 import '../dashboard/dashboard_viewmodel.dart';
+import '../location_list/location_list_view.dart';
 import '../payout_list/payout_list_view.dart';
 
 class SettingsView extends StatelessWidget {
@@ -51,7 +52,7 @@ class SettingsView extends StatelessWidget {
           drawerListItems(
             'Locations',
             iconPath: 'assets/images/pin.png',
-            onTab: () => Get.to(AddLocationView()),
+            onTab: () => Get.to(() => LocationListView()),
           ),
 
           const Divider(
@@ -83,18 +84,18 @@ class SettingsView extends StatelessWidget {
                           iconPath: 'assets/images/wallet.png',
                           'Banking',
                           h: 45,
-                          onTab: () => Get.to(BankListView()),
+                          onTab: () => Get.to(() => BankListView()),
                         ),
                         drawerListItems(
                             iconPath: 'assets/images/Vector.png',
                             'Shipping',
                             h: 45,
-                            onTab: () => Get.to(ShippingMethodsView())),
-                        drawerListItems(
-                            iconPath: 'assets/images/edit-user.png',
-                            'Users & Permissions',
-                            h: 45,
-                            onTab: () => Get.to(AddUserView())),
+                            onTab: () => Get.to(() => ShippingMethodsView())),
+                        // drawerListItems(
+                        //     iconPath: 'assets/images/edit-user.png',
+                        //     'Users & Permissions',
+                        //     h: 45,
+                        //     onTab: () => Get.to(AddUserView())),
                       ],
                     ),
                   )
@@ -102,7 +103,7 @@ class SettingsView extends StatelessWidget {
           ),
 
           InkWell(
-            onTap: () => Get.to(UserProfileView()),
+            onTap: () => Get.to(() => UserProfileView()),
             child: titleAndBackBtn(
                 iconPath: ImageConstant.imgAvatar, title: 'User Name'),
           ),
