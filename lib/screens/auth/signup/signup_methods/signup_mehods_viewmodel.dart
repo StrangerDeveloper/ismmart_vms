@@ -20,7 +20,7 @@ class SignupMehtodsViewModel extends GetxController {
   GoogleSignInAccount get user => _user!;
   Future googleLogIn() async {
     GlobalVariable.showLoader.value = true;
-    GoogleSignIn googleSignIn = GoogleSignIn(
+    GoogleSignIn googleSignin = GoogleSignIn(
       scopes: [
         'email',
         'https://www.googleapis.com/auth/contacts.readonly',
@@ -28,7 +28,11 @@ class SignupMehtodsViewModel extends GetxController {
     );
     GoogleSignInAccount? credential;
     try {
-      credential = await googleSignIn.signIn();
+      await googleSignin.signOut();
+
+      credential = await googleSignin.signIn();
+      GlobalVariable.showLoader.value = false;
+      // credential?.authentication.ignore();
       credential?.authentication.then((value) async {
         socialName.value = credential?.displayName ?? "";
         socialEmail.value = credential?.email ?? "";
@@ -45,7 +49,7 @@ class SignupMehtodsViewModel extends GetxController {
       });
     } catch (error) {
       GlobalVariable.showLoader.value = false;
-      //  debugPrint("$error");
+      debugPrint("$error");
     }
     update();
     // debugPrint("google signin Credential ===> ${credential}");
@@ -66,5 +70,19 @@ class SignupMehtodsViewModel extends GetxController {
       // Now send the credential (especially `credential.authorizationCode`) to your server to create a session
       // after they have been validated with Apple (see `Integration` section for more information on how to do this)
     }
+  }
+
+  @override
+  void onReady() {
+    GlobalVariable.showLoader.value = false;
+    // TODO: implement onReady
+    super.onReady();
+  }
+
+  @override
+  void onClose() {
+    GlobalVariable.showLoader.value = false;
+    // TODO: implement onClose
+    super.onClose();
   }
 }

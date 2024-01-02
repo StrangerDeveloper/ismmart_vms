@@ -39,7 +39,8 @@
                 <data android:scheme="http" />
                 <data android:scheme="https" />
                 <data  android:host="ismmart-ecommerce-backend-e233368b3b0d.herokuapp.com" />
-                <data  android:host="ismmart-ecommerce-backend-e233368b3b0d.herokuapp.com" />
+                <data  android:host="ecom-vendor-management-system.vercel.app" />
+
 
             </intent-filter>
 

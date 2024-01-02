@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/languages/translations_key.dart';
 import 'package:ismmart_vms/widgets/custom_text.dart';
@@ -27,30 +28,36 @@ class ForgotPasswordView extends StatelessWidget {
         ),
         body: Stack(
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 26),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Center(
-                      child: Text("Forget Password",
-                          style: newFontStyleSize24.copyWith(
-                              color: newColorBlue))),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 52, bottom: 16),
-                    child: Text('Reset Password', style: newFontStyleSize20),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0, bottom: 32),
-                    child: Text(
-                      'Enter Email/No. account to reset your password',
-                      style: newFontStyleSize14.copyWith(
-                          color: newColorLightGrey2),
+            SingleChildScrollView(
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 25, vertical: 26),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Center(
+                        child: Text("Forget Password",
+                            style: newFontStyleSize24.copyWith(
+                                color: newColorBlue))),
+                    SizedBox(
+                      height: 10,
                     ),
-                  ),
-                  emailTextField(),
-                  resetBtn()
-                ],
+                    Padding(
+                      padding: const EdgeInsets.only(top: 52, bottom: 16),
+                      child: Text('Reset Password', style: newFontStyleSize20),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0, bottom: 32),
+                      child: Text(
+                        'Enter Email account to reset your password',
+                        style: newFontStyleSize14.copyWith(
+                            color: newColorLightGrey2),
+                      ),
+                    ),
+                    emailTextField(),
+                    resetBtn()
+                  ],
+                ),
               ),
             ),
             LoaderView()

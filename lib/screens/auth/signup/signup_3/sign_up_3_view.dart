@@ -1,4 +1,7 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_multi_formatter/formatters/masked_input_formatter.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/models/bank_details_model.dart';
@@ -51,7 +54,11 @@ class SignUp3View extends StatelessWidget {
                         controller: viewModel.bankController,
                         isDropDown: true,
                         validator: (value) {
-                          return Validator.validateDefaultField(value);
+                          if (viewModel.bankController.text != '') {
+                            return null;
+                          } else {
+                            return null;
+                          }
                         },
                         onTap: () {
                           viewModel.getBankList();
@@ -231,6 +238,12 @@ class SignUp3View extends StatelessWidget {
             viewModel.bankAccNumberController.text = value;
           },
           autoValidateMode: AutovalidateMode.onUserInteraction,
+          inputFormatters: [
+            MaskedInputFormatter(
+              "#### #### #### ####",
+              allowedCharMatcher: RegExp(r'[0-9]+'),
+            ),
+          ],
           validator: (value) {
             return Validator.validateDefaultField(value);
           },
@@ -364,32 +377,28 @@ class SignUp3View extends StatelessWidget {
   Widget singup3Btn() {
     return Padding(
       padding: const EdgeInsets.only(top: 32),
-      child: Obx(
-        () => GlobalVariable.showLoader.value
-            ? const CustomLoading(isItBtn: false)
-            : CustomTextBtn(
-                radius: 30,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      "Next",
-                      // style: newFontStyleSize14.copyWith(
-                      //     fontWeight: FontWeight.w500, color: kWhiteColor),kWhiteColor
-                    ),
-                    SizedBox(width: 4.h),
-                    const Icon(
-                      Icons.arrow_forward,
-                      size: 20,
-                    ),
-                  ],
-                ),
-                onPressed: () {
-                  viewModel.signUp3Btn();
-                  // Get.offNamed(Routes.dashboard);
-                  //
-                },
-              ),
+      child: CustomTextBtn(
+        radius: 30,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              "Next",
+              // style: newFontStyleSize14.copyWith(
+              //     fontWeight: FontWeight.w500, color: kWhiteColor),kWhiteColor
+            ),
+            SizedBox(width: 4.h),
+            const Icon(
+              Icons.arrow_forward,
+              size: 20,
+            ),
+          ],
+        ),
+        onPressed: () {
+          viewModel.signUp3Btn();
+          // Get.offNamed(Routes.dashboard);
+          //
+        },
       ),
     );
   }
@@ -458,103 +467,110 @@ class SignUp3View extends StatelessWidget {
               topLeft: Radius.circular(20), topRight: Radius.circular(20))),
       constraints: BoxConstraints(maxHeight: Get.height * 0.9),
       builder: (BuildContext context) {
-        return Padding(
-          padding: const EdgeInsets.fromLTRB(16, 10, 10, 3),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        return Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 10, 10, 3),
+              child: Column(
                 children: [
-                  const Icon(
-                    Icons.menu,
-                    color: ThemeHelper.blue1,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Icon(
+                        Icons.menu,
+                        color: ThemeHelper.blue1,
+                      ),
+                      const SizedBox(width: 10),
+                      const Text(
+                        'Select Country',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: ThemeHelper.blue1,
+                          fontSize: 16,
+                        ),
+                      ),
+                      const Spacer(),
+                      IconButton(
+                        onPressed: () {
+                          Get.back();
+                        },
+                        icon: const Icon(
+                          Icons.close,
+                          color: Colors.red,
+                        ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(width: 10),
-                  const Text(
-                    'Select Country',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      color: ThemeHelper.blue1,
-                      fontSize: 16,
-                    ),
-                  ),
-                  const Spacer(),
-                  IconButton(
-                    onPressed: () {
-                      Get.back();
+                  const SizedBox(height: 10),
+                  CustomTextField1(
+                    hintText: 'Search Bank...',
+                    controller: viewModel.searchController,
+                    onChanged: (value) {
+                      viewModel.onSearch(value);
                     },
-                    icon: const Icon(
-                      Icons.close,
-                      color: Colors.red,
-                    ),
                   ),
+                  Obx(() => (viewModel.filteredBankList.isNotEmpty)
+                          ? Expanded(
+                              child: ListView.separated(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 10),
+                                itemCount: viewModel.filteredBankList.length,
+                                itemBuilder: (context, index) {
+                                  return InkWell(
+                                    borderRadius: BorderRadius.circular(8),
+                                    onTap: () {
+                                      viewModel.bankController.text =
+                                          viewModel.filteredBankList[index];
+
+                                      Get.back();
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(12),
+                                      child: Text(
+                                          viewModel.filteredBankList[index]),
+                                    ),
+                                  );
+                                },
+                                separatorBuilder: (context, index) {
+                                  return const SizedBox(height: 3);
+                                },
+                              ),
+                            )
+                          : Expanded(
+                              child: ListView.separated(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 10),
+                                itemCount: viewModel.allBankist.length,
+                                itemBuilder: (context, index) {
+                                  return InkWell(
+                                    borderRadius: BorderRadius.circular(8),
+                                    onTap: () {
+                                      viewModel.bankController.text =
+                                          viewModel.allBankist[index];
+                                      Get.back();
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(12),
+                                      child: Text(viewModel.allBankist[index]),
+                                    ),
+                                  );
+                                },
+                                separatorBuilder: (context, index) {
+                                  return const SizedBox(height: 3);
+                                },
+                              ),
+                            )
+
+                      // const Padding(
+                      //         padding: EdgeInsets.only(top: 30),
+                      //         child: Text('No Country Found'),
+                      //       ),
+                      )
                 ],
               ),
-              const SizedBox(height: 10),
-              CustomTextField1(
-                hintText: 'Search Country...',
-                controller: viewModel.searchController,
-                onChanged: (value) {
-                  viewModel.onSearch(value);
-                },
-              ),
-              Obx(() => (viewModel.filteredBankList.isNotEmpty)
-                      ? Expanded(
-                          child: ListView.separated(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            itemCount: viewModel.filteredBankList.length,
-                            itemBuilder: (context, index) {
-                              return InkWell(
-                                borderRadius: BorderRadius.circular(8),
-                                onTap: () {
-                                  viewModel.bankController.text =
-                                      viewModel.filteredBankList[index];
-
-                                  Get.back();
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.all(12),
-                                  child:
-                                      Text(viewModel.filteredBankList[index]),
-                                ),
-                              );
-                            },
-                            separatorBuilder: (context, index) {
-                              return const SizedBox(height: 3);
-                            },
-                          ),
-                        )
-                      : Expanded(
-                          child: ListView.separated(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            itemCount: viewModel.allBankist.length,
-                            itemBuilder: (context, index) {
-                              return InkWell(
-                                borderRadius: BorderRadius.circular(8),
-                                onTap: () {
-                                  viewModel.bankController.text =
-                                      viewModel.allBankist[index];
-                                  Get.back();
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.all(12),
-                                  child: Text(viewModel.allBankist[index]),
-                                ),
-                              );
-                            },
-                            separatorBuilder: (context, index) {
-                              return const SizedBox(height: 3);
-                            },
-                          ),
-                        )
-
-                  // const Padding(
-                  //         padding: EdgeInsets.only(top: 30),
-                  //         child: Text('No Country Found'),
-                  //       ),
-                  )
-            ],
-          ),
+            ),
+            LoaderView()
+          ],
         );
       },
     );

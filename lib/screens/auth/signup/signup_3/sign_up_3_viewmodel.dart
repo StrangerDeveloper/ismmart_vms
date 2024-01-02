@@ -117,6 +117,7 @@ class SignUp3ViewModel extends GetxController {
   RxList<String> filteredBankList = <String>[].obs;
 
   Future<void> getBankList() async {
+    GlobalVariable.showLoader.value = true;
     filteredBankList.clear();
     allBankist.clear();
     var parseJson = await ApiBaseHelper().getMethod(url: Urls.bank);
@@ -129,10 +130,12 @@ class SignUp3ViewModel extends GetxController {
         allBankist.add(e['name'].toString());
         bankIdList.add(e['_id'].toString());
       }
-
+      GlobalVariable.showLoader.value = false;
       //print country with Id for Test------
       //print(allBankist);
       //print(bankIdList);
+    } else {
+      GlobalVariable.showLoader.value = false;
     }
   }
 
@@ -147,5 +150,20 @@ class SignUp3ViewModel extends GetxController {
     filteredBankList.clear();
     allBankist.clear();
     filteredBankList.addAll(allBankist);
+  }
+
+  @override
+  void onReady() {
+    GlobalVariable.showLoader.value = false;
+    getBankList();
+    // TODO: implement onReady
+    super.onReady();
+  }
+
+  @override
+  void onClose() {
+    GlobalVariable.showLoader.value = false;
+    // TODO: implement onClose
+    super.onClose();
   }
 }

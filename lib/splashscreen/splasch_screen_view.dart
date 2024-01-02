@@ -15,8 +15,9 @@ class _SplashScreenViewState extends State<SplashScreenView> {
   void initState() {
     Future.delayed(
         Duration(seconds: 4),
-        () => Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => LogInView())));
+        () => Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => LogInView()),
+            (Route<dynamic> route) => false));
     // TODO: implement initState
     super.initState();
   }
