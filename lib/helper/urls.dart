@@ -25,4 +25,6 @@ class Urls {
   static String collection = "/public/collection";
   static String getBank = "/vendor/bank";
   static String deleteBank = "/vendor/bank/delete/";
+  static String addBank = "/vendor/bank/add";
+  static String updateBank = "/vendor/bank/update/";
 }
