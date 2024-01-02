@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/models/bank_details_model.dart';
 import 'package:ismmart_vms/screens/auth/signup/signup_3/sign_up_3_viewmodel.dart';
 import 'package:ismmart_vms/widgets/custom_checkbox.dart';
+import 'package:ismmart_vms/widgets/loader_view.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:ismmart_vms/helper/constants.dart';
 import 'package:ismmart_vms/widgets/custom_button.dart';
@@ -10,7 +12,9 @@ import 'package:ismmart_vms/widgets/custom_textfield.dart';
 
 import '../../../../helper/global_variables.dart';
 import '../../../../helper/theme_helper.dart';
+import '../../../../helper/validator.dart';
 import '../../../../widgets/custom_loading.dart';
+import '../../../add_bank/add_bank_view.dart';
 
 class SignUp3View extends StatelessWidget {
   SignUp3View({super.key});
@@ -46,6 +50,9 @@ class SignUp3View extends StatelessWidget {
                         hintText: 'e.g Habib Bank',
                         controller: viewModel.bankController,
                         isDropDown: true,
+                        validator: (value) {
+                          return Validator.validateDefaultField(value);
+                        },
                         onTap: () {
                           viewModel.getBankList();
                           // viewModel.resetValue();
@@ -60,7 +67,8 @@ class SignUp3View extends StatelessWidget {
                     bankAccountsList(context),
                     // Obx(() => branchCodeTextField()),
                     const SizedBox(height: 20),
-                    addbanks(),
+
+                    addNewBankBtn(),
                     // addAccountBtn(),
                     singup3Btn(),
                   ],
@@ -68,6 +76,7 @@ class SignUp3View extends StatelessWidget {
               ),
             ),
           ),
+          LoaderView()
           // NoInternetView(
           //   onPressed: () {
           //     viewModel.signUp();
@@ -203,9 +212,9 @@ class SignUp3View extends StatelessWidget {
         hintText: 'Enter Account Title',
         controller: viewModel.bankAccTitleController,
         autoValidateMode: AutovalidateMode.onUserInteraction,
-        // validator: (value) {
-        //   return Validator().validateName(value, errorToPrompt: langKey.bankAccHolderReq.tr);
-        // },
+        validator: (value) {
+          return Validator.validateDefaultField(value);
+        },
         keyboardType: TextInputType.text,
       ),
     );
@@ -213,18 +222,19 @@ class SignUp3View extends StatelessWidget {
 
   Widget accountNumberTextField() {
     return Padding(
-      padding: const EdgeInsets.only(top: 5, bottom: 25),
-      child: CustomTextField1(
-        title: 'Account Number',
-        hintText: '0319010******324',
-        controller: viewModel.bankAccNumberController,
-        autoValidateMode: AutovalidateMode.onUserInteraction,
-        // validator: (value) {
-        //   return Validator().validateBankAcc(value);
-        // },
-        keyboardType: TextInputType.text,
-      ),
-    );
+        padding: const EdgeInsets.only(top: 5, bottom: 25),
+        child: CustomTextField1(
+          keyboardType: TextInputType.number,
+          title: 'Account Number',
+          hintText: '0029 3103 1091 0553',
+          onChanged: (value) {
+            viewModel.bankAccNumberController.text = value;
+          },
+          autoValidateMode: AutovalidateMode.onUserInteraction,
+          validator: (value) {
+            return Validator.validateDefaultField(value);
+          },
+        ));
   }
 
   Widget bankIBANNumberTextField() {
@@ -233,9 +243,9 @@ class SignUp3View extends StatelessWidget {
       hintText: 'PK51MEZN0003190106294217',
       controller: viewModel.bankIBANController,
       autoValidateMode: AutovalidateMode.onUserInteraction,
-      // validator: (value) {
-      //   return Validator().validateBankAcc(value);
-      // },
+      validator: (value) {
+        return Validator.validateDefaultField(value);
+      },
       keyboardType: TextInputType.text,
     );
   }
@@ -356,16 +366,28 @@ class SignUp3View extends StatelessWidget {
       padding: const EdgeInsets.only(top: 32),
       child: Obx(
         () => GlobalVariable.showLoader.value
-            ? const CustomLoading(isItBtn: true)
-            : CustomRoundedTextBtn(
-                child: Text(
-                  'Submit',
-                  style: newFontStyleSize14.copyWith(
-                      fontWeight: FontWeight.w500, color: kWhiteColor),
+            ? const CustomLoading(isItBtn: false)
+            : CustomTextBtn(
+                radius: 30,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      "Next",
+                      // style: newFontStyleSize14.copyWith(
+                      //     fontWeight: FontWeight.w500, color: kWhiteColor),kWhiteColor
+                    ),
+                    SizedBox(width: 4.h),
+                    const Icon(
+                      Icons.arrow_forward,
+                      size: 20,
+                    ),
+                  ],
                 ),
                 onPressed: () {
                   viewModel.signUp3Btn();
-                  // Get.to(SignUp4View());
+                  // Get.offNamed(Routes.dashboard);
+                  //
                 },
               ),
       ),
@@ -535,6 +557,38 @@ class SignUp3View extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+
+  Widget addNewBankBtn() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 30),
+      child: CustomTextBtn(
+        height: 56,
+        radius: 16,
+        backgroundColor: ThemeHelper.grey3,
+        foregroundColor: ThemeHelper.blue1,
+        onPressed: () {
+          Get.to(() => AddBankView(), arguments: {'editData': false});
+        },
+        child: const Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Text(
+              'Add new bank',
+              style: TextStyle(
+                color: ThemeHelper.blue1,
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            Icon(
+              Icons.chevron_right_rounded,
+              color: ThemeHelper.blue1,
+            )
+          ],
+        ),
+      ),
     );
   }
 }
