@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
-import 'package:ismmart_vms/screens/order_listing/model/orderModel.dart';
 import 'package:ismmart_vms/screens/order_listing/order_viewModel.dart';
 import 'package:ismmart_vms/widgets/custom_appbar.dart';
 import 'package:ismmart_vms/widgets/custom_bottom_sheet.dart';
@@ -16,7 +15,7 @@ import '../order_detail/order_detail_view.dart';
 
 class OrderView extends StatelessWidget {
   final OrderListingViewModel orderController =
-      Get.put(OrderListingViewModel());
+      Get.find<OrderListingViewModel>();
 
   OrderView({super.key}) {
     //Get.put(OrderListingViewModel()).getOrderListing();
@@ -38,7 +37,7 @@ class OrderView extends StatelessWidget {
             _buildSearchRow(),
             SizedBox(height: 17.v),
             Obx(
-              () => orderController.orderItemList.isEmpty
+              () => orderController.lineItemList.isEmpty
                   ? const Center(
                       child: CircularProgressIndicator(),
                     )
@@ -47,24 +46,29 @@ class OrderView extends StatelessWidget {
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            ListView.builder(
-                              controller: orderController.scrollController,
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: orderController.orderItemList.length,
-                              itemBuilder: (context, index) {
-                                OrderItem orderItems =
-                                    orderController.orderItemList[index];
-                                return GestureDetector(
-                                  onTap: () {
-                                    Get.to(() => OrderDetailView(
-                                          order: orderItems,
-                                        ));
-                                  },
-                                  child: _buildOrderCard(orderItems),
-                                );
-                              },
-                            ),
+                            Obx(
+                              () => ListView.builder(
+                                reverse: true,
+                                controller: orderController.scrollController,
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: orderController.orderItemList.length,
+                                itemBuilder: (context, index) {
+                                  // Lineitem orderItems =
+                                  //     orderController.lineItemList[index];
+                                  return GestureDetector(
+                                    onTap: () {
+                                      Get.to(() => OrderDetailView(),
+                                          arguments: {
+                                            'model': orderController
+                                                .orderItemModel.value,
+                                          });
+                                    },
+                                    child: _buildOrderCard(),
+                                  );
+                                },
+                              ),
+                            )
                           ]),
                     ),
             ),
@@ -148,88 +152,29 @@ class OrderView extends StatelessWidget {
     );
   }
 
-  Widget _buildOrderCard(OrderItem orderItemDetail) {
-    print("details ${orderItemDetail.toJson()}");
-    return Card(
-      color: const Color(0xFFF9FAFB),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 16.0,
-          vertical: 10.0,
+  Widget _buildOrderCard() {
+    //print("details ${orderItemDetail.toJson()}");
+    return Obx(
+      () => Card(
+        color: const Color(0xFFF9FAFB),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    _customField2(orderItemDetail.orderId ?? "id"),
-                    SizedBox(width: 8.h),
-                    Icon(
-                      Icons.circle,
-                      color: Colors.grey.shade400,
-                      size: 5,
-                    ),
-                    SizedBox(width: 8.h),
-                    _customField2(DateFormat.yMMMd()
-                        .format(DateTime.parse(orderItemDetail.createdAt!))),
-                  ],
-                ),
-                _customField2(orderItemDetail.orderDetails?.market.toString() ??
-                    "market"),
-              ],
-            ),
-            Container(
-              margin: EdgeInsets.only(top: 8.v),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 16.0,
+            vertical: 10.0,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      _customField1(orderItemDetail.customer?.name ?? "naaam"),
-                      _customField1("${orderItemDetail.totals?.total ?? "0"}"),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: _status(orderItemDetail.paymentStatus ?? "status"),
-                    // child: ListView.builder(
-                    //   shrinkWrap: true,
-                    //   physics: const NeverScrollableScrollPhysics(),
-                    //   itemCount: orderItemDetail.lineitems?.length ?? 0,
-                    //   itemBuilder: (context, index) {
-                    //     Lineitem lineitems = orderItemDetail.lineitems![index];
-                    //     return Row(
-                    //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //       children: [
-                    //         _status(lineitems.paymentStatus ?? "asdf"),
-                    //         // _customField2(lineitems.name ?? "name"),
-                    //         // _customField2(lineitems.quantity.toString() ?? "0"),
-                    //         // _customField2(lineitems.total.toString() ?? "0"),
-                    //       ],
-                    //     );
-                    //   },
-                    // ),
-                    // child: Row(
-                    //   children: orderItemDetail.lineitems!
-                    //       .map((e) => _status(e.fulfilmentStatus!))
-                    //       .toList(),
-
-                    //   // _status("Payment pending", "1"),
-                    //   // SizedBox(width: 8.h),
-                    //   // _status(detail.items, "2"),
-                    // ),
-                  ),
                   Row(
                     children: [
                       _customField2(
-                          "${orderItemDetail.lineitems?.length ?? "teeen"} items"),
+                          orderController.orderItemModel.value.orderId ?? "id"),
                       SizedBox(width: 8.h),
                       Icon(
                         Icons.circle,
@@ -237,17 +182,60 @@ class OrderView extends StatelessWidget {
                         size: 5,
                       ),
                       SizedBox(width: 8.h),
-                      _customField2("Standard"),
+                      _customField2(DateFormat.yMMMd().format(DateTime.parse(
+                          orderController.orderItemModel.value.createdAt!))),
                     ],
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 8.v, left: 8.h),
-                    child: _status("COD Verified"),
-                  ),
+                  _customField2(orderController
+                          .orderItemModel.value.orderDetails?.market
+                          .toString() ??
+                      "market"),
                 ],
               ),
-            ),
-          ],
+              Container(
+                margin: EdgeInsets.only(top: 8.v),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        _customField1(orderController
+                                .orderItemModel.value.customer?.name ??
+                            "naaam"),
+                        _customField1(
+                            "${orderController.orderItemModel.value.totals?.total ?? "0"}"),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: _status(
+                          orderController.orderItemModel.value.paymentStatus ??
+                              "status"),
+                    ),
+                    Row(
+                      children: [
+                        _customField2(
+                            "${(orderController.orderItemModel.value.lineitems!.length) ?? "teeen"} items"),
+                        SizedBox(width: 8.h),
+                        Icon(
+                          Icons.circle,
+                          color: Colors.grey.shade400,
+                          size: 5,
+                        ),
+                        SizedBox(width: 8.h),
+                        _customField2("Standard"),
+                      ],
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 8.v, left: 8.h),
+                      child: _status("COD Verified"),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
