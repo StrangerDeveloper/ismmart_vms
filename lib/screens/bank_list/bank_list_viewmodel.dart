@@ -41,8 +41,7 @@ class BankListViewModel extends GetxController {
         .then((parsedJson) {
       GlobalVariable.showLoader.value = false;
 
-      if (parsedJson['success'] == true &&
-          parsedJson['data']['items'] != null) {
+      if (parsedJson['success'] == true && parsedJson['data']['items'] != null) {
         dataList.clear();
         var data = parsedJson['data']['items'] as List;
         dataList.addAll(data.map((e) => BankModel.fromJson(e)));
@@ -74,9 +73,10 @@ class BankListViewModel extends GetxController {
 
   String getFirstTwoChar(String value) {
     String finalName = '';
-    if (value.isNotEmpty) {
+    try{
+      value = value.trim();
       if (value.contains(' ')) {
-        List<String> names = value.split(" ");
+        List<String> names = value.trim().split(" ");
         String firstName = names[0];
         String lastName = names[names.length - 1];
 
@@ -85,7 +85,7 @@ class BankListViewModel extends GetxController {
       } else {
         finalName = '${value.substring(0, 1)}B';
       }
-    } else {
+    } catch(e){
       finalName = '';
     }
     return finalName;
