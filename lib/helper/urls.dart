@@ -28,4 +28,5 @@ class Urls {
   static String addBank = "/vendor/bank/add";
   static String updateBank = "/vendor/bank/update/";
   static String forgetPassword = "/auth/forgot";
+  static String updateOrder = "/vendor/order/update/status";
 }

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/constants.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
-import 'package:ismmart_vms/screens/setting/settings_view.dart';
+import 'package:ismmart_vms/screens/collection/collection_view.dart';
 import '../screens/add_location/add_location_view.dart';
 import '../screens/add_user/add_user_view.dart';
 import '../screens/collection/collection_list_view.dart';
@@ -18,83 +18,76 @@ class CustomDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Stack(
-        children: [
-          Drawer(
-            width: Get.width * 0.7,
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  titleAndBackBtn(),
-                  // drawerHeader(),
-                  drawerListItems(
-                    'Store',
-                    onTab: () {
-                      viewModel.isTab.value = !viewModel.isTab.value;
-                      // Get.to(StoresView());
-                    },
-                    iconPath: 'assets/icons/overViewIcon.png',
-                  ),
-                  drawerListItems(
-                    'Collections',
-                    iconPath: 'assets/icons/layers.png',
-                    onTab: () => Get.to(CollectionListView()),
-                  ),
-                  drawerListItems('Locations',
-                      iconPath: 'assets/icons/pin.png',
-                      onTab: () => Get.to(AddLocationView())),
-                  const Divider(
-                    color: Color(0xffE5E7EB),
-                    thickness: 2,
-                    indent: 15,
-                    endIndent: 15,
-                    // height: 20
-                  ),
-                  drawerListItems('Payouts',
-                      iconPath: 'assets/icons/credit-card.png',
-                      onTab: () => Get.to(PayoutListView())),
-                  drawerListItems(
-                      iconPath: 'assets/icons/settingIcon.png',
-                      'Settings and privacy',
-                      dropDwnIcon: true,
-                    onTab: () => Get.to(() => SettingsView())
-                  ),
-
-                  Obx(
-                    () => viewModel.moreOption.value
-                        ? Padding(
-                            padding: const EdgeInsets.only(left: 20),
-                            child: Column(
-                              children: [
-                                // drawerListItems(
-                                //   iconPath: 'assets/icons/wallet.png',
-                                //   'Banking',
-                                //   h: 35,
-                                //   onTab: () => Get.to(BankProfileView()),
-                                // ),
-                                drawerListItems(
-                                    iconPath: 'assets/icons/Vector.png',
-                                    'Shipping',
-                                    h: 35,
-                                    onTab: () => Get.to(ShippingMethodsView())),
-                                drawerListItems(
-                                    iconPath: 'assets/icons/edit-user.png',
-                                    'Users & Permissions',
-                                    h: 35,
-                                    onTab: () => Get.to(AddUserView())),
-                              ],
-                            ),
-                          )
-                        : const SizedBox(),
-                  ),
-                ],
+      child: Drawer(
+        width: Get.width * 0.9,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              titleAndBackBtn(),
+              // drawerHeader(),
+              drawerListItems(
+                'Store',
+                onTab: () {
+                  viewModel.isTab.value = !viewModel.isTab.value;
+                  // Get.to(StoresView());
+                },
+                iconPath: 'assets/icons/overViewIcon.png',
               ),
-            ),
+              drawerListItems(
+                'Collections',
+                iconPath: 'assets/icons/layers.png',
+                onTab: () => Get.to(CollectionListView()),
+              ),
+              drawerListItems('Locations',
+                  iconPath: 'assets/icons/pin.png',
+                  onTab: () => Get.to(AddLocationView())),
+              const Divider(
+                color: Color(0xffE5E7EB),
+                thickness: 2,
+                indent: 15,
+                endIndent: 15,
+                // height: 20
+              ),
+              drawerListItems('Payouts',
+                  iconPath: 'assets/icons/credit-card.png',
+                  onTab: () => Get.to(PayoutListView())),
+              drawerListItems(
+                  iconPath: 'assets/icons/settingIcon.png',
+                  'Settings and privacy',
+                  dropDwnIcon: true),
+
+              Obx(
+                () => viewModel.moreOption.value
+                    ? Padding(
+                        padding: const EdgeInsets.only(left: 20),
+                        child: Column(
+                          children: [
+                            // drawerListItems(
+                            //   iconPath: 'assets/icons/wallet.png',
+                            //   'Banking',
+                            //   h: 35,
+                            //   onTab: () => Get.to(BankProfileView()),
+                            // ),
+                            drawerListItems(
+                                iconPath: 'assets/icons/Vector.png',
+                                'Shipping',
+                                h: 35,
+                                onTab: () => Get.to(ShippingMethodsView())),
+                            drawerListItems(
+                                iconPath: 'assets/icons/edit-user.png',
+                                'Users & Permissions',
+                                h: 35,
+                                onTab: () => Get.to(AddUserView())),
+                          ],
+                        ),
+                      )
+                    : const SizedBox(),
+              ),
+            ],
           ),
-          //const LoaderView()
-        ],
+        ),
       ),
     );
   }
@@ -259,11 +252,11 @@ class CustomDrawer extends StatelessWidget {
       void Function()? onTab}) {
     //bool isTab = false;
     return Padding(
-      padding: const EdgeInsets.only(left: 15, bottom: 13),
+      padding: const EdgeInsets.only(left: 15, bottom: 13, right: 15),
       child: GestureDetector(
         onTap: onTab,
         child: Container(
-          width: Get.width * .7,
+          // width: Get.width * .7,
           height: h,
           padding: const EdgeInsets.all(8),
           decoration: ShapeDecoration(

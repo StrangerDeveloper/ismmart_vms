@@ -7,7 +7,9 @@ import 'package:ismmart_vms/screens/order_listing/model/orderModel.dart';
 import '../../helper/urls.dart';
 
 class OrderListingViewModel extends GetxController {
+  Rx<OrderItem> orderItemModel = OrderItem().obs;
   RxList<OrderItem> orderItemList = <OrderItem>[].obs;
+  RxList<Lineitem> lineItemList = <Lineitem>[].obs;
   RxBool showSearchTxtField = false.obs;
 
   TextEditingController searchController = TextEditingController();
@@ -19,7 +21,6 @@ class OrderListingViewModel extends GetxController {
     scrollController.addListener(() {
       getOrderListing();
     });
-
     getOrderListing();
     super.onReady();
   }
@@ -29,8 +30,11 @@ class OrderListingViewModel extends GetxController {
       final data = response['data'];
       if (data != null) {
         Data orderModel = Data.fromJson(data);
-
         orderItemList.addAll(orderModel.items!);
+        for (int i = 0; i < orderItemList.length; i++) {
+          lineItemList.addAll(orderItemList[i].lineitems!);
+          orderItemModel.value = orderItemList[i];
+        }
         orderItemList.refresh();
       } else {
         scrollController.dispose();

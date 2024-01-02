@@ -76,10 +76,10 @@ class OrderItem {
       this.returnStatus});
 
   OrderItem.fromJson(Map<String, dynamic> json) {
+    print("OrderItem.fromJson ${json['_id']}");
     sId = json['_id'];
-    customer = json['customer'] != null
-        ? Customer.fromJson(json['customer'])
-        : null;
+    customer =
+        json['customer'] != null ? Customer.fromJson(json['customer']) : null;
     contactInfo = json['contactInfo'] != null
         ? ContactInfo.fromJson(json['contactInfo'])
         : null;
@@ -104,9 +104,8 @@ class OrderItem {
     updatedAt = json['updatedAt'];
     orderId = json['orderId'];
     iV = json['__v'];
-    totals = json['totals'] != null
-        ? OrderTotals.fromJson(json['totals'])
-        : null;
+    totals =
+        json['totals'] != null ? OrderTotals.fromJson(json['totals']) : null;
     paymentStatus = json['paymentStatus'];
     fulfilmentStatus = json['fulfilmentStatus'];
     deliveryStatus = json['deliveryStatus'];
@@ -210,9 +209,8 @@ class Address {
   Address({this.shipping, this.billing});
 
   Address.fromJson(Map<String, dynamic> json) {
-    shipping = json['shipping'] != null
-        ? Shipping.fromJson(json['shipping'])
-        : null;
+    shipping =
+        json['shipping'] != null ? Shipping.fromJson(json['shipping']) : null;
     billing =
         json['billing'] != null ? Shipping.fromJson(json['billing']) : null;
   }
@@ -324,8 +322,7 @@ class Lineitem {
     media = json['media'];
     qty = json['qty'];
     amount = json['amount'];
-    totals =
-        json['totals'] != null ? Totals.fromJson(json['totals']) : null;
+    totals = json['totals'] != null ? Totals.fromJson(json['totals']) : null;
     paymentStatus = json['paymentStatus'];
     fulfilmentStatus = json['fulfilmentStatus'];
     deliveryStatus = json['deliveryStatus'];

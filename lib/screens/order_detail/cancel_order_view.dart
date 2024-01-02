@@ -5,6 +5,7 @@ import 'package:ismmart_vms/helper/theme_helper.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/helper/languages/translations_key.dart' as lang_key;
 import 'package:ismmart_vms/screens/order_detail/cancel_order_viewModel.dart';
+import 'package:ismmart_vms/screens/order_detail/order_detail_view.dart';
 import 'package:ismmart_vms/widgets/custom_image_view.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
@@ -24,31 +25,32 @@ class CancelOrderView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _buildAppBar(),
-      body: Container(
-        width: MediaQuery.of(context).size.width * 1,
-        padding: EdgeInsets.all(8.h),
-        decoration: BoxDecoration(
-          //color: Colors.grey.shade200,
-          borderRadius: BorderRadius.circular(5),
-        ),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 17.v),
-              _buildOrderListFrame(),
-              SizedBox(height: 17.v),
-              progress(),
-              SizedBox(height: 17.v),
-              _buildOrderDetail(context),
-              SizedBox(height: 10.v),
-              _acceptBtn(context),
-            ],
+        appBar: _buildAppBar(),
+        body: Obx(
+          () => Container(
+            width: MediaQuery.of(context).size.width * 1,
+            padding: EdgeInsets.all(8.h),
+            decoration: BoxDecoration(
+              //color: Colors.grey.shade200,
+              borderRadius: BorderRadius.circular(5),
+            ),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 17.v),
+                  _buildOrderListFrame(),
+                  SizedBox(height: 17.v),
+                  progress(),
+                  SizedBox(height: 17.v),
+                  _buildOrderDetail(context),
+                  SizedBox(height: 10.v),
+                  _acceptBtn(context),
+                ],
+              ),
+            ),
           ),
-        ),
-      ),
-    );
+        ));
   }
 
   PreferredSizeWidget _buildAppBar() {
@@ -528,7 +530,8 @@ class CancelOrderView extends StatelessWidget {
                   ),
                   CustomTextBtn(
                     onPressed: () {
-                      Get.back();
+                      viewModel.updateOrder();
+                      //Get.to(() => OrderDetailView());
                     },
                     title: "Confirm",
                   ),

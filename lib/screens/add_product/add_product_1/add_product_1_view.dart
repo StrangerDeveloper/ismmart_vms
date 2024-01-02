@@ -24,7 +24,6 @@ class AddProduct1View extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar(),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
@@ -70,6 +69,7 @@ class AddProduct1View extends StatelessWidget {
                     backgroundColor: Colors.black,
                     onPressed: () {},
                   ),
+                  SizedBox(height: 80),
                 ],
               ),
             ),
@@ -79,20 +79,6 @@ class AddProduct1View extends StatelessWidget {
     );
   }
 
-  AppBar appBar() {
-    return AppBar(
-      backgroundColor: Colors.white,
-      // leading: IconButton(
-      //   onPressed: () => Get.back(),
-      //   icon: const Icon(
-      //     Icons.arrow_back_ios_new_rounded,
-      //     size: 22,
-      //     color: newColorLightGrey2,
-      //   ),
-      // ),
-      title: const Text('Add Product'),
-    );
-  }
 
   Widget titleTxtField() {
     return CustomTextField1(

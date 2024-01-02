@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:ismmart_vms/helper/languages/translations_key.dart' as lang_key;
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/screens/order_detail/cancel_order_view.dart';
+import 'package:ismmart_vms/screens/order_detail/order_detail_viewModel.dart';
 import 'package:ismmart_vms/screens/order_listing/model/orderModel.dart';
 import 'package:ismmart_vms/screens/order_listing/order_view.dart';
 import 'package:ismmart_vms/widgets/custom_appbar.dart';
@@ -21,8 +22,9 @@ import '../return/return_view.dart';
 
 // ignore: must_be_immutable
 class OrderDetailView extends StatelessWidget {
-  final OrderItem order;
-  const OrderDetailView({super.key, required this.order});
+  //final OrderItem order;
+  final OrderDetailViewModel viewModel = Get.put(OrderDetailViewModel());
+  OrderDetailView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +46,7 @@ class OrderDetailView extends StatelessWidget {
               SizedBox(height: 17.v),
               progress(),
               SizedBox(height: 10.v),
-              _buildOrderDetail(context, order),
+              _buildOrderDetail(context),
               SizedBox(height: 10.v),
               logInBtn(),
             ],
@@ -84,7 +86,8 @@ class OrderDetailView extends StatelessWidget {
                       style: newFontStyleSize14,
                     ),
                     TextSpan(
-                      text: order.deliveryStatus ?? "status",
+                      text: viewModel.orderItemModel.value.deliveryStatus ??
+                          "status",
                       style: newFontStyleSize14.copyWith(
                           color: newColorLightGrey2),
                     ),
@@ -170,7 +173,8 @@ class OrderDetailView extends StatelessWidget {
               Get.to(OrderView());
             }
             if (value == 2) {
-              Get.to(() => CancelOrderView(), arguments: {"model": order});
+              Get.to(() => CancelOrderView(),
+                  arguments: {"model": viewModel.orderItemModel.value});
             }
           },
           child: Container(
@@ -230,26 +234,36 @@ class OrderDetailView extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               _customField1("Contact Information"),
-                              _customField2(
-                                  order.contactInfo?.email ?? "email"),
-                              _customField2(
-                                  order.contactInfo?.phone ?? "phone"),
+                              _customField2(viewModel.orderItemModel.value
+                                      .contactInfo?.email ??
+                                  "email"),
+                              _customField2(viewModel.orderItemModel.value
+                                      .contactInfo?.phone ??
+                                  "phone"),
                             ],
                           ),
                         ],
                       ),
                       SizedBox(height: 8.v),
                       _customField1("Shipping adress"),
-                      _customField2(order.customer?.name ?? "name"),
                       _customField2(
-                          "${order.address!.shipping!.address!}\n${order.address!.shipping!.city!}, ${order.address!.shipping!.country!}"),
-                      _customField2(order.address!.shipping!.phone ?? "phone"),
+                          viewModel.orderItemModel.value.customer?.name ??
+                              "name"),
+                      _customField2(
+                          "${viewModel.orderItemModel.value.address!.shipping!.address!}\n${viewModel.orderItemModel.value.address!.shipping!.city!}, ${viewModel.orderItemModel.value.address!.shipping!.country!}"),
+                      _customField2(viewModel
+                              .orderItemModel.value.address!.shipping!.phone ??
+                          "phone"),
                       SizedBox(height: 8.v),
                       _customField1("Billing adress"),
-                      _customField2(order.customer?.name ?? "name"),
                       _customField2(
-                          "${order.address!.billing!.address!}\n${order.address!.billing!.city!}, ${order.address!.billing!.country!}"),
-                      _customField2(order.address!.billing!.phone ?? "phone"),
+                          viewModel.orderItemModel.value.customer?.name ??
+                              "name"),
+                      _customField2(
+                          "${viewModel.orderItemModel.value.address!.billing!.address!}\n${viewModel.orderItemModel.value.address!.billing!.city!}, ${viewModel.orderItemModel.value.address!.billing!.country!}"),
+                      _customField2(viewModel
+                              .orderItemModel.value.address!.billing!.phone ??
+                          "phone"),
                     ],
                   ),
                 ],
@@ -365,222 +379,253 @@ class OrderDetailView extends StatelessWidget {
     }
   }
 
-  Widget _buildOrderDetail(ctx, OrderItem order) {
-    return Container(
-      width: MediaQuery.of(ctx).size.width * 1,
-      decoration: BoxDecoration(
-        //color: Colors.red.shade100,
-        borderRadius: BorderRadius.circular(5),
-      ),
-      padding: EdgeInsets.all(8.h),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  _customField2(order.orderId ?? "id"),
-                  SizedBox(width: 8.h),
-                  Icon(
-                    Icons.circle,
-                    color: Colors.grey.shade400,
-                    size: 5,
-                  ),
-                  SizedBox(width: 8.h),
-                  _customField2(DateFormat.yMMMd().format(DateTime.parse(
-                      order.createdAt ?? "2021-09-09T09:09:09.000Z"))),
-                  SizedBox(width: 8.h),
-                ],
-              ),
-              _customField2(order.orderDetails?.market.toString() ?? "market"),
-            ],
-          ),
-          SizedBox(height: 10.v),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _customField1(order.customer?.name.toString() ?? "name"),
-              _customField1(order.totals?.total.toString() ?? "total"),
-            ],
-          ),
-          SizedBox(height: 10.v),
-          Row(
-            children: [
-              _status(order.paymentStatus ?? "status"),
-              SizedBox(width: 8.h),
-              _status(order.fulfilmentStatus ?? "status"),
-            ],
-          ),
-          SizedBox(height: 10.v),
-          Row(
-            children: [
-              _customField2("${order.lineitems?.length.toString()} items"),
-              SizedBox(width: 8.h),
-              _customField2("Standard")
-            ],
-          ),
-          SizedBox(height: 10.v),
-          _status("COD Verified"),
-          SizedBox(height: 10.v),
-          _customField1("Location"),
-          SizedBox(height: 10.v),
-          _customField2(
-              "Plot No. 60, Street 12, G-8/1,Islamabad Capital Territory 44080\nPakistan"),
-          SizedBox(height: 10.v),
-          _buildFrame2(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _customField1("Item list"),
-              SizedBox(width: 8.h),
-              _customField1(order.lineitems?.length.toString() ?? "length"),
-            ],
-          ),
-          SizedBox(height: 10.v),
-          Container(
-            padding: EdgeInsets.all(8.h),
-            margin: EdgeInsets.all(8.v),
-            decoration: BoxDecoration(
-              color: Colors.grey.shade100,
-              borderRadius: BorderRadius.circular(5),
-            ),
-            child: ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: order.lineitems?.length ?? 0,
-              itemBuilder: (context, index) {
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        CircleAvatar(
-                          backgroundImage: NetworkImage(
-                              order.lineitems?[index].media ?? "image"),
-                        ),
-                        SizedBox(width: 10.h),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            _customField1(
-                                order.lineitems?[index].name ?? "product"),
-                            _customField2(
-                                "SKU: ${order.lineitems?[index].sku.toString() ?? "1"}"),
-                            _customField2(
-                                "Rs. ${order.lineitems?[index].totals?.total.toString()}  x ${order.lineitems?[index].qty?.toString()}"),
-                            SizedBox(
-                              height: 12.h,
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
-                    _customField1(
-                        order.lineitems?[index].totals?.total.toString() ??
-                            "total"),
-                  ],
-                );
-              },
-            ),
-          ),
-          SizedBox(height: 10.v),
-          Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _customField2("Sub Total"),
-                  SizedBox(width: 8.h),
-                  _customField2(
-                      "Rs. ${order.totals?.subTotal.toString() ?? "0"}"),
-                ],
-              ),
-              SizedBox(height: 8.v),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _customField2("Shipping Fee"),
-                  SizedBox(width: 8.h),
-                  _customField2(
-                      "Rs. ${order.totals?.shipping.toString() ?? "0"}"),
-                ],
-              ),
-              SizedBox(height: 8.v),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _customField2("Sales Tax"),
-                  SizedBox(width: 8.h),
-                  _customField2("Rs. ${order.totals?.tax.toString() ?? "0"}"),
-                ],
-              ),
-              SizedBox(height: 8.v),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _customField2("Promo Discount"),
-                  SizedBox(width: 8.h),
-                  _customField2(
-                      "Rs. ${order.totals?.discount.toString() ?? "0"}"),
-                ],
-              ),
-              SizedBox(height: 8.v),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _customField2("Total Amount"),
-                  SizedBox(width: 8.h),
-                  _customField2("Rs. ${order.totals?.total.toString() ?? "0"}"),
-                ],
-              ),
-            ],
-          ),
-          SizedBox(height: 17.v),
-          _customField1("Delivery Status"),
-          const Divider(),
-          Container(
-            height: MediaQuery.of(ctx).size.height * 0.17,
-            width: MediaQuery.of(ctx).size.width * 1,
-            padding: EdgeInsets.all(8.h),
-            margin: EdgeInsets.all(8.v),
-            decoration: BoxDecoration(
-              color: Colors.grey.shade100,
-              borderRadius: BorderRadius.circular(5),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+  Widget _buildOrderDetail(ctx) {
+    return Obx(
+      () => Container(
+        width: MediaQuery.of(ctx).size.width * 1,
+        decoration: BoxDecoration(
+          //color: Colors.red.shade100,
+          borderRadius: BorderRadius.circular(5),
+        ),
+        padding: EdgeInsets.all(8.h),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _status(order.fulfilmentStatus ?? "status"),
-                SizedBox(height: 10.v),
-                _customField2("Rider"),
-                SizedBox(height: 5.v),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    _customField1(
-                        order.lineitems?[0].assignedRider?.name ?? "rider"),
-                    _customField1(
-                        order.lineitems?[0].assignedRider?.cnic ?? "id"),
+                    _customField2(
+                        viewModel.orderItemModel.value.orderId ?? "id"),
+                    SizedBox(width: 8.h),
+                    Icon(
+                      Icons.circle,
+                      color: Colors.grey.shade400,
+                      size: 5,
+                    ),
+                    SizedBox(width: 8.h),
+                    _customField2(DateFormat.yMMMd().format(DateTime.parse(
+                        viewModel.orderItemModel.value.createdAt ??
+                            "2021-09-09T09:09:09.000Z"))),
+                    SizedBox(width: 8.h),
                   ],
                 ),
-                SizedBox(height: 10.v),
-                _customField2("Delivery Method"),
-                SizedBox(height: 5.v),
+                _customField2(viewModel
+                        .orderItemModel.value.orderDetails?.market
+                        .toString() ??
+                    "market"),
+              ],
+            ),
+            SizedBox(height: 10.v),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _customField1(
+                    viewModel.orderItemModel.value.customer?.name.toString() ??
+                        "name"),
+                _customField1(
+                    viewModel.orderItemModel.value.totals?.total.toString() ??
+                        "total"),
+              ],
+            ),
+            SizedBox(height: 10.v),
+            Row(
+              children: [
+                _status(
+                    viewModel.orderItemModel.value.paymentStatus ?? "status"),
+                SizedBox(width: 8.h),
+                _status(viewModel.orderItemModel.value.fulfilmentStatus ??
+                    "status"),
+              ],
+            ),
+            SizedBox(height: 10.v),
+            Row(
+              children: [
+                _customField2(
+                    "${viewModel.orderItemModel.value.lineitems?.length.toString()} items"),
+                SizedBox(width: 8.h),
+                _customField2("Standard")
+              ],
+            ),
+            SizedBox(height: 10.v),
+            _status("COD Verified"),
+            SizedBox(height: 10.v),
+            _customField1("Location"),
+            SizedBox(height: 10.v),
+            _customField2(
+                "Plot No. 60, Street 12, G-8/1,Islamabad Capital Territory 44080\nPakistan"),
+            SizedBox(height: 10.v),
+            _buildFrame2(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _customField1("Item list"),
+                SizedBox(width: 8.h),
+                _customField1(viewModel.orderItemModel.value.lineitems?.length
+                        .toString() ??
+                    "length"),
+              ],
+            ),
+            SizedBox(height: 10.v),
+            Container(
+              padding: EdgeInsets.all(8.h),
+              margin: EdgeInsets.all(8.v),
+              decoration: BoxDecoration(
+                color: Colors.grey.shade100,
+                borderRadius: BorderRadius.circular(5),
+              ),
+              child: ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount:
+                    viewModel.orderItemModel.value.lineitems?.length ?? 0,
+                itemBuilder: (context, index) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          CircleAvatar(
+                            backgroundImage: NetworkImage(viewModel
+                                    .orderItemModel
+                                    .value
+                                    .lineitems?[index]
+                                    .media ??
+                                "image"),
+                          ),
+                          SizedBox(width: 10.h),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              _customField1(viewModel.orderItemModel.value
+                                      .lineitems?[index].name ??
+                                  "product"),
+                              _customField2(
+                                  "SKU: ${viewModel.orderItemModel.value.lineitems?[index].sku.toString() ?? "1"}"),
+                              _customField2(
+                                  "Rs. ${viewModel.orderItemModel.value.lineitems?[index].totals?.total.toString()}  x ${viewModel.orderItemModel.value.lineitems?[index].qty?.toString()}"),
+                              SizedBox(
+                                height: 12.h,
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                      _customField1(viewModel.orderItemModel.value
+                              .lineitems?[index].totals?.total
+                              .toString() ??
+                          "total"),
+                    ],
+                  );
+                },
+              ),
+            ),
+            SizedBox(height: 10.v),
+            Column(
+              children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    _customField1(
-                        order.lineitems?[0].assignedRider?.name ?? "rider"),
-                    //SizedBox(width: 8.h),
-                    _customField1(order.deliveryStatus ?? "id"),
+                    _customField2("Sub Total"),
+                    SizedBox(width: 8.h),
+                    _customField2(
+                        "Rs. ${viewModel.orderItemModel.value.totals?.subTotal.toString() ?? "0"}"),
+                  ],
+                ),
+                SizedBox(height: 8.v),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _customField2("Shipping Fee"),
+                    SizedBox(width: 8.h),
+                    _customField2(
+                        "Rs. ${viewModel.orderItemModel.value.totals?.shipping.toString() ?? "0"}"),
+                  ],
+                ),
+                SizedBox(height: 8.v),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _customField2("Sales Tax"),
+                    SizedBox(width: 8.h),
+                    _customField2(
+                        "Rs. ${viewModel.orderItemModel.value.totals?.tax.toString() ?? "0"}"),
+                  ],
+                ),
+                SizedBox(height: 8.v),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _customField2("Promo Discount"),
+                    SizedBox(width: 8.h),
+                    _customField2(
+                        "Rs. ${viewModel.orderItemModel.value.totals?.discount.toString() ?? "0"}"),
+                  ],
+                ),
+                SizedBox(height: 8.v),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _customField2("Total Amount"),
+                    SizedBox(width: 8.h),
+                    _customField2(
+                        "Rs. ${viewModel.orderItemModel.value.totals?.total.toString() ?? "0"}"),
                   ],
                 ),
               ],
             ),
-          )
-        ],
+            SizedBox(height: 17.v),
+            _customField1("Delivery Status"),
+            const Divider(),
+            Container(
+              height: MediaQuery.of(ctx).size.height * 0.17,
+              width: MediaQuery.of(ctx).size.width * 1,
+              padding: EdgeInsets.all(8.h),
+              margin: EdgeInsets.all(8.v),
+              decoration: BoxDecoration(
+                color: Colors.grey.shade100,
+                borderRadius: BorderRadius.circular(5),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _status(viewModel.orderItemModel.value.fulfilmentStatus ??
+                      "status"),
+                  SizedBox(height: 10.v),
+                  _customField2("Rider"),
+                  SizedBox(height: 5.v),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      _customField1(viewModel.orderItemModel.value.lineitems?[0]
+                              .assignedRider?.name ??
+                          "rider"),
+                      _customField1(viewModel.orderItemModel.value.lineitems?[0]
+                              .assignedRider?.cnic ??
+                          "id"),
+                    ],
+                  ),
+                  SizedBox(height: 10.v),
+                  _customField2("Delivery Method"),
+                  SizedBox(height: 5.v),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      _customField1(viewModel.orderItemModel.value.lineitems?[0]
+                              .assignedRider?.name ??
+                          "rider"),
+                      //SizedBox(width: 8.h),
+                      _customField1(
+                          viewModel.orderItemModel.value.deliveryStatus ??
+                              "id"),
+                    ],
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

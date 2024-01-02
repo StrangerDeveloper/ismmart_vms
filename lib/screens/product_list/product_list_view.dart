@@ -17,18 +17,6 @@ class ProductListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        centerTitle: true,
-        // leading: IconButton(
-        //     onPressed: () {
-        //       Get.to(SettingsView());
-        //     },
-        //     icon: const Icon(
-        //       Icons.menu,
-        //       size: 25,
-        //       color: Colors.black,
-        //     )),
-        title: const Text('Products'),
         bottom: PreferredSize(
             preferredSize: const Size.fromHeight(110.0),
             child: Column(
@@ -77,7 +65,7 @@ class ProductListView extends StatelessWidget {
                 ),
               ),
             ),
-          )
+          ),
         ],
       ),
     );
