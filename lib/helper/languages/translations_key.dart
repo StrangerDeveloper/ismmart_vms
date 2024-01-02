@@ -112,6 +112,7 @@ const itemsFound = 'itemsFound',
 
 ///SingleOrderDetailsUI
 const orderDetail = 'orderDetail';
+const cancelOrder = 'cancelORder';
 
 ///email_verification
 const cancel = 'cancel',

@@ -125,7 +125,7 @@ class LocationListView extends StatelessWidget {
       padding: const EdgeInsets.only(left: 16),
       child: Obx(
         () => Text(
-          '${viewModel.pageNo} of ${viewModel.totalPages.value}',
+          '${viewModel.currentPage.value} of ${viewModel.totalPages.value}',
           style: const TextStyle(
             fontSize: 12,
             color: ThemeHelper.grey2,

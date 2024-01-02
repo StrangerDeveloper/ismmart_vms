@@ -3,13 +3,9 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:ismmart_vms/helper/languages/translations_key.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
-import '../../../../helper/api_base_helper.dart';
 import '../../../../helper/global_variables.dart';
-import '../../../../helper/urls.dart';
-import '../../../dashboard/dashboard_view.dart';
 import '../signup_1/sign_up_1_view.dart';
 
 class SignupMehtodsViewModel extends GetxController {

@@ -1,21 +1,19 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:ismmart_vms/helper/utils/image_constant.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
-import 'package:ismmart_vms/screens/setting/settings_viewmodel.dart';
+import 'package:ismmart_vms/screens/auth/login/login_view.dart';
+import 'package:ismmart_vms/screens/bank_list/bank_list_view.dart';
 import 'package:ismmart_vms/screens/shippings/shippings_view.dart';
-import 'package:ismmart_vms/widgets/custom_text.dart';
+import 'package:ismmart_vms/screens/store_profile/store_profile_view.dart';
+import 'package:ismmart_vms/screens/user_profile/user_profile_view.dart';
 
 import '../../helper/constants.dart';
-import '../../widgets/custom_button.dart';
 import '../add_location/add_location_view.dart';
 import '../add_user/add_user_view.dart';
-import '../collection/collection_list_view.dart';
 import '../collection/collection_view.dart';
 import '../dashboard/dashboard_viewmodel.dart';
-import '../location_list/location_list_view.dart';
 import '../payout_list/payout_list_view.dart';
 
 class SettingsView extends StatelessWidget {
@@ -30,24 +28,36 @@ class SettingsView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            titleAndBackBtn(),
+            titleAndBackBtn(
+                iconPath: 'assets/images/ismmart_logo.png',
+                title: 'ISMMART',
+                hasMenu: true),
+
+            SizedBox(
+              height: 30.h,
+            ),
             // drawerHeader(),
             drawerListItems(
               'Store',
               onTab: () {
-                viewModel.isTab.value = !viewModel.isTab.value;
-                //  Get.to(StoresView());
+                //viewModel.isTab.value = !viewModel.isTab.value;
+                Get.to(StoreProfileView());
               },
-              iconPath: 'assets/icons/overViewIcon.png',
+              iconPath: 'assets/images/overViewIcon.png',
             ),
+
             drawerListItems(
               'Collections',
-              iconPath: 'assets/icons/layers.png',
-              onTab: () => Get.to(CollectionListView()),
+              iconPath: 'assets/images/layers.png',
+              onTab: () => Get.to(CollectionView()),
             ),
-            drawerListItems('Locations',
-                iconPath: 'assets/icons/pin.png',
-                onTab: () => Get.to(AddLocationView())),
+
+            drawerListItems(
+              'Locations',
+              iconPath: 'assets/images/pin.png',
+              onTab: () => Get.to(AddLocationView()),
+            ),
+
             const Divider(
               color: Color(0xffE5E7EB),
               thickness: 2,
@@ -55,16 +65,17 @@ class SettingsView extends StatelessWidget {
               endIndent: 15,
               // height: 20
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             drawerListItems('Payouts',
-                iconPath: 'assets/icons/credit-card.png',
+                iconPath: 'assets/images/credit-card.png',
                 onTab: () => Get.to(PayoutListView())),
             drawerListItems(
-                iconPath: 'assets/icons/settingIcon.png',
-                'Settings and privacy',
-                dropDwnIcon: true),
+                //iconPath: 'assets/images/settingIcon.png',
+                onTab: () {
+              viewModel.moreOption.toggle();
+            }, 'Settings', dropDwnIcon: true),
 
             Obx(
               () => viewModel.moreOption.value
@@ -73,18 +84,18 @@ class SettingsView extends StatelessWidget {
                       child: Column(
                         children: [
                           drawerListItems(
-                            iconPath: 'assets/icons/wallet.png',
+                            iconPath: 'assets/images/wallet.png',
                             'Banking',
                             h: 45,
-                            // onTab: () => Get.to(Bank()),
+                            onTab: () => Get.to(BankListView()),
                           ),
                           drawerListItems(
-                              iconPath: 'assets/icons/Vector.png',
+                              iconPath: 'assets/images/Vector.png',
                               'Shipping',
                               h: 45,
                               onTab: () => Get.to(ShippingMethodsView())),
                           drawerListItems(
-                              iconPath: 'assets/icons/edit-user.png',
+                              iconPath: 'assets/images/edit-user.png',
                               'Users & Permissions',
                               h: 45,
                               onTab: () => Get.to(AddUserView())),
@@ -94,13 +105,16 @@ class SettingsView extends StatelessWidget {
                   : const SizedBox(),
             ),
 
-            drawerListItems(
-              'Logout',
-              onTab: () {
-                viewModel.isTab.value = !viewModel.isTab.value;
-                //  Get.to(StoresView());
-              },
+            InkWell(
+              onTap: () => Get.to(UserProfileView()),
+              child: titleAndBackBtn(
+                  iconPath: ImageConstant.imgAvatar, title: 'User Name'),
             ),
+
+            drawerListItems('Logout', iconPath: 'assets/images/settingIcon.png',
+                onTab: () {
+              Get.offAll(LogInView());
+            })
           ],
         ),
       ),
@@ -221,9 +235,9 @@ class SettingsView extends StatelessWidget {
 //     );
 //   }
 
-  Widget titleAndBackBtn() {
+  Widget titleAndBackBtn({iconPath, title, hasMenu = false}) {
     return Padding(
-      padding: const EdgeInsets.only(top: 60, left: 15, bottom: 33, right: 15),
+      padding: const EdgeInsets.only(top: 60, left: 15, bottom: 5, right: 15),
       child: Container(
         height: 54,
         padding: const EdgeInsets.all(8),
@@ -236,23 +250,34 @@ class SettingsView extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Image.asset(
-              'assets/icons/ismmart_logo.png',
-              height: 40,
-              width: 40,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Image.asset(
+                  iconPath,
+                  height: 40,
+                  width: 40,
+                ),
+                SizedBox(
+                  width: 30.v,
+                ),
+                Text(
+                  title,
+                  style:
+                      newFontStyleSize12.copyWith(fontWeight: FontWeight.w700),
+                ),
+                // Align(
+                //   alignment: Alignment.,
+                //   child:
+                // ),
+                const SizedBox(
+                  width: 40,
+                ),
+              ],
             ),
-            Align(
-              alignment: Alignment.center,
-              child: Text(
-                'ISMMART',
-                style: newFontStyleSize12.copyWith(fontWeight: FontWeight.w700),
-              ),
-            ),
-            const SizedBox(
-              width: 40,
-            ),
-            IconButton(
-                onPressed: () {}, icon: const Icon(Icons.more_vert_outlined))
+            if (hasMenu)
+              IconButton(
+                  onPressed: () {}, icon: const Icon(Icons.more_vert_outlined))
           ],
         ),
       ),
@@ -270,51 +295,50 @@ class SettingsView extends StatelessWidget {
       child: GestureDetector(
         onTap: onTab,
         child: Container(
-          //  width: Get.width * .8,
+          //width: double.infinity,
           height: h,
-          padding: const EdgeInsets.all(8),
+          padding: const EdgeInsets.all(5),
           decoration: ShapeDecoration(
-            color: Colors.white,
+            //color: const Color(0xFFEFF5FB),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
           ),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              iconPath != null
-                  ? Obx(() => Image.asset(
-                        iconPath,
-                        height: 24,
-                        width: 24,
-                        color: viewModel.isTab.value
-                            ? newColorBlue
-                            : newColorLightGrey2,
-                      ))
-                  : Icon(
-                      Icons.logout,
-                      size: 24,
-                      color: Colors.red.shade300,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  iconPath != null
+                      ? Obx(() => Image.asset(
+                            iconPath,
+                            height: 24,
+                            width: 24,
+                            color: viewModel.isTab.value
+                                ? newColorBlue
+                                : newColorLightGrey2,
+                          ))
+                      : Container(),
+                  SizedBox(width: 15.h),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10.0),
+                    child: Text(
+                      title,
+                      style: newFontStyleSize16,
                     ),
-              SizedBox(width: 20.h),
-              Padding(
-                padding: const EdgeInsets.only(top: 10.0),
-                child: Text(
-                  title,
-                  style: newFontStyleSize16,
-                ),
-              ),
-              SizedBox(
-                width: Get.width * .25,
+                  ),
+                  // SizedBox(
+                  //   width: Get.width * 0.55,
+                  // ),
+                ],
               ),
               dropDwnIcon ?? false
                   ? IconButton(
                       onPressed: () {
                         viewModel.moreOption.toggle();
                       },
-                      icon: const Icon(
-                        Icons.arrow_drop_down,
-                      ))
+                      icon: const Icon(Icons.arrow_drop_down))
                   : Container(),
             ],
           ),

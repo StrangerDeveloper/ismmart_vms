@@ -1,427 +1,349 @@
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/constants.dart';
+import 'package:ismmart_vms/helper/theme_helper.dart';
 import 'package:ismmart_vms/helper/utils/image_constant.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/screens/dashboard/dashboard_viewmodel.dart';
 import 'package:ismmart_vms/widgets/custom_appbar.dart';
+import 'package:ismmart_vms/widgets/custom_button.dart';
 import 'package:ismmart_vms/widgets/custom_dropdown.dart';
 import 'package:ismmart_vms/widgets/custom_image_view.dart';
+import 'package:ismmart_vms/widgets/loader_view.dart';
 
 import '../../helper/resourses/app_colors.dart';
 
 class DashboardView extends StatelessWidget {
   DashboardView({super.key});
+
   final DashboardViewModel viewModel = Get.put(DashboardViewModel());
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         //drawer: const CustomDrawer(),
-        appBar: _buildAppBar(),
-        body: _body(),
-
-        // CustomAppBar(
-        //   menuItem: true,
-        //   title: langKey.vendorDashboard.tr,
-        // ),
-        // body: CustomScrollView(
-        //   slivers: [
-        //     SliverList(
-        //       delegate: SliverChildListDelegate(
-        //         [
-        //           _orderStats(),
-        //           //_divider(),
-        //           const SizedBox(height: 10),
-        //           _filters(),
-        //           _saleChart(),
-        //           const SizedBox(height: 20),
-        //           _pieChart(),
-        //           // _divider(),
-        //           // _orders(),
-        //         ],
-        //       ),
-        //     ),
-        //   ],
-        // ),
-      ),
-    );
-  }
-
-  _buildAppBar() {
-    return CustomAppBar1(
-      leadingWidth: 48.h,
-      leading: Container(
-        margin: EdgeInsets.only(
-          left: 24.h,
-          top: 10.v,
-          bottom: 10.v,
-        ),
-        padding: EdgeInsets.symmetric(
-          horizontal: 3.h,
-          vertical: 6.v,
-        ),
-        // decoration: AppDecoration.fillWhiteA,
-        child: Padding(
-          padding: EdgeInsets.zero,
-          child: CustomImageView(
-            imagePath: ImageConstant.imgMegaphone,
-            height: 24.adaptSize,
-            width: 24.adaptSize,
-            fit: BoxFit.contain,
-          ),
-        ),
-      ),
-      centerTitle: true,
-      title: Padding(
-        padding: EdgeInsets.zero,
-        child: Text("Al - Jannat Mall",
-            style: TextStyle(fontSize: 12.fSize, color: gray60001)),
-      ),
-
-      // AppbarSubtitle(
-      //   text: "lbl_ismmart".tr,
-      // ),
-      actions: [
-        Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: 24.h,
-            vertical: 10.v,
-          ),
-          child: CustomImageView(
-            imagePath: ImageConstant.imgBell,
-            height: 24.adaptSize,
-            width: 24.adaptSize,
-            fit: BoxFit.contain,
-          ),
-        ),
-      ],
-      styleType: Style.bgShadow,
-    );
-  }
-
-  Widget _body() {
-    return Column(
-      children: [
-        SizedBox(height: 14.v),
-        Expanded(
-          child: SingleChildScrollView(
-            child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 7.h),
-              padding: EdgeInsets.symmetric(
-                horizontal: 24.h,
-                vertical: 16.v,
-              ),
-              // decoration: AppDecoration.shadow.copyWith(
-              //   borderRadius: BorderRadiusStyle.roundedBorder10,
-              // ),
+        appBar: appBar(),
+        body: Stack(
+          children: [
+            SingleChildScrollView(
+              padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
-                  SizedBox(
-                    height: 2.h,
-                  ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                      children: [
-                        Text(
-                          "Welcome Al-jannat Mall",
-                          style: TextStyle(
-                              fontSize: 16.fSize,
-                              fontWeight: FontWeight.w700,
-                              color: gray900),
-                        ),
-                        CustomImageView(
-                          imagePath: ImageConstant.imgInfo,
-                          height: 12.adaptSize,
-                          width: 12.adaptSize,
-                          margin: EdgeInsets.only(
-                            left: 6.h,
-                            top: 2.v,
-                            bottom: 2.v,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 12.v),
-                  _buildHeading(),
-                  SizedBox(height: 12.v),
-                  _buildCard(),
+                  welcomeWidget(),
+                  const Divider(color: Color(0xFFE5E7EB)),
+                  todayAndProgressReport(),
+                  ordersProgress(),
                   SizedBox(height: 24.v),
                   _buildCharts(),
                 ],
               ),
             ),
-          ),
+            const LoaderView()
+          ],
         ),
+      ),
+    );
+  }
+
+  CustomAppBar2 appBar() {
+    return CustomAppBar2(
+      leading: Container(),
+      title: 'Al - Jannat Mall',
+      actions: [
+        IconButton(
+          onPressed: () {},
+          icon: const Icon(Icons.notifications),
+        )
       ],
     );
   }
 
-  Widget _buildHeading() {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 1.v),
-      // decoration: AppDecoration.outlineGray,
+  Widget welcomeWidget() {
+    return const Padding(
+      padding: EdgeInsets.symmetric(vertical: 10),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: EdgeInsets.only(top: 16.v),
-            child: SizedBox(
-              width: 107.h,
-              child: CustomDropDownList1(
-                value: viewModel.dateSelected,
-                onChanged: (value) {
-                  viewModel.dateSelected.value = value;
-                },
-                dropdownList: viewModel.dateDropDownList,
-              ),
+          Text(
+            "Welcome Al-jannat Mall",
+            style: TextStyle(
+              fontWeight: FontWeight.w700,
             ),
           ),
-          const Spacer(),
-          Padding(
-            padding: EdgeInsets.only(top: 16.v),
-            child: Text(
-              "Progress Report",
-              style: TextStyle(
-                  fontSize: 14.fSize,
-                  color: blue20001,
-                  fontWeight: FontWeight.w600),
-            ),
-          ),
-          CustomImageView(
-            imagePath: ImageConstant.imgArrowUp,
-            height: 10.adaptSize,
-            width: 10.adaptSize,
-            margin: EdgeInsets.only(
-              left: 6.h,
-              top: 19.v,
-              bottom: 3.v,
-            ),
-          ),
+          SizedBox(width: 5),
+          Icon(
+            CupertinoIcons.info_circle_fill,
+            color: Color(0xff9CA3AF),
+            size: 12,
+          )
         ],
       ),
     );
   }
 
-  Widget _buildCard() {
-    return Container(
-      padding: EdgeInsets.all(12.h),
-      // decoration: AppDecoration.fillGray5001.copyWith(
-      //   borderRadius: BorderRadiusStyle.roundedBorder10,
-      // ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  Widget todayAndProgressReport() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        SizedBox(
+          width: 100,
+          child: CustomDropDownList2(
+            value: viewModel.dateSelected,
+            onChanged: (value) {
+              viewModel.dateSelected.value = value;
+            },
+            list: viewModel.dateDropDownList,
+          ),
+        ),
+        CustomTextBtn(
+          foregroundColor: ThemeHelper.blue1,
+          backgroundColor: Colors.transparent,
+          width: double.minPositive,
+          child: const Row(
             children: [
-              Text("Total Orders", style: TextStyle(color: gray60001)),
-              const Spacer(),
-              Text("77".tr,
-                  style: TextStyle(fontSize: 13.fSize, color: gray60001)),
+              Text(
+                'Progress report',
+                style: TextStyle(
+                  color: ThemeHelper.blue1,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              Icon(Icons.chevron_right_rounded)
             ],
           ),
-          SizedBox(height: 13.v),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          onPressed: () {},
+        ),
+      ],
+    );
+  }
+
+  Widget ordersProgress() {
+    return Container(
+      padding: const EdgeInsets.only(left: 12, right: 12, top: 12),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF9FAFB),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Column(
+        children: [
+          const Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _buildCardItem(
+              Text(
+                "Total Orders",
+                style: TextStyle(
+                  color: ThemeHelper.grey5,
+                  fontSize: 12,
+                ),
+              ),
+              Text(
+                "77",
+                style: TextStyle(
+                  color: ThemeHelper.grey5,
+                  fontSize: 12,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 13),
+          Row(
+            children: [
+              orderStatusItem(
                 title: "Exception",
                 value: "5",
                 color: deepOrangeA700,
-                // decoration: AppDecoration.fillOrange.copyWith(
-                //   borderRadius: BorderRadiusStyle.circleBorder16,
-                // ),
               ),
-              _buildCardItem(
+              const SizedBox(width: 10),
+              orderStatusItem(
                 title: "New Orders",
                 value: "3",
                 color: cyan800,
-                // decoration: AppDecoration.fillCyan.copyWith(
-                //   borderRadius: BorderRadiusStyle.circleBorder16,
-                // ),
               ),
-              _buildCardItem(
+              const SizedBox(width: 10),
+              orderStatusItem(
                 title: "In Progress",
                 value: "18",
                 color: blueA700,
-                // decoration: AppDecoration.fillBlue.copyWith(
-                //   borderRadius: BorderRadiusStyle.circleBorder16,
-                // ),
               ),
             ],
           ),
-          SizedBox(height: 13.v),
-          _buildShowMoreDetails(),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: CustomTextBtn(
+              padding: const EdgeInsets.only(right: 20),
+              width: double.minPositive,
+              foregroundColor: ThemeHelper.grey5,
+              backgroundColor: Colors.transparent,
+              child: const Row(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Show more details",
+                    style: TextStyle(
+                      color: ThemeHelper.grey5,
+                      fontSize: 12,
+                    ),
+                  ),
+                  SizedBox(width: 3),
+                  Icon(
+                    Icons.keyboard_arrow_up_rounded,
+                    size: 10,
+                    color: ThemeHelper.grey5,
+                  )
+                ],
+              ),
+              onPressed: () {
+                viewModel.showMoreDetails.value =
+                    !viewModel.showMoreDetails.value;
+              },
+            ),
+          ),
+          showMoreDetails(),
         ],
       ),
     );
   }
 
-  Widget _buildCardItem({String? title, String? value, color, decoration}) {
+  Widget orderStatusItem({
+    String? title,
+    String? value,
+    required Color color,
+  }) {
     return Expanded(
-      child: SizedBox(
-        width: double.maxFinite,
-        child: Container(
-          padding: EdgeInsets.symmetric(
-            horizontal: 13.h,
-            vertical: 12.v,
-          ),
-          // decoration: AppDecoration.fillGray10003.copyWith(
-          //   borderRadius: BorderRadiusStyle.roundedBorder10,
-          // ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: 40.adaptSize,
-                padding: EdgeInsets.symmetric(
-                  horizontal: 11.h,
-                  vertical: 7.v,
-                ),
-                decoration: decoration,
-                child: Text(
-                  "$value",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 12.fSize,
-                    color: color,
-                  ),
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 12),
+        decoration: BoxDecoration(
+          color: color.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Column(
+          children: [
+            Container(
+              margin: const EdgeInsets.only(bottom: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 7),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: color.withOpacity(0.2),
+              ),
+              child: Text(
+                "$value",
+                style: TextStyle(
+                  color: color,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
-              SizedBox(height: 9.v),
-              Text(
-                "$title",
-                style: TextStyle(color: color, fontSize: 14.fSize, height: 1.5),
+            ),
+            Text(
+              "$title",
+              style: TextStyle(
+                color: color,
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Widget _buildShowMoreDetails() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            Text(
-              "Show more details",
-              style: TextStyle(fontSize: 12.fSize, color: gray60001),
-            ),
-            CustomImageView(
-              imagePath: ImageConstant.imgArrowUp,
-              height: 8.adaptSize,
-              width: 8.adaptSize,
-              margin: EdgeInsets.only(
-                left: 6.h,
-                top: 3.v,
-                bottom: 3.v,
+  Widget showMoreDetails() {
+    return Obx(() => viewModel.showMoreDetails.value
+        ? Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Divider(
+                color: Color(0xFFE5E7EB),
+                height: 0,
               ),
-            ),
-          ],
-        ),
-        SizedBox(
-          height: 13.v,
-        ),
-        Column(
-          children: [
-            SizedBox(height: 12.v),
-            _buildShowMoreItems(
-                title: "Total Sale",
-                value: "78%",
-                color: cyan50,
-                // decoration: AppDecoration.fillCyan.copyWith(
-                //     borderRadius: BorderRadiusStyle.roundedBorder10,
-                //     color: cyan50),
-                hasSuffixIcon: true),
-            SizedBox(height: 15.v),
-            _buildShowMoreItems(
-              title: "Total Products",
-              value: "20",
-              color: gray10001,
-              // decoration: AppDecoration.fillGray10001.copyWith(
-              //   borderRadius: BorderRadiusStyle.roundedBorder10,
-              // ),
-            ),
-            SizedBox(height: 15.v),
-            _buildShowMoreItems(
-              title: "Total Revenue",
-              value: "500,000 PKR",
-              color: gray100,
-              // decoration: AppDecoration.fillGray10001.copyWith(
-              //   borderRadius: BorderRadiusStyle.roundedBorder10,
-              // ),
-            ),
-          ],
-        )
-      ],
-    );
-  }
-
-  Widget _buildShowMoreItems(
-      {String? title,
-      String? value,
-      color,
-      decoration,
-      bool? hasSuffixIcon = false}) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: EdgeInsets.symmetric(vertical: 3.v),
-          child: Text(
-            title!,
-            style: TextStyle(
-                color: gray60001,
-                fontWeight: FontWeight.w600,
-                fontSize: 13.fSize),
-          ),
-        ),
-        Container(
-          height: 22.v,
-          width: 66.h,
-          decoration: decoration,
-          child: !hasSuffixIcon!
-              ? Align(
-                  alignment: Alignment.center,
-                  child: Text(
-                    value!,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 13.fSize,
-                        fontWeight: FontWeight.w500,
-                        color: gray60001),
-                  ),
-                )
-              : Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+              Padding(
+                padding: const EdgeInsets.only(top: 12, bottom: 6),
+                child: Column(
                   children: [
-                    Icon(
-                      Icons.arrow_upward_outlined,
-                      size: 14.adaptSize,
-                      weight: 2,
+                    _buildShowMoreItems(
+                      title: "Total Sales",
+                      value: "",
+                      customValue: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 3),
+                        decoration: BoxDecoration(
+                          color: const Color(0xff03543F).withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: const Row(
+                          children: [
+                            Icon(
+                              Icons.arrow_upward_rounded,
+                              color: Color(0xff03543F),
+                              size: 14,
+                            ),
+                            SizedBox(width: 5),
+                            Text(
+                              '78 %',
+                              style: TextStyle(
+                                color: Color(0xFF6B7280),
+                                fontSize: 12,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                    SizedBox(width: 5.v),
-                    Text(
-                      value!,
-                      style: TextStyle(
-                          fontSize: 13.fSize,
-                          fontWeight: FontWeight.w600,
-                          color: gray60001),
-                    )
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 13),
+                      child: _buildShowMoreItems(
+                        title: "Total Products",
+                        value: "20",
+                      ),
+                    ),
+                    _buildShowMoreItems(
+                      title: "Total Revenue",
+                      value: "500,000 PKR",
+                    ),
                   ],
                 ),
-        )
+              )
+            ],
+          )
+        : const SizedBox());
+  }
+
+  Widget _buildShowMoreItems({
+    required String title,
+    required String value,
+    Widget? customValue,
+  }) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          title,
+          style: const TextStyle(
+            color: ThemeHelper.grey5,
+            fontSize: 12,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        customValue ??
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+              decoration: BoxDecoration(
+                color: const Color(0xFFF3F4F6),
+                borderRadius: BorderRadius.circular(6),
+              ),
+              child: Text(
+                value,
+                style: const TextStyle(
+                  color: Color(0xFF6B7280),
+                  fontSize: 12,
+                ),
+              ),
+            ),
       ],
     );
   }
@@ -814,166 +736,166 @@ class DashboardView extends StatelessWidget {
     });
   }
 
-  // Widget _divider() {
-  //   return Row(
-  //     children: [
-  //       const Expanded(
-  //         child: Divider(
-  //           //color: newColorLightGrey,
-  //           thickness: 1,
-  //         ),
-  //       ),
-  //       Padding(
-  //         padding: const EdgeInsets.symmetric(horizontal: 10),
-  //         child: Text(
-  //           langKey.orderSummary.tr,
-  //           //style: newFontStyle4,
-  //         ),
-  //       ),
-  //       const Expanded(
-  //         child: Divider(
-  //           //color: newColorLightGrey,
-  //           thickness: 1,
-  //         ),
-  //       ),
-  //     ],
-  //   );
-  // }
+// Widget _divider() {
+//   return Row(
+//     children: [
+//       const Expanded(
+//         child: Divider(
+//           //color: newColorLightGrey,
+//           thickness: 1,
+//         ),
+//       ),
+//       Padding(
+//         padding: const EdgeInsets.symmetric(horizontal: 10),
+//         child: Text(
+//           langKey.orderSummary.tr,
+//           //style: newFontStyle4,
+//         ),
+//       ),
+//       const Expanded(
+//         child: Divider(
+//           //color: newColorLightGrey,
+//           thickness: 1,
+//         ),
+//       ),
+//     ],
+//   );
+// }
 
-  // Widget _orders() {
-  //   return Obx(() => listView(list: viewModel.orderList));
+// Widget _orders() {
+//   return Obx(() => listView(list: viewModel.orderList));
 
-  // return DefaultTabController(
-  //   length: 3,
-  //   child: Scaffold(
-  //     backgroundColor: kRedColor,
-  //     body: Column(
-  //       children: [
-  //         tabBar(),
-  //         //tabBarView(),
-  //       ],
-  //     ),
-  //   ),
-  // );
-  // }
+// return DefaultTabController(
+//   length: 3,
+//   child: Scaffold(
+//     backgroundColor: kRedColor,
+//     body: Column(
+//       children: [
+//         tabBar(),
+//         //tabBarView(),
+//       ],
+//     ),
+//   ),
+// );
+// }
 
-  // TabBar tabBar() {
-  //   return TabBar(
-  //     labelStyle: headline4,
-  //     isScrollable: true,
-  //     labelPadding: const EdgeInsets.symmetric(horizontal: 15),
-  //     labelColor: kPrimaryColor,
-  //     indicatorColor: kPrimaryColor,
-  //     tabs: [
-  //       Tab(text: langKey.pending.tr),
-  //       Tab(text: langKey.accepted.tr),
-  //       //Tab(text: langKey.shipped.tr),
-  //       //Tab(text: langKey.delivered.tr),
-  //       Tab(text: langKey.cancelled.tr),
-  //     ],
-  //   );
-  // }
+// TabBar tabBar() {
+//   return TabBar(
+//     labelStyle: headline4,
+//     isScrollable: true,
+//     labelPadding: const EdgeInsets.symmetric(horizontal: 15),
+//     labelColor: kPrimaryColor,
+//     indicatorColor: kPrimaryColor,
+//     tabs: [
+//       Tab(text: langKey.pending.tr),
+//       Tab(text: langKey.accepted.tr),
+//       //Tab(text: langKey.shipped.tr),
+//       //Tab(text: langKey.delivered.tr),
+//       Tab(text: langKey.cancelled.tr),
+//     ],
+//   );
+// }
 
-  // Widget tabBarView() {
-  //   return const Expanded(
-  //     child: TabBarView(
-  //       children: [
-  // Obx(
-  //   () => listView(
-  //     list: viewModel.pendingOrderList,
-  //   ),
-  // ),
-  // Obx(
-  //   () => listView(
-  //     list: viewModel.approvedOrderList,
-  //   ),
-  // ),
-  // Obx(
-  //   () => listView(
-  //     list: viewModel.cancelledOrderList,
-  //   ),
-  // ),
-  //     ],
-  //   ),
-  // );
-  // }
+// Widget tabBarView() {
+//   return const Expanded(
+//     child: TabBarView(
+//       children: [
+// Obx(
+//   () => listView(
+//     list: viewModel.pendingOrderList,
+//   ),
+// ),
+// Obx(
+//   () => listView(
+//     list: viewModel.approvedOrderList,
+//   ),
+// ),
+// Obx(
+//   () => listView(
+//     list: viewModel.cancelledOrderList,
+//   ),
+// ),
+//     ],
+//   ),
+// );
+// }
 
-  // Widget listView({required List<OrderModel> list}) {
-  //   return list.isNotEmpty
-  //       ? ListView.builder(
-  //           shrinkWrap: true,
-  //           physics: const NeverScrollableScrollPhysics(),
-  //           itemCount: list.length,
-  //           itemBuilder: (context, index) {
-  //             return _orderListItem(
-  //               orderModel: list[index],
-  //             );
-  //           },
-  //         )
-  //       : NoDataFound(text: langKey.noOrderFound.tr);
-  // }
+// Widget listView({required List<OrderModel> list}) {
+//   return list.isNotEmpty
+//       ? ListView.builder(
+//           shrinkWrap: true,
+//           physics: const NeverScrollableScrollPhysics(),
+//           itemCount: list.length,
+//           itemBuilder: (context, index) {
+//             return _orderListItem(
+//               orderModel: list[index],
+//             );
+//           },
+//         )
+//       : NoDataFound(text: langKey.noOrderFound.tr);
+// }
 
-  // Widget _orderListItem({OrderModel? orderModel}) {
-  //   return Padding(
-  //     padding: const EdgeInsets.all(8.0),
-  //     child: Container(
-  //       decoration: BoxDecoration(
-  //         borderRadius: BorderRadius.circular(6),
-  //         color: Colors.white,
-  //         boxShadow: [
-  //           BoxShadow(
-  //             color: Colors.grey.shade300,
-  //             offset: const Offset(1, 1),
-  //             blurRadius: 5,
-  //             spreadRadius: 2,
-  //           )
-  //         ],
-  //       ),
-  //       child: Padding(
-  //         padding: const EdgeInsets.all(8.0),
-  //         child: Column(
-  //           mainAxisAlignment: MainAxisAlignment.start,
-  //           crossAxisAlignment: CrossAxisAlignment.start,
-  //           children: [
-  //             Row(
-  //               children: [
-  //                 CustomText(
-  //                   title: '${langKey.order.tr} #${orderModel!.id}',
-  //                   style: headline3,
-  //                 ),
-  //                 const SizedBox(width: 10),
-  //                 if (orderModel.status != null)
-  //                   CustomText(
-  //                     title: orderModel.status?.capitalizeFirst ?? "",
-  //                     weight: FontWeight.w600,
-  //                     color: AppConstant.getStatusColor(orderModel),
-  //                   ),
-  //               ],
-  //             ),
-  //             RichText(
-  //               text: TextSpan(children: [
-  //                 const TextSpan(
-  //                     text: "Total Price:  ",
-  //                     style: TextStyle(color: kPrimaryColor)),
-  //                 TextSpan(
-  //                     text: "${orderModel.totalPrice}",
-  //                     style: const TextStyle(color: kPrimaryColor)),
-  //               ]),
-  //             ),
-  //             RichText(
-  //               text: TextSpan(children: [
-  //                 const TextSpan(
-  //                     text: "Total Shipping:  ",
-  //                     style: TextStyle(color: kPrimaryColor)),
-  //                 TextSpan(
-  //                     text: "${orderModel.shippingPrice}",
-  //                     style: const TextStyle(color: kPrimaryColor)),
-  //               ]),
-  //             )
-  //           ],
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
+// Widget _orderListItem({OrderModel? orderModel}) {
+//   return Padding(
+//     padding: const EdgeInsets.all(8.0),
+//     child: Container(
+//       decoration: BoxDecoration(
+//         borderRadius: BorderRadius.circular(6),
+//         color: Colors.white,
+//         boxShadow: [
+//           BoxShadow(
+//             color: Colors.grey.shade300,
+//             offset: const Offset(1, 1),
+//             blurRadius: 5,
+//             spreadRadius: 2,
+//           )
+//         ],
+//       ),
+//       child: Padding(
+//         padding: const EdgeInsets.all(8.0),
+//         child: Column(
+//           mainAxisAlignment: MainAxisAlignment.start,
+//           crossAxisAlignment: CrossAxisAlignment.start,
+//           children: [
+//             Row(
+//               children: [
+//                 CustomText(
+//                   title: '${langKey.order.tr} #${orderModel!.id}',
+//                   style: headline3,
+//                 ),
+//                 const SizedBox(width: 10),
+//                 if (orderModel.status != null)
+//                   CustomText(
+//                     title: orderModel.status?.capitalizeFirst ?? "",
+//                     weight: FontWeight.w600,
+//                     color: AppConstant.getStatusColor(orderModel),
+//                   ),
+//               ],
+//             ),
+//             RichText(
+//               text: TextSpan(children: [
+//                 const TextSpan(
+//                     text: "Total Price:  ",
+//                     style: TextStyle(color: kPrimaryColor)),
+//                 TextSpan(
+//                     text: "${orderModel.totalPrice}",
+//                     style: const TextStyle(color: kPrimaryColor)),
+//               ]),
+//             ),
+//             RichText(
+//               text: TextSpan(children: [
+//                 const TextSpan(
+//                     text: "Total Shipping:  ",
+//                     style: TextStyle(color: kPrimaryColor)),
+//                 TextSpan(
+//                     text: "${orderModel.shippingPrice}",
+//                     style: const TextStyle(color: kPrimaryColor)),
+//               ]),
+//             )
+//           ],
+//         ),
+//       ),
+//     ),
+//   );
+// }
 }

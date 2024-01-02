@@ -9,7 +9,6 @@ import '../../../helper/api_base_helper.dart';
 import '../../../helper/constants.dart';
 import '../../../helper/global_variables.dart';
 import '../../../helper/urls.dart';
-import '../../dashboard/dashboard_view.dart';
 import '../../drawer_bottom_nav/drawer_bottom_bar_view.dart';
 
 class LogInViewModel extends GetxController {
@@ -43,7 +42,7 @@ class LogInViewModel extends GetxController {
           GlobalVariable.showLoader.value = false;
           GlobalVariable.noInternet(false);
           GlobalVariable.token = parsedJson['data']['token'];
-          Get.to(DrawerBottomBarView());
+          Get.offAll(DrawerBottomBarView());
         } else if (parsedJson['message'] == 'Invalid credentials') {
           AppConstant.displaySnackBar(
             "Error",
@@ -93,16 +92,18 @@ class LogInViewModel extends GetxController {
             "token": '${value.accessToken}',
           }
         };
-        var parsedJson =
-            await ApiBaseHelper().postMethod(url: Urls.login, body: param);
-        print(parsedJson);
-        if (parsedJson['success'] == true) {
-          GlobalVariable.token = parsedJson['data']['token'];
-          GlobalVariable.showLoader.value = false;
-          Get.to(DrawerBottomBarView());
-        } else {
-          GlobalVariable.showLoader.value = false;
-        }
+
+        await ApiBaseHelper()
+            .postMethod(url: Urls.login, body: param)
+            .then((parsedJson) {
+          if (parsedJson['success'] == true) {
+            GlobalVariable.token = parsedJson['data']['token'];
+            GlobalVariable.showLoader.value = false;
+            //Get.offAll(DrawerBottomBarView());
+          } else {
+            GlobalVariable.showLoader.value = false;
+          }
+        });
       });
     } catch (error) {
       GlobalVariable.showLoader.value = false;

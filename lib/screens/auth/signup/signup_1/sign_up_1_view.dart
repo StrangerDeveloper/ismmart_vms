@@ -80,20 +80,18 @@ class SignUp1View extends StatelessWidget {
   }
 
   Widget checkedStatement() {
-    return const Padding(
-      padding: EdgeInsets.only(top: 20),
+    return Padding(
+      padding: const EdgeInsets.only(top: 20),
       child: Row(
         children: [
-          Icon(
+          const Icon(
             Icons.check_box,
             color: Colors.blue,
           ),
+          SizedBox(width: 10.v),
           SizedBox(
-            width: 5,
-          ),
-          SizedBox(
-            width: 325,
-            child: Text(
+            width: Get.width * 0.8,
+            child: const Text(
               'By creating your account you have to agree with our terms & conditions.',
               overflow: TextOverflow.ellipsis,
               maxLines: 3,
@@ -408,6 +406,7 @@ class SignUp1View extends StatelessWidget {
             : CustomRoundedTextBtn(
                 child: Text(
                   'Create Account',
+                  textAlign: TextAlign.center,
                   style: newFontStyleSize14.copyWith(
                       fontWeight: FontWeight.w500, color: kWhiteColor),
                 ),

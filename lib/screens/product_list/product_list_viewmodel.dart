@@ -5,17 +5,19 @@ import 'package:ismmart_vms/screens/product_list/product_model.dart';
 
 class ProductListViewModel extends GetxController {
   RxString searchBy = 'All'.obs;
-  List<String> searchFilters = <String>['All', 'Status', 'Location', 'Variant'];
+  List<String> searchFilters = <String>['All', 'Active', 'InActive'];
+
   RxDouble dropdownSelectionContainerWidth = 0.0.obs;
   RxDouble searchAndFilterContainerWidth = 0.0.obs;
   double higherContainerWidth = 0.65;
-  double lowerContainerWidth = 0.19;
+  double lowerContainerWidth = 0.2;
   RxBool searchByDropdownVisibility = false.obs;
   RxBool filterDropdownVisibility = false.obs;
   RxBool searchAndFilterIconVisibility = false.obs;
   RxBool searchByContainerIconVisibility = true.obs;
 
   RxList<ProductsItem> productItemsList = <ProductsItem>[].obs;
+  RxList<ProductsItem> filteredItemList = <ProductsItem>[].obs;
 
   RxInt page = 1.obs;
   int limit = 10;
@@ -25,11 +27,32 @@ class ProductListViewModel extends GetxController {
   void onReady() {
     dropdownSelectionContainerWidth.value = Get.width * higherContainerWidth;
     searchAndFilterContainerWidth.value = Get.width * lowerContainerWidth;
-    Future.delayed(const Duration(milliseconds: 800), () {
+    Future.delayed(const Duration(milliseconds: 900), () {
       searchAndFilterIconVisibility.value = true;
     });
 
     getProductItems();
+
+    // searchBy.listen((value) {
+    //   //if(value)
+    //   filteredItemList.clear();
+    //   if (!value.toLowerCase().contains("all")) {
+    //     filteredItemList.addAll(productItemsList);
+    //   } else {
+    //     for (var element in productItemsList) {
+    //       if (value.toLowerCase().contains("inactive")) {
+    //         if (element.status!.toLowerCase().contains("pending")) {
+    //           filteredItemList.add(element);
+    //           break;
+    //         }
+    //       } else if (value.toLowerCase().contains("active")) {
+    //         filteredItemList.add(element);
+    //         break;
+    //       }
+    //     }
+    //   }
+    // });
+
     super.onReady();
   }
 
@@ -47,7 +70,7 @@ class ProductListViewModel extends GetxController {
         productItemsList.addAll(productModel.value.items!);
       }
     }).catchError((e) {
-      debugPrint("GetProductItem: $e");
+      debugPrint("GetProductList: $e");
     });
   }
 }

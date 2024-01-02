@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ismmart_vms/helper/languages/translations_key.dart';
 import 'package:ismmart_vms/widgets/custom_text.dart';
 
 import '../helper/constants.dart';
-import '../helper/languages/translations_key.dart' as langKey;
 
 class NoDataFound extends StatelessWidget {
   const NoDataFound(
@@ -18,7 +18,7 @@ class NoDataFound extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: CustomText(
-        title: text ?? langKey.noDataFound.tr,
+        title: text ?? noDataFound.tr,
         maxLines: maxLines ?? 4,
         textAlign: textAlign ?? TextAlign.center,
         style: headline3,

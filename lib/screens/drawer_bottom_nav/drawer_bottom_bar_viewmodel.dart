@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ismmart_vms/helper/languages/translations_key.dart';
 import 'package:ismmart_vms/screens/add_product/add_product_1/add_product_1_view.dart';
 import 'package:ismmart_vms/screens/order_listing/order_view.dart';
 import 'package:ismmart_vms/screens/product_list/product_list_view.dart';
@@ -19,6 +18,7 @@ class DrawerBottomBarViewModel extends GetxController {
     OrderView(),
     SettingsView(),
   ];
+  
   void changePage(int index) {
     currentPageIndex.value = index;
     bottomNavPageController.jumpToPage(index);
@@ -30,8 +30,8 @@ class DrawerBottomBarViewModel extends GetxController {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text(exitApp.tr),
-            content: Text(exitDialogDesc.tr),
+            title: const Text("Exit App"),
+            content: const Text("Do you wants to exit."),
             actions: [
               Row(
                 children: [
@@ -41,9 +41,9 @@ class DrawerBottomBarViewModel extends GetxController {
                         minimumSize: const Size(double.infinity, 40),
                         foregroundColor: Colors.grey,
                       ),
-                      child: Text(
-                        noBtn.tr,
-                        style: const TextStyle(
+                      child: const Text(
+                        "No",
+                        style: TextStyle(
                           color: Colors.black,
                         ),
                       ),
@@ -58,9 +58,9 @@ class DrawerBottomBarViewModel extends GetxController {
                         minimumSize: const Size(double.infinity, 40),
                         foregroundColor: Colors.grey,
                       ),
-                      child: Text(
-                        yesBtn.tr,
-                        style: const TextStyle(
+                      child: const Text(
+                        "Yes",
+                        style: TextStyle(
                           color: Colors.black,
                         ),
                       ),
@@ -79,6 +79,7 @@ class DrawerBottomBarViewModel extends GetxController {
       return value == true;
     } else {
       currentPageIndex(0);
+      changePage(currentPageIndex.value);
       return false;
     }
   }

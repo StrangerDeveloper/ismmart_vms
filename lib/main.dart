@@ -46,11 +46,13 @@ class MyApp extends StatelessWidget {
               fontSize: 20,
               fontWeight: FontWeight.w400,
             ),
+            iconTheme: const IconThemeData(color: Colors.black),
             centerTitle: true,
             elevation: 3,
             shadowColor: Colors.black12),
       ),
       home: SplashScreenView(),
+      //home:DrawerBottomBarView(),
       initialRoute: Routes.initRoute,
       getPages: Routes.pages,
     );

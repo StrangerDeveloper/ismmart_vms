@@ -17,6 +17,7 @@ class LocationListViewModel extends GetxController {
   RxBool showSearchTxtField = false.obs;
   List<LocationModel> dataList = <LocationModel>[].obs;
   ScrollController scrollController = ScrollController();
+  RxInt currentPage = 0.obs;
   int pageNo = 0;
   RxBool paginationLoader = false.obs;
 
@@ -51,13 +52,12 @@ class LocationListViewModel extends GetxController {
 
   getDataFunction() async {
     pageNo = 0;
-    dataList.clear();
+    currentPage.value = 0;
+    scrollController.removeListener(getData);
     GlobalVariable.showLoader.value = true;
     if (!scrollController.hasListeners) {
       scrollController = ScrollController();
-      scrollController.addListener(() {
-        getData();
-      });
+      scrollController.addListener(getData);
     }
     await getData();
     GlobalVariable.showLoader.value = false;
@@ -70,17 +70,21 @@ class LocationListViewModel extends GetxController {
             scrollController.position.maxScrollExtent ==
                 scrollController.offset)) {
       pageNo++;
+      currentPage.value++;
       paginationLoader.value = true;
       await ApiBaseHelper()
           .getMethod(
               url: '${Urls.getLocation}$pageNo$radioBtnUrlValue$searchUrlValue')
           .then((parsedJson) {
+        if(pageNo == 1){
+          dataList.clear();
+        }
         if (parsedJson['success'] == true &&
             parsedJson['data']['items'] != null) {
           var data = parsedJson['data']['items'] as List;
           totalPages.value = parsedJson['data']['pages'];
-          if (data.isEmpty) {
-            scrollController.dispose();
+          if (data.isEmpty || data.length<10) {
+            scrollController.removeListener(getData);
           }
           dataList.addAll(data.map((e) => LocationModel.fromJson(e)));
           paginationLoader.value = false;

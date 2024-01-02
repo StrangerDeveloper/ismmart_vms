@@ -46,35 +46,35 @@ class UserProfileModel {
     updatedAt = json['updatedAt'];
     iV = json['__v'];
     deleted = json['deleted'];
-    role = json['role'] != null ? new Role.fromJson(json['role']) : null;
+    role = json['role'] != null ? Role.fromJson(json['role']) : null;
     reason = json['reason'];
     social = json['social'];
-    store = json['store'] != null ? new Store.fromJson(json['store']) : null;
+    store = json['store'] != null ? Store.fromJson(json['store']) : null;
     image = json['image'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    data['email'] = this.email;
-    data['name'] = this.name;
-    data['phone'] = this.phone;
-    data['gender'] = this.gender;
-    data['cnic'] = this.cnic;
-    data['status'] = this.status;
-    data['createdAt'] = this.createdAt;
-    data['updatedAt'] = this.updatedAt;
-    data['__v'] = this.iV;
-    data['deleted'] = this.deleted;
-    if (this.role != null) {
-      data['role'] = this.role!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['_id'] = sId;
+    data['email'] = email;
+    data['name'] = name;
+    data['phone'] = phone;
+    data['gender'] = gender;
+    data['cnic'] = cnic;
+    data['status'] = status;
+    data['createdAt'] = createdAt;
+    data['updatedAt'] = updatedAt;
+    data['__v'] = iV;
+    data['deleted'] = deleted;
+    if (role != null) {
+      data['role'] = role!.toJson();
     }
-    data['reason'] = this.reason;
-    data['social'] = this.social;
-    if (this.store != null) {
-      data['store'] = this.store!.toJson();
+    data['reason'] = reason;
+    data['social'] = social;
+    if (store != null) {
+      data['store'] = store!.toJson();
     }
-    data['image'] = this.image;
+    data['image'] = image;
     return data;
   }
 }
@@ -91,9 +91,9 @@ class Role {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    data['name'] = this.name;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['_id'] = sId;
+    data['name'] = name;
     return data;
   }
 }
@@ -134,26 +134,26 @@ class Store {
     if (json['types'] != null) {
       types = <Types>[];
       json['types'].forEach((v) {
-        types!.add(new Types.fromJson(v));
+        types!.add(Types.fromJson(v));
       });
     }
     name = json['name'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    data['vendor'] = this.vendor;
-    data['slug'] = this.slug;
-    data['deleted'] = this.deleted;
-    data['createdAt'] = this.createdAt;
-    data['updatedAt'] = this.updatedAt;
-    data['__v'] = this.iV;
-    data['logo'] = this.logo;
-    if (this.types != null) {
-      data['types'] = this.types!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['_id'] = sId;
+    data['vendor'] = vendor;
+    data['slug'] = slug;
+    data['deleted'] = deleted;
+    data['createdAt'] = createdAt;
+    data['updatedAt'] = updatedAt;
+    data['__v'] = iV;
+    data['logo'] = logo;
+    if (types != null) {
+      data['types'] = types!.map((v) => v.toJson()).toList();
     }
-    data['name'] = this.name;
+    data['name'] = name;
     return data;
   }
 }
@@ -170,9 +170,9 @@ class Types {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    data['name'] = this.name;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['_id'] = sId;
+    data['name'] = name;
     return data;
   }
 }

@@ -184,7 +184,7 @@ class CustomActionIcon extends StatelessWidget {
                   if (hasShadow!)
                     BoxShadow(
                       color: kDarkColor.withOpacity(0.2),
-                      offset: Offset(0, 1),
+                      offset: const Offset(0, 1),
                       blurRadius: 10.7,
                     )
                 ],
@@ -290,23 +290,11 @@ class CustomIconBtn extends StatelessWidget {
       borderRadius: BorderRadius.circular(8),
       child: Container(
         padding: const EdgeInsets.all(8),
-        child: enabled
-            ? Icon(
+        child: Icon(
                 icon,
+                color: enabled ? null : Colors.grey.shade400,
                 size: iconSize ?? 15,
               )
-            : Stack(
-                children: [
-                  Icon(
-                    icon,
-                    size: iconSize ?? 15,
-                  ),
-                  Expanded(
-                      child: Container(
-                    color: Colors.grey.shade200,
-                  ))
-                ],
-              ),
       ),
     );
   }

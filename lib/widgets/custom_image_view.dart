@@ -89,7 +89,7 @@ class CustomImageView extends StatelessWidget {
     if (imagePath != null) {
       switch (imagePath!.imageType) {
         case ImageType.svg:
-          return Container(
+          return SizedBox(
             height: height,
             width: width,
             child: SvgPicture.asset(
@@ -115,7 +115,7 @@ class CustomImageView extends StatelessWidget {
             fit: fit,
             imageUrl: imagePath!,
             color: color,
-            placeholder: (context, url) => Container(
+            placeholder: (context, url) => SizedBox(
               height: 30,
               width: 30,
               child: LinearProgressIndicator(
@@ -137,21 +137,21 @@ class CustomImageView extends StatelessWidget {
             height: height,
             width: width,
             fit: fit ?? BoxFit.cover,
-            color: color,
+            //color: color,
           );
       }
     }
-    return SizedBox();
+    return Container();
   }
 }
 
 extension ImageTypeExtension on String {
   ImageType get imageType {
-    if (this.startsWith('http') || this.startsWith('https')) {
+    if (startsWith('http') || startsWith('https')) {
       return ImageType.network;
-    } else if (this.endsWith('.svg')) {
+    } else if (endsWith('.svg')) {
       return ImageType.svg;
-    } else if (this.startsWith('file://')) {
+    } else if (startsWith('file://')) {
       return ImageType.file;
     } else {
       return ImageType.png;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ismmart_vms/helper/constants.dart';
+import 'package:ismmart_vms/helper/languages/translations_key.dart';
 import 'package:ismmart_vms/helper/utils/image_constant.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/widgets/custom_image_view.dart';
@@ -14,44 +15,47 @@ class CustomBottomBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 64.v,
-      padding: const EdgeInsets.only(left: 15, right: 15, top: 3, bottom: 3),
-      decoration: BoxDecoration(
-        color: kWhiteColor,
-        borderRadius: BorderRadius.circular(32.h),
-        border: Border.all(
-          color: kGrey600,
-          width: 1.h,
+    return Padding(
+      padding: const EdgeInsets.all(4.0),
+      child: Container(
+        height: 64.v,
+        padding: const EdgeInsets.only(left: 15, right: 15, top: 3, bottom: 3),
+        decoration: BoxDecoration(
+          color: kWhiteColor,
+          borderRadius: BorderRadius.circular(32.h),
+          border: Border.all(
+            color: kGrey600,
+            width: 1.h,
+          ),
         ),
-      ),
-      child: BottomNavigationBar(
-        backgroundColor: Colors.transparent,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        selectedFontSize: 0,
-        elevation: 0,
-        currentIndex: currentIndex!,
-        items: [
-          //"assets/svg/img_home.svg"
-          _bottomBarItem(iconImage: ImageConstant.imgHome),
-          _bottomBarItem(iconImage: ImageConstant.imgBag),
-          _bottomBarItem(iconImage: ImageConstant.imgPlus),
-          _bottomBarItem(iconImage: ImageConstant.imgTag),
-          _bottomBarItem(iconImage: ImageConstant.imgAvatar),
-        ],
-        onTap: onTap,
+        child: BottomNavigationBar(
+          backgroundColor: Colors.transparent,
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          selectedFontSize: 0,
+          elevation: 0,
+          currentIndex: currentIndex!,
+          items: [
+            //"assets/svg/img_home.svg"
+            _bottomBarItem(iconImage: ImageConstant.imgHome),
+            _bottomBarItem(iconImage: ImageConstant.imgBag),
+            _bottomBarItem(iconImage: ImageConstant.imgPlus),
+            _bottomBarItem(iconImage: ImageConstant.imgTag),
+            _bottomBarItem(iconImage: ImageConstant.imgAvatar),
+          ],
+          onTap: onTap,
+        ),
       ),
     );
   }
 
-  BottomNavigationBarItem _bottomBarItem({iconImage}) {
+  BottomNavigationBarItem _bottomBarItem({iconImage, color}) {
     return BottomNavigationBarItem(
       icon: CustomImageView(
         imagePath: iconImage,
         height: 24.adaptSize,
         width: 24.adaptSize,
-        color: kGrey400,
+        color: color ?? kGrey600,
       ),
       activeIcon: CustomImageView(
         imagePath: iconImage,

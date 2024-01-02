@@ -11,7 +11,6 @@ import 'package:ismmart_vms/widgets/custom_text.dart';
 import 'package:ismmart_vms/widgets/custom_textfield.dart';
 
 import '../../helper/utils/image_constant.dart';
-import '../../widgets/appBar_leading_image.dart';
 import '../../widgets/custom_image_view.dart';
 import '../order_detail/order_detail_view.dart';
 
@@ -78,13 +77,14 @@ class OrderView extends StatelessWidget {
   PreferredSizeWidget _buildAppBar() {
     return CustomAppBar(
       leadingWidth: 48.h,
-      leading: AppbarLeadingImage(
-        imagePath: ImageConstant.imgArrowLeft,
-        margin: EdgeInsets.only(left: 24.h, top: 10.v, bottom: 10.v),
-        onTap: () {
-          onTapArrowLeft();
-        },
-      ),
+      leading: Container(),
+      // leading: AppbarLeadingImage(
+      //   imagePath: ImageConstant.imgArrowLeft,
+      //   margin: EdgeInsets.only(left: 24.h, top: 10.v, bottom: 10.v),
+      //   onTap: () {
+      //     onTapArrowLeft();
+      //   },
+      // ),
       title: "Order List",
     );
   }
@@ -166,9 +166,22 @@ class OrderView extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _customField2(
-                    DateFormat.yMMMd().format(orderItemDetail.createdAt!)),
-                _customField2(orderItemDetail.orderDetails!.market.toString()),
+                Row(
+                  children: [
+                    _customField2(orderItemDetail.orderId ?? "id"),
+                    SizedBox(width: 8.h),
+                    Icon(
+                      Icons.circle,
+                      color: Colors.grey.shade400,
+                      size: 5,
+                    ),
+                    SizedBox(width: 8.h),
+                    _customField2(DateFormat.yMMMd()
+                        .format(DateTime.parse(orderItemDetail.createdAt!))),
+                  ],
+                ),
+                _customField2(orderItemDetail.orderDetails?.market.toString() ??
+                    "market"),
               ],
             ),
             Container(
@@ -179,26 +192,44 @@ class OrderView extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      _customField1(orderItemDetail.customer!.name!),
-                      _customField1(orderItemDetail.totals!.total.toString()),
+                      _customField1(orderItemDetail.customer?.name ?? "naaam"),
+                      _customField1("${orderItemDetail.totals?.total ?? "0"}"),
                     ],
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8),
-                    child: Row(
-                      children: orderItemDetail.items!
-                          .map((e) => _status(e.fulfilmentStatus!))
-                          .toList(),
+                    child: _status(orderItemDetail.paymentStatus ?? "status"),
+                    // child: ListView.builder(
+                    //   shrinkWrap: true,
+                    //   physics: const NeverScrollableScrollPhysics(),
+                    //   itemCount: orderItemDetail.lineitems?.length ?? 0,
+                    //   itemBuilder: (context, index) {
+                    //     Lineitem lineitems = orderItemDetail.lineitems![index];
+                    //     return Row(
+                    //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //       children: [
+                    //         _status(lineitems.paymentStatus ?? "asdf"),
+                    //         // _customField2(lineitems.name ?? "name"),
+                    //         // _customField2(lineitems.quantity.toString() ?? "0"),
+                    //         // _customField2(lineitems.total.toString() ?? "0"),
+                    //       ],
+                    //     );
+                    //   },
+                    // ),
+                    // child: Row(
+                    //   children: orderItemDetail.lineitems!
+                    //       .map((e) => _status(e.fulfilmentStatus!))
+                    //       .toList(),
 
-                      // _status("Payment pending", "1"),
-                      // SizedBox(width: 8.h),
-                      // _status(detail.items, "2"),
-                    ),
+                    //   // _status("Payment pending", "1"),
+                    //   // SizedBox(width: 8.h),
+                    //   // _status(detail.items, "2"),
+                    // ),
                   ),
                   Row(
                     children: [
                       _customField2(
-                          "${orderItemDetail.items!.length.toString()} items"),
+                          "${orderItemDetail.lineitems?.length ?? "teeen"} items"),
                       SizedBox(width: 8.h),
                       Icon(
                         Icons.circle,
@@ -283,18 +314,50 @@ class OrderView extends StatelessWidget {
   }
 
   Color statusColor(String value) {
-    switch (value.toLowerCase()) {
-      case "pending":
-        return Colors.deepOrange;
-      case "approved":
-      case "completed":
-        return Colors.teal;
-      default:
-        return Colors.blue;
+    if (value == "Pending") {
+      return const Color(0xFFFDBA8C);
+    }
+    if (value == "Paid") {
+      return const Color(0xFFFDBA8C);
+    }
+    if (value == "Partially Paid") {
+      return const Color(0xFFFFE5A0);
+    }
+    if (value == "Refunded") {
+      return const Color(0xFFFDBA8C);
+    }
+    if (value == "Cancelled") {
+      return const Color(0xFFFE3A30);
+    }
+    if (value == "Processing") {
+      return const Color(0xFFFFE5A0);
+    }
+    if (value == "Shipped") {
+      return const Color(0xFFBDE9DA);
+    }
+    if (value == "Delivered") {
+      return const Color(0xFFBDE9DA);
+    }
+    if (value == "Returned") {
+      return const Color(0xFFFFE5A0);
+    }
+    if (value == "In Transit") {
+      return const Color(0xFFFFE5A0);
+    }
+    if (value == "Out for Delivery") {
+      return const Color(0xFFFFE5A0);
+    }
+    if (value == "Failed") {
+      return const Color(0xFFFE3A30);
+    }
+    if (value == "COD Verified") {
+      return const Color(0xFFBDE9DA);
+    } else {
+      return const Color(0xFFFE3A30);
     }
   }
 
-  onTapArrowLeft() {
-    Get.back();
-  }
+  // onTapArrowLeft() {
+  //   Get.back();
+  // }
 }
