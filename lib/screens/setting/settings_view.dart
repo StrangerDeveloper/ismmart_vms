@@ -5,7 +5,7 @@ import 'package:ismmart_vms/helper/utils/image_constant.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/screens/auth/login/login_view.dart';
 import 'package:ismmart_vms/screens/bank_list/bank_list_view.dart';
-import 'package:ismmart_vms/screens/location_list/location_list_view.dart';
+import 'package:ismmart_vms/screens/shippings/shippings_view.dart';
 import 'package:ismmart_vms/screens/store_profile/store_profile_view.dart';
 import 'package:ismmart_vms/screens/user_profile/user_profile_view.dart';
 
@@ -19,29 +19,28 @@ class SettingsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            titleAndBackBtn(
-                iconPath: 'assets/images/ismmart_logo.png',
-                title: 'ISMMART',
-                hasMenu: true),
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          titleAndBackBtn(
+              iconPath: 'assets/images/ismmart_logo.png',
+              title: 'ISMMART',
+              hasMenu: true),
 
-            SizedBox(
-              height: 30.h,
-            ),
-            // drawerHeader(),
-            drawerListItems(
-              'Store',
-              onTab: () {
-                //viewModel.isTab.value = !viewModel.isTab.value;
-                Get.to(StoreProfileView());
-              },
-              iconPath: 'assets/images/overViewIcon.png',
-            ),
+          SizedBox(
+            height: 30.h,
+          ),
+          // drawerHeader(),
+          drawerListItems(
+            'Store',
+            onTab: () {
+              //viewModel.isTab.value = !viewModel.isTab.value;
+              Get.to(StoreProfileView());
+            },
+            iconPath: 'assets/images/overViewIcon.png',
+          ),
 
             // drawerListItems(
             //   'Collections',
@@ -49,73 +48,70 @@ class SettingsView extends StatelessWidget {
             //   onTab: () => Get.to(CollectionView()),
             // ),
 
-            drawerListItems(
-              'Locations',
-              iconPath: 'assets/images/pin.png',
-              onTab: () => Get.to(LocationListView()),
-            ),
+          drawerListItems(
+            'Locations',
+            iconPath: 'assets/images/pin.png',
+            onTab: () => Get.to(AddLocationView()),
+          ),
 
-            const Divider(
-              color: Color(0xffE5E7EB),
-              thickness: 2,
-              indent: 15,
-              endIndent: 15,
-              // height: 20
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            drawerListItems('Payouts',
-                iconPath: 'assets/images/credit-card.png',
-                onTab: () => Get.to(PayoutListView())),
-            drawerListItems(
-                //iconPath: 'assets/images/settingIcon.png',
-                onTab: () {
-              viewModel.moreOption.toggle();
-            }, 'Settings', dropDwnIcon: true),
+          const Divider(
+            color: Color(0xffE5E7EB),
+            thickness: 2,
+            indent: 15,
+            endIndent: 15,
+            // height: 20
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          drawerListItems('Payouts',
+              iconPath: 'assets/images/credit-card.png',
+              onTab: () => Get.to(PayoutListView())),
+          drawerListItems(
+              //iconPath: 'assets/images/settingIcon.png',
+              onTab: () {
+            viewModel.moreOption.toggle();
+          }, 'Settings', dropDwnIcon: true),
 
-            Obx(
-              () => viewModel.moreOption.value
-                  ? Padding(
-                      padding: const EdgeInsets.only(left: 20),
-                      child: Column(
-                        children: [
-                          drawerListItems(
-                            iconPath: 'assets/images/wallet.png',
-                            'Banking',
+          Obx(
+            () => viewModel.moreOption.value
+                ? Padding(
+                    padding: const EdgeInsets.only(left: 20),
+                    child: Column(
+                      children: [
+                        drawerListItems(
+                          iconPath: 'assets/images/wallet.png',
+                          'Banking',
+                          h: 45,
+                          onTab: () => Get.to(BankListView()),
+                        ),
+                        drawerListItems(
+                            iconPath: 'assets/images/Vector.png',
+                            'Shipping',
                             h: 45,
-                            onTab: () => Get.to(BankListView()),
-                          ),
-                          // drawerListItems(
-                          //     iconPath: 'assets/images/Vector.png',
-                          //     'Shipping',
-                          //     h: 45,
-                          //     onTab: () => Get.to(ShippingMethodsView())),
-                          // drawerListItems(
-                          //     iconPath: 'assets/images/edit-user.png',
-                          //     'Users & Permissions',
-                          //     h: 45,
-                          //     onTab: () => Get.to(AddUserView())),
-                        ],
-                      ),
-                    )
-                  : const SizedBox(),
-            ),
+                            onTab: () => Get.to(ShippingMethodsView())),
+                        drawerListItems(
+                            iconPath: 'assets/images/edit-user.png',
+                            'Users & Permissions',
+                            h: 45,
+                            onTab: () => Get.to(AddUserView())),
+                      ],
+                    ),
+                  )
+                : const SizedBox(),
+          ),
 
-            InkWell(
-              onTap: () {
-                Get.to(() => UserProfileView());
-              },
-              child: titleAndBackBtn(
-                  iconPath: ImageConstant.imgAvatar, title: 'User Name'),
-            ),
+          InkWell(
+            onTap: () => Get.to(UserProfileView()),
+            child: titleAndBackBtn(
+                iconPath: ImageConstant.imgAvatar, title: 'User Name'),
+          ),
 
-            drawerListItems('Logout', iconPath: 'assets/images/settingIcon.png',
-                onTab: () {
-              Get.offAll(LogInView());
-            })
-          ],
-        ),
+          drawerListItems('Logout', iconPath: 'assets/images/settingIcon.png',
+              onTab: () {
+            Get.offAll(LogInView());
+          })
+        ],
       ),
     );
   }

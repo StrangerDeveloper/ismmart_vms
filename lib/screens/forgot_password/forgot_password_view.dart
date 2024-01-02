@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/languages/translations_key.dart';
 import 'package:ismmart_vms/screens/auth/login/login_view.dart';
 import 'package:ismmart_vms/widgets/custom_text.dart';
+import 'package:ismmart_vms/widgets/loader_view.dart';
 
 import '../../helper/constants.dart';
 import '../../helper/global_variables.dart';
@@ -24,29 +25,36 @@ class ForgotPasswordView extends StatelessWidget {
         appBar: const CustomAppBar(
           title: "Forget Password",
         ),
-        body: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 26),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                  child: Text("Forget Password",
-                      style: newFontStyleSize24.copyWith(color: newColorBlue))),
-              Padding(
-                padding: const EdgeInsets.only(top: 52, bottom: 16),
-                child: Text('Reset Password', style: newFontStyleSize20),
+        body: Stack(
+          children: [
+            SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 26),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(
+                      child: Text("Forget Password",
+                          style: newFontStyleSize24.copyWith(
+                              color: newColorBlue))),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 52, bottom: 16),
+                    child: Text('Reset Password', style: newFontStyleSize20),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0, bottom: 32),
+                    child: Text(
+                      'Enter Email/No. account to reset your password',
+                      style: newFontStyleSize14.copyWith(
+                          color: newColorLightGrey2),
+                    ),
+                  ),
+                  emailTextField(),
+                  resetBtn()
+                ],
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 8.0, bottom: 32),
-                child: Text(
-                  'Enter Email/No. account to reset your password',
-                  style: newFontStyleSize14.copyWith(color: newColorLightGrey2),
-                ),
-              ),
-              emailTextField(),
-              logInBtn()
-            ],
-          ),
+            ),
+            LoaderView()
+          ],
         ),
       ),
     );
@@ -62,7 +70,7 @@ class ForgotPasswordView extends StatelessWidget {
             Align(
                 alignment: Alignment.topLeft,
                 child: CustomText(
-                  title: 'Email / Phone Number',
+                  title: 'Email ',
                   style: newFontStyleSize14,
                 )),
             const SizedBox(
@@ -72,7 +80,7 @@ class ForgotPasswordView extends StatelessWidget {
               contentPadding: const EdgeInsets.symmetric(vertical: 16),
               controller: viewModel.emailController,
               prefixIcon: Icons.email,
-              hintText: 'Email / Phone Number',
+              hintText: 'Email ',
               autoValidateMode: AutovalidateMode.onUserInteraction,
               validator: (value) {
                 return Validator.validateEmail(value);
@@ -85,32 +93,39 @@ class ForgotPasswordView extends StatelessWidget {
     );
   }
 
-  Widget logInBtn() {
+  Widget resetBtn() {
     return Padding(
       padding: const EdgeInsets.only(top: 32),
       child: Obx(
         () => GlobalVariable.showLoader.value
-            ? const CustomLoading(isItBtn: true)
+            ? const CustomLoading(isItBtn: false)
             : CustomRoundedTextBtn(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Reset",
-                      style: newFontStyleSize14.copyWith(
-                          fontWeight: FontWeight.w500, color: kWhiteColor),
-                    ),
-                    const SizedBox(
-                      width: 4,
-                    ),
-                    const Icon(
-                      Icons.arrow_forward,
-                      size: 20,
-                    ),
-                  ],
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Reset",
+                        style: newFontStyleSize14.copyWith(
+                            fontWeight: FontWeight.w500, color: kWhiteColor),
+                      ),
+                      const SizedBox(
+                        width: 4,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0),
+                        child: const Icon(
+                          Icons.arrow_forward,
+                          size: 20,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 onPressed: () {
-                  Get.to(() => LogInView());
+                  viewModel.sendBtn();
+                  // Get.to(() => LogInView());
                 },
               ),
       ),

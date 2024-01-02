@@ -33,7 +33,7 @@ class AddLocationViewModel extends GetxController {
   List<CountriesModel> filteredCountriesList = <CountriesModel>[].obs;
 
   //status
-  RxInt statusSelectedIndex = (-1).obs;
+  RxInt statusSelectedIndex = 0.obs;
   List<String> statusList = const <String>['Active', 'In-Active'];
 
   @override
@@ -103,7 +103,6 @@ class AddLocationViewModel extends GetxController {
 
   saveAndCreateBtn() async {
     if ((addLocationFormKey.currentState?.validate() ?? false) &&
-        statusSelectedIndex.value != -1 &&
         selectedCityId != '' &&
         selectedCountryId != '') {
       GlobalVariable.showLoader.value = true;

@@ -1,14 +1,16 @@
 import 'dart:async';
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:ismmart_vms/helper/languages/translations_key.dart';
+import 'package:path_provider/path_provider.dart' as path_provider;
+
 import 'package:ismmart_vms/widgets/bottomsheet_item.dart';
 import 'package:ismmart_vms/widgets/custom_snackbar.dart';
-import 'package:path_provider/path_provider.dart' as path_provider;
-import 'package:ismmart_vms/helper/languages/translations_key.dart' as langKey;
 
 import '../helper/constants.dart';
 
@@ -50,18 +52,19 @@ class PickImage {
                     onPressed: () {
                       Get.back();
                     },
-                    icon: Icon(Icons.close),
+                    icon: const Icon(Icons.close),
                   ),
                 ],
               ),
-              Divider(),
+              const Divider(),
               BottomSheetItemRow(
                 title: "Gallery",
                 icon: Icons.browse_gallery_outlined,
                 isDisabled: false,
                 onTap: () async {
                   selectedImage = await imgFromGallery();
-                  Navigator.of(context).pop();
+                  //Navigator.of(context).pop();
+                  Get.back();
                 },
               ),
               BottomSheetItemRow(
@@ -70,7 +73,8 @@ class PickImage {
                 isDisabled: false,
                 onTap: () async {
                   selectedImage = await imgFromCamera();
-                  Navigator.of(context).pop();
+                  // Navigator.of(context).pop();
+                  Get.back();
                 },
               ),
             ],
@@ -147,7 +151,7 @@ class PickImage {
                   Padding(
                     padding: const EdgeInsets.only(left: 5),
                     child: Text(
-                      langKey.pickImage.tr,
+                      pickImage.tr,
                       style: GoogleFonts.lato(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
@@ -160,22 +164,23 @@ class PickImage {
                     onPressed: () {
                       Get.back();
                     },
-                    icon: Icon(Icons.close),
+                    icon: const Icon(Icons.close),
                   ),
                 ],
               ),
-              Divider(),
+              const Divider(),
               BottomSheetItemRow(
-                title: langKey.gallery.tr,
+                title: gallery.tr,
                 icon: Icons.image,
                 isDisabled: false,
                 onTap: () async {
                   imageList.addAll(await multipleImgFromGallery());
-                  Navigator.of(context).pop();
+                  // Navigator.of(context).pop();
+                  Get.back();
                 },
               ),
               BottomSheetItemRow(
-                title: langKey.camera.tr,
+                title: camera.tr,
                 icon: Icons.camera_alt_outlined,
                 isDisabled: false,
                 onTap: () async {
@@ -183,7 +188,8 @@ class PickImage {
                   if (selectedImage != null) {
                     imageList.add(selectedImage!);
                   }
-                  Navigator.of(context).pop();
+                  //Navigator.of(context).pop();
+                  Get.back();
                 },
               ),
             ],
@@ -222,8 +228,7 @@ class PickImage {
         double length = await checkImageSize(result!);
 
         if (length > 2) {
-          AppConstant.displaySnackBar(
-              langKey.errorTitle.tr, langKey.imageSizeDesc.tr + ' 2MB');
+          AppConstant.displaySnackBar(errorTitle.tr, '${imageSizeDesc.tr} 2MB');
         } else {
           File file = File(result.path);
           tempList.add(file);
@@ -240,7 +245,6 @@ class PickImage {
     final data = await file.readAsBytes();
     final newKb = data.length / 1024;
     final newMb = newKb / 1024;
-    print('IMAGE SIZE : $newMb');
     return newMb;
   }
 }

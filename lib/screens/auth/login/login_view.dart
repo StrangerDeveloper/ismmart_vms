@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/global_variables.dart';
@@ -26,7 +28,7 @@ class LogInView extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.white,
         body: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 25),
+          padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 25),
           child: Stack(
             children: [
               Form(
@@ -59,7 +61,8 @@ class LogInView extends StatelessWidget {
                     orWidget(),
                     googlelogInBtn(),
                     // facebooklogInBtn(),
-                    applelogInBtn(),
+                    if (Platform.isIOS) applelogInBtn(),
+
                     doNotHaveAnAccount(),
                   ],
                 ),
@@ -286,21 +289,21 @@ class LogInView extends StatelessWidget {
 
   Widget forgotPassword() {
     return Container(
-      margin: const EdgeInsets.only(bottom: 20, right: 10, top: 2),
-      alignment: Alignment.centerRight,
-      child: InkWell(
-          onTap: () {
-            Get.toNamed(Routes.forgotPassword1, arguments: {
-              'email': GetUtils.isEmail(viewModel.emailController.text)
-                  ? viewModel.emailController.text
-                  : ''
-            });
-          },
-          child: CustomText(
-            title: 'Forget Password?',
-            style: newFontStyleSize14.copyWith(fontWeight: FontWeight.w500),
-          )),
-    );
+        margin: const EdgeInsets.only(bottom: 20, right: 10, top: 2),
+        alignment: Alignment.centerRight,
+        child: TextButton(
+            onPressed: () {
+              print("forget --------${viewModel.emailController.text}");
+              Get.toNamed(Routes.forgotPassword1, arguments: {
+                'email': GetUtils.isEmail(viewModel.emailController.text)
+                    ? viewModel.emailController.text
+                    : ''
+              });
+            },
+            child: CustomText(
+              title: 'Forget Password?',
+              style: newFontStyleSize14.copyWith(fontWeight: FontWeight.w500),
+            )));
   }
 
   Widget orWidget() {

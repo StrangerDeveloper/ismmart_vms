@@ -5,7 +5,8 @@ import 'package:ismmart_vms/screens/product_list/product_model.dart';
 
 class ProductListViewModel extends GetxController {
   RxString searchBy = 'All'.obs;
-  List<String> searchFilters = <String>['All', 'Status', 'Location', 'Variant'];
+  List<String> searchFilters = <String>['All', 'Active', 'InActive'];
+
   RxDouble dropdownSelectionContainerWidth = 0.0.obs;
   RxDouble searchAndFilterContainerWidth = 0.0.obs;
   double higherContainerWidth = 0.65;
@@ -16,6 +17,7 @@ class ProductListViewModel extends GetxController {
   RxBool searchByContainerIconVisibility = true.obs;
 
   RxList<ProductsItem> productItemsList = <ProductsItem>[].obs;
+  RxList<ProductsItem> filteredItemList = <ProductsItem>[].obs;
 
   RxInt page = 1.obs;
   int limit = 10;
@@ -30,6 +32,27 @@ class ProductListViewModel extends GetxController {
     });
 
     getProductItems();
+
+    // searchBy.listen((value) {
+    //   //if(value)
+    //   filteredItemList.clear();
+    //   if (!value.toLowerCase().contains("all")) {
+    //     filteredItemList.addAll(productItemsList);
+    //   } else {
+    //     for (var element in productItemsList) {
+    //       if (value.toLowerCase().contains("inactive")) {
+    //         if (element.status!.toLowerCase().contains("pending")) {
+    //           filteredItemList.add(element);
+    //           break;
+    //         }
+    //       } else if (value.toLowerCase().contains("active")) {
+    //         filteredItemList.add(element);
+    //         break;
+    //       }
+    //     }
+    //   }
+    // });
+
     super.onReady();
   }
 
@@ -43,7 +66,6 @@ class ProductListViewModel extends GetxController {
         .then((parsedJson) {
       final data = parsedJson['data'];
       if (data != null) {
-        print("GetProductList: $data");
         productModel.value = ProductModel.fromJson(data);
         productItemsList.addAll(productModel.value.items!);
       }

@@ -184,7 +184,7 @@ class CustomActionIcon extends StatelessWidget {
                   if (hasShadow!)
                     BoxShadow(
                       color: kDarkColor.withOpacity(0.2),
-                      offset: Offset(0, 1),
+                      offset: const Offset(0, 1),
                       blurRadius: 10.7,
                     )
                 ],

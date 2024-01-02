@@ -22,7 +22,7 @@ import '../return/return_view.dart';
 // ignore: must_be_immutable
 class OrderDetailView extends StatelessWidget {
   final OrderItem order;
-  OrderDetailView({super.key, required this.order}) {}
+  const OrderDetailView({super.key, required this.order});
 
   @override
   Widget build(BuildContext context) {
@@ -560,7 +560,7 @@ class OrderDetailView extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     _customField1(
-                        "${order.lineitems?[0].assignedRider?.name ?? "rider"}"),
+                        order.lineitems?[0].assignedRider?.name ?? "rider"),
                     _customField1(
                         order.lineitems?[0].assignedRider?.cnic ?? "id"),
                   ],
@@ -572,7 +572,7 @@ class OrderDetailView extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     _customField1(
-                        "${order.lineitems?[0].assignedRider?.name ?? "rider"}"),
+                        order.lineitems?[0].assignedRider?.name ?? "rider"),
                     //SizedBox(width: 8.h),
                     _customField1(order.deliveryStatus ?? "id"),
                   ],

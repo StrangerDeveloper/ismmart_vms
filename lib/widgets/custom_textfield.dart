@@ -730,7 +730,7 @@ class CountryCodePickerTextField extends StatelessWidget {
                     borderRadius: BorderRadius.circular(2),
                   ),
                   searchDecoration: InputDecoration(
-                    isDense : true,
+                    isDense: true,
                     prefixIconColor: Colors.black,
                     contentPadding: EdgeInsets.zero,
                     labelText: labelText,
@@ -757,7 +757,7 @@ class CountryCodePickerTextField extends StatelessWidget {
                   onChanged: onChanged,
                   // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
                   initialSelection: initialValue,
-                  favorite: ['+92'],
+                  favorite: const ['+92'],
                 ),
               ),
             ),
@@ -787,7 +787,6 @@ class CountryCodePickerTextField extends StatelessWidget {
               borderRadius: BorderRadius.circular(8),
             ),
           ),
-
         ),
       ],
     );

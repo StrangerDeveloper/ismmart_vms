@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -61,11 +60,12 @@ class SignUpScreen1ViewModel extends GetxController {
   String socialToken = '';
   @override
   void onReady() {
+    GlobalVariable.showLoader.value = false;
     nameController.text = _socialviewModel.socialName.value;
     emailController.text = _socialviewModel.socialEmail.value;
     emailController.text = _socialviewModel.socialEmail.value;
     socialToken = _socialviewModel.socialToken.value;
-    
+
     super.onReady();
   }
 
@@ -76,6 +76,7 @@ class SignUpScreen1ViewModel extends GetxController {
     passwordController.dispose();
     phoneNumberController.dispose();
     GlobalVariable.showLoader.value = false;
+
     super.onClose();
   }
 
@@ -138,22 +139,30 @@ class SignUpScreen1ViewModel extends GetxController {
 
       changeView.value = true;
       body.value = param;
-
+      GlobalVariable.showLoader.value = true;
+      print("llllll  ${GlobalVariable.showLoader.value}");
       await ApiBaseHelper()
           .postMethodForImage(
               url: Urls.register, files: fileList, fields: param)
           .then((parsedJson) {
-        //print(parsedJson);
+        print(cnicFrontImage.value);
         if (parsedJson['success'] == true) {
+          print("success====== Step 1");
+          GlobalVariable.showLoader.value = false;
+          print("llllll  ${GlobalVariable.showLoader.value}");
+
           param.removeWhere((key, value) => value == "1");
           Get.to(() => SignUp2View(), arguments: param);
         } else {
+          GlobalVariable.showLoader(false);
           AppConstant.displaySnackBar(
             "Error",
             parsedJson['message'],
           );
         }
       });
+    } else {
+      GlobalVariable.showLoader(false);
     }
   }
 

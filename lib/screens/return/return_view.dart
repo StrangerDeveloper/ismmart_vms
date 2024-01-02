@@ -20,7 +20,7 @@ class _RefundViewState extends State<RefundView> {
     final ReturnViewModel viewModel = Get.put(ReturnViewModel());
 
     return Scaffold(
-      appBar: CustomAppBar(
+      appBar: const CustomAppBar(
         title: "Return List",
         backBtn: false,
       ),

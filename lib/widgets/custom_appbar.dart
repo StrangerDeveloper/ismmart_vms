@@ -106,7 +106,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         return Container(
           height: 55.v,
           width: double.maxFinite,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
               // color: whiteA700,
               ),
         );
@@ -203,7 +203,7 @@ class CustomAppBar1 extends StatelessWidget implements PreferredSizeWidget {
         return Container(
           height: 55.v,
           width: double.maxFinite,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
               // color: whiteA700,
               ),
         );

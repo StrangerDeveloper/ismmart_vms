@@ -128,7 +128,7 @@ class StoreProfileViewModel extends GetxController {
         }
       }
 
-      print(param);
+    
 
       GlobalVariable.showLoader.value = true;
       await ApiBaseHelper()

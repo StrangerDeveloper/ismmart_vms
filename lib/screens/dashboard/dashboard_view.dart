@@ -23,28 +23,26 @@ class DashboardView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        //drawer: const CustomDrawer(),
-        appBar: appBar(),
-        body: Stack(
-          children: [
-            SingleChildScrollView(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                children: [
-                  welcomeWidget(),
-                  const Divider(color: Color(0xFFE5E7EB)),
-                  todayAndProgressReport(),
-                  ordersProgress(),
-                  SizedBox(height: 24.v),
-                  _buildCharts(),
-                ],
-              ),
+    return Scaffold(
+      //drawer: const CustomDrawer(),
+      appBar: appBar(),
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              children: [
+                welcomeWidget(),
+                const Divider(color: Color(0xFFE5E7EB)),
+                todayAndProgressReport(),
+                ordersProgress(),
+                SizedBox(height: 24.v),
+                _buildCharts(),
+              ],
             ),
-            const LoaderView()
-          ],
-        ),
+          ),
+          const LoaderView()
+        ],
       ),
     );
   }

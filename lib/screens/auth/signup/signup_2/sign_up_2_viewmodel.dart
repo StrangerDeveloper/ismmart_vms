@@ -3,8 +3,11 @@ import 'package:get/get.dart';
 import 'package:ismmart_vms/models/category_model.dart';
 import 'package:ismmart_vms/widgets/pick_image.dart';
 import '../../../../helper/api_base_helper.dart';
+import '../../../../helper/common_function.dart';
 import '../../../../helper/constants.dart';
+import '../../../../helper/global_variables.dart';
 import '../../../../helper/urls.dart';
+import '../../../store_profile/store_type_model.dart';
 import '../signup_1/sign_up_1_viewmodel.dart';
 import '../signup_3/sign_up_3_view.dart';
 import 'package:http/http.dart' as http;
@@ -20,18 +23,11 @@ class SignUp2ViewModel extends GetxController {
   RxBool shopImageErrorVisibility = false.obs;
   RxInt cityId = 0.obs;
   RxInt countryId = 0.obs;
-  RxList<int> storeTypeList = <int>[].obs;
+  // RxList<int> storeTypeList = <int>[].obs;
   RxBool countryErrorVisibility = false.obs;
   RxBool cityErrorVisibility = false.obs;
   RxBool storeTypeErrorVisibility = false.obs;
   RxList<CategoryModel> categoriesList = <CategoryModel>[].obs;
-
-  @override
-  void onInit() {
-    getCountryList();
-    geStoreTypeList();
-    super.onInit();
-  }
 
   selectImage(RxString imageVar, RxBool imageVisibilityVar) async {
     final image = await PickImage().pickSingleImage();
@@ -42,82 +38,109 @@ class SignUp2ViewModel extends GetxController {
   }
 
   //------------ Signup For Step 2 --------------
+  final SignUpScreen1ViewModel viewModel = Get.put(SignUpScreen1ViewModel());
   List<http.MultipartFile> fileList = [];
   Future<void> signUpStep2() async {
-    final SignUpScreen1ViewModel viewModel = Get.put(SignUpScreen1ViewModel());
-    Map<String, String> param = Get.arguments;
-    param['storeName'] = storeNameController.text;
-    param['storeSlug'] = storeSlugController.text;
-    param['storeTypes[0]'] = storeTypeSelectedId.value;
-    param['country'] = selectedCountryId;
-    param['city'] = selectedCityId;
-    param['address'] = storeAddressController.text;
-    param['step'] = '2';
+    if (vendorSignUp2FormKey.currentState?.validate() ?? false) {
+      GlobalVariable.showLoader.value = true;
+      fileList.clear();
+      Map<String, String> param = Get.arguments;
+      param['storeName'] = storeNameController.text;
+      param['storeSlug'] = storeSlugController.text;
+      int index = 0;
+      for (int i = 0; i < storeTypeList.length; i++) {
+        if (storeTypeList[i].isSelected == true) {
+          param["storeTypes[${index++}]"] = storeTypeList[i].sId!;
+        }
+      }
+      param['country'] = selectedCountryId;
+      param['city'] = selectedCityId.value;
+      param['address'] = storeAddressController.text.toString();
+      param['step'] = '2';
 
+      // cnicBackImage.value
 
-    // cnicBackImage.value
+      if (shopLogoImage.value.isNotEmpty) {
+        fileList.add(
+          await http.MultipartFile.fromPath(
+            'cnicImages',
+            viewModel.cnicFrontImage.value,
+            contentType: MediaType.parse('image/jpeg'),
+          ),
+        );
+        fileList.add(
+          await http.MultipartFile.fromPath(
+            'cnicImages',
+            viewModel.cnicBackImage.value,
+            contentType: MediaType.parse('image/jpeg'),
+          ),
+        );
+        fileList.add(
+          await http.MultipartFile.fromPath(
+            'storeImage',
+            shopLogoImage.value,
+            contentType: MediaType.parse('image/jpeg'),
+          ),
+        );
+      } else {
+        GlobalVariable.showLoader.value = false;
+        return AppConstant.displaySnackBar(
+          " Error",
+          " please upload Store Images",
+        );
+      }
+      print(param);
+      print(fileList.length);
+      GlobalVariable.showLoader.value = true;
+      var parsedJson = await ApiBaseHelper().postMethodForImage(
+          url: Urls.register, files: fileList, fields: param);
 
-    if (shopLogoImage.value.isNotEmpty) {
-      fileList.add(
-        await http.MultipartFile.fromPath(
-          'cnicImages',
-          viewModel.cnicFrontImage.value,
-          contentType: MediaType.parse('image/jpeg'),
-        ),
-      );
-      fileList.add(
-        await http.MultipartFile.fromPath(
-          'cnicImages',
-          viewModel.cnicBackImage.value,
-          contentType: MediaType.parse('image/jpeg'),
-        ),
-      );
-      fileList.add(
-        await http.MultipartFile.fromPath(
-          'storeImage',
-          shopLogoImage.value,
-          contentType: MediaType.parse('image/jpeg'),
-        ),
-      );
-    } else {
-      return AppConstant.displaySnackBar(
-        " Error",
-        " please upload Store Images",
-      );
-    }
-
-    var parsedJson = await ApiBaseHelper()
-        .postMethodForImage(url: Urls.register, files: fileList, fields: param);
-
-    if (parsedJson['success'] == true) {
-      param.removeWhere((key, value) => value == "2");
-      Get.to(() => SignUp3View(), arguments: param);
-    } else {
-      AppConstant.displaySnackBar(
-        "Error",
-        parsedJson['message'],
-      );
+      if (parsedJson['success'] == true) {
+        GlobalVariable.showLoader.value = false;
+        param.removeWhere((key, value) => value == "2");
+        Get.to(() => SignUp3View(), arguments: param);
+      } else {
+        GlobalVariable.showLoader.value = false;
+        AppConstant.displaySnackBar(
+          "Error",
+          parsedJson['message'],
+        );
+      }
     }
   }
 
   //-----------------Store Type Field Data------------
   //Store Type Data
-  RxInt storeTypeSelectedIndex = 0.obs;
-  RxString storeTypeSelectedId = ''.obs;
-  List<String> typeList = [];
-  List storeTypeIdList = [];
-  Future<void> geStoreTypeList() async {
-    typeList.clear();
-    var parseJson = await ApiBaseHelper().getMethod(url: Urls.storeType);
-    if (parseJson['success'] == true) {
-      storeTypeIdList.clear();
-      List rawList = parseJson['data']['items'];
-
-      for (var e in rawList) {
-        typeList.add(e['name'].toString());
-        storeTypeIdList.add(e['_id'].toString());
-      }
+  //-----------------Store Type Field Data------------
+  List<StoreTypeModel> storeTypeList = <StoreTypeModel>[].obs;
+  RxBool selectAllValue = false.obs;
+  selectAllItems() {
+    selectAllValue.value = !selectAllValue.value;
+    for (int i = 0; i < storeTypeList.length; i++) {
+      StoreTypeModel model1 = storeTypeList[i];
+      model1.isSelected = selectAllValue.value;
+      storeTypeList[i] = model1;
     }
+  }
+
+  selectSingleItem(bool value, int index) {
+    StoreTypeModel model1 = storeTypeList[index];
+    model1.isSelected = value;
+    storeTypeList[index] = model1;
+  }
+
+  getStoreTypes() async {
+    GlobalVariable.showLoader.value = true;
+    await ApiBaseHelper().getMethod(url: Urls.getStoreType).then((parsedJson) {
+      GlobalVariable.showLoader.value = false;
+      if (parsedJson['success'] == true &&
+          parsedJson['data']['items'] != null) {
+        var data = parsedJson['data']['items'] as List;
+        storeTypeList.addAll(data.map((e) => StoreTypeModel.fromJson(e)));
+      }
+    }).catchError((e) {
+      CommonFunction.debugPrint(e);
+    });
   }
 
   //-----------------Country Field Data------------
@@ -128,6 +151,7 @@ class SignUp2ViewModel extends GetxController {
   RxList<String> filteredCountryList = <String>[].obs;
 
   Future<void> getCountryList() async {
+    GlobalVariable.showLoader(true);
     var parseJson = await ApiBaseHelper().getMethod(url: Urls.country);
     if (parseJson['success'] == true) {
       allCountryList.clear();
@@ -138,8 +162,11 @@ class SignUp2ViewModel extends GetxController {
         allCountryList.add(e['name'].toString());
         countryIdList.add(e['_id'].toString());
       }
-
+      GlobalVariable.showLoader.value = false;
+      print(GlobalVariable.showLoader(false));
       //print country with Id for Test------
+    } else {
+      GlobalVariable.showLoader(false);
     }
   }
 
@@ -172,6 +199,7 @@ class SignUp2ViewModel extends GetxController {
   RxList<String> filteredCityList = <String>[].obs;
 
   Future<void> getCityList(String countryId) async {
+    GlobalVariable.showLoader(true);
     var parseJson = await ApiBaseHelper()
         .getMethod(url: "/places/cities?limit=0&country=$countryId");
     if (parseJson['success'] == true) {
@@ -183,23 +211,47 @@ class SignUp2ViewModel extends GetxController {
         allCityList.add(e['name'].toString());
         cityIdList.add(e['_id'].toString());
       }
+      print(cityIdList);
+    } else {
+      GlobalVariable.showLoader(false);
     }
   }
 
   onSearchCity(String value) {
     filteredCityList.clear();
-    filteredCityList.addAll(allCountryList
+    filteredCityList.addAll(allCityList
         .where((e) => e.toLowerCase().contains(value.toLowerCase())));
   }
 
-  String selectedCityId = '';
-  getCityId(int index) {
-    selectedCityId = cityIdList[index];
+  RxString selectedCityId = ''.obs;
+
+  getCityId(String cityname) async {
+    selectedCityId.value = '';
+
+    int i = allCityList.indexWhere((e) => e == cityname);
+    selectedCityId.value = cityIdList[i];
+    print("index $i city id ====> ${selectedCityId.value}");
   }
 
   resetValueCity() {
     citySearchController.text = '';
     filteredCityList.clear();
     filteredCityList.addAll(allCityList);
+  }
+
+  @override
+  void onReady() {
+    GlobalVariable.showLoader.value = false;
+    getCountryList();
+    getStoreTypes();
+    // TODO: implement onReady
+    super.onReady();
+  }
+
+  @override
+  void onClose() {
+    GlobalVariable.showLoader.value = false;
+    // TODO: implement onClose
+    super.onClose();
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/global_variables.dart';
@@ -24,7 +26,7 @@ class SingupMethodsView extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.white,
         body: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 25),
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
           child: Stack(
             children: [
               ScrollableColumn(
@@ -48,7 +50,7 @@ class SingupMethodsView extends StatelessWidget {
                   orWidget(),
                   googlelogInBtn(),
                   // facebooklogInBtn(),
-                  applelogInBtn(),
+                  if (Platform.isIOS) applelogInBtn(),
                   const Spacer(),
                   doNotHaveAnAccount(),
                 ],
@@ -61,8 +63,8 @@ class SingupMethodsView extends StatelessWidget {
               Positioned(
                 top: 20,
                 child: SizedBox(
-                  height: 40,
-                  width: 40,
+                  height: 35,
+                  width: 35,
                   child: CustomBackButton(
                     onTap: () {
                       Get.back();
@@ -81,8 +83,8 @@ class SingupMethodsView extends StatelessWidget {
   }
 
   Widget titleAndBackBtn() {
-    return Container(
-      padding: const EdgeInsets.only(left: 58, right: 57, top: 26, bottom: 52),
+    return SizedBox(
+      //padding: const EdgeInsets.only(left: 58, right: 57, top: 26, bottom: 52),
       width: double.infinity,
       child: Align(
         alignment: Alignment.center,

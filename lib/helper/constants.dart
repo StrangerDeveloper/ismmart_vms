@@ -36,6 +36,7 @@ const newColorLightGrey = Color(0xffEEEEEE);
 const newColorLightGrey2 = Color(0xff929AAB);
 const newColorLightGrey3 = Color(0xFF6F6F6F);
 const newColorLightGrey4 = Color(0xFFEFF5FB);
+const newColorLightGrey5 = Color(0xFF6B7280);
 const newColorBlue = Color(0xff3669C9);
 const newColorBlue2 = Color(0xff364554);
 const newColorBlue3 = Color(0xffADBCCB);
@@ -162,6 +163,11 @@ var newFontStyleSize12 = GoogleFonts.inter(
   fontSize: 12,
   fontWeight: FontWeight.w500,
   height: 1.5,
+);
+var newFontStyleSize12Grey2 = GoogleFonts.inter(
+  color: newColorLightGrey2,
+  fontSize: 12,
+  fontWeight: FontWeight.w500,
 );
 
 var newFontStyleSize14 = GoogleFonts.inter(

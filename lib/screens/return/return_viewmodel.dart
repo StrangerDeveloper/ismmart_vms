@@ -46,14 +46,11 @@ class ReturnViewModel extends GetxController {
 
   isCheckedFu(int index, bool val) {
     returnItemList[index].isSelected = val;
-    print(
-        "=====index $index  value = $val    model ${returnItemList[index].isSelected}");
   }
 
   @override
   void onReady() {
     addReturnItemList();
-    // TODO: implement onReady
     super.onReady();
   }
 }

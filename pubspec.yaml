@@ -55,6 +55,7 @@ dependencies:
   percent_indicator: ^4.2.3
   permission_handler: ^11.1.0
   quill_html_editor: ^2.2.7
+  flutter_animate: ^4.2.0+1
   sign_in_with_apple: ^5.0.0
 #  firebase_messaging: ^14.7.3
 #  flutter_countdown_timer: ^4.1.0
@@ -102,6 +103,7 @@ flutter:
     - assets/logo/
     - assets/icons/
     - assets/images/
+    - assets/icons/
     - assets/dialog_flow_auth.json
     - assets/icons/
 

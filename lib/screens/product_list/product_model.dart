@@ -1,3 +1,5 @@
+import 'package:ismmart_vms/screens/add_product/add_product_1/model/types_model.dart';
+
 class ProductModel {
   List<ProductsItem>? items;
   int? page;
@@ -46,13 +48,17 @@ String? id;
     List<Media>? media;
     List<Option>? options;
     Seo? seo;
-    String? type;
+    TypesItem? type;
     List<Category>? categories;
     List<dynamic>? collections;
     bool? deleted;
     DateTime? createdAt;
     DateTime? updatedAt;
-    List<Variant>? variants;
+   // List<Variant>? variants;
+    int? variants;
+    int? quantity;
+    int? price;
+
 
     ProductsItem({
         this.id,
@@ -73,6 +79,8 @@ String? id;
         this.createdAt,
         this.updatedAt,
         this.variants,
+        this.price,
+        this.quantity,
     });
 
     factory ProductsItem.fromJson(Map<String, dynamic> json) => ProductsItem(
@@ -87,13 +95,15 @@ String? id;
         media: json["media"] == null ? [] : List<Media>.from(json["media"]!.map((x) => Media.fromJson(x))),
         options: json["options"] == null ? [] : List<Option>.from(json["options"]!.map((x) => Option.fromJson(x))),
         seo: json["seo"] == null ? null : Seo.fromJson(json["seo"]),
-        type: json["type"],
+        type: json["type"] == null ? null : TypesItem.fromJson(json["type"]),
         categories: json["categories"] == null ? [] : List<Category>.from(json["categories"]!.map((x) => Category.fromJson(x))),
         collections: json["collections"] == null ? [] : List<dynamic>.from(json["collections"]!.map((x) => x)),
         deleted: json["deleted"],
         createdAt: json["createdAt"] == null ? null : DateTime.parse(json["createdAt"]),
         updatedAt: json["updatedAt"] == null ? null : DateTime.parse(json["updatedAt"]),
-        variants: json["variants"] == null ? [] : List<Variant>.from(json["variants"]!.map((x) => Variant.fromJson(x))),
+        variants: json["variants"], //== null ? [] : List<Variant>.from(json["variants"]!.map((x) => Variant.fromJson(x))),
+        quantity: json["quantity"],
+        price: json["price"],
     );
 
     Map<String, dynamic> toJson() => {
@@ -114,7 +124,9 @@ String? id;
         "deleted": deleted,
         "createdAt": createdAt?.toIso8601String(),
         "updatedAt": updatedAt?.toIso8601String(),
-        "variants": variants == null ? [] : List<dynamic>.from(variants!.map((x) => x.toJson())),
+        "variants": variants,// == null ? [] : List<dynamic>.from(variants!.map((x) => x.toJson())),
+        "quantity": quantity,
+        "price": price,
     };
 }
 

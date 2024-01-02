@@ -22,6 +22,10 @@ class Urls {
   static String getUserData = "/auth/profile";
   static String updateUserData = "/vendor/auth/update";
   static String getStoreType = "/public/storeType";
+  static String collection = "/public/collection";
   static String getBank = "/vendor/bank";
   static String deleteBank = "/vendor/bank/delete/";
+  static String addBank = "/vendor/bank/add";
+  static String updateBank = "/vendor/bank/update/";
+  static String forgetPassword = "/auth/forgot";
 }
