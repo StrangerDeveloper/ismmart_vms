@@ -95,7 +95,7 @@ class ProductListView extends StatelessWidget {
             width: Get.width / 2.5,
             onPressed: () {
               // Get.to(AddProduct1View());
-              Get.find<DrawerBottomBarViewModel>().changePage(2);
+              // Get.find<DrawerBottomBarViewModel>().changePage(2);
             },
             title: '+ Add Product',
           ),
