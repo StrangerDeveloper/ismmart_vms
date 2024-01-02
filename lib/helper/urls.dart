@@ -24,4 +24,5 @@ class Urls {
   static String getStoreType = "/public/storeType";
   static String getBank = "/vendor/bank";
   static String deleteBank = "/vendor/bank/delete/";
+  static String updateOrder = "/vendor/order/update/status";
 }
