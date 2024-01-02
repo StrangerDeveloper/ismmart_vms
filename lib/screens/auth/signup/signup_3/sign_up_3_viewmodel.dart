@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ismmart_vms/helper/global_variables.dart';
 import '../../../../helper/api_base_helper.dart';
 import '../../../../helper/urls.dart';
 import '../../../../widgets/pick_image.dart';
@@ -53,10 +54,13 @@ class SignUp3ViewModel extends GetxController {
       param['banks[0][iban]'] = bankIBANController.text;
       param['banks[0][accountNumber]'] = bankAccNumberController.text;
       param['step'] = '3';
+      GlobalVariable.showLoader.value = true;
       var parseJson = await ApiBaseHelper().getMethod(url: Urls.bank);
       if (parseJson['success'] == true) {
         print("=======succcess ------- step 3");
         finalRegistration(param);
+      } else {
+        GlobalVariable.showLoader.value = false;
       }
     }
   }
@@ -97,8 +101,11 @@ class SignUp3ViewModel extends GetxController {
         .postMethodForImage(url: Urls.register, files: fileList, fields: param);
 
     if (parsedJson['success'] == true) {
+      GlobalVariable.showLoader.value = false;
       print("=======succcess ------- step 4");
       Get.offAll(() => SignUp4View());
+    } else {
+      GlobalVariable.showLoader.value = false;
     }
   }
 

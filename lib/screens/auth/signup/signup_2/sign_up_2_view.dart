@@ -377,18 +377,17 @@ class SignUp2View extends StatelessWidget {
       child: Obx(
         () => GlobalVariable.showLoader.value == true
             ? const CustomLoading(isItBtn: true)
-            : CustomRoundedTextBtn(
+            : CustomTextBtn(
+                radius: 30,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      'Next',
-                      style: newFontStyleSize14.copyWith(
-                          fontWeight: FontWeight.w500, color: kWhiteColor),
+                    const Text(
+                      "Next",
+                      // style: newFontStyleSize14.copyWith(
+                      //     fontWeight: FontWeight.w500, color: kWhiteColor),kWhiteColor
                     ),
-                    const SizedBox(
-                      width: 4,
-                    ),
+                    SizedBox(width: 4.h),
                     const Icon(
                       Icons.arrow_forward,
                       size: 20,
@@ -397,6 +396,8 @@ class SignUp2View extends StatelessWidget {
                 ),
                 onPressed: () {
                   viewModel.signUpStep2();
+                  // Get.offNamed(Routes.dashboard);
+                  //
                 },
               ),
       ),

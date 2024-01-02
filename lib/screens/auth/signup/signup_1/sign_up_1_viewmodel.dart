@@ -155,10 +155,10 @@ class SignUpScreen1ViewModel extends GetxController {
           Get.to(() => SignUp2View(), arguments: param);
         } else {
           GlobalVariable.showLoader(false);
-          // AppConstant.displaySnackBar(
-          //   "Error",
-          //   parsedJson['message'],
-          // );
+          AppConstant.displaySnackBar(
+            "Error",
+            parsedJson['message'],
+          );
         }
       });
     } else {
