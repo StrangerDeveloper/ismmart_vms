@@ -79,6 +79,7 @@ class SignUpScreen1ViewModel extends GetxController {
     passwordController.dispose();
     phoneNumberController.dispose();
     GlobalVariable.showLoader.value = false;
+
     super.onClose();
   }
 
@@ -141,22 +142,27 @@ class SignUpScreen1ViewModel extends GetxController {
 
       changeView.value = true;
       body.value = param;
-
+      GlobalVariable.showLoader.value = true;
       await ApiBaseHelper()
           .postMethodForImage(
               url: Urls.register, files: fileList, fields: param)
           .then((parsedJson) {
-        //print(parsedJson);
+        print(cnicFrontImage.value);
         if (parsedJson['success'] == true) {
+          print("success====== Step 1");
+          GlobalVariable.showLoader(false);
           param.removeWhere((key, value) => value == "1");
           Get.to(() => SignUp2View(), arguments: param);
         } else {
+          GlobalVariable.showLoader(false);
           AppConstant.displaySnackBar(
             "Error",
             parsedJson['message'],
           );
         }
       });
+    } else {
+      GlobalVariable.showLoader(false);
     }
   }
 

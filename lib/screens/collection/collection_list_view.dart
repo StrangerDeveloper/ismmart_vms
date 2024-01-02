@@ -98,7 +98,7 @@ class CollectionListView extends StatelessWidget {
             ],
           ),
           onPressed: () {
-            // viewModel.signIn();
+            viewModel.getCollection();
             // Get.offNamed(Routes.dashboard);
             //
           },
@@ -195,8 +195,9 @@ class CollectionListView extends StatelessWidget {
       child: SizedBox(
           height: 600,
           child: ListView.builder(
-              itemCount: 15,
+              itemCount: viewModel.collectionList.length,
               itemBuilder: (BuildContext context, index) {
+                var item = viewModel.collectionList[index];
                 return Container(
                   width: 295,
                   height: 87,
@@ -226,7 +227,7 @@ class CollectionListView extends StatelessWidget {
                             height: 15,
                           ),
                           CustomText(
-                            title: "Women Wear",
+                            title: item.name.toString(),
                             style: newFontStyleSize14.copyWith(
                                 fontWeight: FontWeight.w600),
                           ),

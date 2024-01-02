@@ -231,7 +231,7 @@ class SignUp3View extends StatelessWidget {
     return CustomTextField1(
       title: 'IBAN',
       hintText: 'PK51MEZN0003190106294217',
-      controller: viewModel.bankAccNumberController,
+      controller: viewModel.bankIBANController,
       autoValidateMode: AutovalidateMode.onUserInteraction,
       // validator: (value) {
       //   return Validator().validateBankAcc(value);
@@ -260,7 +260,6 @@ class SignUp3View extends StatelessWidget {
         ],
       ),
     );
-    
   }
 
   Widget bankAccountsList(BuildContext context) {

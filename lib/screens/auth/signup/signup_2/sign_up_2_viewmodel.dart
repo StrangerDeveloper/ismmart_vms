@@ -3,8 +3,11 @@ import 'package:get/get.dart';
 import 'package:ismmart_vms/models/category_model.dart';
 import 'package:ismmart_vms/widgets/pick_image.dart';
 import '../../../../helper/api_base_helper.dart';
+import '../../../../helper/common_function.dart';
 import '../../../../helper/constants.dart';
+import '../../../../helper/global_variables.dart';
 import '../../../../helper/urls.dart';
+import '../../../store_profile/store_type_model.dart';
 import '../signup_1/sign_up_1_viewmodel.dart';
 import '../signup_3/sign_up_3_view.dart';
 import 'package:http/http.dart' as http;
@@ -20,7 +23,7 @@ class SignUp2ViewModel extends GetxController {
   RxBool shopImageErrorVisibility = false.obs;
   RxInt cityId = 0.obs;
   RxInt countryId = 0.obs;
-  RxList<int> storeTypeList = <int>[].obs;
+  // RxList<int> storeTypeList = <int>[].obs;
   RxBool countryErrorVisibility = false.obs;
   RxBool cityErrorVisibility = false.obs;
   RxBool storeTypeErrorVisibility = false.obs;
@@ -29,7 +32,7 @@ class SignUp2ViewModel extends GetxController {
   @override
   void onInit() {
     getCountryList();
-    geStoreTypeList();
+    getStoreTypes();
     super.onInit();
   }
 
@@ -42,18 +45,23 @@ class SignUp2ViewModel extends GetxController {
   }
 
   //------------ Signup For Step 2 --------------
+  final SignUpScreen1ViewModel viewModel = Get.put(SignUpScreen1ViewModel());
   List<http.MultipartFile> fileList = [];
   Future<void> signUpStep2() async {
-    final SignUpScreen1ViewModel viewModel = Get.put(SignUpScreen1ViewModel());
+    fileList.clear();
     Map<String, String> param = Get.arguments;
     param['storeName'] = storeNameController.text;
     param['storeSlug'] = storeSlugController.text;
-    param['storeTypes[0]'] = storeTypeSelectedId.value;
+    int index = 0;
+    for (int i = 0; i < storeTypeList.length; i++) {
+      if (storeTypeList[i].isSelected == true) {
+        param["storeTypes[${index++}]"] = storeTypeList[i].sId!;
+      }
+    }
     param['country'] = selectedCountryId;
     param['city'] = selectedCityId;
     param['address'] = storeAddressController.text;
     param['step'] = '2';
-
 
     // cnicBackImage.value
 
@@ -85,6 +93,8 @@ class SignUp2ViewModel extends GetxController {
         " please upload Store Images",
       );
     }
+    print(param);
+    print(fileList.length);
 
     var parsedJson = await ApiBaseHelper()
         .postMethodForImage(url: Urls.register, files: fileList, fields: param);
@@ -102,22 +112,36 @@ class SignUp2ViewModel extends GetxController {
 
   //-----------------Store Type Field Data------------
   //Store Type Data
-  RxInt storeTypeSelectedIndex = 0.obs;
-  RxString storeTypeSelectedId = ''.obs;
-  List<String> typeList = [];
-  List storeTypeIdList = [];
-  Future<void> geStoreTypeList() async {
-    typeList.clear();
-    var parseJson = await ApiBaseHelper().getMethod(url: Urls.storeType);
-    if (parseJson['success'] == true) {
-      storeTypeIdList.clear();
-      List rawList = parseJson['data']['items'];
-
-      for (var e in rawList) {
-        typeList.add(e['name'].toString());
-        storeTypeIdList.add(e['_id'].toString());
-      }
+  //-----------------Store Type Field Data------------
+  List<StoreTypeModel> storeTypeList = <StoreTypeModel>[].obs;
+  RxBool selectAllValue = false.obs;
+  selectAllItems() {
+    selectAllValue.value = !selectAllValue.value;
+    for (int i = 0; i < storeTypeList.length; i++) {
+      StoreTypeModel model1 = storeTypeList[i];
+      model1.isSelected = selectAllValue.value;
+      storeTypeList[i] = model1;
     }
+  }
+
+  selectSingleItem(bool value, int index) {
+    StoreTypeModel model1 = storeTypeList[index];
+    model1.isSelected = value;
+    storeTypeList[index] = model1;
+  }
+
+  getStoreTypes() async {
+    GlobalVariable.showLoader.value = true;
+    await ApiBaseHelper().getMethod(url: Urls.getStoreType).then((parsedJson) {
+      GlobalVariable.showLoader.value = false;
+      if (parsedJson['success'] == true &&
+          parsedJson['data']['items'] != null) {
+        var data = parsedJson['data']['items'] as List;
+        storeTypeList.addAll(data.map((e) => StoreTypeModel.fromJson(e)));
+      }
+    }).catchError((e) {
+      CommonFunction.debugPrint(e);
+    });
   }
 
   //-----------------Country Field Data------------
@@ -188,7 +212,7 @@ class SignUp2ViewModel extends GetxController {
 
   onSearchCity(String value) {
     filteredCityList.clear();
-    filteredCityList.addAll(allCountryList
+    filteredCityList.addAll(allCityList
         .where((e) => e.toLowerCase().contains(value.toLowerCase())));
   }
 

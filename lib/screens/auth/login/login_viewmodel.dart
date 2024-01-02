@@ -83,25 +83,26 @@ class LogInViewModel extends GetxController {
     );
     GoogleSignInAccount? credential;
     try {
-      Get.to(DrawerBottomBarView());
+      // Get.to(DrawerBottomBarView());
       credential = await googleSignIn.signIn();
       credential?.authentication.then((value) async {
+        print(credential);
         Map<dynamic, dynamic> param = {
           "social": {
             "name": "Google",
             "token": '${value.accessToken}',
           }
         };
-        // var parsedJson =
-        //     await ApiBaseHelper().postMethod(url: Urls.login, body: param);
-        // print(parsedJson);
-        // if (parsedJson['success'] == true) {
-        //   GlobalVariable.token = parsedJson['data']['token'];
-        //   GlobalVariable.showLoader.value = false;
-        //   Get.to(DrawerBottomBarView());
-        // } else {
-        //   GlobalVariable.showLoader.value = false;
-        // }
+        var parsedJson =
+            await ApiBaseHelper().postMethod(url: Urls.login, body: param);
+        print(parsedJson);
+        if (parsedJson['success'] == true) {
+          GlobalVariable.token = parsedJson['data']['token'];
+          GlobalVariable.showLoader.value = false;
+          Get.to(DrawerBottomBarView());
+        } else {
+          GlobalVariable.showLoader.value = false;
+        }
       });
     } catch (error) {
       GlobalVariable.showLoader.value = false;

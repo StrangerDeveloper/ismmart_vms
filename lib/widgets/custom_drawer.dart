@@ -6,6 +6,7 @@ import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/screens/collection/collection_view.dart';
 import '../screens/add_location/add_location_view.dart';
 import '../screens/add_user/add_user_view.dart';
+import '../screens/collection/collection_list_view.dart';
 import '../screens/dashboard/dashboard_viewmodel.dart';
 import '../screens/payout_list/payout_list_view.dart';
 import '../screens/shippings/shippings_view.dart';
@@ -39,7 +40,7 @@ class CustomDrawer extends StatelessWidget {
                   drawerListItems(
                     'Collections',
                     iconPath: 'assets/icons/layers.png',
-                    onTab: () => Get.to(CollectionView()),
+                    onTab: () => Get.to(CollectionListView()),
                   ),
                   drawerListItems('Locations',
                       iconPath: 'assets/icons/pin.png',

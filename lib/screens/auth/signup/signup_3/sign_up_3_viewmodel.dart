@@ -17,6 +17,7 @@ class SignUp3ViewModel extends GetxController {
   TextEditingController bankNameController = TextEditingController();
   TextEditingController bankAccTitleController = TextEditingController();
   TextEditingController bankAccNumberController = TextEditingController();
+  TextEditingController bankIBANController = TextEditingController();
   TextEditingController branchCodeController = TextEditingController();
   RxMap<String, String> params = <String, String>{}.obs;
   RxString bankChequeImage = ''.obs;
@@ -43,21 +44,25 @@ class SignUp3ViewModel extends GetxController {
 
   Map<String, String> param = {};
   Future<void> signUp3Btn() async {
+    print(bankNameController.text);
     if (vendorSignUp3FormKey.currentState!.validate()) {
       param = Get.arguments;
       // GlobalVariable.showLoader.value = true;
-      param['banks[0][name]'] = bankNameController.text;
+      param['banks[0][name]'] = bankController.text;
       param['banks[0][title]'] = bankAccTitleController.text;
-      param['banks[0][iban'] = bankAccNumberController.text;
+      param['banks[0][iban]'] = bankIBANController.text;
+      param['banks[0][accountNumber]'] = bankAccNumberController.text;
       param['step'] = '3';
       var parseJson = await ApiBaseHelper().getMethod(url: Urls.bank);
       if (parseJson['success'] == true) {
+        print("=======succcess ------- step 3");
         finalRegistration(param);
       }
     }
   }
 
   Future<void> finalRegistration(Map<String, String> param) async {
+    print(param);
     final SignUpScreen1ViewModel viewModel1 = Get.put(SignUpScreen1ViewModel());
     final SignUp2ViewModel viewModel2 = Get.put(SignUp2ViewModel());
     param['step'] = '4';
@@ -65,6 +70,7 @@ class SignUp3ViewModel extends GetxController {
 
     //-------Images Files add of All signup Steps------------
     List<http.MultipartFile> fileList = [];
+
     fileList.add(
       await http.MultipartFile.fromPath(
         'cnicImages',
@@ -91,6 +97,7 @@ class SignUp3ViewModel extends GetxController {
         .postMethodForImage(url: Urls.register, files: fileList, fields: param);
 
     if (parsedJson['success'] == true) {
+      print("=======succcess ------- step 4");
       Get.offAll(() => SignUp4View());
     }
   }
