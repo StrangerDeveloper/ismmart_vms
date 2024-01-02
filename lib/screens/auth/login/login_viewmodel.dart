@@ -82,9 +82,10 @@ class LogInViewModel extends GetxController {
     );
     GoogleSignInAccount? credential;
     try {
-      Get.to(DrawerBottomBarView());
+      // Get.to(DrawerBottomBarView());
       credential = await googleSignIn.signIn();
       credential?.authentication.then((value) async {
+        print(credential);
         Map<dynamic, dynamic> param = {
           "social": {
             "name": "Google",

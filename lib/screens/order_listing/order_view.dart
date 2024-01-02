@@ -29,7 +29,6 @@ class OrderView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _buildAppBar(),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -75,21 +74,6 @@ class OrderView extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-
-  PreferredSizeWidget _buildAppBar() {
-    return CustomAppBar(
-      leadingWidth: 48.h,
-      leading: Container(),
-      // leading: AppbarLeadingImage(
-      //   imagePath: ImageConstant.imgArrowLeft,
-      //   margin: EdgeInsets.only(left: 24.h, top: 10.v, bottom: 10.v),
-      //   onTap: () {
-      //     onTapArrowLeft();
-      //   },
-      // ),
-      title: "Order List",
     );
   }
 

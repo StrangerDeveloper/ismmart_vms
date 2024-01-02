@@ -730,7 +730,7 @@ class CountryCodePickerTextField extends StatelessWidget {
                     borderRadius: BorderRadius.circular(2),
                   ),
                   searchDecoration: InputDecoration(
-                    isDense : true,
+                    isDense: true,
                     prefixIconColor: Colors.black,
                     contentPadding: EdgeInsets.zero,
                     labelText: labelText,
@@ -787,7 +787,6 @@ class CountryCodePickerTextField extends StatelessWidget {
               borderRadius: BorderRadius.circular(8),
             ),
           ),
-
         ),
       ],
     );
@@ -1212,7 +1211,7 @@ class CustomTextField4 extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(
-              width: Get.width * 0.7,
+              width: Get.width * 0.75,
               child: TextFormField(
                 onTap: onTap,
                 focusNode: focusNode,
@@ -1294,8 +1293,8 @@ class CustomTextField4 extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(
                     color: Colors.white,
-                    border: Border.all(color: Colors.grey, width: 0.8),
-                    borderRadius: BorderRadius.circular(8)),
+                    border: Border.all(color: newColorLightGrey, width: 0.8),
+                    borderRadius: BorderRadius.circular(10)),
                 width: 35,
                 height: 35,
                 child: const Icon(

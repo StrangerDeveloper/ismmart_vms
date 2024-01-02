@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ismmart_vms/screens/add_bank/add_bank_viewmodel.dart';
 
+import '../../helper/validator.dart';
 import '../../widgets/custom_appbar.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/custom_textfield.dart';
@@ -33,13 +34,14 @@ class AddBankView extends StatelessWidget {
                   creditCard(),
                   accountTitleTxtField(),
                   accountNumberTxtField(),
+                  ibanNumberTxtField(),
                   bankNameTxtField(),
                   Padding(
-                    padding: const EdgeInsets.only(top: 18, bottom: 5),
+                    padding: const EdgeInsets.only(top: 30, bottom: 5),
                     child: CustomTextBtn(
                       title: viewModel.isEdit ? 'Update' : 'Save & Create',
                       onPressed: () {
-                        // viewModel.saveAndCreateBtn();
+                        viewModel.saveAndCreateBtn();
                       },
                     ),
                   ),
@@ -114,7 +116,7 @@ class AddBankView extends StatelessWidget {
           const Spacer(),
           Obx(
             () => Text(
-              viewModel.cardHolder.value,
+              viewModel.accountTitle.value,
               maxLines: 1,
               style: GoogleFonts.ibmPlexMono(
                 fontSize: 16,
@@ -125,7 +127,7 @@ class AddBankView extends StatelessWidget {
           const SizedBox(height: 3),
           Obx(
             () => Text(
-              viewModel.cardNumber.value,
+              viewModel.accountNumber.value,
               maxLines: 1,
               style: GoogleFonts.ibmPlexMono(
                 fontSize: 16,
@@ -140,14 +142,19 @@ class AddBankView extends StatelessWidget {
 
   Widget accountTitleTxtField() {
     return CustomTextField1(
+      controller: viewModel.accountTitleController,
       title: 'Account Title',
       hintText: 'Ashar Atique',
       onChanged: (value) {
-        viewModel.cardHolder.value = value;
+        viewModel.accountTitle.value = value;
         if (value.isEmpty) {
-          viewModel.cardHolder.value = 'Card Holder';
+          viewModel.accountTitle.value = 'Card Holder';
         }
       },
+      validator: (value) {
+        return Validator.validateDefaultField(value);
+      },
+      autoValidateMode: AutovalidateMode.onUserInteraction,
     );
   }
 
@@ -155,12 +162,13 @@ class AddBankView extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 18),
       child: CustomTextField1(
+        controller: viewModel.accountNumberController,
         title: 'Account Number',
-        hintText: 'PKMEZN00293103109103',
+        hintText: '0029 3103 1091 0553',
         onChanged: (value) {
-          viewModel.cardNumber.value = value;
+          viewModel.accountNumber.value = value;
           if (value.isEmpty) {
-            viewModel.cardNumber.value = '0000 0000 0000 0000';
+            viewModel.accountNumber.value = '0000 0000 0000 0000';
           }
         },
         inputFormatters: [
@@ -170,13 +178,28 @@ class AddBankView extends StatelessWidget {
           ),
         ],
         keyboardType: TextInputType.number,
+        validator: (value) {
+          return Validator.validateDefaultField(value);
+        },
+        autoValidateMode: AutovalidateMode.onUserInteraction,
+      ),
+    );
+  }
+
+  Widget ibanNumberTxtField() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 18),
+      child: CustomTextField1(
+        controller: viewModel.ibanController,
+        title: 'IBAN Number',
+        hintText: 'PKMEZN00293103109103',
       ),
     );
   }
 
   Widget bankNameTxtField() {
     return CustomTextField1(
-      // controller: viewModel.nameController,
+      controller: viewModel.bankNameController,
       title: 'Bank Name',
       hintText: 'Meezan Bank',
       onChanged: (value) {
@@ -185,6 +208,10 @@ class AddBankView extends StatelessWidget {
           viewModel.bankName.value = 'Meezan Bank';
         }
       },
+      validator: (value) {
+        return Validator.validateDefaultField(value);
+      },
+      autoValidateMode: AutovalidateMode.onUserInteraction,
     );
   }
 }

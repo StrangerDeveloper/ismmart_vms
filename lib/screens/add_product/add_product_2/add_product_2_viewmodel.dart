@@ -26,7 +26,7 @@ class AddProduct2ViewModel extends GetxController {
     DropDownModel(id: '4', name: 'Amanah Mall')
   ].obs;
 
-  var variantsFormKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> variantsFormKey = GlobalKey<FormState>();
 
   @override
   void onReady() {
@@ -76,6 +76,7 @@ class AddProduct2ViewModel extends GetxController {
             finalCombinationsList.addAll(combinations2.map((e) =>
                 VariantSelectionModel(variantSelected: false, variantName: e)));
             finalCombinationsList.refresh();
+            showVariantsTable.value = true;
           }
         });
       });
@@ -96,6 +97,7 @@ class AddProduct2ViewModel extends GetxController {
                   VariantSelectionModel(
                       variantName: e, variantSelected: false)));
               finalCombinationsList.refresh();
+              showVariantsTable.value = true;
             }
           }
         });

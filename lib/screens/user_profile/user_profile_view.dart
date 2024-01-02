@@ -17,9 +17,6 @@ class UserProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar2(
-        title: 'Profile Details',
-      ),
       body: Stack(
         children: [
           SingleChildScrollView(

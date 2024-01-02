@@ -30,10 +30,10 @@ class AddProduct2View extends StatelessWidget {
               stepperText(),
               variantsContainer(context),
               //if variantAdditionField is clicked and data populated then show the variantsContainer else show the inventoryContainer
-              Obx(() => viewModel.showVariantsTable.value
-                  ? variantsContainer(context)
-                  : inventoryContainer()),
-              //inventoryContainer(),
+              // Obx(() => viewModel.showVariantsTable.value
+              //     ? inventoryContainer()
+              //     : SizedBox()),
+              inventoryContainer(),
               Padding(
                 padding: const EdgeInsets.only(top: 15, bottom: 5),
                 child: CustomTextBtn(
@@ -86,99 +86,131 @@ class AddProduct2View extends StatelessWidget {
               'Variants',
               style: interHeadingSize14,
             ),
-            Obx(() {
-              return Column(
+            Obx(() => viewModel.showVariantsTable.value ? Column(
                 children: List.generate(
                   viewModel.listOfOptionsAdded.length,
                   (index) {
                     final option = viewModel.listOfOptionsAdded[index];
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          option.optionName ?? '',
-                          style: interNormalText,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: List.generate(
-                            option.optionValues?.length ?? 0,
-                            (idx) {
-                              final valueController = option.optionValues?[idx];
-                              return Container(
-                                color: Colors.grey.shade100,
-                                child: Text(
-                                  valueController?.text ?? '',
-                                  style: interNormalText.copyWith(
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        const Divider(),
-                        Column(
-                          children: List.generate(
-                            option.optionValues?.length ?? 0,
-                            (idx) {
-                              final valueController = option.optionValues?[idx];
-                              return Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 10.0, left: 12, right: 12),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      Text(
-                                        valueController?.text ?? '',
-                                        style: interNormalText,
-                                      ),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      Text(
-                                        'Rs 0.00',
-                                        style: interNormalText.copyWith(
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                      Text(
-                                        '0 available at 5 locations',
-                                        style: interNormalText.copyWith(
-                                          color: Colors.grey,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  TextButton(
-                                    onPressed: () {
-                                      // viewModel.listOfOptionsAdded.removeWhere(
-                                      //     (element) => element == option);
-                                      // viewModel.listOfOptionsAdded.refresh();
-                                    },
-                                    child: const Text(
-                                      'Edit',
+                                  Text(
+                                    option.optionName?.text ?? '',
+                                    style: interNormalText.copyWith(
+                                      color: newColorLightGrey2
                                     ),
-                                  )
+                                  ),
+                                  const SizedBox(height: 5,),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: List.generate(
+                                      option.optionValues?.length ?? 0,
+                                      (idx) {
+                                        final valueController = option.optionValues?[idx];
+                                        return Container(
+                                          margin: const EdgeInsets.only(right: 10),
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey.shade200,
+                                            borderRadius: BorderRadius.circular(10)
+                                          ),
+                                          padding: const EdgeInsets.all(8),
+                                          child: Text(
+                                            valueController?.text ?? '',
+                                            style: interNormalText.copyWith(
+                                              color: Colors.grey.shade800,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
                                 ],
-                              );
-                            },
+                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    border: Border.all(color: newColorLightGrey, width: 0.8),
+                                    borderRadius: BorderRadius.circular(10)),
+                                width: 35,
+                                height: 35,
+                                child: const Icon(
+                                  Icons.edit_rounded,
+                                  size: 22,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ],
                           ),
-                        )
-                      ],
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          const Divider(),
+                          Column(
+                            children: List.generate(
+                              option.optionValues?.length ?? 0,
+                                  (idx) {
+                                final valueController = option.optionValues?[idx];
+                                return Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: [
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        Text(
+                                          valueController?.text ?? '',
+                                          style: interNormalText,
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        Text(
+                                          'Rs 0.00',
+                                          style: interNormalText.copyWith(
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                        Text(
+                                          '0 available at 5 locations',
+                                          style: interNormalText.copyWith(
+                                            color: Colors.grey,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        // viewModel.listOfOptionsAdded.removeWhere(
+                                        //     (element) => element == option);
+                                        // viewModel.listOfOptionsAdded.refresh();
+                                      },
+                                      child: const Text(
+                                        'Edit',
+                                      ),
+                                    )
+                                  ],
+                                );
+                              },
+                            ),
+                          )
+                        ],
+                      ),
                     );
                   },
                 ),
-              );
-            }),
+              ) : const SizedBox()
+            ),
             variantAdditionField(context),
           ],
         ),
@@ -214,9 +246,10 @@ class AddProduct2View extends StatelessWidget {
             )
           : TextButton(
               onPressed: () async {
+                viewModel.showVariantsField.value = false;
                 viewModel.listOfOptionsAdded.add(
                   VariantsOptionsFieldModel(
-                    optionName: '',
+                    optionName: TextEditingController(),
                     optionValues: [TextEditingController()],
                   ),
                 );
@@ -236,246 +269,245 @@ class AddProduct2View extends StatelessWidget {
 
   Future variantSelectionDialog() {
     return showModalBottomSheet(
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15))
+      ),
         context: Get.context!,
-        isScrollControlled: false,
+        isScrollControlled: true,
+        useSafeArea: true,
         backgroundColor: Colors.white,
         builder: (BuildContext context) {
-          return Padding(
-            padding: MediaQuery.of(context).viewInsets,
-            child: Form(
-              key: viewModel.variantsFormKey,
-              child: SingleChildScrollView(
-                controller: viewModel.scrollController,
-                physics: const ScrollPhysics(),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Padding(
-                          padding: EdgeInsets.only(left: 5),
-                          child: Text(
-                            'Variants',
-                            //style: interHeadingSize14.copyWith(color: newColorBlue)
-                          ),
-                        ),
-                        IconButton(
-                          visualDensity: VisualDensity.compact,
-                          onPressed: () {
-                            viewModel.listOfOptionsAdded.clear();
-                            viewModel.listOfOptionsAdded.refresh();
-                            viewModel.showVariantsField.value = false;
-                            viewModel.showVariantsTable.value = false;
-                            Get.back();
-                          },
-                          icon: const Icon(
-                            Icons.close,
-                            color: Colors.red,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const Divider(),
-                    Obx(
-                      () => Column(
-                        children: viewModel.listOfOptionsAdded.map((e1) {
-                          debugPrint("Length: ${viewModel.listOfOptionsAdded.length}");
-                          TextEditingController optionName =
-                              TextEditingController();
-                          optionName.text = e1.optionName!;
-                          return Column(
-                            children: [
-                              CustomTextField2(
-                                title: 'Option Name',
-                                hintText: 'Name your variant',
-                                controller: optionName,
-                                onChanged: (value) {
-                                  e1.optionName = value;
-                                  viewModel.listOfOptionsAdded.refresh();
-                                },
-                                validator: (value) {
-                                  if (value == null ||
-                                      value == "" ||
-                                      value.isEmpty) {
-                                    return 'Enter name for variant';
-                                  } else {
-                                    return null;
-                                  }
-                                },
-                                onTap: () {
-                                  if (viewModel.listOfOptionsAdded.length ==
-                                      1) {
+          return PopScope(
+            canPop: false,
+            child: Padding(
+              padding: MediaQuery.of(context).viewInsets,
+              child: Form(
+                key: viewModel.variantsFormKey,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: SingleChildScrollView(
+                    controller: viewModel.scrollController,
+                    physics: const ScrollPhysics(),
+                    child: Obx(() => Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Variants',
+                                  style: interHeadingSize14.copyWith(color: newColorBlue)
+                                ),
+                                IconButton(
+                                  visualDensity: VisualDensity.compact,
+                                  onPressed: () {
                                     viewModel.listOfOptionsAdded.clear();
                                     viewModel.listOfOptionsAdded.refresh();
+                                    viewModel.showVariantsField.value = false;
+                                    viewModel.showVariantsTable.value = false;
                                     Get.back();
-                                  } else {
-                                    viewModel.listOfOptionsAdded.removeWhere(
-                                        (element) => element == e1);
-                                    viewModel.listOfOptionsAdded.refresh();
-                                  }
-                                },
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.symmetric(vertical: 5.0),
-                                child: Divider(
-                                  thickness: 0.8,
-                                  color: kLightColor,
+                                  },
+                                  icon: const Icon(
+                                    Icons.close,
+                                    color: Colors.red,
+                                  ),
                                 ),
-                              ),
-                              Obx(() => viewModel.listOfOptionsAdded.isEmpty
-                                  ? const SizedBox()
-                                  : Column(
-                                      children: e1.optionValues!.map((e2) {
-                                        TextEditingController optionController =
-                                            e2;
-                                        String? title;
-                                        if (optionController ==
-                                            e1.optionValues?.first) {
-                                          title = 'Option Values';
-                                        }
-                                        if (e2 == e1.optionValues!.last) {
-                                          return Padding(
-                                            padding: const EdgeInsets.only(
-                                                bottom: 5.0),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                CustomTextField2(
-                                                  hintText: 'Add value',
-                                                  title: title,
-                                                  onChanged: (value) {
-                                                    optionController.text =
-                                                        value;
-                                                  },
-                                                  onTap: () {
-                                                    if (e1.optionValues
-                                                            ?.length ==
-                                                        1) {
-                                                      viewModel
-                                                          .listOfOptionsAdded
-                                                          .removeWhere(
-                                                              (element) =>
-                                                                  element ==
-                                                                  e1);
-                                                      viewModel
-                                                          .listOfOptionsAdded
-                                                          .refresh();
-                                                      if (viewModel
-                                                          .listOfOptionsAdded
-                                                          .isEmpty) {
-                                                        Get.back();
-                                                      }
-                                                    } else {
-                                                      e1.optionValues
-                                                          ?.removeWhere(
-                                                              (element) =>
-                                                                  element ==
-                                                                  e2);
-                                                      viewModel
-                                                          .listOfOptionsAdded
-                                                          .refresh();
-                                                    }
-                                                  },
+                              ],
+                            ),
+                          ),
+                          const Divider(),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5),
+                            child: ListView.builder(
+                                  itemCount: viewModel.listOfOptionsAdded.length,
+                                  shrinkWrap: true,
+                                  physics: const ScrollPhysics(),
+                                  itemBuilder: (context, optionNameIndex) {
+                                    TextEditingController optionName = TextEditingController();
+                                    optionName.text = viewModel.listOfOptionsAdded[optionNameIndex].optionName!.text;
+                                    return Column(
+                                      children: [
+                                        CustomTextField4(
+                                          title: 'Option Name',
+                                          hintText: 'Name your variant',
+                                          controller: viewModel.listOfOptionsAdded[optionNameIndex].optionName,
+                                          onChanged: (value) {
+                                            viewModel.listOfOptionsAdded[optionNameIndex].optionName?.text = value;
+                                            viewModel.listOfOptionsAdded.refresh();
+                                          },
+                                          validator: (value) {
+                                            if (value == null || value == "" || value.isEmpty) {
+                                              return 'Enter name for variant';
+                                            } else {
+                                              return null;
+                                            }
+                                          },
+                                          iconOnTap: () {
+                                            viewModel.listOfOptionsAdded.remove(viewModel.listOfOptionsAdded[optionNameIndex]);
+                                            viewModel.listOfOptionsAdded.refresh();
+                                          },
+                                        ),
+                                        const Padding(
+                                          padding: EdgeInsets.symmetric(vertical: 5.0),
+                                          child: Divider(
+                                            thickness: 0.8,
+                                            color: kLightColor,
+                                          ),
+                                        ),
+                                        Obx(() => viewModel.listOfOptionsAdded.isEmpty
+                                            ? const SizedBox()
+                                            : ListView.builder(
+                                          physics: const ScrollPhysics(),
+                                          itemCount: viewModel.listOfOptionsAdded[optionNameIndex].optionValues?.length,
+                                          shrinkWrap: true,
+                                          itemBuilder: (context, optionValueIndex) {
+                                            TextEditingController optionController = viewModel.listOfOptionsAdded[optionNameIndex].optionValues![optionValueIndex];
+                                            String? title;
+                                            if (optionController == viewModel.listOfOptionsAdded[optionNameIndex].optionValues?.first) {
+                                              title = 'Option Values';
+                                            }
+                                            if (viewModel.listOfOptionsAdded[optionNameIndex].optionValues![optionValueIndex] == viewModel.listOfOptionsAdded[optionNameIndex].optionValues!.last) {
+                                              return Padding(
+                                                padding: const EdgeInsets.only(bottom: 5.0),
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    CustomTextField4(
+                                                      hintText: 'Add value',
+                                                      title: title,
+                                                      controller: viewModel.listOfOptionsAdded[optionNameIndex].optionValues?[optionValueIndex],
+                                                      onChanged: (value) {
+                                                        viewModel.listOfOptionsAdded[optionNameIndex].optionValues![optionValueIndex].text = value;
+                                                        viewModel.listOfOptionsAdded.refresh();
+                                                      },
+                                                      iconOnTap: () {
+                                                        if(optionValueIndex == viewModel.listOfOptionsAdded[optionNameIndex].optionValues!.length-1){
+                                                          viewModel.listOfOptionsAdded[optionNameIndex].optionValues?.removeLast();
+                                                        } else {
+                                                          for (int i = optionValueIndex; i <= viewModel.listOfOptionsAdded[optionNameIndex].optionValues!.length - 1; i++) {
+                                                            viewModel.listOfOptionsAdded[optionNameIndex].optionValues?[i].text = viewModel.listOfOptionsAdded[optionNameIndex].optionValues![i + 1].text;
+                                                            viewModel.listOfOptionsAdded.refresh();
+                                                            if (i == viewModel.listOfOptionsAdded[optionNameIndex].optionValues!.length - 2) {
+                                                              viewModel.listOfOptionsAdded[optionNameIndex].optionValues?.last.dispose();
+                                                              viewModel.listOfOptionsAdded[optionNameIndex].optionValues?.removeLast();
+                                                            }
+                                                          }
+                                                        }
+                                                      },
+                                                    ),
+                                                    TextButton(
+                                                        onPressed: () {
+                                                          if (optionController.text == "" || optionController.text.isEmpty) {
+                                                            AppConstant.displaySnackBar('Error', 'Enter Value to add more fields');
+                                                          } else {
+                                                            viewModel.listOfOptionsAdded[optionNameIndex].optionValues?.add(TextEditingController());
+                                                            viewModel.listOfOptionsAdded.refresh();
+                                                          }
+                                                        },
+                                                        child: const Text(
+                                                          'Add another value',
+                                                          //style: interNormalText.copyWith(color: newColorBlue),
+                                                        ),
+                                                    )
+                                                  ],
                                                 ),
-                                                TextButton(
-                                                    onPressed: () {
-                                                      if (optionController
-                                                                  .text ==
-                                                              "" ||
-                                                          optionController
-                                                              .text.isEmpty) {
-                                                        AppConstant.displaySnackBar(
-                                                            'Error',
-                                                            'Enter Value to add more fields');
-                                                      } else {
-                                                        e1.optionValues?.add(
-                                                            TextEditingController());
-                                                        viewModel
-                                                            .listOfOptionsAdded
-                                                            .refresh();
-                                                      }
-                                                    },
-                                                    child: const Text(
-                                                      'Add another value',
-                                                      //style: interNormalText.copyWith(color: newColorBlue),
-                                                    ))
-                                              ],
-                                            ),
-                                          );
-                                        } else {
-                                          return Padding(
-                                            padding: const EdgeInsets.only(
-                                                bottom: 5.0),
-                                            child: Column(
-                                              crossAxisAlignment:
+                                              );
+                                            } else {
+                                              return Padding(
+                                                padding: const EdgeInsets.only(bottom: 5.0),
+                                                child: Column(
+                                                  crossAxisAlignment:
                                                   CrossAxisAlignment.start,
-                                              children: [
-                                                CustomTextField2(
-                                                  hintText: 'Add value',
-                                                  title: title,
-                                                  onChanged: (value) {
-                                                    optionController.text =
-                                                        value;
-                                                  },
-                                                  validator: (value) {
-                                                    if (value == null ||
-                                                        value == '' ||
-                                                        value.isEmpty) {
-                                                      return 'Enter value to proceed';
-                                                    } else {
-                                                      return null;
-                                                    }
-                                                  },
+                                                  children: [
+                                                    CustomTextField4(
+                                                      hintText: 'Add value',
+                                                      title: title,
+                                                      controller: viewModel.listOfOptionsAdded[optionNameIndex].optionValues?[optionValueIndex],
+                                                      onChanged: (value) {
+                                                        viewModel.listOfOptionsAdded[optionNameIndex].optionValues![optionValueIndex].text =
+                                                            value;
+                                                        viewModel.listOfOptionsAdded.refresh();
+                                                      },
+                                                      validator: (value) {
+                                                        if (value == null ||
+                                                            value == '' ||
+                                                            value.isEmpty) {
+                                                          return 'Enter value to proceed';
+                                                        } else {
+                                                          return null;
+                                                        }
+                                                      },
+                                                      iconOnTap: () {
+                                                        if(optionValueIndex == viewModel.listOfOptionsAdded[optionNameIndex].optionValues!.length-1){
+                                                          viewModel.listOfOptionsAdded[optionNameIndex].optionValues?.removeLast();
+                                                        } else {
+                                                          for (int i = optionValueIndex; i <= viewModel.listOfOptionsAdded[optionNameIndex].optionValues!.length - 1; i++) {
+                                                            viewModel.listOfOptionsAdded[optionNameIndex].optionValues?[i].text = viewModel.listOfOptionsAdded[optionNameIndex].optionValues![i + 1].text;
+                                                            viewModel.listOfOptionsAdded.refresh();
+                                                            if (i == viewModel.listOfOptionsAdded[optionNameIndex].optionValues!.length - 2) {
+                                                              viewModel.listOfOptionsAdded[optionNameIndex].optionValues?.last.dispose();
+                                                              viewModel.listOfOptionsAdded[optionNameIndex].optionValues?.removeLast();
+                                                            }
+                                                          }
+                                                        }
+                                                      },
+                                                    ),
+                                                  ],
                                                 ),
-                                              ],
-                                            ),
-                                          );
-                                        }
-                                      }).toList(),
-                                    )),
-                              e1 == viewModel.listOfOptionsAdded.last
-                                  ? const SizedBox()
-                                  : const Padding(
-                                      padding:
+                                              );
+                                            }
+                                          },
+                                        )
+                                        ),
+                                        viewModel.listOfOptionsAdded[optionNameIndex] == viewModel.listOfOptionsAdded.last
+                                            ? const SizedBox()
+                                            : const Padding(
+                                          padding:
                                           EdgeInsets.symmetric(vertical: 8),
-                                      child: Divider(
-                                        thickness: 1.3,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                            ],
-                          );
-                        }).toList(),
+                                          child: Divider(
+                                            thickness: 1.3,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  }),
+                            ),
+                          TextButton(
+                            onPressed: () {
+                              viewModel.listOfOptionsAdded.add(
+                                  VariantsOptionsFieldModel(
+                                      optionName: TextEditingController(),
+                                      optionValues: [TextEditingController()]));
+                              viewModel.listOfOptionsAdded.refresh();
+                            },
+                            child: const Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                '+ Add another Option',
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20),
+                            child: CustomRoundedTextBtn(
+                              onPressed: () {
+                                if (viewModel.variantsFormKey.currentState!.validate()) {
+                                  viewModel.creatingVariants();
+                                  Get.back();
+                                }
+                              },
+                              title: 'Done',
+                              borderRadius: 8,
+                              backgroundColor: newColorBlue,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    TextButton(
-                      onPressed: () {
-                        viewModel.listOfOptionsAdded.add(
-                            VariantsOptionsFieldModel(
-                                optionName: '',
-                                optionValues: [TextEditingController()]));
-                      },
-                      child: const Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          '+ Add another Option',
-                        ),
-                      ),
-                    ),
-                    CustomRoundedTextBtn(
-                      onPressed: () {
-                        if (viewModel.variantsFormKey.currentState!
-                            .validate()) {
-                          Get.back();
-                        }
-                      },
-                      title: 'Done',
-                      borderRadius: 8,
-                      backgroundColor: newColorBlue,
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ),

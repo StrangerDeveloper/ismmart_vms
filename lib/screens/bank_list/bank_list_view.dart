@@ -26,6 +26,7 @@ class BankListView extends StatelessWidget {
             child: Column(
               children: [
                 searchTxtField(),
+                note(),
                 listView(),
                 addNewBankBtn(),
               ],
@@ -60,6 +61,30 @@ class BankListView extends StatelessWidget {
             color: ThemeHelper.grey2,
           ),
         ),
+      ),
+    );
+  }
+
+  Widget note() {
+    return const Padding(
+      padding: EdgeInsets.only(right: 20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Icon(
+            CupertinoIcons.info_circle_fill,
+            size: 12,
+            color: Colors.red,
+          ),
+          SizedBox(width: 4),
+          Text(
+            'Note: Swipe left to delete',
+            style: TextStyle(
+              fontSize: 12,
+              color: Colors.red,
+            ),
+          ),
+        ],
       ),
     );
   }

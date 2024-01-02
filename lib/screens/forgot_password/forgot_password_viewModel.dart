@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ismmart_vms/helper/api_base_helper.dart';
+import 'package:ismmart_vms/helper/urls.dart';
 
+import '../../helper/constants.dart';
 import '../../helper/global_variables.dart';
 
 class ForgotPasswordViewModel extends GetxController {
@@ -8,9 +11,11 @@ class ForgotPasswordViewModel extends GetxController {
   TextEditingController emailController = TextEditingController();
 
   @override
-  void onInit() {
-    emailController.text = Get.arguments['email'];
-    super.onInit();
+  void onReady() {
+    GlobalVariable.showLoader.value = false;
+    emailController.text = Get.arguments['email'] ?? "test@gmail.com";
+    // TODO: implement onReady
+    super.onReady();
   }
 
   @override
@@ -20,40 +25,28 @@ class ForgotPasswordViewModel extends GetxController {
     super.onClose();
   }
 
-  void sendBtn() {
+  void sendBtn() async {
     if (forgotPasswordFormKey.currentState?.validate() ?? false) {
-      // Map<String, dynamic> param = {"email": emailController.text};
-
+      Map<String, dynamic> param = {"email": emailController.text};
+      print(param);
       GlobalVariable.showLoader.value = true;
+      var parsedJson = await ApiBaseHelper()
+          .postMethod(url: Urls.forgetPassword, body: param);
+      print(parsedJson);
 
-      // print(param);
-      // ApiBaseHelper()
-      //     .postMethod(url: Urls.forgetPassword, body: param)
-      //     .then((parsedJson) async {
-      //   GlobalVariable.showLoader.value = false;
-
-      //   if (parsedJson['success'] == true) {
-      //     Get.offNamed(Routes.forgotPassword2,
-      //         arguments: {'email': emailController.text});
-      //     AppConstant.displaySnackBar(
-      //       langKey.successTitle.tr,
-      //       parsedJson['message'],
-      //     );
-      //   } else if (parsedJson['message'] == 'Invalid credentials') {
-      //     AppConstant.displaySnackBar(
-      //       langKey.errorTitle.tr,
-      //       langKey.wrongWithCredentials.tr,
-      //     );
-      //   } else {
-      //     AppConstant.displaySnackBar(
-      //       langKey.errorTitle.tr,
-      //       parsedJson['message'],
-      //     );
-      //   }
-      // }).catchError((e) {
-      //   print(e);
-      //   GlobalVariable.showLoader.value = false;
-      // });
+      if (parsedJson['success' == true]) {
+        GlobalVariable.showLoader.value = false;
+        return AppConstant.displaySnackBar(
+          "Success",
+          "Reset Password Link send to your Email",
+        );
+      } else {
+        GlobalVariable.showLoader.value = false;
+        return AppConstant.displaySnackBar(
+          "Error",
+          "resent to your Email",
+        );
+      }
     }
   }
 }

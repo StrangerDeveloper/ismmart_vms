@@ -289,21 +289,21 @@ class LogInView extends StatelessWidget {
 
   Widget forgotPassword() {
     return Container(
-      margin: const EdgeInsets.only(bottom: 20, right: 10, top: 2),
-      alignment: Alignment.centerRight,
-      child: InkWell(
-          onTap: () {
-            Get.toNamed(Routes.forgotPassword1, arguments: {
-              'email': GetUtils.isEmail(viewModel.emailController.text)
-                  ? viewModel.emailController.text
-                  : ''
-            });
-          },
-          child: CustomText(
-            title: 'Forget Password?',
-            style: newFontStyleSize14.copyWith(fontWeight: FontWeight.w500),
-          )),
-    );
+        margin: const EdgeInsets.only(bottom: 20, right: 10, top: 2),
+        alignment: Alignment.centerRight,
+        child: TextButton(
+            onPressed: () {
+              print("forget --------${viewModel.emailController.text}");
+              Get.toNamed(Routes.forgotPassword1, arguments: {
+                'email': GetUtils.isEmail(viewModel.emailController.text)
+                    ? viewModel.emailController.text
+                    : ''
+              });
+            },
+            child: CustomText(
+              title: 'Forget Password?',
+              style: newFontStyleSize14.copyWith(fontWeight: FontWeight.w500),
+            )));
   }
 
   Widget orWidget() {

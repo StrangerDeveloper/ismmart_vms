@@ -23,79 +23,61 @@ class AddProduct1View extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      top: false,
-      child: Scaffold(
-        appBar: appBar(),
-        body: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              stepperText(),
-              Form(
-                key: viewModel.formKey,
-                child: Column(
-                  children: [
-                    ///Upload Images Section
-                    // _buildImageSection(),
+    return Scaffold(
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            stepperText(),
+            Form(
+              key: viewModel.formKey,
+              child: Column(
+                children: [
+                  ///Upload Images Section
+                  // _buildImageSection(),
 
-                    ///Product Category Field
-                    // Obx(() => selectCategoryField()),
-                    //
-                    // ///Product Sub Category Dropdown Field
-                    // Obx(() => viewModel.subCategoriesList.isEmpty
-                    //     ? Container()
-                    //     : selectSubCategoryField()),
+                  ///Product Category Field
+                  // Obx(() => selectCategoryField()),
+                  //
+                  // ///Product Sub Category Dropdown Field
+                  // Obx(() => viewModel.subCategoriesList.isEmpty
+                  //     ? Container()
+                  //     : selectSubCategoryField()),
 
-                    ///Product Category fields or variants or features
+                  ///Product Category fields or variants or features
 
-                    ///Product Basic Details
-                    titleTxtField(),
-                    descriptionField(),
-                    mediaWidget(),
-                    priceField(),
-                    typeTxtField(),
-                    categoryTxtField(),
-                    tagsField(),
-                    thisIsPhysicalProduct(),
-                    CustomTextBtn(
-                      onPressed: () {
-                        Get.to(() => AddProduct2View());
-                        // viewModel.creatingVariants();
-                        // viewModel.addProdBtnPress();
-                      },
-                      title: 'Save & Continue',
-                    ),
-                    CustomTextBtn(
-                      title: 'Back',
-                      backgroundColor: Colors.black,
-                      onPressed: () {},
-                    ),
-                  ],
-                ),
+                  ///Product Basic Details
+                  titleTxtField(),
+                  descriptionField(),
+                  mediaWidget(),
+                  priceField(),
+                  typeTxtField(),
+                  categoryTxtField(),
+                  tagsField(),
+                  thisIsPhysicalProduct(),
+                  CustomTextBtn(
+                    onPressed: () {
+                      Get.to(() => AddProduct2View());
+                      // viewModel.creatingVariants();
+                      // viewModel.addProdBtnPress();
+                    },
+                    title: 'Save & Continue',
+                  ),
+                  CustomTextBtn(
+                    title: 'Back',
+                    backgroundColor: Colors.black,
+                    onPressed: () {},
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  AppBar appBar() {
-    return AppBar(
-      backgroundColor: Colors.white,
-      // leading: IconButton(
-      //   onPressed: () => Get.back(),
-      //   icon: const Icon(
-      //     Icons.arrow_back_ios_new_rounded,
-      //     size: 22,
-      //     color: newColorLightGrey2,
-      //   ),
-      // ),
-      title: const Text('Add Product'),
-    );
-  }
 
   Widget titleTxtField() {
     return CustomTextField1(

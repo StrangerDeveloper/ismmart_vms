@@ -1,71 +1,79 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ismmart_vms/screens/add_product/add_product_1/add_product_1_view.dart';
-import 'package:ismmart_vms/screens/order_listing/order_view.dart';
-import 'package:ismmart_vms/screens/product_list/product_list_view.dart';
-import 'package:ismmart_vms/screens/setting/settings_view.dart';
+import 'package:ismmart_vms/screens/user_profile/user_profile_view.dart';
 
+import '../../helper/global_variables.dart';
+import '../add_product/add_product_1/add_product_1_view.dart';
 import '../dashboard/dashboard_view.dart';
+import '../order_listing/order_view.dart';
+import '../product_list/product_list_view.dart';
 
 class DrawerBottomBarViewModel extends GetxController {
-  PageController bottomNavPageController = PageController(initialPage: 0);
-  RxInt currentPageIndex = 0.obs;
-
-  List<Widget> bottomNavScreens = [
-    DashboardView(),
-    ProductListView(),
-    AddProduct1View(),
-    OrderView(),
-    SettingsView(),
-  ];
-  
-  void changePage(int index) {
-    currentPageIndex.value = index;
-    bottomNavPageController.jumpToPage(index);
+  String appBarTitle(int value) {
+    switch (value) {
+      case 0:
+        return 'Al - Jannat Mall';
+      case 1:
+        return 'Products';
+      case 2:
+        return 'Add Product';
+      case 3:
+        return 'Order List';
+      case 4:
+        return 'Profile Details';
+      default:
+        return '';
+    }
   }
 
-  Future<bool> onBackPressed(BuildContext context) async {
-    if (currentPageIndex.value == 0) {
-      final value = await showDialog<bool>(
+  Widget selectView(int index) {
+    switch (index) {
+      case 0:
+        return DashboardView();
+      case 1:
+        return ProductListView();
+      case 2:
+        return AddProduct1View();
+      case 3:
+        return OrderView();
+      case 4:
+        return UserProfileView();
+      default:
+        return Container(
+          height: 300.0,
+          width: Get.width,
+          color: Colors.red,
+        );
+    }
+  }
+
+  onBackPressed(BuildContext context) async {
+    if (GlobalVariable.selectedIndex.value == 0) {
+      await showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: const Text("Exit App"),
-            content: const Text("Do you wants to exit."),
+            title: const Text('Exit App'),
+            content: const Text('Are you sure you want to exit?'),
             actions: [
               Row(
                 children: [
                   Expanded(
                     child: TextButton(
-                      style: TextButton.styleFrom(
-                        minimumSize: const Size(double.infinity, 40),
-                        foregroundColor: Colors.grey,
-                      ),
-                      child: const Text(
-                        "No",
-                        style: TextStyle(
-                          color: Colors.black,
-                        ),
-                      ),
+                      child: const Text('No'),
                       onPressed: () {
-                        Get.back();
+                        Navigator.of(context).pop(false);
                       },
                     ),
                   ),
                   Expanded(
                     child: TextButton(
-                      style: TextButton.styleFrom(
-                        minimumSize: const Size(double.infinity, 40),
-                        foregroundColor: Colors.grey,
-                      ),
-                      child: const Text(
-                        "Yes",
-                        style: TextStyle(
-                          color: Colors.black,
-                        ),
-                      ),
+                      child: const Text('Yes'),
                       onPressed: () {
                         Navigator.of(context).pop(true);
+                        exit(0);
                       },
                     ),
                   ),
@@ -75,12 +83,8 @@ class DrawerBottomBarViewModel extends GetxController {
           );
         },
       );
-
-      return value == true;
     } else {
-      currentPageIndex(0);
-      changePage(currentPageIndex.value);
-      return false;
+      GlobalVariable.selectedIndex.value = 0;
     }
   }
 }
