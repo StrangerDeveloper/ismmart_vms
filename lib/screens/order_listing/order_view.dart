@@ -14,9 +14,18 @@ import '../order_detail/order_detail_view.dart';
 
 class OrderView extends StatelessWidget {
   final OrderListingViewModel orderController =
-      Get.find<OrderListingViewModel>();
+      Get.put(OrderListingViewModel());
 
   OrderView({super.key});
+
+  // void onInit() {
+  //   orderController.scrollController.addListener(() {
+  //     orderController.getOrderListing();
+  //   });
+  //   orderController.getOrderListing();
+  //   GlobalVariable.showLoader.value = true;
+  //   //super.onInit();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -151,7 +160,7 @@ class OrderView extends StatelessWidget {
                   Row(
                     children: [
                       _customField2(
-                          orderController.orderItemList[index].sId ?? "id"),
+                          orderController.orderItemList[index].orderId ?? "id"),
                       SizedBox(width: 8.h),
                       Icon(
                         Icons.circle,
@@ -373,6 +382,7 @@ class OrderView extends StatelessWidget {
               CupertinoButton(
                 onPressed: () {
                   print('object');
+                  //show loder first
                   orderController.statusSelectedIndex.value = tempIndex;
                   orderController.searchController.text =
                       orderController.statusList[tempIndex];
