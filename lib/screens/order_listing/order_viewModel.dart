@@ -9,11 +9,9 @@ import '../../helper/urls.dart';
 class OrderListingViewModel extends GetxController {
   Rx<Data> orderItemModel = Data().obs;
   RxList<OrderItem> orderItemList = <OrderItem>[].obs;
-  //RxList<Lineitem> lineItemList = <Lineitem>[].obs;
   RxBool showSearchTxtField = false.obs;
 
   TextEditingController searchController = TextEditingController();
-
   ScrollController scrollController = ScrollController();
 
   @override
@@ -32,11 +30,8 @@ class OrderListingViewModel extends GetxController {
         Data orderModel = Data.fromJson(data);
         orderItemModel.value = orderModel;
         orderItemList.addAll(orderModel.items!);
-        // for (int i = 0; i < orderItemList.length; i++) {
-        //   lineItemList.addAll(orderItemList[i].lineitems!);
-        //   lineItemList.refresh();
-        // }
         orderItemList.refresh();
+        print("Order item List ${orderItemList.length}");
       } else {
         scrollController.dispose();
         GlobalVariable.showLoader.value = false;
