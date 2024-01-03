@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
+import 'package:ismmart_vms/screens/order_listing/model/orderModel.dart';
 import 'package:ismmart_vms/screens/order_listing/order_viewModel.dart';
 import 'package:ismmart_vms/widgets/custom_appbar.dart';
 import 'package:ismmart_vms/widgets/custom_bottom_sheet.dart';
@@ -29,6 +30,7 @@ class OrderView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: _buildAppBar(),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -36,7 +38,7 @@ class OrderView extends StatelessWidget {
             _buildSearchRow(),
             SizedBox(height: 17.v),
             Obx(
-              () => orderController.lineItemList.isEmpty
+              () => orderController.orderItemList.isEmpty
                   ? const Center(
                       child: CircularProgressIndicator(),
                     )
@@ -47,23 +49,23 @@ class OrderView extends StatelessWidget {
                           children: [
                             Obx(
                               () => ListView.builder(
-                                reverse: true,
+                                //reverse: true,
                                 controller: orderController.scrollController,
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
                                 itemCount: orderController.orderItemList.length,
                                 itemBuilder: (context, index) {
-                                  // Lineitem orderItems =
-                                  //     orderController.lineItemList[index];
+                                  // OrderItem orderItems =
+                                  //     orderController.orderItemList[index];
                                   return GestureDetector(
                                     onTap: () {
                                       Get.to(() => OrderDetailView(),
                                           arguments: {
                                             'model': orderController
-                                                .orderItemModel.value,
+                                                .orderItemList[index],
                                           });
                                     },
-                                    child: _buildOrderCard(),
+                                    child: _buildOrderCard(index),
                                   );
                                 },
                               ),
@@ -74,6 +76,21 @@ class OrderView extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  PreferredSizeWidget _buildAppBar() {
+    return CustomAppBar(
+      leadingWidth: 48.h,
+      leading: Container(),
+      // leading: AppbarLeadingImage(
+      //   imagePath: ImageConstant.imgArrowLeft,
+      //   margin: EdgeInsets.only(left: 24.h, top: 10.v, bottom: 10.v),
+      //   onTap: () {
+      //     onTapArrowLeft();
+      //   },
+      // ),
+      title: "Order List",
     );
   }
 
@@ -136,7 +153,7 @@ class OrderView extends StatelessWidget {
     );
   }
 
-  Widget _buildOrderCard() {
+  Widget _buildOrderCard(int index) {
     //print("details ${orderItemDetail.toJson()}");
     return Obx(
       () => Card(
@@ -158,7 +175,7 @@ class OrderView extends StatelessWidget {
                   Row(
                     children: [
                       _customField2(
-                          orderController.orderItemModel.value.orderId ?? "id"),
+                          orderController.orderItemList[index].sId ?? "id"),
                       SizedBox(width: 8.h),
                       Icon(
                         Icons.circle,
@@ -167,11 +184,11 @@ class OrderView extends StatelessWidget {
                       ),
                       SizedBox(width: 8.h),
                       _customField2(DateFormat.yMMMd().format(DateTime.parse(
-                          orderController.orderItemModel.value.createdAt!))),
+                          orderController.orderItemList[index].createdAt!))),
                     ],
                   ),
                   _customField2(orderController
-                          .orderItemModel.value.orderDetails?.market
+                          .orderItemList[index].orderDetails?.market
                           .toString() ??
                       "market"),
                 ],
@@ -185,22 +202,22 @@ class OrderView extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         _customField1(orderController
-                                .orderItemModel.value.customer?.name ??
+                                .orderItemList[index].customer?.name ??
                             "naaam"),
                         _customField1(
-                            "${orderController.orderItemModel.value.totals?.total ?? "0"}"),
+                            "${orderController.orderItemList[index].totals?.total ?? "0"}"),
                       ],
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8),
                       child: _status(
-                          orderController.orderItemModel.value.paymentStatus ??
+                          orderController.orderItemList[index].paymentStatus ??
                               "status"),
                     ),
                     Row(
                       children: [
                         _customField2(
-                            "${(orderController.orderItemModel.value.lineitems!.length) ?? "teeen"} items"),
+                            "${(orderController.orderItemList[index].lineitems?.length) ?? "teeen"} items"),
                         SizedBox(width: 8.h),
                         Icon(
                           Icons.circle,

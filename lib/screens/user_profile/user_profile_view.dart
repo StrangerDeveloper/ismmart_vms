@@ -95,7 +95,7 @@ class UserProfileView extends StatelessWidget {
           width: 80,
           imageUrl:viewModel.userProfileModel.value.image !=
               null
-              ? '${viewModel.userProfileModel.value.image}?datetime=${DateTime.now().millisecondsSinceEpoch}'
+              ? viewModel.userProfileModel.value.image!
               : '',
           imageBuilder: (context, imageProvider) {
             return Container(

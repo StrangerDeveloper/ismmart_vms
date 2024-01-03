@@ -48,10 +48,9 @@ class CancelORderViewMOdel extends GetxController {
           .then((response) async {
         if (response['success'] == true) {
           print("Statusss ${response['success']}");
-          orderListingViewModel.lineItemList.clear();
           orderListingViewModel.orderItemList.clear();
-          orderListingViewModel.lineItemList.refresh();
           orderListingViewModel.orderItemList.refresh();
+          orderListingViewModel.orderItemModel.value.items!.clear();
           orderDetailViewModel.lineItemList.clear();
           orderDetailViewModel.lineItemList.refresh();
           orderDetailViewModel.selectedItems.clear();
