@@ -26,25 +26,36 @@ class ForgotPasswordViewModel extends GetxController {
   }
 
   void sendBtn() async {
+    var parsedJson;
     if (forgotPasswordFormKey.currentState?.validate() ?? false) {
-      Map<String, dynamic> param = {"email": emailController.text};
-      print(param);
-      GlobalVariable.showLoader.value = true;
-      var parsedJson = await ApiBaseHelper()
-          .postMethod(url: Urls.forgetPassword, body: param);
-      print(parsedJson);
+      try {
+        Map<String, dynamic> param = {"email": emailController.text};
+        print(param);
+        GlobalVariable.showLoader.value = true;
+        parsedJson = await ApiBaseHelper()
+            .postMethod(url: Urls.forgetPassword, body: param);
+        print(parsedJson);
 
-      if (parsedJson['success' == true]) {
-        GlobalVariable.showLoader.value = false;
-        return AppConstant.displaySnackBar(
-          "Success",
-          "Reset Password Link send to your Email",
-        );
-      } else {
+        if (parsedJson['success'] == true) {
+          GlobalVariable.showLoader.value = false;
+          AppConstant.displaySnackBar(
+            "success",
+            "Reset Password Link send to your Email",
+          );
+          Future.delayed(Duration(seconds: 2), () => Get.back());
+          Get.back();
+        } else {
+          GlobalVariable.showLoader.value = false;
+          return AppConstant.displaySnackBar(
+            "Error",
+            "resent to your Email",
+          );
+        }
+      } catch (e) {
         GlobalVariable.showLoader.value = false;
         return AppConstant.displaySnackBar(
           "Error",
-          "resent to your Email",
+          "${parsedJson['message']}",
         );
       }
     }

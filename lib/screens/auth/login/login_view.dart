@@ -147,41 +147,39 @@ class LogInView extends StatelessWidget {
 
 //Google Button
   Widget googlelogInBtn() {
-    return Obx(() => GlobalVariable.showLoader.value
-        ? const CustomLoading(isItBtn: true)
-        : Padding(
-            padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-            child: CustomTextBtn(
-              radius: 30,
-              borderSide: const BorderSide(
-                //color: newColorDarkBlack, // your color here
-                width: 1,
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+      child: CustomTextBtn(
+        radius: 30,
+        borderSide: const BorderSide(
+          //color: newColorDarkBlack, // your color here
+          width: 1,
+        ),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(50.0),
+              child: Image.asset(
+                'assets/logo/google_logo.png',
               ),
-              backgroundColor: Colors.white,
-              foregroundColor: Colors.black,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(50.0),
-                    child: Image.asset(
-                      'assets/logo/google_logo.png',
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  const Text(
-                    'Sign in with Gmail',
-                    // style: newFontStyleSize14.copyWith(fontWeight: FontWeight.w500),
-                  ),
-                ],
-              ),
-              onPressed: () {
-                viewModel.googleLogIn();
-              },
             ),
-          ));
+            const SizedBox(
+              width: 5,
+            ),
+            const Text(
+              'Sign in with Gmail',
+              // style: newFontStyleSize14.copyWith(fontWeight: FontWeight.w500),
+            ),
+          ],
+        ),
+        onPressed: () {
+          viewModel.googleLogIn();
+        },
+      ),
+    );
   }
 
   Widget applelogInBtn() {
@@ -256,35 +254,30 @@ class LogInView extends StatelessWidget {
 
   Widget logInBtn() {
     return Padding(
-      padding: const EdgeInsets.only(top: 32),
-      child: Obx(
-        () => GlobalVariable.showLoader.value
-            ? const CustomLoading(isItBtn: true)
-            : CustomTextBtn(
-                radius: 30,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      "Login",
-                      // style: newFontStyleSize14.copyWith(
-                      //     fontWeight: FontWeight.w500, color: kWhiteColor),kWhiteColor
-                    ),
-                    SizedBox(width: 4.h),
-                    const Icon(
-                      Icons.arrow_forward,
-                      size: 20,
-                    ),
-                  ],
-                ),
-                onPressed: () {
-                  viewModel.signIn();
-                  // Get.offNamed(Routes.dashboard);
-                  //
-                },
+        padding: const EdgeInsets.only(top: 32),
+        child: CustomTextBtn(
+          radius: 30,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                "Login",
+                // style: newFontStyleSize14.copyWith(
+                //     fontWeight: FontWeight.w500, color: kWhiteColor),kWhiteColor
               ),
-      ),
-    );
+              SizedBox(width: 4.h),
+              const Icon(
+                Icons.arrow_forward,
+                size: 20,
+              ),
+            ],
+          ),
+          onPressed: () {
+            viewModel.signIn();
+            // Get.offNamed(Routes.dashboard);
+            //
+          },
+        ));
   }
 
   Widget forgotPassword() {

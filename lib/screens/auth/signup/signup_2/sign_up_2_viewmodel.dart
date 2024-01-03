@@ -154,6 +154,7 @@ class SignUp2ViewModel extends GetxController {
     GlobalVariable.showLoader(true);
     var parseJson = await ApiBaseHelper().getMethod(url: Urls.country);
     if (parseJson['success'] == true) {
+      GlobalVariable.showLoader(false);
       allCountryList.clear();
       filteredCountryList.clear();
       List rawList = parseJson['data']['items'];
@@ -163,7 +164,6 @@ class SignUp2ViewModel extends GetxController {
         countryIdList.add(e['_id'].toString());
       }
       GlobalVariable.showLoader.value = false;
-      print(GlobalVariable.showLoader(false));
       //print country with Id for Test------
     } else {
       GlobalVariable.showLoader(false);
@@ -203,6 +203,7 @@ class SignUp2ViewModel extends GetxController {
     var parseJson = await ApiBaseHelper()
         .getMethod(url: "/places/cities?limit=0&country=$countryId");
     if (parseJson['success'] == true) {
+      GlobalVariable.showLoader.value == false;
       allCityList.clear();
       filteredCityList.clear();
       List rawList = parseJson['data']['items'];
@@ -211,7 +212,7 @@ class SignUp2ViewModel extends GetxController {
         allCityList.add(e['name'].toString());
         cityIdList.add(e['_id'].toString());
       }
-      print(cityIdList);
+      GlobalVariable.showLoader(false);
     } else {
       GlobalVariable.showLoader(false);
     }
