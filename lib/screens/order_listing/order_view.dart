@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
-import 'package:ismmart_vms/screens/order_listing/model/orderModel.dart';
 import 'package:ismmart_vms/screens/order_listing/order_viewModel.dart';
 import 'package:ismmart_vms/widgets/custom_appbar.dart';
 import 'package:ismmart_vms/widgets/custom_bottom_sheet.dart';
@@ -18,14 +17,7 @@ class OrderView extends StatelessWidget {
   final OrderListingViewModel orderController =
       Get.find<OrderListingViewModel>();
 
-  OrderView({super.key}) {
-    //Get.put(OrderListingViewModel()).getOrderListing();
-  }
-
-  // initState() {
-  //   Get.put(OrderListingViewModel()).getOrderListing();
-  //   orderController.isLoading.value = false;
-  // }
+  OrderView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -45,32 +37,33 @@ class OrderView extends StatelessWidget {
                   : Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Obx(
-                              () => ListView.builder(
-                                //reverse: true,
-                                controller: orderController.scrollController,
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: orderController.orderItemList.length,
-                                itemBuilder: (context, index) {
-                                  // OrderItem orderItems =
-                                  //     orderController.orderItemList[index];
-                                  return GestureDetector(
-                                    onTap: () {
-                                      Get.to(() => OrderDetailView(),
-                                          arguments: {
-                                            'model': orderController
-                                                .orderItemList[index],
-                                          });
-                                    },
-                                    child: _buildOrderCard(index),
-                                  );
-                                },
-                              ),
-                            )
-                          ]),
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Obx(
+                            () => ListView.builder(
+                              //reverse: true,
+                              controller: orderController.scrollController,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: orderController.orderItemList.length,
+                              itemBuilder: (context, index) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    Get.to(
+                                      () => OrderDetailView(),
+                                      arguments: {
+                                        'model': orderController
+                                            .orderItemList[index],
+                                      },
+                                    );
+                                  },
+                                  child: _buildOrderCard(index),
+                                );
+                              },
+                            ),
+                          )
+                        ],
+                      ),
                     ),
             ),
           ],
@@ -83,13 +76,6 @@ class OrderView extends StatelessWidget {
     return CustomAppBar(
       leadingWidth: 48.h,
       leading: Container(),
-      // leading: AppbarLeadingImage(
-      //   imagePath: ImageConstant.imgArrowLeft,
-      //   margin: EdgeInsets.only(left: 24.h, top: 10.v, bottom: 10.v),
-      //   onTap: () {
-      //     onTapArrowLeft();
-      //   },
-      // ),
       title: "Order List",
     );
   }
@@ -101,10 +87,8 @@ class OrderView extends StatelessWidget {
         SizedBox(
           width: 250.h,
           child: CustomTextField1(
-            //title: 'Status',
             filled: false,
             hintText: 'Search',
-            //readOnly: true,
             isDropDown: true,
             onTap: () {
               CustomBottomSheet1(
@@ -118,7 +102,6 @@ class OrderView extends StatelessWidget {
         SizedBox(width: 10.h),
         Container(
           width: 62.h,
-          //margin: EdgeInsets.only(left: 16.h, right: 10.h),
           padding: EdgeInsets.symmetric(vertical: 9.v),
           decoration: BoxDecoration(
             color: Colors.white,
@@ -127,8 +110,6 @@ class OrderView extends StatelessWidget {
               color: Colors.grey.shade300,
             ),
           ),
-          // decoration: AppDecoration.outlineGray
-          //     .copyWith(borderRadius: BorderRadiusStyle.roundedBorder10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -154,7 +135,6 @@ class OrderView extends StatelessWidget {
   }
 
   Widget _buildOrderCard(int index) {
-    //print("details ${orderItemDetail.toJson()}");
     return Obx(
       () => Card(
         color: const Color(0xFFF9FAFB),
@@ -214,20 +194,20 @@ class OrderView extends StatelessWidget {
                           orderController.orderItemList[index].paymentStatus ??
                               "status"),
                     ),
-                    Row(
-                      children: [
-                        _customField2(
-                            "${(orderController.orderItemList[index].lineitems?.length) ?? "teeen"} items"),
-                        SizedBox(width: 8.h),
-                        Icon(
-                          Icons.circle,
-                          color: Colors.grey.shade400,
-                          size: 5,
-                        ),
-                        SizedBox(width: 8.h),
-                        _customField2("Standard"),
-                      ],
-                    ),
+                    Obx(() => Row(
+                          children: [
+                            _customField2(
+                                "${(orderController.orderItemList[index].lineitems?.length) ?? "teeen"} items"),
+                            SizedBox(width: 8.h),
+                            Icon(
+                              Icons.circle,
+                              color: Colors.grey.shade400,
+                              size: 5,
+                            ),
+                            SizedBox(width: 8.h),
+                            _customField2("Standard"),
+                          ],
+                        )),
                     Padding(
                       padding: EdgeInsets.only(top: 8.v, left: 8.h),
                       child: _status("COD Verified"),
@@ -244,7 +224,6 @@ class OrderView extends StatelessWidget {
 
   Widget _customField1(text1) {
     return Row(
-      //mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         CustomText(
           title: text1,
@@ -263,8 +242,6 @@ class OrderView extends StatelessWidget {
       style: TextStyle(
         fontSize: 12.fSize,
         color: const Color(0xFF6B7280),
-
-        ///fontWeight: FontWeight.w600,
       ),
     );
   }
