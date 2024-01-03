@@ -31,17 +31,35 @@
 
 
 
+<!--            <meta-data android:name="flutter_deeplinking_enabled" android:value="true" />-->
+<!--              <intent-filter android:autoVerify="true">-->
+<!--                  <action android:name="android.intent.action.VIEW" />-->
+<!--                  <category android:name="android.intent.category.DEFAULT" />-->
+<!--                  <category android:name="android.intent.category.BROWSABLE" />-->
+<!--                  <data android:scheme="http" android:host="ismmart-ecommerce-backend-e233368b3b0d.herokuapp.com" />-->
+<!--                  <data android:scheme="https" />-->
+<!--                  </intent-filter>-->
+
             <meta-data android:name="flutter_deeplinking_enabled" android:value="true" />
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="http" />
+                <data android:scheme="http" android:host="ismmart-ecommerce-backend-e233368b3b0d.herokuapp.com" />
                 <data android:scheme="https" />
-                <data  android:host="ismmart-ecommerce-backend-e233368b3b0d.herokuapp.com" />
-                <data  android:host="ismmart-ecommerce-backend-e233368b3b0d.herokuapp.com" />
-
             </intent-filter>
+
+
+<!--            <meta-data android:name="flutter_deeplinking_enabled" android:value="true" />-->
+<!--            <intent-filter android:autoVerify="true">-->
+<!--                <action android:name="android.intent.action.VIEW" />-->
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--                <category android:name="android.intent.category.BROWSABLE" />-->
+<!--                <data android:scheme="http" />-->
+<!--                <data android:scheme="https" />-->
+<!--                <data  android:host="/" />-->
+<!--                <data  android:host="ecom-vendor-management-system.vercel.app" />-->
+<!--            </intent-filter>-->
 
         </activity>
         <!-- Don't delete the meta-data below.

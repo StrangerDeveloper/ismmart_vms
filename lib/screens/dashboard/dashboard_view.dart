@@ -35,6 +35,7 @@ class DashboardView extends StatelessWidget {
                 ordersProgress(),
                 SizedBox(height: 24.v),
                 _buildCharts(),
+                SizedBox(height: 50),
               ],
             ),
           ),

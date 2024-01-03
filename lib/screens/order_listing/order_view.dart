@@ -1,11 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/screens/order_listing/order_viewModel.dart';
 import 'package:ismmart_vms/widgets/custom_appbar.dart';
-import 'package:ismmart_vms/widgets/custom_bottom_sheet.dart';
 import 'package:ismmart_vms/widgets/custom_text.dart';
 import 'package:ismmart_vms/widgets/custom_textfield.dart';
 
@@ -17,18 +16,12 @@ class OrderView extends StatelessWidget {
   final OrderListingViewModel orderController =
       Get.find<OrderListingViewModel>();
 
-  OrderView({super.key}) {
-    //Get.put(OrderListingViewModel()).getOrderListing();
-  }
-
-  // initState() {
-  //   Get.put(OrderListingViewModel()).getOrderListing();
-  //   orderController.isLoading.value = false;
-  // }
+  OrderView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: _buildAppBar(),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -36,44 +29,53 @@ class OrderView extends StatelessWidget {
             _buildSearchRow(),
             SizedBox(height: 17.v),
             Obx(
-              () => orderController.lineItemList.isEmpty
+              () => orderController.orderItemList.isEmpty
                   ? const Center(
                       child: CircularProgressIndicator(),
                     )
                   : Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Obx(
-                              () => ListView.builder(
-                                reverse: true,
-                                controller: orderController.scrollController,
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: orderController.orderItemList.length,
-                                itemBuilder: (context, index) {
-                                  // Lineitem orderItems =
-                                  //     orderController.lineItemList[index];
-                                  return GestureDetector(
-                                    onTap: () {
-                                      Get.to(() => OrderDetailView(),
-                                          arguments: {
-                                            'model': orderController
-                                                .orderItemModel.value,
-                                          });
-                                    },
-                                    child: _buildOrderCard(),
-                                  );
-                                },
-                              ),
-                            )
-                          ]),
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Obx(
+                            () => ListView.builder(
+                              //reverse: true,
+                              controller: orderController.scrollController,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: orderController.orderItemList.length,
+                              itemBuilder: (context, index) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    Get.to(
+                                      () => OrderDetailView(),
+                                      arguments: {
+                                        'model': orderController
+                                            .orderItemList[index],
+                                      },
+                                    );
+                                  },
+                                  child: _buildOrderCard(index),
+                                );
+                              },
+                            ),
+                          )
+                        ],
+                      ),
                     ),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  PreferredSizeWidget _buildAppBar() {
+    return CustomAppBar(
+      leadingWidth: 48.h,
+      leading: Container(),
+      title: "Order List",
     );
   }
 
@@ -84,24 +86,18 @@ class OrderView extends StatelessWidget {
         SizedBox(
           width: 250.h,
           child: CustomTextField1(
-            //title: 'Status',
+            controller: orderController.searchController,
             filled: false,
             hintText: 'Search',
-            //readOnly: true,
             isDropDown: true,
             onTap: () {
-              CustomBottomSheet1(
-                list: ['All', 'Pending', 'Completed', 'Cancelled'],
-                selectedIndex: 0,
-                onChanged: (int index) {},
-              ).show();
+              statusBottomSheet();
             },
           ),
         ),
         SizedBox(width: 10.h),
         Container(
           width: 62.h,
-          //margin: EdgeInsets.only(left: 16.h, right: 10.h),
           padding: EdgeInsets.symmetric(vertical: 9.v),
           decoration: BoxDecoration(
             color: Colors.white,
@@ -110,8 +106,6 @@ class OrderView extends StatelessWidget {
               color: Colors.grey.shade300,
             ),
           ),
-          // decoration: AppDecoration.outlineGray
-          //     .copyWith(borderRadius: BorderRadiusStyle.roundedBorder10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -136,8 +130,7 @@ class OrderView extends StatelessWidget {
     );
   }
 
-  Widget _buildOrderCard() {
-    //print("details ${orderItemDetail.toJson()}");
+  Widget _buildOrderCard(int index) {
     return Obx(
       () => Card(
         color: const Color(0xFFF9FAFB),
@@ -158,7 +151,7 @@ class OrderView extends StatelessWidget {
                   Row(
                     children: [
                       _customField2(
-                          orderController.orderItemModel.value.orderId ?? "id"),
+                          orderController.orderItemList[index].sId ?? "id"),
                       SizedBox(width: 8.h),
                       Icon(
                         Icons.circle,
@@ -167,11 +160,11 @@ class OrderView extends StatelessWidget {
                       ),
                       SizedBox(width: 8.h),
                       _customField2(DateFormat.yMMMd().format(DateTime.parse(
-                          orderController.orderItemModel.value.createdAt!))),
+                          orderController.orderItemList[index].createdAt!))),
                     ],
                   ),
                   _customField2(orderController
-                          .orderItemModel.value.orderDetails?.market
+                          .orderItemList[index].orderDetails?.market
                           .toString() ??
                       "market"),
                 ],
@@ -185,32 +178,38 @@ class OrderView extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         _customField1(orderController
-                                .orderItemModel.value.customer?.name ??
+                                .orderItemList[index].customer?.name ??
                             "naaam"),
                         _customField1(
-                            "${orderController.orderItemModel.value.totals?.total ?? "0"}"),
+                            "${orderController.orderItemList[index].totals?.total ?? "0"}"),
                       ],
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8),
-                      child: _status(
-                          orderController.orderItemModel.value.paymentStatus ??
-                              "status"),
-                    ),
-                    Row(
-                      children: [
-                        _customField2(
-                            "${(orderController.orderItemModel.value.lineitems!.length) ?? "teeen"} items"),
+                      child: Row(children: [
+                        _status(orderController
+                                .orderItemList[index].paymentStatus ??
+                            "status"),
                         SizedBox(width: 8.h),
-                        Icon(
-                          Icons.circle,
-                          color: Colors.grey.shade400,
-                          size: 5,
-                        ),
-                        SizedBox(width: 8.h),
-                        _customField2("Standard"),
-                      ],
+                        _status(orderController
+                                .orderItemList[index].fulfilmentStatus ??
+                            "status")
+                      ]),
                     ),
+                    Obx(() => Row(
+                          children: [
+                            _customField2(
+                                "${(orderController.orderItemList[index].lineitems?.length) ?? "teeen"} items"),
+                            SizedBox(width: 8.h),
+                            Icon(
+                              Icons.circle,
+                              color: Colors.grey.shade400,
+                              size: 5,
+                            ),
+                            SizedBox(width: 8.h),
+                            _customField2("Standard"),
+                          ],
+                        )),
                     Padding(
                       padding: EdgeInsets.only(top: 8.v, left: 8.h),
                       child: _status("COD Verified"),
@@ -227,7 +226,6 @@ class OrderView extends StatelessWidget {
 
   Widget _customField1(text1) {
     return Row(
-      //mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         CustomText(
           title: text1,
@@ -246,8 +244,6 @@ class OrderView extends StatelessWidget {
       style: TextStyle(
         fontSize: 12.fSize,
         color: const Color(0xFF6B7280),
-
-        ///fontWeight: FontWeight.w600,
       ),
     );
   }
@@ -329,7 +325,71 @@ class OrderView extends StatelessWidget {
     }
   }
 
-  // onTapArrowLeft() {
-  //   Get.back();
-  // }
+  statusBottomSheet() {
+    int tempIndex = 0;
+    showModalBottomSheet(
+      context: Get.context!,
+      builder: (BuildContext context) {
+        return Container(
+          height: 200,
+          padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CupertinoButton(
+                child: const Text(
+                  'Cancel',
+                  style: TextStyle(fontSize: 14),
+                ),
+                onPressed: () {
+                  Get.back();
+                },
+              ),
+              Expanded(
+                child: CupertinoPicker(
+                  scrollController: FixedExtentScrollController(
+                    initialItem: orderController.statusSelectedIndex.value,
+                  ),
+                  itemExtent: 35,
+                  onSelectedItemChanged: (int index) {
+                    tempIndex = index;
+                  },
+                  children: List.generate(
+                    orderController.statusList.length,
+                    (int index) {
+                      return Center(
+                        child: Text(
+                          orderController.statusList[index],
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 15,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+              CupertinoButton(
+                onPressed: () {
+                  print('object');
+                  orderController.statusSelectedIndex.value = tempIndex;
+                  orderController.searchController.text =
+                      orderController.statusList[tempIndex];
+                  orderController
+                      .fieldSelection(orderController.statusList[tempIndex]);
+
+                  Get.back();
+                },
+                child: const Text(
+                  'Done',
+                  style: TextStyle(fontSize: 14),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 }

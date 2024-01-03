@@ -28,43 +28,49 @@ class LogInView extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.white,
         body: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 25),
+          padding: const EdgeInsets.symmetric(vertical: 26, horizontal: 25),
           child: Stack(
             children: [
               Form(
                 key: viewModel.signInFormKey,
-                child: ScrollableColumn(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 30.h),
-                    titleAndBackBtn(),
-                    const Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 52, bottom: 10),
-                      child: CustomText(
-                        title: 'Welcome Back!',
-                        style: newFontStyleSize20,
-                      ),
-                    ),
-                    Padding(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 52.h),
+                      titleAndBackBtn(),
+                      Padding(
                         padding: const EdgeInsets.only(
-                            right: 20, bottom: 32, top: 16),
-                        child: Text(
-                            maxLines: 2,
-                            'Please login or sign up to continue our app',
-                            style: newFontStyleSize14)),
-                    emailTextField(),
-                    passwordTextField(),
-                    forgotPassword(),
-                    logInBtn(),
+                          top: 72,
+                        ),
+                        child: CustomText(
+                          title: 'Welcome Back!',
+                          style: newFontStyleSize20,
+                        ),
+                      ),
+                      Padding(
+                          padding: const EdgeInsets.only(
+                              right: 20, bottom: 15, top: 16),
+                          child: Text(
+                              maxLines: 2,
+                              'Please login or sign up to continue our app',
+                              style: newFontStyleSize14.copyWith(
+                                  color: newColorLightGrey2))),
+                      emailTextField(),
+                      passwordTextField(),
+                      forgotPassword(),
+                      logInBtn(),
 
-                    orWidget(),
-                    googlelogInBtn(),
-                    // facebooklogInBtn(),
-                    if (Platform.isIOS) applelogInBtn(),
-
-                    doNotHaveAnAccount(),
-                  ],
+                      orWidget(),
+                      googlelogInBtn(),
+                      // facebooklogInBtn(),
+                      if (Platform.isIOS) applelogInBtn(),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * .2,
+                      ),
+                      doNotHaveAnAccount(),
+                    ],
+                  ),
                 ),
               ),
               // NoInternetView(
@@ -106,8 +112,8 @@ class LogInView extends StatelessWidget {
       padding: const EdgeInsets.only(top: 32),
       child: CustomTextField1(
         prefixIcon: Icons.person,
-        title: 'Email / Phone Number',
-        hintText: 'Email / Phone Number',
+        title: 'Email ',
+        hintText: 'Email ',
         controller: viewModel.emailController,
         autoValidateMode: AutovalidateMode.onUserInteraction,
         validator: (value) {
@@ -121,7 +127,9 @@ class LogInView extends StatelessWidget {
   Widget passwordTextField() {
     return Obx(
       () => Padding(
-        padding: const EdgeInsets.only(top: 16, bottom: 16),
+        padding: const EdgeInsets.only(
+          top: 16,
+        ),
         child: CustomTextField1(
           prefixIcon: Icons.lock,
           controller: viewModel.passwordController,
@@ -147,41 +155,36 @@ class LogInView extends StatelessWidget {
 
 //Google Button
   Widget googlelogInBtn() {
-    return Obx(() => GlobalVariable.showLoader.value
-        ? const CustomLoading(isItBtn: true)
-        : Padding(
-            padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-            child: CustomTextBtn(
-              radius: 30,
-              borderSide: const BorderSide(
-                //color: newColorDarkBlack, // your color here
-                width: 1,
-              ),
-              backgroundColor: Colors.white,
-              foregroundColor: Colors.black,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(50.0),
-                    child: Image.asset(
-                      'assets/logo/google_logo.png',
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  const Text(
-                    'Sign in with Gmail',
-                    // style: newFontStyleSize14.copyWith(fontWeight: FontWeight.w500),
-                  ),
-                ],
-              ),
-              onPressed: () {
-                viewModel.googleLogIn();
-              },
+    return CustomTextBtn(
+      radius: 30,
+      borderSide: const BorderSide(
+        color: newColorLightGrey, // your color here
+        width: 1,
+      ),
+      backgroundColor: Colors.white,
+      foregroundColor: Colors.black,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(50.0),
+            child: Image.asset(
+              'assets/logo/google_logo.png',
             ),
-          ));
+          ),
+          const SizedBox(
+            width: 5,
+          ),
+          const Text(
+            'Sign in with Gmail',
+            // style: newFontStyleSize14.copyWith(fontWeight: FontWeight.w500),
+          ),
+        ],
+      ),
+      onPressed: () {
+        viewModel.googleLogIn();
+      },
+    );
   }
 
   Widget applelogInBtn() {
@@ -256,40 +259,37 @@ class LogInView extends StatelessWidget {
 
   Widget logInBtn() {
     return Padding(
-      padding: const EdgeInsets.only(top: 32),
-      child: Obx(
-        () => GlobalVariable.showLoader.value
-            ? const CustomLoading(isItBtn: true)
-            : CustomTextBtn(
-                radius: 30,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      "Login",
-                      // style: newFontStyleSize14.copyWith(
-                      //     fontWeight: FontWeight.w500, color: kWhiteColor),kWhiteColor
-                    ),
-                    SizedBox(width: 4.h),
-                    const Icon(
-                      Icons.arrow_forward,
-                      size: 20,
-                    ),
-                  ],
-                ),
-                onPressed: () {
-                  viewModel.signIn();
-                  // Get.offNamed(Routes.dashboard);
-                  //
-                },
+        padding: const EdgeInsets.only(top: 32),
+        child: CustomTextBtn(
+          radius: 30,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                "Login",
+                // style: newFontStyleSize14.copyWith(
+                //     fontWeight: FontWeight.w500, color: kWhiteColor),kWhiteColor
               ),
-      ),
-    );
+              SizedBox(width: 4.h),
+              const Icon(
+                Icons.arrow_forward,
+                size: 20,
+              ),
+            ],
+          ),
+          onPressed: () {
+            viewModel.signIn();
+            //
+          },
+        ));
   }
 
   Widget forgotPassword() {
     return Container(
-        margin: const EdgeInsets.only(bottom: 20, right: 10, top: 2),
+        margin: const EdgeInsets.only(
+          bottom: 20,
+          right: 10,
+        ),
         alignment: Alignment.centerRight,
         child: TextButton(
             onPressed: () {
@@ -302,7 +302,7 @@ class LogInView extends StatelessWidget {
             },
             child: CustomText(
               title: 'Forget Password?',
-              style: newFontStyleSize14.copyWith(fontWeight: FontWeight.w500),
+              style: newFontStyleSize14.copyWith(fontWeight: FontWeight.w600),
             )));
   }
 
@@ -335,12 +335,12 @@ class LogInView extends StatelessWidget {
   }
 
   Widget doNotHaveAnAccount() {
-    return TextButton(
-      onPressed: () {
-        Get.to(() => SingupMethodsView());
-      },
-      child: Padding(
-        padding: const EdgeInsets.only(top: 50),
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: TextButton(
+        onPressed: () {
+          Get.to(() => SingupMethodsView());
+        },
         child: Center(
           child: RichText(
             text: TextSpan(
@@ -352,7 +352,7 @@ class LogInView extends StatelessWidget {
                 TextSpan(
                     text: " Create Account",
                     style: newFontStyleSize14.copyWith(
-                        fontWeight: FontWeight.w700)),
+                        fontWeight: FontWeight.w800)),
               ],
             ),
           ),

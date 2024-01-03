@@ -7,14 +7,27 @@ import 'package:ismmart_vms/screens/order_listing/model/orderModel.dart';
 import '../../helper/urls.dart';
 
 class OrderListingViewModel extends GetxController {
-  Rx<OrderItem> orderItemModel = OrderItem().obs;
+  Rx<Data> orderItemModel = Data().obs;
   RxList<OrderItem> orderItemList = <OrderItem>[].obs;
-  RxList<Lineitem> lineItemList = <Lineitem>[].obs;
   RxBool showSearchTxtField = false.obs;
+  RxString filterBtn = 'all'.obs;
+  String searchUrlValue = '';
 
   TextEditingController searchController = TextEditingController();
-
   ScrollController scrollController = ScrollController();
+
+  //status
+  RxInt statusSelectedIndex = 0.obs;
+  List<String> statusList = const <String>[
+    'All',
+    "Unfulfilled",
+    "Fulfilled",
+    "Partially fulfilled",
+    "Scheduled",
+    "Returned",
+    "Cancelled",
+    "On hold",
+  ];
 
   @override
   void onReady() {
@@ -26,16 +39,17 @@ class OrderListingViewModel extends GetxController {
   }
 
   Future<void> getOrderListing() async {
-    await ApiBaseHelper().getMethod(url: Urls.getOrders).then((response) {
+    await ApiBaseHelper()
+        .getMethod(url: '${Urls.getOrders}$searchUrlValue')
+        .then((response) {
       final data = response['data'];
       if (data != null) {
+        orderItemList.clear();
         Data orderModel = Data.fromJson(data);
+        orderItemModel.value = orderModel;
         orderItemList.addAll(orderModel.items!);
-        for (int i = 0; i < orderItemList.length; i++) {
-          lineItemList.addAll(orderItemList[i].lineitems!);
-          orderItemModel.value = orderItemList[i];
-        }
-        orderItemList.refresh();
+        // orderItemList.refresh();
+        print("Order item List ${orderItemList.length}");
       } else {
         scrollController.dispose();
         GlobalVariable.showLoader.value = false;
@@ -44,5 +58,16 @@ class OrderListingViewModel extends GetxController {
       scrollController.dispose();
       GlobalVariable.showLoader.value = false;
     });
+  }
+
+  fieldSelection(value) {
+    print("Value $value");
+    if (value == 'All') {
+      searchUrlValue = '';
+    } else {
+      searchUrlValue = '?fulfilmentStatus=$value';
+    }
+    print("Search Url Value $searchUrlValue");
+    getOrderListing(); // Refresh the listing after applying the filter
   }
 }

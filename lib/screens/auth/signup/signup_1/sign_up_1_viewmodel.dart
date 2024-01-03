@@ -34,6 +34,7 @@ class SignUpScreen1ViewModel extends GetxController {
   Rxn phoneErrorText = Rxn<String>();
   RxString countryCode = '+92'.obs;
   RxBool changeView = false.obs;
+  RxBool isChecked = false.obs;
   List genders = ['Male', 'Female', 'Other'];
   RxString selectedGender = ''.obs;
 
@@ -61,6 +62,7 @@ class SignUpScreen1ViewModel extends GetxController {
   @override
   void onReady() {
     GlobalVariable.showLoader.value = false;
+    print("llllll  ----${GlobalVariable.showLoader.value}");
     nameController.text = _socialviewModel.socialName.value;
     emailController.text = _socialviewModel.socialEmail.value;
     emailController.text = _socialviewModel.socialEmail.value;

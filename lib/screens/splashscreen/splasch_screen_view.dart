@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:ismmart_vms/screens/auth/login/login_view.dart';
-import 'package:ismmart_vms/splashscreen/splash_screen_viewmodel.dart';
 
 class SplashScreenView extends StatefulWidget {
   SplashScreenView({super.key});
@@ -15,8 +14,9 @@ class _SplashScreenViewState extends State<SplashScreenView> {
   void initState() {
     Future.delayed(
         Duration(seconds: 4),
-        () => Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => LogInView())));
+        () => Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => LogInView()),
+            (Route<dynamic> route) => false));
     // TODO: implement initState
     super.initState();
   }
