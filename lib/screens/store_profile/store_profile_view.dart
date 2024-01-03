@@ -84,10 +84,7 @@ class StoreProfileView extends StatelessWidget {
                 : CachedNetworkImage(
                     height: 80,
                     width: 80,
-                    imageUrl: viewModel.userProfileModel.value.store?.logo !=
-                            null
-                        ? '${viewModel.userProfileModel.value.store!.logo}?datetime=${DateTime.now().millisecondsSinceEpoch}'
-                        : '',
+                    imageUrl: viewModel.userProfileModel.value.store?.logo ?? '',
                     imageBuilder: (context, imageProvider) {
                       return Container(
                         decoration: BoxDecoration(

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/screens/order_listing/order_viewModel.dart';
 import 'package:ismmart_vms/widgets/custom_appbar.dart';
@@ -163,14 +162,10 @@ class OrderView extends StatelessWidget {
                         size: 5,
                       ),
                       SizedBox(width: 8.h),
-                      _customField2(DateFormat.yMMMd().format(DateTime.parse(
-                          orderController.orderItemList[index].createdAt!))),
+                      _customField2(DateFormat.yMMMd().format(DateTime.parse(orderController.orderItemList[index].createdAt!))),
                     ],
                   ),
-                  _customField2(orderController
-                          .orderItemList[index].orderDetails?.market
-                          .toString() ??
-                      "market"),
+                  _customField2(orderController.orderItemList[index].orderDetails?.market.toString() ?? "market"),
                 ],
               ),
               Container(
@@ -323,7 +318,7 @@ class OrderView extends StatelessWidget {
     }
   }
 
-  // onTapArrowLeft() {
-  //   Get.back();
-  // }
+// onTapArrowLeft() {
+//   Get.back();
+// }
 }
