@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:ismmart_vms/helper/constants.dart';
 import 'package:ismmart_vms/helper/languages/translations_key.dart';
 import 'package:ismmart_vms/screens/order_detail/order_detail_viewModel.dart';
 
@@ -39,27 +40,42 @@ class CancelORderViewMOdel extends GetxController {
           selectedItemsStatus = lineItemList[i].fulfilmentStatus!;
         }
       }
-      Map<String, dynamic> param = {
-        "itemsIndex": selectedIndicesId,
-        "status": selectedItemsStatus,
-      };
-      await ApiBaseHelper()
-          .putMethod(url: Urls.updateOrder, body: param)
-          .then((response) async {
-        if (response['success'] == true) {
-          print("Statusss ${response['success']}");
-          orderListingViewModel.orderItemList.clear();
-          orderListingViewModel.orderItemList.refresh();
-          orderListingViewModel.orderItemModel.value.items!.clear();
-          orderDetailViewModel.lineItemList.clear();
-          orderDetailViewModel.lineItemList.refresh();
-          orderDetailViewModel.selectedItems.clear();
-          orderDetailViewModel.selectedItems.refresh();
 
-          await orderListingViewModel.getOrderListing();
-          Get.back();
-        }
-      });
+      if (selectedItemsStatus == "Unfulfilled") {
+        //if unfulfilled then convert it into cancelled status and update the status
+        selectedItemsStatus = "Cancelled";
+
+        print("Fulfillment Statusss $selectedItemsStatus");
+        Map<String, dynamic> param = {
+          "itemsIndex": selectedIndicesId,
+          "status": selectedItemsStatus,
+        };
+        await ApiBaseHelper()
+            .putMethod(url: Urls.updateOrder, body: param)
+            .then((response) async {
+          if (response['success'] == true) {
+            print("Statusss ${response['success']}");
+            orderListingViewModel.orderItemList.clear();
+            orderListingViewModel.orderItemList.refresh();
+            orderListingViewModel.orderItemModel.value.items!.clear();
+            orderDetailViewModel.lineItemList.clear();
+            orderDetailViewModel.lineItemList.refresh();
+            orderDetailViewModel.orderItemModel.value.lineitems!.clear();
+            orderDetailViewModel.orderItemModel.refresh();
+
+            await orderListingViewModel.getOrderListing();
+            //show loeader while updating the status of order item and then gp back to the order detail screen
+            Get.back();
+          } else {
+            AppConstant.displaySnackBar(
+                'Error', 'Something went wrong, please try again');
+          }
+        });
+      } else {
+        //if fulfilled then show the alert
+        AppConstant.displaySnackBar(
+            'Error', 'You can not cancel fulfilled item');
+      }
     } catch (error) {
       print(error);
     }
