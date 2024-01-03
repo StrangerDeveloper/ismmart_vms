@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/screens/order_listing/order_viewModel.dart';
 import 'package:ismmart_vms/widgets/custom_appbar.dart';
@@ -394,8 +393,4 @@ class OrderView extends StatelessWidget {
       },
     );
   }
-
-  // onTapArrowLeft() {
-  //   Get.back();
-  // }
 }
