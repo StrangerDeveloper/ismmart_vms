@@ -17,8 +17,6 @@ import '../../widgets/custom_button.dart';
 import '../../widgets/custom_text.dart';
 
 class CancelOrderView extends StatelessWidget {
-  //final OrderItem orderItems;
-
   final CancelORderViewMOdel viewModel = Get.put(CancelORderViewMOdel());
   CancelOrderView({super.key});
 
@@ -226,7 +224,7 @@ class CancelOrderView extends StatelessWidget {
             // height: MediaQuery.of(ctx).size.height * 0.17,
             // width: MediaQuery.of(ctx).size.width * 1,
             padding: EdgeInsets.all(8.h),
-            margin: EdgeInsets.all(8.v),
+            margin: EdgeInsets.all(6.v),
             decoration: BoxDecoration(
               color: Colors.grey.shade100,
               borderRadius: BorderRadius.circular(5),
@@ -265,8 +263,16 @@ class CancelOrderView extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            _customField1(viewModel.lineItemList[index].name ??
-                                "product"),
+                            Row(
+                              children: [
+                                _customField1(
+                                    viewModel.lineItemList[index].name ??
+                                        "product"),
+                                _status(viewModel
+                                        .lineItemList[index].fulfilmentStatus ??
+                                    "status")
+                              ],
+                            ),
                             // _customField2(
                             //     viewModel.lineItemList[index].vendor ?? 'N/A'),
                             _customField2(
