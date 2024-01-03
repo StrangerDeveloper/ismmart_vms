@@ -160,7 +160,7 @@ class AddProduct3View extends StatelessWidget {
               CustomBottomSheet1(
                 selectedIndex: viewModel.unitSelectedIndex.value,
                 list: viewModel.unitList,
-                onChanged: (value) {
+                onValueSelected: (value) {
                   viewModel.unitSelectedIndex.value = value;
                   viewModel.unitController.text = viewModel.unitList[value];
                 },

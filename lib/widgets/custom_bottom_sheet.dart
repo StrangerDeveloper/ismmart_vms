@@ -5,12 +5,12 @@ import 'package:get/get.dart';
 class CustomBottomSheet1 {
   final List<dynamic> list;
   final int selectedIndex;
-  final void Function(int) onChanged;
+  final void Function(int) onValueSelected;
 
   CustomBottomSheet1({
     required this.list,
     required this.selectedIndex,
-    required this.onChanged,
+    required this.onValueSelected,
   });
 
   show() {
@@ -60,7 +60,7 @@ class CustomBottomSheet1 {
               ),
               CupertinoButton(
                 onPressed: () {
-                  onChanged(tempIndex);
+                  onValueSelected(tempIndex);
                   Get.back();
                 },
                 child: const Text(
