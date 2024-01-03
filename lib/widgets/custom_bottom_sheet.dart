@@ -17,6 +17,12 @@ class CustomBottomSheet1 {
     int tempIndex = 0;
     showModalBottomSheet(
       context: Get.context!,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+      ),
       builder: (BuildContext context) {
         return Container(
           height: 200,
