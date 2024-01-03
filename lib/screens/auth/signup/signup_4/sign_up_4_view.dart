@@ -323,19 +323,15 @@ class SignUp4View extends StatelessWidget {
   Widget status() {
     return Padding(
       padding: const EdgeInsets.only(bottom: 100),
-      child: Obx(
-        () => GlobalVariable.showLoader.value
-            ? const CustomLoading(isItBtn: true)
-            : CustomRoundedTextBtn(
-                child: Text(
-                  'Go to Login ',
-                  style: newFontStyleSize14.copyWith(
-                      fontWeight: FontWeight.w500, color: kWhiteColor),
-                ),
-                onPressed: () {
-                  Get.offAll(() => LogInView());
-                },
-              ),
+      child: CustomRoundedTextBtn(
+        child: Text(
+          'Go to Login ',
+          style: newFontStyleSize14.copyWith(
+              fontWeight: FontWeight.w500, color: kWhiteColor),
+        ),
+        onPressed: () {
+          Get.offAll(() => LogInView());
+        },
       ),
     );
   }

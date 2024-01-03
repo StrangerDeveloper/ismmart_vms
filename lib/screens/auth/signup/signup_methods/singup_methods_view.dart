@@ -10,6 +10,7 @@ import 'package:ismmart_vms/screens/auth/signup/signup_methods/signup_mehods_vie
 import 'package:ismmart_vms/widgets/custom_button.dart';
 import 'package:ismmart_vms/widgets/custom_loading.dart';
 import 'package:ismmart_vms/widgets/custom_text.dart';
+import 'package:ismmart_vms/widgets/loader_view.dart';
 import 'package:ismmart_vms/widgets/scrollable_column.dart';
 import 'package:ismmart_vms/helper/languages/translations_key.dart';
 
@@ -32,6 +33,7 @@ class SingupMethodsView extends StatelessWidget {
               ScrollableColumn(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  titleAndBackBtn(),
                   Padding(
                     padding: const EdgeInsets.only(top: 200, bottom: 10),
                     child: CustomText(
@@ -55,23 +57,7 @@ class SingupMethodsView extends StatelessWidget {
                   doNotHaveAnAccount(),
                 ],
               ),
-              Positioned(
-                  left: 50,
-                  top: 5,
-                  child: SizedBox(
-                      width: 300, height: 100, child: titleAndBackBtn())),
-              Positioned(
-                top: 20,
-                child: SizedBox(
-                  height: 35,
-                  width: 35,
-                  child: CustomBackButton(
-                    onTap: () {
-                      Get.back();
-                    },
-                  ),
-                ),
-              ),
+
               // NoInternetView(
               //   onPressed: () => viewModel.signIn(),
               // ),
@@ -84,93 +70,90 @@ class SingupMethodsView extends StatelessWidget {
 
   Widget titleAndBackBtn() {
     return SizedBox(
-      //padding: const EdgeInsets.only(left: 58, right: 57, top: 26, bottom: 52),
       width: double.infinity,
-      child: Align(
-        alignment: Alignment.center,
-        child: Text(
-          "Sign Up",
-          style: newFontStyleSize24,
-        ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(bottom: 10.0, left: 10),
+            child: CustomBackButton(onTap: () {
+              Get.back();
+            }),
+          ),
+          const SizedBox(width: 80),
+          Text(
+            'Sign Up',
+            style: newFontStyleSize24,
+          ),
+        ],
       ),
     );
   }
 
   Widget signUpEmail() {
     return Padding(
-      padding: const EdgeInsets.only(top: 32),
-      child: Obx(
-        () => GlobalVariable.showLoader.value
-            ? const CustomLoading(isItBtn: true)
-            : CustomTextBtn(
-                radius: 30,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'Continue with email',
-                      // style: newFontStyleSize14.copyWith(
-                      //     fontWeight: FontWeight.w500, color: kWhiteColor),kWhiteColor
-                    ),
-                    SizedBox(width: 4.h),
-                    const Icon(
-                      Icons.arrow_forward,
-                      size: 20,
-                    ),
-                  ],
-                ),
-                onPressed: () {
-                  Get.to(SignUp1View());
-                  // Get.offNamed(Routes.dashboard);
-                  //
-                },
+        padding: const EdgeInsets.only(top: 32),
+        child: CustomTextBtn(
+          radius: 30,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                'Continue with email',
+                // style: newFontStyleSize14.copyWith(
+                //     fontWeight: FontWeight.w500, color: kWhiteColor),kWhiteColor
               ),
-      ),
-    );
+              SizedBox(width: 4.h),
+              const Icon(
+                Icons.arrow_forward,
+                size: 20,
+              ),
+            ],
+          ),
+          onPressed: () {
+            Get.to(SignUp1View());
+            // Get.offNamed(Routes.dashboard);
+            //
+          },
+        ));
   }
 
   Widget signupNumber() {
     return Padding(
-      padding: const EdgeInsets.only(top: 22),
-      child: Obx(
-        () => GlobalVariable.showLoader.value
-            ? const CustomLoading(isItBtn: true)
-            : CustomTextBtn(
-                padding: const EdgeInsets.only(top: 5),
-                backgroundColor: Colors.white,
-                radius: 30,
-                borderSide: const BorderSide(
-                  color: Colors.black, // your color here
-                  width: 1,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Continue with phone number',
-                      style: newFontStyleSize14.copyWith(
-                          color: newColorDarkBlack,
-                          fontWeight: FontWeight.w600),
-                    ),
-                    SizedBox(width: 4.h),
-                    const Padding(
-                      padding: EdgeInsets.only(bottom: 8.0),
-                      child: Icon(
-                        Icons.arrow_forward,
-                        size: 20,
-                        color: newColorDarkBlack,
-                      ),
-                    ),
-                  ],
-                ),
-                onPressed: () {
-                  Get.to(SignUp1View());
-                  // Get.offNamed(Routes.dashboard);
-                  //
-                },
+        padding: const EdgeInsets.only(top: 22),
+        child: CustomTextBtn(
+          padding: const EdgeInsets.only(top: 5),
+          backgroundColor: Colors.white,
+          radius: 30,
+          borderSide: const BorderSide(
+            color: Colors.black, // your color here
+            width: 1,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Continue with phone number',
+                style: newFontStyleSize14.copyWith(
+                    color: newColorDarkBlack, fontWeight: FontWeight.w600),
               ),
-      ),
-    );
+              SizedBox(width: 4.h),
+              const Padding(
+                padding: EdgeInsets.only(bottom: 8.0),
+                child: Icon(
+                  Icons.arrow_forward,
+                  size: 20,
+                  color: newColorDarkBlack,
+                ),
+              ),
+            ],
+          ),
+          onPressed: () {
+            Get.to(SignUp1View());
+            // Get.offNamed(Routes.dashboard);
+            //
+          },
+        ));
 
     // Padding(
     //   padding: const EdgeInsets.only(top: 10),
@@ -242,41 +225,39 @@ class SingupMethodsView extends StatelessWidget {
 
 //Google Button
   Widget googlelogInBtn() {
-    return Obx(() => GlobalVariable.showLoader.value
-        ? const CustomLoading(isItBtn: true)
-        : Padding(
-            padding: const EdgeInsets.only(top: 5),
-            child: CustomTextBtn(
-              radius: 30,
-              borderSide: const BorderSide(
-                //color: newColorDarkBlack, // your color here
-                width: 1,
+    return Padding(
+      padding: const EdgeInsets.only(top: 5),
+      child: CustomTextBtn(
+        radius: 30,
+        borderSide: const BorderSide(
+          //color: newColorDarkBlack, // your color here
+          width: 1,
+        ),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(50.0),
+              child: Image.asset(
+                'assets/logo/google_logo.png',
               ),
-              backgroundColor: Colors.white,
-              foregroundColor: Colors.black,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(50.0),
-                    child: Image.asset(
-                      'assets/logo/google_logo.png',
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 8,
-                  ),
-                  const Text(
-                    'Sign in with Gmail',
-                    // style: newFontStyleSize14.copyWith(fontWeight: FontWeight.w500),
-                  ),
-                ],
-              ),
-              onPressed: () {
-                viewModel.googleLogIn();
-              },
             ),
-          ));
+            const SizedBox(
+              width: 8,
+            ),
+            const Text(
+              'Sign in with Gmail',
+              // style: newFontStyleSize14.copyWith(fontWeight: FontWeight.w500),
+            ),
+          ],
+        ),
+        onPressed: () {
+          viewModel.googleLogIn();
+        },
+      ),
+    );
   }
 
   Widget applelogInBtn() {

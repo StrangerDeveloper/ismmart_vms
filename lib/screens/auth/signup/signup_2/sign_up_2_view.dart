@@ -102,6 +102,7 @@ class SignUp2View extends StatelessWidget {
               ),
             ),
           ),
+          LoaderView()
         ],
       ),
     );
@@ -110,19 +111,20 @@ class SignUp2View extends StatelessWidget {
   Widget titleAndBackBtn() {
     return SizedBox(
       width: double.infinity,
-      child: Stack(
-        alignment: Alignment.centerLeft,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Align(
-            alignment: Alignment.center,
-            child: Text(
-              'Sign Up',
-              style: newFontStyleSize24,
-            ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 10.0),
+            child: CustomBackButton(onTap: () {
+              Get.back();
+            }),
           ),
-          CustomBackButton(onTap: () {
-            Get.back();
-          }),
+          const SizedBox(width: 80),
+          Text(
+            'Sign Up',
+            style: newFontStyleSize24,
+          ),
         ],
       ),
     );
@@ -334,69 +336,31 @@ class SignUp2View extends StatelessWidget {
     );
   }
 
-  Widget countryField() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 25.0),
-      child: CustomTextField1(
-        isDropDown: true,
-        keyboardType: TextInputType.text,
-        title: 'Country',
-        hintText: 'Select one',
-        controller: viewModel.storeAddressController,
-        autoValidateMode: AutovalidateMode.onUserInteraction,
-        // validator: (value) {
-        //   return Validator().validateAddress(value);
-        // },
-      ),
-    );
-  }
-
-  Widget cityField() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 25.0),
-      child: CustomTextField1(
-        isDropDown: true,
-        keyboardType: TextInputType.text,
-        title: 'City',
-        hintText: 'Select one',
-        controller: viewModel.storeAddressController,
-        autoValidateMode: AutovalidateMode.onUserInteraction,
-        // validator: (value) {
-        //   return Validator().validateAddress(value);
-        // },
-      ),
-    );
-  }
-
   Widget singup2Btn() {
     return Padding(
       padding: const EdgeInsets.only(top: 32),
-      child: Obx(
-        () => GlobalVariable.showLoader.value == true
-            ? const CustomLoading(isItBtn: true)
-            : CustomTextBtn(
-                radius: 30,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      "Next",
-                      // style: newFontStyleSize14.copyWith(
-                      //     fontWeight: FontWeight.w500, color: kWhiteColor),kWhiteColor
-                    ),
-                    SizedBox(width: 4.h),
-                    const Icon(
-                      Icons.arrow_forward,
-                      size: 20,
-                    ),
-                  ],
-                ),
-                onPressed: () {
-                  viewModel.signUpStep2();
-                  // Get.offNamed(Routes.dashboard);
-                  //
-                },
-              ),
+      child: CustomTextBtn(
+        radius: 30,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              "Next",
+              // style: newFontStyleSize14.copyWith(
+              //     fontWeight: FontWeight.w500, color: kWhiteColor),kWhiteColor
+            ),
+            SizedBox(width: 4.h),
+            const Icon(
+              Icons.arrow_forward,
+              size: 20,
+            ),
+          ],
+        ),
+        onPressed: () {
+          viewModel.signUpStep2();
+          // Get.offNamed(Routes.dashboard);
+          //
+        },
       ),
     );
   }
@@ -581,11 +545,11 @@ class SignUp2View extends StatelessWidget {
                                   return InkWell(
                                     borderRadius: BorderRadius.circular(8),
                                     onTap: () {
+                                      GlobalVariable.showLoader.value == false;
                                       viewModel.countryController.text =
                                           viewModel.filteredCountryList[index];
                                       viewModel.getCountryId(
                                           viewModel.countryController.text);
-                                      GlobalVariable.showLoader.value == false;
 
                                       Get.back();
                                     },

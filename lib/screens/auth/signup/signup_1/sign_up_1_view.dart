@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
+import 'package:ismmart_vms/widgets/loader_view.dart';
 import 'package:path/path.dart' as p;
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
@@ -74,6 +75,7 @@ class SignUp1View extends StatelessWidget {
               ],
             ),
           ),
+          LoaderView()
         ],
       ),
     );
@@ -82,22 +84,35 @@ class SignUp1View extends StatelessWidget {
   Widget checkedStatement() {
     return Padding(
       padding: const EdgeInsets.only(top: 20),
-      child: Row(
-        children: [
-          const Icon(
-            Icons.check_box,
-            color: Colors.blue,
+      child: InkWell(
+        onTap: () {
+          viewModel.isChecked.value = !viewModel.isChecked.value;
+          print(viewModel.isChecked.value);
+        },
+        child: Obx(
+          () => Row(
+            children: [
+              viewModel.isChecked.value == true
+                  ? Icon(
+                      Icons.check_box_outline_blank,
+                      color: Colors.grey,
+                    )
+                  : Icon(
+                      Icons.check_box,
+                      color: Colors.blue,
+                    ),
+              SizedBox(width: 10.v),
+              SizedBox(
+                width: Get.width * 0.8,
+                child: const Text(
+                  'By creating your account you have to agree with our terms & conditions.',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 3,
+                ),
+              ),
+            ],
           ),
-          SizedBox(width: 10.v),
-          SizedBox(
-            width: Get.width * 0.8,
-            child: const Text(
-              'By creating your account you have to agree with our terms & conditions.',
-              overflow: TextOverflow.ellipsis,
-              maxLines: 3,
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
@@ -114,7 +129,7 @@ class SignUp1View extends StatelessWidget {
               Get.back();
             }),
           ),
-          const SizedBox(width: 100),
+          const SizedBox(width: 80),
           Text(
             'Sign Up',
             style: newFontStyleSize24,
@@ -202,9 +217,9 @@ class SignUp1View extends StatelessWidget {
       () => Padding(
         padding: const EdgeInsets.symmetric(vertical: 20),
         child: CountryCodePickerTextField2(
-          // validator: (value) {
-          //   return Validator().validatePhoneNumber(value);
-          // },
+          validator: (value) {
+            return Validator().validatePhoneNumber(value);
+          },
           title: 'Phone Number',
           hintText: '336 5563138',
           keyboardType: TextInputType.number,
@@ -306,7 +321,7 @@ class SignUp1View extends StatelessWidget {
           FilteringTextInputFormatter.digitsOnly,
         ],
         title: 'CNIC',
-        hintText: '35404-4770789-7',
+        hintText: '3540447707897',
         controller: viewModel.cnicController,
         autoValidateMode: AutovalidateMode.onUserInteraction,
         validator: (value) {
@@ -400,21 +415,20 @@ class SignUp1View extends StatelessWidget {
   Widget signUpInBtn() {
     return Padding(
       padding: const EdgeInsets.only(top: 32),
-      child: Obx(
-        () => GlobalVariable.showLoader.value
-            ? const CustomLoading(isItBtn: true)
-            : CustomRoundedTextBtn(
-                child: Text(
-                  'Create Account',
-                  textAlign: TextAlign.center,
-                  style: newFontStyleSize14.copyWith(
-                      fontWeight: FontWeight.w500, color: kWhiteColor),
-                ),
-                onPressed: () {
-                  viewModel.signUpStep1();
-                  //  Get.to(SignUp2View());
-                },
-              ),
+      child: CustomRoundedTextBtn(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 8.0),
+          child: Text(
+            'Create Account',
+            textAlign: TextAlign.center,
+            style: newFontStyleSize14.copyWith(
+                fontWeight: FontWeight.w500, color: kWhiteColor),
+          ),
+        ),
+        onPressed: () {
+          viewModel.signUpStep1();
+          //  Get.to(SignUp2View());
+        },
       ),
     );
   }

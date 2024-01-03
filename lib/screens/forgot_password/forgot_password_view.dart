@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/languages/translations_key.dart';
 import 'package:ismmart_vms/widgets/custom_text.dart';
@@ -27,29 +29,35 @@ class ForgotPasswordView extends StatelessWidget {
         body: Stack(
           children: [
             SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 26),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Center(
-                      child: Text("Forget Password",
-                          style: newFontStyleSize24.copyWith(
-                              color: newColorBlue))),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 52, bottom: 16),
-                    child: Text('Reset Password', style: newFontStyleSize20),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0, bottom: 32),
-                    child: Text(
-                      'Enter Email/No. account to reset your password',
-                      style: newFontStyleSize14.copyWith(
-                          color: newColorLightGrey2),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 25, vertical: 26),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Center(
+                        child: Text("Forget Password",
+                            style: newFontStyleSize24.copyWith(
+                                color: newColorBlue))),
+                    SizedBox(
+                      height: 10,
                     ),
-                  ),
-                  emailTextField(),
-                  resetBtn()
-                ],
+                    Padding(
+                      padding: const EdgeInsets.only(top: 52, bottom: 16),
+                      child: Text('Reset Password', style: newFontStyleSize20),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0, bottom: 32),
+                      child: Text(
+                        'Enter Email account to reset your password',
+                        style: newFontStyleSize14.copyWith(
+                            color: newColorLightGrey2),
+                      ),
+                    ),
+                    emailTextField(),
+                    resetBtn()
+                  ],
+                ),
               ),
             ),
             LoaderView()
@@ -95,53 +103,34 @@ class ForgotPasswordView extends StatelessWidget {
   Widget resetBtn() {
     return Padding(
       padding: const EdgeInsets.only(top: 32),
-      child: Obx(
-        () => GlobalVariable.showLoader.value
-            ? const CustomLoading(isItBtn: false)
-            : CustomRoundedTextBtn(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Reset",
-                        style: newFontStyleSize14.copyWith(
-                            fontWeight: FontWeight.w500, color: kWhiteColor),
-                      ),
-                      const SizedBox(
-                        width: 4,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
-                        child: const Icon(
-                          Icons.arrow_forward,
-                          size: 20,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                onPressed: () {
-                  viewModel.sendBtn();
-                  // Get.to(() => LogInView());
-                },
+      child: CustomRoundedTextBtn(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Reset",
+                style: newFontStyleSize14.copyWith(
+                    fontWeight: FontWeight.w500, color: kWhiteColor),
               ),
+              const SizedBox(
+                width: 4,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: const Icon(
+                  Icons.arrow_forward,
+                  size: 20,
+                ),
+              ),
+            ],
+          ),
+        ),
+        onPressed: () {
+          viewModel.sendBtn();
+        },
       ),
-    );
-  }
-
-  Widget sendBtn() {
-    return Obx(
-      () => GlobalVariable.showLoader.value
-          ? const CustomLoading(isItBtn: true)
-          : CustomTextBtn(
-              title: send.tr,
-              height: 48,
-              onPressed: () {
-                viewModel.sendBtn();
-              },
-            ),
     );
   }
 }
