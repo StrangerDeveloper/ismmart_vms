@@ -6,7 +6,6 @@ import 'package:ismmart_vms/screens/add_product/add_product_2/location_inventory
 import 'package:ismmart_vms/widgets/custom_button.dart';
 
 import '../../../helper/constants.dart';
-import '../../../widgets/custom_dropdown.dart';
 import '../../../widgets/custom_textfield.dart';
 import '../../../widgets/stepperText.dart';
 import '../../../widgets/widget_models/variant_options_field_model.dart';
@@ -29,10 +28,6 @@ class AddProduct2View extends StatelessWidget {
             children: [
               stepperText(),
               variantsContainer(context),
-              //if variantAdditionField is clicked and data populated then show the variantsContainer else show the inventoryContainer
-              // Obx(() => viewModel.showVariantsTable.value
-              //     ? inventoryContainer()
-              //     : SizedBox()),
               inventoryContainer(),
               Padding(
                 padding: const EdgeInsets.only(top: 15, bottom: 5),
@@ -87,183 +82,271 @@ class AddProduct2View extends StatelessWidget {
               style: interHeadingSize14,
             ),
             Obx(() => viewModel.showVariantsTable.value ? Column(
-                children: List.generate(
-                  viewModel.listOfOptionsAdded.length,
-                  (index) {
-                    final option = viewModel.listOfOptionsAdded[index];
-                    return Padding(
-                      padding: const EdgeInsets.only(top: 10.0, left: 12, right: 12),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    option.optionName?.text ?? '',
-                                    style: interNormalText.copyWith(
-                                      color: newColorLightGrey2
-                                    ),
-                                  ),
-                                  const SizedBox(height: 5,),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: List.generate(
-                                      option.optionValues?.length ?? 0,
-                                      (idx) {
-                                        final valueController = option.optionValues?[idx];
-                                        return Container(
-                                          margin: const EdgeInsets.only(right: 10),
-                                          decoration: BoxDecoration(
-                                            color: Colors.grey.shade200,
-                                            borderRadius: BorderRadius.circular(10)
-                                          ),
-                                          padding: const EdgeInsets.all(8),
-                                          child: Text(
-                                            valueController?.text ?? '',
-                                            style: interNormalText.copyWith(
-                                              color: Colors.grey.shade800,
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    border: Border.all(color: newColorLightGrey, width: 0.8),
-                                    borderRadius: BorderRadius.circular(10)),
-                                width: 35,
-                                height: 35,
-                                child: const Icon(
-                                  Icons.edit_rounded,
-                                  size: 22,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          const Divider(),
-                          Column(
-                            children: List.generate(
-                              option.optionValues?.length ?? 0,
-                                  (idx) {
-                                final valueController = option.optionValues?[idx];
-                                return Row(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                      children: [
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
-                                        Text(
-                                          valueController?.text ?? '',
-                                          style: interNormalText,
-                                        ),
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
-                                        Text(
-                                          'Rs 0.00',
-                                          style: interNormalText.copyWith(
-                                            color: Colors.grey,
-                                          ),
-                                        ),
-                                        Text(
-                                          '0 available at 5 locations',
-                                          style: interNormalText.copyWith(
-                                            color: Colors.grey,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        // viewModel.listOfOptionsAdded.removeWhere(
-                                        //     (element) => element == option);
-                                        // viewModel.listOfOptionsAdded.refresh();
-                                      },
-                                      child: const Text(
-                                        'Edit',
-                                      ),
-                                    )
-                                  ],
-                                );
-                              },
-                            ),
-                          )
-                        ],
-                      ),
-                    );
-                  },
-                ),
+                children: [
+                   variantNameAndValues(),
+                  const Divider(
+                    thickness: 1,
+                    color: newColorLightGrey2,
+                  ),
+                  combinationsAndInventory()
+                ]
               ) : const SizedBox()
             ),
-            variantAdditionField(context),
+            variantAdditionBtn(context),
           ],
         ),
       ),
     );
   }
 
-  // Widget variantsContainer(BuildContext context) {
-  //   return Padding(
-  //     padding: const EdgeInsets.symmetric(vertical: 10.0),
-  //     child: Container(
-  //       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-  //       decoration: textContainerDecoration,
-  //       child: Column(
-  //         crossAxisAlignment: CrossAxisAlignment.start,
-  //         children: [
-  //           Text(
-  //             'Variants',
-  //             style: interHeadingSize14,
-  //           ),
-  //           variantAdditionField(context)
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
-
-  Widget variantAdditionField(BuildContext context) {
-    return Obx(
-      () => viewModel.showVariantsField.value
-          ? const Column(
-              children: [SizedBox()],
-            )
-          : TextButton(
-              onPressed: () async {
-                viewModel.showVariantsField.value = false;
-                viewModel.listOfOptionsAdded.add(
-                  VariantsOptionsFieldModel(
-                    optionName: TextEditingController(),
-                    optionValues: [TextEditingController()],
-                  ),
-                );
-                await variantSelectionDialog();
-              },
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  '+ Add options like color or size',
-                  style: interNormalText.copyWith(
-                      color: newColorBlue, fontSize: 12),
-                ),
+  Widget inventoryContainer() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10.0),
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+        decoration: textContainerDecoration,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Inventory',
+              style: interHeadingSize14,
+            ),
+            Text(
+              'Inventory will be stocked at',
+              style: interNormalText.copyWith(color: newColorLightGrey2),
+            ),
+            Obx(
+                  () => _checkBox(
+                'Track quantity',
               ),
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Quantity',
+                  style: interNormalText,
+                ),
+                TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    'Edit Locations',
+                    style: interNormalText.copyWith(
+                        fontWeight: FontWeight.w400, color: newColorBlue),
+                  ),
+                )
+              ],
+            ),
+            const Divider(),
+            _buildField2('Warehouse_1'),
+            const SizedBox(
+              height: 10,
+            ),
+            _buildField2('Warehouse_2'),
+            const SizedBox(
+              height: 10,
+            ),
+            _buildField2('Warehouse_3'),
+            const SizedBox(
+              height: 10,
+            ),
+            Obx(
+                  () => _checkBox(
+                'Continue selling when out of stock',
+              ),
+            ),
+            Obx(
+                  () => _checkBox(
+                "This product has a SKU or barcode",
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            hsCodeTxtField('SKU (Stock Keeping Unit)'),
+            const SizedBox(
+              height: 10,
+            ),
+            hsCodeTxtField('Barcode (ISBN, UPC, GTIN, etc.)'),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget variantNameAndValues() {
+    return Column(
+      children: List.generate(
+        viewModel.listOfOptionsAdded.length,
+            (index) {
+          final option = viewModel.listOfOptionsAdded[index];
+          return Padding(
+            padding: const EdgeInsets.only(top: 10.0, left: 12, right: 12),
+            child: Column(
+              children: [
+                Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          option.optionName?.text ?? '',
+                          style: interNormalText.copyWith(
+                              color: newColorLightGrey3
+                          ),
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                              color: kContainerFillColor,
+                              border: Border.all(color: newColorLightGrey),
+                              borderRadius: BorderRadius.circular(10)),
+                          width: 35,
+                          height: 35,
+                          child: const Icon(
+                            Icons.edit_rounded,
+                            size: 22,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 5,),
+                    SizedBox(
+                      width: Get.width,
+                      child: Wrap(
+                        children: List.generate(
+                            option.optionValues!.length,
+                                (idx) {
+                              final valueController = option.optionValues?[idx];
+                              return Container(
+                                margin: const EdgeInsets.only(right: 10, bottom: 5),
+                                decoration: BoxDecoration(
+                                    color: Colors.grey.shade200,
+                                    borderRadius: BorderRadius.circular(10)
+                                ),
+                                padding: const EdgeInsets.all(8),
+                                child: Text(
+                                  valueController?.text ?? '',
+                                  style: interNormalText.copyWith(
+                                    color: Colors.grey.shade800,
+                                  ),
+                                ),
+                              );
+                            }),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget combinationsAndInventory() {
+    return Column(
+      children: [
+        Text(
+          'Showing ${viewModel.finalCombinationsList.length - 1} variant(s)'
+        ),
+        const SizedBox(height: 5,),
+        Column(
+          children: List.generate(
+              viewModel.finalCombinationsList.length - 1, (idx) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 6.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        children: [
+                          Text(
+                            viewModel.finalCombinationsList[idx].variantName!,
+                            style: interHeadingSize14.copyWith(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w500
+                            ),
+                          ),
+                          const SizedBox(height: 8,),
+                          Text(
+                            viewModel.finalCombinationsList[idx].variantValue == null ? 'Rs 0.00' : 'Rs ${viewModel.finalCombinationsList[idx].variantValue}',
+                            style: interNormalText.copyWith(
+                              fontWeight: FontWeight.w400,
+                              color: newColorLightGrey2,
+                              fontSize: 10
+                            ),
+                          ),
+                          const SizedBox(height: 3,),
+                          Text(
+                            '${viewModel.finalCombinationsList[idx].inventoryQuantityValue} available at ${viewModel.locationInventoryList.length-1}',
+                            style: interNormalText.copyWith(
+                                fontWeight: FontWeight.w400,
+                                color: newColorLightGrey2,
+                                fontSize: 10
+                            ),
+                          )
+                        ],
+                      ),
+                      TextButton(
+                          onPressed: () {},
+                          child: Text(
+                            'Edit',
+                            style: interNormalText.copyWith(
+                                color: newColorBlue, fontSize: 12),
+                          )
+                      )
+                    ],
+                  ),
+                );
+          }),
+        )
+      ]
+    );
+  }
+
+  Widget _checkBox(text) {
+    return Row(
+      children: [
+        Checkbox(
+            side: const BorderSide(color: newColorBlue),
+            fillColor: viewModel.trackQuantity.value
+                ? MaterialStateColor.resolveWith((states) => newColorBlue)
+                : MaterialStateColor.resolveWith((states) => Colors.white),
+            checkColor: Colors.white,
+            value: viewModel.trackQuantity.value,
+            onChanged: (value) {
+              viewModel.trackQuantity.value = value!;
+            }),
+        Text(
+          text,
+          style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w400),
+        )
+      ],
+    );
+  }
+
+  Widget variantAdditionBtn(BuildContext context) {
+    return TextButton(
+      onPressed: () async {
+        viewModel.listOfOptionsAdded.add(
+          VariantsOptionsFieldModel(
+            optionName: TextEditingController(),
+            optionValues: [TextEditingController()],
+          ),
+        );
+        await variantSelectionDialog();
+      },
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: Text(
+          '+ Add options like color or size',
+          style: interNormalText.copyWith(
+              color: newColorBlue, fontSize: 12),
+        ),
+      ),
     );
   }
 
@@ -303,11 +386,32 @@ class AddProduct2View extends StatelessWidget {
                                 IconButton(
                                   visualDensity: VisualDensity.compact,
                                   onPressed: () {
-                                    viewModel.listOfOptionsAdded.clear();
-                                    viewModel.listOfOptionsAdded.refresh();
-                                    viewModel.showVariantsField.value = false;
-                                    viewModel.showVariantsTable.value = false;
-                                    Get.back();
+                                    if(viewModel.listOfOptionsAdded.length > 1) {
+                                      List<int> indexesToRemove = <int>[];
+                                      for (int i = 0; i <= viewModel.listOfOptionsAdded.length - 1; i++) {
+                                        if (viewModel.listOfOptionsAdded[i].optionName?.text == '') {
+                                          indexesToRemove.add(i);
+                                          if (i == viewModel.listOfOptionsAdded.length - 1 &&
+                                              indexesToRemove.length == viewModel.listOfOptionsAdded.length) {
+                                            final indexesToRemoveReversed = indexesToRemove.reversed;
+                                            viewModel.checkAndClearVariantBottomSheet(indexesToRemoveReversed.toList());
+                                            viewModel.showVariantsField.value = false;
+                                          } else if (i == viewModel.listOfOptionsAdded.length - 1) {
+                                            final indexesToRemoveReversed = indexesToRemove.reversed;
+                                            viewModel.checkAndClearVariantBottomSheet(indexesToRemoveReversed.toList());
+                                          }
+                                        }
+                                      }
+                                    } else {
+                                      if(viewModel.listOfOptionsAdded[0].optionName?.text == ''){
+                                        viewModel.listOfOptionsAdded.removeLast();
+                                        viewModel.listOfOptionsAdded.refresh();
+                                        viewModel.showVariantsField.value = false;
+                                        Get.back();
+                                      } else {
+                                        Get.back();
+                                      }
+                                    }
                                   },
                                   icon: const Icon(
                                     Icons.close,
@@ -382,6 +486,13 @@ class AddProduct2View extends StatelessWidget {
                                                         viewModel.listOfOptionsAdded[optionNameIndex].optionValues![optionValueIndex].text = value;
                                                         viewModel.listOfOptionsAdded.refresh();
                                                       },
+                                                      validator: (value) {
+                                                        if (value == null || value == '' || value.isEmpty) {
+                                                          return 'Option value is required';
+                                                        } else {
+                                                          return null;
+                                                        }
+                                                      },
                                                       iconOnTap: () {
                                                         if(optionValueIndex == viewModel.listOfOptionsAdded[optionNameIndex].optionValues!.length-1){
                                                           viewModel.listOfOptionsAdded[optionNameIndex].optionValues?.removeLast();
@@ -431,10 +542,8 @@ class AddProduct2View extends StatelessWidget {
                                                         viewModel.listOfOptionsAdded.refresh();
                                                       },
                                                       validator: (value) {
-                                                        if (value == null ||
-                                                            value == '' ||
-                                                            value.isEmpty) {
-                                                          return 'Enter value to proceed';
+                                                        if (value == null || value == '' || value.isEmpty) {
+                                                          return 'Option value is required';
                                                         } else {
                                                           return null;
                                                         }
@@ -464,8 +573,7 @@ class AddProduct2View extends StatelessWidget {
                                         viewModel.listOfOptionsAdded[optionNameIndex] == viewModel.listOfOptionsAdded.last
                                             ? const SizedBox()
                                             : const Padding(
-                                          padding:
-                                          EdgeInsets.symmetric(vertical: 8),
+                                          padding: EdgeInsets.symmetric(vertical: 8),
                                           child: Divider(
                                             thickness: 1.3,
                                             color: Colors.black,
@@ -513,163 +621,6 @@ class AddProduct2View extends StatelessWidget {
             ),
           );
         });
-  }
-
-  Widget variantsTable() {
-    return Container(
-      color: Colors.grey.shade100,
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-      child: Column(
-        children: [
-          CustomDropDownList1(
-              value: viewModel.locationSelected,
-              onChanged: (value) {
-                viewModel.locationSelected.value = value;
-              },
-              dropdownList: viewModel.locationsList),
-          const SizedBox(
-            height: 10,
-          ),
-          Align(
-            alignment: Alignment.centerRight,
-            child: IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.more_horiz_rounded,
-                  size: 20,
-                  color: Colors.black,
-                )),
-          ),
-          ListView.builder(
-            shrinkWrap: true,
-            physics: const ScrollPhysics(),
-            itemCount: viewModel.finalCombinationsList.length,
-            itemBuilder: (context, index) {
-              return Row(
-                children: [
-                  Checkbox(
-                    value:
-                        viewModel.finalCombinationsList[index].variantSelected,
-                    onChanged: (value) {
-                      viewModel.finalCombinationsList[index].variantSelected =
-                          value;
-                      viewModel.finalCombinationsList.refresh();
-                    },
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  Text(
-                    viewModel.finalCombinationsList[index].variantName!,
-                    style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 13,
-                        fontWeight: FontWeight.w400),
-                  ),
-                ],
-              );
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget inventoryContainer() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10.0),
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-        decoration: textContainerDecoration,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Inventory',
-              style: interHeadingSize14,
-            ),
-            Text(
-              'Inventory will be stocked at',
-              style: interNormalText.copyWith(color: newColorLightGrey2),
-            ),
-            Obx(
-              () => _checkBox(
-                'Track quantity',
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Quantity',
-                  style: interNormalText,
-                ),
-                TextButton(
-                  onPressed: () {},
-                  child: Text(
-                    'Edit Locations',
-                    style: interNormalText.copyWith(
-                        fontWeight: FontWeight.w400, color: newColorBlue),
-                  ),
-                )
-              ],
-            ),
-            const Divider(),
-            _buildField2('Warehouse_1'),
-            const SizedBox(
-              height: 10,
-            ),
-            _buildField2('Warehouse_2'),
-            const SizedBox(
-              height: 10,
-            ),
-            _buildField2('Warehouse_3'),
-            const SizedBox(
-              height: 10,
-            ),
-            Obx(
-              () => _checkBox(
-                'Continue selling when out of stock',
-              ),
-            ),
-            Obx(
-              () => _checkBox(
-                "This product has a SKU or barcode",
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            hsCodeTxtField('SKU (Stock Keeping Unit)'),
-            const SizedBox(
-              height: 10,
-            ),
-            hsCodeTxtField('Barcode (ISBN, UPC, GTIN, etc.)'),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _checkBox(text) {
-    return Row(
-      children: [
-        Checkbox(
-            side: const BorderSide(color: newColorBlue),
-            fillColor: viewModel.trackQuantity.value
-                ? MaterialStateColor.resolveWith((states) => newColorBlue)
-                : MaterialStateColor.resolveWith((states) => Colors.white),
-            checkColor: Colors.white,
-            value: viewModel.trackQuantity.value,
-            onChanged: (value) {
-              viewModel.trackQuantity.value = value!;
-            }),
-        Text(
-          text,
-          style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w400),
-        )
-      ],
-    );
   }
 
   Widget hsCodeTxtField(String title) {
