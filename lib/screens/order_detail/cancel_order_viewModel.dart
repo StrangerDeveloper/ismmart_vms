@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/constants.dart';
-import 'package:ismmart_vms/helper/languages/translations_key.dart';
 import 'package:ismmart_vms/screens/order_detail/order_detail_viewModel.dart';
 
 import '../../helper/api_base_helper.dart';
@@ -29,11 +28,9 @@ class CancelORderViewMOdel extends GetxController {
 
   Future<void> updateOrder() async {
     try {
-      //use put method for update
       List<String> selectedIndicesId = [];
       String selectedItemsStatus = "";
 
-      // Extract the indices of selected items
       for (int i = 0; i < lineItemList.length; i++) {
         if (lineItemList[i].isSelected == true) {
           selectedIndicesId.add(lineItemList[i].sId!);
@@ -42,7 +39,6 @@ class CancelORderViewMOdel extends GetxController {
       }
 
       if (selectedItemsStatus == "Unfulfilled") {
-        //if unfulfilled then convert it into cancelled status and update the status
         selectedItemsStatus = "Cancelled";
 
         print("Fulfillment Statusss $selectedItemsStatus");
@@ -64,7 +60,6 @@ class CancelORderViewMOdel extends GetxController {
             orderDetailViewModel.orderItemModel.refresh();
 
             await orderListingViewModel.getOrderListing();
-            //show loeader while updating the status of order item and then gp back to the order detail screen
             Get.back();
           } else {
             AppConstant.displaySnackBar(
@@ -72,7 +67,6 @@ class CancelORderViewMOdel extends GetxController {
           }
         });
       } else {
-        //if fulfilled then show the alert
         AppConstant.displaySnackBar(
             'Error', 'You can not cancel fulfilled item');
       }
