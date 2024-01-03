@@ -30,7 +30,6 @@ class EditUserProfileViewModel extends GetxController {
   RxInt genderSelectedIndex = 0.obs;
   List genderList = ['Male', 'Female', 'Other'];
 
-
   @override
   void onInit() {
     userProfileModel = Get.arguments['model'];
@@ -69,7 +68,11 @@ class EditUserProfileViewModel extends GetxController {
     emailController.text = userProfileModel.value.email ?? '';
     phoneNumberController.text = userProfileModel.value.phone ?? '';
     genderController.text = userProfileModel.value.gender ?? '';
-    genderSelectedIndex.value = genderList.indexOf(userProfileModel.value.gender ?? '');
+
+    //gender
+    int genderIndex = genderList.indexOf(userProfileModel.value.gender?.toLowerCase() ?? '');
+    genderSelectedIndex.value = genderIndex != -1 ? genderIndex : 0;
+
     cNICNumberController.text = userProfileModel.value.cnic ?? '';
   }
 
@@ -77,7 +80,8 @@ class EditUserProfileViewModel extends GetxController {
     if (userProfileFormKey.currentState?.validate() ?? false) {
       List<http.MultipartFile> fileList = [];
       //profileImage
-      if (userProfileImage.value.path == '' && userProfileModel.value.image == null) {
+      if (userProfileImage.value.path == '' &&
+          userProfileModel.value.image == null) {
         AppConstant.displaySnackBar('Error', 'Please upload profile image');
         return;
       }
@@ -99,8 +103,8 @@ class EditUserProfileViewModel extends GetxController {
       };
 
       //CNIC
-      if (userProfileModel.value.status != null && userProfileModel.value.status != 'Approved') {
-
+      if (userProfileModel.value.status != null &&
+          userProfileModel.value.status != 'Approved') {
         param['cnic'] = cNICNumberController.text;
 
         if (cNICFrontImage.value.path == '' || cNICBackImage.value.path == '') {
@@ -110,25 +114,23 @@ class EditUserProfileViewModel extends GetxController {
         }
 
         // if (cNICFrontImage.value.path != '') {
-          fileList.add(
-            await http.MultipartFile.fromPath(
-              'cnicImages',
-              cNICFrontImage.value.path,
-            ),
-          );
+        fileList.add(
+          await http.MultipartFile.fromPath(
+            'cnicImages',
+            cNICFrontImage.value.path,
+          ),
+        );
         // }
 
         // if (cNICBackImage.value.path != '') {
-          fileList.add(
-            await http.MultipartFile.fromPath(
-              'cnicImages',
-              cNICBackImage.value.path,
-            ),
-          );
-        }
+        fileList.add(
+          await http.MultipartFile.fromPath(
+            'cnicImages',
+            cNICBackImage.value.path,
+          ),
+        );
+      }
       // }
-
-
 
       GlobalVariable.showLoader.value = true;
       await ApiBaseHelper()

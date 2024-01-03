@@ -109,10 +109,7 @@ class EditUserProfileView extends StatelessWidget {
                     : CachedNetworkImage(
                         height: 80,
                         width: 80,
-                        imageUrl:    viewModel.userProfileModel.value.image !=
-                            null
-                            ? '${viewModel.userProfileModel.value.image}?datetime=${DateTime.now().millisecondsSinceEpoch}'
-                            : '',
+                        imageUrl: viewModel.userProfileModel.value.image != null ? viewModel.userProfileModel.value.image! : '',
                         imageBuilder: (context, imageProvider) {
                           return Container(
                             decoration: BoxDecoration(
@@ -309,7 +306,8 @@ class EditUserProfileView extends StatelessWidget {
         title: 'CNIC Back Image',
         filePath: basename(viewModel.cNICBackImage.value.path),
         onTap: () async {
-          viewModel.cNICBackImage.value = await PickImage().pickSingleImage() ?? File('');
+          viewModel.cNICBackImage.value =
+              await PickImage().pickSingleImage() ?? File('');
         },
         errorVisibility: viewModel.showCNICBackImageError.value,
         errorPrompt: 'CNIC Back Image is required',
