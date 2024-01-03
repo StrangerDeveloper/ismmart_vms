@@ -5,7 +5,6 @@ import 'package:ismmart_vms/helper/languages/translations_key.dart' as lang_key;
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/screens/order_detail/cancel_order_view.dart';
 import 'package:ismmart_vms/screens/order_detail/order_detail_viewModel.dart';
-import 'package:ismmart_vms/screens/order_listing/model/orderModel.dart';
 import 'package:ismmart_vms/screens/order_listing/order_view.dart';
 import 'package:ismmart_vms/widgets/custom_appbar.dart';
 import 'package:ismmart_vms/widgets/custom_text.dart';
@@ -22,7 +21,6 @@ import '../return/return_view.dart';
 
 // ignore: must_be_immutable
 class OrderDetailView extends StatelessWidget {
-  //final OrderItem order;
   final OrderDetailViewModel viewModel = Get.put(OrderDetailViewModel());
   OrderDetailView({super.key});
 
@@ -493,6 +491,7 @@ class OrderDetailView extends StatelessWidget {
                                     _customField1(viewModel.orderItemModel.value
                                             .lineitems?[index].name ??
                                         "product"),
+                                    SizedBox(width: 8.h),
                                     _status(viewModel
                                             .orderItemModel
                                             .value
