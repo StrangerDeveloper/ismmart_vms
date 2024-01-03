@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -87,15 +88,12 @@ class OrderView extends StatelessWidget {
         SizedBox(
           width: 250.h,
           child: CustomTextField1(
+            controller: orderController.searchController,
             filled: false,
             hintText: 'Search',
             isDropDown: true,
             onTap: () {
-              CustomBottomSheet1(
-                list: ['All', 'Pending', 'Completed', 'Cancelled'],
-                selectedIndex: 0,
-                onChanged: (int index) {},
-              ).show();
+              statusBottomSheet();
             },
           ),
         ),
@@ -190,9 +188,15 @@ class OrderView extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8),
-                      child: _status(
-                          orderController.orderItemList[index].paymentStatus ??
-                              "status"),
+                      child: Row(children: [
+                        _status(orderController
+                                .orderItemList[index].paymentStatus ??
+                            "status"),
+                        SizedBox(width: 8.h),
+                        _status(orderController
+                                .orderItemList[index].fulfilmentStatus ??
+                            "status")
+                      ]),
                     ),
                     Obx(() => Row(
                           children: [
@@ -321,6 +325,74 @@ class OrderView extends StatelessWidget {
     } else {
       return const Color(0xFFFE3A30);
     }
+  }
+
+  statusBottomSheet() {
+    int tempIndex = 0;
+    showModalBottomSheet(
+      context: Get.context!,
+      builder: (BuildContext context) {
+        return Container(
+          height: 200,
+          padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CupertinoButton(
+                child: const Text(
+                  'Cancel',
+                  style: TextStyle(fontSize: 14),
+                ),
+                onPressed: () {
+                  Get.back();
+                },
+              ),
+              Expanded(
+                child: CupertinoPicker(
+                  scrollController: FixedExtentScrollController(
+                    initialItem: orderController.statusSelectedIndex.value,
+                  ),
+                  itemExtent: 35,
+                  onSelectedItemChanged: (int index) {
+                    tempIndex = index;
+                  },
+                  children: List.generate(
+                    orderController.statusList.length,
+                    (int index) {
+                      return Center(
+                        child: Text(
+                          orderController.statusList[index],
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 15,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+              CupertinoButton(
+                onPressed: () {
+                  print('object');
+                  orderController.statusSelectedIndex.value = tempIndex;
+                  orderController.searchController.text =
+                      orderController.statusList[tempIndex];
+                  orderController
+                      .fieldSelection(orderController.statusList[tempIndex]);
+
+                  Get.back();
+                },
+                child: const Text(
+                  'Done',
+                  style: TextStyle(fontSize: 14),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   // onTapArrowLeft() {
