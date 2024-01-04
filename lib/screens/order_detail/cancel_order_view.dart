@@ -228,68 +228,87 @@ class CancelOrderView extends StatelessWidget {
               color: Colors.grey.shade100,
               borderRadius: BorderRadius.circular(5),
             ),
-            child: Obx(
-              () => ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: viewModel.lineItemList.length,
-                itemBuilder: (context, index) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Obx(
-                        () => Checkbox(
-                          value:
-                              viewModel.lineItemList[index].isSelected ?? false,
-                          onChanged: (value) {
-                            viewModel.selectSingleItem(value!, index);
-                            if (value) {
-                              viewModel.selectedItems
-                                  .add(viewModel.lineItemList[index]);
-                            } else {
-                              viewModel.selectedItems
-                                  .remove(viewModel.lineItemList[index]);
-                            }
-                          },
-                        ),
-                      ),
-                      CircleAvatar(
-                        backgroundImage: NetworkImage(
-                            viewModel.lineItemList[index].media ?? "image"),
-                      ),
-                      SizedBox(width: 8.h),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _customField2("Order Tracking ID"),
+                    _customField2(
+                        viewModel.orderItemModel.value.sId ?? "orderId"),
+                  ],
+                ),
+                SizedBox(height: 10.v),
+                Obx(
+                  () => ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: viewModel.unfulfilledItems.length,
+                    itemBuilder: (context, index) {
+                      //bool showCheckbox = true;
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          // if (showCheckbox)
+                          Obx(
+                            () => Checkbox(
+                              value: viewModel
+                                      .unfulfilledItems[index].isSelected ??
+                                  false,
+                              onChanged: (value) {
+                                viewModel.selectSingleItem(value!, index);
+                                if (value) {
+                                  viewModel.selectedItems
+                                      .add(viewModel.unfulfilledItems[index]);
+                                } else {
+                                  viewModel.selectedItems.remove(
+                                      viewModel.unfulfilledItems[index]);
+                                }
+                              },
+                            ),
+                          ),
+                          CircleAvatar(
+                            backgroundImage: NetworkImage(
+                                viewModel.unfulfilledItems[index].media ??
+                                    "image"),
+                          ),
+                          SizedBox(width: 8.h),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                _customField1(
-                                    viewModel.lineItemList[index].name ??
+                                Row(
+                                  children: [
+                                    _customField1(viewModel
+                                            .unfulfilledItems[index].name ??
                                         "product"),
-                                _status(viewModel
-                                        .lineItemList[index].fulfilmentStatus ??
-                                    "status")
+                                    _status(viewModel.unfulfilledItems[index]
+                                            .fulfilmentStatus ??
+                                        "status")
+                                  ],
+                                ),
+                                // _customField2(
+                                //     viewModel.lineItemList[index].vendor ?? 'N/A'),
+                                _customField2(
+                                    viewModel.unfulfilledItems[index].sku ??
+                                        'N/A'),
+                                _customField2(
+                                    "Rs. ${viewModel.unfulfilledItems[index].totals?.total ?? 0}  x ${viewModel.unfulfilledItems[index].qty ?? 0}"),
+                                const SizedBox(
+                                  height: 8,
+                                )
                               ],
                             ),
-                            // _customField2(
-                            //     viewModel.lineItemList[index].vendor ?? 'N/A'),
-                            _customField2(
-                                viewModel.lineItemList[index].sku ?? 'N/A'),
-                            _customField2(
-                                "Rs. ${viewModel.lineItemList[index].totals?.total ?? 0}  x ${viewModel.lineItemList[index].qty ?? 0}"),
-                            const SizedBox(
-                              height: 8,
-                            )
-                          ],
-                        ),
-                      ),
-                      _customField1(
-                          viewModel.lineItemList[index].totals?.total ?? 0),
-                    ],
-                  );
-                },
-              ),
+                          ),
+                          _customField1(
+                              viewModel.unfulfilledItems[index].totals?.total ??
+                                  0),
+                        ],
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
           ),
           SizedBox(height: 10.v),
