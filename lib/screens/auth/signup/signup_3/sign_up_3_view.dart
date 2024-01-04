@@ -18,7 +18,6 @@ import 'package:ismmart_vms/widgets/custom_textfield.dart';
 import '../../../../helper/global_variables.dart';
 import '../../../../helper/theme_helper.dart';
 import '../../../../helper/validator.dart';
-import '../../../../widgets/custom_loading.dart';
 import '../../../add_bank/add_bank_view.dart';
 
 class SignUp3View extends StatelessWidget {

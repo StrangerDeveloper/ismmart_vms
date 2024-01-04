@@ -8,6 +8,8 @@ import 'package:ismmart_vms/widgets/widget_models/dropdown_model.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:quill_html_editor/quill_html_editor.dart';
 
+import '../../../helper/global_variables.dart';
+
 class AddProduct1ViewModel extends GetxController {
   RxBool isPhysicalProduct = false.obs;
   TextEditingController prodTitleController = TextEditingController();
@@ -121,6 +123,12 @@ class AddProduct1ViewModel extends GetxController {
     // print('>>>Selected Category: ${selectedCategory.value.id}');
     super.onReady();
   }
+  @override
+  void onClose() {
+    GlobalVariable.showLoader.value = false;
+    super.onClose();
+  }
+
 
   void onPriceFieldChange(String value) {
     if (value.isNotEmpty) {

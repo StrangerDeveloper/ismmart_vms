@@ -12,7 +12,6 @@ import '../../../../helper/theme_helper.dart';
 import 'package:path/path.dart' as p;
 import '../../../../helper/validator.dart';
 import '../../../../widgets/custom_checkbox_list_tile.dart';
-import '../../../../widgets/custom_loading.dart';
 import 'sign_up_2_viewmodel.dart';
 
 class SignUp2View extends StatelessWidget {

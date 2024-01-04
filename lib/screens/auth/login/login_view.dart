@@ -8,7 +8,6 @@ import 'package:ismmart_vms/helper/routes.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/helper/validator.dart';
 import 'package:ismmart_vms/widgets/custom_button.dart';
-import 'package:ismmart_vms/widgets/custom_loading.dart';
 import 'package:ismmart_vms/widgets/custom_text.dart';
 import 'package:ismmart_vms/widgets/custom_textfield.dart';
 import 'package:ismmart_vms/widgets/loader_view.dart';
