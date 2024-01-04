@@ -41,40 +41,35 @@ class OrderView extends StatelessWidget {
                 _buildSearchRow(),
                 SizedBox(height: 17.v),
                 Obx(
-                  () => orderController.orderItemList.isEmpty
-                      ? const Center(
-                          child: CircularProgressIndicator(),
-                        )
-                      : Padding(
+                  () => orderController.orderItemList.isNotEmpty
+                      ? Padding(
                           padding: const EdgeInsets.all(16.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Obx(
-                                () => ListView.builder(
-                                  //reverse: true,
-                                  controller: orderController.scrollController,
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: orderController.orderItemList.length,
-                                  itemBuilder: (context, index) {
-                                    return GestureDetector(
-                                      onTap: () {
-                                        Get.to(
-                                          () => OrderDetailView(),
-                                          arguments: {
-                                            'model': orderController
-                                                .orderItemList[index],
-                                          },
-                                        );
+                          child: Obx(
+                            () => ListView.builder(
+                              //reverse: true,
+                              controller: orderController.scrollController,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: orderController.orderItemList.length,
+                              itemBuilder: (context, index) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    Get.to(
+                                      () => OrderDetailView(),
+                                      arguments: {
+                                        'model': orderController
+                                            .orderItemList[index],
                                       },
-                                      child: _buildOrderCard(index),
                                     );
                                   },
-                                ),
-                              )
-                            ],
+                                  child: _buildOrderCard(index),
+                                );
+                              },
+                            ),
                           ),
+                        )
+                      : const Center(
+                          child: Text('No Data Found'),
                         ),
                 ),
               ],
