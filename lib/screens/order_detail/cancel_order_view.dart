@@ -29,7 +29,6 @@ class CancelOrderView extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 1,
               padding: EdgeInsets.all(8.h),
               decoration: BoxDecoration(
-                //color: Colors.grey.shade200,
                 borderRadius: BorderRadius.circular(5),
               ),
               child: SingleChildScrollView(
@@ -92,7 +91,6 @@ class CancelOrderView extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // SizedBox(height: 6),
               RichText(
                 text: TextSpan(
                   children: [
@@ -134,7 +132,6 @@ class CancelOrderView extends StatelessWidget {
     return Container(
       width: MediaQuery.of(ctx).size.width * 1,
       decoration: BoxDecoration(
-        //color: Colors.red.shade100,
         borderRadius: BorderRadius.circular(5),
       ),
       padding: EdgeInsets.all(8.h),
@@ -201,7 +198,6 @@ class CancelOrderView extends StatelessWidget {
                       "length"),
             ],
           ),
-          //SizedBox(height: 10.v),
           CustomTextBtn(
             backgroundColor: Colors.transparent,
             foregroundColor: ThemeHelper.blue1,
@@ -217,8 +213,6 @@ class CancelOrderView extends StatelessWidget {
             ),
           ),
           Container(
-            // height: MediaQuery.of(ctx).size.height * 0.17,
-            // width: MediaQuery.of(ctx).size.width * 1,
             padding: EdgeInsets.all(8.h),
             margin: EdgeInsets.all(6.v),
             decoration: BoxDecoration(
@@ -242,11 +236,9 @@ class CancelOrderView extends StatelessWidget {
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: viewModel.unfulfilledItems.length,
                     itemBuilder: (context, index) {
-                      //bool showCheckbox = true;
                       return Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          // if (showCheckbox)
                           Obx(
                             () => Checkbox(
                               value: viewModel
@@ -284,8 +276,6 @@ class CancelOrderView extends StatelessWidget {
                                         "status")
                                   ],
                                 ),
-                                // _customField2(
-                                //     viewModel.lineItemList[index].vendor ?? 'N/A'),
                                 _customField2(
                                     viewModel.unfulfilledItems[index].sku ??
                                         'N/A'),
@@ -398,9 +388,6 @@ class CancelOrderView extends StatelessWidget {
                               _customField1(
                                   viewModel.selectedItems[index].name ??
                                       "product"),
-                              // _customField2(
-                              //     viewModel.selectedItems[index].vendor ??
-                              //         'N/A'),
                               _customField2(
                                   viewModel.selectedItems[index].sku ?? 'N/A'),
                               _customField2(
@@ -429,8 +416,6 @@ class CancelOrderView extends StatelessWidget {
       style: TextStyle(
         fontSize: 12.fSize,
         color: const Color(0xFF6B7280),
-
-        ///fontWeight: FontWeight.w600,
       ),
     );
   }
@@ -507,7 +492,6 @@ class CancelOrderView extends StatelessWidget {
       child: CustomRoundedTextBtn(
         child: const Text(
           "Cancel Order",
-          //style: newFontStyle3,
         ),
         onPressed: () {
           if (viewModel.selectedItems.isEmpty) {
@@ -567,7 +551,6 @@ class CancelOrderView extends StatelessWidget {
   }
 
   onTapArrowLeft() {
-    //clear the checkbox as well
     viewModel.orderItemModel.value.lineitems?.forEach((element) {
       element.isSelected = false;
     });
