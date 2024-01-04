@@ -32,7 +32,6 @@ class OrderDetailView extends StatelessWidget {
             width: MediaQuery.of(context).size.width * 1,
             padding: EdgeInsets.all(8.h),
             decoration: BoxDecoration(
-              //color: Colors.grey.shade200,
               borderRadius: BorderRadius.circular(5),
             ),
             child: SingleChildScrollView(
@@ -70,7 +69,6 @@ class OrderDetailView extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // SizedBox(height: 6),
               RichText(
                 text: TextSpan(
                   children: [
@@ -125,7 +123,6 @@ class OrderDetailView extends StatelessWidget {
       "Refunded": "Refunded Order List",
       "Partially Paid": "Partially Paid",
       "Pending": "Pending Order List",
-      // Repeat values are removed as they have the same text
     };
 
     String statusText =
