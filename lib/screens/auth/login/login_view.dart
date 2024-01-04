@@ -11,11 +11,11 @@ import 'package:ismmart_vms/widgets/custom_button.dart';
 import 'package:ismmart_vms/widgets/custom_loading.dart';
 import 'package:ismmart_vms/widgets/custom_text.dart';
 import 'package:ismmart_vms/widgets/custom_textfield.dart';
+import 'package:ismmart_vms/widgets/loader_view.dart';
 import 'package:ismmart_vms/widgets/obscure_suffix_icon.dart';
 import 'package:ismmart_vms/widgets/scrollable_column.dart';
 
 import '../../../helper/constants.dart';
-import '../../../widgets/loader_view.dart';
 import '../signup/signup_methods/singup_methods_view.dart';
 import 'login_viewmodel.dart';
 
@@ -75,7 +75,7 @@ class LogInView extends StatelessWidget {
                 ),
               ),
             ),
-            const LoaderView(),
+            LoaderView()
           ],
         ),
       ),
@@ -136,8 +136,7 @@ class LogInView extends StatelessWidget {
           hintText: '***********',
           autoValidateMode: AutovalidateMode.onUserInteraction,
           validator: (value) {
-            return Validator().validateDefaultTxtField(value,
-                errorPrompt: "Password is Required");
+            return Validator.validatePassword(value);
           },
           obscureText: viewModel.obscurePassword.value ? true : false,
           suffixIconButton: ObscureSuffixIcon(
@@ -172,11 +171,13 @@ class LogInView extends StatelessWidget {
             ),
           ),
           const SizedBox(
-            width: 5,
+            width: 10,
           ),
-          const Text(
-            'Sign in with Gmail',
-            // style: newFontStyleSize14.copyWith(fontWeight: FontWeight.w500),
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Text('Sign in with Gmail',
+                style:
+                    newFontStyleSize14.copyWith(fontWeight: FontWeight.w500)),
           ),
         ],
       ),
