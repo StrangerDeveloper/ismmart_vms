@@ -3,14 +3,12 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:ismmart_vms/helper/theme_helper.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
-import 'package:ismmart_vms/helper/languages/translations_key.dart' as lang_key;
 import 'package:ismmart_vms/screens/order_detail/cancel_order_viewModel.dart';
 import 'package:ismmart_vms/widgets/custom_image_view.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 import '../../helper/constants.dart';
 import '../../helper/utils/image_constant.dart';
-import '../../widgets/appBar_leading_image.dart';
 import '../../widgets/custom_appbar.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/custom_text.dart';
@@ -23,50 +21,43 @@ class CancelOrderView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: _buildAppBar(),
-        body: Stack(
-          children: [
-            Obx(
-              () => Container(
-                width: MediaQuery.of(context).size.width * 1,
-                padding: EdgeInsets.all(8.h),
-                decoration: BoxDecoration(
-                  //color: Colors.grey.shade200,
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 17.v),
-                      _buildOrderListFrame(),
-                      SizedBox(height: 17.v),
-                      progress(),
-                      SizedBox(height: 17.v),
-                      _buildOrderDetail(context),
-                      SizedBox(height: 10.v),
-                      _acceptBtn(context),
-                    ],
-                  ),
+      appBar: _buildAppBar(),
+      body: Stack(
+        children: [
+          Obx(
+            () => Container(
+              width: MediaQuery.of(context).size.width * 1,
+              padding: EdgeInsets.all(8.h),
+              decoration: BoxDecoration(
+                //color: Colors.grey.shade200,
+                borderRadius: BorderRadius.circular(5),
+              ),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 17.v),
+                    _buildOrderListFrame(),
+                    SizedBox(height: 17.v),
+                    progress(),
+                    SizedBox(height: 17.v),
+                    _buildOrderDetail(context),
+                    SizedBox(height: 10.v),
+                    _acceptBtn(context),
+                  ],
                 ),
               ),
             ),
-            const LoaderView(),
-          ],
-        ));
+          ),
+          const LoaderView(),
+        ],
+      ),
+    );
   }
 
   PreferredSizeWidget _buildAppBar() {
-    return CustomAppBar(
-      leadingWidth: 48.h,
-      leading: AppbarLeadingImage(
-        imagePath: ImageConstant.imgArrowLeft,
-        margin: EdgeInsets.only(left: 24.h, top: 10.v, bottom: 10.v),
-        onTap: () {
-          onTapArrowLeft();
-        },
-      ),
-      title: lang_key.cancelOrder.tr,
+    return const CustomAppBar2(
+      title: "Cancel Order",
     );
   }
 
