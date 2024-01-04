@@ -81,9 +81,7 @@ class OrderView extends StatelessWidget {
   }
 
   PreferredSizeWidget _buildAppBar() {
-    return CustomAppBar(
-      leadingWidth: 48.h,
-      leading: Container(),
+    return const CustomAppBar2(
       title: "Order List",
     );
   }
@@ -291,46 +289,28 @@ class OrderView extends StatelessWidget {
   }
 
   Color statusColor(String value) {
-    if (value == "Pending") {
-      return const Color(0xFFFDBA8C);
-    }
-    if (value == "Paid") {
-      return const Color(0xFFFDBA8C);
-    }
-    if (value == "Partially Paid") {
-      return const Color(0xFFFFE5A0);
-    }
-    if (value == "Refunded") {
-      return const Color(0xFFFDBA8C);
-    }
-    if (value == "Cancelled") {
-      return const Color(0xFFFE3A30);
-    }
-    if (value == "Processing") {
-      return const Color(0xFFFFE5A0);
-    }
-    if (value == "Shipped") {
-      return const Color(0xFFBDE9DA);
-    }
-    if (value == "Delivered") {
-      return const Color(0xFFBDE9DA);
-    }
-    if (value == "Returned") {
-      return const Color(0xFFFFE5A0);
-    }
-    if (value == "In Transit") {
-      return const Color(0xFFFFE5A0);
-    }
-    if (value == "Out for Delivery") {
-      return const Color(0xFFFFE5A0);
-    }
-    if (value == "Failed") {
-      return const Color(0xFFFE3A30);
-    }
-    if (value == "COD Verified") {
-      return const Color(0xFFBDE9DA);
-    } else {
-      return const Color(0xFFFE3A30);
+    switch (value) {
+      case "Pending":
+      case "Paid":
+      case "Refunded":
+      case "Unfulfilled":
+        return const Color(0xFFFDBA8C);
+      case "Partially Paid":
+      case "Processing":
+      case "Returned":
+      case "In Transit":
+      case "Out for Delivery":
+        return const Color(0xFFFFE5A0);
+      case "Cancelled":
+      case "Failed":
+        return const Color(0xFFFE3A30);
+      case "Shipped":
+      case "Fulfilled":
+      case "Delivered":
+      case "COD Verified":
+        return const Color(0xFFBDE9DA);
+      default:
+        return const Color(0xFFFE3A30); // Default color for unknown statuses
     }
   }
 
