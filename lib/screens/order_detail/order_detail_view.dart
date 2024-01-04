@@ -17,6 +17,7 @@ import '../../widgets/appBar_leading_image.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/custom_image_view.dart';
 import '../../widgets/custom_loading.dart';
+import '../../widgets/loader_view.dart';
 import '../return/return_view.dart';
 
 // ignore: must_be_immutable
@@ -28,28 +29,33 @@ class OrderDetailView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(),
-      body: Container(
-        width: MediaQuery.of(context).size.width * 1,
-        padding: EdgeInsets.all(8.h),
-        decoration: BoxDecoration(
-          //color: Colors.grey.shade200,
-          borderRadius: BorderRadius.circular(5),
-        ),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 17.v),
-              _buildOrderListFrame(),
-              SizedBox(height: 17.v),
-              progress(),
-              SizedBox(height: 10.v),
-              _buildOrderDetail(context),
-              SizedBox(height: 10.v),
-              logInBtn(),
-            ],
+      body: Stack(
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width * 1,
+            padding: EdgeInsets.all(8.h),
+            decoration: BoxDecoration(
+              //color: Colors.grey.shade200,
+              borderRadius: BorderRadius.circular(5),
+            ),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 17.v),
+                  _buildOrderListFrame(),
+                  SizedBox(height: 17.v),
+                  progress(),
+                  SizedBox(height: 10.v),
+                  _buildOrderDetail(context),
+                  SizedBox(height: 10.v),
+                  logInBtn(),
+                ],
+              ),
+            ),
           ),
-        ),
+          const LoaderView(),
+        ],
       ),
     );
   }

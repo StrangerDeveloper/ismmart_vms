@@ -8,6 +8,7 @@ import 'package:ismmart_vms/widgets/scrollable_column.dart';
 
 import '../../helper/theme_helper.dart';
 import '../../widgets/custom_radiobtn.dart';
+import '../../widgets/loader_view.dart';
 
 class CreatePayoutView extends StatelessWidget {
   CreatePayoutView({super.key});
@@ -21,77 +22,82 @@ class CreatePayoutView extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Create Payout'),
       ),
-      body: ScrollableColumn(
+      body: Stack(
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 18),
-            child: CustomTextField1(
-              title: 'Select Vendor Name ',
-              hintText: 'Select vendor name',
-              controller: viewModel.vendorNameController,
-              isDropDown: true,
-              onTap: () {
-                viewModel.resetValue();
-                itemsBottomSheet();
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: CustomTextField1(
-              controller: viewModel.currencyController,
-              title: 'Currency',
-              hintText: 'Select Currency',
-              isDropDown: true,
-              onTap: () {
-                CustomBottomSheet1(
-                  selectedIndex: viewModel.currencySelectedIndex.value,
-                  list: viewModel.currencyList,
-                  onValueSelected: (value) {
-                    viewModel.currencySelectedIndex.value = value;
-                    viewModel.currencyController.text =
-                        viewModel.currencyList[value];
+          ScrollableColumn(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 18),
+                child: CustomTextField1(
+                  title: 'Select Vendor Name ',
+                  hintText: 'Select vendor name',
+                  controller: viewModel.vendorNameController,
+                  isDropDown: true,
+                  onTap: () {
+                    viewModel.resetValue();
+                    itemsBottomSheet();
                   },
-                ).show();
-              },
-            ),
-          ),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 18),
-            child: CustomTextField1(
-              title: 'Amount',
-              hintText: 'Enter Amount',
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: CustomTextField1(
-              title: 'Transfer Method',
-              controller: viewModel.paymentTypeController,
-              hintText: 'Select payment method',
-              isDropDown: true,
-              onTap: () {
-                CustomBottomSheet1(
-                  selectedIndex: viewModel.paymentSelectedIndex.value,
-                  list: viewModel.paymentTypeList,
-                  onValueSelected: (value) {
-                    viewModel.paymentSelectedIndex.value = value;
-                    viewModel.paymentTypeController.text =
-                        viewModel.paymentTypeList[value];
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: CustomTextField1(
+                  controller: viewModel.currencyController,
+                  title: 'Currency',
+                  hintText: 'Select Currency',
+                  isDropDown: true,
+                  onTap: () {
+                    CustomBottomSheet1(
+                      selectedIndex: viewModel.currencySelectedIndex.value,
+                      list: viewModel.currencyList,
+                      onValueSelected: (value) {
+                        viewModel.currencySelectedIndex.value = value;
+                        viewModel.currencyController.text =
+                            viewModel.currencyList[value];
+                      },
+                    ).show();
                   },
-                ).show();
-              },
-            ),
+                ),
+              ),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 18),
+                child: CustomTextField1(
+                  title: 'Amount',
+                  hintText: 'Enter Amount',
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: CustomTextField1(
+                  title: 'Transfer Method',
+                  controller: viewModel.paymentTypeController,
+                  hintText: 'Select payment method',
+                  isDropDown: true,
+                  onTap: () {
+                    CustomBottomSheet1(
+                      selectedIndex: viewModel.paymentSelectedIndex.value,
+                      list: viewModel.paymentTypeList,
+                      onValueSelected: (value) {
+                        viewModel.paymentSelectedIndex.value = value;
+                        viewModel.paymentTypeController.text =
+                            viewModel.paymentTypeList[value];
+                      },
+                    ).show();
+                  },
+                ),
+              ),
+              payoutType(),
+              const Spacer(),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 18),
+                child: CustomTextBtn(
+                  title: 'Save & Create',
+                  onPressed: () {},
+                ),
+              ),
+            ],
           ),
-          payoutType(),
-          const Spacer(),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 18),
-            child: CustomTextBtn(
-              title: 'Save & Create',
-              onPressed: () {},
-            ),
-          ),
+          const LoaderView(),
         ],
       ),
     );

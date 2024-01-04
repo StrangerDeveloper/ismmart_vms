@@ -110,7 +110,7 @@ class SignUp2View extends StatelessWidget {
               ),
             ),
           ),
-          LoaderView()
+          const LoaderView()
         ],
       ),
     );
@@ -606,7 +606,7 @@ class SignUp2View extends StatelessWidget {
                       )
                 ],
               ),
-              viewModel.allCountryList.length <= 0 ? LoaderView() : SizedBox()
+              viewModel.allCountryList.length <= 0 ? const LoaderView() : const SizedBox()
             ],
           ),
         );

@@ -5,6 +5,8 @@ import 'package:ismmart_vms/screens/return/return_viewmodel.dart';
 import 'package:ismmart_vms/widgets/custom_appbar.dart';
 import 'package:ismmart_vms/widgets/custom_text.dart';
 
+import '../../widgets/loader_view.dart';
+
 class RefundView extends StatefulWidget {
   RefundView({super.key}) {
     //Get.put(OrderDet()).fetchOrderDetails();
@@ -25,78 +27,83 @@ class _RefundViewState extends State<RefundView> {
         backBtn: false,
       ),
       body: Obx(
-        () => SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: viewModel.returnItemList.length,
-                  itemBuilder: (context, index) {
-                    final item = viewModel.returnItemList[index];
-                    return GestureDetector(
-                      onTap: () {
-                        if (viewModel.selectedItemList.contains(item.id)) {
-                          viewModel.selectedItemList
-                              .removeWhere((element) => element == item.id);
-                          viewModel.selectedItemList.refresh();
-                        } else {
-                          viewModel.selectedItemList.add(item.id!);
-                          viewModel.selectedItemList.refresh();
-                        }
-                        setState(() {});
-                      },
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.greenAccent),
-                              borderRadius: BorderRadius.circular(20),
-                            ), //BoxDecoration
-
-                            child: ListTile(
-                              title: Text(item.name.toString()),
-                              subtitle: Column(
-                                children: [
-                                  Text(item.description.toString()),
-                                  Text(item.color.toString()),
-                                  Text(item.quantity.toString()),
-                                ],
-                              ),
-                              trailing: viewModel.selectedItemList
-                                      .contains(item.id)
-                                  ? const Icon(Icons.check_box)
-                                  : const Icon(Icons.check_box_outline_blank),
-                            ), //CheckboxListTile
-                          ), //Container
-                        ), //Padding
-                      ),
-                    );
-                  },
-                ),
-                const SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        () => Stack(
+          children: [
+            SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(
-                      child: ElevatedButton.icon(
-                        onPressed: () {
-                          // Get.to(() => AddOrderView());
-                        },
-                        icon: const Icon(Icons.shopping_cart_checkout_sharp),
-                        label: Text(
-                            'Return Items ${viewModel.selectedItemList.length}'),
-                      ),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: viewModel.returnItemList.length,
+                      itemBuilder: (context, index) {
+                        final item = viewModel.returnItemList[index];
+                        return GestureDetector(
+                          onTap: () {
+                            if (viewModel.selectedItemList.contains(item.id)) {
+                              viewModel.selectedItemList
+                                  .removeWhere((element) => element == item.id);
+                              viewModel.selectedItemList.refresh();
+                            } else {
+                              viewModel.selectedItemList.add(item.id!);
+                              viewModel.selectedItemList.refresh();
+                            }
+                            setState(() {});
+                          },
+                          child: Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.greenAccent),
+                                  borderRadius: BorderRadius.circular(20),
+                                ), //BoxDecoration
+
+                                child: ListTile(
+                                  title: Text(item.name.toString()),
+                                  subtitle: Column(
+                                    children: [
+                                      Text(item.description.toString()),
+                                      Text(item.color.toString()),
+                                      Text(item.quantity.toString()),
+                                    ],
+                                  ),
+                                  trailing: viewModel.selectedItemList
+                                          .contains(item.id)
+                                      ? const Icon(Icons.check_box)
+                                      : const Icon(Icons.check_box_outline_blank),
+                                ), //CheckboxListTile
+                              ), //Container
+                            ), //Padding
+                          ),
+                        );
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Expanded(
+                          child: ElevatedButton.icon(
+                            onPressed: () {
+                              // Get.to(() => AddOrderView());
+                            },
+                            icon: const Icon(Icons.shopping_cart_checkout_sharp),
+                            label: Text(
+                                'Return Items ${viewModel.selectedItemList.length}'),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
+              ),
             ),
-          ),
+            const LoaderView(),
+          ],
         ),
       ),
     );

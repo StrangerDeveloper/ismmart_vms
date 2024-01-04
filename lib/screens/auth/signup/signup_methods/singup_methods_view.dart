@@ -64,7 +64,7 @@ class SingupMethodsView extends StatelessWidget {
                   doNotHaveAnAccount(),
                 ],
               ),
-
+              const LoaderView(),
               // NoInternetView(
               //   onPressed: () => viewModel.signIn(),
               // ),

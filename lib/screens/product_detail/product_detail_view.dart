@@ -4,6 +4,7 @@ import 'package:ismmart_vms/screens/product_detail/product_detail_viewmodel.dart
 import 'package:ismmart_vms/widgets/custom_button.dart';
 
 import '../../widgets/custom_checkbox_list_tile.dart';
+import '../../widgets/loader_view.dart';
 import '../product_quantity/product_quantity_view.dart';
 
 class ProductDetailView extends StatelessWidget {
@@ -19,46 +20,51 @@ class ProductDetailView extends StatelessWidget {
       ),
       body: Column(
         children: [
-          Container(
-            padding: const EdgeInsets.all(5),
-            margin: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey),
-              borderRadius: BorderRadius.circular(6),
-            ),
-            child: Column(
-              children: [
-                CustomTextBtn(
-                  title: 'Product Inventory',
-                  onPressed: () {
-                    // itemsBottomSheet();
-                    Get.to(() => ProductQuantity());
-                  },
+          Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(5),
+                margin: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(6),
                 ),
-                const SizedBox(height: 5),
-                Obx(
-                  () => Wrap(
-                    children: viewModel.dataList
-                        .map(
-                          (e) => e.isSelected == true
-                              ? Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 6),
-                                  margin: const EdgeInsets.only(left: 5),
-                                  decoration: BoxDecoration(
-                                    color: Colors.amberAccent,
-                                    borderRadius: BorderRadius.circular(4),
-                                  ),
-                                  child: Text(e.name ?? ''),
-                                )
-                              : const SizedBox(),
-                        )
-                        .toList(),
-                  ),
-                )
-              ],
-            ),
+                child: Column(
+                  children: [
+                    CustomTextBtn(
+                      title: 'Product Inventory',
+                      onPressed: () {
+                        // itemsBottomSheet();
+                        Get.to(() => ProductQuantity());
+                      },
+                    ),
+                    const SizedBox(height: 5),
+                    Obx(
+                      () => Wrap(
+                        children: viewModel.dataList
+                            .map(
+                              (e) => e.isSelected == true
+                                  ? Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 6),
+                                      margin: const EdgeInsets.only(left: 5),
+                                      decoration: BoxDecoration(
+                                        color: Colors.amberAccent,
+                                        borderRadius: BorderRadius.circular(4),
+                                      ),
+                                      child: Text(e.name ?? ''),
+                                    )
+                                  : const SizedBox(),
+                            )
+                            .toList(),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ],
           ),
+          const LoaderView(),
         ],
       ),
     );
