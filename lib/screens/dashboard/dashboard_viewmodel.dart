@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/constants.dart';
 import 'package:ismmart_vms/widgets/widget_models/dropdown_model.dart';
 
+import '../../helper/global_variables.dart';
+
 class DashboardViewModel extends GetxController {
   RxBool showMoreDetails = false.obs;
   RxString dateSelected = '1'.obs;
@@ -25,6 +27,12 @@ class DashboardViewModel extends GetxController {
     super.onReady();
 
     getOrdersData();
+  }
+
+  @override
+  void onClose() {
+    GlobalVariable.showLoader.value = false;
+    super.onClose();
   }
 
   void getOrdersData() {

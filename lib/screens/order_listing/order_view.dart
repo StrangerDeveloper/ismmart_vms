@@ -10,6 +10,7 @@ import 'package:ismmart_vms/widgets/custom_textfield.dart';
 
 import '../../helper/utils/image_constant.dart';
 import '../../widgets/custom_image_view.dart';
+import '../../widgets/loader_view.dart';
 import '../order_detail/order_detail_view.dart';
 
 class OrderView extends StatelessWidget {
@@ -31,51 +32,56 @@ class OrderView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(height: 17.v),
-            _buildSearchRow(),
-            SizedBox(height: 17.v),
-            Obx(
-              () => orderController.orderItemList.isEmpty
-                  ? const Center(
-                      child: CircularProgressIndicator(),
-                    )
-                  : Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Obx(
-                            () => ListView.builder(
-                              //reverse: true,
-                              controller: orderController.scrollController,
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: orderController.orderItemList.length,
-                              itemBuilder: (context, index) {
-                                return GestureDetector(
-                                  onTap: () {
-                                    Get.to(
-                                      () => OrderDetailView(),
-                                      arguments: {
-                                        'model': orderController
-                                            .orderItemList[index],
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(height: 17.v),
+                _buildSearchRow(),
+                SizedBox(height: 17.v),
+                Obx(
+                  () => orderController.orderItemList.isEmpty
+                      ? const Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Obx(
+                                () => ListView.builder(
+                                  //reverse: true,
+                                  controller: orderController.scrollController,
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: orderController.orderItemList.length,
+                                  itemBuilder: (context, index) {
+                                    return GestureDetector(
+                                      onTap: () {
+                                        Get.to(
+                                          () => OrderDetailView(),
+                                          arguments: {
+                                            'model': orderController
+                                                .orderItemList[index],
+                                          },
+                                        );
                                       },
+                                      child: _buildOrderCard(index),
                                     );
                                   },
-                                  child: _buildOrderCard(index),
-                                );
-                              },
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+          const LoaderView(),
+        ],
       ),
     );
   }

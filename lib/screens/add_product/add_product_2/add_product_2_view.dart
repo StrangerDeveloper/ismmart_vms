@@ -8,6 +8,7 @@ import 'package:ismmart_vms/widgets/custom_button.dart';
 import '../../../helper/constants.dart';
 import '../../../widgets/custom_dropdown.dart';
 import '../../../widgets/custom_textfield.dart';
+import '../../../widgets/loader_view.dart';
 import '../../../widgets/stepperText.dart';
 import '../../../widgets/widget_models/variant_options_field_model.dart';
 
@@ -21,36 +22,41 @@ class AddProduct2View extends StatelessWidget {
     return Scaffold(
       appBar: appBar(),
       backgroundColor: Colors.white,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 15),
-        child: SingleChildScrollView(
-          physics: const ScrollPhysics(),
-          child: Column(
-            children: [
-              stepperText(),
-              variantsContainer(context),
-              //if variantAdditionField is clicked and data populated then show the variantsContainer else show the inventoryContainer
-              // Obx(() => viewModel.showVariantsTable.value
-              //     ? inventoryContainer()
-              //     : SizedBox()),
-              inventoryContainer(),
-              Padding(
-                padding: const EdgeInsets.only(top: 15, bottom: 5),
-                child: CustomTextBtn(
-                  title: 'Save & Next',
-                  onPressed: () {
-                    Get.to(() => const LocationInventoryView());
-                  },
-                ),
+      body: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 15),
+            child: SingleChildScrollView(
+              physics: const ScrollPhysics(),
+              child: Column(
+                children: [
+                  stepperText(),
+                  variantsContainer(context),
+                  //if variantAdditionField is clicked and data populated then show the variantsContainer else show the inventoryContainer
+                  // Obx(() => viewModel.showVariantsTable.value
+                  //     ? inventoryContainer()
+                  //     : SizedBox()),
+                  inventoryContainer(),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 15, bottom: 5),
+                    child: CustomTextBtn(
+                      title: 'Save & Next',
+                      onPressed: () {
+                        Get.to(() => const LocationInventoryView());
+                      },
+                    ),
+                  ),
+                  CustomTextBtn(
+                    title: 'Back',
+                    backgroundColor: Colors.black,
+                    onPressed: () {},
+                  ),
+                ],
               ),
-              CustomTextBtn(
-                title: 'Back',
-                backgroundColor: Colors.black,
-                onPressed: () {},
-              ),
-            ],
+            ),
           ),
-        ),
+          const LoaderView(),
+        ],
       ),
     );
   }

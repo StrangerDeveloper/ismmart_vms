@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import '../../../helper/global_variables.dart';
 import '../../../models/variant_selection_model.dart';
 import '../../../widgets/widget_models/dropdown_model.dart';
 import '../../../widgets/widget_models/variant_options_field_model.dart';
@@ -37,6 +38,12 @@ class AddProduct2ViewModel extends GetxController {
       }
     });
     super.onReady();
+  }
+
+  @override
+  void onClose() {
+    GlobalVariable.showLoader.value = false;
+    super.onClose();
   }
 
   creatingVariants() {

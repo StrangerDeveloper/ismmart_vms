@@ -37,6 +37,12 @@ class OrderListingViewModel extends GetxController {
     super.onInit();
   }
 
+  @override
+  void onClose() {
+    GlobalVariable.showLoader.value = false;
+    super.onClose();
+  }
+
   Future<void> getOrderListing() async {
     await ApiBaseHelper()
         .getMethod(url: '${Urls.getOrders}$searchUrlValue')

@@ -13,6 +13,7 @@ import '../../../widgets/bottomsheet_item.dart';
 import '../../../widgets/custom_button.dart';
 import '../../../widgets/custom_checkbox.dart';
 import '../../../widgets/custom_textfield.dart';
+import '../../../widgets/loader_view.dart';
 import '../../../widgets/stepperText.dart';
 import 'add_product_1_viewmodel.dart';
 
@@ -24,57 +25,62 @@ class AddProduct1View extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            stepperText(),
-            Form(
-              key: viewModel.formKey,
-              child: Column(
-                children: [
-                  ///Upload Images Section
-                  // _buildImageSection(),
+      body: Column(
+        children: [
+          SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                stepperText(),
+                Form(
+                  key: viewModel.formKey,
+                  child: Column(
+                    children: [
+                      ///Upload Images Section
+                      // _buildImageSection(),
 
-                  ///Product Category Field
-                  // Obx(() => selectCategoryField()),
-                  //
-                  // ///Product Sub Category Dropdown Field
-                  // Obx(() => viewModel.subCategoriesList.isEmpty
-                  //     ? Container()
-                  //     : selectSubCategoryField()),
+                      ///Product Category Field
+                      // Obx(() => selectCategoryField()),
+                      //
+                      // ///Product Sub Category Dropdown Field
+                      // Obx(() => viewModel.subCategoriesList.isEmpty
+                      //     ? Container()
+                      //     : selectSubCategoryField()),
 
-                  ///Product Category fields or variants or features
+                      ///Product Category fields or variants or features
 
-                  ///Product Basic Details
-                  titleTxtField(),
-                  descriptionField(),
-                  mediaWidget(),
-                  priceField(),
-                  typeTxtField(),
-                  categoryTxtField(),
-                  tagsField(),
-                  thisIsPhysicalProduct(),
-                  CustomTextBtn(
-                    onPressed: () {
-                      Get.to(() => AddProduct2View());
-                      // viewModel.creatingVariants();
-                      // viewModel.addProdBtnPress();
-                    },
-                    title: 'Save & Continue',
+                      ///Product Basic Details
+                      titleTxtField(),
+                      descriptionField(),
+                      mediaWidget(),
+                      priceField(),
+                      typeTxtField(),
+                      categoryTxtField(),
+                      tagsField(),
+                      thisIsPhysicalProduct(),
+                      CustomTextBtn(
+                        onPressed: () {
+                          Get.to(() => AddProduct2View());
+                          // viewModel.creatingVariants();
+                          // viewModel.addProdBtnPress();
+                        },
+                        title: 'Save & Continue',
+                      ),
+                      CustomTextBtn(
+                        title: 'Back',
+                        backgroundColor: Colors.black,
+                        onPressed: () {},
+                      ),
+                      SizedBox(height: 80),
+                    ],
                   ),
-                  CustomTextBtn(
-                    title: 'Back',
-                    backgroundColor: Colors.black,
-                    onPressed: () {},
-                  ),
-                  SizedBox(height: 80),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+          const LoaderView(),
+        ],
       ),
     );
   }

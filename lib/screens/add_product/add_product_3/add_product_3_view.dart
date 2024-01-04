@@ -9,6 +9,7 @@ import '../../../helper/theme_helper.dart';
 import '../../../widgets/custom_bottom_sheet.dart';
 import '../../../widgets/custom_checkbox.dart';
 import '../../../widgets/custom_textfield.dart';
+import '../../../widgets/loader_view.dart';
 import '../../../widgets/stepperText.dart';
 
 class AddProduct3View extends StatelessWidget {
@@ -20,85 +21,90 @@ class AddProduct3View extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBar(),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            stepperText(),
-            Container(
-              margin: const EdgeInsets.only(top: 10, bottom: 10),
-              padding: const EdgeInsets.only(
-                  left: 12, top: 12, right: 12, bottom: 5),
-              decoration: const BoxDecoration(
-                color: ThemeHelper.grey3,
-                borderRadius: BorderRadius.all(Radius.circular(8)),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Shipping',
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                stepperText(),
+                Container(
+                  margin: const EdgeInsets.only(top: 10, bottom: 10),
+                  padding: const EdgeInsets.only(
+                      left: 12, top: 12, right: 12, bottom: 5),
+                  decoration: const BoxDecoration(
+                    color: ThemeHelper.grey3,
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Shipping',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      thisIsPhysicalProduct(),
+                      weightTxtField(),
+                      const Divider(),
+                      countryRegionTxtField(),
+                      hsCodeTxtField(),
+                      continueSellingOFS(),
+                      productHasSkuBarcode(),
+                    ],
+                  ),
+                ),
+                searchEngineListing(),
+                productStatus(),
+                const Padding(
+                  padding: EdgeInsets.only(top: 10, bottom: 15),
+                  child: Text(
+                    'Publishing',
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  thisIsPhysicalProduct(),
-                  weightTxtField(),
-                  const Divider(),
-                  countryRegionTxtField(),
-                  hsCodeTxtField(),
-                  continueSellingOFS(),
-                  productHasSkuBarcode(),
-                ],
-              ),
-            ),
-            searchEngineListing(),
-            productStatus(),
-            const Padding(
-              padding: EdgeInsets.only(top: 10, bottom: 15),
-              child: Text(
-                'Publishing',
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
                 ),
-              ),
-            ),
-            const Text(
-              'Sales Channels',
-              style: TextStyle(
-                color: ThemeHelper.grey4,
-                fontSize: 12,
-              ),
-            ),
-            const SizedBox(height: 5),
-            onlineStoreCheckBox(),
-            fbAndInstagramCheckBox(),
-            const Padding(
-              padding: EdgeInsets.only(top: 6, bottom: 3),
-              child: Text(
-                'Markets',
-                style: TextStyle(
-                  color: ThemeHelper.grey4,
-                  fontSize: 12,
+                const Text(
+                  'Sales Channels',
+                  style: TextStyle(
+                    color: ThemeHelper.grey4,
+                    fontSize: 12,
+                  ),
                 ),
-              ),
+                const SizedBox(height: 5),
+                onlineStoreCheckBox(),
+                fbAndInstagramCheckBox(),
+                const Padding(
+                  padding: EdgeInsets.only(top: 6, bottom: 3),
+                  child: Text(
+                    'Markets',
+                    style: TextStyle(
+                      color: ThemeHelper.grey4,
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
+                europeInternationalCheckBox(),
+                Padding(
+                  padding: const EdgeInsets.only(top: 15, bottom: 5),
+                  child: CustomTextBtn(
+                    title: 'Save',
+                    onPressed: () {},
+                  ),
+                ),
+                CustomTextBtn(
+                  title: 'Back',
+                  backgroundColor: Colors.black,
+                  onPressed: () {},
+                ),
+              ],
             ),
-            europeInternationalCheckBox(),
-            Padding(
-              padding: const EdgeInsets.only(top: 15, bottom: 5),
-              child: CustomTextBtn(
-                title: 'Save',
-                onPressed: () {},
-              ),
-            ),
-            CustomTextBtn(
-              title: 'Back',
-              backgroundColor: Colors.black,
-              onPressed: () {},
-            ),
-          ],
-        ),
+          ),
+          const LoaderView(),
+        ],
       ),
     );
   }

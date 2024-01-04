@@ -5,13 +5,14 @@ import 'package:ismmart_vms/helper/theme_helper.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/screens/auth/login/login_view.dart';
 import 'package:ismmart_vms/screens/auth/signup/signup_4/sign_up_4_viewmodel.dart';
+import 'package:ismmart_vms/widgets/custom_drawer.dart';
+import 'package:ismmart_vms/widgets/loader_view.dart';
 import 'package:ismmart_vms/widgets/scrollable_column.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 import '../../../../helper/constants.dart';
 import '../../../../widgets/custom_button.dart';
-import '../../../helper/global_variables.dart';
-import '../../../widgets/custom_loading.dart';
+import '../../drawer_bottom_nav/drawer_bottom_bar_view.dart';
 
 class AccountStatusView extends StatelessWidget {
   AccountStatusView({super.key});
@@ -23,18 +24,27 @@ class AccountStatusView extends StatelessWidget {
       top: false,
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: Padding(
-          padding: const EdgeInsets.only(top: 30, left: 25, right: 25),
-          child: ScrollableColumn(
-            children: [
-              titleAndBackBtn(),
-              subtitle(),
-              progress(),
-              SizedBox(height: 50.h),
-              waitingVerificationText(),
-              requestBtn()
-            ],
-          ),
+        body: Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 30, left: 25, right: 25),
+              child: ScrollableColumn(
+                children: [
+                  titleAndBackBtn(),
+                  subtitle(),
+                  progress(),
+                  SizedBox(height: 50.h),
+                  waitingVerificationText(),
+                  SizedBox(
+                    height: 50,
+                  ),
+                  emailVerifyText(),
+                  requestBtn()
+                ],
+              ),
+            ),
+            LoaderView()
+          ],
         ),
       ),
     );
@@ -69,7 +79,7 @@ class AccountStatusView extends StatelessWidget {
 
   Widget subtitle() {
     return Align(
-      alignment: Alignment.centerLeft,
+      alignment: Alignment.center,
       child: Padding(
         padding: const EdgeInsets.only(
           top: 80,
@@ -107,43 +117,94 @@ class AccountStatusView extends StatelessWidget {
 
   Widget progress() {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 42),
+      padding: const EdgeInsets.only(bottom: 42, top: 20),
       child: Row(
         children: [
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // SizedBox(height: 6),
-                RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: 'Next Step: ',
-                        style: newFontStyleSize14,
-                      ),
-                      TextSpan(
-                          text: 'Rejected',
-                          style: newFontStyleSize14.copyWith(
-                              color: ThemeHelper.red1)),
-                    ],
+            child: Obx(
+              () => Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  // SizedBox(height: 6),
+                  RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: 'Next Step: ',
+                          style: newFontStyleSize14,
+                        ),
+                        TextSpan(
+                            text: viewModel.status.value['status'],
+                            style: newFontStyleSize14.copyWith(
+                                color: ThemeHelper.red1)),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-          CircularPercentIndicator(
-            circularStrokeCap: CircularStrokeCap.round,
-            radius: 33,
-            lineWidth: 6,
-            percent: 1,
-            backgroundColor: const Color(0xffEBEFF3),
-            progressColor: newColorBlue,
-            center: Text(
-              "4 of 4",
-              style: poppinsH2.copyWith(
-                color: newColorBlue2,
+          // CircularPercentIndicator(
+          //   circularStrokeCap: CircularStrokeCap.round,
+          //   radius: 33,
+          //   lineWidth: 6,
+          //   percent: 1,
+          //   backgroundColor: const Color(0xffEBEFF3),
+          //   progressColor: newColorBlue,
+          //   center: Text(
+          //     "4 of 4",
+          //     style: poppinsH2.copyWith(
+          //       color: newColorBlue2,
+          //     ),
+          //   ),
+          // ),
+          //
+        ],
+      ),
+    );
+  }
+
+  Widget waitingVerificationText() {
+    return Obx(
+      () => Column(
+        children: [
+          Text(
+            viewModel.status.value['status'] == "Rejected"
+                ? 'Reason for rejection'
+                : viewModel.status.value['status'] == 'Not Verified'
+                    ? 'Reason for Not Verified'
+                    : 'Reason for Pending',
+            style: newFontStyle3.copyWith(
+              color: newColorBlue,
+            ),
+          ),
+          RichText(
+            textAlign: TextAlign.center,
+            text: TextSpan(
+              style: newFontStyleSize14.copyWith(
+                color: const Color(0xff667085),
+                height: 1.5,
               ),
+              children: [
+                const TextSpan(
+                  text: 'Due to ',
+                ),
+                TextSpan(
+                  text: viewModel.status.value['status'] == "Rejected"
+                      ? 'Incomplete Information'
+                      : viewModel.status.value['status'] == 'Not Verified'
+                          ? 'Not Verify Your Email'
+                          : 'Pending your Request',
+                  style: newFontStyle2.copyWith(
+                    fontWeight: FontWeight.w700,
+                    color: ThemeHelper.red1,
+                  ),
+                ),
+                TextSpan(
+                    text:
+                        ' vendor application lacks necessary details or contains inaccurate information, it might lead to rejection.'),
+                TextSpan(text: viewModel.status.value['remarks'] ?? '')
+              ],
             ),
           ),
         ],
@@ -151,71 +212,100 @@ class AccountStatusView extends StatelessWidget {
     );
   }
 
-  Widget waitingVerificationText() {
-    return Column(
-      children: [
-        Text(
-          'Reason for rejection',
-          style: newFontStyle3.copyWith(
-            color: newColorBlue,
-          ),
-        ),
-        RichText(
-          textAlign: TextAlign.center,
-          text: TextSpan(
-            style: newFontStyleSize14.copyWith(
-              color: const Color(0xff667085),
-              height: 1.5,
-            ),
-            children: [
-              const TextSpan(
-                text: 'Due to ',
-              ),
-              TextSpan(
-                text: 'Incomplete Information',
-                style: newFontStyle2.copyWith(
-                  fontWeight: FontWeight.w700,
-                  color: ThemeHelper.red1,
-                ),
-              ),
-              const TextSpan(
-                  text:
-                      ' vendor application lacks necessary details or contains inaccurate information, it might lead to rejection.'),
-            ],
-          ),
-        ),
-      ],
+  Widget emailVerifyText() {
+    return Obx(
+      () => viewModel.status.value['status'] == 'Rejected'
+          ? SizedBox()
+          : viewModel.status.value['status'] == 'Not Verified'
+              ? Column(
+                  children: [
+                    Text(
+                      "Email send on",
+                    ),
+                    RichText(
+                      textAlign: TextAlign.center,
+                      text: TextSpan(
+                        style: newFontStyleSize14.copyWith(
+                          color: const Color(0xff667085),
+                          height: 1.5,
+                        ),
+                        children: [
+                          TextSpan(
+                            text: '${viewModel.status.value['email'] ?? ""}',
+                            style: newFontStyle2.copyWith(
+                              fontWeight: FontWeight.w700,
+                              color: ThemeHelper.red1,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                )
+              : SizedBox(),
     );
   }
 
   Widget requestBtn() {
     return Padding(
-      padding: const EdgeInsets.only(top: 90),
+      padding: const EdgeInsets.only(top: 50),
       child: Obx(
-        () => GlobalVariable.showLoader.value
-            ? const CustomLoading(isItBtn: true)
-            : CustomRoundedTextBtn(
+        () => viewModel.status.value['status'] == 'Rejected'
+            ? CustomRoundedTextBtn(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      'Request again',
-                      style: newFontStyleSize14.copyWith(
-                          fontWeight: FontWeight.w500, color: kWhiteColor),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: Text(
+                        'Go to Settings ',
+                        style: newFontStyleSize14.copyWith(
+                            fontWeight: FontWeight.w500, color: kWhiteColor),
+                      ),
                     ),
                     const SizedBox(
                       width: 4,
                     ),
                     const Icon(
                       Icons.sync,
-                      size: 20,
+                      size: 25,
+                      color: Colors.green,
                     ),
                   ],
                 ),
                 onPressed: () {
-                  Get.offAll(LogInView());
+                  Get.offAll(() => CustomDrawer());
                 },
-              ),
+              )
+            : viewModel.status.value['status'] == 'Not Verified'
+                ? CustomRoundedTextBtn(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10.0),
+                          child: Text(
+                            ' Resent Verification Email ',
+                            style: newFontStyleSize14.copyWith(
+                                fontWeight: FontWeight.w500,
+                                color: kWhiteColor),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 4,
+                        ),
+                        const Icon(
+                          Icons.sync,
+                          size: 25,
+                          color: Colors.green,
+                        ),
+                      ],
+                    ),
+                    onPressed: () {
+                      viewModel.resentEmail();
+                    },
+                  )
+                : SizedBox(),
       ),
     );
   }

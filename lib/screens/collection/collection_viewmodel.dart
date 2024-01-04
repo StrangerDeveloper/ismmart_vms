@@ -20,6 +20,12 @@ class CollectionViewModel extends GetxController {
     super.onInit();
   }
 
+  @override
+  void onClose() {
+    GlobalVariable.showLoader.value = false;
+    super.onClose();
+  }
+
   //---------Image Data---------
   RxString collectionImage = ''.obs;
   RxBool collectionImageErrorVisibility = false.obs;

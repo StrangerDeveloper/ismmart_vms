@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:ismmart_vms/widgets/custom_drawer.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../../../helper/api_base_helper.dart';
@@ -10,6 +11,7 @@ import '../../../helper/constants.dart';
 import '../../../helper/global_variables.dart';
 import '../../../helper/urls.dart';
 import '../../drawer_bottom_nav/drawer_bottom_bar_view.dart';
+import '../signup/account_status_view.dart';
 
 class LogInViewModel extends GetxController {
   TextEditingController emailController = TextEditingController();
@@ -40,9 +42,9 @@ class LogInViewModel extends GetxController {
           .then((parsedJson) async {
         if (parsedJson['success'] == true) {
           GlobalVariable.showLoader.value = false;
-          GlobalVariable.noInternet(false);
           GlobalVariable.token = parsedJson['data']['token'];
-          Get.offAll(DrawerBottomBarView());
+          String status = parsedJson['data']['status'] ?? "";
+          accountStatusCheck(status, emailController.text);
         } else if (parsedJson['message'] == 'Invalid credentials') {
           AppConstant.displaySnackBar(
             "Error",
@@ -51,19 +53,19 @@ class LogInViewModel extends GetxController {
 
           GlobalVariable.showLoader.value = false;
         } else {
-          // AppConstant.displaySnackBar(
-          //   langKey.errorTitle.tr,
-          //   parsedJson['message'],
-          // );
+          AppConstant.displaySnackBar(
+            " langKey.errorTitle.tr",
+            parsedJson['message'],
+          );
 
           GlobalVariable.showLoader.value = false;
         }
       }).catchError((e) {
-        //  GlobalVariable.internetErr(true);
-        // AppConstant.displaySnackBar(
-        //   langKey.errorTitle.tr,
-        //   e,
-        // );
+        print(e);
+        AppConstant.displaySnackBar(
+          " langKey.errorTitle.tr",
+          e.toString(),
+        );
         GlobalVariable.showLoader.value = false;
       });
     }
@@ -83,7 +85,9 @@ class LogInViewModel extends GetxController {
     GoogleSignInAccount? credential;
     try {
       // Get.to(DrawerBottomBarView());
+      await googleSignIn.signOut();
       credential = await googleSignIn.signIn();
+
       credential?.authentication.then((value) async {
         print(credential);
         Map<dynamic, dynamic> param = {
@@ -96,10 +100,13 @@ class LogInViewModel extends GetxController {
         await ApiBaseHelper()
             .postMethod(url: Urls.login, body: param)
             .then((parsedJson) {
+          print(parsedJson);
           if (parsedJson['success'] == true) {
+            GlobalVariable.showLoader.value = false;
+            print(parsedJson['data']['status']);
             GlobalVariable.token = parsedJson['data']['token'];
             GlobalVariable.showLoader.value = false;
-            //Get.offAll(DrawerBottomBarView());
+            Get.offAll(DrawerBottomBarView());
           } else {
             GlobalVariable.showLoader.value = false;
           }
@@ -127,6 +134,39 @@ class LogInViewModel extends GetxController {
 
       // Now send the credential (especially `credential.authorizationCode`) to your server to create a session
       // after they have been validated with Apple (see `Integration` section for more information on how to do this)
+    }
+  }
+
+  resetValues() {
+    emailController.clear();
+    passwordController.clear();
+  }
+
+  // ----------  Status Enums Check of Account-------
+  accountStatusCheck(String status, String email) {
+    print(status);
+    print(email);
+    if (status == "Approved") {
+      Get.offAll(() => DrawerBottomBarView());
+    } else if (status == "Rejected") {
+      var param = {
+        'status': 'Rejected',
+        'remarks': 'due to wrong id card',
+        'email': ''
+      };
+      Get.offAll(() => AccountStatusView(), arguments: param);
+    } else if (status == "Pending") {
+      var param = {
+        'status': 'Pending',
+      };
+      Get.offAll(() => AccountStatusView(), arguments: param);
+    } else if (status == "Not Verified") {
+      var param = {
+        'status': 'Not Verified',
+        'remarks': 'due to verify by your Gmail / Email Account',
+        'email': '$email'
+      };
+      Get.offAll(() => AccountStatusView(), arguments: param);
     }
   }
 }
