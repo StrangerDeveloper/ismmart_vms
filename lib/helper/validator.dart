@@ -12,9 +12,10 @@ class Validator {
 
   /////////////////////  Validators  /////////////////////////
   ///EmptyField
-  static String? validateDefaultField(String? value) {
+  static String? validateDefaultField(String? value,
+      {String errMsg = 'Field is required'}) {
     if (GetUtils.isBlank(value)!) {
-      return "Field is required".tr;
+      return errMsg;
     } else {
       return null;
     }

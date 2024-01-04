@@ -32,9 +32,16 @@ class SingupMethodsView extends StatelessWidget {
               ScrollableColumn(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  SizedBox(
+                    height: 50,
+                  ),
                   titleAndBackBtn(),
+                  const Divider(
+                    color: Color(0xffEEEEEE),
+                    thickness: 1,
+                  ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 200, bottom: 10),
+                    padding: const EdgeInsets.only(top: 52, bottom: 10),
                     child: CustomText(
                       title: 'Get onboard!',
                       style: newFontStyleSize20,
@@ -79,7 +86,7 @@ class SingupMethodsView extends StatelessWidget {
               Get.back();
             }),
           ),
-          const SizedBox(width: 80),
+          const SizedBox(width: 100),
           Text(
             'Sign Up',
             style: newFontStyleSize24,
@@ -224,38 +231,35 @@ class SingupMethodsView extends StatelessWidget {
 
 //Google Button
   Widget googlelogInBtn() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 5),
-      child: CustomTextBtn(
-        radius: 30,
-        borderSide: const BorderSide(
-          //color: newColorDarkBlack, // your color here
-          width: 1,
-        ),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(50.0),
-              child: Image.asset(
-                'assets/logo/google_logo.png',
-              ),
-            ),
-            const SizedBox(
-              width: 8,
-            ),
-            const Text(
-              'Sign in with Gmail',
-              // style: newFontStyleSize14.copyWith(fontWeight: FontWeight.w500),
-            ),
-          ],
-        ),
-        onPressed: () {
-          viewModel.googleLogIn();
-        },
+    return CustomTextBtn(
+      radius: 30,
+      borderSide: const BorderSide(
+        //color: newColorDarkBlack, // your color here
+        width: 1,
       ),
+      backgroundColor: Colors.white,
+      foregroundColor: Colors.black,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(50.0),
+            child: Image.asset(
+              'assets/logo/google_logo.png',
+            ),
+          ),
+          const SizedBox(
+            width: 8,
+          ),
+          const Text(
+            'Sign in with Gmail',
+            // style: newFontStyleSize14.copyWith(fontWeight: FontWeight.w500),
+          ),
+        ],
+      ),
+      onPressed: () {
+        viewModel.googleLogIn();
+      },
     );
   }
 

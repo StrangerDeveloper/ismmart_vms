@@ -120,6 +120,7 @@ class SignUp2ViewModel extends GetxController {
       StoreTypeModel model1 = storeTypeList[i];
       model1.isSelected = selectAllValue.value;
       storeTypeList[i] = model1;
+      print(storeTypeList.length);
     }
   }
 
@@ -137,6 +138,7 @@ class SignUp2ViewModel extends GetxController {
           parsedJson['data']['items'] != null) {
         var data = parsedJson['data']['items'] as List;
         storeTypeList.addAll(data.map((e) => StoreTypeModel.fromJson(e)));
+        print(storeTypeList.length);
       }
     }).catchError((e) {
       CommonFunction.debugPrint(e);

@@ -68,8 +68,12 @@ class SignUp2View extends StatelessWidget {
                         hintText: 'Select one',
                         controller: viewModel.countryController,
                         isDropDown: true,
+                        autoValidateMode: AutovalidateMode.onUserInteraction,
                         validator: (value) {
-                          return Validator.validateDefaultField(value);
+                          if (viewModel.countryController.text == '') {
+                            return Validator.validateDefaultField(value);
+                          }
+                          return null;
                         },
                         onTap: () {
                           viewModel.resetValue();
@@ -85,8 +89,12 @@ class SignUp2View extends StatelessWidget {
                         hintText: 'Select one',
                         controller: viewModel.cityController,
                         isDropDown: true,
+                        autoValidateMode: AutovalidateMode.onUserInteraction,
                         validator: (value) {
-                          return Validator.validateDefaultField(value);
+                          if (viewModel.cityController.text == '') {
+                            return Validator.validateDefaultField(value);
+                          }
+                          return null;
                         },
                         onTap: () {
                           viewModel.resetValueCity();
@@ -119,7 +127,7 @@ class SignUp2View extends StatelessWidget {
               Get.back();
             }),
           ),
-          const SizedBox(width: 80),
+          const SizedBox(width: 100),
           Text(
             'Sign Up',
             style: newFontStyleSize24,
@@ -225,7 +233,6 @@ class SignUp2View extends StatelessWidget {
   Widget storeType1() {
     return InkWell(
       onTap: () {
-        viewModel.getStoreTypes();
         itemsBottomSheet1();
       },
       child: Column(
@@ -668,6 +675,7 @@ class SignUp2View extends StatelessWidget {
                                 onTap: () {
                                   viewModel.cityController.text =
                                       viewModel.filteredCityList[index];
+
                                   viewModel
                                       .getCityId(viewModel.cityController.text);
                                   GlobalVariable.showLoader.value = false;

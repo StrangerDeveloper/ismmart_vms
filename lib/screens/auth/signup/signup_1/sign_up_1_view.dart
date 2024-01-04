@@ -61,7 +61,7 @@ class SignUp1View extends StatelessWidget {
                         cnicNumberField(),
                         cnicFrontImage(),
                         cnicBackImage(),
-                        SizedBox(height: 20.v),
+                        SizedBox(height: 10.v),
                         passwordTextField(),
                         confirmPasswordTextField(),
                         checkedStatement(),
@@ -74,7 +74,7 @@ class SignUp1View extends StatelessWidget {
               ],
             ),
           ),
-          const LoaderView()
+          LoaderView()
         ],
       ),
     );
@@ -91,18 +91,18 @@ class SignUp1View extends StatelessWidget {
         child: Obx(
           () => Row(
             children: [
-              viewModel.isChecked.value == true
-                  ? const Icon(
+              viewModel.isChecked.value == false
+                  ? Icon(
                       Icons.check_box_outline_blank,
                       color: Colors.grey,
                     )
-                  : const Icon(
+                  : Icon(
                       Icons.check_box,
                       color: Colors.blue,
                     ),
               SizedBox(width: 10.v),
               SizedBox(
-                width: Get.width * 0.8,
+                width: Get.width * 0.7,
                 child: const Text(
                   'By creating your account you have to agree with our terms & conditions.',
                   overflow: TextOverflow.ellipsis,
@@ -128,7 +128,7 @@ class SignUp1View extends StatelessWidget {
               Get.back();
             }),
           ),
-          const SizedBox(width: 80),
+          const SizedBox(width: 100),
           Text(
             'Sign Up',
             style: newFontStyleSize24,
@@ -312,7 +312,7 @@ class SignUp1View extends StatelessWidget {
 
   Widget cnicNumberField() {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 30),
+      padding: const EdgeInsets.symmetric(vertical: 20),
       child: CustomTextField1(
         keyboardType: TextInputType.number,
         inputFormatters: [
@@ -414,15 +414,22 @@ class SignUp1View extends StatelessWidget {
   Widget signUpInBtn() {
     return Padding(
       padding: const EdgeInsets.only(top: 32),
-      child: CustomRoundedTextBtn(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 8.0),
-          child: Text(
-            'Create Account',
-            textAlign: TextAlign.center,
-            style: newFontStyleSize14.copyWith(
-                fontWeight: FontWeight.w500, color: kWhiteColor),
-          ),
+      child: CustomTextBtn(
+        radius: 30,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              "Next",
+              // style: newFontStyleSize14.copyWith(
+              //     fontWeight: FontWeight.w500, color: kWhiteColor),kWhiteColor
+            ),
+            SizedBox(width: 4.h),
+            const Icon(
+              Icons.arrow_forward,
+              size: 20,
+            ),
+          ],
         ),
         onPressed: () {
           viewModel.signUpStep1();
