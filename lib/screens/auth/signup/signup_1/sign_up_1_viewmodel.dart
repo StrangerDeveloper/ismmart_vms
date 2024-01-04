@@ -85,84 +85,91 @@ class SignUpScreen1ViewModel extends GetxController {
   List<http.MultipartFile> fileList = [];
   void signUpStep1() async {
     if (signUpFormKey1.currentState?.validate() ?? false) {
-      fileList.clear();
+      if (isChecked.value == true) {
+        fileList.clear();
 
-      //------    Image Varification and Send To Api ------------
-      if (cnicFrontImage.value.isNotEmpty && cnicBackImage.value.isNotEmpty) {
-        fileList.add(
-          await http.MultipartFile.fromPath(
-            'cnicImages',
-            cnicFrontImage.value,
-            contentType: MediaType.parse('image/jpeg'),
-          ),
-        );
-        fileList.add(
-          await http.MultipartFile.fromPath(
-            'cnicImages',
-            cnicBackImage.value,
-            contentType: MediaType.parse('image/jpeg'),
-          ),
-        );
-      } else {
-        AppConstant.displaySnackBar(
-          " Error",
-          " please upload CNIC Images",
-        );
-      }
-
-      //------- Social Signup Checks ----------
-      Map<String, String> param = {};
-      if (_socialviewModel.socialPlatform.value != "" &&
-          _socialviewModel.socialToken.value != "") {
-        param = {
-          "name": nameController.text,
-          "email": emailController.text,
-          "gender": selectedGender.value,
-          "cnic": cnicController.text,
-          "phone": countryCode.value + phoneNumberController.text,
-          "password": passwordController.text,
-          "confirmPassword": confirmPasswordController.text,
-          "Socila":
-              "{ social[name]: ${_socialviewModel.socialPlatform.value}, 'social[token]': ${_socialviewModel.socialToken.value}   }",
-          'step': '1'
-        };
-      } else {
-        param = {
-          "name": nameController.text,
-          "email": emailController.text,
-          "gender": selectedGender.value,
-          "cnic": cnicController.text,
-          "phone": countryCode.value + phoneNumberController.text,
-          "password": passwordController.text,
-          "confirmPassword": confirmPasswordController.text,
-          'step': '1'
-        };
-      }
-
-      changeView.value = true;
-      body.value = param;
-      GlobalVariable.showLoader.value = true;
-      print("llllll  ${GlobalVariable.showLoader.value}");
-      await ApiBaseHelper()
-          .postMethodForImage(
-              url: Urls.register, files: fileList, fields: param)
-          .then((parsedJson) {
-        print(cnicFrontImage.value);
-        if (parsedJson['success'] == true) {
-          print("success====== Step 1");
-          GlobalVariable.showLoader.value = false;
-          print("llllll  ${GlobalVariable.showLoader.value}");
-
-          param.removeWhere((key, value) => value == "1");
-          Get.to(() => SignUp2View(), arguments: param);
+        //------    Image Varification and Send To Api ------------
+        if (cnicFrontImage.value.isNotEmpty && cnicBackImage.value.isNotEmpty) {
+          fileList.add(
+            await http.MultipartFile.fromPath(
+              'cnicImages',
+              cnicFrontImage.value,
+              contentType: MediaType.parse('image/jpeg'),
+            ),
+          );
+          fileList.add(
+            await http.MultipartFile.fromPath(
+              'cnicImages',
+              cnicBackImage.value,
+              contentType: MediaType.parse('image/jpeg'),
+            ),
+          );
         } else {
-          GlobalVariable.showLoader(false);
           AppConstant.displaySnackBar(
-            "Error",
-            parsedJson['message'],
+            " Error",
+            " please upload CNIC Images",
           );
         }
-      });
+
+        //------- Social Signup Checks ----------
+        Map<String, String> param = {};
+        if (_socialviewModel.socialPlatform.value != "" &&
+            _socialviewModel.socialToken.value != "") {
+          param = {
+            "name": nameController.text,
+            "email": emailController.text,
+            "gender": selectedGender.value,
+            "cnic": cnicController.text,
+            "phone": countryCode.value + phoneNumberController.text,
+            "password": passwordController.text,
+            "confirmPassword": confirmPasswordController.text,
+            "Socila":
+                "{ social[name]: ${_socialviewModel.socialPlatform.value}, 'social[token]': ${_socialviewModel.socialToken.value}   }",
+            'step': '1'
+          };
+        } else {
+          param = {
+            "name": nameController.text,
+            "email": emailController.text,
+            "gender": selectedGender.value,
+            "cnic": cnicController.text,
+            "phone": countryCode.value + phoneNumberController.text,
+            "password": passwordController.text,
+            "confirmPassword": confirmPasswordController.text,
+            'step': '1'
+          };
+        }
+
+        changeView.value = true;
+        body.value = param;
+        GlobalVariable.showLoader.value = true;
+        print("llllll  ${GlobalVariable.showLoader.value}");
+        await ApiBaseHelper()
+            .postMethodForImage(
+                url: Urls.register, files: fileList, fields: param)
+            .then((parsedJson) {
+          print(cnicFrontImage.value);
+          if (parsedJson['success'] == true) {
+            print("success====== Step 1");
+            GlobalVariable.showLoader.value = false;
+            print("llllll  ${GlobalVariable.showLoader.value}");
+
+            param.removeWhere((key, value) => value == "1");
+            Get.to(() => SignUp2View(), arguments: param);
+          } else {
+            GlobalVariable.showLoader(false);
+            AppConstant.displaySnackBar(
+              "Error",
+              parsedJson['message'],
+            );
+          }
+        });
+      } else {
+        AppConstant.displaySnackBar(
+          "Error",
+          'Please Accept Terms & Condition',
+        );
+      }
     } else {
       GlobalVariable.showLoader(false);
     }

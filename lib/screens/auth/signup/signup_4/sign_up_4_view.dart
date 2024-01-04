@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/screens/auth/login/login_view.dart';
 import 'package:ismmart_vms/screens/auth/signup/signup_4/sign_up_4_viewmodel.dart';
+import 'package:ismmart_vms/widgets/loader_view.dart';
 import 'package:ismmart_vms/widgets/scrollable_column.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
@@ -22,19 +23,24 @@ class SignUp4View extends StatelessWidget {
       top: false,
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: Padding(
-          padding: const EdgeInsets.only(top: 30, left: 25, right: 25),
-          child: ScrollableColumn(
-            children: [
-              titleAndBackBtn(),
-              subtitle(),
-              progress(),
-              SizedBox(height: 50.v),
-              waitingVerificationText(),
-              text1(),
-              status()
-            ],
-          ),
+        body: Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 30, left: 25, right: 25),
+              child: ScrollableColumn(
+                children: [
+                  titleAndBackBtn(),
+                  subtitle(),
+                  progress(),
+                  SizedBox(height: 50.v),
+                  waitingVerificationText(),
+                  text1(),
+                  status()
+                ],
+              ),
+            ),
+            LoaderView()
+          ],
         ),
       ),
     );
@@ -324,10 +330,13 @@ class SignUp4View extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 100),
       child: CustomRoundedTextBtn(
-        child: Text(
-          'Go to Login ',
-          style: newFontStyleSize14.copyWith(
-              fontWeight: FontWeight.w500, color: kWhiteColor),
+        child: Padding(
+          padding: const EdgeInsets.only(top: 8.0),
+          child: Text(
+            'Go to Login ',
+            style: newFontStyleSize14.copyWith(
+                fontWeight: FontWeight.w500, color: kWhiteColor),
+          ),
         ),
         onPressed: () {
           Get.offAll(() => LogInView());
