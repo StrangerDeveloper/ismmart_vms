@@ -664,17 +664,13 @@ class OrderDetailView extends StatelessWidget {
   Widget logInBtn() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 20, 20, 25),
-      child: Obx(
-        () => GlobalVariable.showLoader.value
-            ? const CustomLoading(isItBtn: true)
-            : CustomRoundedTextBtn(
-                child: const Text(
-                  "Accept",
-                ),
-                onPressed: () {
-                  Get.to(RefundView());
-                },
-              ),
+      child: CustomRoundedTextBtn(
+        child: const Text(
+          "Accept",
+        ),
+        onPressed: () {
+          Get.to(RefundView());
+        },
       ),
     );
   }
