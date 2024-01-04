@@ -16,7 +16,6 @@ import '../../helper/utils/image_constant.dart';
 import '../../widgets/appBar_leading_image.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/custom_image_view.dart';
-import '../../widgets/custom_loading.dart';
 import '../../widgets/loader_view.dart';
 import '../return/return_view.dart';
 

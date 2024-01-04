@@ -10,7 +10,6 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import '../../../../helper/constants.dart';
 import '../../../../helper/global_variables.dart';
 import '../../../../widgets/custom_button.dart';
-import '../../../../widgets/custom_loading.dart';
 import '../../../../widgets/loader_view.dart';
 
 class SignUp4View extends StatelessWidget {

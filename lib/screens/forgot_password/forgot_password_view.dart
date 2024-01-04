@@ -11,7 +11,6 @@ import '../../helper/global_variables.dart';
 import '../../helper/validator.dart';
 import '../../widgets/custom_appbar.dart';
 import '../../widgets/custom_button.dart';
-import '../../widgets/custom_loading.dart';
 import '../../widgets/custom_textfield.dart';
 import 'forgot_password_viewModel.dart';
 

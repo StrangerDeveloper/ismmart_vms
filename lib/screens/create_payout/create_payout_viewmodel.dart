@@ -42,6 +42,8 @@ class CreatePayoutViewModel extends GetxController {
     super.onClose();
   }
 
+
+
   resetValue() {
     searchController.text = '';
     filteredCitiesList.clear();

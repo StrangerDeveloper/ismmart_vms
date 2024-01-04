@@ -16,7 +16,6 @@ import 'package:ismmart_vms/widgets/obscure_suffix_icon.dart';
 
 import '../../../../helper/global_variables.dart';
 import '../../../../helper/validator.dart';
-import '../../../../widgets/custom_loading.dart';
 import '../../login/login_view.dart';
 import 'sign_up_1_viewmodel.dart';
 

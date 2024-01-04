@@ -8,7 +8,6 @@ import 'package:ismmart_vms/screens/auth/login/login_view.dart';
 import 'package:ismmart_vms/screens/auth/signup/signup_1/sign_up_1_view.dart';
 import 'package:ismmart_vms/screens/auth/signup/signup_methods/signup_mehods_viewmodel.dart';
 import 'package:ismmart_vms/widgets/custom_button.dart';
-import 'package:ismmart_vms/widgets/custom_loading.dart';
 import 'package:ismmart_vms/widgets/custom_text.dart';
 import 'package:ismmart_vms/widgets/loader_view.dart';
 import 'package:ismmart_vms/widgets/scrollable_column.dart';

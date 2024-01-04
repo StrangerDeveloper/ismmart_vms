@@ -12,8 +12,6 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 
 import '../../../../helper/constants.dart';
 import '../../../../widgets/custom_button.dart';
-import '../../../helper/global_variables.dart';
-import '../../../widgets/custom_loading.dart';
 import '../../drawer_bottom_nav/drawer_bottom_bar_view.dart';
 
 class AccountStatusView extends StatelessWidget {
