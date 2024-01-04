@@ -47,7 +47,7 @@ class CreatePayoutView extends StatelessWidget {
                 CustomBottomSheet1(
                   selectedIndex: viewModel.currencySelectedIndex.value,
                   list: viewModel.currencyList,
-                  onChanged: (value) {
+                  onValueSelected: (value) {
                     viewModel.currencySelectedIndex.value = value;
                     viewModel.currencyController.text =
                         viewModel.currencyList[value];
@@ -74,7 +74,7 @@ class CreatePayoutView extends StatelessWidget {
                 CustomBottomSheet1(
                   selectedIndex: viewModel.paymentSelectedIndex.value,
                   list: viewModel.paymentTypeList,
-                  onChanged: (value) {
+                  onValueSelected: (value) {
                     viewModel.paymentSelectedIndex.value = value;
                     viewModel.paymentTypeController.text =
                         viewModel.paymentTypeList[value];

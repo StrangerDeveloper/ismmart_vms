@@ -22,7 +22,7 @@ class NoInternetView extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SvgPicture.asset('assets/svg/no_internet.svg', width: 250),
+                  SvgPicture.asset('assets/images/no_internet.svg', width: 250),
                   const SizedBox(height: 30),
                   const Text(
                     'No Internet connection',

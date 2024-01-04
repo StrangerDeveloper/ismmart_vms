@@ -5,7 +5,6 @@ import 'package:ismmart_vms/helper/theme_helper.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/helper/languages/translations_key.dart' as lang_key;
 import 'package:ismmart_vms/screens/order_detail/cancel_order_viewModel.dart';
-import 'package:ismmart_vms/screens/order_detail/order_detail_view.dart';
 import 'package:ismmart_vms/widgets/custom_image_view.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
@@ -17,8 +16,6 @@ import '../../widgets/custom_button.dart';
 import '../../widgets/custom_text.dart';
 
 class CancelOrderView extends StatelessWidget {
-  //final OrderItem orderItems;
-
   final CancelORderViewMOdel viewModel = Get.put(CancelORderViewMOdel());
   CancelOrderView({super.key});
 
@@ -181,14 +178,14 @@ class CancelOrderView extends StatelessWidget {
             ],
           ),
           SizedBox(height: 10.v),
-          Row(
-            children: [
-              _customField2(
-                  "${viewModel.orderItemModel.value.lineitems?.length.toString()} items"),
-              SizedBox(width: 8.h),
-              _customField2("Standard")
-            ],
-          ),
+          Obx(() => Row(
+                children: [
+                  _customField2(
+                      "${viewModel.orderItemModel.value.lineitems?.length.toString() ?? 0} items"),
+                  SizedBox(width: 8.h),
+                  _customField2("Standard")
+                ],
+              )),
           SizedBox(height: 10.v),
           _status("COD Verified"),
           SizedBox(height: 10.v),
@@ -226,7 +223,7 @@ class CancelOrderView extends StatelessWidget {
             // height: MediaQuery.of(ctx).size.height * 0.17,
             // width: MediaQuery.of(ctx).size.width * 1,
             padding: EdgeInsets.all(8.h),
-            margin: EdgeInsets.all(8.v),
+            margin: EdgeInsets.all(6.v),
             decoration: BoxDecoration(
               color: Colors.grey.shade100,
               borderRadius: BorderRadius.circular(5),
@@ -265,8 +262,16 @@ class CancelOrderView extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            _customField1(viewModel.lineItemList[index].name ??
-                                "product"),
+                            Row(
+                              children: [
+                                _customField1(
+                                    viewModel.lineItemList[index].name ??
+                                        "product"),
+                                _status(viewModel
+                                        .lineItemList[index].fulfilmentStatus ??
+                                    "status")
+                              ],
+                            ),
                             // _customField2(
                             //     viewModel.lineItemList[index].vendor ?? 'N/A'),
                             _customField2(
@@ -512,49 +517,52 @@ class CancelOrderView extends StatelessWidget {
                 'Error', 'Please select at least one item');
             return;
           }
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: const Text("Cancel Order"),
-                content: Obx(() => Text(
-                    "Are you sure you want to cancel them item from Order # ${viewModel.orderItemModel.value.orderId} ?")),
-                actions: [
-                  CustomTextBtn(
-                    backgroundColor: Colors.grey.shade200,
-                    foregroundColor: ThemeHelper.blue1,
-                    onPressed: () {
-                      Get.back();
-                    },
-                    title: "Cancel",
-                  ),
-                  CustomTextBtn(
-                    onPressed: () {
-                      viewModel.updateOrder();
-                      //Get.to(() => OrderDetailView());
-                    },
-                    title: "Confirm",
-                  ),
-                  // TextButton(
-                  //   onPressed: () {
-                  //     // Close the dialog and perform cancellation logic here
-                  //     // Navigator.of(context).pop();
-                  //     // // Add cancellation logic here
-                  //     // _performCancellation();
-                  //   },
-                  //   child: const Text("Cancel"),
-                  // ),
-                  // TextButton(
-                  //   onPressed: () {
-                  //     // Close the dialog
-                  //     Navigator.of(context).pop();
-                  //   },
-                  //   child: const Text("Confirm"),
-                  // ),
-                ],
-              );
-            },
-          );
+          bool isFulfilled = viewModel.selectedItems.any((element) =>
+              element.fulfilmentStatus == "Fulfilled" ||
+              element.fulfilmentStatus == "Partially Fulfilled" ||
+              element.fulfilmentStatus == "Cancelled" ||
+              element.fulfilmentStatus == "Returned" ||
+              element.fulfilmentStatus == "Refunded");
+          if (isFulfilled == true) {
+            AppConstant.displaySnackBar(
+                'Error', 'You cannot cancel fulfilled items');
+            return;
+          } else {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: const Text("Cancel Order"),
+                  content: Obx(() => Text(
+                      "Are you sure you want to cancel them item from Order # ${viewModel.orderItemModel.value.orderId} ?")),
+                  actions: [
+                    CustomTextBtn(
+                      backgroundColor: Colors.grey.shade200,
+                      foregroundColor: ThemeHelper.blue1,
+                      onPressed: () {
+                        Get.back();
+                      },
+                      title: "Cancel",
+                    ),
+                    CustomTextBtn(
+                      onPressed: () async {
+                        Get.back();
+                        Get.dialog(
+                          const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                          barrierDismissible: false,
+                        );
+                        await viewModel.updateOrder();
+                        Get.back();
+                      },
+                      title: "Confirm",
+                    ),
+                  ],
+                );
+              },
+            );
+          }
         },
       ),
     );

@@ -5,7 +5,6 @@ import '../order_listing/model/orderModel.dart';
 class OrderDetailViewModel extends GetxController {
   Rx<OrderItem> orderItemModel = OrderItem().obs;
   RxList<Lineitem> lineItemList = <Lineitem>[].obs;
-  RxList<Lineitem> selectedItems = <Lineitem>[].obs;
 
   @override
   void onInit() {

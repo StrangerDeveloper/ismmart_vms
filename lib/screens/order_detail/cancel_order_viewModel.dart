@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:ismmart_vms/helper/languages/translations_key.dart';
+import 'package:ismmart_vms/helper/constants.dart';
 import 'package:ismmart_vms/screens/order_detail/order_detail_viewModel.dart';
 
 import '../../helper/api_base_helper.dart';
@@ -28,38 +28,48 @@ class CancelORderViewMOdel extends GetxController {
 
   Future<void> updateOrder() async {
     try {
-      //use put method for update
       List<String> selectedIndicesId = [];
       String selectedItemsStatus = "";
 
-      // Extract the indices of selected items
       for (int i = 0; i < lineItemList.length; i++) {
         if (lineItemList[i].isSelected == true) {
           selectedIndicesId.add(lineItemList[i].sId!);
           selectedItemsStatus = lineItemList[i].fulfilmentStatus!;
         }
       }
-      Map<String, dynamic> param = {
-        "itemsIndex": selectedIndicesId,
-        "status": selectedItemsStatus,
-      };
-      await ApiBaseHelper()
-          .putMethod(url: Urls.updateOrder, body: param)
-          .then((response) async {
-        if (response['success'] == true) {
-          print("Statusss ${response['success']}");
-          orderListingViewModel.orderItemList.clear();
-          orderListingViewModel.orderItemList.refresh();
-          orderListingViewModel.orderItemModel.value.items!.clear();
-          orderDetailViewModel.lineItemList.clear();
-          orderDetailViewModel.lineItemList.refresh();
-          orderDetailViewModel.selectedItems.clear();
-          orderDetailViewModel.selectedItems.refresh();
 
-          await orderListingViewModel.getOrderListing();
-          Get.back();
-        }
-      });
+      if (selectedItemsStatus == "Unfulfilled") {
+        selectedItemsStatus = "Cancelled";
+
+        print("Fulfillment Statusss $selectedItemsStatus");
+        Map<String, dynamic> param = {
+          "itemsIndex": selectedIndicesId,
+          "status": selectedItemsStatus,
+        };
+        await ApiBaseHelper()
+            .putMethod(url: Urls.updateOrder, body: param)
+            .then((response) async {
+          if (response['success'] == true) {
+            print("Statusss ${response['success']}");
+            orderListingViewModel.orderItemList.clear();
+            orderListingViewModel.orderItemList.refresh();
+            orderListingViewModel.orderItemModel.value.items!.clear();
+            orderDetailViewModel.lineItemList.clear();
+            orderDetailViewModel.lineItemList.refresh();
+            orderDetailViewModel.orderItemModel.value.lineitems!.clear();
+            orderDetailViewModel.orderItemModel.refresh();
+
+            await orderListingViewModel.getOrderListing();
+            Get.back();
+          } else {
+            AppConstant.displaySnackBar(
+                'Error', 'Something went wrong, please try again');
+          }
+        });
+      } else {
+        AppConstant.displaySnackBar(
+            'Error', 'You can not cancel fulfilled item');
+      }
     } catch (error) {
       print(error);
     }

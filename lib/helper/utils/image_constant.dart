@@ -28,9 +28,6 @@ class ImageConstant {
 
   static String imgArrowUp = '$imagePath/img_arrow_up.svg';
 
-  // Create Order | With Product images
-  static String imgX = '$imagePath/img_x.svg';
-
   static String imgChevronsort = '$imagePath/img_chevronsort.svg';
 
   static String imgCheck = '$imagePath/img_check.svg';
@@ -49,13 +46,9 @@ class ImageConstant {
 
   static String imgBell = '$imagePath/img_bell.svg';
 
-  static String imgHome = '$imagePath/img_home.svg';
-
-  static String imgBag = '$imagePath/img_bag.svg';
 
   static String imgPlusWhiteA700 = '$imagePath/img_plus_white_a700.svg';
 
-  static String imgTag = '$imagePath/img_tag.svg';
 
   static String imgAvatar = '$imagePath/img_avatar.png';
 
