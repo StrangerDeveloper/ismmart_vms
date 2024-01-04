@@ -85,7 +85,9 @@ class LogInViewModel extends GetxController {
     GoogleSignInAccount? credential;
     try {
       // Get.to(DrawerBottomBarView());
+      await googleSignIn.signOut();
       credential = await googleSignIn.signIn();
+
       credential?.authentication.then((value) async {
         print(credential);
         Map<dynamic, dynamic> param = {
@@ -98,11 +100,13 @@ class LogInViewModel extends GetxController {
         await ApiBaseHelper()
             .postMethod(url: Urls.login, body: param)
             .then((parsedJson) {
+          print(parsedJson);
           if (parsedJson['success'] == true) {
+            GlobalVariable.showLoader.value = false;
             print(parsedJson['data']['status']);
             GlobalVariable.token = parsedJson['data']['token'];
             GlobalVariable.showLoader.value = false;
-            //Get.offAll(DrawerBottomBarView());
+            Get.offAll(DrawerBottomBarView());
           } else {
             GlobalVariable.showLoader.value = false;
           }
