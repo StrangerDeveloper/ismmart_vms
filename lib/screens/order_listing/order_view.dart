@@ -16,17 +16,7 @@ import '../order_detail/order_detail_view.dart';
 class OrderView extends StatelessWidget {
   final OrderListingViewModel orderController =
       Get.put(OrderListingViewModel());
-
   OrderView({super.key});
-
-  // void onInit() {
-  //   orderController.scrollController.addListener(() {
-  //     orderController.getOrderListing();
-  //   });
-  //   orderController.getOrderListing();
-  //   GlobalVariable.showLoader.value = true;
-  //   //super.onInit();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +36,6 @@ class OrderView extends StatelessWidget {
                           padding: const EdgeInsets.all(16.0),
                           child: Obx(
                             () => ListView.builder(
-                              //reverse: true,
                               controller: orderController.scrollController,
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
