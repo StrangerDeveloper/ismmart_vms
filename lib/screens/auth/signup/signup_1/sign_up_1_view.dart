@@ -75,7 +75,7 @@ class SignUp1View extends StatelessWidget {
               ],
             ),
           ),
-          LoaderView()
+          const LoaderView()
         ],
       ),
     );
@@ -93,11 +93,11 @@ class SignUp1View extends StatelessWidget {
           () => Row(
             children: [
               viewModel.isChecked.value == true
-                  ? Icon(
+                  ? const Icon(
                       Icons.check_box_outline_blank,
                       color: Colors.grey,
                     )
-                  : Icon(
+                  : const Icon(
                       Icons.check_box,
                       color: Colors.blue,
                     ),

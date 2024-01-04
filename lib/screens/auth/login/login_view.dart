@@ -15,6 +15,7 @@ import 'package:ismmart_vms/widgets/obscure_suffix_icon.dart';
 import 'package:ismmart_vms/widgets/scrollable_column.dart';
 
 import '../../../helper/constants.dart';
+import '../../../widgets/loader_view.dart';
 import '../signup/signup_methods/singup_methods_view.dart';
 import 'login_viewmodel.dart';
 
@@ -27,11 +28,11 @@ class LogInView extends StatelessWidget {
       top: false,
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 26, horizontal: 25),
-          child: Stack(
-            children: [
-              Form(
+        body: Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 26, horizontal: 25),
+              child: Form(
                 key: viewModel.signInFormKey,
                 child: SingleChildScrollView(
                   child: Column(
@@ -73,11 +74,9 @@ class LogInView extends StatelessWidget {
                   ),
                 ),
               ),
-              // NoInternetView(
-              //   onPressed: () => viewModel.signIn(),
-              // ),
-            ],
-          ),
+            ),
+            const LoaderView(),
+          ],
         ),
       ),
     );

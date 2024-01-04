@@ -83,7 +83,7 @@ class SignUp3View extends StatelessWidget {
               ),
             ),
           ),
-          LoaderView()
+          const LoaderView()
           // NoInternetView(
           //   onPressed: () {
           //     viewModel.signUp();
@@ -569,7 +569,7 @@ class SignUp3View extends StatelessWidget {
                 ],
               ),
             ),
-            LoaderView()
+            const LoaderView()
           ],
         );
       },

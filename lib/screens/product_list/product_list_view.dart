@@ -8,6 +8,8 @@ import 'package:ismmart_vms/screens/product_list/product_list_viewmodel.dart';
 import 'package:ismmart_vms/screens/product_list/product_model.dart';
 import 'package:ismmart_vms/widgets/custom_button.dart';
 
+import '../../widgets/loader_view.dart';
+
 class ProductListView extends StatelessWidget {
   ProductListView({super.key});
 
@@ -66,6 +68,7 @@ class ProductListView extends StatelessWidget {
               ),
             ),
           ),
+          const LoaderView(),
         ],
       ),
     );

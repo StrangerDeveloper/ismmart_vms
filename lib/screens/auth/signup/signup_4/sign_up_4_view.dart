@@ -11,6 +11,7 @@ import '../../../../helper/constants.dart';
 import '../../../../helper/global_variables.dart';
 import '../../../../widgets/custom_button.dart';
 import '../../../../widgets/custom_loading.dart';
+import '../../../../widgets/loader_view.dart';
 
 class SignUp4View extends StatelessWidget {
   SignUp4View({super.key});
@@ -22,19 +23,24 @@ class SignUp4View extends StatelessWidget {
       top: false,
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: Padding(
-          padding: const EdgeInsets.only(top: 30, left: 25, right: 25),
-          child: ScrollableColumn(
-            children: [
-              titleAndBackBtn(),
-              subtitle(),
-              progress(),
-              SizedBox(height: 50.v),
-              waitingVerificationText(),
-              text1(),
-              status()
-            ],
-          ),
+        body: Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 30, left: 25, right: 25),
+              child: ScrollableColumn(
+                children: [
+                  titleAndBackBtn(),
+                  subtitle(),
+                  progress(),
+                  SizedBox(height: 50.v),
+                  waitingVerificationText(),
+                  text1(),
+                  status()
+                ],
+              ),
+            ),
+            const LoaderView(),
+          ],
         ),
       ),
     );

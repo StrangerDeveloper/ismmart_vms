@@ -60,7 +60,7 @@ class ForgotPasswordView extends StatelessWidget {
                 ),
               ),
             ),
-            LoaderView()
+            const LoaderView()
           ],
         ),
       ),
