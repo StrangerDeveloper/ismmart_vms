@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:ismmart_vms/helper/languages/translations_key.dart' as lang_key;
 import 'package:ismmart_vms/helper/theme_helper.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/screens/order_detail/cancel_order_view.dart';
@@ -12,9 +11,7 @@ import 'package:ismmart_vms/widgets/custom_text.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 import '../../helper/constants.dart';
-import '../../helper/global_variables.dart';
 import '../../helper/utils/image_constant.dart';
-import '../../widgets/appBar_leading_image.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/custom_image_view.dart';
 import '../../widgets/loader_view.dart';
