@@ -235,68 +235,44 @@ class OrderDetailView extends StatelessWidget {
       children: [
         Container(
           padding: EdgeInsets.symmetric(horizontal: 8.h, vertical: 7.v),
+          width: MediaQuery.of(Get.context!).size.width * 1,
           decoration: BoxDecoration(
-            color: Colors.grey.shade200,
+            color: ThemeHelper.grey1,
             borderRadius: BorderRadius.circular(5),
           ),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 1.v),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              _customField1("Contact Information"),
-                              _customField2(viewModel.orderItemModel.value
-                                      .contactInfo?.email ??
-                                  "email"),
-                              _customField2(viewModel.orderItemModel.value
-                                      .contactInfo?.phone ??
-                                  "phone"),
-                            ],
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 8.v),
-                      _customField1("Shipping adress"),
-                      _customField2(
-                          viewModel.orderItemModel.value.customer?.name ??
-                              "name"),
-                      _customField2(
-                          "${viewModel.orderItemModel.value.address!.shipping!.address!}\n${viewModel.orderItemModel.value.address!.shipping!.city!}, ${viewModel.orderItemModel.value.address!.shipping!.country!}"),
-                      _customField2(viewModel
-                              .orderItemModel.value.address!.shipping!.phone ??
-                          "phone"),
-                      SizedBox(height: 8.v),
-                      _customField1("Billing adress"),
-                      _customField2(
-                          viewModel.orderItemModel.value.customer?.name ??
-                              "name"),
-                      _customField2(
-                          "${viewModel.orderItemModel.value.address!.billing!.address!}\n${viewModel.orderItemModel.value.address!.billing!.city!}, ${viewModel.orderItemModel.value.address!.billing!.country!}"),
-                      _customField2(viewModel
-                              .orderItemModel.value.address!.billing!.phone ??
-                          "phone"),
-                    ],
-                  ),
-                ],
-              ),
+              _customField1("Contact Information"),
+              _customField2(
+                  viewModel.orderItemModel.value.contactInfo?.email ?? "email"),
+              _customField2(
+                  viewModel.orderItemModel.value.contactInfo?.phone ?? "phone"),
+              SizedBox(height: 8.v),
+              _customField1("Shipping adress"),
+              _customField2(
+                  viewModel.orderItemModel.value.customer?.name ?? "name"),
+              _customField2(
+                  "${viewModel.orderItemModel.value.address!.shipping!.address!}\n${viewModel.orderItemModel.value.address!.shipping!.city!}, ${viewModel.orderItemModel.value.address!.shipping!.country!}"),
+              _customField2(
+                  viewModel.orderItemModel.value.address!.shipping!.phone ??
+                      "phone"),
+              SizedBox(height: 8.v),
+              _customField1("Billing adress"),
+              _customField2(
+                  viewModel.orderItemModel.value.customer?.name ?? "name"),
+              _customField2(
+                  "${viewModel.orderItemModel.value.address!.billing!.address!}\n${viewModel.orderItemModel.value.address!.billing!.city!}, ${viewModel.orderItemModel.value.address!.billing!.country!}"),
+              _customField2(
+                  viewModel.orderItemModel.value.address!.billing!.phone ??
+                      "phone"),
             ],
           ),
         ),
-        SizedBox(height: 8.v),
-        const Divider(),
-        SizedBox(height: 12.v),
+        const Padding(
+          padding: EdgeInsets.only(top: 8, bottom: 8),
+          child: Divider(),
+        ),
       ],
     );
   }
@@ -317,8 +293,6 @@ class OrderDetailView extends StatelessWidget {
       style: TextStyle(
         fontSize: 12.fSize,
         color: const Color(0xFF6B7280),
-
-        ///fontWeight: FontWeight.w600,
       ),
     );
   }
@@ -384,7 +358,6 @@ class OrderDetailView extends StatelessWidget {
       () => Container(
         width: MediaQuery.of(ctx).size.width * 1,
         decoration: BoxDecoration(
-          //color: Colors.red.shade100,
           borderRadius: BorderRadius.circular(5),
         ),
         padding: EdgeInsets.all(8.h),
