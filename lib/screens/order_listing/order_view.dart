@@ -363,7 +363,6 @@ class OrderView extends StatelessWidget {
               CupertinoButton(
                 onPressed: () {
                   print('object');
-                  //show loder first
                   orderController.statusSelectedIndex.value = tempIndex;
                   orderController.searchController.text =
                       orderController.statusList[tempIndex];
