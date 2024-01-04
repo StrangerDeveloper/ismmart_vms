@@ -136,7 +136,7 @@ class AddLocationView extends StatelessWidget {
         CustomBottomSheet1(
           selectedIndex: viewModel.statusSelectedIndex.value,
           list: viewModel.statusList,
-          onChanged: (value) {
+          onValueSelected: (value) {
             viewModel.statusSelectedIndex.value = value;
             viewModel.statusController.text = viewModel.statusList[value];
           },

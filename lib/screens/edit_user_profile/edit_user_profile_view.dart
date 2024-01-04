@@ -258,7 +258,7 @@ class EditUserProfileView extends StatelessWidget {
           CustomBottomSheet1(
             selectedIndex: viewModel.genderSelectedIndex.value,
             list: viewModel.genderList,
-            onChanged: (value) {
+            onValueSelected: (value) {
               viewModel.genderSelectedIndex.value = value;
               viewModel.genderController.text = viewModel.genderList[value];
             },
