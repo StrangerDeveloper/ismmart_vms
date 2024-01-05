@@ -38,13 +38,15 @@ class OrderDetailView extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 17.v),
-                  _buildOrderListFrame(),
-                  SizedBox(height: 17.v),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 17, bottom: 17),
+                    child: _buildOrderListFrame(),
+                  ),
                   progress(),
-                  SizedBox(height: 10.v),
-                  _buildOrderDetail(context),
-                  SizedBox(height: 10.v),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10, bottom: 10),
+                    child: _buildOrderDetail(context),
+                  ),
                   logInBtn(),
                 ],
               ),
