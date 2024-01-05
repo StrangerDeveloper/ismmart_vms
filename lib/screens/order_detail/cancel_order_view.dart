@@ -35,13 +35,15 @@ class CancelOrderView extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 17.v),
-                    _buildOrderListFrame(),
-                    SizedBox(height: 17.v),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 17.0, bottom: 17.0),
+                      child: _buildOrderListFrame(),
+                    ),
                     progress(),
-                    SizedBox(height: 17.v),
-                    _buildOrderDetail(context),
-                    SizedBox(height: 10.v),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 17.0, bottom: 10.0),
+                      child: _buildOrderDetail(context),
+                    ),
                     _acceptBtn(context),
                   ],
                 ),
