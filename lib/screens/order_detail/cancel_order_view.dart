@@ -35,13 +35,15 @@ class CancelOrderView extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 17.v),
-                    _buildOrderListFrame(),
-                    SizedBox(height: 17.v),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 17.0, bottom: 17.0),
+                      child: _buildOrderListFrame(),
+                    ),
                     progress(),
-                    SizedBox(height: 17.v),
-                    _buildOrderDetail(context),
-                    SizedBox(height: 10.v),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+                      child: _buildOrderDetail(context),
+                    ),
                     _acceptBtn(context),
                   ],
                 ),
@@ -61,70 +63,72 @@ class CancelOrderView extends StatelessWidget {
   }
 
   Widget _buildOrderListFrame() {
-    return Row(
-      children: [
-        const Text("Order List"),
-        CustomImageView(
-          imagePath: ImageConstant.imgIconsArrowForward,
-          // height: 18.adaptSize,
-          // width: 8.adaptSize,
-          margin: EdgeInsets.only(
-            left: 8.adaptSize,
-            right: 8.adaptSize,
+    return Padding(
+      padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+      child: Row(
+        children: [
+          const Text("Order List",
+              style: TextStyle(fontSize: 16, color: ThemeHelper.blue1)),
+          CustomImageView(
+            imagePath: ImageConstant.imgIconsArrowForward,
+            // height: 18.adaptSize,
+            // width: 8.adaptSize,
+            margin: EdgeInsets.only(
+              left: 8.adaptSize,
+              right: 8.adaptSize,
+            ),
           ),
-        ),
-        CustomText(
-          title: "ISM1628MART".tr,
-          style: TextStyle(
-            fontSize: 10.fSize,
-            fontWeight: FontWeight.w600,
+          CustomText(
+            title: viewModel.orderItemModel.value.orderId ?? "id",
+            style: TextStyle(
+              fontSize: 12.fSize,
+              fontWeight: FontWeight.w600,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
   Widget progress() {
-    return Row(
-      children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              RichText(
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: 'Delivery Status: ',
-                      style: newFontStyleSize14,
-                    ),
-                    TextSpan(
-                      text: viewModel.orderItemModel.value.deliveryStatus ??
-                          "status",
-                      style: newFontStyleSize14.copyWith(
-                          color: newColorLightGrey2),
-                    ),
-                  ],
-                ),
+    return Padding(
+      padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+      child: Row(
+        children: [
+          Expanded(
+            child: RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: 'Delivery Status: ',
+                    style: newFontStyleSize14,
+                  ),
+                  TextSpan(
+                    text: viewModel.orderItemModel.value.deliveryStatus ??
+                        "status",
+                    style:
+                        newFontStyleSize14.copyWith(color: newColorLightGrey2),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
-        CircularPercentIndicator(
-          circularStrokeCap: CircularStrokeCap.round,
-          radius: 33,
-          lineWidth: 6,
-          percent: 0.5,
-          backgroundColor: const Color(0xffEBEFF3),
-          progressColor: newColorBlue,
-          center: Text(
-            "2 of 3",
-            style: poppinsH2.copyWith(
-              color: newColorBlue2,
             ),
           ),
-        ),
-      ],
+          CircularPercentIndicator(
+            circularStrokeCap: CircularStrokeCap.round,
+            radius: 33,
+            lineWidth: 6,
+            percent: 0.5,
+            backgroundColor: const Color(0xffEBEFF3),
+            progressColor: newColorBlue,
+            center: Text(
+              "2 of 3",
+              style: poppinsH2.copyWith(
+                color: newColorBlue2,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -148,46 +152,46 @@ class CancelOrderView extends StatelessWidget {
                       "market"),
             ],
           ),
-          SizedBox(height: 10.v),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _customField1(
-                  viewModel.orderItemModel.value.customer?.name.toString() ??
-                      "name"),
-              _customField1(
-                  viewModel.orderItemModel.value.totals?.total ?? "total"),
-            ],
+          Padding(
+            padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _customField1(
+                    viewModel.orderItemModel.value.customer?.name.toString() ??
+                        "name"),
+                _customField1(
+                    viewModel.orderItemModel.value.totals?.total ?? "total"),
+              ],
+            ),
           ),
-          SizedBox(height: 10.v),
           Row(
             children: [
-              _status(
-                  viewModel.orderItemModel.value.lineitems![0].paymentStatus ??
-                      "status"),
+              _status(viewModel.orderItemModel.value.paymentStatus ?? "status"),
               SizedBox(width: 8.h),
-              _status(viewModel
-                      .orderItemModel.value.lineitems![1].fulfilmentStatus ??
-                  "status"),
+              _status(
+                  viewModel.orderItemModel.value.fulfilmentStatus ?? "status"),
             ],
           ),
-          SizedBox(height: 10.v),
-          Obx(() => Row(
-                children: [
-                  _customField2(
-                      "${viewModel.orderItemModel.value.lineitems?.length.toString() ?? 0} items"),
-                  SizedBox(width: 8.h),
-                  _customField2("Standard")
-                ],
-              )),
-          SizedBox(height: 10.v),
+          Padding(
+            padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+            child: Obx(() => Row(
+                  children: [
+                    _customField2(
+                        "${viewModel.orderItemModel.value.lineitems?.length.toString() ?? 0} items"),
+                    SizedBox(width: 8.h),
+                    _customField2("Standard")
+                  ],
+                )),
+          ),
           _status("COD Verified"),
-          SizedBox(height: 10.v),
-          _customField1("Location"),
-          SizedBox(height: 10.v),
+          Padding(
+            padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+            child: _customField1("Location"),
+          ),
           _customField2(
               "Plot No. 60, Street 12, G-8/1,Islamabad Capital Territory 44080\nPakistan"),
-          SizedBox(height: 10.v),
+          SizedBox(height: 12.v),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -198,6 +202,7 @@ class CancelOrderView extends StatelessWidget {
                       "length"),
             ],
           ),
+          const Divider(),
           CustomTextBtn(
             backgroundColor: Colors.transparent,
             foregroundColor: ThemeHelper.blue1,
@@ -214,9 +219,8 @@ class CancelOrderView extends StatelessWidget {
           ),
           Container(
             padding: EdgeInsets.all(8.h),
-            margin: EdgeInsets.all(6.v),
             decoration: BoxDecoration(
-              color: Colors.grey.shade100,
+              color: ThemeHelper.grey1,
               borderRadius: BorderRadius.circular(5),
             ),
             child: Column(
@@ -271,6 +275,7 @@ class CancelOrderView extends StatelessWidget {
                                     _customField1(viewModel
                                             .unfulfilledItems[index].name ??
                                         "product"),
+                                    SizedBox(width: 8.h),
                                     _status(viewModel.unfulfilledItems[index]
                                             .fulfilmentStatus ??
                                         "status")
@@ -298,61 +303,64 @@ class CancelOrderView extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(height: 10.v),
-          Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _customField2("Sub Total"),
-                  SizedBox(width: 8.h),
-                  _customField2(
-                      "Rs. ${viewModel.orderItemModel.value.totals?.subTotal ?? 0}"),
-                ],
-              ),
-              SizedBox(height: 8.v),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _customField2("Shipping Fee"),
-                  SizedBox(width: 8.h),
-                  _customField2(
-                      "Rs. ${viewModel.orderItemModel.value.totals?.shipping ?? 0}"),
-                ],
-              ),
-              SizedBox(height: 8.v),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _customField2("Sales Tax"),
-                  SizedBox(width: 8.h),
-                  _customField2(
-                      "Rs. ${viewModel.orderItemModel.value.totals?.tax ?? 0}"),
-                ],
-              ),
-              SizedBox(height: 8.v),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _customField2("Promo Discount"),
-                  SizedBox(width: 8.h),
-                  _customField2(
-                      "Rs. ${viewModel.orderItemModel.value.totals?.discount ?? 0}"),
-                ],
-              ),
-              SizedBox(height: 8.v),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _customField2("Total Amount"),
-                  SizedBox(width: 8.h),
-                  _customField2(
-                      "Rs. ${viewModel.orderItemModel.value.totals?.total ?? 0}"),
-                ],
-              ),
-            ],
+          Padding(
+            padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _customField2("Sub Total"),
+                    SizedBox(width: 8.h),
+                    _customField2(
+                        "Rs. ${viewModel.orderItemModel.value.totals?.subTotal ?? 0}"),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      _customField2("Shipping Fee"),
+                      SizedBox(width: 8.h),
+                      _customField2(
+                          "Rs. ${viewModel.orderItemModel.value.totals?.shipping ?? 0}"),
+                    ],
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _customField2("Sales Tax"),
+                    SizedBox(width: 8.h),
+                    _customField2(
+                        "Rs. ${viewModel.orderItemModel.value.totals?.tax ?? 0}"),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      _customField2("Promo Discount"),
+                      SizedBox(width: 8.h),
+                      _customField2(
+                          "Rs. ${viewModel.orderItemModel.value.totals?.discount ?? 0}"),
+                    ],
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _customField2("Total Amount"),
+                    SizedBox(width: 8.h),
+                    _customField2(
+                        "Rs. ${viewModel.orderItemModel.value.totals?.total ?? 0}"),
+                  ],
+                ),
+              ],
+            ),
           ),
-          SizedBox(height: 10.v),
           CustomText(
             title: "Selected Item list",
             style: TextStyle(
@@ -365,7 +373,7 @@ class CancelOrderView extends StatelessWidget {
             padding: EdgeInsets.all(8.h),
             margin: EdgeInsets.all(8.v),
             decoration: BoxDecoration(
-              color: Colors.grey.shade100,
+              color: ThemeHelper.grey1,
               borderRadius: BorderRadius.circular(5),
             ),
             child: Obx(() => ListView.builder(

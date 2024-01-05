@@ -25,7 +25,7 @@ class LoaderView extends StatelessWidget {
                         borderRadius: BorderRadiusDirectional.circular(10)),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: CircularProgressIndicator(
+                      child: CircularProgressIndicator.adaptive(
                         strokeWidth: 1.4,
                         valueColor: AlwaysStoppedAnimation<Color>(
                           Get.theme.primaryColor,
