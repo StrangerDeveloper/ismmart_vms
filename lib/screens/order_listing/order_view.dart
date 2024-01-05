@@ -224,16 +224,12 @@ class OrderView extends StatelessWidget {
   }
 
   Widget _customField1(text1) {
-    return Row(
-      children: [
-        CustomText(
-          title: text1,
-          style: TextStyle(
-            fontSize: 16.fSize,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ],
+    return CustomText(
+      title: text1,
+      style: TextStyle(
+        fontSize: 16.fSize,
+        fontWeight: FontWeight.w600,
+      ),
     );
   }
 
