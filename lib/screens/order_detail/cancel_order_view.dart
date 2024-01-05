@@ -77,7 +77,7 @@ class CancelOrderView extends StatelessWidget {
           ),
         ),
         CustomText(
-          title: "ISM1628MART".tr,
+          title: viewModel.orderItemModel.value.orderId ?? "id",
           style: TextStyle(
             fontSize: 12.fSize,
             fontWeight: FontWeight.w600,
