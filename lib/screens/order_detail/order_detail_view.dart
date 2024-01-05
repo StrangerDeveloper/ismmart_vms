@@ -419,18 +419,27 @@ class OrderDetailView extends StatelessWidget {
               children: [
                 _customField2(
                     "${viewModel.orderItemModel.value.lineitems?.length.toString()} items"),
-                SizedBox(width: 8.h),
+                Padding(
+                  padding: const EdgeInsets.only(right: 8, left: 8),
+                  child: Icon(
+                    Icons.circle,
+                    color: Colors.grey.shade400,
+                    size: 5,
+                  ),
+                ),
                 _customField2("Standard")
               ],
             ),
-            SizedBox(height: 10.v),
-            _status("COD Verified"),
-            SizedBox(height: 10.v),
+            Padding(
+              padding: const EdgeInsets.only(top: 8, bottom: 8),
+              child: _status("COD Verified"),
+            ),
             _customField1("Location"),
-            SizedBox(height: 10.v),
-            _customField2(
-                "Plot No. 60, Street 12, G-8/1,Islamabad Capital Territory 44080\nPakistan"),
-            SizedBox(height: 10.v),
+            Padding(
+              padding: const EdgeInsets.only(top: 8, bottom: 8),
+              child: _customField2(
+                  "Plot No. 60, Street 12, G-8/1,Islamabad Capital Territory 44080\nPakistan"),
+            ),
             _buildFrame2(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -442,86 +451,93 @@ class OrderDetailView extends StatelessWidget {
                     "length"),
               ],
             ),
-            SizedBox(height: 10.v),
-            Container(
-              padding: EdgeInsets.all(8.h),
-              margin: EdgeInsets.all(8.v),
-              decoration: BoxDecoration(
-                color: Colors.grey.shade100,
-                borderRadius: BorderRadius.circular(5),
-              ),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      _customField2("Order Tracking ID"),
-                      _customField2(viewModel.orderItemModel.value.sId ?? "id"),
-                    ],
-                  ),
-                  SizedBox(height: 10.v),
-                  Obx(
-                    () => ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount:
-                          viewModel.orderItemModel.value.lineitems?.length ?? 0,
-                      itemBuilder: (context, index) {
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                CircleAvatar(
-                                  backgroundImage: NetworkImage(viewModel
-                                          .orderItemModel
-                                          .value
-                                          .lineitems?[index]
-                                          .media ??
-                                      "image"),
-                                ),
-                                SizedBox(width: 10.h),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        _customField1(viewModel.orderItemModel
-                                                .value.lineitems?[index].name ??
-                                            "product"),
-                                        SizedBox(width: 8.h),
-                                        _status(viewModel
-                                                .orderItemModel
-                                                .value
-                                                .lineitems?[index]
-                                                .fulfilmentStatus ??
-                                            "status")
-                                      ],
-                                    ),
-                                    _customField2(
-                                        "SKU: ${viewModel.orderItemModel.value.lineitems?[index].sku.toString() ?? "1"}"),
-                                    _customField2(
-                                        "Rs. ${viewModel.orderItemModel.value.lineitems?[index].totals?.total.toString()}  x ${viewModel.orderItemModel.value.lineitems?[index].qty?.toString()}"),
-                                    SizedBox(
-                                      height: 12.h,
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                            _customField1(viewModel.orderItemModel.value
-                                    .lineitems?[index].totals?.total
-                                    .toString() ??
-                                "total"),
-                          ],
-                        );
-                      },
+            Padding(
+              padding: const EdgeInsets.only(top: 10, bottom: 10),
+              child: Container(
+                padding: EdgeInsets.all(8.h),
+                margin: EdgeInsets.all(8.v),
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade100,
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        _customField2("Order Tracking ID"),
+                        _customField2(
+                            viewModel.orderItemModel.value.sId ?? "id"),
+                      ],
                     ),
-                  ),
-                ],
+                    SizedBox(height: 10.v),
+                    Obx(
+                      () => ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount:
+                            viewModel.orderItemModel.value.lineitems?.length ??
+                                0,
+                        itemBuilder: (context, index) {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  CircleAvatar(
+                                    backgroundImage: NetworkImage(viewModel
+                                            .orderItemModel
+                                            .value
+                                            .lineitems?[index]
+                                            .media ??
+                                        "image"),
+                                  ),
+                                  SizedBox(width: 10.h),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          _customField1(viewModel
+                                                  .orderItemModel
+                                                  .value
+                                                  .lineitems?[index]
+                                                  .name ??
+                                              "product"),
+                                          SizedBox(width: 8.h),
+                                          _status(viewModel
+                                                  .orderItemModel
+                                                  .value
+                                                  .lineitems?[index]
+                                                  .fulfilmentStatus ??
+                                              "status")
+                                        ],
+                                      ),
+                                      _customField2(
+                                          "SKU: ${viewModel.orderItemModel.value.lineitems?[index].sku.toString() ?? "1"}"),
+                                      _customField2(
+                                          "Rs. ${viewModel.orderItemModel.value.lineitems?[index].totals?.total.toString()}  x ${viewModel.orderItemModel.value.lineitems?[index].qty?.toString()}"),
+                                      SizedBox(
+                                        height: 12.h,
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              _customField1(viewModel.orderItemModel.value
+                                      .lineitems?[index].totals?.total
+                                      .toString() ??
+                                  "total"),
+                            ],
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-            SizedBox(height: 10.v),
             Column(
               children: [
                 Row(
@@ -533,17 +549,18 @@ class OrderDetailView extends StatelessWidget {
                         "Rs. ${viewModel.orderItemModel.value.totals?.subTotal.toString() ?? "0"}"),
                   ],
                 ),
-                SizedBox(height: 8.v),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    _customField2("Shipping Fee"),
-                    SizedBox(width: 8.h),
-                    _customField2(
-                        "Rs. ${viewModel.orderItemModel.value.totals?.shipping.toString() ?? "0"}"),
-                  ],
+                Padding(
+                  padding: const EdgeInsets.only(top: 8, bottom: 8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      _customField2("Shipping Fee"),
+                      SizedBox(width: 8.h),
+                      _customField2(
+                          "Rs. ${viewModel.orderItemModel.value.totals?.shipping.toString() ?? "0"}"),
+                    ],
+                  ),
                 ),
-                SizedBox(height: 8.v),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -553,17 +570,18 @@ class OrderDetailView extends StatelessWidget {
                         "Rs. ${viewModel.orderItemModel.value.totals?.tax.toString() ?? "0"}"),
                   ],
                 ),
-                SizedBox(height: 8.v),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    _customField2("Promo Discount"),
-                    SizedBox(width: 8.h),
-                    _customField2(
-                        "Rs. ${viewModel.orderItemModel.value.totals?.discount.toString() ?? "0"}"),
-                  ],
+                Padding(
+                  padding: const EdgeInsets.only(top: 8, bottom: 8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      _customField2("Promo Discount"),
+                      SizedBox(width: 8.h),
+                      _customField2(
+                          "Rs. ${viewModel.orderItemModel.value.totals?.discount.toString() ?? "0"}"),
+                    ],
+                  ),
                 ),
-                SizedBox(height: 8.v),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -592,9 +610,10 @@ class OrderDetailView extends StatelessWidget {
                 children: [
                   _status(viewModel.orderItemModel.value.fulfilmentStatus ??
                       "status"),
-                  SizedBox(height: 10.v),
-                  _customField2("Rider"),
-                  SizedBox(height: 5.v),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8, bottom: 5),
+                    child: _customField2("Rider"),
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
