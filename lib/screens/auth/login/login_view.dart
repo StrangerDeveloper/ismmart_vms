@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ismmart_vms/helper/global_variables.dart';
+import 'package:ismmart_vms/helper/common_function.dart';
 import 'package:ismmart_vms/helper/languages/translations_key.dart';
 import 'package:ismmart_vms/helper/routes.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
@@ -12,7 +12,6 @@ import 'package:ismmart_vms/widgets/custom_text.dart';
 import 'package:ismmart_vms/widgets/custom_textfield.dart';
 import 'package:ismmart_vms/widgets/loader_view.dart';
 import 'package:ismmart_vms/widgets/obscure_suffix_icon.dart';
-import 'package:ismmart_vms/widgets/scrollable_column.dart';
 
 import '../../../helper/constants.dart';
 import '../signup/signup_methods/singup_methods_view.dart';
@@ -74,7 +73,7 @@ class LogInView extends StatelessWidget {
                 ),
               ),
             ),
-            LoaderView()
+            const LoaderView()
           ],
         ),
       ),
@@ -292,7 +291,7 @@ class LogInView extends StatelessWidget {
         alignment: Alignment.centerRight,
         child: TextButton(
             onPressed: () {
-              print("forget --------${viewModel.emailController.text}");
+              CommonFunction.debugPrint("forget --------${viewModel.emailController.text}");
               Get.toNamed(Routes.forgotPassword1, arguments: {
                 'email': GetUtils.isEmail(viewModel.emailController.text)
                     ? viewModel.emailController.text
