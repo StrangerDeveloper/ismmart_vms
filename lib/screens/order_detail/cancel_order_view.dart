@@ -65,7 +65,8 @@ class CancelOrderView extends StatelessWidget {
   Widget _buildOrderListFrame() {
     return Row(
       children: [
-        const Text("Order List"),
+        const Text("Order List",
+            style: TextStyle(fontSize: 16, color: ThemeHelper.blue1)),
         CustomImageView(
           imagePath: ImageConstant.imgIconsArrowForward,
           // height: 18.adaptSize,
@@ -78,7 +79,7 @@ class CancelOrderView extends StatelessWidget {
         CustomText(
           title: "ISM1628MART".tr,
           style: TextStyle(
-            fontSize: 10.fSize,
+            fontSize: 12.fSize,
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -90,26 +91,20 @@ class CancelOrderView extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              RichText(
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: 'Delivery Status: ',
-                      style: newFontStyleSize14,
-                    ),
-                    TextSpan(
-                      text: viewModel.orderItemModel.value.deliveryStatus ??
-                          "status",
-                      style: newFontStyleSize14.copyWith(
-                          color: newColorLightGrey2),
-                    ),
-                  ],
+          child: RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: 'Delivery Status: ',
+                  style: newFontStyleSize14,
                 ),
-              ),
-            ],
+                TextSpan(
+                  text:
+                      viewModel.orderItemModel.value.deliveryStatus ?? "status",
+                  style: newFontStyleSize14.copyWith(color: newColorLightGrey2),
+                ),
+              ],
+            ),
           ),
         ),
         CircularPercentIndicator(
