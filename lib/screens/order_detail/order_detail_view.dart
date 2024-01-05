@@ -625,9 +625,10 @@ class OrderDetailView extends StatelessWidget {
                           "id"),
                     ],
                   ),
-                  SizedBox(height: 10.v),
-                  _customField2("Delivery Method"),
-                  SizedBox(height: 5.v),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10, bottom: 5),
+                    child: _customField2("Delivery Method"),
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
