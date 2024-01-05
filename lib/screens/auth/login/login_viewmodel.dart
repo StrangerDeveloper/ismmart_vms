@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:ismmart_vms/widgets/custom_drawer.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../../../helper/api_base_helper.dart';
@@ -54,7 +53,7 @@ class LogInViewModel extends GetxController {
           GlobalVariable.showLoader.value = false;
         } else {
           AppConstant.displaySnackBar(
-            " langKey.errorTitle.tr",
+            "Error",
             parsedJson['message'],
           );
 
@@ -63,7 +62,7 @@ class LogInViewModel extends GetxController {
       }).catchError((e) {
         print(e);
         AppConstant.displaySnackBar(
-          " langKey.errorTitle.tr",
+          "Error",
           e.toString(),
         );
         GlobalVariable.showLoader.value = false;
@@ -102,13 +101,18 @@ class LogInViewModel extends GetxController {
             .then((parsedJson) {
           print(parsedJson);
           if (parsedJson['success'] == true) {
+            String status = parsedJson['data']['status'] ?? "";
+            accountStatusCheck(status, emailController.text);
             GlobalVariable.showLoader.value = false;
             print(parsedJson['data']['status']);
             GlobalVariable.token = parsedJson['data']['token'];
             GlobalVariable.showLoader.value = false;
-            Get.offAll(DrawerBottomBarView());
           } else {
             GlobalVariable.showLoader.value = false;
+            AppConstant.displaySnackBar(
+              "Error",
+              'Account not found',
+            );
           }
         });
       });
@@ -123,14 +127,60 @@ class LogInViewModel extends GetxController {
 //apple login
   appleSignin() async {
     if (Platform.isIOS) {
-      final credential = await SignInWithApple.getAppleIDCredential(
+      final appleCredential = await SignInWithApple.getAppleIDCredential(
         scopes: [
           AppleIDAuthorizationScopes.email,
           AppleIDAuthorizationScopes.fullName,
+          AppleIDAuthorizationScopes.values[0],
         ],
       );
+      await appleCredential.state;
 
-      debugPrint("apple login====>>>  $credential   ");
+      debugPrint("apple login====>>>  $appleCredential   ");
+      var t = appleCredential.identityToken;
+      var e = appleCredential.email;
+      var fn = appleCredential.familyName;
+      var gn = appleCredential.givenName;
+
+      //
+      // print(a);
+
+      print(e);
+      print(fn);
+      print(gn);
+      print(t);
+
+      try {
+        print(appleCredential);
+        Map<dynamic, dynamic> param = {
+          "social": {
+            "name": "Apple",
+            "token": '${appleCredential.identityToken}',
+          }
+        };
+
+        await ApiBaseHelper()
+            .postMethod(url: Urls.login, body: param)
+            .then((parsedJson) {
+          print(parsedJson);
+          if (parsedJson['success'] == true) {
+            String status = parsedJson['data']['status'] ?? "";
+            accountStatusCheck(status, emailController.text);
+            GlobalVariable.showLoader.value = false;
+            print(parsedJson['data']['status']);
+            GlobalVariable.token = parsedJson['data']['token'];
+            GlobalVariable.showLoader.value = false;
+          } else {
+            GlobalVariable.showLoader.value = false;
+            AppConstant.displaySnackBar(
+              "Error",
+              'Account not found',
+            );
+          }
+        });
+      } catch (error) {
+        GlobalVariable.showLoader.value = false;
+      }
 
       // Now send the credential (especially `credential.authorizationCode`) to your server to create a session
       // after they have been validated with Apple (see `Integration` section for more information on how to do this)
