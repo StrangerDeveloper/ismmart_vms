@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/constants.dart';
+import 'package:ismmart_vms/helper/global_variables.dart';
 import 'package:ismmart_vms/helper/utils/image_constant.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/screens/auth/login/login_view.dart';
@@ -11,6 +12,7 @@ import '../screens/add_location/add_location_view.dart';
 import '../screens/collection/collection_list_view.dart';
 import '../screens/dashboard/dashboard_viewmodel.dart';
 import '../screens/shippings/shippings_view.dart';
+import '../screens/store_profile/store_profile_view.dart';
 import '../screens/user_profile/user_profile_view.dart';
 
 class CustomDrawer extends StatelessWidget {
@@ -38,15 +40,15 @@ class CustomDrawer extends StatelessWidget {
                 'Store',
                 onTab: () {
                   viewModel.isTab.value = !viewModel.isTab.value;
-                  // Get.to(StoresView());
+                  Get.to(() => StoreProfileView());
                 },
                 iconPath: 'assets/icons/overViewIcon.png',
               ),
-              drawerListItems(
-                'Collections',
-                iconPath: 'assets/icons/layers.png',
-                onTab: () => Get.to(() => CollectionListView()),
-              ),
+              // drawerListItems(
+              //   'Collections',
+              //   iconPath: 'assets/icons/layers.png',
+              //   onTab: () => Get.to(() => CollectionListView()),
+              // ),
               drawerListItems('Locations',
                   iconPath: 'assets/icons/pin.png',
                   onTab: () => Get.to(() => AddLocationView())),
@@ -77,12 +79,12 @@ class CustomDrawer extends StatelessWidget {
                               h: 35,
                               onTab: () => Get.to(() => BankListView()),
                             ),
-                            drawerListItems(
-                                iconPath: 'assets/icons/Vector.png',
-                                'Shipping',
-                                h: 35,
-                                onTab: () =>
-                                    Get.to(() => ShippingMethodsView())),
+                            // drawerListItems(
+                            //     iconPath: 'assets/icons/Vector.png',
+                            //     'Shipping',
+                            //     h: 35,
+                            //     onTab: () =>
+                            //         Get.to(() => ShippingMethodsView())),
                             // drawerListItems(
                             //     iconPath: 'assets/icons/edit-user.png',
                             //     'Users & Permissions',
@@ -95,9 +97,16 @@ class CustomDrawer extends StatelessWidget {
               ),
 
               InkWell(
-                onTap: () => Get.to(() => UserProfileView()),
+                onTap: () {
+                  if (viewModel.rejected.value == 'rejected') {
+                    Get.to(() => UserProfileView());
+                  } else {
+                    Get.back();
+                    GlobalVariable.selectedIndex.value = 4;
+                  }
+                },
                 child: titleAndBackBtn(
-                    top: Get.height * 0.2,
+                    top: Get.height * 0.25,
                     iconPath: ImageConstant.imgAvatar,
                     title: 'Profile'),
               ),

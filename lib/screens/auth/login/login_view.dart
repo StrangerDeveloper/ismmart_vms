@@ -65,7 +65,7 @@ class LogInView extends StatelessWidget {
                       // facebooklogInBtn(),
                       if (Platform.isIOS) applelogInBtn(),
                       SizedBox(
-                        height: MediaQuery.of(context).size.height * .2,
+                        height: MediaQuery.of(context).size.height * .07,
                       ),
                       doNotHaveAnAccount(),
                     ],
@@ -186,34 +186,31 @@ class LogInView extends StatelessWidget {
   }
 
   Widget applelogInBtn() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 10, 20, 25),
-      child: CustomTextBtn(
-        radius: 30,
-        borderSide: const BorderSide(
-          color: Colors.black, // your color here
-          width: 1,
-        ),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              'assets/logo/apple_logo.png',
-            ),
-            const SizedBox(
-              width: 5,
-            ),
-            const Text(
-              "Signin with Apple ID",
-            ),
-          ],
-        ),
-        onPressed: () {
-          viewModel.appleSignin();
-        },
+    return CustomTextBtn(
+      radius: 30,
+      borderSide: const BorderSide(
+        color: newColorLightGrey, // your color here
+        width: 1,
       ),
+      backgroundColor: Colors.white,
+      foregroundColor: Colors.black,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            'assets/logo/apple_logo.png',
+          ),
+          const SizedBox(
+            width: 5,
+          ),
+          const Text(
+            "Signin with Apple ID",
+          ),
+        ],
+      ),
+      onPressed: () {
+        viewModel.appleSignin();
+      },
     );
   }
 
@@ -291,7 +288,8 @@ class LogInView extends StatelessWidget {
         alignment: Alignment.centerRight,
         child: TextButton(
             onPressed: () {
-              CommonFunction.debugPrint("forget --------${viewModel.emailController.text}");
+              CommonFunction.debugPrint(
+                  "forget --------${viewModel.emailController.text}");
               Get.toNamed(Routes.forgotPassword1, arguments: {
                 'email': GetUtils.isEmail(viewModel.emailController.text)
                     ? viewModel.emailController.text
