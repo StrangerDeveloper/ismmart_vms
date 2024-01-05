@@ -516,7 +516,7 @@ class OrderDetailView extends StatelessWidget {
                                                   .value
                                                   .lineitems?[index]
                                                   .fulfilmentStatus ??
-                                              "status")
+                                              "status"),
                                         ],
                                       ),
                                       _customField2(
@@ -613,7 +613,7 @@ class OrderDetailView extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _status(viewModel.orderItemModel.value.fulfilmentStatus ??
+                  _status(viewModel.orderItemModel.value.deliveryStatus ??
                       "status"),
                   Padding(
                     padding: const EdgeInsets.only(top: 8, bottom: 5),
