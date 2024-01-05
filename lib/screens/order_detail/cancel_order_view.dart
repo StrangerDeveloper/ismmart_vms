@@ -205,6 +205,7 @@ class CancelOrderView extends StatelessWidget {
                       "length"),
             ],
           ),
+          const Divider(),
           CustomTextBtn(
             backgroundColor: Colors.transparent,
             foregroundColor: ThemeHelper.blue1,
@@ -221,9 +222,8 @@ class CancelOrderView extends StatelessWidget {
           ),
           Container(
             padding: EdgeInsets.all(8.h),
-            margin: EdgeInsets.all(6.v),
             decoration: BoxDecoration(
-              color: Colors.grey.shade100,
+              color: ThemeHelper.grey1,
               borderRadius: BorderRadius.circular(5),
             ),
             child: Column(
@@ -278,6 +278,7 @@ class CancelOrderView extends StatelessWidget {
                                     _customField1(viewModel
                                             .unfulfilledItems[index].name ??
                                         "product"),
+                                    SizedBox(width: 8.h),
                                     _status(viewModel.unfulfilledItems[index]
                                             .fulfilmentStatus ??
                                         "status")
@@ -375,7 +376,7 @@ class CancelOrderView extends StatelessWidget {
             padding: EdgeInsets.all(8.h),
             margin: EdgeInsets.all(8.v),
             decoration: BoxDecoration(
-              color: Colors.grey.shade100,
+              color: ThemeHelper.grey1,
               borderRadius: BorderRadius.circular(5),
             ),
             child: Obx(() => ListView.builder(
