@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:ismmart_vms/helper/theme_helper.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/screens/order_listing/order_viewModel.dart';
 import 'package:ismmart_vms/widgets/custom_appbar.dart';
@@ -238,7 +239,7 @@ class OrderView extends StatelessWidget {
       title: text.toString(),
       style: TextStyle(
         fontSize: 12.fSize,
-        color: const Color(0xFF6B7280),
+        color: ThemeHelper.grey4,
       ),
     );
   }
@@ -250,7 +251,6 @@ class OrderView extends StatelessWidget {
     return FittedBox(
       fit: BoxFit.contain,
       child: Container(
-        //margin: const EdgeInsets.only(left: 10),
         padding: const EdgeInsets.only(left: 4, top: 3, bottom: 3, right: 6),
         decoration: BoxDecoration(
             color: color.withOpacity(0.25),
