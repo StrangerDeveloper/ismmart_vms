@@ -167,13 +167,10 @@ class CancelOrderView extends StatelessWidget {
           ),
           Row(
             children: [
-              _status(
-                  viewModel.orderItemModel.value.lineitems![0].paymentStatus ??
-                      "status"),
+              _status(viewModel.orderItemModel.value.paymentStatus ?? "status"),
               SizedBox(width: 8.h),
-              _status(viewModel
-                      .orderItemModel.value.lineitems![1].fulfilmentStatus ??
-                  "status"),
+              _status(
+                  viewModel.orderItemModel.value.fulfilmentStatus ?? "status"),
             ],
           ),
           Padding(
@@ -194,7 +191,7 @@ class CancelOrderView extends StatelessWidget {
           ),
           _customField2(
               "Plot No. 60, Street 12, G-8/1,Islamabad Capital Territory 44080\nPakistan"),
-          SizedBox(height: 10.v),
+          SizedBox(height: 12.v),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
