@@ -635,7 +635,6 @@ class OrderDetailView extends StatelessWidget {
                       _customField1(viewModel.orderItemModel.value.lineitems?[0]
                               .assignedRider?.name ??
                           "rider"),
-                      //SizedBox(width: 8.h),
                       _customField1(
                           viewModel.orderItemModel.value.deliveryStatus ??
                               "id"),
