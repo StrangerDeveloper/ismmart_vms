@@ -151,7 +151,7 @@ class OrderView extends StatelessWidget {
                       _customField2(
                           orderController.orderItemList[index].orderId ?? "id"),
                       Padding(
-                        padding: const EdgeInsets.only(top: 8, bottom: 8),
+                        padding: const EdgeInsets.only(left: 8, right: 8),
                         child: Icon(
                           Icons.circle,
                           color: Colors.grey.shade400,
