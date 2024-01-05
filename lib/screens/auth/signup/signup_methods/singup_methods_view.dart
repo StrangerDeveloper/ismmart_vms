@@ -127,8 +127,9 @@ class SingupMethodsView extends StatelessWidget {
     return Padding(
         padding: const EdgeInsets.only(top: 22),
         child: CustomTextBtn(
-          padding: const EdgeInsets.only(top: 5),
+          // padding: const EdgeInsets.only(top: 5),
           backgroundColor: Colors.white,
+          foregroundColor: Colors.black,
           radius: 30,
           borderSide: const BorderSide(
             color: Colors.black, // your color here
@@ -139,17 +140,15 @@ class SingupMethodsView extends StatelessWidget {
             children: [
               Text(
                 'Continue with phone number',
-                style: newFontStyleSize14.copyWith(
-                    color: newColorDarkBlack, fontWeight: FontWeight.w600),
+
+                // style: newFontStyleSize14.copyWith(
+                //     color: newColorDarkBlack, fontWeight: FontWeight.w600),
               ),
               SizedBox(width: 4.h),
-              const Padding(
-                padding: EdgeInsets.only(bottom: 8.0),
-                child: Icon(
-                  Icons.arrow_forward,
-                  size: 20,
-                  color: newColorDarkBlack,
-                ),
+              Icon(
+                Icons.arrow_forward,
+                size: 20,
+                color: newColorDarkBlack,
               ),
             ],
           ),
