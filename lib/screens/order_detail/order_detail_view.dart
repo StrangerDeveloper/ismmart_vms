@@ -126,14 +126,13 @@ class OrderDetailView extends StatelessWidget {
       "Partially Paid": "Partially Paid",
       "Pending": "Pending Order List",
     };
-
-    String statusText =
-        statusTextMap[viewModel.orderItemModel.value.fulfilmentStatus] ?? "";
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         CustomText(
-          title: statusText,
+          title:
+              statusTextMap[viewModel.orderItemModel.value.fulfilmentStatus] ??
+                  "",
           style: const TextStyle(color: ThemeHelper.blue1),
         ),
         CustomImageView(
@@ -203,7 +202,6 @@ class OrderDetailView extends StatelessWidget {
             }
           },
           child: Container(
-            //margin: EdgeInsets.only(right: 8.h),
             padding: EdgeInsets.symmetric(horizontal: 8.h, vertical: 8.v),
             decoration: BoxDecoration(
               color: Colors.grey.shade100,
@@ -392,19 +390,20 @@ class OrderDetailView extends StatelessWidget {
                     "market"),
               ],
             ),
-            SizedBox(height: 10.v),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _customField1(
-                    viewModel.orderItemModel.value.customer?.name.toString() ??
-                        "name"),
-                _customField1(
-                    viewModel.orderItemModel.value.totals?.total.toString() ??
-                        "total"),
-              ],
+            Padding(
+              padding: const EdgeInsets.only(top: 10, bottom: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _customField1(viewModel.orderItemModel.value.customer?.name
+                          .toString() ??
+                      "name"),
+                  _customField1(
+                      viewModel.orderItemModel.value.totals?.total.toString() ??
+                          "total"),
+                ],
+              ),
             ),
-            SizedBox(height: 10.v),
             Row(
               children: [
                 _status(
