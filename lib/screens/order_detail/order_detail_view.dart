@@ -65,46 +65,49 @@ class OrderDetailView extends StatelessWidget {
   }
 
   Widget progress() {
-    return Row(
-      children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              RichText(
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: 'Delivery Status: ',
-                      style: newFontStyleSize14,
-                    ),
-                    TextSpan(
-                      text: viewModel.orderItemModel.value.deliveryStatus ??
-                          "status",
-                      style: newFontStyleSize14.copyWith(
-                          color: newColorLightGrey2),
-                    ),
-                  ],
+    return Padding(
+      padding: const EdgeInsets.only(left: 8, right: 8),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: 'Delivery Status: ',
+                        style: newFontStyleSize14,
+                      ),
+                      TextSpan(
+                        text: viewModel.orderItemModel.value.deliveryStatus ??
+                            "status",
+                        style: newFontStyleSize14.copyWith(
+                            color: newColorLightGrey2),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ),
-        CircularPercentIndicator(
-          circularStrokeCap: CircularStrokeCap.round,
-          radius: 33,
-          lineWidth: 6,
-          percent: 0.5,
-          backgroundColor: const Color(0xffEBEFF3),
-          progressColor: newColorBlue,
-          center: Text(
-            "2 of 3",
-            style: poppinsH2.copyWith(
-              color: newColorBlue2,
+              ],
             ),
           ),
-        ),
-      ],
+          CircularPercentIndicator(
+            circularStrokeCap: CircularStrokeCap.round,
+            radius: 33,
+            lineWidth: 6,
+            percent: 0.5,
+            backgroundColor: const Color(0xffEBEFF3),
+            progressColor: newColorBlue,
+            center: Text(
+              "2 of 3",
+              style: poppinsH2.copyWith(
+                color: newColorBlue2,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -126,105 +129,108 @@ class OrderDetailView extends StatelessWidget {
       "Partially Paid": "Partially Paid",
       "Pending": "Pending Order List",
     };
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        CustomText(
-          title:
-              statusTextMap[viewModel.orderItemModel.value.fulfilmentStatus] ??
-                  "",
-          style: const TextStyle(color: ThemeHelper.blue1),
-        ),
-        CustomImageView(
-          imagePath: ImageConstant.imgIconsArrowForward,
-          // height: 18.adaptSize,
-          // width: 8.adaptSize,
-          margin: EdgeInsets.only(
-            left: 8.adaptSize,
-            right: 8.adaptSize,
+    return Padding(
+      padding: const EdgeInsets.only(left: 8, right: 8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CustomText(
+            title: statusTextMap[
+                    viewModel.orderItemModel.value.fulfilmentStatus] ??
+                "",
+            style: const TextStyle(color: ThemeHelper.blue1),
           ),
-        ),
-        CustomText(
-          title: viewModel.orderItemModel.value.orderId ?? "id",
-          style: TextStyle(
-            fontSize: 12.fSize,
-            fontWeight: FontWeight.w600,
+          CustomImageView(
+            imagePath: ImageConstant.imgIconsArrowForward,
+            // height: 18.adaptSize,
+            // width: 8.adaptSize,
+            margin: EdgeInsets.only(
+              left: 8.adaptSize,
+              right: 8.adaptSize,
+            ),
           ),
-        ),
-        const Spacer(),
-        PopupMenuButton(
-          itemBuilder: (context) => [
-            PopupMenuItem(
-              value: 1,
+          CustomText(
+            title: viewModel.orderItemModel.value.orderId ?? "id",
+            style: TextStyle(
+              fontSize: 12.fSize,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const Spacer(),
+          PopupMenuButton(
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                value: 1,
+                child: Row(
+                  children: [
+                    const Icon(Icons.download_outlined),
+                    SizedBox(width: 8.h),
+                    const Text(
+                      "Export",
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              PopupMenuItem(
+                value: 2,
+                child: Row(
+                  children: [
+                    const Icon(Icons.cancel_outlined),
+                    SizedBox(width: 8.h),
+                    const Text(
+                      "Cancel Order",
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+            onSelected: (value) {
+              if (value == 1) {
+                Get.to(OrderView());
+              }
+              if (value == 2) {
+                bool hasUnfulfilledItem = viewModel.lineItemList
+                    .any((item) => item.fulfilmentStatus == "Unfulfilled");
+
+                if (hasUnfulfilledItem) {
+                  Get.to(() => CancelOrderView(),
+                      arguments: {"model": viewModel.orderItemModel.value});
+                } else {
+                  AppConstant.displaySnackBar('Error',
+                      'You can\'t cancel the order other than unfulfilled');
+                  return;
+                }
+              }
+            },
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 8.h, vertical: 8.v),
+              decoration: BoxDecoration(
+                color: Colors.grey.shade100,
+                borderRadius: BorderRadius.circular(5),
+              ),
               child: Row(
                 children: [
-                  const Icon(Icons.download_outlined),
-                  SizedBox(width: 8.h),
-                  const Text(
-                    "Export",
+                  CustomText(
+                    title: "More actions",
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 12.fSize,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
+                  Icon(
+                    Icons.more_vert_rounded,
+                    size: 16.fSize,
+                  )
                 ],
               ),
-            ),
-            PopupMenuItem(
-              value: 2,
-              child: Row(
-                children: [
-                  const Icon(Icons.cancel_outlined),
-                  SizedBox(width: 8.h),
-                  const Text(
-                    "Cancel Order",
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ],
-              ),
-            ),
-          ],
-          onSelected: (value) {
-            if (value == 1) {
-              Get.to(OrderView());
-            }
-            if (value == 2) {
-              bool hasUnfulfilledItem = viewModel.lineItemList
-                  .any((item) => item.fulfilmentStatus == "Unfulfilled");
-
-              if (hasUnfulfilledItem) {
-                Get.to(() => CancelOrderView(),
-                    arguments: {"model": viewModel.orderItemModel.value});
-              } else {
-                AppConstant.displaySnackBar('Error',
-                    'You can\'t cancel the order other than unfulfilled');
-                return;
-              }
-            }
-          },
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 8.h, vertical: 8.v),
-            decoration: BoxDecoration(
-              color: Colors.grey.shade100,
-              borderRadius: BorderRadius.circular(5),
-            ),
-            child: Row(
-              children: [
-                CustomText(
-                  title: "More actions",
-                  style: TextStyle(
-                    fontSize: 12.fSize,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                Icon(
-                  Icons.more_vert_rounded,
-                  size: 16.fSize,
-                )
-              ],
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
