@@ -147,7 +147,7 @@ class OrderDetailView extends StatelessWidget {
         CustomText(
           title: "ISM1628MART".tr,
           style: TextStyle(
-            fontSize: 10.fSize,
+            fontSize: 12.fSize,
             fontWeight: FontWeight.w600,
           ),
         ),
