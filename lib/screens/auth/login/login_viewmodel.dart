@@ -137,14 +137,10 @@ class LogInViewModel extends GetxController {
       await appleCredential.state;
 
       debugPrint("apple login====>>>  $appleCredential   ");
-      var d = appleSignin().jsify;
       var t = appleCredential.identityToken;
       var e = appleCredential.email;
       var fn = appleCredential.familyName;
       var gn = appleCredential.givenName;
-      var a = appleCredential.userIdentifier;
-      var b = appleCredential.state;
-      var c = appleCredential.authorizationCode;
 
       //
       // print(a);
@@ -152,43 +148,38 @@ class LogInViewModel extends GetxController {
       print(e);
       print(fn);
       print(gn);
-      // print(t);
-      print(a);
-      print(b);
-      print(c);
-      print(d);
-      print(appleCredential);
+      print(t);
 
       try {
-        // Get.to(DrawerBottomBarView());
+        print(appleCredential);
+        Map<dynamic, dynamic> param = {
+          "social": {
+            "name": "Apple",
+            "token": '${appleCredential.identityToken}',
+          }
+        };
 
-        //   credential?.authentication.then((value) async {
-        //     print(credential);
-        //     Map<dynamic, dynamic> param = {
-        //       "social": {
-        //         "name": "Google",
-        //         "token": '${value.accessToken}',
-        //       }
-        //     };
-        //
-        //     await ApiBaseHelper()
-        //         .postMethod(url: Urls.login, body: param)
-        //         .then((parsedJson) {
-        //       print(parsedJson);
-        //       if (parsedJson['success'] == true) {
-        //         GlobalVariable.showLoader.value = false;
-        //         print(parsedJson['data']['status']);
-        //         GlobalVariable.token = parsedJson['data']['token'];
-        //         GlobalVariable.showLoader.value = false;
-        //         Get.offAll(DrawerBottomBarView());
-        //       } else {
-        //         GlobalVariable.showLoader.value = false;
-        //       }
-        //     });
-        //   });
+        await ApiBaseHelper()
+            .postMethod(url: Urls.login, body: param)
+            .then((parsedJson) {
+          print(parsedJson);
+          if (parsedJson['success'] == true) {
+            String status = parsedJson['data']['status'] ?? "";
+            accountStatusCheck(status, emailController.text);
+            GlobalVariable.showLoader.value = false;
+            print(parsedJson['data']['status']);
+            GlobalVariable.token = parsedJson['data']['token'];
+            GlobalVariable.showLoader.value = false;
+          } else {
+            GlobalVariable.showLoader.value = false;
+            AppConstant.displaySnackBar(
+              "Error",
+              'Account not found',
+            );
+          }
+        });
       } catch (error) {
         GlobalVariable.showLoader.value = false;
-        //  debugPrint("$error");
       }
 
       // Now send the credential (especially `credential.authorizationCode`) to your server to create a session
