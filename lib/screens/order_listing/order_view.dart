@@ -149,13 +149,14 @@ class OrderView extends StatelessWidget {
                     children: [
                       _customField2(
                           orderController.orderItemList[index].orderId ?? "id"),
-                      SizedBox(width: 8.h),
-                      Icon(
-                        Icons.circle,
-                        color: Colors.grey.shade400,
-                        size: 5,
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8, bottom: 8),
+                        child: Icon(
+                          Icons.circle,
+                          color: Colors.grey.shade400,
+                          size: 5,
+                        ),
                       ),
-                      SizedBox(width: 8.h),
                       _customField2(DateFormat.yMMMd().format(DateTime.parse(
                           orderController.orderItemList[index].createdAt!))),
                     ],
