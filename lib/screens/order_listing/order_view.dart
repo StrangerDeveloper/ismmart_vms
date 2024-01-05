@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:ismmart_vms/helper/theme_helper.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/screens/order_listing/order_viewModel.dart';
 import 'package:ismmart_vms/widgets/custom_appbar.dart';
@@ -16,17 +17,7 @@ import '../order_detail/order_detail_view.dart';
 class OrderView extends StatelessWidget {
   final OrderListingViewModel orderController =
       Get.put(OrderListingViewModel());
-
   OrderView({super.key});
-
-  // void onInit() {
-  //   orderController.scrollController.addListener(() {
-  //     orderController.getOrderListing();
-  //   });
-  //   orderController.getOrderListing();
-  //   GlobalVariable.showLoader.value = true;
-  //   //super.onInit();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -41,40 +32,34 @@ class OrderView extends StatelessWidget {
                 _buildSearchRow(),
                 SizedBox(height: 17.v),
                 Obx(
-                  () => orderController.orderItemList.isEmpty
-                      ? const Center(
-                          child: CircularProgressIndicator(),
-                        )
-                      : Padding(
+                  () => orderController.orderItemList.isNotEmpty
+                      ? Padding(
                           padding: const EdgeInsets.all(16.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Obx(
-                                () => ListView.builder(
-                                  //reverse: true,
-                                  controller: orderController.scrollController,
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: orderController.orderItemList.length,
-                                  itemBuilder: (context, index) {
-                                    return GestureDetector(
-                                      onTap: () {
-                                        Get.to(
-                                          () => OrderDetailView(),
-                                          arguments: {
-                                            'model': orderController
-                                                .orderItemList[index],
-                                          },
-                                        );
+                          child: Obx(
+                            () => ListView.builder(
+                              controller: orderController.scrollController,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: orderController.orderItemList.length,
+                              itemBuilder: (context, index) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    Get.to(
+                                      () => OrderDetailView(),
+                                      arguments: {
+                                        'model': orderController
+                                            .orderItemList[index],
                                       },
-                                      child: _buildOrderCard(index),
                                     );
                                   },
-                                ),
-                              )
-                            ],
+                                  child: _buildOrderCard(index),
+                                );
+                              },
+                            ),
                           ),
+                        )
+                      : const Center(
+                          child: Text('No Data Found'),
                         ),
                 ),
               ],
@@ -87,9 +72,7 @@ class OrderView extends StatelessWidget {
   }
 
   PreferredSizeWidget _buildAppBar() {
-    return CustomAppBar(
-      leadingWidth: 48.h,
-      leading: Container(),
+    return const CustomAppBar2(
       title: "Order List",
     );
   }
@@ -167,13 +150,14 @@ class OrderView extends StatelessWidget {
                     children: [
                       _customField2(
                           orderController.orderItemList[index].orderId ?? "id"),
-                      SizedBox(width: 8.h),
-                      Icon(
-                        Icons.circle,
-                        color: Colors.grey.shade400,
-                        size: 5,
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8, bottom: 8),
+                        child: Icon(
+                          Icons.circle,
+                          color: Colors.grey.shade400,
+                          size: 5,
+                        ),
                       ),
-                      SizedBox(width: 8.h),
                       _customField2(DateFormat.yMMMd().format(DateTime.parse(
                           orderController.orderItemList[index].createdAt!))),
                     ],
@@ -215,13 +199,14 @@ class OrderView extends StatelessWidget {
                           children: [
                             _customField2(
                                 "${(orderController.orderItemList[index].lineitems?.length) ?? "teeen"} items"),
-                            SizedBox(width: 8.h),
-                            Icon(
-                              Icons.circle,
-                              color: Colors.grey.shade400,
-                              size: 5,
+                            Padding(
+                              padding: const EdgeInsets.only(right: 8, left: 8),
+                              child: Icon(
+                                Icons.circle,
+                                color: Colors.grey.shade400,
+                                size: 5,
+                              ),
                             ),
-                            SizedBox(width: 8.h),
                             _customField2("Standard"),
                           ],
                         )),
@@ -240,16 +225,12 @@ class OrderView extends StatelessWidget {
   }
 
   Widget _customField1(text1) {
-    return Row(
-      children: [
-        CustomText(
-          title: text1,
-          style: TextStyle(
-            fontSize: 16.fSize,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ],
+    return CustomText(
+      title: text1,
+      style: TextStyle(
+        fontSize: 16.fSize,
+        fontWeight: FontWeight.w600,
+      ),
     );
   }
 
@@ -258,7 +239,7 @@ class OrderView extends StatelessWidget {
       title: text.toString(),
       style: TextStyle(
         fontSize: 12.fSize,
-        color: const Color(0xFF6B7280),
+        color: ThemeHelper.grey4,
       ),
     );
   }
@@ -270,7 +251,6 @@ class OrderView extends StatelessWidget {
     return FittedBox(
       fit: BoxFit.contain,
       child: Container(
-        //margin: const EdgeInsets.only(left: 10),
         padding: const EdgeInsets.only(left: 4, top: 3, bottom: 3, right: 6),
         decoration: BoxDecoration(
             color: color.withOpacity(0.25),
@@ -297,46 +277,28 @@ class OrderView extends StatelessWidget {
   }
 
   Color statusColor(String value) {
-    if (value == "Pending") {
-      return const Color(0xFFFDBA8C);
-    }
-    if (value == "Paid") {
-      return const Color(0xFFFDBA8C);
-    }
-    if (value == "Partially Paid") {
-      return const Color(0xFFFFE5A0);
-    }
-    if (value == "Refunded") {
-      return const Color(0xFFFDBA8C);
-    }
-    if (value == "Cancelled") {
-      return const Color(0xFFFE3A30);
-    }
-    if (value == "Processing") {
-      return const Color(0xFFFFE5A0);
-    }
-    if (value == "Shipped") {
-      return const Color(0xFFBDE9DA);
-    }
-    if (value == "Delivered") {
-      return const Color(0xFFBDE9DA);
-    }
-    if (value == "Returned") {
-      return const Color(0xFFFFE5A0);
-    }
-    if (value == "In Transit") {
-      return const Color(0xFFFFE5A0);
-    }
-    if (value == "Out for Delivery") {
-      return const Color(0xFFFFE5A0);
-    }
-    if (value == "Failed") {
-      return const Color(0xFFFE3A30);
-    }
-    if (value == "COD Verified") {
-      return const Color(0xFFBDE9DA);
-    } else {
-      return const Color(0xFFFE3A30);
+    switch (value) {
+      case "Pending":
+      case "Paid":
+      case "Refunded":
+      case "Unfulfilled":
+        return const Color(0xFFFDBA8C);
+      case "Partially Paid":
+      case "Processing":
+      case "Returned":
+      case "In Transit":
+      case "Out for Delivery":
+        return const Color(0xFFFFE5A0);
+      case "Cancelled":
+      case "Failed":
+        return const Color(0xFFFE3A30);
+      case "Shipped":
+      case "Fulfilled":
+      case "Delivered":
+      case "COD Verified":
+        return const Color(0xFFBDE9DA);
+      default:
+        return const Color(0xFFFE3A30); // Default color for unknown statuses
     }
   }
 
@@ -388,7 +350,6 @@ class OrderView extends StatelessWidget {
               CupertinoButton(
                 onPressed: () {
                   print('object');
-                  //show loder first
                   orderController.statusSelectedIndex.value = tempIndex;
                   orderController.searchController.text =
                       orderController.statusList[tempIndex];

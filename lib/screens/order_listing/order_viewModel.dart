@@ -30,9 +30,9 @@ class OrderListingViewModel extends GetxController {
 
   @override
   void onInit() {
-    scrollController.addListener(() {
-      getOrderListing();
-    });
+    // scrollController.addListener(() {
+    //   getOrderListing();
+    // });
     getOrderListing();
     super.onInit();
   }
@@ -55,11 +55,11 @@ class OrderListingViewModel extends GetxController {
         orderItemList.addAll(orderModel.items!);
         print("Order item List ${orderItemList.length}");
       } else {
-        scrollController.dispose();
+        //scrollController.dispose();
         GlobalVariable.showLoader.value = false;
       }
     }).catchError((error) {
-      scrollController.dispose();
+      //scrollController.dispose();
       GlobalVariable.showLoader.value = false;
     });
   }

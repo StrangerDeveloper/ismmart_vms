@@ -19,8 +19,4 @@ class OrderDetailViewModel extends GetxController {
     GlobalVariable.showLoader.value = false;
     super.onClose();
   }
-
-  // Future<void> updateORderDetail() async {
-  //   try {}
-  // }
 }
