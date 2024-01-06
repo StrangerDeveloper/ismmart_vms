@@ -204,7 +204,7 @@ class AddProduct3View extends StatelessWidget {
               CustomBottomSheet1(
                 selectedIndex: selectedIndex.value,
                 list: viewModel.weightUnitList,
-                onChanged: (value) {
+                onValueSelected: (value) {
                   viewModel.weightUnitSelectedIndex.value = value;
                   viewModel.weightUnitController.text = viewModel.weightUnitList[value];
                 },
@@ -244,7 +244,7 @@ class AddProduct3View extends StatelessWidget {
               CustomBottomSheet1(
                 selectedIndex: viewModel.weightUnitSelectedIndex.value,
                 list: viewModel.weightUnitList,
-                onChanged: (value) {
+                onValueSelected: (value) {
                   viewModel.weightUnitSelectedIndex.value = value;
                   viewModel.weightUnitController.text = viewModel.weightUnitList[value];
                 },
@@ -289,7 +289,7 @@ class AddProduct3View extends StatelessWidget {
             CustomBottomSheet1(
               selectedIndex: viewModel.lengthUnitSelectedIndex.value,
               list: viewModel.lengthUnitList,
-              onChanged: (value) {
+              onValueSelected: (value) {
                 viewModel.lengthUnitSelectedIndex.value = value;
                 viewModel.lengthUnitController.text = viewModel.lengthUnitList[value];
               },
@@ -321,7 +321,7 @@ class AddProduct3View extends StatelessWidget {
               CustomBottomSheet1(
                 selectedIndex: viewModel.widthUnitSelectedIndex.value,
                 list: viewModel.widthUnitList,
-                onChanged: (value) {
+                onValueSelected: (value) {
                   viewModel.widthUnitSelectedIndex.value = value;
                   viewModel.widthUnitController.text = viewModel.widthUnitList[value];
                 },
@@ -357,7 +357,7 @@ class AddProduct3View extends StatelessWidget {
               CustomBottomSheet1(
                 selectedIndex: viewModel.heightUnitSelectedIndex.value,
                 list: viewModel.heightUnitList,
-                onChanged: (value) {
+                onValueSelected: (value) {
                   viewModel.heightUnitSelectedIndex.value = value;
                   viewModel.heightUnitController.text = viewModel.heightUnitList[value];
                 },
