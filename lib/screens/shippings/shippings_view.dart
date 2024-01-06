@@ -7,6 +7,7 @@ import 'package:ismmart_vms/widgets/custom_button.dart';
 import 'package:ismmart_vms/widgets/custom_dropdown.dart';
 import 'package:ismmart_vms/widgets/custom_section_divider.dart';
 import '../../widgets/custom_textfield.dart';
+import '../../widgets/loader_view.dart';
 
 class ShippingMethodsView extends StatelessWidget {
   ShippingMethodsView({super.key});
@@ -16,25 +17,30 @@ class ShippingMethodsView extends StatelessWidget {
     return SafeArea(
         child: Scaffold(
       appBar: CustomAppBar(title: shipping.tr),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Form(
-              key: viewModel.shippingFormKey,
-              child: Column(
-                children: [
-                  _shippingMethods(),
-                  const SizedBox(height: 15),
-                  _nameField(),
-                  const SizedBox(height: 10),
-                  _idField(),
-                  const SizedBox(height: 20),
-                  _rateSection(),
-                  const SizedBox(height: 10),
-                  _submitBtn(),
-                ],
-              )),
-        ),
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Form(
+                  key: viewModel.shippingFormKey,
+                  child: Column(
+                    children: [
+                      _shippingMethods(),
+                      const SizedBox(height: 15),
+                      _nameField(),
+                      const SizedBox(height: 10),
+                      _idField(),
+                      const SizedBox(height: 20),
+                      _rateSection(),
+                      const SizedBox(height: 10),
+                      _submitBtn(),
+                    ],
+                  )),
+            ),
+          ),
+          const LoaderView(),
+        ],
       ),
     ));
   }

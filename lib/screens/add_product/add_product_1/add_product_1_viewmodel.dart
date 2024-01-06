@@ -9,6 +9,8 @@ import 'package:ismmart_vms/screens/add_product/add_product_2/add_product_2_view
 import 'package:permission_handler/permission_handler.dart';
 import 'package:quill_html_editor/quill_html_editor.dart';
 
+import '../../../helper/global_variables.dart';
+
 class AddProduct1ViewModel extends GetxController {
 
   RxBool isPhysicalProduct = false.obs;
@@ -77,6 +79,12 @@ class AddProduct1ViewModel extends GetxController {
     // fetchTags();
     super.onReady();
   }
+  @override
+  void onClose() {
+    GlobalVariable.showLoader.value = false;
+    super.onClose();
+  }
+
 
   void fetchTypes() async {
     typeList.clear();

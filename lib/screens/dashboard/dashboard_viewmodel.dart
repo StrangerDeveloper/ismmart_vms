@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/constants.dart';
 import 'package:ismmart_vms/widgets/widget_models/dropdown_model.dart';
 
+import '../../helper/global_variables.dart';
+
 class DashboardViewModel extends GetxController {
   RxBool showMoreDetails = false.obs;
   RxString dateSelected = '1'.obs;
@@ -14,22 +16,27 @@ class DashboardViewModel extends GetxController {
     DropDownModel(id: "4", name: "23 Dec 2023"),
   ].obs;
 
- 
   RxBool isTab = false.obs;
   RxBool moreOption = false.obs;
 
   var pieTouchIndex = -1.obs;
 
+  RxString rejected = ''.obs;
   @override
   void onReady() {
+    rejected.value = Get.arguments ?? '';
     super.onReady();
 
     getOrdersData();
   }
 
-  void getOrdersData() {
-    
+  @override
+  void onClose() {
+    GlobalVariable.showLoader.value = false;
+    super.onClose();
   }
+
+  void getOrdersData() {}
 
   ///*************Chart Data */ ///
   LineTouchData get lineTouchData1 => LineTouchData(

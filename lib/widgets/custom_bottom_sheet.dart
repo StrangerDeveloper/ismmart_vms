@@ -7,18 +7,24 @@ import '../models/country_model.dart';
 class CustomBottomSheet1 {
   final List<dynamic> list;
   final int selectedIndex;
-  final void Function(int) onChanged;
+  final void Function(int) onValueSelected;
 
   CustomBottomSheet1({
     required this.list,
     required this.selectedIndex,
-    required this.onChanged,
+    required this.onValueSelected,
   });
 
   show() {
     int tempIndex = 0;
     showModalBottomSheet(
       context: Get.context!,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+      ),
       builder: (BuildContext context) {
         return Container(
           height: 200,
@@ -62,7 +68,7 @@ class CustomBottomSheet1 {
               ),
               CupertinoButton(
                 onPressed: () {
-                  onChanged(tempIndex);
+                  onValueSelected(tempIndex);
                   Get.back();
                 },
                 child: const Text(

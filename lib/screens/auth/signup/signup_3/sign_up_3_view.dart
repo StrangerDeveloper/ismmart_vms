@@ -3,6 +3,8 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_formatter/formatters/masked_input_formatter.dart';
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
+import 'package:ismmart_vms/helper/languages/translations_key.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/models/bank_details_model.dart';
 import 'package:ismmart_vms/screens/auth/signup/signup_3/sign_up_3_viewmodel.dart';
@@ -16,7 +18,6 @@ import 'package:ismmart_vms/widgets/custom_textfield.dart';
 import '../../../../helper/global_variables.dart';
 import '../../../../helper/theme_helper.dart';
 import '../../../../helper/validator.dart';
-import '../../../../widgets/custom_loading.dart';
 import '../../../add_bank/add_bank_view.dart';
 
 class SignUp3View extends StatelessWidget {
@@ -53,12 +54,11 @@ class SignUp3View extends StatelessWidget {
                         hintText: 'e.g Habib Bank',
                         controller: viewModel.bankController,
                         isDropDown: true,
+                        autoValidateMode: AutovalidateMode.onUserInteraction,
                         validator: (value) {
-                          if (viewModel.bankController.text != '') {
-                            return null;
-                          } else {
-                            return null;
-                          }
+                          if (viewModel.bankController.text == '')
+                            return Validator.validateDefaultField(value,
+                                errMsg: 'Bank Name is Required');
                         },
                         onTap: () {
                           viewModel.getBankList();
@@ -83,7 +83,7 @@ class SignUp3View extends StatelessWidget {
               ),
             ),
           ),
-          LoaderView()
+          const LoaderView()
           // NoInternetView(
           //   onPressed: () {
           //     viewModel.signUp();
@@ -220,7 +220,8 @@ class SignUp3View extends StatelessWidget {
         controller: viewModel.bankAccTitleController,
         autoValidateMode: AutovalidateMode.onUserInteraction,
         validator: (value) {
-          return Validator.validateDefaultField(value);
+          return Validator.validateDefaultField(value,
+              errMsg: 'Bank Title is Required');
         },
         keyboardType: TextInputType.text,
       ),
@@ -245,7 +246,8 @@ class SignUp3View extends StatelessWidget {
             ),
           ],
           validator: (value) {
-            return Validator.validateDefaultField(value);
+            return Validator.validateDefaultField(value,
+                errMsg: 'Acount Number is Required');
           },
         ));
   }
@@ -257,7 +259,8 @@ class SignUp3View extends StatelessWidget {
       controller: viewModel.bankIBANController,
       autoValidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
-        return Validator.validateDefaultField(value);
+        return Validator.validateDefaultField(value,
+            errMsg: 'IBAN is required');
       },
       keyboardType: TextInputType.text,
     );
@@ -569,7 +572,7 @@ class SignUp3View extends StatelessWidget {
                 ],
               ),
             ),
-            LoaderView()
+            const LoaderView()
           ],
         );
       },

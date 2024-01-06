@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 
+import '../../helper/global_variables.dart';
 import '../order_listing/model/orderModel.dart';
 
 class OrderDetailViewModel extends GetxController {
@@ -13,7 +14,9 @@ class OrderDetailViewModel extends GetxController {
     super.onInit();
   }
 
-  // Future<void> updateORderDetail() async {
-  //   try {}
-  // }
+  @override
+  void onClose() {
+    GlobalVariable.showLoader.value = false;
+    super.onClose();
+  }
 }

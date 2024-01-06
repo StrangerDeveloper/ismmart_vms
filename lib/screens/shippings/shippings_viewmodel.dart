@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../helper/global_variables.dart';
 import '../../widgets/widget_models/dropdown_model.dart';
 
 class ShippingViewModel extends GetxController {
@@ -20,4 +21,10 @@ class ShippingViewModel extends GetxController {
 
   var shippingMethod = "1".obs;
   var ratesType = "1".obs;
+
+  @override
+  void onClose() {
+    GlobalVariable.showLoader.value = false;
+    super.onClose();
+  }
 }

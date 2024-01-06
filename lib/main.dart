@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ismmart_vms/helper/theme_helper.dart';
-import 'package:ismmart_vms/screens/add_product/add_product_1/add_product_1_view.dart';
 import 'firebase_options.dart';
 import 'helper/routes.dart';
 
@@ -20,7 +19,6 @@ Future<void> main() async {
   SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
   await GetStorage.init();
-  // Get.put(OrderListingViewModel());
   runApp(const MyApp());
 }
 
@@ -49,8 +47,8 @@ class MyApp extends StatelessWidget {
             elevation: 3,
             shadowColor: Colors.black12),
       ),
-      home: AddProduct1View(),
-      // initialRoute: Routes.initRoute,
+      //home: DrawerBottomBarView(),
+      initialRoute: Routes.initRoute,
       getPages: Routes.pages,
     );
   }

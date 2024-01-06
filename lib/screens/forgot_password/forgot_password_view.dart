@@ -11,7 +11,6 @@ import '../../helper/global_variables.dart';
 import '../../helper/validator.dart';
 import '../../widgets/custom_appbar.dart';
 import '../../widgets/custom_button.dart';
-import '../../widgets/custom_loading.dart';
 import '../../widgets/custom_textfield.dart';
 import 'forgot_password_viewModel.dart';
 
@@ -23,9 +22,9 @@ class ForgotPasswordView extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: const CustomAppBar(
-          title: "Forget Password",
-        ),
+        // appBar: const CustomAppBar(
+        //   title: "Forget Password",
+        // ),
         body: Stack(
           children: [
             SingleChildScrollView(
@@ -35,12 +34,15 @@ class ForgotPasswordView extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    SizedBox(
+                      height: 50,
+                    ),
                     Center(
                         child: Text("Forget Password",
                             style: newFontStyleSize24.copyWith(
                                 color: newColorBlue))),
                     SizedBox(
-                      height: 10,
+                      height: 20,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 52, bottom: 16),
@@ -60,7 +62,7 @@ class ForgotPasswordView extends StatelessWidget {
                 ),
               ),
             ),
-            LoaderView()
+            const LoaderView()
           ],
         ),
       ),
@@ -69,7 +71,7 @@ class ForgotPasswordView extends StatelessWidget {
 
   Widget emailTextField() {
     return Padding(
-      padding: const EdgeInsets.only(top: 15, bottom: 25),
+      padding: const EdgeInsets.only(top: 15, bottom: 40),
       child: Form(
         key: viewModel.forgotPasswordFormKey,
         child: Column(
@@ -101,36 +103,33 @@ class ForgotPasswordView extends StatelessWidget {
   }
 
   Widget resetBtn() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 32),
-      child: CustomRoundedTextBtn(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Reset",
-                style: newFontStyleSize14.copyWith(
-                    fontWeight: FontWeight.w500, color: kWhiteColor),
+    return CustomRoundedTextBtn(
+      child: Padding(
+        padding: const EdgeInsets.only(top: 8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "Reset",
+              style: newFontStyleSize14.copyWith(
+                  fontWeight: FontWeight.w500, color: kWhiteColor),
+            ),
+            const SizedBox(
+              width: 4,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: const Icon(
+                Icons.arrow_forward,
+                size: 20,
               ),
-              const SizedBox(
-                width: 4,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 8.0),
-                child: const Icon(
-                  Icons.arrow_forward,
-                  size: 20,
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
-        onPressed: () {
-          viewModel.sendBtn();
-        },
       ),
+      onPressed: () {
+        viewModel.sendBtn();
+      },
     );
   }
 }

@@ -16,6 +16,8 @@ class CancelORderViewMOdel extends GetxController {
   RxList<Lineitem> lineItemList = <Lineitem>[].obs;
   RxList<Lineitem> selectedItems = <Lineitem>[].obs;
 
+  RxList<Lineitem> unfulfilledItems = <Lineitem>[].obs;
+
   @override
   void onInit() {
     orderItemModel.value = Get.arguments['model'];
@@ -23,6 +25,10 @@ class CancelORderViewMOdel extends GetxController {
     lineItemList.forEach((element) {
       print("Status ${element.sId}");
     });
+    unfulfilledItems.addAll(orderItemModel.value.lineitems
+            ?.where((element) => element.fulfilmentStatus == "Unfulfilled")
+            .toList() ??
+        []);
     super.onInit();
   }
 
@@ -51,13 +57,19 @@ class CancelORderViewMOdel extends GetxController {
             .then((response) async {
           if (response['success'] == true) {
             print("Statusss ${response['success']}");
-            orderListingViewModel.orderItemList.clear();
-            orderListingViewModel.orderItemList.refresh();
+            // orderListingViewModel.orderItemList.clear();
+            // orderListingViewModel.orderItemList.refresh();
             orderListingViewModel.orderItemModel.value.items!.clear();
+            orderListingViewModel.orderItemModel.refresh();
             orderDetailViewModel.lineItemList.clear();
             orderDetailViewModel.lineItemList.refresh();
-            orderDetailViewModel.orderItemModel.value.lineitems!.clear();
-            orderDetailViewModel.orderItemModel.refresh();
+            // orderDetailViewModel.orderItemModel.value.lineitems!.clear();
+            // orderDetailViewModel.orderItemModel.refresh();
+            unfulfilledItems.clear();
+            unfulfilledItems.refresh();
+            selectedItems.clear();
+            selectedItems.refresh();
+            selectAllValue.value = false;
 
             await orderListingViewModel.getOrderListing();
             Get.back();
@@ -79,35 +91,35 @@ class CancelORderViewMOdel extends GetxController {
     selectAllValue.value = !selectAllValue.value;
     if (selectAllValue.value) {
       if (selectedItems.isEmpty) {
-        for (int i = 0; i < (lineItemList.length); i++) {
-          Lineitem model = lineItemList[i];
+        for (int i = 0; i < (unfulfilledItems.length); i++) {
+          Lineitem model = unfulfilledItems[i];
           model.isSelected = true;
 
-          lineItemList[i] = model;
+          unfulfilledItems[i] = model;
           selectedItems.add(model);
         }
       } else {
-        for (int i = 0; i < (lineItemList.length); i++) {
-          Lineitem model = lineItemList[i];
+        for (int i = 0; i < (unfulfilledItems.length); i++) {
+          Lineitem model = unfulfilledItems[i];
           model.isSelected = true;
-          lineItemList[i] = model;
+          unfulfilledItems[i] = model;
         }
         selectedItems.clear();
-        selectedItems.addAll(lineItemList);
+        selectedItems.addAll(unfulfilledItems);
       }
     } else {
-      for (int i = 0; i < (lineItemList.length); i++) {
-        Lineitem model = lineItemList[i];
+      for (int i = 0; i < (unfulfilledItems.length); i++) {
+        Lineitem model = unfulfilledItems[i];
         model.isSelected = false;
-        lineItemList[i] = model;
+        unfulfilledItems[i] = model;
       }
       selectedItems.clear();
     }
   }
 
   selectSingleItem(bool value, int index) {
-    Lineitem model = lineItemList[index];
+    Lineitem model = unfulfilledItems[index];
     model.isSelected = value;
-    lineItemList[index] = model;
+    unfulfilledItems[index] = model;
   }
 }

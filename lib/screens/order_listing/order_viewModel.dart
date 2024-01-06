@@ -10,7 +10,6 @@ class OrderListingViewModel extends GetxController {
   Rx<Data> orderItemModel = Data().obs;
   RxList<OrderItem> orderItemList = <OrderItem>[].obs;
   RxBool showSearchTxtField = false.obs;
-  RxString filterBtn = 'all'.obs;
   String searchUrlValue = '';
 
   TextEditingController searchController = TextEditingController();
@@ -30,12 +29,18 @@ class OrderListingViewModel extends GetxController {
   ];
 
   @override
-  void onReady() {
-    scrollController.addListener(() {
-      getOrderListing();
-    });
+  void onInit() {
+    // scrollController.addListener(() {
+    //   getOrderListing();
+    // });
     getOrderListing();
-    super.onReady();
+    super.onInit();
+  }
+
+  @override
+  void onClose() {
+    GlobalVariable.showLoader.value = false;
+    super.onClose();
   }
 
   Future<void> getOrderListing() async {
@@ -48,14 +53,13 @@ class OrderListingViewModel extends GetxController {
         Data orderModel = Data.fromJson(data);
         orderItemModel.value = orderModel;
         orderItemList.addAll(orderModel.items!);
-        // orderItemList.refresh();
         print("Order item List ${orderItemList.length}");
       } else {
-        scrollController.dispose();
+        //scrollController.dispose();
         GlobalVariable.showLoader.value = false;
       }
     }).catchError((error) {
-      scrollController.dispose();
+      //scrollController.dispose();
       GlobalVariable.showLoader.value = false;
     });
   }
