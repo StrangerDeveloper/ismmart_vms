@@ -1,32 +1,44 @@
 class CountryModel {
-  CountryModel({
-    this.id,
-    this.name,
-    this.latitude,
-    this.longitude,
-    this.countryId,
-    this.createdAt,
-    this.updatedAt,
-  });
-
-  int? id, countryId;
+  String? sId;
+  int? id;
   String? name;
-  String? latitude, longitude;
-  DateTime? createdAt, updatedAt;
+  double? latitude;
+  double? longitude;
+  String? code;
+  String? updatedAt;
+  bool? deleted;
 
-  factory CountryModel.fromJson(Map<String, dynamic> json) => CountryModel(
-        id: json["id"],
-        name: json["name"],
-        latitude: json["latitude"],
-        longitude: json["longitude"],
-        countryId: json["countryId"],
-      );
+  CountryModel(
+      {this.sId,
+        this.id,
+        this.name,
+        this.latitude,
+        this.longitude,
+        this.code,
+        this.updatedAt,
+        this.deleted});
 
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "latitude": latitude ?? 0,
-        "longitude": longitude ?? 0.0,
-        "countryId": countryId ?? 0.0,
-      };
+  CountryModel.fromJson(Map<String, dynamic> json) {
+    sId = json['_id'];
+    id = json['id'];
+    name = json['name'];
+    latitude = double.tryParse(json['latitude'].toString());
+    longitude = double.tryParse(json['longitude'].toString());
+    code = json['code'];
+    updatedAt = json['updatedAt'];
+    deleted = json['deleted'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['_id'] = sId;
+    data['id'] = id;
+    data['name'] = name;
+    data['latitude'] = latitude;
+    data['longitude'] = longitude;
+    data['code'] = code;
+    data['updatedAt'] = updatedAt;
+    data['deleted'] = deleted;
+    return data;
+  }
 }
