@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:ismmart_vms/models/variant_selection_model.dart';
 import 'package:ismmart_vms/screens/add_product/add_product_1/add_product_1_view.dart';
 import 'package:ismmart_vms/screens/add_product/add_product_2/add_product_2_viewmodel.dart';
-import 'package:ismmart_vms/screens/add_product/add_product_3/add_product_3_view.dart';
 import 'package:ismmart_vms/widgets/custom_button.dart';
 
 import '../../../helper/constants.dart';
