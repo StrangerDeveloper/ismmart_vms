@@ -7,7 +7,7 @@ import 'package:ismmart_vms/screens/order_listing/model/orderModel.dart';
 import '../../helper/urls.dart';
 
 class OrderListingViewModel extends GetxController {
-  Rx<Data> orderItemModel = Data().obs;
+  //Rx<OrderItem> orderItemModel = OrderItem().obs;
   RxList<OrderItem> orderItemList = <OrderItem>[].obs;
   RxBool showSearchTxtField = false.obs;
   String searchUrlValue = '';
@@ -30,6 +30,7 @@ class OrderListingViewModel extends GetxController {
 
   @override
   void onInit() {
+    GlobalVariable.showLoader.value = false;
     // scrollController.addListener(() {
     //   getOrderListing();
     // });
@@ -47,12 +48,14 @@ class OrderListingViewModel extends GetxController {
     await ApiBaseHelper()
         .getMethod(url: '${Urls.getOrders}$searchUrlValue')
         .then((response) {
-      final data = response['data'];
-      if (data != null) {
+      var data = response['data']['items'] as List;
+      if (response['success'] == true) {
         orderItemList.clear();
-        Data orderModel = Data.fromJson(data);
-        orderItemModel.value = orderModel;
-        orderItemList.addAll(orderModel.items!);
+        // OrderItem orderModel = OrderItem.fromJson(response['data']['items']);
+        // orderItemModel.value = orderModel;
+        orderItemList.addAll(data.map((e) => OrderItem.fromJson(e)));
+
+        print("Order item List ${orderItemList.length}");
       } else {
         //scrollController.dispose();
         GlobalVariable.showLoader.value = false;

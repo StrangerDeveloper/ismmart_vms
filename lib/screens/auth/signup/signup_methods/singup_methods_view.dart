@@ -57,7 +57,7 @@ class SingupMethodsView extends StatelessWidget {
                   orWidget(),
                   googlelogInBtn(),
                   // facebooklogInBtn(),
-                  if (Platform.isIOS) applelogInBtn(),
+                  //   if (Platform.isIOS) applelogInBtn(),
                   const Spacer(),
                   doNotHaveAnAccount(),
                 ],

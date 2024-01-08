@@ -63,7 +63,7 @@ class LogInView extends StatelessWidget {
                       orWidget(),
                       googlelogInBtn(),
                       // facebooklogInBtn(),
-                      if (Platform.isIOS) applelogInBtn(),
+                      // if (Platform.isIOS) applelogInBtn(),
                       SizedBox(
                         height: MediaQuery.of(context).size.height * .07,
                       ),

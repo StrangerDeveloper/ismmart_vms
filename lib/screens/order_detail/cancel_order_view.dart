@@ -537,14 +537,7 @@ class CancelOrderView extends StatelessWidget {
                     CustomTextBtn(
                       onPressed: () async {
                         Get.back();
-                        Get.dialog(
-                          const Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                          barrierDismissible: false,
-                        );
                         await viewModel.updateOrder();
-                        Get.back();
                       },
                       title: "Confirm",
                     ),
