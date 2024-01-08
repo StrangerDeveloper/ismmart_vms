@@ -38,6 +38,7 @@ class ProductModel {
 
 class ProductsItem {
 String? id;
+String? description;
     String? name;
     String? slug;
     String? status;
@@ -62,6 +63,7 @@ String? id;
 
     ProductsItem({
         this.id,
+        this.description,
         this.name,
         this.slug,
         this.status,
@@ -85,6 +87,7 @@ String? id;
 
     factory ProductsItem.fromJson(Map<String, dynamic> json) => ProductsItem(
         id: json["_id"],
+        description: json['description'],
         name: json["name"],
         slug: json["slug"],
         status: json["status"],
@@ -109,6 +112,7 @@ String? id;
     Map<String, dynamic> toJson() => {
         "_id": id,
         "name": name,
+        "description": description,
         "slug": slug,
         "status": status,
         "channels": channels == null ? [] : List<dynamic>.from(channels!.map((x) => x)),

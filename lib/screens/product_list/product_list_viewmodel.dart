@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/api_base_helper.dart';
+import 'package:ismmart_vms/helper/constants.dart';
 import 'package:ismmart_vms/screens/product_list/product_model.dart';
 
 class ProductListViewModel extends GetxController {
@@ -73,4 +74,12 @@ class ProductListViewModel extends GetxController {
       debugPrint("GetProductList: $e");
     });
   }
+  
+  // getSingleProductDetails(String id) async {
+  //   ApiBaseHelper().getMethod(url: Urls.getSingleProduct).then((value) {
+  //
+  //   }).catchError((e) {
+  //     AppConstant.displaySnackBar('Error', 'Couldn\'t fetch product details');
+  //   });
+  // }
 }
