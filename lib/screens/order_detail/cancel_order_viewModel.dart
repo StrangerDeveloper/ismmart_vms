@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/constants.dart';
+import 'package:ismmart_vms/helper/global_variables.dart';
+import 'package:ismmart_vms/screens/order_detail/order_detail_view.dart';
 import 'package:ismmart_vms/screens/order_detail/order_detail_viewModel.dart';
 
 import '../../helper/api_base_helper.dart';
@@ -59,20 +61,24 @@ class CancelORderViewMOdel extends GetxController {
             print("Statusss ${response['success']}");
             // orderListingViewModel.orderItemList.clear();
             // orderListingViewModel.orderItemList.refresh();
-            orderListingViewModel.orderItemModel.value.items!.clear();
-            orderListingViewModel.orderItemModel.refresh();
-            orderDetailViewModel.lineItemList.clear();
-            orderDetailViewModel.lineItemList.refresh();
-            // orderDetailViewModel.orderItemModel.value.lineitems!.clear();
-            // orderDetailViewModel.orderItemModel.refresh();
+            //orderDetailViewModel.lineItemList.clear();
+            // orderDetailViewModel.lineItemList.refresh();
+            //orderDetailViewModel.orderItemModel.value.lineitems!.clear();
+            for (int i = 0; i < lineItemList.length; i++) {
+              if (lineItemList[i].isSelected == true) {
+                lineItemList[i].fulfilmentStatus = "Cancelled";
+              }
+            }
+            orderDetailViewModel.orderItemModel.refresh();
             unfulfilledItems.clear();
             unfulfilledItems.refresh();
             selectedItems.clear();
             selectedItems.refresh();
             selectAllValue.value = false;
-
+            GlobalVariable.showLoader.value = false;
             await orderListingViewModel.getOrderListing();
-            Get.back();
+
+            Get.to(() => OrderDetailView());
           } else {
             AppConstant.displaySnackBar(
                 'Error', 'Something went wrong, please try again');
@@ -121,5 +127,11 @@ class CancelORderViewMOdel extends GetxController {
     Lineitem model = unfulfilledItems[index];
     model.isSelected = value;
     unfulfilledItems[index] = model;
+  }
+
+  @override
+  void onClose() {
+    GlobalVariable.showLoader.value = false;
+    super.onClose();
   }
 }
