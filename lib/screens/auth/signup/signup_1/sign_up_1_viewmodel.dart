@@ -62,7 +62,6 @@ class SignUpScreen1ViewModel extends GetxController {
   @override
   void onReady() {
     GlobalVariable.showLoader.value = false;
-    print("llllll  ----${GlobalVariable.showLoader.value}");
     nameController.text = _socialviewModel.socialName.value;
     emailController.text = _socialviewModel.socialEmail.value;
     emailController.text = _socialviewModel.socialEmail.value;
@@ -143,17 +142,12 @@ class SignUpScreen1ViewModel extends GetxController {
         changeView.value = true;
         body.value = param;
         GlobalVariable.showLoader.value = true;
-        print("llllll  ${GlobalVariable.showLoader.value}");
         await ApiBaseHelper()
             .postMethodForImage(
                 url: Urls.register, files: fileList, fields: param)
             .then((parsedJson) {
-          print(cnicFrontImage.value);
           if (parsedJson['success'] == true) {
-            print("success====== Step 1");
             GlobalVariable.showLoader.value = false;
-            print("llllll  ${GlobalVariable.showLoader.value}");
-
             param.removeWhere((key, value) => value == "1");
             Get.to(() => SignUp2View(), arguments: param);
           } else {

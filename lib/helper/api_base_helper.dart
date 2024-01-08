@@ -226,8 +226,6 @@ class ApiBaseHelper {
       request.fields.addAll(fields);
       request.files.addAll(files);
 
-      print(request.fields);
-
       http.StreamedResponse response = await request.send();
       Map<String, dynamic> parsedJson =
           await jsonDecode(await response.stream.bytesToString());

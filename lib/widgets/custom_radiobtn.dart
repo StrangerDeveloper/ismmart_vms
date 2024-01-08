@@ -166,7 +166,7 @@ class CustomRadioButton3 extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         Text(title,

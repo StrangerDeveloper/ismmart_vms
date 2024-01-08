@@ -135,14 +135,14 @@ class SingupMethodsView extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
+              const Text(
                 'Continue with phone number',
 
                 // style: newFontStyleSize14.copyWith(
                 //     color: newColorDarkBlack, fontWeight: FontWeight.w600),
               ),
               SizedBox(width: 4.h),
-              Icon(
+              const Icon(
                 Icons.arrow_forward,
                 size: 20,
                 color: newColorDarkBlack,

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/screens/edit_user_profile/edit_user_profile_view.dart';
 import 'package:ismmart_vms/screens/user_profile/user_profile_viewmodel.dart';
-import 'package:ismmart_vms/widgets/custom_appbar.dart';
 import 'package:ismmart_vms/widgets/loader_view.dart';
 
 import '../../helper/theme_helper.dart';
@@ -75,7 +74,7 @@ class UserProfileView extends StatelessWidget {
                   ),
                   const SizedBox(height: 25),
                   editBtn(),
-                  SizedBox(height: 80),
+                  const SizedBox(height: 80),
                 ],
               ),
             ),

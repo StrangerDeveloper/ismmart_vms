@@ -605,7 +605,7 @@ class SignUp2View extends StatelessWidget {
                       )
                 ],
               ),
-              viewModel.allCountryList.length <= 0 ? const LoaderView() : const SizedBox()
+              viewModel.allCountryList.isEmpty ? const LoaderView() : const SizedBox()
             ],
           ),
         );

@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:ismmart_vms/helper/theme_helper.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/screens/order_detail/cancel_order_view.dart';
-import 'package:ismmart_vms/screens/order_detail/order_detail_viewModel.dart';
+import 'package:ismmart_vms/screens/order_detail/order_detail_viewmodel.dart';
 import 'package:ismmart_vms/screens/order_listing/order_view.dart';
 import 'package:ismmart_vms/widgets/custom_appbar.dart';
 import 'package:ismmart_vms/widgets/custom_text.dart';

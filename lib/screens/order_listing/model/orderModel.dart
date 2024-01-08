@@ -76,7 +76,6 @@ class OrderItem {
       this.returnStatus});
 
   OrderItem.fromJson(Map<String, dynamic> json) {
-    print("OrderItem.fromJson ${json['_id']}");
     sId = json['_id'];
     customer =
         json['customer'] != null ? Customer.fromJson(json['customer']) : null;

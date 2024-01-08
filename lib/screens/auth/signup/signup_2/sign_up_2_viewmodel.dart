@@ -89,8 +89,6 @@ class SignUp2ViewModel extends GetxController {
           " please upload Store Images",
         );
       }
-      print(param);
-      print(fileList.length);
       GlobalVariable.showLoader.value = true;
       var parsedJson = await ApiBaseHelper().postMethodForImage(
           url: Urls.register, files: fileList, fields: param);
@@ -120,7 +118,6 @@ class SignUp2ViewModel extends GetxController {
       StoreTypeModel model1 = storeTypeList[i];
       model1.isSelected = selectAllValue.value;
       storeTypeList[i] = model1;
-      print(storeTypeList.length);
     }
   }
 
@@ -138,7 +135,6 @@ class SignUp2ViewModel extends GetxController {
           parsedJson['data']['items'] != null) {
         var data = parsedJson['data']['items'] as List;
         storeTypeList.addAll(data.map((e) => StoreTypeModel.fromJson(e)));
-        print(storeTypeList.length);
       }
     }).catchError((e) {
       CommonFunction.debugPrint(e);
@@ -233,7 +229,6 @@ class SignUp2ViewModel extends GetxController {
 
     int i = allCityList.indexWhere((e) => e == cityname);
     selectedCityId.value = cityIdList[i];
-    print("index $i city id ====> ${selectedCityId.value}");
   }
 
   resetValueCity() {

@@ -1,11 +1,11 @@
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/constants.dart';
-import 'package:ismmart_vms/screens/order_detail/order_detail_viewModel.dart';
+import 'package:ismmart_vms/screens/order_detail/order_detail_viewmodel.dart';
 
 import '../../helper/api_base_helper.dart';
 import '../../helper/urls.dart';
 import '../order_listing/model/orderModel.dart';
-import '../order_listing/order_viewModel.dart';
+import '../order_listing/order_viewmodel.dart';
 
 class CancelORderViewMOdel extends GetxController {
   OrderListingViewModel orderListingViewModel = Get.find();
@@ -22,9 +22,6 @@ class CancelORderViewMOdel extends GetxController {
   void onInit() {
     orderItemModel.value = Get.arguments['model'];
     lineItemList.addAll(orderItemModel.value.lineitems ?? []);
-    lineItemList.forEach((element) {
-      print("Status ${element.sId}");
-    });
     unfulfilledItems.addAll(orderItemModel.value.lineitems
             ?.where((element) => element.fulfilmentStatus == "Unfulfilled")
             .toList() ??
@@ -47,7 +44,6 @@ class CancelORderViewMOdel extends GetxController {
       if (selectedItemsStatus == "Unfulfilled") {
         selectedItemsStatus = "Cancelled";
 
-        print("Fulfillment Statusss $selectedItemsStatus");
         Map<String, dynamic> param = {
           "itemsIndex": selectedIndicesId,
           "status": selectedItemsStatus,
@@ -56,15 +52,10 @@ class CancelORderViewMOdel extends GetxController {
             .putMethod(url: Urls.updateOrder, body: param)
             .then((response) async {
           if (response['success'] == true) {
-            print("Statusss ${response['success']}");
-            // orderListingViewModel.orderItemList.clear();
-            // orderListingViewModel.orderItemList.refresh();
             orderListingViewModel.orderItemModel.value.items!.clear();
             orderListingViewModel.orderItemModel.refresh();
             orderDetailViewModel.lineItemList.clear();
             orderDetailViewModel.lineItemList.refresh();
-            // orderDetailViewModel.orderItemModel.value.lineitems!.clear();
-            // orderDetailViewModel.orderItemModel.refresh();
             unfulfilledItems.clear();
             unfulfilledItems.refresh();
             selectedItems.clear();
@@ -83,7 +74,7 @@ class CancelORderViewMOdel extends GetxController {
             'Error', 'You can not cancel fulfilled item');
       }
     } catch (error) {
-      print(error);
+      // print(error);
     }
   }
 

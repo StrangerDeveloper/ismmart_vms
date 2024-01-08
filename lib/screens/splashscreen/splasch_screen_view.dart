@@ -3,7 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:ismmart_vms/screens/auth/login/login_view.dart';
 
 class SplashScreenView extends StatefulWidget {
-  SplashScreenView({super.key});
+  const SplashScreenView({super.key});
 
   @override
   State<SplashScreenView> createState() => _SplashScreenViewState();
@@ -13,7 +13,7 @@ class _SplashScreenViewState extends State<SplashScreenView> {
   @override
   void initState() {
     Future.delayed(
-        Duration(seconds: 4),
+        const Duration(seconds: 4),
         () => Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => LogInView()),
             (Route<dynamic> route) => false));

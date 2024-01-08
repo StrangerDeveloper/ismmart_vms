@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:ismmart_vms/helper/theme_helper.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
-import 'package:ismmart_vms/screens/order_listing/order_viewModel.dart';
+import 'package:ismmart_vms/screens/order_listing/order_viewmodel.dart';
 import 'package:ismmart_vms/widgets/custom_appbar.dart';
 import 'package:ismmart_vms/widgets/custom_text.dart';
 import 'package:ismmart_vms/widgets/custom_textfield.dart';
@@ -349,7 +349,6 @@ class OrderView extends StatelessWidget {
               ),
               CupertinoButton(
                 onPressed: () {
-                  print('object');
                   orderController.statusSelectedIndex.value = tempIndex;
                   orderController.searchController.text =
                       orderController.statusList[tempIndex];

@@ -14,7 +14,6 @@ import 'package:ismmart_vms/widgets/custom_textfield.dart';
 import 'package:ismmart_vms/widgets/image_layout_container.dart';
 import 'package:ismmart_vms/widgets/obscure_suffix_icon.dart';
 
-import '../../../../helper/global_variables.dart';
 import '../../../../helper/validator.dart';
 import '../../login/login_view.dart';
 import 'sign_up_1_viewmodel.dart';
@@ -74,7 +73,7 @@ class SignUp1View extends StatelessWidget {
               ],
             ),
           ),
-          LoaderView()
+          const LoaderView()
         ],
       ),
     );
@@ -86,17 +85,16 @@ class SignUp1View extends StatelessWidget {
       child: InkWell(
         onTap: () {
           viewModel.isChecked.value = !viewModel.isChecked.value;
-          print(viewModel.isChecked.value);
         },
         child: Obx(
           () => Row(
             children: [
               viewModel.isChecked.value == false
-                  ? Icon(
+                  ? const Icon(
                       Icons.check_box_outline_blank,
                       color: Colors.grey,
                     )
-                  : Icon(
+                  : const Icon(
                       Icons.check_box,
                       color: Colors.blue,
                     ),

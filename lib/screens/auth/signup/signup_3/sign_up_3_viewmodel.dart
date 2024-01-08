@@ -45,7 +45,6 @@ class SignUp3ViewModel extends GetxController {
 
   Map<String, String> param = {};
   Future<void> signUp3Btn() async {
-    print(bankNameController.text);
     if (vendorSignUp3FormKey.currentState!.validate()) {
       param = Get.arguments;
       // GlobalVariable.showLoader.value = true;
@@ -57,7 +56,6 @@ class SignUp3ViewModel extends GetxController {
       GlobalVariable.showLoader.value = true;
       var parseJson = await ApiBaseHelper().getMethod(url: Urls.bank);
       if (parseJson['success'] == true) {
-        print("=======succcess ------- step 3");
         finalRegistration(param);
       } else {
         GlobalVariable.showLoader.value = false;
@@ -66,7 +64,6 @@ class SignUp3ViewModel extends GetxController {
   }
 
   Future<void> finalRegistration(Map<String, String> param) async {
-    print(param);
     final SignUpScreen1ViewModel viewModel1 = Get.put(SignUpScreen1ViewModel());
     final SignUp2ViewModel viewModel2 = Get.put(SignUp2ViewModel());
     param['step'] = '4';
@@ -102,7 +99,6 @@ class SignUp3ViewModel extends GetxController {
 
     if (parsedJson['success'] == true) {
       GlobalVariable.showLoader.value = false;
-      print("=======succcess ------- step 4");
       Get.offAll(() => SignUp4View());
     } else {
       GlobalVariable.showLoader.value = false;

@@ -7,7 +7,6 @@ import 'package:ismmart_vms/helper/theme_helper.dart';
 import 'package:ismmart_vms/helper/utils/image_constant.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/screens/dashboard/dashboard_viewmodel.dart';
-import 'package:ismmart_vms/widgets/custom_appbar.dart';
 import 'package:ismmart_vms/widgets/custom_button.dart';
 import 'package:ismmart_vms/widgets/custom_dropdown.dart';
 import 'package:ismmart_vms/widgets/custom_image_view.dart';
@@ -35,7 +34,7 @@ class DashboardView extends StatelessWidget {
                 ordersProgress(),
                 SizedBox(height: 24.v),
                 _buildCharts(),
-                SizedBox(height: 50),
+                const SizedBox(height: 50),
               ],
             ),
           ),

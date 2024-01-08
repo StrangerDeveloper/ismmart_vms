@@ -53,7 +53,6 @@ class OrderListingViewModel extends GetxController {
         Data orderModel = Data.fromJson(data);
         orderItemModel.value = orderModel;
         orderItemList.addAll(orderModel.items!);
-        print("Order item List ${orderItemList.length}");
       } else {
         //scrollController.dispose();
         GlobalVariable.showLoader.value = false;
@@ -65,13 +64,11 @@ class OrderListingViewModel extends GetxController {
   }
 
   fieldSelection(value) {
-    print("Value $value");
     if (value == 'All') {
       searchUrlValue = '';
     } else {
       searchUrlValue = '?fulfilmentStatus=$value';
     }
-    print("Search Url Value $searchUrlValue");
     getOrderListing(); // Refresh the listing after applying the filter
   }
 }

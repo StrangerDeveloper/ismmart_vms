@@ -1,18 +1,12 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:ismmart_vms/helper/languages/translations_key.dart';
 import 'package:ismmart_vms/widgets/custom_text.dart';
 import 'package:ismmart_vms/widgets/loader_view.dart';
-
 import '../../helper/constants.dart';
-import '../../helper/global_variables.dart';
 import '../../helper/validator.dart';
-import '../../widgets/custom_appbar.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/custom_textfield.dart';
-import 'forgot_password_viewModel.dart';
+import 'forgot_password_viewmodel.dart';
 
 class ForgotPasswordView extends StatelessWidget {
   ForgotPasswordView({super.key});
@@ -34,14 +28,14 @@ class ForgotPasswordView extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 50,
                     ),
                     Center(
                         child: Text("Forget Password",
                             style: newFontStyleSize24.copyWith(
                                 color: newColorBlue))),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     Padding(
@@ -117,9 +111,9 @@ class ForgotPasswordView extends StatelessWidget {
             const SizedBox(
               width: 4,
             ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 8.0),
-              child: const Icon(
+            const Padding(
+              padding: EdgeInsets.only(bottom: 8.0),
+              child: Icon(
                 Icons.arrow_forward,
                 size: 20,
               ),
