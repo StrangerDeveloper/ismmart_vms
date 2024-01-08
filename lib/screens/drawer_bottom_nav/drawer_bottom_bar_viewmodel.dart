@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:ismmart_vms/screens/user_profile/user_profile_view.dart';
 
 import '../../helper/global_variables.dart';
@@ -11,6 +12,15 @@ import '../order_listing/order_view.dart';
 import '../product_list/product_list_view.dart';
 
 class DrawerBottomBarViewModel extends GetxController {
+  final box = GetStorage();
+
+  @override
+  void onInit() {
+    box.write('islogin', true);
+    // TODO: implement onInit
+    super.onInit();
+  }
+
   String appBarTitle(int value) {
     switch (value) {
       case 0:

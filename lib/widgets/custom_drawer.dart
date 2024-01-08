@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:ismmart_vms/helper/constants.dart';
 import 'package:ismmart_vms/helper/global_variables.dart';
 import 'package:ismmart_vms/helper/utils/image_constant.dart';
@@ -112,6 +113,8 @@ class CustomDrawer extends StatelessWidget {
               ),
 
               drawerListItems('Logout', icon: Icons.exit_to_app, onTab: () {
+                final box = GetStorage();
+                box.write('islogin', false);
                 Get.offAll(() => LogInView());
               })
             ],
