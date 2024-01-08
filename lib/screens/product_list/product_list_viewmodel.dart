@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/api_base_helper.dart';
-import 'package:ismmart_vms/helper/constants.dart';
 import 'package:ismmart_vms/screens/product_list/product_model.dart';
 
 class ProductListViewModel extends GetxController {
