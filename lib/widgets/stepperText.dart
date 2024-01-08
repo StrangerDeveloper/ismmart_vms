@@ -1,31 +1,26 @@
 import 'package:flutter/material.dart';
 
+import '../helper/constants.dart';
 import '../helper/theme_helper.dart';
 
-Widget stepperText() {
+Widget stepperText(int index) {
   return Padding(
     padding: const EdgeInsets.only(top: 20, bottom: 25),
     child: RichText(
       overflow: TextOverflow.ellipsis,
-      text: const TextSpan(
-        style: TextStyle(
+      text: TextSpan(
+        style: const TextStyle(
           color: ThemeHelper.blue1,
           fontWeight: FontWeight.w500,
         ),
         children: [
           TextSpan(
-            text: "  /  ",
+            text: "Product Details",
             style: TextStyle(
-              color: ThemeHelper.grey6,
+              color: index == 1 ? newColorBlue : ThemeHelper.grey2,
             ),
           ),
-          TextSpan(
-            text: "Product & Pricing ",
-            style: TextStyle(
-              color: ThemeHelper.grey2,
-            ),
-          ),
-          TextSpan(
+          const TextSpan(
             text: "  /  ",
             style: TextStyle(
               color: ThemeHelper.grey6,
@@ -34,10 +29,10 @@ Widget stepperText() {
           TextSpan(
             text: "Variant Setting",
             style: TextStyle(
-              color: ThemeHelper.grey2,
+              color: index == 2 ? newColorBlue : ThemeHelper.grey2,
             ),
           ),
-          TextSpan(
+          const TextSpan(
             text: "  /  ",
             style: TextStyle(
               color: ThemeHelper.grey6,
@@ -45,6 +40,9 @@ Widget stepperText() {
           ),
           TextSpan(
             text: "Shipping",
+            style: TextStyle(
+              color: index == 3 ? newColorBlue : ThemeHelper.grey2,
+            )
           ),
         ],
       ),

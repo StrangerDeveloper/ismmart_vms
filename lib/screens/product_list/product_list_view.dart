@@ -243,7 +243,7 @@ class ProductListView extends StatelessWidget {
                         Center(
                           child: Text(
                             'No Products Found',
-                            style: interHeadingSize14.copyWith(
+                            style: interHeadingSize15.copyWith(
                                 color: Colors.black,
                                 fontWeight: FontWeight.w500,
                                 fontSize: 17),
@@ -324,7 +324,7 @@ class ProductListView extends StatelessWidget {
               children: [
                 Text(
                   '${model.name}',
-                  style: interHeadingSize14.copyWith(color: newColorBlue),
+                  style: interHeadingSize15.copyWith(color: newColorBlue),
                 ),
                 SizedBox(height: 3.h),
                 // Row(

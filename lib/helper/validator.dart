@@ -95,17 +95,13 @@ class Validator {
 
   //
   // ///Name
-  // String? validateName(String? value, {String? errorToPrompt}) {
-  //   RegExp regex = RegExp(r'^[a-zA-Z0-9 -]+$');
-  //   if (GetUtils.isBlank(value)!) {
-  //     // Using errorToPrompt parameter to construct the error message dynamically
-  //     return errorToPrompt;
-  //   } else if (!regex.hasMatch(value!)) {
-  //     return langKey.nameAlphabaticReq.tr;
-  //   } else {
-  //     return null;
-  //   }
-  // }
+  String? validateName(String? value, {String? errorToPrompt}) {
+    if (GetUtils.isBlank(value)!) {
+      return errorToPrompt;
+    } else {
+      return null;
+    }
+  }
   //
   // // String? validateName(String? value) {
   // //   RegExp regex = RegExp(r'^[a-zA-Z -]+$');

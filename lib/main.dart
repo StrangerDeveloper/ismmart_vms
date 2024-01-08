@@ -32,22 +32,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'ISMMART VMS',
-      theme: ThemeData(
-        scaffoldBackgroundColor: Colors.white,
-        primarySwatch: ThemeHelper.plattet1,
-        useMaterial3: false,
-        appBarTheme: AppBarTheme(
-            backgroundColor: Colors.white,
-            titleTextStyle: GoogleFonts.dmSerifDisplay(
-              color: Colors.black,
-              fontSize: 20,
-              fontWeight: FontWeight.w400,
-            ),
-            iconTheme: const IconThemeData(color: Colors.black),
-            centerTitle: true,
-            elevation: 3,
-            shadowColor: Colors.black12),
-      ),
+      theme: ThemeHelper.lightTheme,
       //home: DrawerBottomBarView(),
       initialRoute: Routes.initRoute,
       getPages: Routes.pages,

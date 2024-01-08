@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ThemeHelper {
   static const primary = Color(0xffE88C43);
@@ -10,6 +11,8 @@ class ThemeHelper {
   static const grey5 = Color(0xFF6B7280);
   static const grey6 = Color(0xFFE5E7EB);
   static const red1 = Color(0xFFFE3A30);
+  static const lightGrey = Color(0xff929AAB);
+  static const fadedBlue = Color(0xff5D738A);
 
   static const MaterialColor plattet1 =
       MaterialColor(_platter1PrimaryValue, <int, Color>{
@@ -26,12 +29,25 @@ class ThemeHelper {
   });
   static const int _platter1PrimaryValue = 0xFF3669C9;
 
-  static const lightGrey = Color(0xff929AAB);
-  static const fadedBlue = Color(0xff5D738A);
-  // static Gradient gradient1 = const LinearGradient(
-  //   begin: Alignment(-1.064, -0.951),
-  //   end: Alignment(1, 1),
-  //   colors: <Color>[Color(0xffe79141), Color(0xfff05f5f)],
-  //   stops: <double>[0, 1],
-  // );
+
+
+
+  //main Theme Setting
+  static ThemeData lightTheme = ThemeData(
+    scaffoldBackgroundColor: Colors.white,
+    primarySwatch: ThemeHelper.plattet1,
+    useMaterial3: false,
+    appBarTheme: AppBarTheme(
+        backgroundColor: Colors.white,
+        titleTextStyle: GoogleFonts.dmSerifDisplay(
+          color: Colors.black,
+          fontSize: 20,
+          fontWeight: FontWeight.w400,
+        ),
+        iconTheme: const IconThemeData(color: Colors.black),
+        centerTitle: true,
+        elevation: 3,
+        shadowColor: Colors.black12),
+  );
+
 }

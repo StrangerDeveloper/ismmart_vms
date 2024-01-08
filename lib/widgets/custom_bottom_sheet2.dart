@@ -1,18 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ismmart_vms/screens/add_product/add_product_1/model/category_model.dart';
-import 'package:ismmart_vms/screens/add_product/add_product_1/model/types_model.dart';
+import 'package:ismmart_vms/screens/add_product/add_product_1/model/bottom_sheet_item_model.dart';
 
 class CustomBottomSheet2 {
-  final List<CategoryItem>? categoryList;
-  final List<TypesItem>? typeList;
+  final List<BottomSheetItemModel>? itemsList;
   final int selectedIndex;
   final void Function(int) onChanged;
 
   CustomBottomSheet2({
-    this.categoryList,
-    this.typeList,
+    this.itemsList,
     required this.selectedIndex,
     required this.onChanged,
   });
@@ -47,15 +44,11 @@ class CustomBottomSheet2 {
                     tempIndex = index;
                   },
                   children: List.generate(
-                    (categoryList ?? typeList ?? []).length,
+                    (itemsList ?? []).length,
                     (int index) {
                       return Center(
                         child: Text(
-                          categoryList != null
-                              ? categoryList![index].name!
-                              : typeList != null
-                                  ? typeList![index].name!
-                                  : '',
+                          itemsList != null ? itemsList![index].name! : '',
                           style: const TextStyle(
                             fontWeight: FontWeight.w400,
                             fontSize: 15,
