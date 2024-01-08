@@ -37,7 +37,7 @@ class AddProduct1View extends StatelessWidget {
                   mediaWidget(),
                   typeTxtField(),
                   categoryTxtField(),
-                  tagsField(),
+                  // tagsField(),
                   const SizedBox(height: 15,),
                   CustomTextBtn(
                     onPressed: () {
