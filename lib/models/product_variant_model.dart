@@ -1,4 +1,4 @@
-import 'locations_model.dart';
+import 'stock_model.dart';
 
 class ProductVariantModel {
   String? name;

@@ -1,15 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/screens/add_product/add_product_3/add_product_3_viewmodel.dart';
 import 'package:ismmart_vms/widgets/custom_button.dart';
+import 'package:ismmart_vms/widgets/loader_view.dart';
 
 import '../../../helper/constants.dart';
 import '../../../helper/theme_helper.dart';
 import '../../../widgets/custom_bottom_sheet.dart';
 import '../../../widgets/custom_checkbox.dart';
 import '../../../widgets/custom_textfield.dart';
-import '../../../widgets/loader_view.dart';
 import '../../../widgets/stepperText.dart';
 
 class AddProduct3View extends StatelessWidget {
@@ -28,7 +29,7 @@ class AddProduct3View extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                stepperText(),
+                stepperText(3),
                 Container(
                   margin: const EdgeInsets.only(top: 10, bottom: 10),
                   padding: const EdgeInsets.only(
@@ -46,13 +47,13 @@ class AddProduct3View extends StatelessWidget {
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                      thisIsPhysicalProduct(),
+                      checkBox('This is a physical product', viewModel.checkBoxIsPhysicalProduct),
                       weightTxtField(),
+                      // dimensionsSection(),
                       const Divider(),
                       countryRegionTxtField(),
                       hsCodeTxtField(),
-                      continueSellingOFS(),
-                      productHasSkuBarcode(),
+                      checkBox('Continue selling when out-of-stock', viewModel.checkBoxContinueSelling),
                     ],
                   ),
                 ),
@@ -92,7 +93,9 @@ class AddProduct3View extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 15, bottom: 5),
                   child: CustomTextBtn(
                     title: 'Save',
-                    onPressed: () {},
+                    onPressed: () {
+                      viewModel.addProduct();
+                    },
                   ),
                 ),
                 CustomTextBtn(
@@ -103,7 +106,7 @@ class AddProduct3View extends StatelessWidget {
               ],
             ),
           ),
-          const LoaderView(),
+          const LoaderView()
         ],
       ),
     );
@@ -124,22 +127,92 @@ class AddProduct3View extends StatelessWidget {
     );
   }
 
-  Widget thisIsPhysicalProduct() {
+  Widget checkBox(text, RxBool checkValue) {
     return Padding(
-      padding: const EdgeInsets.only(top: 5, bottom: 10),
-      child: CustomCheckBox(
-        value: viewModel.checkBoxIsPhysicalProduct,
-        onChanged: (value) {
-          viewModel.checkBoxIsPhysicalProduct.value = value;
-        },
-        child: const Text(
-          'This is a physical product',
-          style: TextStyle(
-            color: ThemeHelper.grey2,
-            fontSize: 10,
+      padding: const EdgeInsets.symmetric(vertical: 12.0),
+      child: Row(
+        children: [
+          Obx(() => AnimatedContainer(
+            height: 20,
+            width: 20,
+            margin: const EdgeInsets.only(right: 8),
+            duration: const Duration(milliseconds: 200),
+            decoration: BoxDecoration(
+                color: checkValue.value ? newColorBlue : Colors.white,
+                borderRadius: BorderRadius.circular(7),
+                border: Border.all(
+                  color: checkValue.value ? newColorBlue : newColorLightGrey2,
+                )
+            ),
+            child: InkWell(
+                onTap: () {
+                  checkValue.value = !checkValue.value;
+                },
+                child: checkValue.value ? const Center(
+                  child: Icon(
+                    Icons.check,
+                    color: Colors.white,
+                    size: 15,
+                  ),
+                ) : const SizedBox()
+            ),
+          ),
+          ),
+          Text(
+            text,
+            style: interNormalText.copyWith(
+                color: newColorLightGrey2,
+                fontWeight: FontWeight.w400,
+                fontSize: 11
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget dimensionTxtField({
+    required String inputFieldTitle,
+    required String inputFieldHintText,
+    required String unitFieldHintText,
+    required TextEditingController inputFieldController,
+    required TextEditingController unitFieldController,
+    required RxInt selectedIndex,
+    required List<String> unitList,
+    required
+  }) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Expanded(
+          flex: 4,
+          child: CustomTextField5(
+            controller: inputFieldController,
+            title: inputFieldTitle,
+            hintText: inputFieldHintText,
           ),
         ),
-      ),
+        const SizedBox(width: 8),
+        Expanded(
+          flex: 2,
+          child: CustomTextField5(
+            controller: unitFieldController,
+            hintText: unitFieldHintText,
+            suffixIcon: Icons.unfold_more,
+            readOnly: true,
+            onTap: () {
+              CustomBottomSheet1(
+                selectedIndex: selectedIndex.value,
+                list: viewModel.weightUnitList,
+                onValueSelected: (value) {
+                  viewModel.weightUnitSelectedIndex.value = value;
+                  viewModel.weightUnitController.text = viewModel.weightUnitList[value];
+                },
+              ).show();
+            },
+          ),
+        ),
+      ],
     );
   }
 
@@ -147,10 +220,128 @@ class AddProduct3View extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        const Expanded(
+        Expanded(
           flex: 4,
           child: CustomTextField5(
+            controller: viewModel.weightController,
             title: 'Weight',
+            hintText: '0.0',
+            keyboardType: TextInputType.numberWithOptions(decimal: true),
+            inputFormatters: [
+              FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
+            ],
+          ),
+        ),
+        const SizedBox(width: 8),
+        Expanded(
+          flex: 2,
+          child: CustomTextField5(
+            controller: viewModel.weightUnitController,
+            hintText: 'Unit',
+            suffixIcon: Icons.unfold_more,
+            readOnly: true,
+            onTap: () {
+              CustomBottomSheet1(
+                selectedIndex: viewModel.weightUnitSelectedIndex.value,
+                list: viewModel.weightUnitList,
+                onValueSelected: (value) {
+                  viewModel.weightUnitSelectedIndex.value = value;
+                  viewModel.weightUnitController.text = viewModel.weightUnitList[value];
+                },
+              ).show();
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget dimensionsSection() {
+    return SizedBox(
+      width: Get.width * 0.8,
+      height: 200,
+      child: Row(
+        children: [
+          lengthTxtField(),
+          widthTxtField(),
+          heightTxtField(),
+        ],
+      ),
+    );
+  }
+
+  Widget lengthTxtField() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        CustomTextField5(
+          controller: viewModel.lengthController,
+          title: 'Length',
+          hintText: '0.0',
+        ),
+        const SizedBox(width: 8),
+        CustomTextField5(
+          controller: viewModel.lengthUnitController,
+          hintText: 'Unit',
+          suffixIcon: Icons.unfold_more,
+          readOnly: true,
+          onTap: () {
+            CustomBottomSheet1(
+              selectedIndex: viewModel.lengthUnitSelectedIndex.value,
+              list: viewModel.lengthUnitList,
+              onValueSelected: (value) {
+                viewModel.lengthUnitSelectedIndex.value = value;
+                viewModel.lengthUnitController.text = viewModel.lengthUnitList[value];
+              },
+            ).show();
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget widthTxtField() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        CustomTextField5(
+          controller: viewModel.widthController,
+          title: 'Width',
+          hintText: '0.0',
+        ),
+        const SizedBox(width: 8),
+        Expanded(
+          flex: 2,
+          child: CustomTextField5(
+            controller: viewModel.widthUnitController,
+            hintText: 'Unit',
+            suffixIcon: Icons.unfold_more,
+            readOnly: true,
+            onTap: () {
+              CustomBottomSheet1(
+                selectedIndex: viewModel.widthUnitSelectedIndex.value,
+                list: viewModel.widthUnitList,
+                onValueSelected: (value) {
+                  viewModel.widthUnitSelectedIndex.value = value;
+                  viewModel.widthUnitController.text = viewModel.widthUnitList[value];
+                },
+              ).show();
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget heightTxtField() {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Expanded(
+          flex: 4,
+          child: CustomTextField5(
+            controller: viewModel.heightController,
+            title: 'Height',
             hintText: '0.0',
           ),
         ),
@@ -158,17 +349,17 @@ class AddProduct3View extends StatelessWidget {
         Expanded(
           flex: 2,
           child: CustomTextField5(
-            controller: viewModel.unitController,
-            hintText: '0.0',
+            controller: viewModel.heightUnitController,
+            hintText: 'Unit',
             suffixIcon: Icons.unfold_more,
             readOnly: true,
             onTap: () {
               CustomBottomSheet1(
-                selectedIndex: viewModel.unitSelectedIndex.value,
-                list: viewModel.unitList,
+                selectedIndex: viewModel.heightUnitSelectedIndex.value,
+                list: viewModel.heightUnitList,
                 onValueSelected: (value) {
-                  viewModel.unitSelectedIndex.value = value;
-                  viewModel.unitController.text = viewModel.unitList[value];
+                  viewModel.heightUnitSelectedIndex.value = value;
+                  viewModel.heightUnitController.text = viewModel.heightUnitList[value];
                 },
               ).show();
             },
@@ -179,12 +370,24 @@ class AddProduct3View extends StatelessWidget {
   }
 
   Widget countryRegionTxtField() {
-    return const Padding(
-      padding: EdgeInsets.only(top: 4, bottom: 15),
+    return Padding(
+      padding: const EdgeInsets.only(top: 4, bottom: 15),
       child: CustomTextField5(
         title: 'Country/Region of origin',
-        hintText: 'Rs 0.00',
+        hintText: 'Select Country',
         suffixIcon: Icons.unfold_more,
+        controller: viewModel.countryController,
+        readOnly: true,
+        onTap: () {
+          CustomBottomSheet2(
+            selectedIndex: viewModel.countrySelected.value,
+            list: viewModel.countryList,
+            onChanged: (value) {
+              viewModel.countrySelected.value = value;
+              viewModel.countryController.text = viewModel.countryList[value].name!;
+            },
+          ).show();
+        },
       ),
     );
   }
@@ -210,22 +413,6 @@ class AddProduct3View extends StatelessWidget {
             color: ThemeHelper.grey2,
             fontSize: 10,
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget productHasSkuBarcode() {
-    return CustomCheckBox(
-      value: viewModel.checkBoxIsPhysicalProduct,
-      onChanged: (value) {
-        viewModel.checkBoxIsPhysicalProduct.value = value;
-      },
-      child: const Text(
-        'This product has a SKU or barcode',
-        style: TextStyle(
-          color: ThemeHelper.grey2,
-          fontSize: 10,
         ),
       ),
     );
@@ -306,11 +493,15 @@ class AddProduct3View extends StatelessWidget {
           const SizedBox(height: 5),
           Row(
             children: [
-              Transform.scale(
-                scale: 0.8,
-                child: CupertinoSwitch(
-                  value: false,
-                  onChanged: (value) {},
+              Obx(() => Transform.scale(
+                  scale: 0.8,
+                  child: CupertinoSwitch(
+                    activeColor: newColorBlue5,
+                    value: viewModel.productActiveStatusSwitch.value,
+                    onChanged: (value) {
+                      viewModel.productActiveStatusSwitch.value = value;
+                    },
+                  ),
                 ),
               ),
               const Text(

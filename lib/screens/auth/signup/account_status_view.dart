@@ -274,7 +274,7 @@ class AccountStatusView extends StatelessWidget {
                   ],
                 ),
                 onPressed: () {
-                  Get.offAll(() => CustomDrawer());
+                  Get.offAll(() => CustomDrawer(), arguments: 'rejected');
                 },
               )
             : viewModel.status.value['status'] == 'Not Verified'

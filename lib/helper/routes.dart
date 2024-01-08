@@ -4,6 +4,7 @@ import 'package:ismmart_vms/screens/forgot_password/forgot_password_view.dart';
 import '../screens/auth/login/login_view.dart';
 import '../screens/dashboard/dashboard_view.dart';
 import '../screens/order_listing/order_view.dart';
+import '../screens/splashscreen/splasch_screen_view.dart';
 
 class Routes {
   static const initRoute = "/";
@@ -63,7 +64,7 @@ class Routes {
   static final pages = [
     GetPage(
       name: initRoute,
-      page: () => LogInView(),
+      page: () => SplashScreenView(),
       //binding: BaseBindings(),
     ),
     // GetPage(

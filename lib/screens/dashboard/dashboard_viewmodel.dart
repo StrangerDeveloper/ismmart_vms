@@ -16,14 +16,15 @@ class DashboardViewModel extends GetxController {
     DropDownModel(id: "4", name: "23 Dec 2023"),
   ].obs;
 
- 
   RxBool isTab = false.obs;
   RxBool moreOption = false.obs;
 
   var pieTouchIndex = -1.obs;
 
+  RxString rejected = ''.obs;
   @override
   void onReady() {
+    rejected.value = Get.arguments ?? '';
     super.onReady();
 
     getOrdersData();
@@ -35,9 +36,7 @@ class DashboardViewModel extends GetxController {
     super.onClose();
   }
 
-  void getOrdersData() {
-    
-  }
+  void getOrdersData() {}
 
   ///*************Chart Data */ ///
   LineTouchData get lineTouchData1 => LineTouchData(

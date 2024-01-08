@@ -361,6 +361,7 @@ class CustomTextField2 extends StatelessWidget {
   final String? label;
   final EdgeInsetsGeometry? contentPadding;
   final bool obscureText;
+  final TextStyle? titleTextStyle;
   final TextEditingController? controller;
   final Color? fillColor;
   final Color? titleColor;
@@ -368,6 +369,7 @@ class CustomTextField2 extends StatelessWidget {
   final bool readOnly;
   final bool enabled;
   final bool? showCursor;
+  final String? initialValue;
   final AutovalidateMode? autoValidateMode;
   final FormFieldValidator<String>? validator;
   final List<TextInputFormatter>? inputFormatters;
@@ -384,6 +386,7 @@ class CustomTextField2 extends StatelessWidget {
     this.focusNode,
     this.titleColor,
     this.onTap,
+    this.initialValue,
     this.enabled = true,
     this.contentPadding = const EdgeInsets.all(8),
     this.controller,
@@ -397,6 +400,7 @@ class CustomTextField2 extends StatelessWidget {
     this.validator,
     this.inputFormatters,
     this.keyboardType,
+    this.titleTextStyle
   });
 
   @override
@@ -407,9 +411,10 @@ class CustomTextField2 extends StatelessWidget {
         if (title != null)
           Padding(
             padding: const EdgeInsets.only(bottom: 5),
-            child: Text(title!, style: newFontStyle1),
+            child: Text(title!, style: titleTextStyle ?? newFontStyle1),
           ),
         TextFormField(
+          initialValue: initialValue,
           onTap: onTap,
           focusNode: focusNode,
           enabled: enabled,
@@ -493,10 +498,14 @@ class CustomTextField3 extends StatelessWidget {
   final String? hintText;
   final Widget? suffixIcon;
   final Widget? prefixIcon;
+  final String? addedTitleText;
   final EdgeInsetsGeometry? contentPadding;
   final bool obscureText;
   final TextEditingController? controller;
   final bool readOnly;
+  final Color? fillColor;
+  final TextStyle? titleTextStyle;
+  final TextStyle? addedTitleTextStyle;
   final bool? showCursor;
   final AutovalidateMode? autoValidateMode;
   final FormFieldValidator<String>? validator;
@@ -520,12 +529,16 @@ class CustomTextField3 extends StatelessWidget {
     this.obscureText = false,
     this.hintText,
     this.title,
+    this.fillColor,
     this.autoValidateMode,
     this.validator,
     this.enabled = true,
     this.inputFormatters,
     this.keyboardType,
     this.required = true,
+    this.titleTextStyle,
+    this.addedTitleTextStyle,
+    this.addedTitleText,
   });
 
   @override
@@ -541,13 +554,13 @@ class CustomTextField3 extends StatelessWidget {
               child: RichText(
                 text: TextSpan(
                   text: title!,
-                  style: newFontStyleSize14.copyWith(
+                  style: titleTextStyle ?? newFontStyleSize14.copyWith(
                       fontWeight: FontWeight.w500, color: newColorDarkBlack),
                   children: [
                     if (required)
-                      const TextSpan(
-                        text: ' *',
-                        style: TextStyle(color: Colors.red),
+                      TextSpan(
+                        text: addedTitleText ?? ' *',
+                        style: addedTitleTextStyle ?? const TextStyle(color: Colors.red),
                       )
                   ],
                 ),
@@ -604,25 +617,32 @@ class CustomTextField3 extends StatelessWidget {
                         fontSize: 13,
                         color: Colors.red.shade700,
                       ),
-                      // disabledBorder: const UnderlineInputBorder(
-                      //   borderSide: BorderSide(color: Color(0xffEEEEEE)),
-                      // ),
-                      // enabledBorder: const UnderlineInputBorder(
-                      //   borderSide: BorderSide(color: Color(0xffEEEEEE)),
-                      // ),
-                      // focusedBorder: const UnderlineInputBorder(
-                      //   borderSide: BorderSide(color: Color(0xff929AAB)),
-                      // ),
-                      // errorBorder: UnderlineInputBorder(
-                      //   borderSide:
-                      //       BorderSide(color: Colors.red.shade700, width: 0.3),
-                      // ),
-                      // focusedErrorBorder: UnderlineInputBorder(
-                      //   borderSide:
-                      //       BorderSide(color: Colors.red.shade700, width: 0.6),
-                      // ),
-                    ),
+                    //   disabledBorder: OutlineInputBorder(
+                    //     borderSide:
+                    //     const BorderSide(color: kTextfieldBorderColor, width: 0.8),
+                    //     borderRadius: BorderRadius.circular(9),
+                    //   ),
+                    //   enabledBorder: OutlineInputBorder(
+                    //     borderSide:
+                    //     const BorderSide(color: kTextfieldBorderColor, width: 1.2),
+                    //     borderRadius: BorderRadius.circular(9),
+                    //   ),
+                    //   focusedBorder: OutlineInputBorder(
+                    //     borderSide:
+                    //     const BorderSide(color: kTextfieldBorderColor, width: 1.2),
+                    //     borderRadius: BorderRadius.circular(8),
+                    //   ),
+                    //   errorBorder: OutlineInputBorder(
+                    //     borderSide: BorderSide(color: Colors.red.shade700, width: 1.2),
+                    //     borderRadius: BorderRadius.circular(8),
+                    //   ),
+                    //   focusedErrorBorder: OutlineInputBorder(
+                    //     borderSide: BorderSide(color: Colors.red.shade700),
+                    //     borderRadius: BorderRadius.circular(8),
+                    //   ),
+                    // ),
                   ),
+                ),
                 ),
               ],
             ),

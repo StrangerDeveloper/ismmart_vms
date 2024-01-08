@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ismmart_vms/helper/global_variables.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/screens/auth/login/login_view.dart';
 import 'package:ismmart_vms/screens/auth/signup/signup_1/sign_up_1_view.dart';
@@ -32,7 +31,7 @@ class SingupMethodsView extends StatelessWidget {
               ScrollableColumn(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 50,
                   ),
                   titleAndBackBtn(),
@@ -58,15 +57,12 @@ class SingupMethodsView extends StatelessWidget {
                   orWidget(),
                   googlelogInBtn(),
                   // facebooklogInBtn(),
-                  if (Platform.isIOS) applelogInBtn(),
+                  //   if (Platform.isIOS) applelogInBtn(),
                   const Spacer(),
                   doNotHaveAnAccount(),
                 ],
               ),
               const LoaderView(),
-              // NoInternetView(
-              //   onPressed: () => viewModel.signIn(),
-              // ),
             ],
           ),
         ),
@@ -128,8 +124,9 @@ class SingupMethodsView extends StatelessWidget {
     return Padding(
         padding: const EdgeInsets.only(top: 22),
         child: CustomTextBtn(
-          padding: const EdgeInsets.only(top: 5),
+          // padding: const EdgeInsets.only(top: 5),
           backgroundColor: Colors.white,
+          foregroundColor: Colors.black,
           radius: 30,
           borderSide: const BorderSide(
             color: Colors.black, // your color here
@@ -140,17 +137,15 @@ class SingupMethodsView extends StatelessWidget {
             children: [
               Text(
                 'Continue with phone number',
-                style: newFontStyleSize14.copyWith(
-                    color: newColorDarkBlack, fontWeight: FontWeight.w600),
+
+                // style: newFontStyleSize14.copyWith(
+                //     color: newColorDarkBlack, fontWeight: FontWeight.w600),
               ),
               SizedBox(width: 4.h),
-              const Padding(
-                padding: EdgeInsets.only(bottom: 8.0),
-                child: Icon(
-                  Icons.arrow_forward,
-                  size: 20,
-                  color: newColorDarkBlack,
-                ),
+              Icon(
+                Icons.arrow_forward,
+                size: 20,
+                color: newColorDarkBlack,
               ),
             ],
           ),

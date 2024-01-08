@@ -1,4 +1,4 @@
-import 'package:ismmart_vms/screens/add_product/add_product_1/model/types_model.dart';
+import 'package:ismmart_vms/screens/add_product/add_product_1/model/bottom_sheet_item_model.dart';
 
 class ProductModel {
   List<ProductsItem>? items;
@@ -48,7 +48,7 @@ String? id;
     List<Media>? media;
     List<Option>? options;
     Seo? seo;
-    TypesItem? type;
+    BottomSheetItemModel? type;
     List<Category>? categories;
     List<dynamic>? collections;
     bool? deleted;
@@ -95,7 +95,7 @@ String? id;
         media: json["media"] == null ? [] : List<Media>.from(json["media"]!.map((x) => Media.fromJson(x))),
         options: json["options"] == null ? [] : List<Option>.from(json["options"]!.map((x) => Option.fromJson(x))),
         seo: json["seo"] == null ? null : Seo.fromJson(json["seo"]),
-        type: json["type"] == null ? null : TypesItem.fromJson(json["type"]),
+        type: json["type"] == null ? null : BottomSheetItemModel.fromJson(json["type"]),
         categories: json["categories"] == null ? [] : List<Category>.from(json["categories"]!.map((x) => Category.fromJson(x))),
         collections: json["collections"] == null ? [] : List<dynamic>.from(json["collections"]!.map((x) => x)),
         deleted: json["deleted"],

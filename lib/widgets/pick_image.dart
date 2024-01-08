@@ -170,7 +170,7 @@ class PickImage {
               ),
               const Divider(),
               BottomSheetItemRow(
-                title: gallery.tr,
+                title: 'Gallery',
                 icon: Icons.image,
                 isDisabled: false,
                 onTap: () async {
@@ -180,7 +180,7 @@ class PickImage {
                 },
               ),
               BottomSheetItemRow(
-                title: camera.tr,
+                title: 'Camera',
                 icon: Icons.camera_alt_outlined,
                 isDisabled: false,
                 onTap: () async {

@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ismmart_vms/helper/global_variables.dart';
+import 'package:ismmart_vms/helper/common_function.dart';
 import 'package:ismmart_vms/helper/languages/translations_key.dart';
 import 'package:ismmart_vms/helper/routes.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
@@ -12,7 +12,6 @@ import 'package:ismmart_vms/widgets/custom_text.dart';
 import 'package:ismmart_vms/widgets/custom_textfield.dart';
 import 'package:ismmart_vms/widgets/loader_view.dart';
 import 'package:ismmart_vms/widgets/obscure_suffix_icon.dart';
-import 'package:ismmart_vms/widgets/scrollable_column.dart';
 
 import '../../../helper/constants.dart';
 import '../signup/signup_methods/singup_methods_view.dart';
@@ -64,9 +63,9 @@ class LogInView extends StatelessWidget {
                       orWidget(),
                       googlelogInBtn(),
                       // facebooklogInBtn(),
-                      if (Platform.isIOS) applelogInBtn(),
+                      // if (Platform.isIOS) applelogInBtn(),
                       SizedBox(
-                        height: MediaQuery.of(context).size.height * .2,
+                        height: MediaQuery.of(context).size.height * .07,
                       ),
                       doNotHaveAnAccount(),
                     ],
@@ -74,7 +73,7 @@ class LogInView extends StatelessWidget {
                 ),
               ),
             ),
-            LoaderView()
+            const LoaderView()
           ],
         ),
       ),
@@ -187,34 +186,31 @@ class LogInView extends StatelessWidget {
   }
 
   Widget applelogInBtn() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 10, 20, 25),
-      child: CustomTextBtn(
-        radius: 30,
-        borderSide: const BorderSide(
-          color: Colors.black, // your color here
-          width: 1,
-        ),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              'assets/logo/apple_logo.png',
-            ),
-            const SizedBox(
-              width: 5,
-            ),
-            const Text(
-              "Signin with Apple ID",
-            ),
-          ],
-        ),
-        onPressed: () {
-          viewModel.appleSignin();
-        },
+    return CustomTextBtn(
+      radius: 30,
+      borderSide: const BorderSide(
+        color: newColorLightGrey, // your color here
+        width: 1,
       ),
+      backgroundColor: Colors.white,
+      foregroundColor: Colors.black,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            'assets/logo/apple_logo.png',
+          ),
+          const SizedBox(
+            width: 5,
+          ),
+          const Text(
+            "Signin with Apple ID",
+          ),
+        ],
+      ),
+      onPressed: () {
+        viewModel.appleSignin();
+      },
     );
   }
 
@@ -292,7 +288,8 @@ class LogInView extends StatelessWidget {
         alignment: Alignment.centerRight,
         child: TextButton(
             onPressed: () {
-              print("forget --------${viewModel.emailController.text}");
+              CommonFunction.debugPrint(
+                  "forget --------${viewModel.emailController.text}");
               Get.toNamed(Routes.forgotPassword1, arguments: {
                 'email': GetUtils.isEmail(viewModel.emailController.text)
                     ? viewModel.emailController.text

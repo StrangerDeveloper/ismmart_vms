@@ -41,7 +41,7 @@ const newColorBlue = Color(0xff3669C9);
 const newColorBlue2 = Color(0xff364554);
 const newColorBlue3 = Color(0xffADBCCB);
 const newColorBlue4 = Color(0xff5D738A);
-
+const newColorBlue5 = Color(0xff1A56DB);
 const kDefaultPadding = 16.0;
 const kLessPadding = 10.0;
 const kFixPadding = 12.0;
@@ -83,8 +83,8 @@ var poppinsH2 = GoogleFonts.poppins(
   color: Colors.white,
 );
 
-var interHeadingSize14 = GoogleFonts.inter(
-    fontSize: 14, fontWeight: FontWeight.w500, color: Colors.black);
+var interHeadingSize15 = GoogleFonts.inter(
+    fontSize: 15, fontWeight: FontWeight.w500, color: Colors.black);
 
 var interNormalText =
     GoogleFonts.inter(fontWeight: FontWeight.w400, color: Colors.black);
