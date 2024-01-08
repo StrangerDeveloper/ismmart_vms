@@ -51,11 +51,7 @@ class OrderListingViewModel extends GetxController {
       var data = response['data']['items'] as List;
       if (response['success'] == true) {
         orderItemList.clear();
-        // OrderItem orderModel = OrderItem.fromJson(response['data']['items']);
-        // orderItemModel.value = orderModel;
         orderItemList.addAll(data.map((e) => OrderItem.fromJson(e)));
-
-        print("Order item List ${orderItemList.length}");
       } else {
         //scrollController.dispose();
         GlobalVariable.showLoader.value = false;

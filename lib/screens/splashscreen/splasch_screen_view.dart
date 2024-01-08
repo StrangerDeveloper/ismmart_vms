@@ -18,7 +18,6 @@ class _SplashScreenViewState extends State<SplashScreenView> {
   @override
   void initState() {
     islogin = box.read('islogin') ?? false;
-    print("---------- already login --------->>> $islogin <<<---------");
     Future.delayed(
         const Duration(seconds: 4),
         () => Navigator.of(context).pushAndRemoveUntil(
