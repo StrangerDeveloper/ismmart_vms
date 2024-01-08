@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:ismmart_vms/helper/common_function.dart';
 import 'package:ismmart_vms/helper/errors.dart';
@@ -218,9 +219,16 @@ class ApiBaseHelper {
       debugPrint("$urlValue");
 
       http.MultipartRequest request = http.MultipartRequest('POST', urlValue);
-      request.headers.addAll(header);
+      request.headers.remove('Content-Type');
+      request.headers.addAll({
+        'Content-Type': 'multipart/form-data',
+        'Authorization': 'Bearer ${GlobalVariable.token}',
+      });
       request.fields.addAll(fields);
       request.files.addAll(files);
+
+      print(request.fields);
+
       http.StreamedResponse response = await request.send();
       Map<String, dynamic> parsedJson =
           await jsonDecode(await response.stream.bytesToString());

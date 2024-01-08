@@ -26,14 +26,16 @@ class AddProduct2ViewModel extends GetxController {
   TextEditingController lengthController = TextEditingController();
   TextEditingController widthController = TextEditingController();
   TextEditingController heightController = TextEditingController();
-  Map<String, dynamic> previousDetails = {};
+  Map<String, String> previousDetails = {};
   List<PicturesModel> images = <PicturesModel>[];
+  bool cameFromProductList = false;
+  FocusNode focusNode = FocusNode();
 
   @override
   void onInit() {
     previousDetails = Get.arguments['productDetails'];
     images = Get.arguments['productImages'];
-    print(images);
+    cameFromProductList = Get.arguments['cameFromProductList'];
     super.onInit();
   }
 
@@ -52,6 +54,8 @@ class AddProduct2ViewModel extends GetxController {
 
     GlobalVariable.showLoader.value = true;
 
+    locationInventoryList.clear();
+
     ApiBaseHelper().getMethod(url: Urls.getInventoryLocation).then((parsedJson) {
       if(parsedJson['success'] == true) {
         GlobalVariable.showLoader.value = false;
@@ -62,11 +66,10 @@ class AddProduct2ViewModel extends GetxController {
       }
     }).catchError((e) {
       GlobalVariable.showLoader.value = false;
-      print(e);
       AppConstant.displaySnackBar('Error', e);
     });
   }
-  
+
   creatingVariants() {
     combinations.clear();
     if (listOfOptionsAdded.isNotEmpty) {
@@ -175,17 +178,17 @@ class AddProduct2ViewModel extends GetxController {
 
     for(int i = 0; i<=listOfOptionsAdded.length-1 ; i++){
       previousDetails.addAll({
-        "options[$i][name]": listOfOptionsAdded[i].optionName?.text,
+        "options[$i][name]": listOfOptionsAdded[i].optionName!.text,
       });
       for(int j = 0; j <= listOfOptionsAdded[i].optionValues!.length - 1; j++){
         previousDetails.addAll({
-          "options[$i][values][$j]": listOfOptionsAdded[i].optionValues?[j].text
+          "options[$i][values][$j]": listOfOptionsAdded[i].optionValues![j].text
         });
       }
     }
     for(int i = 0; i <= finalCombinationsList.length-1 ; i++) {
       previousDetails.addAll({
-        "variants[$i][variantId]": i,
+        "variants[$i][variantId]": "$i",
         // "variants[$i][weight]": weightController.text,
         // "variants[$i][dimensions][length]": lengthController.text,
         // "variants[$i][dimensions][width]": widthController.text,
@@ -203,20 +206,21 @@ class AddProduct2ViewModel extends GetxController {
           'variants[$i][options][0]': splitted[0]
         });
       }
-      for(int k = 0; k <= finalCombinationsList[i].locationInventory!.length - 1 ; k++) {
+      for(int k = 0; k <= 1 ; k++) {
         previousDetails.addAll({
-          "inventory[$k][location]": finalCombinationsList[i].locationInventory?[k].id,
-          "inventory[$k][variant]": i,
-          "inventory[$k][quantity]": finalCombinationsList[i].locationInventory?[k].quantity,
-          "inventory[$k][price]": finalCombinationsList[i].locationInventory?[k].price,
-          "inventory[$k][sku]": finalCombinationsList[i].locationInventory?[k].sku,
-          "inventory[$k][barcode]": finalCombinationsList[i].locationInventory?[k].barcode,
+          "inventory[$k][location]": finalCombinationsList[i].locationInventory![k].id!,
+          "inventory[$k][variant]": "$i",
+          "inventory[$k][quantity]": finalCombinationsList[i].locationInventory?[k].quantity == null ? '0' : "${finalCombinationsList[i].locationInventory![k].quantity!}",
+          "inventory[$k][price]": finalCombinationsList[i].locationInventory?[k].price == null ? '0' : "${finalCombinationsList[i].locationInventory?[k].price}",
+          "inventory[$k][sku]": finalCombinationsList[i].locationInventory?[k].sku == null ? '0' : "${finalCombinationsList[i].locationInventory?[k].sku}",
+          "inventory[$k][barcode]": finalCombinationsList[i].locationInventory?[k].barcode == null ? '0' : "${finalCombinationsList[i].locationInventory?[k].barcode}",
         });
       }
       if(i == finalCombinationsList.length - 1){
         Get.to(() => AddProduct3View(), arguments: {
           'productDetails': previousDetails,
-          'productImages' : images
+          'productImages' : images,
+          'cameFromProductList': cameFromProductList,
         });
       }
     }

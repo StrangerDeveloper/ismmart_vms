@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/constants.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/helper/resourses/app_colors.dart';
+import 'package:ismmart_vms/screens/add_product/add_product_1/add_product_1_view.dart';
 import 'package:ismmart_vms/screens/product_list/product_list_viewmodel.dart';
 import 'package:ismmart_vms/screens/product_list/product_model.dart';
 import 'package:ismmart_vms/widgets/custom_button.dart';
@@ -84,7 +85,7 @@ class ProductListView extends StatelessWidget {
             borderRadius: 12,
             width: Get.width / 2.5,
             onPressed: () {
-              // Get.to(AddProduct1View());
+              Get.to(() => AddProduct1View(), arguments: {'cameFromProductList': true});
               // Get.find<DrawerBottomBarViewModel>().changePage(2);
             },
             title: '+ Add Product',

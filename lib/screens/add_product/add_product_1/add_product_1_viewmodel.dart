@@ -23,7 +23,8 @@ class AddProduct1ViewModel extends GetxController {
   TextEditingController prodProfitController = TextEditingController();
   TextEditingController prodMarginController = TextEditingController();
   TextEditingController prodTagController = TextEditingController();
-
+  bool cameFromProductList = false;
+  dynamic arguments;
   final GlobalKey<FormState> productDetailsFormKey = GlobalKey<FormState>();
 
   //Media
@@ -61,6 +62,10 @@ class AddProduct1ViewModel extends GetxController {
   @override
   void onInit() async {
     await Permission.manageExternalStorage.request();
+    arguments = Get.arguments;
+    if(arguments != null) {
+      cameFromProductList = arguments['cameFromProductList'];
+    }
     super.onInit();
   }
 
@@ -123,7 +128,7 @@ class AddProduct1ViewModel extends GetxController {
         if(index == -1){
           imagesThumbnailCheck.value = true;
         } else {
-          Map<String, dynamic> data = {};
+          Map<String, String> data = {};
 
           data.addAll({'name': prodTitleController.text});
 
@@ -134,26 +139,28 @@ class AddProduct1ViewModel extends GetxController {
 
           for(int i = 0; i<=chosenCategoriesList.length-1 ; i++){
             data.addAll({
-              'categories[$i]': chosenCategoriesList[i].id,
+              'categories[$i]': "${chosenCategoriesList[i].id}",
             });
           }
 
-          data.addAll({'type': typeController.text});
+          data.addAll({'type': typeList[typeSelectedIndex.value].id!});
 
           if (chosenTagsList.isNotEmpty) {
             for (int i = 0; i <= chosenTagsList.length - 1; i++) {
-              data.addAll({"tags[$i]": chosenTagsList[i].name});
+              data.addAll({"tags[$i]": "${chosenTagsList[i].name}"});
               if (i == chosenTagsList.length - 1) {
                     Get.to(() => AddProduct2View(), arguments: {
                       'productDetails': data,
-                      'productImages': productImagesList
+                      'productImages': productImagesList,
+                      'cameFromProductList': cameFromProductList,
                     });
               }
             }
           } else {
                 Get.to(() => AddProduct2View(), arguments: {
                   'productDetails': data,
-                  'productImages': productImagesList
+                  'productImages': productImagesList,
+                  'cameFromProductList': cameFromProductList,
                 });
           }
         }

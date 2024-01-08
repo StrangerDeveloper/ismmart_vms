@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:ismmart_vms/models/variant_selection_model.dart';
 import 'package:ismmart_vms/screens/add_product/add_product_1/add_product_1_view.dart';
 import 'package:ismmart_vms/screens/add_product/add_product_2/add_product_2_viewmodel.dart';
+import 'package:ismmart_vms/screens/location_list/location_list_view.dart';
 import 'package:ismmart_vms/widgets/custom_button.dart';
 
 import '../../../helper/constants.dart';
@@ -61,7 +62,7 @@ class AddProduct2View extends StatelessWidget {
     return AppBar(
       backgroundColor: Colors.white,
       leading: IconButton(
-          onPressed: () => Get.to(() => AddProduct1View()),
+          onPressed: () => Get.back(),
           icon: const Icon(
             Icons.arrow_back_ios_new_rounded,
             size: 22,
@@ -498,6 +499,7 @@ class AddProduct2View extends StatelessWidget {
                                                           } else {
                                                             viewModel.listOfOptionsAdded[optionNameIndex].optionValues?.add(TextEditingController());
                                                             viewModel.listOfOptionsAdded.refresh();
+                                                            viewModel.focusNode.requestFocus();
                                                           }
                                                         },
                                                         child: Text(
@@ -786,7 +788,9 @@ class AddProduct2View extends StatelessWidget {
                   style: interNormalText,
                 ),
                 Obx(() => viewModel.locationInventoryList.isEmpty ? const SizedBox() : TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.to(() => LocationListView(), arguments: {'cameFromAddProduct': true});
+                    },
                     child: Text(
                       'Edit Locations',
                       style: interNormalText.copyWith(

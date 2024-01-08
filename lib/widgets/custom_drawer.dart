@@ -22,6 +22,7 @@ class CustomDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+      top: false,
       child: Drawer(
         width: Get.width * 0.7,
         child: SingleChildScrollView(
@@ -36,6 +37,12 @@ class CustomDrawer extends StatelessWidget {
                   hasMenu: false),
 
               // drawerHeader(),
+              // drawerListItems(
+              //   'Dashboard',
+              //   onTab: () {
+              //     GlobalVariable.selectedIndex.value = 0;
+              //   }
+              // )
               drawerListItems(
                 'Store',
                 onTab: () {

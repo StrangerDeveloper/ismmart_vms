@@ -9,6 +9,7 @@ import '../../helper/global_variables.dart';
 import '../../helper/urls.dart';
 
 class LocationListViewModel extends GetxController {
+
   RxInt totalPages = 1.obs;
   TextEditingController searchController = TextEditingController();
   String radioBtnUrlValue = '';
@@ -20,6 +21,17 @@ class LocationListViewModel extends GetxController {
   RxInt currentPage = 0.obs;
   int pageNo = 0;
   RxBool paginationLoader = false.obs;
+  dynamic arguments;
+  bool cameFromAddProduct = false;
+
+  @override
+  void onInit() {
+    arguments = Get.arguments;
+    if(arguments != null) {
+      cameFromAddProduct = arguments['cameFromAddProduct'];
+    }
+    super.onInit();
+  }
 
   @override
   Future<void> onReady() async {

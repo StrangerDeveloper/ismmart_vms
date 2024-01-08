@@ -31,4 +31,5 @@ class Urls {
   static String forgetPassword = "/auth/forgot";
   static String updateOrder = "/vendor/order/update/status";
   static String resendEmail = "/vendor/auth/resend";
+  static String addProduct = "/vendor/product/add";
 }

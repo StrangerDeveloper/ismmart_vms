@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ismmart_vms/helper/global_variables.dart';
 import 'package:ismmart_vms/screens/add_product/add_product_1/model/pictures_model.dart';
+import 'package:ismmart_vms/widgets/custom_appbar.dart';
 import 'package:ismmart_vms/widgets/custom_bottom_sheet2.dart';
 import 'package:ismmart_vms/widgets/pick_image.dart';
 import 'package:quill_html_editor/quill_html_editor.dart';
@@ -21,7 +23,7 @@ class AddProduct1View extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar(),
+      appBar: GlobalVariable.selectedIndex.value == 2 ? null : appBar(),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(

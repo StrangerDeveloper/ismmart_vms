@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ismmart_vms/helper/constants.dart';
 import 'package:ismmart_vms/helper/theme_helper.dart';
 import 'package:ismmart_vms/screens/add_location/add_location_view.dart';
+import 'package:ismmart_vms/screens/add_product/add_product_2/add_product_2_view.dart';
+import 'package:ismmart_vms/screens/add_product/add_product_2/add_product_2_viewmodel.dart';
 import 'package:ismmart_vms/screens/location_list/location_list_viewmodel.dart';
 import 'package:ismmart_vms/widgets/loader_view.dart';
 
@@ -21,6 +24,18 @@ class LocationListView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Location'),
+        leading: viewModel.cameFromAddProduct ? IconButton(
+            onPressed: () async {
+              final AddProduct2ViewModel addProduct2ViewModel = Get.find();
+              await addProduct2ViewModel.getInventoryLocations();
+              Get.back();
+            },
+            icon: const Icon(
+              Icons.arrow_back_ios_rounded,
+              size: 22,
+              color: newColorLightGrey3,
+            )
+        ) : null,
       ),
       body: Stack(
         children: [
