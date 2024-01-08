@@ -9,9 +9,7 @@ import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/screens/auth/login/login_view.dart';
 import 'package:ismmart_vms/screens/bank_list/bank_list_view.dart';
 import '../screens/add_location/add_location_view.dart';
-import '../screens/collection/collection_list_view.dart';
 import '../screens/dashboard/dashboard_viewmodel.dart';
-import '../screens/shippings/shippings_view.dart';
 import '../screens/store_profile/store_profile_view.dart';
 import '../screens/user_profile/user_profile_view.dart';
 
