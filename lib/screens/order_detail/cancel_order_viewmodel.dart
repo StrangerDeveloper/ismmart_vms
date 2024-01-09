@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/constants.dart';
 import '../../helper/api_base_helper.dart';
@@ -9,7 +11,6 @@ import 'order_detail_view.dart';
 import 'order_detail_viewmodel.dart';
 
 class CancelORderViewMOdel extends GetxController {
-
   OrderListingViewModel orderListingViewModel = Get.find();
   OrderDetailViewModel orderDetailViewModel = Get.find();
 
@@ -50,6 +51,8 @@ class CancelORderViewMOdel extends GetxController {
           "itemsIndex": selectedIndicesId,
           "status": selectedItemsStatus,
         };
+
+        GlobalVariable.showLoader.value = true;
         await ApiBaseHelper()
             .putMethod(url: Urls.updateOrder, body: param)
             .then((response) async {
@@ -71,8 +74,18 @@ class CancelORderViewMOdel extends GetxController {
             Get.to(() => OrderDetailView());
           } else {
             AppConstant.displaySnackBar(
-                'Error', 'Something went wrong, please try again');
+              "Error",
+              response['message'],
+            );
+
+            GlobalVariable.showLoader.value = false;
           }
+        }).catchError((error) {
+          AppConstant.displaySnackBar(
+            "Error",
+            error.toString(),
+          );
+          GlobalVariable.showLoader.value = false;
         });
       } else {
         AppConstant.displaySnackBar(
