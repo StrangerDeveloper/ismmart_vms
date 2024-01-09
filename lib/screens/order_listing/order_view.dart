@@ -22,7 +22,7 @@ class OrderView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _buildAppBar(),
+      //appBar: _buildAppBar(),
       body: Stack(
         children: [
           SingleChildScrollView(
