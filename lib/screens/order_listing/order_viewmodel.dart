@@ -4,6 +4,7 @@ import 'package:ismmart_vms/helper/api_base_helper.dart';
 import 'package:ismmart_vms/helper/global_variables.dart';
 import 'package:ismmart_vms/screens/order_listing/model/orderModel.dart';
 
+import '../../helper/constants.dart';
 import '../../helper/urls.dart';
 
 class OrderListingViewModel extends GetxController {
@@ -45,19 +46,27 @@ class OrderListingViewModel extends GetxController {
   }
 
   Future<void> getOrderListing() async {
+    GlobalVariable.showLoader.value = true;
     await ApiBaseHelper()
         .getMethod(url: '${Urls.getOrders}$searchUrlValue')
         .then((response) {
       var data = response['data']['items'] as List;
       if (response['success'] == true) {
+        GlobalVariable.showLoader.value = false;
         orderItemList.clear();
         orderItemList.addAll(data.map((e) => OrderItem.fromJson(e)));
       } else {
-        //scrollController.dispose();
+        AppConstant.displaySnackBar(
+          "Error",
+          response['message'],
+        );
         GlobalVariable.showLoader.value = false;
       }
     }).catchError((error) {
-      //scrollController.dispose();
+      AppConstant.displaySnackBar(
+        "Error",
+        error.toString(),
+      );
       GlobalVariable.showLoader.value = false;
     });
   }
