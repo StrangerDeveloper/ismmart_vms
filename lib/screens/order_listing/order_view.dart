@@ -167,7 +167,7 @@ class OrderView extends StatelessWidget {
                         ),
                       ),
                       _customField2(
-                          "${DateFormat("y MMM d").format(DateTime.parse(orderController.orderItemList[index].createdAt!))} at ${DateFormat("h:mm a").format(DateTime.parse(orderController.orderItemList[index].createdAt!))}"),
+                          "${DateFormat("y MMM d").format(DateTime.parse(orderController.orderItemList[index].createdAt ?? "now"))} at ${DateFormat("h:mm a").format(DateTime.parse(orderController.orderItemList[index].createdAt ?? "now"))}"),
                     ],
                   ),
                   _customField2(orderController
