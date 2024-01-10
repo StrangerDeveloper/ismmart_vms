@@ -179,9 +179,7 @@ class LocationListView extends StatelessWidget {
                   if (viewModel.paginationLoader.value)
                     const Padding(
                       padding: EdgeInsets.all(8.0),
-                      child: Center(
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      ),
+                      child: CustomCircularLoader()
                     )
                 ],
               )

@@ -174,6 +174,7 @@ class LogInViewModel extends GetxController {
   // ----------  Status Enums Check of Account-------
   accountStatusCheck(String status, String email) {
     if (status == "Approved") {
+      
       Get.offAll(() => DrawerBottomBarView());
     } else if (status == "Rejected") {
       var param = {

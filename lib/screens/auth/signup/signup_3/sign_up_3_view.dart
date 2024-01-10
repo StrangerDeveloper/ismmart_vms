@@ -53,7 +53,7 @@ class SignUp3View extends StatelessWidget {
                         validator: (value) {
                           if (viewModel.bankController.text == '') {
                             return Validator.validateDefaultField(value,
-                                errMsg: 'Bank Name is Required');
+                                errorMessage: 'Bank Name is Required');
                           } else {
                             return null;
                           }
@@ -219,7 +219,7 @@ class SignUp3View extends StatelessWidget {
         autoValidateMode: AutovalidateMode.onUserInteraction,
         validator: (value) {
           return Validator.validateDefaultField(value,
-              errMsg: 'Bank Title is Required');
+              errorMessage: 'Bank Title is Required');
         },
         keyboardType: TextInputType.text,
       ),
@@ -245,7 +245,7 @@ class SignUp3View extends StatelessWidget {
           ],
           validator: (value) {
             return Validator.validateDefaultField(value,
-                errMsg: 'Acount Number is Required');
+                errorMessage: 'Acount Number is Required');
           },
         ));
   }
@@ -258,7 +258,7 @@ class SignUp3View extends StatelessWidget {
       autoValidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
         return Validator.validateDefaultField(value,
-            errMsg: 'IBAN is required');
+            errorMessage: 'IBAN is required');
       },
       keyboardType: TextInputType.text,
     );

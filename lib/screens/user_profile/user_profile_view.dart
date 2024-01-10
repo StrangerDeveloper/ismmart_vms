@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/screens/edit_user_profile/edit_user_profile_view.dart';
 import 'package:ismmart_vms/screens/user_profile/user_profile_viewmodel.dart';
+import 'package:ismmart_vms/widgets/custom_cached_network_image.dart';
 import 'package:ismmart_vms/widgets/loader_view.dart';
 
 import '../../helper/theme_helper.dart';
@@ -88,43 +89,11 @@ class UserProfileView extends StatelessWidget {
   Widget profileImage() {
     return Align(
       alignment: Alignment.center,
-      child: Obx(
-        () => CachedNetworkImage(
-          height: 80,
-          width: 80,
-          imageUrl:viewModel.userProfileModel.value.image !=
-              null
-              ? viewModel.userProfileModel.value.image!
-              : '',
-          imageBuilder: (context, imageProvider) {
-            return Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  image: imageProvider,
-                  fit: BoxFit.cover,
-                ),
-              ),
-            );
-          },
-          errorWidget: (context, url, error) {
-            return Container(
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  image: AssetImage('assets/logo/logo_new.png'),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            );
-          },
-          placeholder: (context, url) {
-            return const Center(
-              child: CircularProgressIndicator(strokeWidth: 2.0),
-            );
-          },
-        ),
-      ),
+      child: Obx(() => CustomCachedNetworkImage(
+            imageUrl: viewModel.userProfileModel.value.image != null
+                ? viewModel.userProfileModel.value.image!
+                : '',
+          )),
     );
   }
 

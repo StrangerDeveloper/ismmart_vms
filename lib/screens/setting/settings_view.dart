@@ -12,8 +12,6 @@ import 'package:ismmart_vms/screens/user_profile/user_profile_view.dart';
 import '../../helper/constants.dart';
 import '../dashboard/dashboard_viewmodel.dart';
 import '../location_list/location_list_view.dart';
-import '../payout_list/payout_list_view.dart';
-
 class SettingsView extends StatelessWidget {
   SettingsView({super.key});
   final DashboardViewModel viewModel = Get.put(DashboardViewModel());
@@ -23,95 +21,101 @@ class SettingsView extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          titleAndBackBtn(
-              iconPath: 'assets/images/ismmart_logo.png',
-              title: 'ISMMART',
-              hasMenu: true),
-
-          SizedBox(
-            height: 30.h,
-          ),
-          // drawerHeader(),
-          drawerListItems(
-            'Store',
-            onTab: () {
-              //viewModel.isTab.value = !viewModel.isTab.value;
-              Get.to(StoreProfileView());
-            },
-            iconPath: 'assets/images/overViewIcon.png',
-          ),
-
-            // drawerListItems(
-            //   'Collections',
-            //   iconPath: 'assets/images/layers.png',
-            //   onTab: () => Get.to(CollectionView()),
-            // ),
-
-          drawerListItems(
-            'Locations',
-            iconPath: 'assets/images/pin.png',
-            onTab: () => Get.to(() => LocationListView()),
-          ),
-
-          const Divider(
-            color: Color(0xffE5E7EB),
-            thickness: 2,
-            indent: 15,
-            endIndent: 15,
-            // height: 20
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          // drawerListItems('Payouts',
-          //     iconPath: 'assets/images/credit-card.png',
-          //     onTab: () => Get.to(PayoutListView())),
-          drawerListItems(
-              //iconPath: 'assets/images/settingIcon.png',
-              onTab: () {
-            viewModel.moreOption.toggle();
-          }, 'Settings', dropDwnIcon: true),
-
-          Obx(
-            () => viewModel.moreOption.value
-                ? Padding(
-                    padding: const EdgeInsets.only(left: 20),
-                    child: Column(
-                      children: [
-                        drawerListItems(
-                          iconPath: 'assets/images/wallet.png',
-                          'Banking',
-                          h: 45,
-                          onTab: () => Get.to(() => BankListView()),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              titleAndBackBtn(
+                  iconPath: 'assets/images/ismmart_logo.png',
+                  title: 'ISMMART',
+                  hasMenu: true),
+          
+              SizedBox(
+                height: 30.h,
+              ),
+              // drawerHeader(),
+              drawerListItems(
+                'Store',
+                onTab: () {
+                  //viewModel.isTab.value = !viewModel.isTab.value;
+                  Get.to(StoreProfileView());
+                },
+                iconPath: 'assets/images/overViewIcon.png',
+              ),
+          
+                // drawerListItems(
+                //   'Collections',
+                //   iconPath: 'assets/images/layers.png',
+                //   onTab: () => Get.to(CollectionView()),
+                // ),
+          
+              drawerListItems(
+                'Locations',
+                iconPath: 'assets/images/pin.png',
+                onTab: () => Get.to(() => LocationListView()),
+              ),
+          
+              const Divider(
+                color: Color(0xffE5E7EB),
+                thickness: 2,
+                indent: 15,
+                endIndent: 15,
+                // height: 20
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              // drawerListItems('Payouts',
+              //     iconPath: 'assets/images/credit-card.png',
+              //     onTab: () => Get.to(PayoutListView())),
+              drawerListItems(
+                  //iconPath: 'assets/images/settingIcon.png',
+                  onTab: () {
+                viewModel.moreOption.toggle();
+              }, 'Settings', dropDwnIcon: true),
+          
+              Obx(
+                () => viewModel.moreOption.value
+                    ? Padding(
+                        padding: const EdgeInsets.only(left: 20),
+                        child: Column(
+                          children: [
+                            drawerListItems(
+                              iconPath: 'assets/images/wallet.png',
+                              'Banking',
+                              h: 45,
+                              onTab: () => Get.to(() => BankListView()),
+                            ),
+                            drawerListItems(
+                                iconPath: 'assets/images/Vector.png',
+                                'Shipping',
+                                h: 45,
+                                onTab: () => Get.to(() => ShippingMethodsView())),
+                            // drawerListItems(
+                            //     iconPath: 'assets/images/edit-user.png',
+                            //     'Users & Permissions',
+                            //     h: 45,
+                            //     onTab: () => Get.to(AddUserView())),
+                          ],
                         ),
-                        drawerListItems(
-                            iconPath: 'assets/images/Vector.png',
-                            'Shipping',
-                            h: 45,
-                            onTab: () => Get.to(() => ShippingMethodsView())),
-                        // drawerListItems(
-                        //     iconPath: 'assets/images/edit-user.png',
-                        //     'Users & Permissions',
-                        //     h: 45,
-                        //     onTab: () => Get.to(AddUserView())),
-                      ],
-                    ),
-                  )
-                : const SizedBox(),
+                      )
+                    : const SizedBox(),
+              ),
+          
+              
+            ],
           ),
-
-          InkWell(
-            onTap: () => Get.to(() => UserProfileView()),
-            child: titleAndBackBtn(
-                iconPath: ImageConstant.imgAvatar, title: 'User Name'),
-          ),
-
-          drawerListItems('Logout', iconPath: 'assets/images/settingIcon.png',
-              onTab: () {
-            Get.offAll(LogInView());
-          })
+        InkWell(
+                onTap: () => Get.to(() => UserProfileView()),
+                child: titleAndBackBtn(
+                    iconPath: ImageConstant.imgAvatar, title: 'User Name'),
+              ),
+          
+              drawerListItems('Logout', iconPath: 'assets/images/settingIcon.png',
+                  onTab: () {
+                Get.offAll(LogInView());
+              })
         ],
       ),
     );
@@ -311,9 +315,11 @@ class SettingsView extends StatelessWidget {
                             iconPath,
                             height: 24,
                             width: 24,
-                            color: viewModel.isTab.value
-                                ? newColorBlue
-                                : newColorLightGrey2,
+                            color: newColorLightGrey2
+                            
+                            // viewModel.isTab.value
+                            //     ? newColorBlue
+                            //     : newColorLightGrey2,
                           ))
                       : Container(),
                   SizedBox(width: 15.h),
