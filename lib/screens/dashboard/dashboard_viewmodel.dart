@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ismmart_vms/helper/common_function.dart';
 import 'package:ismmart_vms/helper/constants.dart';
 import 'package:ismmart_vms/screens/store_profile/store_profile_viewmodel.dart';
 import 'package:ismmart_vms/screens/user_profile/user_profile_model.dart';
@@ -27,7 +28,7 @@ class DashboardViewModel extends GetxController {
 
   RxString rejected = ''.obs;
 
-  RxString selectedDate = "Today".obs;
+  Rx<DateTime> pickedDate = DateTime.now().obs;
 
   @override
   void onReady() {
@@ -47,6 +48,23 @@ class DashboardViewModel extends GetxController {
   void onClose() {
     GlobalVariable.showLoader.value = false;
     super.onClose();
+  }
+
+
+  String getDateFormat() {
+    if (pickedDate.value.compareTo(DateTime.now()) > 1) {
+      return "Today";
+    }
+    return CommonFunction.formattedDataTime("dd MMMM yyyy", pickedDate.value);
+  }
+
+  showCustomDatePicker() async {
+    pickedDate.value = (await showDatePicker(
+      context: Get.context!,
+      initialDate: pickedDate.value,
+      firstDate: DateTime(2021),
+      lastDate: DateTime(2101),
+    ))!;
   }
 
   void getOrdersData() {}
