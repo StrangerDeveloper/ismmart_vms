@@ -15,15 +15,19 @@ import '../../widgets/loader_view.dart';
 import '../order_detail/order_detail_view.dart';
 
 class OrderView extends StatelessWidget {
-  final OrderListingViewModel orderController =
-      Get.put(OrderListingViewModel());
-  OrderView({super.key, this.callingForCanceledOrder = false});
+  final OrderListingViewModel viewModel = Get.put(OrderListingViewModel());
+  OrderView({super.key, this.callingFor= 'All'});
 
-  final bool? callingForCanceledOrder;
+  final String? callingFor;
 
   @override
   Widget build(BuildContext context) {
-    
+    if (callingFor!.toLowerCase().contains('returned')) {
+      viewModel.fieldSelection("Returned");
+    } else if (callingFor!.toLowerCase().contains('cancelled')) {
+      viewModel.fieldSelection("Cancelled");
+    }
+
     return Scaffold(
       appBar: _buildAppBar(),
       body: Stack(
@@ -36,23 +40,22 @@ class OrderView extends StatelessWidget {
                   child: _buildSearchRow(),
                 ),
                 Obx(
-                  () => orderController.orderItemList.isNotEmpty
+                  () => viewModel.orderItemList.isNotEmpty
                       ? Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: Obx(
                             () => ListView.builder(
-                              controller: orderController.scrollController,
+                              controller: viewModel.scrollController,
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
-                              itemCount: orderController.orderItemList.length,
+                              itemCount: viewModel.orderItemList.length,
                               itemBuilder: (context, index) {
                                 return GestureDetector(
                                   onTap: () {
                                     Get.to(
                                       () => OrderDetailView(),
                                       arguments: {
-                                        'model': orderController
-                                            .orderItemList[index],
+                                        'model': viewModel.orderItemList[index],
                                       },
                                     );
                                   },
@@ -88,9 +91,9 @@ class OrderView extends StatelessWidget {
         SizedBox(
           width: 250.h,
           child: CustomTextField1(
-            controller: orderController.searchController,
+            controller: viewModel.searchController,
             filled: false,
-            hintText: 'All',
+            hintText: callingFor!,
             isDropDown: true,
             onTap: () {
               statusBottomSheet();
@@ -161,7 +164,7 @@ class OrderView extends StatelessWidget {
                   Row(
                     children: [
                       _customField2(
-                          orderController.orderItemList[index].orderId ?? "id"),
+                          viewModel.orderItemList[index].orderId ?? "id"),
                       Padding(
                         padding: const EdgeInsets.only(left: 6, right: 6),
                         child: Icon(
@@ -171,13 +174,13 @@ class OrderView extends StatelessWidget {
                         ),
                       ),
                       _customField2(
-                          "${DateFormat("y MMM d").format(DateTime.parse(orderController.orderItemList[index].createdAt ?? "now"))} at ${DateFormat("h:mm a").format(DateTime.parse(orderController.orderItemList[index].createdAt ?? "now"))}"),
+                          "${DateFormat("y MMM d").format(DateTime.parse(viewModel.orderItemList[index].createdAt ?? "now"))} at ${DateFormat("h:mm a").format(DateTime.parse(viewModel.orderItemList[index].createdAt ?? "now"))}"),
                     ],
                   ),
-                  _customField2(orderController
+                  _customField2(viewModel
                               .orderItemList[index].orderDetails?.market !=
                           null
-                      ? '${orderController.orderItemList[index].orderDetails?.market!} Store'
+                      ? '${viewModel.orderItemList[index].orderDetails?.market!} Store'
                       : 'market'),
                 ],
               ),
@@ -189,29 +192,28 @@ class OrderView extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        _customField1(orderController
-                                .orderItemList[index].customer?.name ??
-                            "naaam"),
                         _customField1(
-                            "Rs. ${orderController.orderItemList[index].totals?.total?.toStringAsFixed(2) ?? "0"}"),
+                            viewModel.orderItemList[index].customer?.name ??
+                                "naaam"),
+                        _customField1(
+                            "Rs. ${viewModel.orderItemList[index].totals?.total?.toStringAsFixed(2) ?? "0"}"),
                       ],
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
                       child: Row(children: [
-                        _status(orderController
-                                .orderItemList[index].paymentStatus ??
+                        _status(viewModel.orderItemList[index].paymentStatus ??
                             "status"),
                         SizedBox(width: 8.h),
-                        _status(orderController
-                                .orderItemList[index].fulfilmentStatus ??
-                            "status")
+                        _status(
+                            viewModel.orderItemList[index].fulfilmentStatus ??
+                                "status")
                       ]),
                     ),
                     Obx(() => Row(
                           children: [
                             _customField2(
-                                "${(orderController.orderItemList[index].lineitems?.length) ?? "teeen"} items"),
+                                "${(viewModel.orderItemList[index].lineitems?.length) ?? "teeen"} items"),
                             Padding(
                               padding: const EdgeInsets.only(right: 8, left: 8),
                               child: Icon(
@@ -343,18 +345,18 @@ class OrderView extends StatelessWidget {
               Expanded(
                 child: CupertinoPicker(
                   scrollController: FixedExtentScrollController(
-                    initialItem: orderController.statusSelectedIndex.value,
+                    initialItem: viewModel.statusSelectedIndex.value,
                   ),
                   itemExtent: 35,
                   onSelectedItemChanged: (int index) {
                     tempIndex = index;
                   },
                   children: List.generate(
-                    orderController.statusList.length,
+                    viewModel.statusList.length,
                     (int index) {
                       return Center(
                         child: Text(
-                          orderController.statusList[index],
+                          viewModel.statusList[index],
                           style: const TextStyle(
                             fontWeight: FontWeight.w400,
                             fontSize: 15,
@@ -367,11 +369,10 @@ class OrderView extends StatelessWidget {
               ),
               CupertinoButton(
                 onPressed: () {
-                  orderController.statusSelectedIndex.value = tempIndex;
-                  orderController.searchController.text =
-                      orderController.statusList[tempIndex];
-                  orderController
-                      .fieldSelection(orderController.statusList[tempIndex]);
+                  viewModel.statusSelectedIndex.value = tempIndex;
+                  viewModel.searchController.text =
+                      viewModel.statusList[tempIndex];
+                  viewModel.fieldSelection(viewModel.statusList[tempIndex]);
 
                   Get.back();
                 },
