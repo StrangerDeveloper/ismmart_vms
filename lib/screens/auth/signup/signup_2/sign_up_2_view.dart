@@ -216,7 +216,7 @@ class SignUp2View extends StatelessWidget {
       autoValidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
         return Validator.validateDefaultField(value,
-            errMsg: 'Store Name is Required');
+            errorMessage: 'Store Name is Required');
       },
     );
   }
