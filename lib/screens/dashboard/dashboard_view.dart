@@ -7,6 +7,7 @@ import 'package:ismmart_vms/helper/theme_helper.dart';
 import 'package:ismmart_vms/helper/utils/image_constant.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/screens/dashboard/dashboard_viewmodel.dart';
+import 'package:ismmart_vms/screens/store_profile/store_profile_viewmodel.dart';
 import 'package:ismmart_vms/widgets/custom_button.dart';
 import 'package:ismmart_vms/widgets/custom_dropdown.dart';
 import 'package:ismmart_vms/widgets/custom_image_view.dart';
@@ -17,8 +18,9 @@ import '../../helper/resourses/app_colors.dart';
 class DashboardView extends StatelessWidget {
   DashboardView({super.key});
 
-  final DashboardViewModel viewModel = Get.put(DashboardViewModel());
-
+  final DashboardViewModel viewModel =
+      Get.find(); //Get.put(DashboardViewModel());
+  final StoreProfileViewModel storeViewModel = Get.put(StoreProfileViewModel());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,7 +54,7 @@ class DashboardView extends StatelessWidget {
         children: [
           Obx(
             () => Text(
-              "Welcome ${viewModel.userProfileModel.value.store?.name ?? ''}",
+              "Welcome ${storeViewModel.userProfileModel.value.store?.name ?? 'Store Name'}",
               style: const TextStyle(
                 fontWeight: FontWeight.w700,
               ),
@@ -106,6 +108,14 @@ class DashboardView extends StatelessWidget {
             value: viewModel.dateSelected,
             onChanged: (value) {
               viewModel.dateSelected.value = value;
+
+              viewModel.dropDownValue.value = (viewModel.dateSelected.value ==
+                      "0")
+                  ? "dayOfMonth"
+                  : viewModel
+                      .dateDropDownList[int.parse(viewModel.dateSelected.value)]
+                      .name!;
+              print("DropDown ${viewModel.dropDownValue.value}");
               viewModel.getData();
             },
             list: viewModel.dateDropDownList,
@@ -135,93 +145,95 @@ class DashboardView extends StatelessWidget {
   }
 
   Widget ordersProgress() {
-    return Container(
-      padding: const EdgeInsets.only(left: 12, right: 12, top: 12),
-      decoration: BoxDecoration(
-        color: const Color(0xFFF9FAFB),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                "Total Orders",
-                style: TextStyle(
-                  color: ThemeHelper.grey5,
-                  fontSize: 12,
-                ),
-              ),
-              Text(
-                "${viewModel.orderModel.value.total ?? 77}",
-                style: const TextStyle(
-                  color: ThemeHelper.grey5,
-                  fontSize: 12,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 13),
-          Row(
-            children: [
-              orderStatusItem(
-                title: "Order Issue",
-                value: "${viewModel.orderIssuesModel.value.total ?? 5}",
-                color: deepOrangeA700,
-              ),
-              const SizedBox(width: 10),
-              orderStatusItem(
-                title: "Approved",
-                value: "${viewModel.orderApprovedModel.value.total ?? 3}",
-                color: cyan800,
-              ),
-              const SizedBox(width: 10),
-              orderStatusItem(
-                title: "In Progress",
-                value: "${viewModel.orderPendingModel.value.total ?? 18}",
-                color: blueA700,
-              ),
-            ],
-          ),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: CustomTextBtn(
-              padding: const EdgeInsets.only(right: 20),
-              width: double.minPositive,
-              foregroundColor: ThemeHelper.grey5,
-              backgroundColor: Colors.transparent,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "Show more details",
-                    style: TextStyle(
-                      color: ThemeHelper.grey5,
-                      fontSize: 12,
-                    ),
+    return Obx(
+      () => Container(
+        padding: const EdgeInsets.only(left: 12, right: 12, top: 12),
+        decoration: BoxDecoration(
+          color: const Color(0xFFF9FAFB),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  "Total Orders",
+                  style: TextStyle(
+                    color: ThemeHelper.grey5,
+                    fontSize: 12,
                   ),
-                  const SizedBox(width: 3),
-                  Obx(
-                    () => Icon(
-                      viewModel.showMoreDetails.isTrue
-                          ? Icons.keyboard_arrow_up_rounded
-                          : Icons.keyboard_arrow_down_rounded,
-                      size: 15,
-                      color: ThemeHelper.grey5,
-                    ),
+                ),
+                Text(
+                  "${viewModel.orderModel.value.total ?? 77}",
+                  style: const TextStyle(
+                    color: ThemeHelper.grey5,
+                    fontSize: 12,
                   ),
-                ],
-              ),
-              onPressed: () {
-                viewModel.showMoreDetails.value =
-                    !viewModel.showMoreDetails.value;
-              },
+                ),
+              ],
             ),
-          ),
-          showMoreDetails(),
-        ],
+            const SizedBox(height: 13),
+            Row(
+              children: [
+                orderStatusItem(
+                  title: "Order Issue",
+                  value: "${viewModel.orderIssuesModel.value.total ?? 5}",
+                  color: deepOrangeA700,
+                ),
+                const SizedBox(width: 10),
+                orderStatusItem(
+                  title: "Approved",
+                  value: "${viewModel.orderApprovedModel.value.total ?? 3}",
+                  color: cyan800,
+                ),
+                const SizedBox(width: 10),
+                orderStatusItem(
+                  title: "In Progress",
+                  value: "${viewModel.orderPendingModel.value.total ?? 18}",
+                  color: blueA700,
+                ),
+              ],
+            ),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: CustomTextBtn(
+                padding: const EdgeInsets.only(right: 20),
+                width: double.minPositive,
+                foregroundColor: ThemeHelper.grey5,
+                backgroundColor: Colors.transparent,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "Show more details",
+                      style: TextStyle(
+                        color: ThemeHelper.grey5,
+                        fontSize: 12,
+                      ),
+                    ),
+                    const SizedBox(width: 3),
+                    Obx(
+                      () => Icon(
+                        viewModel.showMoreDetails.isTrue
+                            ? Icons.keyboard_arrow_up_rounded
+                            : Icons.keyboard_arrow_down_rounded,
+                        size: 15,
+                        color: ThemeHelper.grey5,
+                      ),
+                    ),
+                  ],
+                ),
+                onPressed: () {
+                  viewModel.showMoreDetails.value =
+                      !viewModel.showMoreDetails.value;
+                },
+              ),
+            ),
+            showMoreDetails(),
+          ],
+        ),
       ),
     );
   }
@@ -292,7 +304,7 @@ class DashboardView extends StatelessWidget {
                           color: const Color(0xff03543F).withOpacity(0.1),
                           borderRadius: BorderRadius.circular(6),
                         ),
-                        child:  Row(
+                        child: Row(
                           children: [
                             const Icon(
                               Icons.arrow_upward_rounded,
@@ -320,7 +332,8 @@ class DashboardView extends StatelessWidget {
                     ),
                     _buildShowMoreItems(
                       title: "Total Revenue",
-                      value: "${viewModel.revenueModel.value.total ??"103,000"} PKR",
+                      value:
+                          "${viewModel.revenueModel.value.total ?? "103,000"} PKR",
                     ),
                   ],
                 ),

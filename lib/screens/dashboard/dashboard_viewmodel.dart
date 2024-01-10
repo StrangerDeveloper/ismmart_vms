@@ -18,10 +18,10 @@ class DashboardViewModel extends GetxController {
   RxBool showMoreDetails = false.obs;
   RxString dateSelected = '1'.obs;
   List<DropDownModel> dateDropDownList = <DropDownModel>[
-    DropDownModel(id: "1", name: "Today"),
-    DropDownModel(id: "2", name: "Week"),
-    DropDownModel(id: "3", name: "Month"),
-    DropDownModel(id: "4", name: "Year"),
+    DropDownModel(id: "0", name: "Today"),
+    DropDownModel(id: "1", name: "Week"),
+    DropDownModel(id: "2", name: "Month"),
+    DropDownModel(id: "3", name: "Year"),
   ].obs;
 
   RxBool isTab = false.obs;
@@ -43,6 +43,13 @@ class DashboardViewModel extends GetxController {
   Rx<DashboardModel> orderApprovedModel = DashboardModel().obs;
   Rx<DashboardModel> orderPendingModel = DashboardModel().obs;
 
+
+  @override
+  void onInit() {
+    userProfileModel = Get.find<StoreProfileViewModel>().userProfileModel;
+    super.onInit();
+  }
+
   @override
   void onReady() {
     rejected.value = Get.arguments ?? '';
@@ -50,10 +57,12 @@ class DashboardViewModel extends GetxController {
 
     getData();
 
-    userProfileModel = Get.put(StoreProfileViewModel()).userProfileModel;
+    
   }
 
+  Rx<String> dropDownValue = "dayOfMonth".obs;
   getData() {
+    
     getProductSummary();
     getRevenuSummary();
     getOrderSummary();
@@ -90,7 +99,7 @@ class DashboardViewModel extends GetxController {
 
   Future<void> getProductSummary() async {
     await ApiBaseHelper()
-        .getMethod(url: "${Urls.getProductSummary}${dateSelected.value}")
+        .getMethod(url: "${Urls.getProductSummary}${dropDownValue.value}")
         .then((parsedJson) {
       if (parsedJson['success'] == true) {
         var data = parsedJson['data'];
@@ -102,7 +111,7 @@ class DashboardViewModel extends GetxController {
 
   Future<void> getRevenuSummary() async {
     await ApiBaseHelper()
-        .getMethod(url: "${Urls.getRevenuSummary}${dateSelected.value}")
+        .getMethod(url: "${Urls.getRevenuSummary}${dropDownValue.value}")
         .then((parsedJson) {
       if (parsedJson['success'] == true) {
         var data = parsedJson['data'];
@@ -114,7 +123,7 @@ class DashboardViewModel extends GetxController {
 
   Future<void> getOrderSummary() async {
     await ApiBaseHelper()
-        .getMethod(url: "${Urls.getOrderSummary}${dateSelected.value}")
+        .getMethod(url: "${Urls.getOrderSummary}${dropDownValue.value}")
         .then((parsedJson) {
       if (parsedJson['success'] == true) {
         var data = parsedJson['data'];
@@ -127,8 +136,7 @@ class DashboardViewModel extends GetxController {
   Future<void> getOrderIssuesSummary() async {
     await ApiBaseHelper()
         .getMethod(
-            url:
-                "${Urls.getOrderStatusSummary}${dateSelected.value}&status=Returned")
+            url: "${Urls.getOrderStatusSummary}${dropDownValue.value}&status=Returned")
         .then((parsedJson) {
       if (parsedJson['success'] == true) {
         var data = parsedJson['data'];
@@ -141,8 +149,7 @@ class DashboardViewModel extends GetxController {
   Future<void> getApprovedOrderSummary() async {
     await ApiBaseHelper()
         .getMethod(
-            url:
-                "${Urls.getOrderStatusSummary}${dateSelected.value}&status=Shipped")
+            url: "${Urls.getOrderStatusSummary}${dropDownValue.value}&status=Shipped")
         .then((parsedJson) {
       if (parsedJson['success'] == true) {
         var data = parsedJson['data'];
@@ -155,8 +162,7 @@ class DashboardViewModel extends GetxController {
   Future<void> getPendingOrderSummary() async {
     await ApiBaseHelper()
         .getMethod(
-            url:
-                "${Urls.getOrderStatusSummary}${dateSelected.value}&status=Pending")
+            url: "${Urls.getOrderStatusSummary}${dropDownValue.value}&status=Pending")
         .then((parsedJson) {
       if (parsedJson['success'] == true) {
         var data = parsedJson['data'];
