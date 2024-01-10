@@ -12,6 +12,7 @@ class BankListViewModel extends GetxController {
   TextEditingController searchController = TextEditingController();
   String searchUrlValue = '';
   List<BankModel> dataList = <BankModel>[].obs;
+  RxBool showListLoader = false.obs;
 
   @override
   void onReady() {
@@ -25,7 +26,7 @@ class BankListViewModel extends GetxController {
     super.onClose();
   }
 
-  searchTxtFieldSubmitted(String value) {
+  onChangeSearching(String value) {
     if (value == '') {
       searchUrlValue = '';
     } else {
@@ -35,14 +36,15 @@ class BankListViewModel extends GetxController {
   }
 
   getData() async {
-    GlobalVariable.showLoader.value = true;
+    showListLoader.value = true;
+    dataList.clear();
     await ApiBaseHelper()
         .getMethod(url: '${Urls.getBank}$searchUrlValue')
         .then((parsedJson) {
-      GlobalVariable.showLoader.value = false;
+      showListLoader.value = false;
 
       if (parsedJson['success'] == true && parsedJson['data']['items'] != null) {
-        dataList.clear();
+
         var data = parsedJson['data']['items'] as List;
         dataList.addAll(data.map((e) => BankModel.fromJson(e)));
       } else {

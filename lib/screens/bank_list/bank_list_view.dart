@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ismmart_vms/helper/common_function.dart';
 import 'package:ismmart_vms/screens/add_bank/add_bank_view.dart';
 import 'package:ismmart_vms/screens/bank_list/bank_list_viewmodel.dart';
 import 'package:ismmart_vms/widgets/custom_appbar.dart';
 
 import '../../helper/theme_helper.dart';
+import '../../widgets/circular_progress_bar.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/custom_textfield.dart';
 import '../../widgets/loader_view.dart';
@@ -18,7 +20,7 @@ class BankListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar2(
+      appBar: const CustomAppBar2(
         title: 'Bank Details',
       ),
       body: Stack(
@@ -47,15 +49,18 @@ class BankListView extends StatelessWidget {
         filled: false,
         prefixIcon: CupertinoIcons.search,
         hintText: 'Filter by name',
-        onFieldSubmitted: (value) {
-          viewModel.searchTxtFieldSubmitted(value);
+        onChanged: (value) {
+          CommonFunction.debouncer.call(() {
+            viewModel.onChangeSearching(value);
+          });
+          // viewModel.onChangeSearchTxtField(value);
         },
         suffixIconButton: IconButton(
           visualDensity: VisualDensity.compact,
           onPressed: () {
             if (viewModel.searchController.text.isEmpty) return;
             viewModel.searchController.clear();
-            viewModel.searchTxtFieldSubmitted('');
+            viewModel.onChangeSearching('');
           },
           icon: const Icon(
             Icons.close,
@@ -105,12 +110,17 @@ class BankListView extends StatelessWidget {
                 return const SizedBox(height: 16);
               },
             )
-          : const SizedBox(
-              height: 200,
-              child: Center(
-                child: Text('No Data Found'),
-              ),
-            ),
+          : viewModel.showListLoader.value
+              ? const SizedBox(
+                  height: 200,
+                  child: CustomCircularLoader(),
+                )
+              : const SizedBox(
+                  height: 200,
+                  child: Center(
+                    child: Text('No Data Found'),
+                  ),
+                ),
     );
   }
 
