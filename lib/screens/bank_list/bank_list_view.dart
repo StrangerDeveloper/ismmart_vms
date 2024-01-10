@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/screens/add_bank/add_bank_view.dart';
 import 'package:ismmart_vms/screens/bank_list/bank_list_viewmodel.dart';
+import 'package:ismmart_vms/widgets/custom_appbar.dart';
 
 import '../../helper/theme_helper.dart';
 import '../../widgets/custom_button.dart';
@@ -17,8 +18,8 @@ class BankListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Bank Details'),
+      appBar: CustomAppBar2(
+        title: 'Bank Details',
       ),
       body: Stack(
         children: [
