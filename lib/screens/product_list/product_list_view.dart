@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/constants.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/helper/resourses/app_colors.dart';
+import 'package:ismmart_vms/screens/add_product/add_product_1/add_product_1_view.dart';
 import 'package:ismmart_vms/screens/product_list/product_list_viewmodel.dart';
 import 'package:ismmart_vms/screens/product_list/product_model.dart';
 import 'package:ismmart_vms/widgets/custom_button.dart';
@@ -84,7 +85,7 @@ class ProductListView extends StatelessWidget {
             borderRadius: 12,
             width: Get.width / 2.5,
             onPressed: () {
-              // Get.to(AddProduct1View());
+              Get.to(() => AddProduct1View(), arguments: {'cameFromProductList': true});
               // Get.find<DrawerBottomBarViewModel>().changePage(2);
             },
             title: '+ Add Product',
@@ -276,10 +277,12 @@ class ProductListView extends StatelessWidget {
   }
 
   Widget listViewItem({ProductsItem? model}) {
-    //var rng = Random();
+
     return InkWell(
       onTap: () {
-        //Get.to(() => ProductDetailView());
+        Get.to(() => AddProduct1View(), arguments: {
+          'productDetails': model,
+        });
       },
       child: Container(
         padding: const EdgeInsets.only(left: 5, right: 5, top: 5, bottom: 5),
@@ -327,21 +330,6 @@ class ProductListView extends StatelessWidget {
                   style: interHeadingSize15.copyWith(color: newColorBlue),
                 ),
                 SizedBox(height: 3.h),
-                // Row(
-                //   children: [
-                //     Text(
-                //       '• Category: ${model.categories![0].name}',
-                //       style: interNormalText.copyWith(
-                //           color: newColorLightGrey2, fontSize: 11),
-                //     ),
-                //     SizedBox(width: 10.v),
-                //     Text(
-                //       '• Variants: ${model.variants}',
-                //       style: interNormalText.copyWith(
-                //           color: newColorLightGrey2, fontSize: 11),
-                //     ),
-                //   ],
-                // ),
                 Text(
                   '• Category: ${model.categories![0].name}',
                   style: interNormalText.copyWith(
@@ -388,69 +376,6 @@ class ProductListView extends StatelessWidget {
                 ),
               ],
             ),
-
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(vertical: 5.0),
-            //   child: Column(
-            //     crossAxisAlignment: CrossAxisAlignment.start,
-            //     children: [
-            //       Text(
-            //         'Product Name',
-            //         style: interHeadingSize14.copyWith(color: newColorBlue),
-            //       ),
-            //       const SizedBox(
-            //         height: 7,
-            //       ),
-            //       const SizedBox(
-            //         height: 5,
-            //       ),
-            //       Row(
-            //         children: [
-            //           Text(
-            //             'Category',
-            //             style: interNormalText.copyWith(
-            //                 color: newColorLightGrey2, fontSize: 11),
-            //           ),
-            //           const SizedBox(
-            //             width: 10,
-            //           ),
-            //         ],
-            //       ),
-            //       const SizedBox(
-            //         height: 15,
-            //       ),
-            // Container(
-            //   padding: const EdgeInsets.all(6),
-            //   decoration: BoxDecoration(
-            //       color: index % 2 == 0
-            //           ? productActiveColor.withOpacity(0.25)
-            //           : newColorLightGrey2.withOpacity(0.25),
-            //       borderRadius: BorderRadius.circular(15)),
-            //   child: Row(
-            //     mainAxisSize: MainAxisSize.min,
-            //     children: [
-            //       CircleAvatar(
-            //         radius: 5,
-            //         backgroundColor: index % 2 == 0
-            //             ? productActiveColor
-            //             : newColorLightGrey2,
-            //       ),
-            //       const SizedBox(
-            //         width: 10,
-            //       ),
-            //       Text(
-            //         index % 2 == 0 ? 'Active' : 'Draft',
-            //         style: interNormalText.copyWith(
-            //             color: Colors.black,
-            //             fontSize: 10,
-            //             fontWeight: FontWeight.w400),
-            //       )
-            //     ],
-            //   ),
-            // ),
-            // ],
-            //),
-            //),
           ],
         ),
       ),

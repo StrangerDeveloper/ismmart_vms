@@ -60,7 +60,6 @@ class LogInViewModel extends GetxController {
           GlobalVariable.showLoader.value = false;
         }
       }).catchError((e) {
-        print(e);
         AppConstant.displaySnackBar(
           "Error",
           e.toString(),
@@ -89,7 +88,6 @@ class LogInViewModel extends GetxController {
       GlobalVariable.showLoader.value = false;
 
       credential?.authentication.then((value) async {
-        print(credential);
         Map<dynamic, dynamic> param = {
           "social": {
             "name": "Google",
@@ -100,12 +98,10 @@ class LogInViewModel extends GetxController {
         await ApiBaseHelper()
             .postMethod(url: Urls.login, body: param)
             .then((parsedJson) {
-          print(parsedJson);
           if (parsedJson['success'] == true) {
             String status = parsedJson['data']['status'] ?? "";
             accountStatusCheck(status, emailController.text);
             GlobalVariable.showLoader.value = false;
-            print(parsedJson['data']['status']);
             GlobalVariable.token = parsedJson['data']['token'];
             GlobalVariable.showLoader.value = false;
           } else {
@@ -135,24 +131,9 @@ class LogInViewModel extends GetxController {
           AppleIDAuthorizationScopes.values[0],
         ],
       );
-      await appleCredential.state;
-
-      debugPrint("apple login====>>>  $appleCredential   ");
-      var t = appleCredential.identityToken;
-      var e = appleCredential.email;
-      var fn = appleCredential.familyName;
-      var gn = appleCredential.givenName;
-
-      //
-      // print(a);
-
-      print(e);
-      print(fn);
-      print(gn);
-      print(t);
+      appleCredential.state;
 
       try {
-        print(appleCredential);
         Map<dynamic, dynamic> param = {
           "social": {
             "name": "Apple",
@@ -163,12 +144,10 @@ class LogInViewModel extends GetxController {
         await ApiBaseHelper()
             .postMethod(url: Urls.login, body: param)
             .then((parsedJson) {
-          print(parsedJson);
           if (parsedJson['success'] == true) {
             String status = parsedJson['data']['status'] ?? "";
             accountStatusCheck(status, emailController.text);
             GlobalVariable.showLoader.value = false;
-            print(parsedJson['data']['status']);
             GlobalVariable.token = parsedJson['data']['token'];
             GlobalVariable.showLoader.value = false;
           } else {
@@ -195,9 +174,8 @@ class LogInViewModel extends GetxController {
 
   // ----------  Status Enums Check of Account-------
   accountStatusCheck(String status, String email) {
-    print(status);
-    print(email);
     if (status == "Approved") {
+      
       Get.offAll(() => DrawerBottomBarView());
     } else if (status == "Rejected") {
       var param = {
@@ -215,7 +193,7 @@ class LogInViewModel extends GetxController {
       var param = {
         'status': 'Not Verified',
         'remarks': 'due to verify by your Gmail / Email Account',
-        'email': '$email'
+        'email': email
       };
       Get.offAll(() => AccountStatusView(), arguments: param);
     }

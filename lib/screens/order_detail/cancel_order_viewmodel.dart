@@ -1,11 +1,12 @@
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/constants.dart';
-import 'package:ismmart_vms/screens/order_detail/order_detail_viewModel.dart';
-
 import '../../helper/api_base_helper.dart';
+import '../../helper/global_variables.dart';
 import '../../helper/urls.dart';
 import '../order_listing/model/orderModel.dart';
-import '../order_listing/order_viewModel.dart';
+import '../order_listing/order_viewmodel.dart';
+import 'order_detail_view.dart';
+import 'order_detail_viewmodel.dart';
 
 class CancelORderViewMOdel extends GetxController {
   OrderListingViewModel orderListingViewModel = Get.find();
@@ -22,9 +23,6 @@ class CancelORderViewMOdel extends GetxController {
   void onInit() {
     orderItemModel.value = Get.arguments['model'];
     lineItemList.addAll(orderItemModel.value.lineitems ?? []);
-    lineItemList.forEach((element) {
-      print("Status ${element.sId}");
-    });
     unfulfilledItems.addAll(orderItemModel.value.lineitems
             ?.where((element) => element.fulfilmentStatus == "Unfulfilled")
             .toList() ??
@@ -47,43 +45,52 @@ class CancelORderViewMOdel extends GetxController {
       if (selectedItemsStatus == "Unfulfilled") {
         selectedItemsStatus = "Cancelled";
 
-        print("Fulfillment Statusss $selectedItemsStatus");
         Map<String, dynamic> param = {
           "itemsIndex": selectedIndicesId,
           "status": selectedItemsStatus,
         };
+
+        GlobalVariable.showLoader.value = true;
         await ApiBaseHelper()
             .putMethod(url: Urls.updateOrder, body: param)
             .then((response) async {
           if (response['success'] == true) {
-            print("Statusss ${response['success']}");
-            // orderListingViewModel.orderItemList.clear();
-            // orderListingViewModel.orderItemList.refresh();
-            orderListingViewModel.orderItemModel.value.items!.clear();
-            orderListingViewModel.orderItemModel.refresh();
-            orderDetailViewModel.lineItemList.clear();
-            orderDetailViewModel.lineItemList.refresh();
-            // orderDetailViewModel.orderItemModel.value.lineitems!.clear();
-            // orderDetailViewModel.orderItemModel.refresh();
+            for (int i = 0; i < lineItemList.length; i++) {
+              if (lineItemList[i].isSelected == true) {
+                lineItemList[i].fulfilmentStatus = "Cancelled";
+              }
+            }
+            orderDetailViewModel.orderItemModel.refresh();
             unfulfilledItems.clear();
             unfulfilledItems.refresh();
             selectedItems.clear();
             selectedItems.refresh();
             selectAllValue.value = false;
-
+            GlobalVariable.showLoader.value = false;
             await orderListingViewModel.getOrderListing();
-            Get.back();
+
+            Get.to(() => OrderDetailView());
           } else {
             AppConstant.displaySnackBar(
-                'Error', 'Something went wrong, please try again');
+              "Error",
+              response['message'],
+            );
+
+            GlobalVariable.showLoader.value = false;
           }
+        }).catchError((error) {
+          AppConstant.displaySnackBar(
+            "Error",
+            error.toString(),
+          );
+          GlobalVariable.showLoader.value = false;
         });
       } else {
         AppConstant.displaySnackBar(
             'Error', 'You can not cancel fulfilled item');
       }
     } catch (error) {
-      print(error);
+      // print(error);
     }
   }
 
@@ -121,5 +128,11 @@ class CancelORderViewMOdel extends GetxController {
     Lineitem model = unfulfilledItems[index];
     model.isSelected = value;
     unfulfilledItems[index] = model;
+  }
+
+  @override
+  void onClose() {
+    GlobalVariable.showLoader.value = false;
+    super.onClose();
   }
 }

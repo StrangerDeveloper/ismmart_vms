@@ -3,16 +3,13 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ismmart_vms/helper/theme_helper.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
-import 'package:ismmart_vms/screens/auth/login/login_view.dart';
 import 'package:ismmart_vms/screens/auth/signup/signup_4/sign_up_4_viewmodel.dart';
 import 'package:ismmart_vms/widgets/custom_drawer.dart';
 import 'package:ismmart_vms/widgets/loader_view.dart';
 import 'package:ismmart_vms/widgets/scrollable_column.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
 
 import '../../../../helper/constants.dart';
 import '../../../../widgets/custom_button.dart';
-import '../../drawer_bottom_nav/drawer_bottom_bar_view.dart';
 
 class AccountStatusView extends StatelessWidget {
   AccountStatusView({super.key});
@@ -35,7 +32,7 @@ class AccountStatusView extends StatelessWidget {
                   progress(),
                   SizedBox(height: 50.h),
                   waitingVerificationText(),
-                  SizedBox(
+                  const SizedBox(
                     height: 50,
                   ),
                   emailVerifyText(),
@@ -43,7 +40,7 @@ class AccountStatusView extends StatelessWidget {
                 ],
               ),
             ),
-            LoaderView()
+            const LoaderView()
           ],
         ),
       ),
@@ -134,7 +131,7 @@ class AccountStatusView extends StatelessWidget {
                           style: newFontStyleSize14,
                         ),
                         TextSpan(
-                            text: viewModel.status.value['status'],
+                            text: viewModel.status['status'],
                             style: newFontStyleSize14.copyWith(
                                 color: ThemeHelper.red1)),
                       ],
@@ -169,9 +166,9 @@ class AccountStatusView extends StatelessWidget {
       () => Column(
         children: [
           Text(
-            viewModel.status.value['status'] == "Rejected"
+            viewModel.status['status'] == "Rejected"
                 ? 'Reason for rejection'
-                : viewModel.status.value['status'] == 'Not Verified'
+                : viewModel.status['status'] == 'Not Verified'
                     ? 'Reason for Not Verified'
                     : 'Reason for Pending',
             style: newFontStyle3.copyWith(
@@ -190,9 +187,9 @@ class AccountStatusView extends StatelessWidget {
                   text: 'Due to ',
                 ),
                 TextSpan(
-                  text: viewModel.status.value['status'] == "Rejected"
+                  text: viewModel.status['status'] == "Rejected"
                       ? 'Incomplete Information'
-                      : viewModel.status.value['status'] == 'Not Verified'
+                      : viewModel.status['status'] == 'Not Verified'
                           ? 'Not Verify Your Email'
                           : 'Pending your Request',
                   style: newFontStyle2.copyWith(
@@ -200,10 +197,10 @@ class AccountStatusView extends StatelessWidget {
                     color: ThemeHelper.red1,
                   ),
                 ),
-                TextSpan(
+                const TextSpan(
                     text:
                         ' vendor application lacks necessary details or contains inaccurate information, it might lead to rejection.'),
-                TextSpan(text: viewModel.status.value['remarks'] ?? '')
+                TextSpan(text: viewModel.status['remarks'] ?? '')
               ],
             ),
           ),
@@ -214,12 +211,12 @@ class AccountStatusView extends StatelessWidget {
 
   Widget emailVerifyText() {
     return Obx(
-      () => viewModel.status.value['status'] == 'Rejected'
-          ? SizedBox()
-          : viewModel.status.value['status'] == 'Not Verified'
+      () => viewModel.status['status'] == 'Rejected'
+          ? const SizedBox()
+          : viewModel.status['status'] == 'Not Verified'
               ? Column(
                   children: [
-                    Text(
+                    const Text(
                       "Email send on",
                     ),
                     RichText(
@@ -231,7 +228,7 @@ class AccountStatusView extends StatelessWidget {
                         ),
                         children: [
                           TextSpan(
-                            text: '${viewModel.status.value['email'] ?? ""}',
+                            text: viewModel.status['email'] ?? "",
                             style: newFontStyle2.copyWith(
                               fontWeight: FontWeight.w700,
                               color: ThemeHelper.red1,
@@ -242,7 +239,7 @@ class AccountStatusView extends StatelessWidget {
                     ),
                   ],
                 )
-              : SizedBox(),
+              : const SizedBox(),
     );
   }
 
@@ -250,7 +247,7 @@ class AccountStatusView extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 50),
       child: Obx(
-        () => viewModel.status.value['status'] == 'Rejected'
+        () => viewModel.status['status'] == 'Rejected'
             ? CustomRoundedTextBtn(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -277,7 +274,7 @@ class AccountStatusView extends StatelessWidget {
                   Get.offAll(() => CustomDrawer(), arguments: 'rejected');
                 },
               )
-            : viewModel.status.value['status'] == 'Not Verified'
+            : viewModel.status['status'] == 'Not Verified'
                 ? CustomRoundedTextBtn(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -305,7 +302,7 @@ class AccountStatusView extends StatelessWidget {
                       viewModel.resentEmail();
                     },
                   )
-                : SizedBox(),
+                : const SizedBox(),
       ),
     );
   }

@@ -6,10 +6,9 @@ import 'package:ismmart_vms/helper/global_variables.dart';
 import 'package:ismmart_vms/screens/add_product/add_product_1/model/pictures_model.dart';
 import 'package:ismmart_vms/screens/add_product/add_product_1/model/bottom_sheet_item_model.dart';
 import 'package:ismmart_vms/screens/add_product/add_product_2/add_product_2_view.dart';
+import 'package:ismmart_vms/screens/product_list/product_model.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:quill_html_editor/quill_html_editor.dart';
-
-import '../../../helper/global_variables.dart';
 
 class AddProduct1ViewModel extends GetxController {
 
@@ -17,14 +16,17 @@ class AddProduct1ViewModel extends GetxController {
   TextEditingController prodTitleController = TextEditingController();
   TextEditingController prodDiscountController = TextEditingController();
   QuillEditorController prodDescriptionController = QuillEditorController();
-  TextEditingController prodPriceController = TextEditingController();
-  TextEditingController prodCompareAtPriceController = TextEditingController();
-  TextEditingController prodCostPerItemController = TextEditingController();
-  TextEditingController prodProfitController = TextEditingController();
-  TextEditingController prodMarginController = TextEditingController();
+  // TextEditingController prodPriceController = TextEditingController();
+  // TextEditingController prodCompareAtPriceController = TextEditingController();
+  // TextEditingController prodCostPerItemController = TextEditingController();
+  // TextEditingController prodProfitController = TextEditingController();
+  // TextEditingController prodMarginController = TextEditingController();
   TextEditingController prodTagController = TextEditingController();
-
+  bool cameFromProductList = false;
+  Map<String, dynamic> arguments = {};
   final GlobalKey<FormState> productDetailsFormKey = GlobalKey<FormState>();
+  Rx<ProductsItem> productDetails = ProductsItem().obs;
+  bool editProduct = false;
 
   //Media
   RxList<PicturesModel> productImagesList = <PicturesModel>[].obs;
@@ -61,6 +63,17 @@ class AddProduct1ViewModel extends GetxController {
   @override
   void onInit() async {
     await Permission.manageExternalStorage.request();
+    if(Get.arguments != null) {
+      arguments = Get.arguments;
+      if(arguments.containsKey('cameFromProductList')){
+        cameFromProductList = arguments['cameFromProductList'];
+      }
+      if(arguments.containsKey('productDetails')){
+        productDetails = arguments['productDetails'];
+        editProduct = true;
+        fillData();
+      }
+    }
     super.onInit();
   }
 
@@ -85,6 +98,12 @@ class AddProduct1ViewModel extends GetxController {
     super.onClose();
   }
 
+  fillData() {
+    prodTitleController.text = productDetails.value.name!;
+    prodDescriptionController.insertText(productDetails.value.description!);
+    typeController.text = productDetails.value.type!.name!;
+    // productImagesList.add(PicturesModel())
+  }
 
   void fetchTypes() async {
     typeList.clear();
@@ -93,6 +112,12 @@ class AddProduct1ViewModel extends GetxController {
         var data = parsedJson['data']['items'] as List;
         if(data.isNotEmpty) {
           typeList.addAll(data.map((e) => BottomSheetItemModel.fromJson(e)));
+          int index = typeList.indexWhere((element) => element.id == productDetails.value.type?.id);
+          if(index == -1) {
+            return;
+          } else {
+            typeSelectedIndex.value = index;
+          }
         }
       }
     }).catchError((e) {
@@ -108,6 +133,17 @@ class AddProduct1ViewModel extends GetxController {
         if(data.isNotEmpty) {
           productCategoryList.addAll(data.map((e) => BottomSheetItemModel.fromJson(e)));
           tagsList.addAll(data.map((e) => BottomSheetItemModel.fromJson(e)));
+          if(editProduct) {
+            productDetails.value.categories?.forEach((element) {
+              int index = productCategoryList.indexWhere((element1) => element1.id == element.id);
+              chosenCategoriesList.add(BottomSheetItemModel(
+                id: element.id,
+                name: element.name,
+                oldIndex: index
+              ));
+              productCategoryList.removeAt(index);
+            });
+          }
         }
       }
     }).catchError((e) {
@@ -123,7 +159,7 @@ class AddProduct1ViewModel extends GetxController {
         if(index == -1){
           imagesThumbnailCheck.value = true;
         } else {
-          Map<String, dynamic> data = {};
+          Map<String, String> data = {};
 
           data.addAll({'name': prodTitleController.text});
 
@@ -134,26 +170,28 @@ class AddProduct1ViewModel extends GetxController {
 
           for(int i = 0; i<=chosenCategoriesList.length-1 ; i++){
             data.addAll({
-              'categories[$i]': chosenCategoriesList[i].id,
+              'categories[$i]': "${chosenCategoriesList[i].id}",
             });
           }
 
-          data.addAll({'type': typeController.text});
+          data.addAll({'type': typeList[typeSelectedIndex.value].id!});
 
           if (chosenTagsList.isNotEmpty) {
             for (int i = 0; i <= chosenTagsList.length - 1; i++) {
-              data.addAll({"tags[$i]": chosenTagsList[i].name});
+              data.addAll({"tags[$i]": "${chosenTagsList[i].name}"});
               if (i == chosenTagsList.length - 1) {
                     Get.to(() => AddProduct2View(), arguments: {
                       'productDetails': data,
-                      'productImages': productImagesList
+                      'productImages': productImagesList,
+                      'cameFromProductList': cameFromProductList,
                     });
               }
             }
           } else {
                 Get.to(() => AddProduct2View(), arguments: {
                   'productDetails': data,
-                  'productImages': productImagesList
+                  'productImages': productImagesList,
+                  'cameFromProductList': cameFromProductList,
                 });
           }
         }

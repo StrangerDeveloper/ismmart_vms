@@ -1,13 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/theme_helper.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/widgets/custom_text.dart';
-
 import '../../helper/constants.dart';
-import '../../helper/global_variables.dart';
 import '../../widgets/custom_button.dart';
 import 'collection_viewmodel.dart';
 
@@ -34,7 +30,7 @@ class CollectionListView extends StatelessWidget {
                         height: 700,
                         width: double.infinity,
                         decoration: ShapeDecoration(
-                          color: Color(0xFFF9FAFB),
+                          color: const Color(0xFFF9FAFB),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8)),
                         ),
@@ -89,7 +85,7 @@ class CollectionListView extends StatelessWidget {
                 size: 20,
               ),
               SizedBox(width: 4.h),
-              Text(
+              const Text(
                 'Create Collection',
                 // style: newFontStyleSize14.copyWith(
                 //     fontWeight: FontWeight.w500, color: kWhiteColor),kWhiteColor
@@ -119,14 +115,14 @@ class CollectionListView extends StatelessWidget {
               width: 62,
               height: 40,
               alignment: Alignment.center,
-              padding: EdgeInsets.only(left: 5),
+              padding: const EdgeInsets.only(left: 5),
               decoration: ShapeDecoration(
                 shape: RoundedRectangleBorder(
-                  side: BorderSide(width: 1, color: Color(0xFFEEEEEE)),
+                  side: const BorderSide(width: 1, color: Color(0xFFEEEEEE)),
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
-              child: Row(
+              child: const Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -135,7 +131,7 @@ class CollectionListView extends StatelessWidget {
                     color: newColorLightGrey2,
                     size: 20,
                   ),
-                  const SizedBox(
+                  SizedBox(
                     width: 10,
                   ),
                   Icon(
@@ -169,14 +165,14 @@ class CollectionListView extends StatelessWidget {
             children: [
               IconButton(
                   onPressed: () {},
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.arrow_back_ios_new,
                     size: 18,
                     color: ThemeHelper.grey2,
                   )),
               IconButton(
                   onPressed: () {},
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.arrow_forward_ios,
                     size: 18,
                     color: ThemeHelper.grey2,
@@ -197,7 +193,7 @@ class CollectionListView extends StatelessWidget {
               itemCount: viewModel.collectionList.length,
               itemBuilder: (BuildContext context, index) {
                 var item = viewModel.collectionList[index];
-                return Container(
+                return SizedBox(
                   width: 295,
                   height: 87,
                   child: Row(
@@ -215,14 +211,14 @@ class CollectionListView extends StatelessWidget {
                           ),
                           child: Image.network(
                               "https://via.placeholder.com/40x40")),
-                      SizedBox(
+                      const SizedBox(
                         width: 16,
                       ),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             height: 15,
                           ),
                           CustomText(
@@ -230,7 +226,7 @@ class CollectionListView extends StatelessWidget {
                             style: newFontStyleSize14.copyWith(
                                 fontWeight: FontWeight.w600),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 5,
                           ),
                           Text(

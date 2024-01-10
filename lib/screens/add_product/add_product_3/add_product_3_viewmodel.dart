@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
+import 'package:http_parser/http_parser.dart';
 import 'package:ismmart_vms/helper/api_base_helper.dart';
 import 'package:ismmart_vms/helper/constants.dart';
 import 'package:ismmart_vms/helper/global_variables.dart';
 import 'package:ismmart_vms/models/country_model.dart';
 import 'package:ismmart_vms/screens/add_product/add_product_1/model/pictures_model.dart';
 import 'package:ismmart_vms/screens/add_product/add_product_2/add_product_2_viewmodel.dart';
+import 'package:ismmart_vms/screens/product_list/product_list_viewmodel.dart';
 import '../../../helper/urls.dart';
 
 class AddProduct3ViewModel extends GetxController {
@@ -20,7 +22,7 @@ class AddProduct3ViewModel extends GetxController {
   RxBool productActiveStatusSwitch = true.obs;
 
   ///Data from previous screen
-  Map<String, dynamic> productDetails = {};
+  Map<String, String> productDetails = {};
   List<PicturesModel> images = <PicturesModel>[];
 
   ///Variables for Weight Field
@@ -52,10 +54,13 @@ class AddProduct3ViewModel extends GetxController {
   RxInt countrySelected = 0.obs;
   RxList<CountryModel> countryList = <CountryModel>[].obs;
 
+  bool cameFromProductList = false;
+
   @override
   void onInit() {
     productDetails = Get.arguments['productDetails'];
     images = Get.arguments['productImages'];
+    cameFromProductList = Get.arguments['cameFromProductList'];
     getCountries();
     super.onInit();
   }
@@ -86,6 +91,9 @@ class AddProduct3ViewModel extends GetxController {
   }
 
   addProduct() async {
+
+    GlobalVariable.showLoader.value = true;
+
     final AddProduct2ViewModel addProduct2ViewModel = Get.find();
     for(int i = 0; i <= addProduct2ViewModel.finalCombinationsList.length-1 ; i++) {
       productDetails.addAll({
@@ -97,12 +105,40 @@ class AddProduct3ViewModel extends GetxController {
     }
     List<http.MultipartFile> fileList = [];
     for(int i = 0; i<=images.length-1; i++){
+
       fileList.add(await http.MultipartFile.fromPath(
-        'media[$i]', images[i].filePath!
+        'media[$i][file]', images[i].filePath!,
+          contentType: MediaType.parse('image/*')
       ));
       productDetails.addAll({
-        'media[$i][thumbnail]': images[i].isThumbnail
+        'media[$i][thumbnail]': "${images[i].isThumbnail}"
       });
     }
+    productDetails.addAll({
+      'collections[0]': '657aa46a0f11b2ac3fc9285d'
+    });
+
+    await ApiBaseHelper().postMethodForImage(
+        url: Urls.addProduct,
+        files: fileList,
+        fields: productDetails).then((parsedJson) async {
+      GlobalVariable.showLoader.value = false;
+      if(parsedJson['success'] == true) {
+        if (cameFromProductList) {
+          final ProductListViewModel productListViewModel = Get.find();
+          productListViewModel.productItemsList.clear();
+          await productListViewModel.getProductItems();
+          productListViewModel.productItemsList.refresh();
+          Get.close(2);
+          AppConstant.displaySnackBar('Success', 'Product Added Successfully');
+        } else {
+          Get.close(2);
+          AppConstant.displaySnackBar('Success', 'Product Added Successfully');
+        }
+      }
+    }).catchError((e) {
+      GlobalVariable.showLoader.value = false;
+      AppConstant.displaySnackBar('Error', e);
+    });
   }
 }

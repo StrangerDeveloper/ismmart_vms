@@ -1,12 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ismmart_vms/helper/constants.dart';
 import 'package:ismmart_vms/helper/theme_helper.dart';
 import 'package:ismmart_vms/screens/add_location/add_location_view.dart';
+import 'package:ismmart_vms/screens/add_product/add_product_2/add_product_2_viewmodel.dart';
 import 'package:ismmart_vms/screens/location_list/location_list_viewmodel.dart';
 import 'package:ismmart_vms/widgets/loader_view.dart';
 
 import '../../helper/common_function.dart';
+import '../../widgets/circular_progress_bar.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/custom_radiobtn.dart';
 import '../../widgets/custom_textfield.dart';
@@ -21,6 +24,19 @@ class LocationListView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Location'),
+        leading: viewModel.cameFromAddProduct
+            ? IconButton(
+                onPressed: () async {
+                  final AddProduct2ViewModel addProduct2ViewModel = Get.find();
+                  await addProduct2ViewModel.getInventoryLocations();
+                  Get.back();
+                },
+                icon: const Icon(
+                  Icons.arrow_back_ios_rounded,
+                  size: 22,
+                  color: newColorLightGrey3,
+                ))
+            : null,
       ),
       body: Stack(
         children: [
@@ -99,15 +115,17 @@ class LocationListView extends StatelessWidget {
                 filled: false,
                 prefixIcon: CupertinoIcons.search,
                 hintText: 'Filter by name',
-                onFieldSubmitted: (value) {
-                  viewModel.searchTxtFieldSubmitted(value);
+                onChanged: (value) {
+                  CommonFunction.debouncer.call(() {
+                    viewModel.onChangeSearching(value);
+                  });
                 },
                 suffixIconButton: IconButton(
                   visualDensity: VisualDensity.compact,
                   onPressed: () {
                     if (viewModel.searchController.text.isEmpty) return;
                     viewModel.searchController.clear();
-                    viewModel.searchTxtFieldSubmitted('');
+                    viewModel.onChangeSearching('');
                   },
                   icon: const Icon(
                     Icons.close,
@@ -136,10 +154,10 @@ class LocationListView extends StatelessWidget {
   }
 
   Widget listView() {
-    return Obx(
-      () => viewModel.dataList.isNotEmpty
-          ? Expanded(
-              child: Column(
+    return Expanded(
+      child: Obx(
+        () => viewModel.dataList.isNotEmpty
+            ? Column(
                 children: [
                   Expanded(
                     child: ListView.separated(
@@ -161,16 +179,16 @@ class LocationListView extends StatelessWidget {
                   if (viewModel.paginationLoader.value)
                     const Padding(
                       padding: EdgeInsets.all(8.0),
-                      child: Center(
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      ),
+                      child: CustomCircularLoader()
                     )
                 ],
-              ),
-            )
-          : const Center(
-              child: Text('No Data Found'),
-            ),
+              )
+            : viewModel.showListLoader.value
+                ? const CustomCircularLoader()
+                : const Center(
+                    child: Text('No Data Found'),
+                  ),
+      ),
     );
   }
 

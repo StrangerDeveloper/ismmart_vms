@@ -77,10 +77,9 @@ class CollectionViewModel extends GetxController {
       if (parsedJson['success'] == true) {
         var data = parsedJson['data']['items'] as List;
         collectionList.addAll(data.map((e) => CollectionModel.fromJson(e)));
-        print(collectionList[0].sId);
       }
     } catch (e) {
-      print(e);
+      // print(e);
     }
   }
 }

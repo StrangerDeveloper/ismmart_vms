@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:ismmart_vms/helper/theme_helper.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
-import 'package:ismmart_vms/screens/order_listing/order_viewModel.dart';
+import 'package:ismmart_vms/screens/order_listing/order_viewmodel.dart';
 import 'package:ismmart_vms/widgets/custom_appbar.dart';
 import 'package:ismmart_vms/widgets/custom_text.dart';
 import 'package:ismmart_vms/widgets/custom_textfield.dart';
@@ -15,40 +15,47 @@ import '../../widgets/loader_view.dart';
 import '../order_detail/order_detail_view.dart';
 
 class OrderView extends StatelessWidget {
-  final OrderListingViewModel orderController =
-      Get.put(OrderListingViewModel());
-  OrderView({super.key});
+  final OrderListingViewModel viewModel = Get.put(OrderListingViewModel());
+  OrderView({super.key, this.callingFor = 'All'});
+
+  final String? callingFor;
 
   @override
   Widget build(BuildContext context) {
+    if (callingFor!.toLowerCase().contains('returned')) {
+      viewModel.fieldSelection("Returned");
+    } else if (callingFor!.toLowerCase().contains('cancelled')) {
+      viewModel.fieldSelection("Cancelled");
+    }
+
     return Scaffold(
-      appBar: _buildAppBar(),
+      //appBar: _buildAppBar(),
       body: Stack(
         children: [
           SingleChildScrollView(
             child: Column(
               children: [
-                SizedBox(height: 17.v),
-                _buildSearchRow(),
-                SizedBox(height: 17.v),
+                Padding(
+                  padding: const EdgeInsets.only(top: 17.0, bottom: 17.0),
+                  child: _buildSearchRow(),
+                ),
                 Obx(
-                  () => orderController.orderItemList.isNotEmpty
+                  () => viewModel.orderItemList.isNotEmpty
                       ? Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: Obx(
                             () => ListView.builder(
-                              controller: orderController.scrollController,
+                              controller: viewModel.scrollController,
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
-                              itemCount: orderController.orderItemList.length,
+                              itemCount: viewModel.orderItemList.length,
                               itemBuilder: (context, index) {
                                 return GestureDetector(
                                   onTap: () {
                                     Get.to(
                                       () => OrderDetailView(),
                                       arguments: {
-                                        'model': orderController
-                                            .orderItemList[index],
+                                        'model': viewModel.orderItemList[index],
                                       },
                                     );
                                   },
@@ -84,9 +91,9 @@ class OrderView extends StatelessWidget {
         SizedBox(
           width: 250.h,
           child: CustomTextField1(
-            controller: orderController.searchController,
+            controller: viewModel.searchController,
             filled: false,
-            hintText: 'Search',
+            hintText: callingFor!,
             isDropDown: true,
             onTap: () {
               statusBottomSheet();
@@ -108,17 +115,25 @@ class OrderView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Expanded(
-                  child: CustomImageView(
-                      imagePath: ImageConstant.imgSearch,
-                      height: 16.adaptSize,
-                      width: 16.adaptSize,
-                      margin: EdgeInsets.only(right: 5.h))),
+                child: CustomImageView(
+                  imagePath: ImageConstant.imgSearch,
+                  height: 16.adaptSize,
+                  width: 16.adaptSize,
+                  margin: EdgeInsets.only(right: 5.h),
+                  onTap: () {
+                    statusBottomSheet();
+                  },
+                ),
+              ),
               Expanded(
                 child: CustomImageView(
                   imagePath: ImageConstant.imgIconsFilterList,
                   height: 16.adaptSize,
                   width: 16.adaptSize,
                   margin: EdgeInsets.only(left: 5.h),
+                  onTap: () {
+                    statusBottomSheet();
+                  },
                 ),
               )
             ],
@@ -131,14 +146,14 @@ class OrderView extends StatelessWidget {
   Widget _buildOrderCard(int index) {
     return Obx(
       () => Card(
+        margin: const EdgeInsets.all(0),
+        elevation: 0,
         color: const Color(0xFFF9FAFB),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 16.0,
-            vertical: 10.0,
+          padding: const EdgeInsets.only(
+            top: 10.0,
+            left: 10.0,
+            right: 10.0,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -149,23 +164,24 @@ class OrderView extends StatelessWidget {
                   Row(
                     children: [
                       _customField2(
-                          orderController.orderItemList[index].orderId ?? "id"),
+                          viewModel.orderItemList[index].orderId ?? "id"),
                       Padding(
-                        padding: const EdgeInsets.only(left: 8, right: 8),
+                        padding: const EdgeInsets.only(left: 6, right: 6),
                         child: Icon(
                           Icons.circle,
                           color: Colors.grey.shade400,
                           size: 5,
                         ),
                       ),
-                      _customField2(DateFormat.yMMMd().format(DateTime.parse(
-                          orderController.orderItemList[index].createdAt!))),
+                      _customField2(
+                          "${DateFormat("y MMM d").format(DateTime.parse(viewModel.orderItemList[index].createdAt ?? "now"))} at ${DateFormat("h:mm a").format(DateTime.parse(viewModel.orderItemList[index].createdAt ?? "now"))}"),
                     ],
                   ),
-                  _customField2(orderController
-                          .orderItemList[index].orderDetails?.market
-                          .toString() ??
-                      "market"),
+                  _customField2(viewModel
+                              .orderItemList[index].orderDetails?.market !=
+                          null
+                      ? '${viewModel.orderItemList[index].orderDetails?.market!} Store'
+                      : 'market'),
                 ],
               ),
               Container(
@@ -176,29 +192,28 @@ class OrderView extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        _customField1(orderController
-                                .orderItemList[index].customer?.name ??
-                            "naaam"),
                         _customField1(
-                            "${orderController.orderItemList[index].totals?.total ?? "0"}"),
+                            viewModel.orderItemList[index].customer?.name ??
+                                "naaam"),
+                        _customField1(
+                            "Rs. ${viewModel.orderItemList[index].totals?.total?.toStringAsFixed(2) ?? "0"}"),
                       ],
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(8),
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
                       child: Row(children: [
-                        _status(orderController
-                                .orderItemList[index].paymentStatus ??
+                        _status(viewModel.orderItemList[index].paymentStatus ??
                             "status"),
                         SizedBox(width: 8.h),
-                        _status(orderController
-                                .orderItemList[index].fulfilmentStatus ??
-                            "status")
+                        _status(
+                            viewModel.orderItemList[index].fulfilmentStatus ??
+                                "status")
                       ]),
                     ),
                     Obx(() => Row(
                           children: [
                             _customField2(
-                                "${(orderController.orderItemList[index].lineitems?.length) ?? "teeen"} items"),
+                                "${(viewModel.orderItemList[index].lineitems?.length) ?? "teeen"} items"),
                             Padding(
                               padding: const EdgeInsets.only(right: 8, left: 8),
                               child: Icon(
@@ -211,12 +226,17 @@ class OrderView extends StatelessWidget {
                           ],
                         )),
                     Padding(
-                      padding: EdgeInsets.only(top: 8.v, left: 8.h),
+                      padding: EdgeInsets.only(
+                        top: 8.v,
+                        left: 8.h,
+                        bottom: 16.v,
+                      ),
                       child: _status("COD Verified"),
                     ),
                   ],
                 ),
               ),
+              const Divider(),
             ],
           ),
         ),
@@ -298,7 +318,7 @@ class OrderView extends StatelessWidget {
       case "COD Verified":
         return const Color(0xFFBDE9DA);
       default:
-        return const Color(0xFFFE3A30); // Default color for unknown statuses
+        return const Color(0xFFFE3A30);
     }
   }
 
@@ -325,18 +345,18 @@ class OrderView extends StatelessWidget {
               Expanded(
                 child: CupertinoPicker(
                   scrollController: FixedExtentScrollController(
-                    initialItem: orderController.statusSelectedIndex.value,
+                    initialItem: viewModel.statusSelectedIndex.value,
                   ),
                   itemExtent: 35,
                   onSelectedItemChanged: (int index) {
                     tempIndex = index;
                   },
                   children: List.generate(
-                    orderController.statusList.length,
+                    viewModel.statusList.length,
                     (int index) {
                       return Center(
                         child: Text(
-                          orderController.statusList[index],
+                          viewModel.statusList[index],
                           style: const TextStyle(
                             fontWeight: FontWeight.w400,
                             fontSize: 15,
@@ -349,12 +369,10 @@ class OrderView extends StatelessWidget {
               ),
               CupertinoButton(
                 onPressed: () {
-                  print('object');
-                  orderController.statusSelectedIndex.value = tempIndex;
-                  orderController.searchController.text =
-                      orderController.statusList[tempIndex];
-                  orderController
-                      .fieldSelection(orderController.statusList[tempIndex]);
+                  viewModel.statusSelectedIndex.value = tempIndex;
+                  viewModel.searchController.text =
+                      viewModel.statusList[tempIndex];
+                  viewModel.fieldSelection(viewModel.statusList[tempIndex]);
 
                   Get.back();
                 },

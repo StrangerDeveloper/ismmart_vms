@@ -9,6 +9,7 @@ import '../../helper/global_variables.dart';
 import '../../helper/urls.dart';
 
 class LocationListViewModel extends GetxController {
+
   RxInt totalPages = 1.obs;
   TextEditingController searchController = TextEditingController();
   String radioBtnUrlValue = '';
@@ -20,6 +21,18 @@ class LocationListViewModel extends GetxController {
   RxInt currentPage = 0.obs;
   int pageNo = 0;
   RxBool paginationLoader = false.obs;
+  dynamic arguments;
+  bool cameFromAddProduct = false;
+  RxBool showListLoader = false.obs;
+
+  @override
+  void onInit() {
+    arguments = Get.arguments;
+    if(arguments != null) {
+      cameFromAddProduct = arguments['cameFromAddProduct'];
+    }
+    super.onInit();
+  }
 
   @override
   Future<void> onReady() async {
@@ -41,7 +54,7 @@ class LocationListViewModel extends GetxController {
     }
   }
 
-  searchTxtFieldSubmitted(String value) {
+  onChangeSearching(String value) {
     if (value == '') {
       searchUrlValue = '';
     } else {
@@ -53,14 +66,15 @@ class LocationListViewModel extends GetxController {
   getDataFunction() async {
     pageNo = 0;
     currentPage.value = 0;
+    dataList.clear();
     scrollController.removeListener(getData);
-    GlobalVariable.showLoader.value = true;
+    showListLoader.value = true;
     if (!scrollController.hasListeners) {
       scrollController = ScrollController();
       scrollController.addListener(getData);
     }
     await getData();
-    GlobalVariable.showLoader.value = false;
+    showListLoader.value = false;
   }
 
   getData() async {
@@ -79,8 +93,7 @@ class LocationListViewModel extends GetxController {
         if(pageNo == 1){
           dataList.clear();
         }
-        if (parsedJson['success'] == true &&
-            parsedJson['data']['items'] != null) {
+        if (parsedJson['success'] == true && parsedJson['data']['items'] != null) {
           var data = parsedJson['data']['items'] as List;
           totalPages.value = parsedJson['data']['pages'];
           if (data.isEmpty || data.length<10) {

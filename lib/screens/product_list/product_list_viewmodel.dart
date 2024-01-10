@@ -73,4 +73,12 @@ class ProductListViewModel extends GetxController {
       debugPrint("GetProductList: $e");
     });
   }
+  
+  // getSingleProductDetails(String id) async {
+  //   ApiBaseHelper().getMethod(url: Urls.getSingleProduct).then((value) {
+  //
+  //   }).catchError((e) {
+  //     AppConstant.displaySnackBar('Error', 'Couldn\'t fetch product details');
+  //   });
+  // }
 }

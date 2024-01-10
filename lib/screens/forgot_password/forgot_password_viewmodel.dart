@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/api_base_helper.dart';
 import 'package:ismmart_vms/helper/urls.dart';
-
 import '../../helper/constants.dart';
 import '../../helper/global_variables.dart';
 
 class ForgotPasswordViewModel extends GetxController {
+
   GlobalKey<FormState> forgotPasswordFormKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
+  Map<String, dynamic> parsedJson = {};
 
   @override
   void onReady() {
@@ -26,15 +27,12 @@ class ForgotPasswordViewModel extends GetxController {
   }
 
   void sendBtn() async {
-    var parsedJson;
+
     if (forgotPasswordFormKey.currentState?.validate() ?? false) {
       try {
         Map<String, dynamic> param = {"email": emailController.text};
-        print(param);
         GlobalVariable.showLoader.value = true;
-        parsedJson = await ApiBaseHelper()
-            .postMethod(url: Urls.forgetPassword, body: param);
-        print(parsedJson);
+        parsedJson = await ApiBaseHelper().postMethod(url: Urls.forgetPassword, body: param);
 
         if (parsedJson['success'] == true) {
           GlobalVariable.showLoader.value = false;
@@ -42,18 +40,18 @@ class ForgotPasswordViewModel extends GetxController {
             "success",
             "Reset Password Link send to your Email",
           );
-          Future.delayed(Duration(seconds: 2), () => Get.back());
+          Future.delayed(const Duration(seconds: 2), () => Get.back());
           Get.back();
         } else {
           GlobalVariable.showLoader.value = false;
-          return AppConstant.displaySnackBar(
+          AppConstant.displaySnackBar(
             "Error",
             "resent to your Email",
           );
         }
       } catch (e) {
         GlobalVariable.showLoader.value = false;
-        return AppConstant.displaySnackBar(
+        AppConstant.displaySnackBar(
           "Error",
           "${parsedJson['message']}",
         );

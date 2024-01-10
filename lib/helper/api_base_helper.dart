@@ -218,9 +218,14 @@ class ApiBaseHelper {
       debugPrint("$urlValue");
 
       http.MultipartRequest request = http.MultipartRequest('POST', urlValue);
-      request.headers.addAll(header);
+      request.headers.remove('Content-Type');
+      request.headers.addAll({
+        'Content-Type': 'multipart/form-data',
+        'Authorization': 'Bearer ${GlobalVariable.token}',
+      });
       request.fields.addAll(fields);
       request.files.addAll(files);
+
       http.StreamedResponse response = await request.send();
       Map<String, dynamic> parsedJson =
           await jsonDecode(await response.stream.bytesToString());

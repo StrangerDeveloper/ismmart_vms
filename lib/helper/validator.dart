@@ -13,9 +13,9 @@ class Validator {
   /////////////////////  Validators  /////////////////////////
   ///EmptyField
   static String? validateDefaultField(String? value,
-      {String errMsg = 'Field is required'}) {
+      {String errorMessage = 'Field is required'}) {
     if (GetUtils.isBlank(value)!) {
-      return errMsg;
+      return errorMessage;
     } else {
       return null;
     }

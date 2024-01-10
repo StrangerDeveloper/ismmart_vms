@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:ismmart_vms/helper/theme_helper.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
-import 'package:ismmart_vms/screens/order_detail/cancel_order_viewModel.dart';
+import 'package:ismmart_vms/screens/order_detail/cancel_order_viewmodel.dart';
 import 'package:ismmart_vms/widgets/custom_image_view.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
@@ -58,7 +58,7 @@ class CancelOrderView extends StatelessWidget {
 
   PreferredSizeWidget _buildAppBar() {
     return const CustomAppBar2(
-      title: "Cancel Order",
+      title: "Order Detail",
     );
   }
 
@@ -522,9 +522,15 @@ class CancelOrderView extends StatelessWidget {
               context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
-                  title: const Text("Cancel Order"),
+                  title: Text(
+                    "Cancel Order# ${viewModel.orderItemModel.value.orderId}",
+                    style: newFontStyle5.copyWith(
+                      color: ThemeHelper.blue1,
+                      fontSize: 18.fSize,
+                    ),
+                  ),
                   content: Obx(() => Text(
-                      "Are you sure you want to cancel them item from Order # ${viewModel.orderItemModel.value.orderId} ?")),
+                      "This can't be undone. Are you sure you want to cancel the item SKU: from Order# ${viewModel.orderItemModel.value.orderId} ?")),
                   actions: [
                     CustomTextBtn(
                       backgroundColor: Colors.grey.shade200,
@@ -537,14 +543,7 @@ class CancelOrderView extends StatelessWidget {
                     CustomTextBtn(
                       onPressed: () async {
                         Get.back();
-                        Get.dialog(
-                          const Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                          barrierDismissible: false,
-                        );
                         await viewModel.updateOrder();
-                        Get.back();
                       },
                       title: "Confirm",
                     ),

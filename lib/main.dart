@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:ismmart_vms/helper/theme_helper.dart';
 import 'firebase_options.dart';
 import 'helper/routes.dart';

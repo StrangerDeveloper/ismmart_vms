@@ -197,6 +197,10 @@ var newFontStyle4 = GoogleFonts.inter(
   fontWeight: FontWeight.w400,
   color: newColorNavyBlue,
 );
+var newFontStyle5 = GoogleFonts.inter(
+  fontWeight: FontWeight.w600,
+  color: newColorNavyBlue,
+);
 var newFontStyleSize20 = GoogleFonts.inter(
   fontSize: 20,
   fontWeight: FontWeight.w700,

@@ -7,10 +7,9 @@ import 'package:ismmart_vms/helper/theme_helper.dart';
 import 'package:ismmart_vms/helper/utils/image_constant.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/screens/dashboard/dashboard_viewmodel.dart';
-import 'package:ismmart_vms/widgets/custom_appbar.dart';
 import 'package:ismmart_vms/widgets/custom_button.dart';
-import 'package:ismmart_vms/widgets/custom_dropdown.dart';
 import 'package:ismmart_vms/widgets/custom_image_view.dart';
+import 'package:ismmart_vms/widgets/custom_text.dart';
 import 'package:ismmart_vms/widgets/loader_view.dart';
 
 import '../../helper/resourses/app_colors.dart';
@@ -35,7 +34,7 @@ class DashboardView extends StatelessWidget {
                 ordersProgress(),
                 SizedBox(height: 24.v),
                 _buildCharts(),
-                SizedBox(height: 50),
+                const SizedBox(height: 50),
               ],
             ),
           ),
@@ -45,22 +44,22 @@ class DashboardView extends StatelessWidget {
     );
   }
 
-
-
   Widget welcomeWidget() {
-    return const Padding(
-      padding: EdgeInsets.symmetric(vertical: 10),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "Welcome Al-jannat Mall",
-            style: TextStyle(
-              fontWeight: FontWeight.w700,
+          Obx(
+            () => Text(
+              "Welcome ${viewModel.userProfileModel.value.store?.name ?? ''}",
+              style: const TextStyle(
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ),
-          SizedBox(width: 5),
-          Icon(
+          const SizedBox(width: 5),
+          const Icon(
             CupertinoIcons.info_circle_fill,
             color: Color(0xff9CA3AF),
             size: 12,
@@ -76,13 +75,33 @@ class DashboardView extends StatelessWidget {
       children: [
         SizedBox(
           width: 100,
-          child: CustomDropDownList2(
-            value: viewModel.dateSelected,
-            onChanged: (value) {
-              viewModel.dateSelected.value = value;
-            },
-            list: viewModel.dateDropDownList,
+          child: Obx(
+            () => InkWell(
+              onTap: () {
+                _showDatePicker();
+              },
+              child: Row(
+                children: [
+                  Text(
+                    viewModel.selectedDate.value,
+                    style: const TextStyle(color: Colors.black),
+                  ),
+                  const Icon(
+                    Icons.keyboard_arrow_down_rounded,
+                    size: 15,
+                  )
+                ],
+              ),
+            ),
           ),
+
+          //  CustomDropDownList2(
+          //   value: viewModel.dateSelected,
+          //   onChanged: (value) {
+          //     viewModel.dateSelected.value = value;
+          //   },
+          //   list: viewModel.dateDropDownList,
+          // ),
         ),
         CustomTextBtn(
           foregroundColor: ThemeHelper.blue1,
@@ -104,6 +123,15 @@ class DashboardView extends StatelessWidget {
           onPressed: () {},
         ),
       ],
+    );
+  }
+
+  _showDatePicker() {
+    showDatePicker(
+      context: Get.context!,
+      firstDate: DateTime(2021),
+      lastDate: DateTime(2101),
+      
     );
   }
 
@@ -164,23 +192,27 @@ class DashboardView extends StatelessWidget {
               width: double.minPositive,
               foregroundColor: ThemeHelper.grey5,
               backgroundColor: Colors.transparent,
-              child: const Row(
+              child: Row(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     "Show more details",
                     style: TextStyle(
                       color: ThemeHelper.grey5,
                       fontSize: 12,
                     ),
                   ),
-                  SizedBox(width: 3),
-                  Icon(
-                    Icons.keyboard_arrow_up_rounded,
-                    size: 10,
-                    color: ThemeHelper.grey5,
-                  )
+                  const SizedBox(width: 3),
+                  Obx(
+                    () => Icon(
+                      viewModel.showMoreDetails.isTrue
+                          ? Icons.keyboard_arrow_up_rounded
+                          : Icons.keyboard_arrow_down_rounded,
+                      size: 15,
+                      color: ThemeHelper.grey5,
+                    ),
+                  ),
                 ],
               ),
               onPressed: () {
@@ -372,12 +404,12 @@ class DashboardView extends StatelessWidget {
               //   Icons.download_rounded,
               //   size: 12.adaptSize,
               // ),
-              CustomImageView(
-                imagePath: ImageConstant.imgDownload,
-                height: 16.adaptSize,
-                width: 16.adaptSize,
-                margin: EdgeInsets.only(bottom: 2.v),
-              ),
+              // CustomImageView(
+              //   imagePath: ImageConstant.imgDownload,
+              //   height: 16.adaptSize,
+              //   width: 16.adaptSize,
+              //   margin: EdgeInsets.only(bottom: 2.v),
+              // ),
             ],
           ),
           SizedBox(height: 24.v),

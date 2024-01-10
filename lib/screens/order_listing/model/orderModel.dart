@@ -1,37 +1,37 @@
-class Data {
-  List<OrderItem>? items;
-  int? page;
-  int? limit;
-  int? pages;
-  int? total;
+// class Data {
+//   List<OrderItem>? items;
+//   int? page;
+//   int? limit;
+//   int? pages;
+//   int? total;
 
-  Data({this.items, this.page, this.limit, this.pages, this.total});
+//   Data({this.items, this.page, this.limit, this.pages, this.total});
 
-  Data.fromJson(Map<String, dynamic> json) {
-    if (json['items'] != null) {
-      items = <OrderItem>[];
-      json['items'].forEach((v) {
-        items!.add(OrderItem.fromJson(v));
-      });
-    }
-    page = json['page'];
-    limit = json['limit'];
-    pages = json['pages'];
-    total = json['total'];
-  }
+//   Data.fromJson(Map<String, dynamic> json) {
+//     if (json['items'] != null) {
+//       items = <OrderItem>[];
+//       json['items'].forEach((v) {
+//         items!.add(OrderItem.fromJson(v));
+//       });
+//     }
+//     page = json['page'];
+//     limit = json['limit'];
+//     pages = json['pages'];
+//     total = json['total'];
+//   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    if (items != null) {
-      data['items'] = items!.map((v) => v.toJson()).toList();
-    }
-    data['page'] = page;
-    data['limit'] = limit;
-    data['pages'] = pages;
-    data['total'] = total;
-    return data;
-  }
-}
+//   Map<String, dynamic> toJson() {
+//     final Map<String, dynamic> data = <String, dynamic>{};
+//     if (items != null) {
+//       data['items'] = items!.map((v) => v.toJson()).toList();
+//     }
+//     data['page'] = page;
+//     data['limit'] = limit;
+//     data['pages'] = pages;
+//     data['total'] = total;
+//     return data;
+//   }
+// }
 
 class OrderItem {
   String? sId;
@@ -76,7 +76,6 @@ class OrderItem {
       this.returnStatus});
 
   OrderItem.fromJson(Map<String, dynamic> json) {
-    print("OrderItem.fromJson ${json['_id']}");
     sId = json['_id'];
     customer =
         json['customer'] != null ? Customer.fromJson(json['customer']) : null;

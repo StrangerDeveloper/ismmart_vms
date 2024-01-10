@@ -24,13 +24,13 @@ class BankModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    data['user'] = this.user;
-    data['name'] = this.name;
-    data['title'] = this.title;
-    data['iban'] = this.iban;
-    data['accountNumber'] = this.accountNumber;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['_id'] = sId;
+    data['user'] = user;
+    data['name'] = name;
+    data['title'] = title;
+    data['iban'] = iban;
+    data['accountNumber'] = accountNumber;
     return data;
   }
 }

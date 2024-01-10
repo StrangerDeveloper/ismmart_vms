@@ -6,7 +6,7 @@ import 'package:ismmart_vms/screens/auth/login/login_view.dart';
 import '../drawer_bottom_nav/drawer_bottom_bar_view.dart';
 
 class SplashScreenView extends StatefulWidget {
-  SplashScreenView({super.key});
+  const SplashScreenView({super.key});
 
   @override
   State<SplashScreenView> createState() => _SplashScreenViewState();
@@ -18,9 +18,8 @@ class _SplashScreenViewState extends State<SplashScreenView> {
   @override
   void initState() {
     islogin = box.read('islogin') ?? false;
-    print("---------- already login --------->>> $islogin <<<---------");
     Future.delayed(
-        Duration(seconds: 4),
+        const Duration(seconds: 4),
         () => Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(builder: (context) {
               if (islogin) {
