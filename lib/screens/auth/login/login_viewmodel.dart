@@ -84,8 +84,9 @@ class LogInViewModel extends GetxController {
     GoogleSignInAccount? credential;
     try {
       // Get.to(DrawerBottomBarView());
-      await googleSignIn.signOut();
+
       credential = await googleSignIn.signIn();
+      GlobalVariable.showLoader.value = false;
 
       credential?.authentication.then((value) async {
         print(credential);
@@ -183,7 +184,7 @@ class LogInViewModel extends GetxController {
       }
 
       // Now send the credential (especially `credential.authorizationCode`) to your server to create a session
-      // after they have been validated with Apple (see `Integration` section for more information on how to do this)
+      // after they have bee n validated with Apple (see `Integration` section for more information on how to do this)
     }
   }
 

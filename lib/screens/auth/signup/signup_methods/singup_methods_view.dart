@@ -24,11 +24,11 @@ class SingupMethodsView extends StatelessWidget {
       top: false,
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-          child: Stack(
-            children: [
-              ScrollableColumn(
+        body: Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+              child: ScrollableColumn(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(
@@ -52,7 +52,7 @@ class SingupMethodsView extends StatelessWidget {
                       child: Text('Create your account',
                           style: newFontStyleSize14)),
                   signUpEmail(),
-                  signupNumber(),
+                  // signupNumber(),
 
                   orWidget(),
                   googlelogInBtn(),
@@ -62,9 +62,9 @@ class SingupMethodsView extends StatelessWidget {
                   doNotHaveAnAccount(),
                 ],
               ),
-              const LoaderView(),
-            ],
-          ),
+            ),
+            const LoaderView(),
+          ],
         ),
       ),
     );
@@ -155,44 +155,6 @@ class SingupMethodsView extends StatelessWidget {
             //
           },
         ));
-
-    // Padding(
-    //   padding: const EdgeInsets.only(top: 10),
-    //   child: Obx(
-    //     () => GlobalVariable.showLoader.value
-    //         ? const CustomLoading(isItBtn: true)
-    //         : CustomRoundedTextBtn(
-    //             borderSide: const BorderSide(
-    //               color: Colors.black, // your color here
-    //               width: 1,
-    //             ),
-    //             backgroundColor: Colors.white,
-    //             child: Row(
-    //               mainAxisAlignment: MainAxisAlignment.center,
-    //               children: [
-    //                 Text(
-    //                   'Continue with phone number',
-    //                   style: newFontStyleSize14.copyWith(
-    //                       fontWeight: FontWeight.w500,
-    //                       color: newColorDarkBlack),
-    //                 ),
-    //                 const SizedBox(
-    //                   width: 4,
-    //                 ),
-    //                 const Icon(
-    //                   Icons.arrow_forward,
-    //                   size: 20,
-    //                   color: newColorDarkBlack,
-    //                 ),
-    //               ],
-    //             ),
-    //             onPressed: () {
-    //               // Get.offNamed(Routes.dashboard);
-    //               // Get.to(DashboardView());
-    //             },
-    //           ),
-    //   ),
-    // );
   }
 
   Widget orWidget() {
