@@ -194,7 +194,7 @@ class OrderView extends StatelessWidget {
                       ],
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(8),
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
                       child: Row(children: [
                         _status(orderController
                                 .orderItemList[index].paymentStatus ??
