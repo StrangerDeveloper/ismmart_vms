@@ -23,11 +23,17 @@ class CommonFunction {
   //   return DateFormat('yyyy-MM-dd hh:mm a').format(date);
   // }
 
-  static String convertDateFormat(String stringDate) {
+static String formattedDataTime(String customFormat, DateTime timestamp) {
+    var date =
+        DateTime.fromMicrosecondsSinceEpoch(timestamp.microsecondsSinceEpoch);
+
+    return DateFormat(customFormat).format(date);
+  }
+  static String convertDateFormat(String stringDate, {format = 'dd MMM, yyyy'}) {
     DateTime inputDate = DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
         .parseUtc(stringDate)
         .toLocal();
-    String outputDate = DateFormat('dd MMM, yyyy').format(inputDate);
+    String outputDate = DateFormat(format).format(inputDate);
     return outputDate;
   }
 

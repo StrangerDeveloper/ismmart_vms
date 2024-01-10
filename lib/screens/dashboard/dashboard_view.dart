@@ -9,7 +9,6 @@ import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/screens/dashboard/dashboard_viewmodel.dart';
 import 'package:ismmart_vms/widgets/custom_button.dart';
 import 'package:ismmart_vms/widgets/custom_image_view.dart';
-import 'package:ismmart_vms/widgets/custom_text.dart';
 import 'package:ismmart_vms/widgets/loader_view.dart';
 
 import '../../helper/resourses/app_colors.dart';
@@ -74,17 +73,22 @@ class DashboardView extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         SizedBox(
-          width: 100,
+          width: 120,
           child: Obx(
             () => InkWell(
               onTap: () {
-                _showDatePicker();
+                viewModel.showCustomDatePicker();
               },
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    viewModel.selectedDate.value,
-                    style: const TextStyle(color: Colors.black),
+                    viewModel.getDateFormat(),
+                    style: const TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 12),
                   ),
                   const Icon(
                     Icons.keyboard_arrow_down_rounded,
@@ -123,15 +127,6 @@ class DashboardView extends StatelessWidget {
           onPressed: () {},
         ),
       ],
-    );
-  }
-
-  _showDatePicker() {
-    showDatePicker(
-      context: Get.context!,
-      firstDate: DateTime(2021),
-      lastDate: DateTime(2101),
-      
     );
   }
 
