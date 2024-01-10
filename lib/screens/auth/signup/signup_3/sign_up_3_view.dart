@@ -483,7 +483,7 @@ class SignUp3View extends StatelessWidget {
                       ),
                       const SizedBox(width: 10),
                       const Text(
-                        'Select Country',
+                        'Select Bank',
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           color: ThemeHelper.blue1,

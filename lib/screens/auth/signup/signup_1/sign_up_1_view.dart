@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_multi_formatter/formatters/masked_input_formatter.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/widgets/loader_view.dart';
@@ -15,6 +16,7 @@ import 'package:ismmart_vms/widgets/image_layout_container.dart';
 import 'package:ismmart_vms/widgets/obscure_suffix_icon.dart';
 
 import '../../../../helper/validator.dart';
+import '../../../../widgets/custom_bottom_sheet.dart';
 import '../../login/login_view.dart';
 import 'sign_up_1_viewmodel.dart';
 
@@ -56,7 +58,8 @@ class SignUp1View extends StatelessWidget {
                         nameField(),
                         emailTextField(),
                         phoneNumberTextField(),
-                        genderField(context),
+                        genderTextField(),
+                        // genderField(context),
                         cnicNumberField(),
                         cnicFrontImage(),
                         cnicBackImage(),
@@ -183,13 +186,18 @@ class SignUp1View extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 32, bottom: 15),
       child: CustomTextField1(
+        inputFormatters: <TextInputFormatter>[
+          FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+        ],
+        keyboardType: TextInputType.text,
         prefixIcon: Icons.person,
         title: 'Full Name',
         hintText: 'John Doe',
         controller: viewModel.nameController,
         autoValidateMode: AutovalidateMode.onUserInteraction,
         validator: (value) {
-          return Validator.validateDefaultField(value);
+          return Validator.validateDefaultField(value,
+              errMsg: 'Full Name is Required');
         },
       ),
     );
@@ -203,7 +211,9 @@ class SignUp1View extends StatelessWidget {
       controller: viewModel.emailController,
       autoValidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
-        return Validator.validateEmail(value);
+        return Validator.validateEmail(
+          value,
+        );
       },
       keyboardType: TextInputType.emailAddress,
     );
@@ -218,7 +228,7 @@ class SignUp1View extends StatelessWidget {
             return Validator().validatePhoneNumber(value);
           },
           title: 'Phone Number',
-          hintText: '336 5563138',
+          hintText: '111 11111111',
           keyboardType: TextInputType.number,
           controller: viewModel.phoneNumberController,
           initialValue: viewModel.countryCode.value,
@@ -244,69 +254,93 @@ class SignUp1View extends StatelessWidget {
     );
   }
 
-  Widget genderField(BuildContext context) {
-    return Column(
-      children: [
-        Align(
-          alignment: Alignment.centerLeft,
-          child: RichText(
-            text: const TextSpan(
-                text: 'Gender',
-                style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w700),
-                children: [
-                  // TextSpan(text: ' *', style: TextStyle(color: Colors.red))
-                ]),
-          ),
-        ),
-        SizedBox(height: 30, child: genderRadioBtns(context)),
-      ],
-    );
-  }
-
-  Widget genderRadioBtns(BuildContext buildContext) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 10),
-      child: Center(
-        child: ListView.builder(
-          itemCount: viewModel.genders.length,
-          scrollDirection: Axis.horizontal,
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemBuilder: (buildContext, index) {
-            return radioButton(index, viewModel.genders[index]);
+  Widget genderTextField() {
+    return CustomTextField1(
+      title: 'Gender',
+      hintText: 'Male',
+      isDropDown: true,
+      controller: viewModel.genderController,
+      validator: (value) {
+        return Validator.validateDefaultField(value,
+            errMsg: 'Gender is Required');
+      },
+      autoValidateMode: AutovalidateMode.onUserInteraction,
+      onTap: () {
+        CustomBottomSheet1(
+          selectedIndex: viewModel.genderSelectedIndex.value,
+          list: viewModel.genderList,
+          onValueSelected: (value) {
+            viewModel.genderSelectedIndex.value = value;
+            viewModel.genderController.text = viewModel.genderList[value];
           },
-        ),
-      ),
+        ).show();
+      },
     );
   }
 
-  Widget radioButton(int btnValue, String title) {
-    return Obx(
-      () => Row(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Radio(
-            fillColor: MaterialStateColor.resolveWith((states) => Colors.black),
-            activeColor: Theme.of(Get.context!).primaryColor,
-            value: viewModel.genders[btnValue],
-            groupValue: viewModel.selectedGender.value,
-            onChanged: (value) {
-              viewModel.selectedGender.value = value;
-            },
-          ),
-          Text(
-            title,
-            style: const TextStyle(
-                color: Colors.black, fontSize: 14, fontWeight: FontWeight.w400),
-          )
-        ],
-      ),
-    );
-  }
+  // Widget genderField(BuildContext context) {
+  //   return Column(
+  //     children: [
+  //       Align(
+  //         alignment: Alignment.centerLeft,
+  //         child: RichText(
+  //           text: const TextSpan(
+  //               text: 'Gender',
+  //               style: TextStyle(
+  //                   fontSize: 14,
+  //                   color: Colors.black,
+  //                   fontWeight: FontWeight.w700),
+  //               children: [
+  //                 // TextSpan(text: ' *', style: TextStyle(color: Colors.red))
+  //               ]),
+  //         ),
+  //       ),
+  //       SizedBox(height: 30, child: genderRadioBtns(context)),
+  //     ],
+  //   );
+  // }
+
+  // Widget genderRadioBtns(BuildContext buildContext) {
+  //   return Padding(
+  //     padding: const EdgeInsets.only(top: 10),
+  //     child: Center(
+  //       child: ListView.builder(
+  //         itemCount: viewModel.gender.length,
+  //         scrollDirection: Axis.horizontal,
+  //         physics: const NeverScrollableScrollPhysics(),
+  //         shrinkWrap: true,
+  //         itemBuilder: (buildContext, index) {
+  //           return radioButton(index, viewModel.gender[index]);
+  //         },
+  //       ),
+  //     ),
+  //   );
+  // }
+  //
+  // Widget radioButton(int btnValue, String title) {
+  //   return Obx(
+  //     () => Row(
+  //       mainAxisSize: MainAxisSize.min,
+  //       mainAxisAlignment: MainAxisAlignment.start,
+  //       children: <Widget>[
+  //         Radio(
+  //           fillColor: MaterialStateColor.resolveWith((states) => Colors.black),
+  //           activeColor: Theme.of(Get.context!).primaryColor,
+  //           value: viewModel.gender[btnValue],
+  //           groupValue: viewModel.selectedGender.value,
+  //           onChanged: (value) {
+  //             viewModel.selectedGender.value = value ?? "";
+  //           },
+  //         ),
+  //         Text(
+  //           title,
+  //           style: const TextStyle(
+  //               color: Colors.black, fontSize: 14, fontWeight: FontWeight.w400),
+  //         )
+  //       ],
+  //     ),
+  //   );
+  // }
 
   Widget cnicNumberField() {
     return Padding(
@@ -314,11 +348,13 @@ class SignUp1View extends StatelessWidget {
       child: CustomTextField1(
         keyboardType: TextInputType.number,
         inputFormatters: [
-          FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-          FilteringTextInputFormatter.digitsOnly,
+          MaskedInputFormatter(
+            "#####-#######-#",
+            allowedCharMatcher: RegExp(r'[0-9]+'),
+          ),
         ],
         title: 'CNIC',
-        hintText: '3540447707897',
+        hintText: '35404-4770789-7',
         controller: viewModel.cnicController,
         autoValidateMode: AutovalidateMode.onUserInteraction,
         validator: (value) {
@@ -418,7 +454,7 @@ class SignUp1View extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text(
-              "Next",
+              "Create Account",
               // style: newFontStyleSize14.copyWith(
               //     fontWeight: FontWeight.w500, color: kWhiteColor),kWhiteColor
             ),
@@ -605,81 +641,6 @@ class SignUp1View extends StatelessWidget {
           viewModel.appleSignin();
         },
       ),
-    );
-  }
-
-  //Facebook Button
-  Widget facebooklogInBtn() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
-      child: CustomRoundedTextBtn(
-        borderSide: const BorderSide(
-          color: Colors.black, // your color here
-          width: 1,
-        ),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(50.0),
-              child: Image.asset(
-                'assets/logo/fb_logo.png',
-                width: 36,
-                height: 36,
-              ),
-            ),
-            const SizedBox(
-              width: 5,
-            ),
-            const Text(
-              "Continue in with Facebok",
-              // style: newFontStyle3,
-            ),
-          ],
-        ),
-        onPressed: () {
-          // viewModel.signInWithApple();
-        },
-      ),
-
-      // Obx(
-      //       () => GlobalVariable.showLoader.value
-      //       ? CustomLoading(isItBtn: true)
-      //       :
-      //       CustomRoundedTextBtn(
-      //     borderSide:  BorderSide(
-      //       color: newColorDarkBlack, // your color here
-      //       width: 1,
-      //     ),
-      //     backgroundColor: kWhiteColor,
-      //     foregroundColor: newColorDarkBlack,
-      //     child: Row(
-      //       mainAxisAlignment: MainAxisAlignment.center,
-      //       children: [
-      //         ClipRRect(
-      //           child: Image.asset(
-      //             'assets/logo/fb_logo.png',
-      //             width: 36,
-      //             height: 36,
-      //           ),
-      //           borderRadius: BorderRadius.circular(50.0),
-      //         ),
-      //         SizedBox(
-      //           width:5,
-      //         ),
-      //         Text(
-      //           "Continue in with Facebok",
-      //           style: newFontStyle3,
-      //         ),
-      //       ],),
-      //     onPressed: () {
-      //       viewModel.signInWithApple();
-      //     },
-      //   ),
-      //
-      // ),
     );
   }
 }
