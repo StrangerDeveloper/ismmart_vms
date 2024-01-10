@@ -57,7 +57,19 @@ class AddBankViewModel extends GetxController {
     }
   }
 
+  bool isFormChanged() {
+    return accountTitleController.text != bankModel.title ||
+        accountNumberController.text != bankModel.accountNumber ||
+        ibanController.text != bankModel.iban ||
+        bankNameController.text != bankModel.name;
+  }
+
   saveAndCreateBtn() async {
+    if (isFormChanged() == false) {
+      Get.back();
+      return;
+    }
+
     if (addBankFormKey.currentState?.validate() ?? false) {
 
       Map<String, String> param = {

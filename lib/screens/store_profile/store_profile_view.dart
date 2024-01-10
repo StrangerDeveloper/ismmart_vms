@@ -22,7 +22,7 @@ class StoreProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar2(title: 'Store'),
+      appBar: const CustomAppBar2(title: 'Edit Store'),
       body: Stack(
         children: [
           SingleChildScrollView(
