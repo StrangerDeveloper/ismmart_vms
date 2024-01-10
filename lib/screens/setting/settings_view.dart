@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:ismmart_vms/helper/utils/image_constant.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/screens/auth/login/login_view.dart';
@@ -43,11 +44,11 @@ class SettingsView extends StatelessWidget {
             iconPath: 'assets/images/overViewIcon.png',
           ),
 
-            // drawerListItems(
-            //   'Collections',
-            //   iconPath: 'assets/images/layers.png',
-            //   onTab: () => Get.to(CollectionView()),
-            // ),
+          // drawerListItems(
+          //   'Collections',
+          //   iconPath: 'assets/images/layers.png',
+          //   onTab: () => Get.to(CollectionView()),
+          // ),
 
           drawerListItems(
             'Locations',
@@ -109,8 +110,8 @@ class SettingsView extends StatelessWidget {
           ),
 
           drawerListItems('Logout', iconPath: 'assets/images/settingIcon.png',
-              onTab: () {
-            Get.offAll(LogInView());
+              onTab: () async {
+            viewModel.logout();
           })
         ],
       ),
