@@ -58,7 +58,7 @@ class CancelOrderView extends StatelessWidget {
 
   PreferredSizeWidget _buildAppBar() {
     return const CustomAppBar2(
-      title: "Cancel Order",
+      title: "Order Detail",
     );
   }
 

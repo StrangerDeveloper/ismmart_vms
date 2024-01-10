@@ -9,7 +9,6 @@ import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/screens/auth/login/login_view.dart';
 import 'package:ismmart_vms/screens/bank_list/bank_list_view.dart';
 import 'package:ismmart_vms/screens/dashboard/dashboard_view.dart';
-import 'package:ismmart_vms/screens/order_detail/cancel_order_view.dart';
 import 'package:ismmart_vms/screens/order_listing/order_view.dart';
 import 'package:ismmart_vms/widgets/custom_cached_network_image.dart';
 import 'package:ismmart_vms/widgets/custom_text.dart';

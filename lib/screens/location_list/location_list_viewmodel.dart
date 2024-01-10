@@ -23,6 +23,7 @@ class LocationListViewModel extends GetxController {
   RxBool paginationLoader = false.obs;
   dynamic arguments;
   bool cameFromAddProduct = false;
+  RxBool showListLoader = false.obs;
 
   @override
   void onInit() {
@@ -53,7 +54,7 @@ class LocationListViewModel extends GetxController {
     }
   }
 
-  searchTxtFieldSubmitted(String value) {
+  onChangeSearching(String value) {
     if (value == '') {
       searchUrlValue = '';
     } else {
@@ -65,14 +66,15 @@ class LocationListViewModel extends GetxController {
   getDataFunction() async {
     pageNo = 0;
     currentPage.value = 0;
+    dataList.clear();
     scrollController.removeListener(getData);
-    GlobalVariable.showLoader.value = true;
+    showListLoader.value = true;
     if (!scrollController.hasListeners) {
       scrollController = ScrollController();
       scrollController.addListener(getData);
     }
     await getData();
-    GlobalVariable.showLoader.value = false;
+    showListLoader.value = false;
   }
 
   getData() async {
@@ -91,8 +93,7 @@ class LocationListViewModel extends GetxController {
         if(pageNo == 1){
           dataList.clear();
         }
-        if (parsedJson['success'] == true &&
-            parsedJson['data']['items'] != null) {
+        if (parsedJson['success'] == true && parsedJson['data']['items'] != null) {
           var data = parsedJson['data']['items'] as List;
           totalPages.value = parsedJson['data']['pages'];
           if (data.isEmpty || data.length<10) {
