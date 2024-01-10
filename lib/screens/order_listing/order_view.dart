@@ -144,9 +144,10 @@ class OrderView extends StatelessWidget {
         elevation: 0,
         color: const Color(0xFFF9FAFB),
         child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 16.0,
-            vertical: 10.0,
+          padding: const EdgeInsets.only(
+            top: 10.0,
+            left: 10.0,
+            right: 10.0,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -167,7 +168,7 @@ class OrderView extends StatelessWidget {
                         ),
                       ),
                       _customField2(
-                          "${DateFormat("y MMM d").format(DateTime.parse(orderController.orderItemList[index].createdAt!))} at ${DateFormat("h:mm a").format(DateTime.parse(orderController.orderItemList[index].createdAt!))}"),
+                          "${DateFormat("y MMM d").format(DateTime.parse(orderController.orderItemList[index].createdAt ?? "now"))} at ${DateFormat("h:mm a").format(DateTime.parse(orderController.orderItemList[index].createdAt ?? "now"))}"),
                     ],
                   ),
                   _customField2(orderController
@@ -193,7 +194,7 @@ class OrderView extends StatelessWidget {
                       ],
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(8),
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
                       child: Row(children: [
                         _status(orderController
                                 .orderItemList[index].paymentStatus ??
@@ -223,6 +224,7 @@ class OrderView extends StatelessWidget {
                       padding: EdgeInsets.only(
                         top: 8.v,
                         left: 8.h,
+                        bottom: 16.v,
                       ),
                       child: _status("COD Verified"),
                     ),
