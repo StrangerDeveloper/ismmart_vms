@@ -28,9 +28,10 @@ class OrderView extends StatelessWidget {
           SingleChildScrollView(
             child: Column(
               children: [
-                SizedBox(height: 17.v),
-                _buildSearchRow(),
-                SizedBox(height: 17.v),
+                Padding(
+                  padding: const EdgeInsets.only(top: 17.0, bottom: 17.0),
+                  child: _buildSearchRow(),
+                ),
                 Obx(
                   () => orderController.orderItemList.isNotEmpty
                       ? Padding(
