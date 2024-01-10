@@ -231,18 +231,98 @@ class AddProduct2ViewModel extends GetxController {
   }
 
   createJson() {
-
-    if(variantsChanged.value) {
+    if(cameFromProductList){
+      if (variantsChanged.value) {
+        for (int i = 0; i <= listOfOptionsAdded.length - 1; i++) {
+          previousDetails.addAll({
+            "options[$i][name]": listOfOptionsAdded[i].optionName!.text,
+          });
+          for (int j = 0;
+              j <= listOfOptionsAdded[i].optionValues!.length - 1;
+              j++) {
+            previousDetails.addAll({
+              "options[$i][values][$j]":
+                  listOfOptionsAdded[i].optionValues![j].text
+            });
+          }
+        }
+        for (int i = 0; i <= finalCombinationsList.length - 1; i++) {
+          previousDetails.addAll({
+            "variants[$i][variantId]": "$i",
+            // "variants[$i][weight]": weightController.text,
+            // "variants[$i][dimensions][length]": lengthController.text,
+            // "variants[$i][dimensions][width]": widthController.text,
+            // "variants[$i][dimensions][height]": heightController.text,
+          });
+          final splitted = finalCombinationsList[i].variantName?.split(' - ');
+          if (splitted!.length > 1) {
+            for (int j = 0; j <= splitted.length - 1; j++) {
+              previousDetails.addAll({
+                "variants[$i][options][$j]": splitted[j],
+              });
+            }
+          } else {
+            previousDetails.addAll({'variants[$i][options][0]': splitted[0]});
+          }
+          for (int k = 0; k <= 1; k++) {
+            previousDetails.addAll({
+              "inventory[$k][location]":
+                  finalCombinationsList[i].locationInventory![k].id!,
+              "inventory[$k][variant]": "$i",
+              "inventory[$k][quantity]": finalCombinationsList[i]
+                          .locationInventory?[k]
+                          .quantity ==
+                      null
+                  ? '0'
+                  : "${finalCombinationsList[i].locationInventory![k].quantity!}",
+              "inventory[$k][price]": finalCombinationsList[i]
+                          .locationInventory?[k]
+                          .price ==
+                      null
+                  ? '0'
+                  : "${finalCombinationsList[i].locationInventory?[k].price}",
+              "inventory[$k][sku]":
+                  finalCombinationsList[i].locationInventory?[k].sku == null
+                      ? '0'
+                      : "${finalCombinationsList[i].locationInventory?[k].sku}",
+              "inventory[$k][barcode]": finalCombinationsList[i]
+                          .locationInventory?[k]
+                          .barcode ==
+                      null
+                  ? '0'
+                  : "${finalCombinationsList[i].locationInventory?[k].barcode}",
+            });
+          }
+          if (i == finalCombinationsList.length - 1) {
+            Get.to(() => AddProduct3View(), arguments: {
+              'productDetails': previousDetails,
+              'productImages': Get.arguments['productImages'],
+              'cameFromProductList': cameFromProductList,
+            });
+          }
+        }
+      } else {
+        Get.to(() => AddProduct3View(), arguments: {
+          'productDetails': previousDetails,
+          'productImages': Get.arguments['productImages'],
+          'cameFromProductList': cameFromProductList,
+        });
+      }
+    } else {
       for (int i = 0; i <= listOfOptionsAdded.length - 1; i++) {
         previousDetails.addAll({
           "options[$i][name]": listOfOptionsAdded[i].optionName!.text,
         });
-        for (int j = 0; j <= listOfOptionsAdded[i].optionValues!.length - 1; j++) {
-          previousDetails.addAll({"options[$i][values][$j]": listOfOptionsAdded[i].optionValues![j].text
+        for (int j = 0;
+        j <= listOfOptionsAdded[i].optionValues!.length - 1;
+        j++) {
+          previousDetails.addAll({
+            "options[$i][values][$j]":
+            listOfOptionsAdded[i].optionValues![j].text
           });
         }
       }
-      for(int i = 0; i <= finalCombinationsList.length-1 ; i++) {
+      for (int i = 0; i <= finalCombinationsList.length - 1; i++) {
         previousDetails.addAll({
           "variants[$i][variantId]": "$i",
           // "variants[$i][weight]": weightController.text,
@@ -251,42 +331,52 @@ class AddProduct2ViewModel extends GetxController {
           // "variants[$i][dimensions][height]": heightController.text,
         });
         final splitted = finalCombinationsList[i].variantName?.split(' - ');
-        if(splitted!.length > 1) {
+        if (splitted!.length > 1) {
           for (int j = 0; j <= splitted.length - 1; j++) {
             previousDetails.addAll({
               "variants[$i][options][$j]": splitted[j],
             });
           }
         } else {
-          previousDetails.addAll({
-            'variants[$i][options][0]': splitted[0]
-          });
+          previousDetails.addAll({'variants[$i][options][0]': splitted[0]});
         }
-        for(int k = 0; k <= 1 ; k++) {
+        for (int k = 0; k <= 1; k++) {
           previousDetails.addAll({
-            "inventory[$k][location]": finalCombinationsList[i].locationInventory![k].id!,
+            "inventory[$k][location]":
+            finalCombinationsList[i].locationInventory![k].id!,
             "inventory[$k][variant]": "$i",
-            "inventory[$k][quantity]": finalCombinationsList[i].locationInventory?[k].quantity == null ? '0' : "${finalCombinationsList[i].locationInventory![k].quantity!}",
-            "inventory[$k][price]": finalCombinationsList[i].locationInventory?[k].price == null ? '0' : "${finalCombinationsList[i].locationInventory?[k].price}",
-            "inventory[$k][sku]": finalCombinationsList[i].locationInventory?[k].sku == null ? '0' : "${finalCombinationsList[i].locationInventory?[k].sku}",
-            "inventory[$k][barcode]": finalCombinationsList[i].locationInventory?[k].barcode == null ? '0' : "${finalCombinationsList[i].locationInventory?[k].barcode}",
+            "inventory[$k][quantity]": finalCombinationsList[i]
+                .locationInventory?[k]
+                .quantity ==
+                null
+                ? '0'
+                : "${finalCombinationsList[i].locationInventory![k].quantity!}",
+            "inventory[$k][price]": finalCombinationsList[i]
+                .locationInventory?[k]
+                .price ==
+                null
+                ? '0'
+                : "${finalCombinationsList[i].locationInventory?[k].price}",
+            "inventory[$k][sku]":
+            finalCombinationsList[i].locationInventory?[k].sku == null
+                ? '0'
+                : "${finalCombinationsList[i].locationInventory?[k].sku}",
+            "inventory[$k][barcode]": finalCombinationsList[i]
+                .locationInventory?[k]
+                .barcode ==
+                null
+                ? '0'
+                : "${finalCombinationsList[i].locationInventory?[k].barcode}",
           });
         }
-        if(i == finalCombinationsList.length - 1){
+        if (i == finalCombinationsList.length - 1) {
           Get.to(() => AddProduct3View(), arguments: {
             'productDetails': previousDetails,
-            'productImages' : Get.arguments['productImages'],
+            'productImages': Get.arguments['productImages'],
             'cameFromProductList': cameFromProductList,
           });
         }
       }
-    } else {
-      Get.to(() => AddProduct3View(), arguments: {
-        'productDetails': previousDetails,
-        'productImages' : Get.arguments['productImages'],
-        'cameFromProductList': cameFromProductList,
-      });
     }
-
   }
 }

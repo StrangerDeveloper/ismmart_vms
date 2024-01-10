@@ -251,24 +251,24 @@ class AddProduct2View extends StatelessWidget {
                           )
                         ],
                       ),
-                      Obx(() => viewModel.cameFromProductList && viewModel.variantsChanged.isFalse ? Text(
-                          viewModel.finalCombinationsList[idx].variantValue == null ? 'Rs 0.00' : 'Rs ${viewModel.finalCombinationsList[idx].variantValue}',
+                      Obx(() => Text(
+                        viewModel.cameFromProductList && viewModel.variantsChanged.isFalse ? '' : viewModel.finalCombinationsList[idx].locationInventory?[0].price == null ? 'Rs 0.00' : 'Rs ${viewModel.finalCombinationsList[idx].locationInventory?[0].price}',
                           style: interNormalText.copyWith(
                             fontWeight: FontWeight.w400,
                             color: newColorLightGrey2,
                             fontSize: 10
                           ),
-                        ) : const SizedBox()
+                        )
                       ),
                       const SizedBox(height: 3,),
-                      Obx(() => viewModel.cameFromProductList && viewModel.variantsChanged.isFalse ? Text(
-                          '${viewModel.finalCombinationsList[idx].totalInventoryQuantityValue} available at ${viewModel.locationInventoryList.length} locations',
+                      Obx(() => Text(
+                        viewModel.cameFromProductList && viewModel.variantsChanged.isFalse ? '' : '${viewModel.finalCombinationsList[idx].totalInventoryQuantityValue} available at ${viewModel.locationInventoryList.length} locations',
                           style: interNormalText.copyWith(
                               fontWeight: FontWeight.w400,
                               color: newColorLightGrey2,
                               fontSize: 10
                           ),
-                        ) : const SizedBox()
+                        )
                       )
                     ],
                   );

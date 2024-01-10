@@ -132,7 +132,7 @@ class AddProduct3ViewModel extends GetxController {
           Get.close(2);
           AppConstant.displaySnackBar('Success', 'Product Added Successfully');
         } else {
-          //TODO: Implement Logic to move to Product List Screen and change index of Global variable to 0
+          GlobalVariable.selectedIndex.value = 0;
           Get.close(2);
           AppConstant.displaySnackBar('Success', 'Product Added Successfully');
         }

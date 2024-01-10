@@ -263,7 +263,7 @@ class AddProduct1ViewModel extends GetxController {
                   Get.to(() => AddProduct2View(), arguments: {
                     'productDetails': data,
                     'productImages': productImagesList,
-                    'cameFromProductList': cameFromProductList,
+                    'cameFromProductList': cameFromProductList.value,
                   });
                 }
               }
@@ -271,7 +271,7 @@ class AddProduct1ViewModel extends GetxController {
               Get.to(() => AddProduct2View(), arguments: {
                 'productDetails': data,
                 'productImages': productImagesList,
-                'cameFromProductList': cameFromProductList,
+                'cameFromProductList': cameFromProductList.value,
               });
             }
           }
