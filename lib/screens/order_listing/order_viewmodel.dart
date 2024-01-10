@@ -11,7 +11,7 @@ class OrderListingViewModel extends GetxController {
   //Rx<OrderItem> orderItemModel = OrderItem().obs;
   RxList<OrderItem> orderItemList = <OrderItem>[].obs;
   RxBool showSearchTxtField = false.obs;
-  String searchUrlValue = '';
+  RxString searchUrlValue = ''.obs;
 
   TextEditingController searchController = TextEditingController();
   ScrollController scrollController = ScrollController();
@@ -73,9 +73,9 @@ class OrderListingViewModel extends GetxController {
 
   fieldSelection(value) {
     if (value == 'All') {
-      searchUrlValue = '';
+      searchUrlValue.value = '';
     } else {
-      searchUrlValue = '?fulfilmentStatus=$value';
+      searchUrlValue.value = '?fulfilmentStatus=$value';
     }
     getOrderListing(); // Refresh the listing after applying the filter
   }
