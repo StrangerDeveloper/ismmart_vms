@@ -144,9 +144,10 @@ class OrderView extends StatelessWidget {
         elevation: 0,
         color: const Color(0xFFF9FAFB),
         child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 16.0,
-            vertical: 10.0,
+          padding: const EdgeInsets.only(
+            top: 10.0,
+            left: 10.0,
+            right: 10.0,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -223,6 +224,7 @@ class OrderView extends StatelessWidget {
                       padding: EdgeInsets.only(
                         top: 8.v,
                         left: 8.h,
+                        bottom: 16.v,
                       ),
                       child: _status("COD Verified"),
                     ),
