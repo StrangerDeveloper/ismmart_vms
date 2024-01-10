@@ -1,4 +1,7 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/constants.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
@@ -202,6 +205,9 @@ class SignUp2View extends StatelessWidget {
 
   Widget shopNameField() {
     return CustomTextField1(
+      inputFormatters: <TextInputFormatter>[
+        FilteringTextInputFormatter.allow(RegExp('[a-zA-Z]')),
+      ],
       prefixIcon: Icons.store,
       keyboardType: TextInputType.text,
       title: 'Store Name',
@@ -209,7 +215,8 @@ class SignUp2View extends StatelessWidget {
       controller: viewModel.storeNameController,
       autoValidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
-        return Validator.validateDefaultField(value);
+        return Validator.validateDefaultField(value,
+            errorMessage: 'Store Name is Required');
       },
     );
   }
@@ -224,7 +231,10 @@ class SignUp2View extends StatelessWidget {
         controller: viewModel.storeSlugController,
         autoValidateMode: AutovalidateMode.onUserInteraction,
         validator: (value) {
-          return Validator.validateDefaultField(value);
+          if (value != null && value.contains(' ')) {
+            return 'Please Avoid Spaces in Store Slug';
+          } else
+            return Validator.validateDefaultField(value);
         },
       ),
     );
@@ -296,35 +306,27 @@ class SignUp2View extends StatelessWidget {
                     ),
             ),
           ),
+          SizedBox(
+            height: 10,
+          ),
+          Obx(
+            () => viewModel.storeErrorMsg.value == true
+                ? const Padding(
+                    padding: EdgeInsets.only(left: 8.0),
+                    child: Text(
+                      'Store Type Field is Required',
+                      style: TextStyle(
+                          color: Color(0xFFCB120C),
+                          fontWeight: FontWeight.w400,
+                          fontSize: 12),
+                    ),
+                  )
+                : SizedBox(),
+          ),
         ],
       ),
     );
   }
-  //
-  // Widget storeType() {
-  //   return Padding(
-  //     padding: const EdgeInsets.symmetric(horizontal: 1),
-  //     child: CustomTextField1(
-  //       controller: viewModel.storeTypeController,
-  //       title: 'Store Type',
-  //       hintText: 'Select Store Type',
-  //       isDropDown: true,
-  //       onTap: () {
-  //         viewModel.getStoreTypes();
-  //         CustomBottomSheet1(
-  //           selectedIndex: viewModel.storeTypeSelectedIndex.value,
-  //           list: viewModel.typeList,
-  //           onChanged: (value) {
-  //             viewModel.storeTypeSelectedIndex.value = value;
-  //             viewModel.storeTypeController.text = viewModel.typeList[value];
-  //             viewModel.storeTypeSelectedId.value =
-  //                 viewModel.storeTypeIdList[value];
-  //           },
-  //         ).show();
-  //       },
-  //     ),
-  //   );
-  // }
 
   Widget shopAddressField() {
     return Padding(
@@ -605,7 +607,9 @@ class SignUp2View extends StatelessWidget {
                       )
                 ],
               ),
-              viewModel.allCountryList.isEmpty ? const LoaderView() : const SizedBox()
+              viewModel.allCountryList.length <= 0
+                  ? const LoaderView()
+                  : const SizedBox()
             ],
           ),
         );

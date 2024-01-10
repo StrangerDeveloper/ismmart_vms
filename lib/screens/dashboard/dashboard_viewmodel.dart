@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:ismmart_vms/helper/common_function.dart';
 import 'package:ismmart_vms/helper/constants.dart';
 import 'package:ismmart_vms/screens/store_profile/store_profile_viewmodel.dart';
@@ -8,6 +9,7 @@ import 'package:ismmart_vms/screens/user_profile/user_profile_model.dart';
 import 'package:ismmart_vms/widgets/widget_models/dropdown_model.dart';
 
 import '../../helper/global_variables.dart';
+import '../auth/login/login_view.dart';
 
 class DashboardViewModel extends GetxController {
   RxBool showMoreDetails = false.obs;
@@ -230,4 +232,15 @@ class DashboardViewModel extends GetxController {
           FlSpot(13, 2.5),
         ],
       );
+
+  Future<void> logout() async {
+    GoogleSignIn googleSignIn = GoogleSignIn(
+      scopes: [
+        'email',
+        'https://www.googleapis.com/auth/contacts.readonly',
+      ],
+    );
+  
+    await googleSignIn.signOut();
+  }
 }

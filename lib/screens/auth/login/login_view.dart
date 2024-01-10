@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/common_function.dart';
@@ -10,6 +13,7 @@ import 'package:ismmart_vms/widgets/custom_text.dart';
 import 'package:ismmart_vms/widgets/custom_textfield.dart';
 import 'package:ismmart_vms/widgets/loader_view.dart';
 import 'package:ismmart_vms/widgets/obscure_suffix_icon.dart';
+
 import '../../../helper/constants.dart';
 import '../signup/signup_methods/singup_methods_view.dart';
 import 'login_viewmodel.dart';
@@ -22,50 +26,54 @@ class LogInView extends StatelessWidget {
     return SafeArea(
       top: false,
       child: Scaffold(
+        resizeToAvoidBottomInset: true,
         backgroundColor: Colors.white,
         body: Stack(
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 26, horizontal: 25),
-              child: Form(
-                key: viewModel.signInFormKey,
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 52.h),
-                      titleAndBackBtn(),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          top: 72,
-                        ),
-                        child: CustomText(
-                          title: 'Welcome Back!',
-                          style: newFontStyleSize20,
-                        ),
-                      ),
-                      Padding(
+            SingleChildScrollView(
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 26, horizontal: 25),
+                child: Form(
+                  key: viewModel.signInFormKey,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 52.h),
+                        titleAndBackBtn(),
+                        Padding(
                           padding: const EdgeInsets.only(
-                              right: 20, bottom: 15, top: 16),
-                          child: Text(
-                              maxLines: 2,
-                              'Please login or sign up to continue our app',
-                              style: newFontStyleSize14.copyWith(
-                                  color: newColorLightGrey2))),
-                      emailTextField(),
-                      passwordTextField(),
-                      forgotPassword(),
-                      logInBtn(),
+                            top: 72,
+                          ),
+                          child: CustomText(
+                            title: 'Welcome Back!',
+                            style: newFontStyleSize20,
+                          ),
+                        ),
+                        Padding(
+                            padding: const EdgeInsets.only(
+                                right: 20, bottom: 15, top: 16),
+                            child: Text(
+                                maxLines: 2,
+                                'Please login or sign up to continue our app',
+                                style: newFontStyleSize14.copyWith(
+                                    color: newColorLightGrey2))),
+                        emailTextField(),
+                        passwordTextField(),
+                        forgotPassword(),
+                        logInBtn(),
 
-                      orWidget(),
-                      googlelogInBtn(),
-                      // facebooklogInBtn(),
-                      // if (Platform.isIOS) applelogInBtn(),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * .07,
-                      ),
-                      doNotHaveAnAccount(),
-                    ],
+                        orWidget(),
+                        googlelogInBtn(),
+                        // facebooklogInBtn(),
+                        // if (Platform.isIOS) applelogInBtn(),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * .07,
+                        ),
+                        doNotHaveAnAccount(),
+                      ],
+                    ),
                   ),
                 ),
               ),

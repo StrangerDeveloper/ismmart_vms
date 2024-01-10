@@ -78,6 +78,14 @@ class AddLocationViewModel extends GetxController {
     }
   }
 
+  bool isFormChanged() {
+    return nameController.text != locationModel.name ||
+        countryController.text != locationModel.country?.name ||
+        cityController.text != locationModel.city?.name ||
+        addressController.text != locationModel.address ||
+        statusController.text != locationModel.status;
+  }
+
   resetForCitiesCountryValue({bool isCity = false}) {
     searchController.text = '';
     if (isCity) {
@@ -102,9 +110,15 @@ class AddLocationViewModel extends GetxController {
   }
 
   saveAndCreateBtn() async {
+    if (isFormChanged() == false) {
+      Get.back();
+      return;
+    }
+
     if ((addLocationFormKey.currentState?.validate() ?? false) &&
         selectedCityId != '' &&
         selectedCountryId != '') {
+
       GlobalVariable.showLoader.value = true;
       Map<String, String> param = {
         "name": nameController.text,
