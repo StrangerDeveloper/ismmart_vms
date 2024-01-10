@@ -6,7 +6,6 @@ import 'package:ismmart_vms/helper/global_variables.dart';
 import 'package:ismmart_vms/helper/urls.dart';
 import 'package:ismmart_vms/screens/add_product/add_product_2/location_inventory_model.dart';
 import 'package:ismmart_vms/screens/add_product/add_product_3/add_product_3_view.dart';
-import 'package:ismmart_vms/screens/product_list/multiple_products_model.dart';
 import 'package:ismmart_vms/screens/product_list/single_product_model.dart';
 import '../../../models/variant_selection_model.dart';
 import '../../../widgets/widget_models/variant_options_field_model.dart';
