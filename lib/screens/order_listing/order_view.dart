@@ -87,7 +87,7 @@ class OrderView extends StatelessWidget {
           child: CustomTextField1(
             controller: orderController.searchController,
             filled: false,
-            hintText: 'Search',
+            hintText: 'All',
             isDropDown: true,
             onTap: () {
               statusBottomSheet();
@@ -109,17 +109,25 @@ class OrderView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Expanded(
-                  child: CustomImageView(
-                      imagePath: ImageConstant.imgSearch,
-                      height: 16.adaptSize,
-                      width: 16.adaptSize,
-                      margin: EdgeInsets.only(right: 5.h))),
+                child: CustomImageView(
+                  imagePath: ImageConstant.imgSearch,
+                  height: 16.adaptSize,
+                  width: 16.adaptSize,
+                  margin: EdgeInsets.only(right: 5.h),
+                  onTap: () {
+                    statusBottomSheet();
+                  },
+                ),
+              ),
               Expanded(
                 child: CustomImageView(
                   imagePath: ImageConstant.imgIconsFilterList,
                   height: 16.adaptSize,
                   width: 16.adaptSize,
                   margin: EdgeInsets.only(left: 5.h),
+                  onTap: () {
+                    statusBottomSheet();
+                  },
                 ),
               )
             ],
