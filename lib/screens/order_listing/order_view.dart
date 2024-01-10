@@ -22,7 +22,7 @@ class OrderView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //appBar: _buildAppBar(),
+      appBar: _buildAppBar(),
       body: Stack(
         children: [
           SingleChildScrollView(
@@ -131,10 +131,12 @@ class OrderView extends StatelessWidget {
   Widget _buildOrderCard(int index) {
     return Obx(
       () => Card(
+        margin: const EdgeInsets.all(0),
+        elevation: 0,
         color: const Color(0xFFF9FAFB),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
+        // shape: RoundedRectangleBorder(
+        //   borderRadius: BorderRadius.circular(10),
+        // ),
         child: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 16.0,
@@ -151,21 +153,22 @@ class OrderView extends StatelessWidget {
                       _customField2(
                           orderController.orderItemList[index].orderId ?? "id"),
                       Padding(
-                        padding: const EdgeInsets.only(left: 8, right: 8),
+                        padding: const EdgeInsets.only(left: 6, right: 6),
                         child: Icon(
                           Icons.circle,
                           color: Colors.grey.shade400,
                           size: 5,
                         ),
                       ),
-                      _customField2(DateFormat.yMMMd().format(DateTime.parse(
-                          orderController.orderItemList[index].createdAt!))),
+                      _customField2(
+                          "${DateFormat("y MMM d").format(DateTime.parse(orderController.orderItemList[index].createdAt!))} at ${DateFormat("h:mm a").format(DateTime.parse(orderController.orderItemList[index].createdAt!))}"),
                     ],
                   ),
                   _customField2(orderController
-                          .orderItemList[index].orderDetails?.market
-                          .toString() ??
-                      "market"),
+                              .orderItemList[index].orderDetails?.market !=
+                          null
+                      ? '${orderController.orderItemList[index].orderDetails?.market!} Store'
+                      : 'market'),
                 ],
               ),
               Container(
@@ -180,7 +183,7 @@ class OrderView extends StatelessWidget {
                                 .orderItemList[index].customer?.name ??
                             "naaam"),
                         _customField1(
-                            "${orderController.orderItemList[index].totals?.total ?? "0"}"),
+                            "Rs. ${orderController.orderItemList[index].totals?.total?.toStringAsFixed(2) ?? "0"}"),
                       ],
                     ),
                     Padding(
@@ -211,12 +214,16 @@ class OrderView extends StatelessWidget {
                           ],
                         )),
                     Padding(
-                      padding: EdgeInsets.only(top: 8.v, left: 8.h),
+                      padding: EdgeInsets.only(
+                        top: 8.v,
+                        left: 8.h,
+                      ),
                       child: _status("COD Verified"),
                     ),
                   ],
                 ),
               ),
+              const Divider(),
             ],
           ),
         ),
