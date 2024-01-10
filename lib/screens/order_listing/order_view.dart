@@ -17,10 +17,13 @@ import '../order_detail/order_detail_view.dart';
 class OrderView extends StatelessWidget {
   final OrderListingViewModel orderController =
       Get.put(OrderListingViewModel());
-  OrderView({super.key});
+  OrderView({super.key, this.callingForCanceledOrder = false});
+
+  final bool? callingForCanceledOrder;
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       //appBar: _buildAppBar(),
       body: Stack(

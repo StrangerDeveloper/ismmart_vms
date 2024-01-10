@@ -2,6 +2,8 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/constants.dart';
+import 'package:ismmart_vms/screens/store_profile/store_profile_viewmodel.dart';
+import 'package:ismmart_vms/screens/user_profile/user_profile_model.dart';
 import 'package:ismmart_vms/widgets/widget_models/dropdown_model.dart';
 
 import '../../helper/global_variables.dart';
@@ -18,17 +20,28 @@ class DashboardViewModel extends GetxController {
 
   RxBool isTab = false.obs;
   RxBool moreOption = false.obs;
+  RxBool orderMoreOption = false.obs;
 
   var pieTouchIndex = -1.obs;
+  Rx<UserProfileModel> userProfileModel = UserProfileModel().obs;
 
   RxString rejected = ''.obs;
+
+  RxString selectedDate = "Today".obs;
+
   @override
   void onReady() {
     rejected.value = Get.arguments ?? '';
     super.onReady();
 
     getOrdersData();
+
+    userProfileModel = Get.put(StoreProfileViewModel()).userProfileModel;
   }
+
+  // onDateChanged(String value) {
+  //   if()
+  // }
 
   @override
   void onClose() {
