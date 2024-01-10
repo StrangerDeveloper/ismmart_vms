@@ -1,4 +1,6 @@
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/constants.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
@@ -202,6 +204,9 @@ class SignUp2View extends StatelessWidget {
 
   Widget shopNameField() {
     return CustomTextField1(
+      inputFormatters: <TextInputFormatter>[
+        FilteringTextInputFormatter.allow(RegExp('[a-zA-Z]')),
+      ],
       prefixIcon: Icons.store,
       keyboardType: TextInputType.text,
       title: 'Store Name',
@@ -209,7 +214,8 @@ class SignUp2View extends StatelessWidget {
       controller: viewModel.storeNameController,
       autoValidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
-        return Validator.validateDefaultField(value);
+        return Validator.validateDefaultField(value,
+            errorMessage: 'Store Name is Required');
       },
     );
   }
@@ -224,7 +230,11 @@ class SignUp2View extends StatelessWidget {
         controller: viewModel.storeSlugController,
         autoValidateMode: AutovalidateMode.onUserInteraction,
         validator: (value) {
-          return Validator.validateDefaultField(value);
+          if (value != null && value.contains(' ')) {
+            return 'Please Avoid Spaces in Store Slug';
+          } else {
+            return Validator.validateDefaultField(value);
+          }
         },
       ),
     );
@@ -296,35 +306,27 @@ class SignUp2View extends StatelessWidget {
                     ),
             ),
           ),
+          const SizedBox(
+            height: 10,
+          ),
+          Obx(
+            () => viewModel.storeErrorMsg.value == true
+                ? const Padding(
+                    padding: EdgeInsets.only(left: 8.0),
+                    child: Text(
+                      'Store Type Field is Required',
+                      style: TextStyle(
+                          color: Color(0xFFCB120C),
+                          fontWeight: FontWeight.w400,
+                          fontSize: 12),
+                    ),
+                  )
+                : const SizedBox(),
+          ),
         ],
       ),
     );
   }
-  //
-  // Widget storeType() {
-  //   return Padding(
-  //     padding: const EdgeInsets.symmetric(horizontal: 1),
-  //     child: CustomTextField1(
-  //       controller: viewModel.storeTypeController,
-  //       title: 'Store Type',
-  //       hintText: 'Select Store Type',
-  //       isDropDown: true,
-  //       onTap: () {
-  //         viewModel.getStoreTypes();
-  //         CustomBottomSheet1(
-  //           selectedIndex: viewModel.storeTypeSelectedIndex.value,
-  //           list: viewModel.typeList,
-  //           onChanged: (value) {
-  //             viewModel.storeTypeSelectedIndex.value = value;
-  //             viewModel.storeTypeController.text = viewModel.typeList[value];
-  //             viewModel.storeTypeSelectedId.value =
-  //                 viewModel.storeTypeIdList[value];
-  //           },
-  //         ).show();
-  //       },
-  //     ),
-  //   );
-  // }
 
   Widget shopAddressField() {
     return Padding(
@@ -541,71 +543,78 @@ class SignUp2View extends StatelessWidget {
                       viewModel.onSearch(value);
                     },
                   ),
-                  Obx(() => (viewModel.filteredCountryList.isNotEmpty)
-                          ? Expanded(
-                              child: ListView.separated(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 10),
-                                itemCount: viewModel.filteredCountryList.length,
-                                itemBuilder: (context, index) {
-                                  return InkWell(
-                                    borderRadius: BorderRadius.circular(8),
-                                    onTap: () {
-                                      GlobalVariable.showLoader.value == false;
-                                      viewModel.countryController.text =
-                                          viewModel.filteredCountryList[index];
-                                      viewModel.getCountryId(
-                                          viewModel.countryController.text);
+                  Obx(
+                    () => (viewModel.filteredCountryList.isNotEmpty)
+                        ? Expanded(
+                            child: ListView.separated(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              itemCount: viewModel.filteredCountryList.length,
+                              itemBuilder: (context, index) {
+                                return InkWell(
+                                  borderRadius: BorderRadius.circular(8),
+                                  onTap: () {
+                                    GlobalVariable.showLoader.value == false;
+                                    viewModel.countryController.text =
+                                        viewModel.filteredCountryList[index];
+                                    viewModel.getCountryId(
+                                        viewModel.countryController.text);
 
-                                      Get.back();
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(12),
-                                      child: Text(
-                                          viewModel.filteredCountryList[index]),
-                                    ),
-                                  );
-                                },
-                                separatorBuilder: (context, index) {
-                                  return const SizedBox(height: 3);
-                                },
-                              ),
-                            )
-                          : Expanded(
-                              child: ListView.separated(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 10),
-                                itemCount: viewModel.allCountryList.length,
-                                itemBuilder: (context, index) {
-                                  return InkWell(
-                                    borderRadius: BorderRadius.circular(8),
-                                    onTap: () {
-                                      viewModel.countryController.text =
-                                          viewModel.allCountryList[index];
-                                      GlobalVariable.showLoader.value = false;
-                                      Get.back();
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(12),
-                                      child:
-                                          Text(viewModel.allCountryList[index]),
-                                    ),
-                                  );
-                                },
-                                separatorBuilder: (context, index) {
-                                  return const SizedBox(height: 3);
-                                },
-                              ),
-                            )
+                                    Get.back();
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(12),
+                                    child: Text(
+                                        viewModel.filteredCountryList[index]),
+                                  ),
+                                );
+                              },
+                              separatorBuilder: (context, index) {
+                                return const SizedBox(height: 3);
+                              },
+                            ),
+                          )
+                        : const Padding(
+                            padding: EdgeInsets.only(top: 30),
+                            child: Text('No Country Found'),
+                          ),
+                    //
+                    // : Expanded(
+                    //         child: ListView.separated(
+                    //           padding:
+                    //               const EdgeInsets.symmetric(vertical: 10),
+                    //           itemCount: viewModel.allCountryList.length,
+                    //           itemBuilder: (context, index) {
+                    //             return InkWell(
+                    //               borderRadius: BorderRadius.circular(8),
+                    //               onTap: () {
+                    //                 viewModel.countryController.text =
+                    //                     viewModel.allCountryList[index];
+                    //                 GlobalVariable.showLoader.value = false;
+                    //                 Get.back();
+                    //               },
+                    //               child: Padding(
+                    //                 padding: const EdgeInsets.all(12),
+                    //                 child:
+                    //                     Text(viewModel.allCountryList[index]),
+                    //               ),
+                    //             );
+                    //           },
+                    //           separatorBuilder: (context, index) {
+                    //             return const SizedBox(height: 3);
+                    //           },
+                    //         ),
+                    //       )
 
-                      // const Padding(
-                      //         padding: EdgeInsets.only(top: 30),
-                      //         child: Text('No Country Found'),
-                      //       ),
-                      )
+                    // const Padding(
+                    //         padding: EdgeInsets.only(top: 30),
+                    //         child: Text('No Country Found'),
+                    //       ),
+                  )
                 ],
               ),
-              viewModel.allCountryList.isEmpty ? const LoaderView() : const SizedBox()
+              viewModel.allCountryList.isEmpty
+                  ? const LoaderView()
+                  : const SizedBox()
             ],
           ),
         );
@@ -664,66 +673,70 @@ class SignUp2View extends StatelessWidget {
                   viewModel.onSearchCity(value);
                 },
               ),
-              Obx(() => (viewModel.filteredCityList.isNotEmpty)
-                      ? Expanded(
-                          child: ListView.separated(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            itemCount: viewModel.filteredCityList.length,
-                            itemBuilder: (context, index) {
-                              return InkWell(
-                                borderRadius: BorderRadius.circular(8),
-                                onTap: () {
-                                  viewModel.cityController.text =
-                                      viewModel.filteredCityList[index];
+              Obx(
+                () => (viewModel.filteredCityList.isNotEmpty)
+                    ? Expanded(
+                        child: ListView.separated(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          itemCount: viewModel.filteredCityList.length,
+                          itemBuilder: (context, index) {
+                            return InkWell(
+                              borderRadius: BorderRadius.circular(8),
+                              onTap: () {
+                                viewModel.cityController.text =
+                                    viewModel.filteredCityList[index];
 
-                                  viewModel
-                                      .getCityId(viewModel.cityController.text);
-                                  GlobalVariable.showLoader.value = false;
-                                  Get.back();
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.all(12),
-                                  child:
-                                      Text(viewModel.filteredCityList[index]),
-                                ),
-                              );
-                            },
-                            separatorBuilder: (context, index) {
-                              return const SizedBox(height: 3);
-                            },
-                          ),
-                        )
-                      : Expanded(
-                          child: ListView.separated(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            itemCount: viewModel.filteredCityList.length,
-                            itemBuilder: (context, index) {
-                              return InkWell(
-                                borderRadius: BorderRadius.circular(8),
-                                onTap: () {
-                                  viewModel.cityController.text =
-                                      viewModel.filteredCityList[index];
-                                  GlobalVariable.showLoader.value = false;
-                                  Get.back();
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.all(12),
-                                  child:
-                                      Text(viewModel.filteredCityList[index]),
-                                ),
-                              );
-                            },
-                            separatorBuilder: (context, index) {
-                              return const SizedBox(height: 3);
-                            },
-                          ),
-                        )
+                                viewModel
+                                    .getCityId(viewModel.cityController.text);
+                                GlobalVariable.showLoader.value = false;
+                                Get.back();
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(12),
+                                child: Text(viewModel.filteredCityList[index]),
+                              ),
+                            );
+                          },
+                          separatorBuilder: (context, index) {
+                            return const SizedBox(height: 3);
+                          },
+                        ),
+                      )
+                    : const Padding(
+                        padding: EdgeInsets.only(top: 30),
+                        child: Text('No City Found'),
+                      ),
+                // : Expanded(
+                //     child: ListView.separated(
+                //       padding: const EdgeInsets.symmetric(vertical: 10),
+                //       itemCount: viewModel.filteredCityList.length,
+                //       itemBuilder: (context, index) {
+                //         return InkWell(
+                //           borderRadius: BorderRadius.circular(8),
+                //           onTap: () {
+                //             viewModel.cityController.text =
+                //                 viewModel.filteredCityList[index];
+                //             GlobalVariable.showLoader.value = false;
+                //             Get.back();
+                //           },
+                //           child: Padding(
+                //             padding: const EdgeInsets.all(12),
+                //             child:
+                //                 Text(viewModel.filteredCityList[index]),
+                //           ),
+                //         );
+                //       },
+                //       separatorBuilder: (context, index) {
+                //         return const SizedBox(height: 3);
+                //       },
+                //     ),
+                //   )
 
-                  // const Padding(
-                  //         padding: EdgeInsets.only(top: 30),
-                  //         child: Text('No Country Found'),
-                  //       ),
-                  )
+                // const Padding(
+                //         padding: EdgeInsets.only(top: 30),
+                //         child: Text('No Country Found'),
+                //       ),
+              )
             ],
           ),
         );

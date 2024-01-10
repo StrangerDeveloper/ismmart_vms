@@ -175,7 +175,7 @@ class EditUserProfileView extends StatelessWidget {
       hintText: 'John Doe',
       controller: viewModel.nameController,
       validator: (value) {
-        return Validator.validateDefaultField(value);
+        return Validator.validateDefaultField(value, errorMessage:'Name is required');
       },
       autoValidateMode: AutovalidateMode.onUserInteraction,
     );
@@ -251,7 +251,7 @@ class EditUserProfileView extends StatelessWidget {
         isDropDown: true,
         controller: viewModel.genderController,
         validator: (value) {
-          return Validator.validateDefaultField(value);
+          return Validator.validateDefaultField(value, errorMessage:'Gender is required');
         },
         autoValidateMode: AutovalidateMode.onUserInteraction,
         onTap: () {
@@ -279,7 +279,7 @@ class EditUserProfileView extends StatelessWidget {
       controller: viewModel.cNICNumberController,
       autoValidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
-        return Validator.validateDefaultField(value);
+        return Validator.validateDefaultField(value, errorMessage:'CNIC is required');
       },
     );
   }

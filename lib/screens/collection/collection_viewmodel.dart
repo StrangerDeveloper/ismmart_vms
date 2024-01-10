@@ -16,7 +16,7 @@ class CollectionViewModel extends GetxController {
     GlobalVariable.showLoader.value = false;
     getCollection();
     publishingSelectedList.clear();
-    // TODO: implement onInit
+
     super.onInit();
   }
 

@@ -7,6 +7,7 @@ import 'package:ismmart_vms/helper/theme_helper.dart';
 import 'package:ismmart_vms/helper/utils/image_constant.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/screens/dashboard/dashboard_viewmodel.dart';
+import 'package:ismmart_vms/screens/store_profile/store_profile_viewmodel.dart';
 import 'package:ismmart_vms/widgets/custom_button.dart';
 import 'package:ismmart_vms/widgets/custom_dropdown.dart';
 import 'package:ismmart_vms/widgets/custom_image_view.dart';
@@ -17,8 +18,9 @@ import '../../helper/resourses/app_colors.dart';
 class DashboardView extends StatelessWidget {
   DashboardView({super.key});
 
-  final DashboardViewModel viewModel = Get.put(DashboardViewModel());
-
+  final DashboardViewModel viewModel =
+      Get.find(); //Get.put(DashboardViewModel());
+  final StoreProfileViewModel storeViewModel = Get.put(StoreProfileViewModel());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,22 +46,22 @@ class DashboardView extends StatelessWidget {
     );
   }
 
-
-
   Widget welcomeWidget() {
-    return const Padding(
-      padding: EdgeInsets.symmetric(vertical: 10),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "Welcome Al-jannat Mall",
-            style: TextStyle(
-              fontWeight: FontWeight.w700,
+          Obx(
+            () => Text(
+              "Welcome ${storeViewModel.userProfileModel.value.store?.name ?? 'Store Name'}",
+              style: const TextStyle(
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ),
-          SizedBox(width: 5),
-          Icon(
+          const SizedBox(width: 5),
+          const Icon(
             CupertinoIcons.info_circle_fill,
             color: Color(0xff9CA3AF),
             size: 12,
@@ -74,11 +76,47 @@ class DashboardView extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         SizedBox(
-          width: 100,
-          child: CustomDropDownList2(
+          width: 120,
+          child:
+
+              // Obx(
+              //   () => InkWell(
+              //     onTap: () {
+              //       viewModel.showCustomDatePicker();
+              //     },
+              //     child: Row(
+              //       mainAxisAlignment: MainAxisAlignment.spaceAround,
+              //       mainAxisSize: MainAxisSize.min,
+              //       children: [
+              //         Text(
+              //           viewModel.getDateFormat(),
+              //           style: const TextStyle(
+              //               color: Colors.black,
+              //               fontWeight: FontWeight.w500,
+              //               fontSize: 12),
+              //         ),
+              //         const Icon(
+              //           Icons.keyboard_arrow_down_rounded,
+              //           size: 15,
+              //         )
+              //       ],
+              //     ),
+              //   ),
+              // ),
+
+              CustomDropDownList2(
             value: viewModel.dateSelected,
             onChanged: (value) {
               viewModel.dateSelected.value = value;
+
+              viewModel.dropDownValue.value = (viewModel.dateSelected.value ==
+                      "0")
+                  ? "dayOfMonth"
+                  : viewModel
+                      .dateDropDownList[int.parse(viewModel.dateSelected.value)]
+                      .name!;
+              print("DropDown ${viewModel.dropDownValue.value}");
+              viewModel.getData();
             },
             list: viewModel.dateDropDownList,
           ),
@@ -107,89 +145,95 @@ class DashboardView extends StatelessWidget {
   }
 
   Widget ordersProgress() {
-    return Container(
-      padding: const EdgeInsets.only(left: 12, right: 12, top: 12),
-      decoration: BoxDecoration(
-        color: const Color(0xFFF9FAFB),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Column(
-        children: [
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Total Orders",
-                style: TextStyle(
-                  color: ThemeHelper.grey5,
-                  fontSize: 12,
-                ),
-              ),
-              Text(
-                "77",
-                style: TextStyle(
-                  color: ThemeHelper.grey5,
-                  fontSize: 12,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 13),
-          Row(
-            children: [
-              orderStatusItem(
-                title: "Exception",
-                value: "5",
-                color: deepOrangeA700,
-              ),
-              const SizedBox(width: 10),
-              orderStatusItem(
-                title: "New Orders",
-                value: "3",
-                color: cyan800,
-              ),
-              const SizedBox(width: 10),
-              orderStatusItem(
-                title: "In Progress",
-                value: "18",
-                color: blueA700,
-              ),
-            ],
-          ),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: CustomTextBtn(
-              padding: const EdgeInsets.only(right: 20),
-              width: double.minPositive,
-              foregroundColor: ThemeHelper.grey5,
-              backgroundColor: Colors.transparent,
-              child: const Row(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Show more details",
-                    style: TextStyle(
-                      color: ThemeHelper.grey5,
-                      fontSize: 12,
-                    ),
-                  ),
-                  SizedBox(width: 3),
-                  Icon(
-                    Icons.keyboard_arrow_up_rounded,
-                    size: 10,
+    return Obx(
+      () => Container(
+        padding: const EdgeInsets.only(left: 12, right: 12, top: 12),
+        decoration: BoxDecoration(
+          color: const Color(0xFFF9FAFB),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  "Total Orders",
+                  style: TextStyle(
                     color: ThemeHelper.grey5,
-                  )
-                ],
-              ),
-              onPressed: () {
-                viewModel.showMoreDetails.value =
-                    !viewModel.showMoreDetails.value;
-              },
+                    fontSize: 12,
+                  ),
+                ),
+                Text(
+                  "${viewModel.orderModel.value.total ?? 77}",
+                  style: const TextStyle(
+                    color: ThemeHelper.grey5,
+                    fontSize: 12,
+                  ),
+                ),
+              ],
             ),
-          ),
-          showMoreDetails(),
-        ],
+            const SizedBox(height: 13),
+            Row(
+              children: [
+                orderStatusItem(
+                  title: "Order Issue",
+                  value: "${viewModel.orderIssuesModel.value.total ?? 5}",
+                  color: deepOrangeA700,
+                ),
+                const SizedBox(width: 10),
+                orderStatusItem(
+                  title: "Approved",
+                  value: "${viewModel.orderApprovedModel.value.total ?? 3}",
+                  color: cyan800,
+                ),
+                const SizedBox(width: 10),
+                orderStatusItem(
+                  title: "In Progress",
+                  value: "${viewModel.orderPendingModel.value.total ?? 18}",
+                  color: blueA700,
+                ),
+              ],
+            ),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: CustomTextBtn(
+                padding: const EdgeInsets.only(right: 20),
+                width: double.minPositive,
+                foregroundColor: ThemeHelper.grey5,
+                backgroundColor: Colors.transparent,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "Show more details",
+                      style: TextStyle(
+                        color: ThemeHelper.grey5,
+                        fontSize: 12,
+                      ),
+                    ),
+                    const SizedBox(width: 3),
+                    Obx(
+                      () => Icon(
+                        viewModel.showMoreDetails.isTrue
+                            ? Icons.keyboard_arrow_up_rounded
+                            : Icons.keyboard_arrow_down_rounded,
+                        size: 15,
+                        color: ThemeHelper.grey5,
+                      ),
+                    ),
+                  ],
+                ),
+                onPressed: () {
+                  viewModel.showMoreDetails.value =
+                      !viewModel.showMoreDetails.value;
+                },
+              ),
+            ),
+            showMoreDetails(),
+          ],
+        ),
       ),
     );
   }
@@ -260,17 +304,17 @@ class DashboardView extends StatelessWidget {
                           color: const Color(0xff03543F).withOpacity(0.1),
                           borderRadius: BorderRadius.circular(6),
                         ),
-                        child: const Row(
+                        child: Row(
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.arrow_upward_rounded,
                               color: Color(0xff03543F),
                               size: 14,
                             ),
-                            SizedBox(width: 5),
+                            const SizedBox(width: 5),
                             Text(
-                              '78 %',
-                              style: TextStyle(
+                              '${viewModel.orderModel.value.rate ?? 77} %',
+                              style: const TextStyle(
                                 color: Color(0xFF6B7280),
                                 fontSize: 12,
                               ),
@@ -283,12 +327,13 @@ class DashboardView extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(vertical: 13),
                       child: _buildShowMoreItems(
                         title: "Total Products",
-                        value: "20",
+                        value: "${viewModel.productModel.value.total ?? 20}",
                       ),
                     ),
                     _buildShowMoreItems(
                       title: "Total Revenue",
-                      value: "500,000 PKR",
+                      value:
+                          "${viewModel.revenueModel.value.total ?? "103,000"} PKR",
                     ),
                   ],
                 ),
@@ -371,12 +416,12 @@ class DashboardView extends StatelessWidget {
               //   Icons.download_rounded,
               //   size: 12.adaptSize,
               // ),
-              CustomImageView(
-                imagePath: ImageConstant.imgDownload,
-                height: 16.adaptSize,
-                width: 16.adaptSize,
-                margin: EdgeInsets.only(bottom: 2.v),
-              ),
+              // CustomImageView(
+              //   imagePath: ImageConstant.imgDownload,
+              //   height: 16.adaptSize,
+              //   width: 16.adaptSize,
+              //   margin: EdgeInsets.only(bottom: 2.v),
+              // ),
             ],
           ),
           SizedBox(height: 24.v),

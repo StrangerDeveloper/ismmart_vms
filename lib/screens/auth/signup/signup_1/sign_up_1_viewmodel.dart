@@ -35,8 +35,6 @@ class SignUpScreen1ViewModel extends GetxController {
   RxString countryCode = '+92'.obs;
   RxBool changeView = false.obs;
   RxBool isChecked = false.obs;
-  List genders = ['Male', 'Female', 'Other'];
-  RxString selectedGender = ''.obs;
 
   validatorPhoneNumber(String? value) {
     if (GetUtils.isBlank(value)!) {
@@ -83,42 +81,30 @@ class SignUpScreen1ViewModel extends GetxController {
 
   List<http.MultipartFile> fileList = [];
   void signUpStep1() async {
-    if (signUpFormKey1.currentState?.validate() ?? false) {
+    //------    Image Varification and Send To Api ------------
+    imgCheck();
+    if (signUpFormKey1.currentState?.validate() ??
+        false ||
+            cnicFrontImageErrorVisibility.value ||
+            cnicFrontImageErrorVisibility.value) {
       if (isChecked.value == true) {
         fileList.clear();
-
-        //------    Image Varification and Send To Api ------------
-        if (cnicFrontImage.value.isNotEmpty && cnicBackImage.value.isNotEmpty) {
-          fileList.add(
-            await http.MultipartFile.fromPath(
-              'cnicImages',
-              cnicFrontImage.value,
-              contentType: MediaType.parse('image/jpeg'),
-            ),
-          );
-          fileList.add(
-            await http.MultipartFile.fromPath(
-              'cnicImages',
-              cnicBackImage.value,
-              contentType: MediaType.parse('image/jpeg'),
-            ),
-          );
-        } else {
-          AppConstant.displaySnackBar(
-            " Error",
-            " please upload CNIC Images",
-          );
-        }
-
+        await imgCheck();
         //------- Social Signup Checks ----------
+        String regex =
+            r'[^\p{Alphabetic}\p{Mark}\p{Decimal_Number}\p{Connector_Punctuation}\p{Join_Control}\s]+';
+
+        final String cnicNo =
+            cnicController.text.replaceAll(RegExp(regex, unicode: true), '');
+
         Map<String, String> param = {};
         if (_socialviewModel.socialPlatform.value != "" &&
             _socialviewModel.socialToken.value != "") {
           param = {
             "name": nameController.text,
             "email": emailController.text,
-            "gender": selectedGender.value,
-            "cnic": cnicController.text,
+            "gender": genderList[genderSelectedIndex.value],
+            "cnic": cnicNo,
             "phone": countryCode.value + phoneNumberController.text,
             "password": passwordController.text,
             "confirmPassword": confirmPasswordController.text,
@@ -130,15 +116,14 @@ class SignUpScreen1ViewModel extends GetxController {
           param = {
             "name": nameController.text,
             "email": emailController.text,
-            "gender": selectedGender.value,
-            "cnic": cnicController.text,
+            "gender": genderList[genderSelectedIndex.value],
+            "cnic": cnicNo,
             "phone": countryCode.value + phoneNumberController.text,
             "password": passwordController.text,
             "confirmPassword": confirmPasswordController.text,
             'step': '1'
           };
         }
-
         changeView.value = true;
         body.value = param;
         GlobalVariable.showLoader.value = true;
@@ -166,6 +151,32 @@ class SignUpScreen1ViewModel extends GetxController {
       }
     } else {
       GlobalVariable.showLoader(false);
+    }
+  }
+
+  Future<void> imgCheck() async {
+    if (cnicFrontImage.value.isNotEmpty && cnicBackImage.value.isNotEmpty) {
+      fileList.add(
+        await http.MultipartFile.fromPath(
+          'cnicImages',
+          cnicFrontImage.value,
+          contentType: MediaType.parse('image/jpeg'),
+        ),
+      );
+      fileList.add(
+        await http.MultipartFile.fromPath(
+          'cnicImages',
+          cnicBackImage.value,
+          contentType: MediaType.parse('image/jpeg'),
+        ),
+      );
+    } else {
+      cnicFrontImageErrorVisibility.value = true;
+      cnicBackImageErrorVisibility.value = true;
+      // AppConstant.displaySnackBar(
+      //   " Error",
+      //   " please upload CNIC Images",
+      // );
     }
   }
 
@@ -216,4 +227,9 @@ class SignUpScreen1ViewModel extends GetxController {
       // after they have been validated with Apple (see `Integration` section for more information on how to do this)
     }
   }
+
+  //-------- Gender
+  TextEditingController genderController = TextEditingController();
+  RxInt genderSelectedIndex = 0.obs;
+  List genderList = ['Male', 'Female', 'Other'];
 }

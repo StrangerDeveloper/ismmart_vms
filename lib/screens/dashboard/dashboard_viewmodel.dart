@@ -1,7 +1,15 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:ismmart_vms/helper/api_base_helper.dart';
+import 'package:ismmart_vms/helper/common_function.dart';
 import 'package:ismmart_vms/helper/constants.dart';
+import 'package:ismmart_vms/helper/urls.dart';
+import 'package:ismmart_vms/screens/auth/login/login_view.dart';
+import 'package:ismmart_vms/screens/dashboard/dashboard_model.dart';
+import 'package:ismmart_vms/screens/store_profile/store_profile_viewmodel.dart';
+import 'package:ismmart_vms/screens/user_profile/user_profile_model.dart';
 import 'package:ismmart_vms/widgets/widget_models/dropdown_model.dart';
 
 import '../../helper/global_variables.dart';
@@ -10,25 +18,62 @@ class DashboardViewModel extends GetxController {
   RxBool showMoreDetails = false.obs;
   RxString dateSelected = '1'.obs;
   List<DropDownModel> dateDropDownList = <DropDownModel>[
-    DropDownModel(id: "1", name: "Today"),
-    DropDownModel(id: "2", name: "25 Dec 2023"),
-    DropDownModel(id: "3", name: "24 Dec 2023"),
-    DropDownModel(id: "4", name: "23 Dec 2023"),
+    DropDownModel(id: "0", name: "Today"),
+    DropDownModel(id: "1", name: "Week"),
+    DropDownModel(id: "2", name: "Month"),
+    DropDownModel(id: "3", name: "Year"),
   ].obs;
 
   RxBool isTab = false.obs;
   RxBool moreOption = false.obs;
+  RxBool orderMoreOption = false.obs;
 
   var pieTouchIndex = -1.obs;
+  Rx<UserProfileModel> userProfileModel = UserProfileModel().obs;
 
   RxString rejected = ''.obs;
+
+  Rx<DateTime> pickedDate = DateTime.now().obs;
+
+  Rx<DashboardModel> productModel = DashboardModel().obs;
+  Rx<DashboardModel> revenueModel = DashboardModel().obs;
+  Rx<DashboardModel> orderModel = DashboardModel().obs;
+
+  Rx<DashboardModel> orderIssuesModel = DashboardModel().obs;
+  Rx<DashboardModel> orderApprovedModel = DashboardModel().obs;
+  Rx<DashboardModel> orderPendingModel = DashboardModel().obs;
+
+
+  @override
+  void onInit() {
+    userProfileModel = Get.find<StoreProfileViewModel>().userProfileModel;
+    super.onInit();
+  }
+
   @override
   void onReady() {
     rejected.value = Get.arguments ?? '';
     super.onReady();
 
-    getOrdersData();
+    getData();
+
+    
   }
+
+  Rx<String> dropDownValue = "dayOfMonth".obs;
+  getData() {
+    
+    getProductSummary();
+    getRevenuSummary();
+    getOrderSummary();
+    getOrderIssuesSummary();
+    getPendingOrderSummary();
+    getApprovedOrderSummary();
+  }
+
+  // onDateChanged(String value) {
+  //   if()
+  // }
 
   @override
   void onClose() {
@@ -36,7 +81,96 @@ class DashboardViewModel extends GetxController {
     super.onClose();
   }
 
-  void getOrdersData() {}
+  String getDateFormat() {
+    if (pickedDate.value.compareTo(DateTime.now()) > 1) {
+      return "Today";
+    }
+    return CommonFunction.formattedDataTime("dd MMMM yyyy", pickedDate.value);
+  }
+
+  showCustomDatePicker() async {
+    pickedDate.value = (await showDatePicker(
+      context: Get.context!,
+      initialDate: pickedDate.value,
+      firstDate: DateTime(2021),
+      lastDate: DateTime(2101),
+    ))!;
+  }
+
+  Future<void> getProductSummary() async {
+    await ApiBaseHelper()
+        .getMethod(url: "${Urls.getProductSummary}${dropDownValue.value}")
+        .then((parsedJson) {
+      if (parsedJson['success'] == true) {
+        var data = parsedJson['data'];
+        productModel.value = DashboardModel.fromJson(data);
+        //collectionList.addAll(data.map((e) => CollectionModel.fromJson(e)));
+      }
+    });
+  }
+
+  Future<void> getRevenuSummary() async {
+    await ApiBaseHelper()
+        .getMethod(url: "${Urls.getRevenuSummary}${dropDownValue.value}")
+        .then((parsedJson) {
+      if (parsedJson['success'] == true) {
+        var data = parsedJson['data'];
+        revenueModel.value = DashboardModel.fromJson(data);
+        //collectionList.addAll(data.map((e) => CollectionModel.fromJson(e)));
+      }
+    });
+  }
+
+  Future<void> getOrderSummary() async {
+    await ApiBaseHelper()
+        .getMethod(url: "${Urls.getOrderSummary}${dropDownValue.value}")
+        .then((parsedJson) {
+      if (parsedJson['success'] == true) {
+        var data = parsedJson['data'];
+        orderModel.value = DashboardModel.fromJson(data);
+        //collectionList.addAll(data.map((e) => CollectionModel.fromJson(e)));
+      }
+    });
+  }
+
+  Future<void> getOrderIssuesSummary() async {
+    await ApiBaseHelper()
+        .getMethod(
+            url: "${Urls.getOrderStatusSummary}${dropDownValue.value}&status=Returned")
+        .then((parsedJson) {
+      if (parsedJson['success'] == true) {
+        var data = parsedJson['data'];
+        orderIssuesModel.value = DashboardModel.fromJson(data);
+        //collectionList.addAll(data.map((e) => CollectionModel.fromJson(e)));
+      }
+    });
+  }
+
+  Future<void> getApprovedOrderSummary() async {
+    await ApiBaseHelper()
+        .getMethod(
+            url: "${Urls.getOrderStatusSummary}${dropDownValue.value}&status=Shipped")
+        .then((parsedJson) {
+      if (parsedJson['success'] == true) {
+        var data = parsedJson['data'];
+        orderApprovedModel.value = DashboardModel.fromJson(data);
+        //collectionList.addAll(data.map((e) => CollectionModel.fromJson(e)));
+      }
+    });
+  }
+
+  Future<void> getPendingOrderSummary() async {
+    await ApiBaseHelper()
+        .getMethod(
+            url: "${Urls.getOrderStatusSummary}${dropDownValue.value}&status=Pending")
+        .then((parsedJson) {
+      if (parsedJson['success'] == true) {
+        var data = parsedJson['data'];
+        orderPendingModel.value = DashboardModel.fromJson(data);
+        //collectionList.addAll(data.map((e) => CollectionModel.fromJson(e)));
+      }
+    });
+  }
 
   ///*************Chart Data */ ///
   LineTouchData get lineTouchData1 => LineTouchData(
@@ -199,4 +333,17 @@ class DashboardViewModel extends GetxController {
           FlSpot(13, 2.5),
         ],
       );
+
+  Future<void> logout() async {
+    GoogleSignIn googleSignIn = GoogleSignIn(
+      scopes: [
+        'email',
+        'https://www.googleapis.com/auth/contacts.readonly',
+      ],
+    );
+
+    await googleSignIn.signOut();
+
+    Get.offAll(() => LogInView());
+  }
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/theme_helper.dart';
 import 'package:ismmart_vms/screens/drawer_bottom_nav/drawer_bottom_bar_viewmodel.dart';
+import 'package:ismmart_vms/widgets/custom_cached_network_image.dart';
 import 'package:ismmart_vms/widgets/custom_drawer.dart';
 
 import '../../helper/global_variables.dart';
@@ -120,12 +121,40 @@ class DrawerBottomBarView extends StatelessWidget {
                     GlobalVariable.selectedIndex.value = 4;
                   },
                   toolTip: 'Profile',
-                  child: const Image(
-                    height: 27,
-                    width: 27,
-                    image: AssetImage(
-                      'assets/images/logo_black.png',
-                    ),
+                  padding: 14,
+                  child: Stack(
+                    alignment: AlignmentDirectional.center,
+                    children: [
+                      CustomCachedNetworkImage(
+                          height: 27,
+                          width: 27,
+                          fit: BoxFit.contain,
+                          imageUrl: viewModel.userProfileModel.value.image),
+                      Positioned(
+                        //right: 0,
+                        //right: 5,
+                        top: -1,
+                        //left: 0,
+                        child: Container(
+                          margin: const EdgeInsets.only(left: 20),
+                          padding: const EdgeInsets.all(2),
+                          decoration: BoxDecoration(
+                            //shape: BoxShape.circle,
+                            borderRadius: BorderRadius.circular(5),
+                            color: Colors.white, // Green background color
+                          ),
+                          // constraints: const BoxConstraints(
+                          //   minWidth: 8,
+                          //   minHeight: 8,
+                          // ),
+                          child: const Icon(
+                            Icons.circle,
+                            size: 8,
+                            color: Colors.green,
+                          ),
+                        ),
+                      )
+                    ],
                   ),
                 ),
               ],

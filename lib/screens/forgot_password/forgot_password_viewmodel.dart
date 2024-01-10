@@ -6,7 +6,6 @@ import '../../helper/constants.dart';
 import '../../helper/global_variables.dart';
 
 class ForgotPasswordViewModel extends GetxController {
-
   GlobalKey<FormState> forgotPasswordFormKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   Map<String, dynamic> parsedJson = {};
@@ -15,7 +14,7 @@ class ForgotPasswordViewModel extends GetxController {
   void onReady() {
     GlobalVariable.showLoader.value = false;
     emailController.text = Get.arguments['email'] ?? "test@gmail.com";
-    // TODO: implement onReady
+   
     super.onReady();
   }
 
@@ -27,12 +26,12 @@ class ForgotPasswordViewModel extends GetxController {
   }
 
   void sendBtn() async {
-
     if (forgotPasswordFormKey.currentState?.validate() ?? false) {
       try {
         Map<String, dynamic> param = {"email": emailController.text};
         GlobalVariable.showLoader.value = true;
-        parsedJson = await ApiBaseHelper().postMethod(url: Urls.forgetPassword, body: param);
+        parsedJson = await ApiBaseHelper()
+            .postMethod(url: Urls.forgetPassword, body: param);
 
         if (parsedJson['success'] == true) {
           GlobalVariable.showLoader.value = false;
@@ -40,13 +39,12 @@ class ForgotPasswordViewModel extends GetxController {
             "success",
             "Reset Password Link send to your Email",
           );
-          Future.delayed(const Duration(seconds: 2), () => Get.back());
-          Get.back();
+          Future.delayed(const Duration(seconds: 3), () => Get.back());
         } else {
           GlobalVariable.showLoader.value = false;
           AppConstant.displaySnackBar(
             "Error",
-            "resent to your Email",
+            "${parsedJson['message']}",
           );
         }
       } catch (e) {

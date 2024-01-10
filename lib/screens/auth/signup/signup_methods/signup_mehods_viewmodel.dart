@@ -75,14 +75,14 @@ class SignupMehtodsViewModel extends GetxController {
   @override
   void onReady() {
     GlobalVariable.showLoader.value = false;
-    // TODO: implement onReady
+
     super.onReady();
   }
 
   @override
   void onClose() {
     GlobalVariable.showLoader.value = false;
-    // TODO: implement onClose
+   
     super.onClose();
   }
 }

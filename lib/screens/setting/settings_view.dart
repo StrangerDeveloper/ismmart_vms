@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/utils/image_constant.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
-import 'package:ismmart_vms/screens/auth/login/login_view.dart';
 import 'package:ismmart_vms/screens/bank_list/bank_list_view.dart';
 import 'package:ismmart_vms/screens/shippings/shippings_view.dart';
 import 'package:ismmart_vms/screens/store_profile/store_profile_view.dart';
@@ -12,7 +11,6 @@ import 'package:ismmart_vms/screens/user_profile/user_profile_view.dart';
 import '../../helper/constants.dart';
 import '../dashboard/dashboard_viewmodel.dart';
 import '../location_list/location_list_view.dart';
-import '../payout_list/payout_list_view.dart';
 
 class SettingsView extends StatelessWidget {
   SettingsView({super.key});
@@ -43,11 +41,11 @@ class SettingsView extends StatelessWidget {
             iconPath: 'assets/images/overViewIcon.png',
           ),
 
-            // drawerListItems(
-            //   'Collections',
-            //   iconPath: 'assets/images/layers.png',
-            //   onTab: () => Get.to(CollectionView()),
-            // ),
+          // drawerListItems(
+          //   'Collections',
+          //   iconPath: 'assets/images/layers.png',
+          //   onTab: () => Get.to(CollectionView()),
+          // ),
 
           drawerListItems(
             'Locations',
@@ -65,9 +63,9 @@ class SettingsView extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          drawerListItems('Payouts',
-              iconPath: 'assets/images/credit-card.png',
-              onTab: () => Get.to(PayoutListView())),
+          // drawerListItems('Payouts',
+          //     iconPath: 'assets/images/credit-card.png',
+          //     onTab: () => Get.to(PayoutListView())),
           drawerListItems(
               //iconPath: 'assets/images/settingIcon.png',
               onTab: () {
@@ -109,8 +107,8 @@ class SettingsView extends StatelessWidget {
           ),
 
           drawerListItems('Logout', iconPath: 'assets/images/settingIcon.png',
-              onTab: () {
-            Get.offAll(LogInView());
+              onTab: () async {
+            viewModel.logout();
           })
         ],
       ),

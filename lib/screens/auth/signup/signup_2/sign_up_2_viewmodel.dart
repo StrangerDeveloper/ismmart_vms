@@ -39,9 +39,14 @@ class SignUp2ViewModel extends GetxController {
 
   //------------ Signup For Step 2 --------------
   final SignUpScreen1ViewModel viewModel = Get.put(SignUpScreen1ViewModel());
+  RxBool storeErrorMsg = false.obs;
   List<http.MultipartFile> fileList = [];
   Future<void> signUpStep2() async {
-    if (vendorSignUp2FormKey.currentState?.validate() ?? false) {
+    imgCheck();
+    if (vendorSignUp2FormKey.currentState?.validate() ??
+        false ||
+            shopImageErrorVisibility.value ||
+            storeErrorMsg.value == true) {
       GlobalVariable.showLoader.value = true;
       fileList.clear();
       Map<String, String> param = Get.arguments;
@@ -107,6 +112,15 @@ class SignUp2ViewModel extends GetxController {
     }
   }
 
+  imgCheck() {
+    if (shopLogoImage.value.isEmpty) {
+      shopImageErrorVisibility.value = true;
+    }
+    if (storeTypeList.where((element) => element.isSelected == true).isEmpty) {
+      storeErrorMsg.value = true;
+    }
+  }
+
   //-----------------Store Type Field Data------------
   //Store Type Data
   //-----------------Store Type Field Data------------
@@ -125,6 +139,7 @@ class SignUp2ViewModel extends GetxController {
     StoreTypeModel model1 = storeTypeList[index];
     model1.isSelected = value;
     storeTypeList[index] = model1;
+    storeErrorMsg.value = false;
   }
 
   getStoreTypes() async {
@@ -242,14 +257,14 @@ class SignUp2ViewModel extends GetxController {
     GlobalVariable.showLoader.value = false;
     getCountryList();
     getStoreTypes();
-    // TODO: implement onReady
+  
     super.onReady();
   }
 
   @override
   void onClose() {
     GlobalVariable.showLoader.value = false;
-    // TODO: implement onClose
+   
     super.onClose();
   }
 }

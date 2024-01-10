@@ -22,7 +22,7 @@ class StoreProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar2(title: 'Store'),
+      appBar: const CustomAppBar2(title: 'Edit Store'),
       body: Stack(
         children: [
           SingleChildScrollView(
@@ -150,7 +150,7 @@ class StoreProfileView extends StatelessWidget {
         controller: viewModel.storeNameController,
         autoValidateMode: AutovalidateMode.onUserInteraction,
         validator: (value) {
-          return Validator.validateDefaultField(value);
+          return Validator.validateDefaultField(value, errorMessage: 'Store Name is required');
         },
       ),
     );
@@ -163,7 +163,7 @@ class StoreProfileView extends StatelessWidget {
       controller: viewModel.storeSlugController,
       autoValidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
-        return Validator.validateDefaultField(value);
+        return Validator.validateDefaultField(value, errorMessage: 'Store Slug is required');
       },
     );
   }

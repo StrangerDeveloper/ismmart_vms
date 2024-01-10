@@ -58,7 +58,7 @@ class CancelOrderView extends StatelessWidget {
 
   PreferredSizeWidget _buildAppBar() {
     return const CustomAppBar2(
-      title: "Cancel Order",
+      title: "Order Detail",
     );
   }
 
@@ -522,9 +522,15 @@ class CancelOrderView extends StatelessWidget {
               context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
-                  title: const Text("Cancel Order"),
+                  title: Text(
+                    "Cancel Order# ${viewModel.orderItemModel.value.orderId}",
+                    style: newFontStyle5.copyWith(
+                      color: ThemeHelper.blue1,
+                      fontSize: 18.fSize,
+                    ),
+                  ),
                   content: Obx(() => Text(
-                      "Are you sure you want to cancel them item from Order # ${viewModel.orderItemModel.value.orderId} ?")),
+                      "This can't be undone. Are you sure you want to cancel the item SKU: from Order# ${viewModel.orderItemModel.value.orderId} ?")),
                   actions: [
                     CustomTextBtn(
                       backgroundColor: Colors.grey.shade200,

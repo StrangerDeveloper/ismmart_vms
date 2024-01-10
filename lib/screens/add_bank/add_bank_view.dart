@@ -152,7 +152,7 @@ class AddBankView extends StatelessWidget {
         }
       },
       validator: (value) {
-        return Validator.validateDefaultField(value);
+        return Validator.validateDefaultField(value, errorMessage: 'Account Title is required');
       },
       autoValidateMode: AutovalidateMode.onUserInteraction,
     );
@@ -179,7 +179,7 @@ class AddBankView extends StatelessWidget {
         ],
         keyboardType: TextInputType.number,
         validator: (value) {
-          return Validator.validateDefaultField(value);
+          return Validator.validateDefaultField(value, errorMessage: 'Account Number is required');
         },
         autoValidateMode: AutovalidateMode.onUserInteraction,
       ),
@@ -209,7 +209,7 @@ class AddBankView extends StatelessWidget {
         }
       },
       validator: (value) {
-        return Validator.validateDefaultField(value);
+        return Validator.validateDefaultField(value, errorMessage: 'Bank Name is required');
       },
       autoValidateMode: AutovalidateMode.onUserInteraction,
     );

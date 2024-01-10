@@ -20,7 +20,7 @@ class AddLocationView extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CustomAppBar2(
-          title: viewModel.isEdit ? 'Update Address' : 'Add Address'),
+          title: viewModel.isEdit ? 'Update Location' : 'Add Location'),
       body: Stack(
         children: [
           SingleChildScrollView(
@@ -66,7 +66,8 @@ class AddLocationView extends StatelessWidget {
       title: 'Name',
       hintText: 'e.g. Beverly Center, Islamabad',
       validator: (value) {
-        return Validator.validateDefaultField(value);
+        return Validator.validateDefaultField(value,
+            errorMessage: 'Name is required');
       },
       autoValidateMode: AutovalidateMode.onUserInteraction,
     );
@@ -85,7 +86,7 @@ class AddLocationView extends StatelessWidget {
         },
         isDropDown: true,
         validator: (value) {
-          return Validator.validateDefaultField(value);
+          return Validator.validateDefaultField(value,errorMessage: 'Country is required');
         },
         autoValidateMode: AutovalidateMode.onUserInteraction,
       ),
@@ -103,7 +104,7 @@ class AddLocationView extends StatelessWidget {
         itemsBottomSheet(isCity: true);
       },
       validator: (value) {
-        return Validator.validateDefaultField(value);
+        return Validator.validateDefaultField(value,errorMessage: 'City is required');
       },
       autoValidateMode: AutovalidateMode.onUserInteraction,
     );
@@ -119,7 +120,7 @@ class AddLocationView extends StatelessWidget {
         maxLines: 8,
         filled: false,
         validator: (value) {
-          return Validator.validateDefaultField(value);
+          return Validator.validateDefaultField(value,errorMessage: 'Address is required');
         },
         autoValidateMode: AutovalidateMode.onUserInteraction,
       ),
@@ -143,7 +144,7 @@ class AddLocationView extends StatelessWidget {
         ).show();
       },
       validator: (value) {
-        return Validator.validateDefaultField(value);
+        return Validator.validateDefaultField(value,errorMessage: 'Status is required');
       },
       autoValidateMode: AutovalidateMode.onUserInteraction,
     );
