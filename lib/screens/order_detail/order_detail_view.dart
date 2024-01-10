@@ -288,7 +288,9 @@ class OrderDetailView extends StatelessWidget {
     return CustomText(
       title: text,
       style: newFontStyleSize12Grey2.copyWith(
-          color: newColorLightGrey3, fontWeight: FontWeight.w600),
+        color: newColorLightGrey3,
+        fontWeight: FontWeight.w600,
+      ),
     );
   }
 
@@ -375,13 +377,14 @@ class OrderDetailView extends StatelessWidget {
                   children: [
                     _customField2(
                         viewModel.orderItemModel.value.orderId ?? "id"),
-                    SizedBox(width: 8.h),
-                    Icon(
-                      Icons.circle,
-                      color: Colors.grey.shade400,
-                      size: 5,
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                      child: Icon(
+                        Icons.circle,
+                        color: Colors.grey.shade400,
+                        size: 5,
+                      ),
                     ),
-                    SizedBox(width: 8.h),
                     // _customField2(DateFormat("y MMM d").format(DateTime.parse(
                     //     viewModel.orderItemModel.value.createdAt ??
                     //         "2021-09-09T09:09:09.000Z"))),
