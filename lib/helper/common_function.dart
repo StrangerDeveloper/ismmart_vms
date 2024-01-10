@@ -1,9 +1,14 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_rx/src/rx_workers/utils/debouncer.dart';
 import 'package:intl/intl.dart';
 
 class CommonFunction {
+
+  static final Debouncer debouncer = Debouncer(delay: const Duration(milliseconds: 800));
+
+
   // static DateTime convertStringToDate(String stringDate) {
   //   return DateFormat("yyyy-MM-dd hh:mm:ss").parse(stringDate);
   // }
