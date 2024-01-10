@@ -5,7 +5,6 @@ import 'package:ismmart_vms/helper/theme_helper.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/screens/order_detail/cancel_order_view.dart';
 import 'package:ismmart_vms/screens/order_detail/order_detail_viewmodel.dart';
-import 'package:ismmart_vms/screens/order_listing/order_view.dart';
 import 'package:ismmart_vms/widgets/custom_appbar.dart';
 import 'package:ismmart_vms/widgets/custom_text.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -257,9 +256,9 @@ class OrderDetailView extends StatelessWidget {
               _customField2(
                   viewModel.orderItemModel.value.customer?.name ?? "name"),
               _customField2(
-                  "${viewModel.orderItemModel.value.address!.shipping!.address!}\n${viewModel.orderItemModel.value.address!.shipping!.city!}, ${viewModel.orderItemModel.value.address!.shipping!.country!}"),
+                  "${viewModel.orderItemModel.value.address?.shipping?.address ?? "address"}\n${viewModel.orderItemModel.value.address?.shipping?.city ?? "city"}, ${viewModel.orderItemModel.value.address?.shipping?.country ?? "country"}"),
               _customField2(
-                  viewModel.orderItemModel.value.address!.shipping!.phone ??
+                  viewModel.orderItemModel.value.address?.shipping?.phone ??
                       "phone"),
               SizedBox(height: 12.v),
               _customField1("Billing adress"),
@@ -267,9 +266,9 @@ class OrderDetailView extends StatelessWidget {
               _customField2(
                   viewModel.orderItemModel.value.customer?.name ?? "name"),
               _customField2(
-                  "${viewModel.orderItemModel.value.address!.billing!.address!}\n${viewModel.orderItemModel.value.address!.billing!.city!}, ${viewModel.orderItemModel.value.address!.billing!.country!}"),
+                  "${viewModel.orderItemModel.value.address?.billing?.address ?? "address"}\n${viewModel.orderItemModel.value.address?.billing?.city ?? "city"}, ${viewModel.orderItemModel.value.address?.billing?.country ?? "country"}"),
               _customField2(
-                  viewModel.orderItemModel.value.address!.billing!.phone ??
+                  viewModel.orderItemModel.value.address?.billing?.phone ??
                       "phone"),
             ],
           ),
