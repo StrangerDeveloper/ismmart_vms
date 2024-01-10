@@ -39,7 +39,7 @@ class CustomDrawer extends StatelessWidget {
               mainAxisSize: MainAxisSize.max,
               children: [
                 titleAndBackBtn(
-                    onTap: () => Get.to(()=> StoreProfileView()),
+                    onTap: () => Get.to(() => StoreProfileView()),
                     iconPath: viewModel.userProfileModel.value.store?.logo,
                     title: viewModel.userProfileModel.value.store?.name ??
                         'ISMMART',
@@ -52,34 +52,39 @@ class CustomDrawer extends StatelessWidget {
                   },
                   iconPath: 'assets/icons/overViewIcon.png',
                 ),
-           drawerListItems(
+                drawerListItems(
                     //iconPath: 'assets/icons/settingIcon.png',
-
+                    icon: Icons.shopping_bag_rounded,
                     'Orders',
                     onTab: () => viewModel.orderMoreOption.toggle(),
                     dropDwnIcon: true),
 
-              Obx(
+                Obx(
                   () => viewModel.orderMoreOption.value
                       ? Padding(
                           padding: const EdgeInsets.only(left: 20),
                           child: Column(
                             children: [
                               drawerListItems(
-                                //iconPath: 'assets/icons/wallet.png',
-
-                                'Cancel',
+                                'Returned',
                                 h: 35,
-                                onTab: () => Get.to(() => OrderView(callingForCanceledOrder: true,)),
+                                onTab: () => Get.to(() => OrderView(
+                                      callingFor: "Returned",
+                                    )),
                               ),
-                            
+                              drawerListItems(
+                                'Cancelled',
+                                h: 35,
+                                onTab: () => Get.to(() => OrderView(
+                                      callingFor: "Cancelled",
+                                    )),
+                              ),
                             ],
                           ),
                         )
                       : const SizedBox(),
-              ),
+                ),
 
-                
                 drawerListItems('Locations',
                     iconPath: 'assets/icons/pin.png',
                     onTab: () => Get.to(() => AddLocationView())),
@@ -112,7 +117,6 @@ class CustomDrawer extends StatelessWidget {
                                 h: 35,
                                 onTab: () => Get.to(() => BankListView()),
                               ),
-                            
                             ],
                           ),
                         )

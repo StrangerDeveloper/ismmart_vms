@@ -30,11 +30,11 @@ class DrawerBottomBarViewModel extends GetxController {
       case 0:
         return 'Dashboard';
       case 1:
-        return 'Products';
+        return 'Order List';
       case 2:
         return 'Add Product';
       case 3:
-        return 'Order List';
+        return 'Products';
       case 4:
         return 'Profile Details';
       default:
@@ -47,11 +47,11 @@ class DrawerBottomBarViewModel extends GetxController {
       case 0:
         return DashboardView();
       case 1:
-        return ProductListView();
+        return OrderView();
       case 2:
         return AddProduct1View();
       case 3:
-        return OrderView();
+        return ProductListView();
       case 4:
         return UserProfileView();
       default:
