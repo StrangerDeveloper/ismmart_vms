@@ -8,6 +8,7 @@ import 'package:ismmart_vms/helper/utils/image_constant.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/screens/dashboard/dashboard_viewmodel.dart';
 import 'package:ismmart_vms/widgets/custom_button.dart';
+import 'package:ismmart_vms/widgets/custom_dropdown.dart';
 import 'package:ismmart_vms/widgets/custom_image_view.dart';
 import 'package:ismmart_vms/widgets/loader_view.dart';
 
@@ -74,38 +75,41 @@ class DashboardView extends StatelessWidget {
       children: [
         SizedBox(
           width: 120,
-          child: Obx(
-            () => InkWell(
-              onTap: () {
-                viewModel.showCustomDatePicker();
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    viewModel.getDateFormat(),
-                    style: const TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 12),
-                  ),
-                  const Icon(
-                    Icons.keyboard_arrow_down_rounded,
-                    size: 15,
-                  )
-                ],
-              ),
-            ),
-          ),
+          child:
 
-          //  CustomDropDownList2(
-          //   value: viewModel.dateSelected,
-          //   onChanged: (value) {
-          //     viewModel.dateSelected.value = value;
-          //   },
-          //   list: viewModel.dateDropDownList,
-          // ),
+              // Obx(
+              //   () => InkWell(
+              //     onTap: () {
+              //       viewModel.showCustomDatePicker();
+              //     },
+              //     child: Row(
+              //       mainAxisAlignment: MainAxisAlignment.spaceAround,
+              //       mainAxisSize: MainAxisSize.min,
+              //       children: [
+              //         Text(
+              //           viewModel.getDateFormat(),
+              //           style: const TextStyle(
+              //               color: Colors.black,
+              //               fontWeight: FontWeight.w500,
+              //               fontSize: 12),
+              //         ),
+              //         const Icon(
+              //           Icons.keyboard_arrow_down_rounded,
+              //           size: 15,
+              //         )
+              //       ],
+              //     ),
+              //   ),
+              // ),
+
+              CustomDropDownList2(
+            value: viewModel.dateSelected,
+            onChanged: (value) {
+              viewModel.dateSelected.value = value;
+              viewModel.getData();
+            },
+            list: viewModel.dateDropDownList,
+          ),
         ),
         CustomTextBtn(
           foregroundColor: ThemeHelper.blue1,
@@ -139,10 +143,10 @@ class DashboardView extends StatelessWidget {
       ),
       child: Column(
         children: [
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
+              const Text(
                 "Total Orders",
                 style: TextStyle(
                   color: ThemeHelper.grey5,
@@ -150,8 +154,8 @@ class DashboardView extends StatelessWidget {
                 ),
               ),
               Text(
-                "77",
-                style: TextStyle(
+                "${viewModel.orderModel.value.total ?? 77}",
+                style: const TextStyle(
                   color: ThemeHelper.grey5,
                   fontSize: 12,
                 ),
@@ -162,20 +166,20 @@ class DashboardView extends StatelessWidget {
           Row(
             children: [
               orderStatusItem(
-                title: "Exception",
-                value: "5",
+                title: "Order Issue",
+                value: "${viewModel.orderIssuesModel.value.total ?? 5}",
                 color: deepOrangeA700,
               ),
               const SizedBox(width: 10),
               orderStatusItem(
-                title: "New Orders",
-                value: "3",
+                title: "Approved",
+                value: "${viewModel.orderApprovedModel.value.total ?? 3}",
                 color: cyan800,
               ),
               const SizedBox(width: 10),
               orderStatusItem(
                 title: "In Progress",
-                value: "18",
+                value: "${viewModel.orderPendingModel.value.total ?? 18}",
                 color: blueA700,
               ),
             ],
@@ -288,17 +292,17 @@ class DashboardView extends StatelessWidget {
                           color: const Color(0xff03543F).withOpacity(0.1),
                           borderRadius: BorderRadius.circular(6),
                         ),
-                        child: const Row(
+                        child:  Row(
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.arrow_upward_rounded,
                               color: Color(0xff03543F),
                               size: 14,
                             ),
-                            SizedBox(width: 5),
+                            const SizedBox(width: 5),
                             Text(
-                              '78 %',
-                              style: TextStyle(
+                              '${viewModel.orderModel.value.rate ?? 77} %',
+                              style: const TextStyle(
                                 color: Color(0xFF6B7280),
                                 fontSize: 12,
                               ),
@@ -311,12 +315,12 @@ class DashboardView extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(vertical: 13),
                       child: _buildShowMoreItems(
                         title: "Total Products",
-                        value: "20",
+                        value: "${viewModel.productModel.value.total ?? 20}",
                       ),
                     ),
                     _buildShowMoreItems(
                       title: "Total Revenue",
-                      value: "500,000 PKR",
+                      value: "${viewModel.revenueModel.value.total ??"103,000"} PKR",
                     ),
                   ],
                 ),

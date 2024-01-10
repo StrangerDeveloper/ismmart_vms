@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -233,8 +232,9 @@ class SignUp2View extends StatelessWidget {
         validator: (value) {
           if (value != null && value.contains(' ')) {
             return 'Please Avoid Spaces in Store Slug';
-          } else
+          } else {
             return Validator.validateDefaultField(value);
+          }
         },
       ),
     );
@@ -306,7 +306,7 @@ class SignUp2View extends StatelessWidget {
                     ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Obx(
@@ -321,7 +321,7 @@ class SignUp2View extends StatelessWidget {
                           fontSize: 12),
                     ),
                   )
-                : SizedBox(),
+                : const SizedBox(),
           ),
         ],
       ),
@@ -573,8 +573,8 @@ class SignUp2View extends StatelessWidget {
                               },
                             ),
                           )
-                        : Padding(
-                            padding: const EdgeInsets.only(top: 30),
+                        : const Padding(
+                            padding: EdgeInsets.only(top: 30),
                             child: Text('No Country Found'),
                           ),
                     //
@@ -612,7 +612,7 @@ class SignUp2View extends StatelessWidget {
                   )
                 ],
               ),
-              viewModel.allCountryList.length <= 0
+              viewModel.allCountryList.isEmpty
                   ? const LoaderView()
                   : const SizedBox()
             ],
@@ -702,8 +702,8 @@ class SignUp2View extends StatelessWidget {
                           },
                         ),
                       )
-                    : Padding(
-                        padding: const EdgeInsets.only(top: 30),
+                    : const Padding(
+                        padding: EdgeInsets.only(top: 30),
                         child: Text('No City Found'),
                       ),
                 // : Expanded(

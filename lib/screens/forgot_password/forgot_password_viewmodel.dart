@@ -14,7 +14,7 @@ class ForgotPasswordViewModel extends GetxController {
   void onReady() {
     GlobalVariable.showLoader.value = false;
     emailController.text = Get.arguments['email'] ?? "test@gmail.com";
-    // TODO: implement onReady
+   
     super.onReady();
   }
 

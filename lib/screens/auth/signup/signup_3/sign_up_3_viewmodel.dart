@@ -152,14 +152,14 @@ class SignUp3ViewModel extends GetxController {
   void onReady() {
     GlobalVariable.showLoader.value = false;
     getBankList();
-    // TODO: implement onReady
+    
     super.onReady();
   }
 
   @override
   void onClose() {
     GlobalVariable.showLoader.value = false;
-    // TODO: implement onClose
+  
     super.onClose();
   }
 }

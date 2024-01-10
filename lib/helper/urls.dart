@@ -32,4 +32,10 @@ class Urls {
   static String updateOrder = "/vendor/order/update/status";
   static String resendEmail = "/vendor/auth/resend";
   static String addProduct = "/vendor/product/add";
+
+  ///Dashboard
+  static String getProductSummary = "/vendor/dashboard/summary/product?duration=";
+  static String getOrderSummary = "/vendor/dashboard/summary/order?duration=";
+  static String getOrderStatusSummary = "/vendor/dashboard/summary/order/status?duration=";
+  static String getRevenuSummary = "/vendor/dashboard/summary/revenue?duration=";
 }

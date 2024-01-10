@@ -257,14 +257,14 @@ class SignUp2ViewModel extends GetxController {
     GlobalVariable.showLoader.value = false;
     getCountryList();
     getStoreTypes();
-    // TODO: implement onReady
+  
     super.onReady();
   }
 
   @override
   void onClose() {
     GlobalVariable.showLoader.value = false;
-    // TODO: implement onClose
+   
     super.onClose();
   }
 }

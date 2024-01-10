@@ -2,9 +2,12 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:ismmart_vms/helper/api_base_helper.dart';
 import 'package:ismmart_vms/helper/common_function.dart';
 import 'package:ismmart_vms/helper/constants.dart';
+import 'package:ismmart_vms/helper/urls.dart';
 import 'package:ismmart_vms/screens/auth/login/login_view.dart';
+import 'package:ismmart_vms/screens/dashboard/dashboard_model.dart';
 import 'package:ismmart_vms/screens/store_profile/store_profile_viewmodel.dart';
 import 'package:ismmart_vms/screens/user_profile/user_profile_model.dart';
 import 'package:ismmart_vms/widgets/widget_models/dropdown_model.dart';
@@ -16,9 +19,9 @@ class DashboardViewModel extends GetxController {
   RxString dateSelected = '1'.obs;
   List<DropDownModel> dateDropDownList = <DropDownModel>[
     DropDownModel(id: "1", name: "Today"),
-    DropDownModel(id: "2", name: "25 Dec 2023"),
-    DropDownModel(id: "3", name: "24 Dec 2023"),
-    DropDownModel(id: "4", name: "23 Dec 2023"),
+    DropDownModel(id: "2", name: "Week"),
+    DropDownModel(id: "3", name: "Month"),
+    DropDownModel(id: "4", name: "Year"),
   ].obs;
 
   RxBool isTab = false.obs;
@@ -32,14 +35,31 @@ class DashboardViewModel extends GetxController {
 
   Rx<DateTime> pickedDate = DateTime.now().obs;
 
+  Rx<DashboardModel> productModel = DashboardModel().obs;
+  Rx<DashboardModel> revenueModel = DashboardModel().obs;
+  Rx<DashboardModel> orderModel = DashboardModel().obs;
+
+  Rx<DashboardModel> orderIssuesModel = DashboardModel().obs;
+  Rx<DashboardModel> orderApprovedModel = DashboardModel().obs;
+  Rx<DashboardModel> orderPendingModel = DashboardModel().obs;
+
   @override
   void onReady() {
     rejected.value = Get.arguments ?? '';
     super.onReady();
 
-    getOrdersData();
+    getData();
 
     userProfileModel = Get.put(StoreProfileViewModel()).userProfileModel;
+  }
+
+  getData() {
+    getProductSummary();
+    getRevenuSummary();
+    getOrderSummary();
+    getOrderIssuesSummary();
+    getPendingOrderSummary();
+    getApprovedOrderSummary();
   }
 
   // onDateChanged(String value) {
@@ -68,7 +88,83 @@ class DashboardViewModel extends GetxController {
     ))!;
   }
 
-  void getOrdersData() {}
+  Future<void> getProductSummary() async {
+    await ApiBaseHelper()
+        .getMethod(url: "${Urls.getProductSummary}${dateSelected.value}")
+        .then((parsedJson) {
+      if (parsedJson['success'] == true) {
+        var data = parsedJson['data'];
+        productModel.value = DashboardModel.fromJson(data);
+        //collectionList.addAll(data.map((e) => CollectionModel.fromJson(e)));
+      }
+    });
+  }
+
+  Future<void> getRevenuSummary() async {
+    await ApiBaseHelper()
+        .getMethod(url: "${Urls.getRevenuSummary}${dateSelected.value}")
+        .then((parsedJson) {
+      if (parsedJson['success'] == true) {
+        var data = parsedJson['data'];
+        revenueModel.value = DashboardModel.fromJson(data);
+        //collectionList.addAll(data.map((e) => CollectionModel.fromJson(e)));
+      }
+    });
+  }
+
+  Future<void> getOrderSummary() async {
+    await ApiBaseHelper()
+        .getMethod(url: "${Urls.getOrderSummary}${dateSelected.value}")
+        .then((parsedJson) {
+      if (parsedJson['success'] == true) {
+        var data = parsedJson['data'];
+        orderModel.value = DashboardModel.fromJson(data);
+        //collectionList.addAll(data.map((e) => CollectionModel.fromJson(e)));
+      }
+    });
+  }
+
+  Future<void> getOrderIssuesSummary() async {
+    await ApiBaseHelper()
+        .getMethod(
+            url:
+                "${Urls.getOrderStatusSummary}${dateSelected.value}&status=Returned")
+        .then((parsedJson) {
+      if (parsedJson['success'] == true) {
+        var data = parsedJson['data'];
+        orderIssuesModel.value = DashboardModel.fromJson(data);
+        //collectionList.addAll(data.map((e) => CollectionModel.fromJson(e)));
+      }
+    });
+  }
+
+  Future<void> getApprovedOrderSummary() async {
+    await ApiBaseHelper()
+        .getMethod(
+            url:
+                "${Urls.getOrderStatusSummary}${dateSelected.value}&status=Shipped")
+        .then((parsedJson) {
+      if (parsedJson['success'] == true) {
+        var data = parsedJson['data'];
+        orderApprovedModel.value = DashboardModel.fromJson(data);
+        //collectionList.addAll(data.map((e) => CollectionModel.fromJson(e)));
+      }
+    });
+  }
+
+  Future<void> getPendingOrderSummary() async {
+    await ApiBaseHelper()
+        .getMethod(
+            url:
+                "${Urls.getOrderStatusSummary}${dateSelected.value}&status=Pending")
+        .then((parsedJson) {
+      if (parsedJson['success'] == true) {
+        var data = parsedJson['data'];
+        orderPendingModel.value = DashboardModel.fromJson(data);
+        //collectionList.addAll(data.map((e) => CollectionModel.fromJson(e)));
+      }
+    });
+  }
 
   ///*************Chart Data */ ///
   LineTouchData get lineTouchData1 => LineTouchData(

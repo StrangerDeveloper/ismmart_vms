@@ -1,10 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:ismmart_vms/helper/utils/image_constant.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
-import 'package:ismmart_vms/screens/auth/login/login_view.dart';
 import 'package:ismmart_vms/screens/bank_list/bank_list_view.dart';
 import 'package:ismmart_vms/screens/shippings/shippings_view.dart';
 import 'package:ismmart_vms/screens/store_profile/store_profile_view.dart';
@@ -13,7 +11,6 @@ import 'package:ismmart_vms/screens/user_profile/user_profile_view.dart';
 import '../../helper/constants.dart';
 import '../dashboard/dashboard_viewmodel.dart';
 import '../location_list/location_list_view.dart';
-import '../payout_list/payout_list_view.dart';
 
 class SettingsView extends StatelessWidget {
   SettingsView({super.key});

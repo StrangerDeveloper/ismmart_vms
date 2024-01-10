@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/global_variables.dart';
+import 'package:ismmart_vms/helper/languages/translations_key.dart';
 import 'package:ismmart_vms/screens/add_product/add_product_1/model/pictures_model.dart';
 import 'package:ismmart_vms/widgets/custom_bottom_sheet2.dart';
 import 'package:ismmart_vms/widgets/pick_image.dart';
@@ -12,7 +13,6 @@ import '../../../widgets/custom_button.dart';
 import '../../../widgets/custom_textfield.dart';
 import '../../../widgets/stepperText.dart';
 import 'add_product_1_viewmodel.dart';
-import 'package:ismmart_vms/helper/languages/translations_key.dart' as langKey;
 
 class AddProduct1View extends StatelessWidget {
   AddProduct1View({super.key});
@@ -87,7 +87,7 @@ class AddProduct1View extends StatelessWidget {
       autoValidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
         return Validator()
-            .validateName(value, errorToPrompt: langKey.productNameReq.tr);
+            .validateName(value, errorToPrompt: productNameReq.tr);
       },
       keyboardType: TextInputType.name,
     );

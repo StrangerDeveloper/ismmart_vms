@@ -124,11 +124,6 @@ class SignUpScreen1ViewModel extends GetxController {
             'step': '1'
           };
         }
-        print(fileList.length);
-        print(fileList);
-        print(cnicFrontImage.value);
-        print(cnicBackImage.value);
-        print(param);
         changeView.value = true;
         body.value = param;
         GlobalVariable.showLoader.value = true;
