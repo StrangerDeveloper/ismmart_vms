@@ -43,26 +43,24 @@ class OrderView extends StatelessWidget {
                   () => viewModel.orderItemList.isNotEmpty
                       ? Padding(
                           padding: const EdgeInsets.all(16.0),
-                          child: Obx(
-                            () => ListView.builder(
-                              controller: viewModel.scrollController,
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: viewModel.orderItemList.length,
-                              itemBuilder: (context, index) {
-                                return GestureDetector(
-                                  onTap: () {
-                                    Get.to(
-                                      () => OrderDetailView(),
-                                      arguments: {
-                                        'model': viewModel.orderItemList[index],
-                                      },
-                                    );
-                                  },
-                                  child: _buildOrderCard(index),
-                                );
-                              },
-                            ),
+                          child: ListView.builder(
+                            controller: viewModel.scrollController,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: viewModel.orderItemList.length,
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                onTap: () {
+                                  Get.to(
+                                    () => OrderDetailView(),
+                                    arguments: {
+                                      'model': viewModel.orderItemList[index],
+                                    },
+                                  );
+                                },
+                                child: _buildOrderCard(index),
+                              );
+                            },
                           ),
                         )
                       : const Center(
