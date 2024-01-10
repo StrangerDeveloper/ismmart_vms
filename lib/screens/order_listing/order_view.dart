@@ -143,9 +143,6 @@ class OrderView extends StatelessWidget {
         margin: const EdgeInsets.all(0),
         elevation: 0,
         color: const Color(0xFFF9FAFB),
-        // shape: RoundedRectangleBorder(
-        //   borderRadius: BorderRadius.circular(10),
-        // ),
         child: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 16.0,
