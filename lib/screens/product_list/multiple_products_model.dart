@@ -1,21 +1,21 @@
 import 'package:ismmart_vms/screens/add_product/add_product_1/model/bottom_sheet_item_model.dart';
 
-class ProductModel {
-  List<ProductsItem>? items;
-  int? page;
-  int? limit;
-  int? pages;
-  int? total;
+class MultipleProductsModel {
+    List<ProductsItem>? items;
+    int? page;
+    int? limit;
+    int? pages;
+    int? total;
 
-  ProductModel({
-    this.items,
-    this.page,
-    this.limit,
-    this.pages,
-    this.total,
-  });
+    MultipleProductsModel({
+        this.items,
+        this.page,
+        this.limit,
+        this.pages,
+        this.total,
+    });
 
-  factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
+    factory MultipleProductsModel.fromJson(Map<String, dynamic> json) => MultipleProductsModel(
         items: json["items"] == null
             ? []
             : List<ProductsItem>.from(json["items"]!.map((x) => ProductsItem.fromJson(x))),
@@ -23,9 +23,9 @@ class ProductModel {
         limit: json["limit"],
         pages: json["pages"],
         total: json["total"],
-      );
+    );
 
-  Map<String, dynamic> toJson() => {
+    Map<String, dynamic> toJson() => {
         "items": items == null
             ? []
             : List<dynamic>.from(items!.map((x) => x.toJson())),
@@ -33,12 +33,12 @@ class ProductModel {
         "limit": limit,
         "pages": pages,
         "total": total,
-      };
+    };
 }
 
 class ProductsItem {
-String? id;
-String? description;
+    String? id;
+    String? description;
     String? name;
     String? slug;
     String? status;
@@ -55,7 +55,6 @@ String? description;
     bool? deleted;
     DateTime? createdAt;
     DateTime? updatedAt;
-   // List<Variant>? variants;
     int? variants;
     int? quantity;
     int? price;
@@ -104,7 +103,7 @@ String? description;
         deleted: json["deleted"],
         createdAt: json["createdAt"] == null ? null : DateTime.parse(json["createdAt"]),
         updatedAt: json["updatedAt"] == null ? null : DateTime.parse(json["updatedAt"]),
-        variants: json["variants"], //== null ? [] : List<Variant>.from(json["variants"]!.map((x) => Variant.fromJson(x))),
+        variants: json["variants"],
         quantity: json["quantity"],
         price: json["price"],
     );
@@ -245,106 +244,3 @@ class Store {
         "logo": logo,
     };
 }
-
-class Variant {
-    String? id;
-    String? name;
-    String? slug;
-    String? sku;
-    String? barcode;
-    int? weight;
-    Dimensions? dimensions;
-    List<String>? options;
-    String? vendor;
-    String? store;
-    String? product;
-    bool? deleted;
-    List<dynamic>? media;
-    int? v;
-    DateTime? createdAt;
-    DateTime? updatedAt;
-
-    Variant({
-        this.id,
-        this.name,
-        this.slug,
-        this.sku,
-        this.barcode,
-        this.weight,
-        this.dimensions,
-        this.options,
-        this.vendor,
-        this.store,
-        this.product,
-        this.deleted,
-        this.media,
-        this.v,
-        this.createdAt,
-        this.updatedAt,
-    });
-
-    factory Variant.fromJson(Map<String, dynamic> json) => Variant(
-        id: json["_id"],
-        name: json["name"],
-        slug: json["slug"],
-        sku: json["sku"],
-        barcode: json["barcode"],
-        weight: json["weight"],
-        dimensions: json["dimensions"] == null ? null : Dimensions.fromJson(json["dimensions"]),
-        options: json["options"] == null ? [] : List<String>.from(json["options"]!.map((x) => x)),
-        vendor: json["vendor"],
-        store: json["store"],
-        product: json["product"],
-        deleted: json["deleted"],
-        media: json["media"] == null ? [] : List<dynamic>.from(json["media"]!.map((x) => x)),
-        v: json["__v"],
-        createdAt: json["createdAt"] == null ? null : DateTime.parse(json["createdAt"]),
-        updatedAt: json["updatedAt"] == null ? null : DateTime.parse(json["updatedAt"]),
-    );
-
-    Map<String, dynamic> toJson() => {
-        "_id": id,
-        "name": name,
-        "slug": slug,
-        "sku": sku,
-        "barcode": barcode,
-        "weight": weight,
-        "dimensions": dimensions?.toJson(),
-        "options": options == null ? [] : List<dynamic>.from(options!.map((x) => x)),
-        "vendor": vendor,
-        "store": store,
-        "product": product,
-        "deleted": deleted,
-        "media": media == null ? [] : List<dynamic>.from(media!.map((x) => x)),
-        "__v": v,
-        "createdAt": createdAt?.toIso8601String(),
-        "updatedAt": updatedAt?.toIso8601String(),
-    };
-}
-
-class Dimensions {
-    int? width;
-    int? length;
-    int? height;
-
-    Dimensions({
-        this.width,
-        this.length,
-        this.height,
-    });
-
-    factory Dimensions.fromJson(Map<String, dynamic> json) => Dimensions(
-        width: json["width"],
-        length: json["length"],
-        height: json["height"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "width": width,
-        "length": length,
-        "height": height,
-    };
-}
-
-
-

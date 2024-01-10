@@ -1,11 +1,19 @@
 class VariantSelectionModel {
+  String? id;
   String? variantName;
   bool? variantSelected;
   double? variantValue;
   List<LocationInventory>? locationInventory;
   int totalInventoryQuantityValue;
 
-  VariantSelectionModel({this.variantSelected, this.totalInventoryQuantityValue = 0, this.variantName, this.variantValue, this.locationInventory});
+  VariantSelectionModel({
+    this.id,
+    this.variantSelected,
+    this.totalInventoryQuantityValue = 0,
+    this.variantName,
+    this.variantValue,
+    this.locationInventory,
+  });
 }
 
 class LocationInventory{

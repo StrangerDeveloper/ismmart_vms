@@ -2,11 +2,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/constants.dart';
+import 'package:ismmart_vms/helper/global_variables.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/helper/resourses/app_colors.dart';
 import 'package:ismmart_vms/screens/add_product/add_product_1/add_product_1_view.dart';
 import 'package:ismmart_vms/screens/product_list/product_list_viewmodel.dart';
-import 'package:ismmart_vms/screens/product_list/product_model.dart';
+import 'package:ismmart_vms/screens/product_list/multiple_products_model.dart';
 import 'package:ismmart_vms/widgets/custom_button.dart';
 
 import '../../widgets/loader_view.dart';
@@ -21,7 +22,7 @@ class ProductListView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(110.0),
+            preferredSize: const Size.fromHeight(70.0),
             child: Column(
               children: [
                 addProductSection(),
@@ -81,14 +82,15 @@ class ProductListView extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          CustomRoundedTextBtn(
-            borderRadius: 12,
-            width: Get.width / 2.5,
-            onPressed: () {
-              Get.to(() => AddProduct1View(), arguments: {'cameFromProductList': true});
-              // Get.find<DrawerBottomBarViewModel>().changePage(2);
-            },
-            title: '+ Add Product',
+          Obx(() => CustomRoundedTextBtn(
+              borderRadius: 12,
+              width: Get.width / 2.5,
+              onPressed: GlobalVariable.showLoader.value == true ? null : () {
+                Get.to(() => AddProduct1View(), arguments: {'cameFromProductList': true});
+                // Get.find<DrawerBottomBarViewModel>().changePage(2);
+              },
+              title: '+ Add Product',
+            ),
           ),
           Container(
             padding: const EdgeInsets.all(5),
@@ -280,9 +282,7 @@ class ProductListView extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        Get.to(() => AddProduct1View(), arguments: {
-          'productDetails': model,
-        });
+        viewModel.getSingleProductDetails(model.id!);
       },
       child: Container(
         padding: const EdgeInsets.only(left: 5, right: 5, top: 5, bottom: 5),

@@ -6,47 +6,50 @@ import 'package:ismmart_vms/helper/global_variables.dart';
 import 'package:ismmart_vms/screens/add_product/add_product_1/model/pictures_model.dart';
 import 'package:ismmart_vms/screens/add_product/add_product_1/model/bottom_sheet_item_model.dart';
 import 'package:ismmart_vms/screens/add_product/add_product_2/add_product_2_view.dart';
-import 'package:ismmart_vms/screens/product_list/product_model.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:ismmart_vms/screens/product_list/single_product_model.dart';
 import 'package:quill_html_editor/quill_html_editor.dart';
 
 class AddProduct1ViewModel extends GetxController {
 
-  RxBool isPhysicalProduct = false.obs;
-  TextEditingController prodTitleController = TextEditingController();
-  TextEditingController prodDiscountController = TextEditingController();
-  QuillEditorController prodDescriptionController = QuillEditorController();
-  // TextEditingController prodPriceController = TextEditingController();
-  // TextEditingController prodCompareAtPriceController = TextEditingController();
-  // TextEditingController prodCostPerItemController = TextEditingController();
-  // TextEditingController prodProfitController = TextEditingController();
-  // TextEditingController prodMarginController = TextEditingController();
-  TextEditingController prodTagController = TextEditingController();
-  bool cameFromProductList = false;
+  /// Variables for handling arguments
+  RxBool cameFromProductList = false.obs;
   Map<String, dynamic> arguments = {};
-  final GlobalKey<FormState> productDetailsFormKey = GlobalKey<FormState>();
-  Rx<ProductsItem> productDetails = ProductsItem().obs;
-  bool editProduct = false;
+  Rx<SingleProductModel> productDetails = SingleProductModel().obs;
 
-  //Media
+  /// Controllers & Global Keys
+  TextEditingController prodTitleController = TextEditingController();
+  QuillEditorController prodDescriptionController = QuillEditorController();
+  TextEditingController prodTagController = TextEditingController();
+  final GlobalKey<FormState> productDetailsFormKey = GlobalKey<FormState>();
+
+  ///Media
   RxList<PicturesModel> productImagesList = <PicturesModel>[].obs;
   RxBool productImagesUploadCheck = false.obs;
   RxBool imagesThumbnailCheck = false.obs;
+  RxList<PicturesModel> addedImagesList = <PicturesModel>[].obs;
 
-  //tags
+  ///tags
   RxList<BottomSheetItemModel> tagsList = <BottomSheetItemModel>[].obs;
   RxList<BottomSheetItemModel> chosenTagsList = <BottomSheetItemModel>[].obs;
 
-  //categories
+  ///categories
   RxInt selectedCategory = 0.obs;
   RxList<BottomSheetItemModel> chosenCategoriesList = <BottomSheetItemModel>[].obs;
   RxList<BottomSheetItemModel> productCategoryList = <BottomSheetItemModel>[].obs;
 
-  //type
+  ///type
   TextEditingController typeController = TextEditingController();
   RxInt typeSelectedIndex = 0.obs;
   RxList<BottomSheetItemModel> typeList = <BottomSheetItemModel>[].obs;
 
+  ///Refresh and Info change check variables
+  RxBool typeRefreshCheck = false.obs;
+  RxBool categoryRefreshCheck = false.obs;
+  bool categoriesChanged = false;
+  bool tagsChanged = false;
+  bool imagesChanged = false;
+
+  /// Description Field Tool Bar Functions
   final customToolBarList = [
     ToolBarStyle.bold,
     ToolBarStyle.italic,
@@ -60,17 +63,19 @@ class AddProduct1ViewModel extends GetxController {
     ToolBarStyle.editTable,
   ];
 
+  ///General Variables
+  SingleProductModel tempModel = SingleProductModel();
+
   @override
   void onInit() async {
-    await Permission.manageExternalStorage.request();
     if(Get.arguments != null) {
       arguments = Get.arguments;
       if(arguments.containsKey('cameFromProductList')){
-        cameFromProductList = arguments['cameFromProductList'];
+        cameFromProductList.value = arguments['cameFromProductList'];
       }
       if(arguments.containsKey('productDetails')){
-        productDetails = arguments['productDetails'];
-        editProduct = true;
+        productDetails.value = arguments['productDetails'];
+        tempModel = arguments['productDetails'];
         fillData();
       }
     }
@@ -94,15 +99,41 @@ class AddProduct1ViewModel extends GetxController {
   }
   @override
   void onClose() {
-    GlobalVariable.showLoader.value = false;
+    prodTitleController.dispose();
+    prodDescriptionController.dispose();
+    prodTagController.dispose();
+    // GlobalVariable.showLoader.value = false;
     super.onClose();
   }
 
-  fillData() {
+  fillData() async {
     prodTitleController.text = productDetails.value.name!;
-    prodDescriptionController.insertText(productDetails.value.description!);
+    if(productDetails.value.description != null) {
+      prodDescriptionController.insertText(productDetails.value.description!, index: 0);
+    }
+    typeSelectedIndex.value = typeList.indexWhere((element) => element.id == productDetails.value.type?.id);
+    if(typeSelectedIndex.value == -1) {
+      typeSelectedIndex.value = 0;
+    }
     typeController.text = productDetails.value.type!.name!;
-    // productImagesList.add(PicturesModel())
+    for(var category in productDetails.value.categories!) {
+      chosenCategoriesList.add(BottomSheetItemModel(
+        id: category.id,
+        name: category.name,
+      ));
+      productCategoryList.removeWhere((element) => element.id == category.id);
+      productCategoryList.refresh();
+    }
+    for(var image in productDetails.value.media!) {
+      productImagesList.add(PicturesModel(
+        id: image.sId,
+        url: image.url,
+        type: image.type,
+        thumbnail: image.thumbnail,
+        fileName: image.url
+      ));
+      productImagesList.refresh();
+    }
   }
 
   void fetchTypes() async {
@@ -112,15 +143,18 @@ class AddProduct1ViewModel extends GetxController {
         var data = parsedJson['data']['items'] as List;
         if(data.isNotEmpty) {
           typeList.addAll(data.map((e) => BottomSheetItemModel.fromJson(e)));
-          int index = typeList.indexWhere((element) => element.id == productDetails.value.type?.id);
-          if(index == -1) {
-            return;
-          } else {
-            typeSelectedIndex.value = index;
+          if(productDetails.value.type?.id != '' && productDetails.value.type?.id != null ) {
+            int index = typeList.indexWhere((element) => element.id == productDetails.value.type?.id);
+            if(index == -1) {
+              return;
+            } else {
+              typeSelectedIndex.value = index;
+            }
           }
         }
       }
     }).catchError((e) {
+      typeRefreshCheck.value = true;
       AppConstant.displaySnackBar('Error', 'Product type couldn\'t be fetched');
     });
   }
@@ -133,7 +167,7 @@ class AddProduct1ViewModel extends GetxController {
         if(data.isNotEmpty) {
           productCategoryList.addAll(data.map((e) => BottomSheetItemModel.fromJson(e)));
           tagsList.addAll(data.map((e) => BottomSheetItemModel.fromJson(e)));
-          if(editProduct) {
+          if(cameFromProductList.value) {
             productDetails.value.categories?.forEach((element) {
               int index = productCategoryList.indexWhere((element1) => element1.id == element.id);
               chosenCategoriesList.add(BottomSheetItemModel(
@@ -147,6 +181,7 @@ class AddProduct1ViewModel extends GetxController {
         }
       }
     }).catchError((e) {
+      categoryRefreshCheck.value = true;
       GlobalVariable.showLoader.value = false;
       AppConstant.displaySnackBar('Error', 'Product categories couldn\'t be fetched');
     });
@@ -155,44 +190,90 @@ class AddProduct1ViewModel extends GetxController {
   proceed() async {
     if (productDetailsFormKey.currentState!.validate()) {
       if(productImagesList.isNotEmpty) {
-        int index = productImagesList.indexWhere((element) => element.isThumbnail == true);
+        int index = productImagesList.indexWhere((element) => element.thumbnail == true);
         if(index == -1){
           imagesThumbnailCheck.value = true;
         } else {
-          Map<String, String> data = {};
+          if (cameFromProductList.value) {
+            Map<String, String> data = {};
 
-          data.addAll({'name': prodTitleController.text});
+            data.addAll({'id': productDetails.value.sId!});
 
-          String description = await prodDescriptionController.getText();
-          if (description != '') {
-            data.addAll({'description': description});
-          }
+            data.addAll({'name': prodTitleController.text != productDetails.value.name ? prodTitleController.text : productDetails.value.name!});
 
-          for(int i = 0; i<=chosenCategoriesList.length-1 ; i++){
-            data.addAll({
-              'categories[$i]': "${chosenCategoriesList[i].id}",
-            });
-          }
+            String description = await prodDescriptionController.getText();
+            if (description != productDetails.value.description) {
+              data.addAll({'description': description});
+            }
 
-          data.addAll({'type': typeList[typeSelectedIndex.value].id!});
+            if(categoriesChanged) {
+              for (int i = 0; i <= chosenCategoriesList.length - 1; i++) {
+                data.addAll({
+                  'categories[$i]': "${chosenCategoriesList[i].id}",
+                });
+              }
+            }
 
-          if (chosenTagsList.isNotEmpty) {
-            for (int i = 0; i <= chosenTagsList.length - 1; i++) {
-              data.addAll({"tags[$i]": "${chosenTagsList[i].name}"});
-              if (i == chosenTagsList.length - 1) {
+            data.addAll({'type': typeList[typeSelectedIndex.value].id != productDetails.value.type?.id ? typeList[typeSelectedIndex.value].id! : productDetails.value.type!.id!});
+
+            if (chosenTagsList.isNotEmpty) {
+              if(tagsChanged) {
+                for (int i = 0; i <= chosenTagsList.length - 1; i++) {
+                  data.addAll({"tags[$i]": "${chosenTagsList[i].name}"});
+                  if (i == chosenTagsList.length - 1) {
                     Get.to(() => AddProduct2View(), arguments: {
                       'productDetails': data,
                       'productImages': productImagesList,
-                      'cameFromProductList': cameFromProductList,
+                      'cameFromProductList': cameFromProductList.value,
+                      'oldData': productDetails.value,
                     });
+                  }
+                }
               }
+            } else {
+              Get.to(() => AddProduct2View(), arguments: {
+                'productDetails': data,
+                'productImages': productImagesList,
+                'cameFromProductList': cameFromProductList.value,
+                'oldData': productDetails.value,
+              });
             }
           } else {
-                Get.to(() => AddProduct2View(), arguments: {
-                  'productDetails': data,
-                  'productImages': productImagesList,
-                  'cameFromProductList': cameFromProductList,
-                });
+            Map<String, String> data = {};
+
+            data.addAll({'name': prodTitleController.text});
+
+            String description = await prodDescriptionController.getText();
+            if (description != '') {
+              data.addAll({'description': description});
+            }
+
+            for (int i = 0; i <= chosenCategoriesList.length - 1; i++) {
+              data.addAll({
+                'categories[$i]': "${chosenCategoriesList[i].id}",
+              });
+            }
+
+            data.addAll({'type': typeList[typeSelectedIndex.value].id!});
+
+            if (chosenTagsList.isNotEmpty) {
+              for (int i = 0; i <= chosenTagsList.length - 1; i++) {
+                data.addAll({"tags[$i]": "${chosenTagsList[i].name}"});
+                if (i == chosenTagsList.length - 1) {
+                  Get.to(() => AddProduct2View(), arguments: {
+                    'productDetails': data,
+                    'productImages': productImagesList,
+                    'cameFromProductList': cameFromProductList,
+                  });
+                }
+              }
+            } else {
+              Get.to(() => AddProduct2View(), arguments: {
+                'productDetails': data,
+                'productImages': productImagesList,
+                'cameFromProductList': cameFromProductList,
+              });
+            }
           }
         }
       } else {
@@ -202,7 +283,7 @@ class AddProduct1ViewModel extends GetxController {
       if(productImagesList.isEmpty) {
         productImagesUploadCheck.value = true;
       } else {
-        int index = productImagesList.indexWhere((element) => element.isThumbnail == true);
+        int index = productImagesList.indexWhere((element) => element.thumbnail == true);
         if(index == -1) {
           imagesThumbnailCheck.value = true;
         }

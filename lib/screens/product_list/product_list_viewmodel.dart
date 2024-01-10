@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/api_base_helper.dart';
-import 'package:ismmart_vms/screens/product_list/product_model.dart';
+import 'package:ismmart_vms/helper/global_variables.dart';
+import 'package:ismmart_vms/screens/product_list/multiple_products_model.dart';
+import 'package:ismmart_vms/screens/product_list/single_product_model.dart';
+
+import '../../helper/constants.dart';
+import '../../helper/urls.dart';
+import '../add_product/add_product_1/add_product_1_view.dart';
 
 class ProductListViewModel extends GetxController {
   RxString searchBy = 'All'.obs;
@@ -21,8 +27,8 @@ class ProductListViewModel extends GetxController {
 
   RxInt page = 1.obs;
   int limit = 10;
-  Rx<ProductModel> productModel = ProductModel().obs;
-
+  Rx<MultipleProductsModel> productModel = MultipleProductsModel().obs;
+  
   @override
   void onReady() {
     dropdownSelectionContainerWidth.value = Get.width * higherContainerWidth;
@@ -66,7 +72,7 @@ class ProductListViewModel extends GetxController {
         .then((parsedJson) {
       final data = parsedJson['data'];
       if (data != null) {
-        productModel.value = ProductModel.fromJson(data);
+        productModel.value = MultipleProductsModel.fromJson(data);
         productItemsList.addAll(productModel.value.items!);
       }
     }).catchError((e) {
@@ -74,11 +80,24 @@ class ProductListViewModel extends GetxController {
     });
   }
   
-  // getSingleProductDetails(String id) async {
-  //   ApiBaseHelper().getMethod(url: Urls.getSingleProduct).then((value) {
-  //
-  //   }).catchError((e) {
-  //     AppConstant.displaySnackBar('Error', 'Couldn\'t fetch product details');
-  //   });
-  // }
+  getSingleProductDetails(String id) async {
+
+    GlobalVariable.showLoader.value = true;
+
+    ApiBaseHelper().getMethod(url: Urls.getSingleProduct + id).then((parsedJson) {
+      GlobalVariable.showLoader.value = false;
+      if(parsedJson['success'] == true) {
+        Get.to(() => AddProduct1View(), arguments: {
+          'productDetails': SingleProductModel.fromJson(parsedJson['data']['items'][0]),
+          'cameFromProductList': true
+        });
+      } else {
+        AppConstant.displaySnackBar('Error', 'Product details couldn\'t be fetched');
+      }
+    }).catchError((e) {
+      GlobalVariable.showLoader.value = false;
+      print(e);
+      AppConstant.displaySnackBar('Error', 'Error fetching product details');
+    });
+  }
 }

@@ -35,6 +35,8 @@ class CustomTextField1 extends StatelessWidget {
   final TextStyle? textStyle;
   final List<TextInputFormatter>? inputFormatters;
   final void Function(String)? onFieldSubmitted;
+  final void Function()? onIconTap;
+  final bool refreshIconVisibility;
 
   ///USAGE INFORMATION:
   ///
@@ -53,6 +55,7 @@ class CustomTextField1 extends StatelessWidget {
       horizontal: 10,
       vertical: 10,
     ),
+    this.onIconTap,
     this.asterisk = false,
     this.validator,
     this.onChanged,
@@ -63,6 +66,7 @@ class CustomTextField1 extends StatelessWidget {
     this.controller,
     this.keyboardType,
     this.maxLines = 1,
+    this.refreshIconVisibility = false,
     this.onTap,
     this.minLines,
     this.showCursor,
@@ -109,7 +113,89 @@ class CustomTextField1 extends StatelessWidget {
                   ),
                 ),
               ),
-        TextFormField(
+        refreshIconVisibility ? Row(
+          children: [
+            SizedBox(
+              width: Get.width * 0.8,
+              child: TextFormField(
+                onFieldSubmitted: onFieldSubmitted,
+                inputFormatters: inputFormatters,
+                controller: controller,
+                keyboardType: keyboardType,
+                onTapOutside: (event){
+                  CommonFunction.closeKeyboard();
+                },
+                minLines: minLines,
+                maxLines: maxLines,
+                onChanged: onChanged,
+                showCursor: readOnly ? false : showCursor,
+                readOnly: isDropDown ? true : readOnly,
+                autovalidateMode: autoValidateMode,
+                obscureText: obscureText,
+                validator: validator,
+                onTap: onTap,
+                style: const TextStyle(
+                  color: ThemeHelper.grey4,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 14,
+                ),
+                decoration: InputDecoration(
+                  errorText: errorText,
+                  suffixIcon: (suffixIcon != null || isDropDown)
+                      ? Icon(
+                          suffixIcon ?? Icons.keyboard_arrow_down_rounded,
+                          size: 20,
+                          color: ThemeHelper.grey2,
+                        )
+                      : suffixIconButton,
+                  suffixIconConstraints: BoxConstraints.tight(const Size(40, 40)),
+                  prefixIcon: prefixIcon != null
+                      ? Icon(
+                          prefixIcon,
+                          size: 20,
+                          color: ThemeHelper.grey2,
+                        )
+                      : null,
+                  prefixIconConstraints: BoxConstraints.tight(const Size(40, 40)),
+                  contentPadding: contentPadding,
+                  fillColor: fillColor,
+                  filled: filled,
+                  hintText: hintText,
+                  hintStyle: const TextStyle(
+                    color: ThemeHelper.grey2,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 14,
+                  ),
+                  isDense: true,
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: const BorderSide(width: 1, color: ThemeHelper.grey1),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide:
+                        const BorderSide(width: 1.5, color: ThemeHelper.grey1),
+                  ),
+                  errorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide(width: 1, color: Colors.red.shade700),
+                  ),
+                  focusedErrorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide(width: 1.3, color: Colors.red.shade700),
+                  ),
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: onIconTap,
+              child: const Icon(
+                Icons.refresh,
+                color: ThemeHelper.grey2,
+              ),
+            )
+          ],
+        ) : TextFormField(
           onFieldSubmitted: onFieldSubmitted,
           inputFormatters: inputFormatters,
           controller: controller,
@@ -135,18 +221,18 @@ class CustomTextField1 extends StatelessWidget {
             errorText: errorText,
             suffixIcon: (suffixIcon != null || isDropDown)
                 ? Icon(
-                    suffixIcon ?? Icons.keyboard_arrow_down_rounded,
-                    size: 20,
-                    color: ThemeHelper.grey2,
-                  )
+              suffixIcon ?? Icons.keyboard_arrow_down_rounded,
+              size: 20,
+              color: ThemeHelper.grey2,
+            )
                 : suffixIconButton,
             suffixIconConstraints: BoxConstraints.tight(const Size(40, 40)),
             prefixIcon: prefixIcon != null
                 ? Icon(
-                    prefixIcon,
-                    size: 20,
-                    color: ThemeHelper.grey2,
-                  )
+              prefixIcon,
+              size: 20,
+              color: ThemeHelper.grey2,
+            )
                 : null,
             prefixIconConstraints: BoxConstraints.tight(const Size(40, 40)),
             contentPadding: contentPadding,
@@ -166,7 +252,7 @@ class CustomTextField1 extends StatelessWidget {
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
               borderSide:
-                  const BorderSide(width: 1.5, color: ThemeHelper.grey1),
+              const BorderSide(width: 1.5, color: ThemeHelper.grey1),
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
