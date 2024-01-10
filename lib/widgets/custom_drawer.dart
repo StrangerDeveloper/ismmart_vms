@@ -54,6 +54,7 @@ class CustomDrawer extends StatelessWidget {
                 ),
                 drawerListItems(
                     //iconPath: 'assets/icons/settingIcon.png',
+                    iconPath: null,
                     icon: Icons.shopping_bag_rounded,
                     'Orders',
                     onTab: () => viewModel.orderMoreOption.toggle(),
