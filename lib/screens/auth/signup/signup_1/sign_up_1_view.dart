@@ -197,7 +197,7 @@ class SignUp1View extends StatelessWidget {
         autoValidateMode: AutovalidateMode.onUserInteraction,
         validator: (value) {
           return Validator.validateDefaultField(value,
-              errMsg: 'Full Name is Required');
+              errorMessage: 'Full Name is Required');
         },
       ),
     );
@@ -262,7 +262,7 @@ class SignUp1View extends StatelessWidget {
       controller: viewModel.genderController,
       validator: (value) {
         return Validator.validateDefaultField(value,
-            errMsg: 'Gender is Required');
+            errorMessage: 'Gender is Required');
       },
       autoValidateMode: AutovalidateMode.onUserInteraction,
       onTap: () {

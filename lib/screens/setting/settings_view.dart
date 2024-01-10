@@ -66,9 +66,9 @@ class SettingsView extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          drawerListItems('Payouts',
-              iconPath: 'assets/images/credit-card.png',
-              onTab: () => Get.to(PayoutListView())),
+          // drawerListItems('Payouts',
+          //     iconPath: 'assets/images/credit-card.png',
+          //     onTab: () => Get.to(PayoutListView())),
           drawerListItems(
               //iconPath: 'assets/images/settingIcon.png',
               onTab: () {
