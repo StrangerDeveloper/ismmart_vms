@@ -82,7 +82,7 @@ class SignUpScreen1ViewModel extends GetxController {
   List<http.MultipartFile> fileList = [];
   void signUpStep1() async {
     //------    Image Varification and Send To Api ------------
-    // imgCheck();
+    imgCheck();
     if (signUpFormKey1.currentState?.validate() ??
         false ||
             cnicFrontImageErrorVisibility.value ||
