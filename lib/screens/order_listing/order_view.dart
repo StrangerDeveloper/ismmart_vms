@@ -16,7 +16,7 @@ import '../order_detail/order_detail_view.dart';
 
 class OrderView extends StatelessWidget {
   final OrderListingViewModel viewModel = Get.put(OrderListingViewModel());
-  OrderView({super.key, this.callingFor= 'All'});
+  OrderView({super.key, this.callingFor = 'All'});
 
   final String? callingFor;
 
@@ -318,7 +318,7 @@ class OrderView extends StatelessWidget {
       case "COD Verified":
         return const Color(0xFFBDE9DA);
       default:
-        return const Color(0xFFFE3A30); // Default color for unknown statuses
+        return const Color(0xFFFE3A30);
     }
   }
 
