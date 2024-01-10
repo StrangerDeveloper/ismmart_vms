@@ -4,12 +4,12 @@ import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:ismmart_vms/helper/common_function.dart';
 import 'package:ismmart_vms/helper/constants.dart';
+import 'package:ismmart_vms/screens/auth/login/login_view.dart';
 import 'package:ismmart_vms/screens/store_profile/store_profile_viewmodel.dart';
 import 'package:ismmart_vms/screens/user_profile/user_profile_model.dart';
 import 'package:ismmart_vms/widgets/widget_models/dropdown_model.dart';
 
 import '../../helper/global_variables.dart';
-import '../auth/login/login_view.dart';
 
 class DashboardViewModel extends GetxController {
   RxBool showMoreDetails = false.obs;
@@ -51,7 +51,6 @@ class DashboardViewModel extends GetxController {
     GlobalVariable.showLoader.value = false;
     super.onClose();
   }
-
 
   String getDateFormat() {
     if (pickedDate.value.compareTo(DateTime.now()) > 1) {
@@ -240,7 +239,9 @@ class DashboardViewModel extends GetxController {
         'https://www.googleapis.com/auth/contacts.readonly',
       ],
     );
-  
+
     await googleSignIn.signOut();
+
+    Get.offAll(() => LogInView());
   }
 }

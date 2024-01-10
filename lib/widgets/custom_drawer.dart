@@ -1,15 +1,15 @@
-import 'package:cached_network_image/cached_network_image.dart';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:ismmart_vms/helper/constants.dart';
 import 'package:ismmart_vms/helper/global_variables.dart';
+import 'package:ismmart_vms/helper/theme_helper.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
-import 'package:ismmart_vms/screens/auth/login/login_view.dart';
 import 'package:ismmart_vms/screens/bank_list/bank_list_view.dart';
 import 'package:ismmart_vms/screens/dashboard/dashboard_view.dart';
 import 'package:ismmart_vms/screens/order_listing/order_view.dart';
+import 'package:ismmart_vms/screens/product_list/product_list_view.dart';
+import 'package:ismmart_vms/screens/product_list/product_list_viewmodel.dart';
 import 'package:ismmart_vms/widgets/custom_cached_network_image.dart';
 import 'package:ismmart_vms/widgets/custom_text.dart';
 import '../screens/add_location/add_location_view.dart';
@@ -43,7 +43,7 @@ class CustomDrawer extends StatelessWidget {
                     iconPath: viewModel.userProfileModel.value.store?.logo,
                     title: viewModel.userProfileModel.value.store?.name ??
                         'ISMMART',
-                    top: 40.0,
+                    top: 30.0,
                     hasMenu: false),
                 drawerListItems(
                   'Overview',
@@ -68,14 +68,14 @@ class CustomDrawer extends StatelessWidget {
                             children: [
                               drawerListItems(
                                 'Returned',
-                                h: 35,
+                                h: 25,
                                 onTab: () => Get.to(() => OrderView(
                                       callingFor: "Returned",
                                     )),
                               ),
                               drawerListItems(
                                 'Cancelled',
-                                h: 35,
+                                h: 25,
                                 onTab: () => Get.to(() => OrderView(
                                       callingFor: "Cancelled",
                                     )),
@@ -84,6 +84,15 @@ class CustomDrawer extends StatelessWidget {
                           ),
                         )
                       : const SizedBox(),
+                ),
+
+                drawerListItems(
+                  'Product',
+                  //iconPath: 'assets/icons/pin.png',
+                  hasProdCount: true,
+
+                  icon: Icons.local_offer_rounded,
+                  onTab: () => Get.to(() => ProductListView()),
                 ),
 
                 drawerListItems('Locations',
@@ -101,7 +110,7 @@ class CustomDrawer extends StatelessWidget {
                 //     onTab: () => Get.to(PayoutListView())),
                 drawerListItems(
                     //iconPath: 'assets/icons/settingIcon.png',
-
+                    icon: Icons.settings,
                     'Settings',
                     onTab: () => viewModel.moreOption.toggle(),
                     dropDwnIcon: true),
@@ -115,7 +124,7 @@ class CustomDrawer extends StatelessWidget {
                               drawerListItems(
                                 iconPath: 'assets/icons/wallet.png',
                                 'Banking',
-                                h: 35,
+                                h: 25,
                                 onTab: () => Get.to(() => BankListView()),
                               ),
                             ],
@@ -140,15 +149,14 @@ class CustomDrawer extends StatelessWidget {
                       }
                     },
                     child: titleAndBackBtn(
-                        top: 25.0,
+                        top: 10.0,
                         iconPath: viewModel.userProfileModel.value.image,
                         title: viewModel.userProfileModel.value.name ?? ''),
                   ),
                   drawerListItems('Logout', icon: Icons.exit_to_app, onTab: () {
                     final box = GetStorage();
                     box.write('islogin', false);
-                    
-                    Get.offAll(() => LogInView());
+                    viewModel.logout();
                   }),
                   const Divider(
                     color: Color(0xffE5E7EB),
@@ -167,14 +175,13 @@ class CustomDrawer extends StatelessWidget {
     );
   }
 
-
   Widget titleAndBackBtn({iconPath, title, hasMenu = false, top, onTap}) {
     return Padding(
-      padding: EdgeInsets.only(top: top, left: 15, bottom: 15, right: 15),
+      padding: EdgeInsets.only(top: top, left: 15, bottom: 5, right: 15),
       child: InkWell(
         onTap: onTap,
         child: Container(
-          height: 54,
+          height: 50,
           padding: const EdgeInsets.all(8),
           decoration: ShapeDecoration(
             color: const Color(0xFFEFF5FB),
@@ -226,12 +233,12 @@ class CustomDrawer extends StatelessWidget {
     );
   }
 
-
   Widget drawerListItems(String title,
       {String? iconPath,
       bool? dropDwnIcon,
       IconData? icon,
-      double h = 54.0,
+      double h = 50.0,
+      hasProdCount = false,
       void Function()? onTab}) {
     //bool isTab = false;
     return Padding(
@@ -263,10 +270,7 @@ class CustomDrawer extends StatelessWidget {
                               ? newColorBlue
                               : newColorLightGrey2,
                         )
-                      : Icon(
-                          icon,
-                          size: 24,
-                        ),
+                      : Icon(icon, size: 24, color: ThemeHelper.lightGrey),
                   // ? Obx(() => Image.asset(
                   //       iconPath,
                   //       height: 24,
@@ -295,7 +299,23 @@ class CustomDrawer extends StatelessWidget {
                         viewModel.moreOption.toggle();
                       },
                       icon: const Icon(Icons.arrow_drop_down))
-                  : Container(),
+                  : hasProdCount
+                      ? Container(
+                          width: 5,
+                          height: 5,
+                          decoration: BoxDecoration(
+                            color: Colors.red.withOpacity(0.3),
+                            shape: BoxShape.circle,
+                          ),
+                          child: CustomText(
+                            title: Get.put(ProductListViewModel())
+                                .productItemsList
+                                .length
+                                .toString(),
+                            color: Colors.white,
+                          ),
+                        )
+                      : Container(),
             ],
           ),
         ),

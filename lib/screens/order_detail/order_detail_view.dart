@@ -6,6 +6,7 @@ import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/screens/order_detail/cancel_order_view.dart';
 import 'package:ismmart_vms/screens/order_detail/order_detail_viewmodel.dart';
 import 'package:ismmart_vms/widgets/custom_appbar.dart';
+import 'package:ismmart_vms/widgets/custom_cached_network_image.dart';
 import 'package:ismmart_vms/widgets/custom_text.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
@@ -505,32 +506,40 @@ class OrderDetailView extends StatelessWidget {
                                 const SizedBox(height: 8),
                                 Row(
                                   children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(
-                                        8,
-                                      ),
-                                      child: SizedBox(
+                                    CustomCachedNetworkImage(
                                         width: 40,
                                         height: 40,
-                                        child: Image(
-                                          image: viewModel
-                                                      .orderItemModel
-                                                      .value
-                                                      .lineitems?[index]
-                                                      .media !=
-                                                  null
-                                              ? NetworkImage(viewModel
-                                                  .orderItemModel
-                                                  .value
-                                                  .lineitems![index]
-                                                  .media!)
-                                              : const AssetImage(
-                                                      "assets/images/image_not_found.png")
-                                                  as ImageProvider,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
+                                        imageUrl: viewModel.orderItemModel.value
+                                            .lineitems![index].media!,
+                                        boxShape: BoxShape.rectangle,
+                                        assetsImage: const AssetImage(
+                                            'assets/images/image_not_found.png')),
+                                    // ClipRRect(
+                                    //   borderRadius: BorderRadius.circular(
+                                    //     8,
+                                    //   ),
+                                    //   child: SizedBox(
+                                    //     width: 40,
+                                    //     height: 40,
+                                    //     child: Image(
+                                    //       image: viewModel
+                                    //                   .orderItemModel
+                                    //                   .value
+                                    //                   .lineitems?[index]
+                                    //                   .media !=
+                                    //               null
+                                    //           ? NetworkImage(viewModel
+                                    //               .orderItemModel
+                                    //               .value
+                                    //               .lineitems![index]
+                                    //               .media!)
+                                    //           : const AssetImage(
+                                    //                   "assets/images/image_not_found.png")
+                                    //               as ImageProvider,
+                                    //       fit: BoxFit.cover,
+                                    //     ),
+                                    //   ),
+                                    // ),
                                     SizedBox(width: 16.h),
                                     Column(
                                       crossAxisAlignment:

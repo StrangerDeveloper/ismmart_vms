@@ -8,10 +8,12 @@ import '../../helper/constants.dart';
 import '../../helper/urls.dart';
 
 class OrderListingViewModel extends GetxController {
+  // OrderListingViewModel(this.callingFrom);
+  // String? callingFrom;
   //Rx<OrderItem> orderItemModel = OrderItem().obs;
   RxList<OrderItem> orderItemList = <OrderItem>[].obs;
   RxBool showSearchTxtField = false.obs;
-  RxString searchUrlValue = ''.obs;
+  String searchUrlValue = '';
 
   TextEditingController searchController = TextEditingController();
   ScrollController scrollController = ScrollController();
@@ -31,12 +33,26 @@ class OrderListingViewModel extends GetxController {
 
   @override
   void onInit() {
-    GlobalVariable.showLoader.value = false;
+   // GlobalVariable.showLoader.value = false;
     // scrollController.addListener(() {
     //   getOrderListing();
     // });
-    getOrderListing();
+    
     super.onInit();
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+    // Future.delayed(const Duration(seconds: 1), () {
+    //   if (callingFor!.toLowerCase().contains('returned')) {
+    //     viewModel.fieldSelection("Returned");
+    //   } else if (callingFor!.toLowerCase().contains('cancelled')) {
+    //     viewModel.fieldSelection("Cancelled");
+    //   }
+    // });
+    GlobalVariable.showLoader.value = true;
+    getOrderListing();
   }
 
   @override
@@ -46,7 +62,8 @@ class OrderListingViewModel extends GetxController {
   }
 
   Future<void> getOrderListing() async {
-    GlobalVariable.showLoader.value = true;
+    //GlobalVariable.showLoader.value = true;
+
     await ApiBaseHelper()
         .getMethod(url: '${Urls.getOrders}$searchUrlValue')
         .then((response) {
@@ -73,9 +90,9 @@ class OrderListingViewModel extends GetxController {
 
   fieldSelection(value) {
     if (value == 'All') {
-      searchUrlValue.value = '';
+      searchUrlValue = '';
     } else {
-      searchUrlValue.value = '?fulfilmentStatus=$value';
+      searchUrlValue = '?fulfilmentStatus=$value';
     }
     getOrderListing(); // Refresh the listing after applying the filter
   }

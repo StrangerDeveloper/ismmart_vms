@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:ismmart_vms/helper/global_variables.dart';
 import 'package:ismmart_vms/helper/theme_helper.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/screens/order_listing/order_viewmodel.dart';
@@ -15,19 +16,13 @@ import '../../widgets/loader_view.dart';
 import '../order_detail/order_detail_view.dart';
 
 class OrderView extends StatelessWidget {
-  final OrderListingViewModel viewModel = Get.put(OrderListingViewModel());
   OrderView({super.key, this.callingFor = 'All'});
 
   final String? callingFor;
 
+  final OrderListingViewModel viewModel = Get.put(OrderListingViewModel());
   @override
   Widget build(BuildContext context) {
-    if (callingFor!.toLowerCase().contains('returned')) {
-      viewModel.fieldSelection("Returned");
-    } else if (callingFor!.toLowerCase().contains('cancelled')) {
-      viewModel.fieldSelection("Cancelled");
-    }
-
     return Scaffold(
       appBar: callingFor!.toLowerCase().contains('all') ? null : _buildAppBar(),
       body: Stack(
@@ -83,6 +78,14 @@ class OrderView extends StatelessWidget {
   }
 
   Widget _buildSearchRow() {
+    Future.delayed(const Duration(seconds: 1), () {
+      GlobalVariable.showLoader.value = true;
+      if (callingFor!.toLowerCase().contains('returned')) {
+        viewModel.fieldSelection("Returned");
+      } else if (callingFor!.toLowerCase().contains('cancelled')) {
+        viewModel.fieldSelection("Cancelled");
+      }
+    });
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
