@@ -20,7 +20,7 @@ class AddLocationView extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CustomAppBar2(
-          title: viewModel.isEdit ? 'Update Address' : 'Add Address'),
+          title: viewModel.isEdit ? 'Update Location' : 'Add Location'),
       body: Stack(
         children: [
           SingleChildScrollView(

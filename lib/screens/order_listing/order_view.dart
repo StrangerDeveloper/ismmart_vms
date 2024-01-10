@@ -29,7 +29,7 @@ class OrderView extends StatelessWidget {
     }
 
     return Scaffold(
-      //appBar: _buildAppBar(),
+      appBar: callingFor!.toLowerCase().contains('all') ? null : _buildAppBar(),
       body: Stack(
         children: [
           SingleChildScrollView(
