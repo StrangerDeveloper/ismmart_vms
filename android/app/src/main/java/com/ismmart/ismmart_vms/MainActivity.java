@@ -1,4 +1,4 @@
-package com.example.ismmart_vms;
+package com.ismmart.ismmart_vms;
 
 import io.flutter.embedding.android.FlutterActivity;
 

@@ -83,10 +83,10 @@ class LogInViewModel extends GetxController {
     GoogleSignInAccount? credential;
     try {
       // Get.to(DrawerBottomBarView());
-
+      await googleSignIn.signOut();
       credential = await googleSignIn.signIn();
       GlobalVariable.showLoader.value = false;
-
+      print(credential);
       credential?.authentication.then((value) async {
         Map<dynamic, dynamic> param = {
           "social": {
@@ -108,7 +108,7 @@ class LogInViewModel extends GetxController {
             GlobalVariable.showLoader.value = false;
             AppConstant.displaySnackBar(
               "Error",
-              'Account not found',
+              '${parsedJson['message']}',
             );
           }
         });
@@ -175,7 +175,6 @@ class LogInViewModel extends GetxController {
   // ----------  Status Enums Check of Account-------
   accountStatusCheck(String status, String email) {
     if (status == "Approved") {
-      
       Get.offAll(() => DrawerBottomBarView());
     } else if (status == "Rejected") {
       var param = {
