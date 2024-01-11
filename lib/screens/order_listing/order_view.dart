@@ -11,7 +11,9 @@ import 'package:ismmart_vms/widgets/custom_text.dart';
 import 'package:ismmart_vms/widgets/custom_textfield.dart';
 
 import '../../helper/utils/image_constant.dart';
+import '../../widgets/custom_button.dart';
 import '../../widgets/custom_image_view.dart';
+import '../../widgets/custom_radiobtn.dart';
 import '../../widgets/loader_view.dart';
 import '../order_detail/order_detail_view.dart';
 
@@ -122,7 +124,7 @@ class OrderView extends StatelessWidget {
                   width: 16.adaptSize,
                   margin: EdgeInsets.only(right: 5.h),
                   onTap: () {
-                    statusBottomSheet();
+                    //statusBottomSheet();
                   },
                 ),
               ),
@@ -133,7 +135,7 @@ class OrderView extends StatelessWidget {
                   width: 16.adaptSize,
                   margin: EdgeInsets.only(left: 5.h),
                   onTap: () {
-                    statusBottomSheet();
+                    filterBottomSheet();
                   },
                 ),
               )
@@ -381,6 +383,98 @@ class OrderView extends StatelessWidget {
                   'Done',
                   style: TextStyle(fontSize: 14),
                 ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  filterBottomSheet() {
+    showModalBottomSheet(
+      context: Get.context!,
+      isScrollControlled: true,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+      ),
+      builder: (BuildContext context) {
+        return Padding(
+          padding: const EdgeInsets.fromLTRB(16, 10, 10, 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Icon(
+                    Icons.menu,
+                    color: ThemeHelper.blue1,
+                  ),
+                  const SizedBox(width: 10),
+                  const Text(
+                    'Sort',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      color: ThemeHelper.blue1,
+                      fontSize: 16,
+                    ),
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    visualDensity: VisualDensity.compact,
+                    onPressed: () {
+                      Get.back();
+                    },
+                    icon: const Icon(
+                      Icons.close,
+                      color: Colors.red,
+                    ),
+                  ),
+                ],
+              ),
+              Obx(
+                () => CustomRadioButton2(
+                  title: 'All',
+                  groupValue: viewModel.filterRadioBtn.value,
+                  value: 'all',
+                  onChanged: (value) {
+                    viewModel.radioBtnSelection(value);
+                  },
+                ),
+              ),
+              Obx(
+                () => CustomRadioButton2(
+                  title: 'Date, old to new',
+                  groupValue: viewModel.filterRadioBtn.value,
+                  value: 'oldToNew',
+                  onChanged: (value) {
+                    viewModel.radioBtnSelection(value);
+                  },
+                ),
+              ),
+              Obx(
+                () => CustomRadioButton2(
+                  title: 'Date, new to old',
+                  groupValue: viewModel.filterRadioBtn.value,
+                  value: 'newToOld',
+                  onChanged: (value) {
+                    viewModel.radioBtnSelection(value);
+                  },
+                ),
+              ),
+              const SizedBox(height: 10),
+              CustomTextBtn(
+                title: 'Done',
+                onPressed: () {
+                  Get.back();
+                  //viewModel.getDataFunction();
+                },
               ),
             ],
           ),

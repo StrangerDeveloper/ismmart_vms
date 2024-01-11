@@ -14,6 +14,8 @@ class OrderListingViewModel extends GetxController {
   RxList<OrderItem> orderItemList = <OrderItem>[].obs;
   RxBool showSearchTxtField = false.obs;
   String searchUrlValue = '';
+  RxString filterRadioBtn = 'all'.obs;
+  String radioBtnUrlValue = '';
 
   TextEditingController searchController = TextEditingController();
   ScrollController scrollController = ScrollController();
@@ -33,11 +35,11 @@ class OrderListingViewModel extends GetxController {
 
   @override
   void onInit() {
-   // GlobalVariable.showLoader.value = false;
+    // GlobalVariable.showLoader.value = false;
     // scrollController.addListener(() {
     //   getOrderListing();
     // });
-    
+
     super.onInit();
   }
 
@@ -62,7 +64,7 @@ class OrderListingViewModel extends GetxController {
   }
 
   Future<void> getOrderListing() async {
-    //GlobalVariable.showLoader.value = true;
+    GlobalVariable.showLoader.value = true;
 
     await ApiBaseHelper()
         .getMethod(url: '${Urls.getOrders}$searchUrlValue')
@@ -95,5 +97,14 @@ class OrderListingViewModel extends GetxController {
       searchUrlValue = '?fulfilmentStatus=$value';
     }
     getOrderListing(); // Refresh the listing after applying the filter
+  }
+
+  radioBtnSelection(String value) {
+    filterRadioBtn.value = value;
+    if (value == 'all') {
+      radioBtnUrlValue = '';
+    } else {
+      radioBtnUrlValue = '&status=$value';
+    }
   }
 }

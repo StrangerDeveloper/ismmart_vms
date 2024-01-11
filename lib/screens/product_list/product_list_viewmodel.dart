@@ -1,85 +1,115 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ismmart_vms/helper/api_base_helper.dart';
 import 'package:ismmart_vms/helper/global_variables.dart';
-import 'package:ismmart_vms/screens/product_list/multiple_products_model.dart';
 import 'package:ismmart_vms/screens/product_list/single_product_model.dart';
 
+import '../../helper/api_base_helper.dart';
+import '../../helper/common_function.dart';
 import '../../helper/constants.dart';
 import '../../helper/urls.dart';
-import '../add_product/add_product_1/add_product_1_view.dart';
 
 class ProductListViewModel extends GetxController {
   RxString searchBy = 'All'.obs;
   List<String> searchFilters = <String>['All', 'Active', 'InActive'];
 
-  RxDouble dropdownSelectionContainerWidth = 0.0.obs;
-  RxDouble searchAndFilterContainerWidth = 0.0.obs;
-  double higherContainerWidth = 0.65;
-  double lowerContainerWidth = 0.2;
-  RxBool searchByDropdownVisibility = false.obs;
-  RxBool filterDropdownVisibility = false.obs;
-  RxBool searchAndFilterIconVisibility = false.obs;
-  RxBool searchByContainerIconVisibility = true.obs;
+  RxInt totalPages = 1.obs;
+  TextEditingController searchController = TextEditingController();
+  TextEditingController statusController = TextEditingController();
+  String radioBtnUrlValue = '';
+  String searchUrlValue = '';
+  RxString filterRadioBtn = 'all'.obs;
+  RxBool showSearchTxtField = false.obs;
+  ScrollController scrollController = ScrollController();
+  RxInt currentPage = 0.obs;
+  int pageNo = 0;
+  RxBool paginationLoader = false.obs;
+  dynamic arguments;
+  bool cameFromAddProduct = false;
+  RxBool showListLoader = false.obs;
+  RxList<SingleProductModel> dataList = <SingleProductModel>[].obs;
 
-  RxList<ProductsItem> productItemsList = <ProductsItem>[].obs;
-  RxList<ProductsItem> filteredItemList = <ProductsItem>[].obs;
-
-  RxInt page = 1.obs;
-  int limit = 10;
-  Rx<MultipleProductsModel> productModel = MultipleProductsModel().obs;
-  
   @override
-  void onReady() {
-    dropdownSelectionContainerWidth.value = Get.width * higherContainerWidth;
-    searchAndFilterContainerWidth.value = Get.width * lowerContainerWidth;
-    Future.delayed(const Duration(milliseconds: 900), () {
-      searchAndFilterIconVisibility.value = true;
-    });
-
-    getProductItems();
-
-    // searchBy.listen((value) {
-    //   //if(value)
-    //   filteredItemList.clear();
-    //   if (!value.toLowerCase().contains("all")) {
-    //     filteredItemList.addAll(productItemsList);
-    //   } else {
-    //     for (var element in productItemsList) {
-    //       if (value.toLowerCase().contains("inactive")) {
-    //         if (element.status!.toLowerCase().contains("pending")) {
-    //           filteredItemList.add(element);
-    //           break;
-    //         }
-    //       } else if (value.toLowerCase().contains("active")) {
-    //         filteredItemList.add(element);
-    //         break;
-    //       }
-    //     }
-    //   }
-    // });
-
-    super.onReady();
+  Future<void> onReady() async {
+    statusController.text = 'all';
+    getDataFunction();
   }
 
-  void changePage() {
-    page.value++;
+  @override
+  void onClose() {
+    searchController.dispose();
+    statusController.dispose();
+    GlobalVariable.showLoader.value = false;
+    super.onClose();
   }
 
-  Future<void> getProductItems() async {
-    await ApiBaseHelper()
-        .getMethod(url: "/vendor/product?page=${page.value}&limit=$limit")
-        .then((parsedJson) {
-      final data = parsedJson['data'];
-      if (data != null) {
-        productModel.value = MultipleProductsModel.fromJson(data);
-        productItemsList.addAll(productModel.value.items!);
-      }
-    }).catchError((e) {
-      debugPrint("GetProductList: $e");
-    });
+
+  radioBtnSelection(String value) {
+    statusController.text = value;
+    filterRadioBtn.value = value;
+    if (value == 'all') {
+      radioBtnUrlValue = '';
+    } else {
+      radioBtnUrlValue = '&status=$value';
+    }
   }
-  
+
+  onChangeSearching(String value) {
+    if (value == '') {
+      searchUrlValue = '';
+    } else {
+      searchUrlValue = '&text=$value';
+    }
+    getDataFunction();
+  }
+
+  getDataFunction() async {
+    pageNo = 0;
+    currentPage.value = 0;
+    dataList.clear();
+    scrollController.removeListener(getData);
+    showListLoader.value = true;
+    if (!scrollController.hasListeners) {
+      scrollController = ScrollController();
+      scrollController.addListener(getData);
+    }
+    await getData();
+    showListLoader.value = false;
+  }
+
+  getData() async {
+    if (pageNo == 0
+        ? true
+        : (scrollController.hasClients &&
+        scrollController.position.maxScrollExtent ==
+            scrollController.offset)) {
+      pageNo++;
+      currentPage.value++;
+      paginationLoader.value = true;
+      await ApiBaseHelper()
+          .getMethod(
+          url: '${Urls.getProducts}$pageNo$radioBtnUrlValue$searchUrlValue')
+          .then((parsedJson) {
+        if (pageNo == 1) {
+          dataList.clear();
+        }
+        if (parsedJson['success'] == true &&
+            parsedJson['data']['items'] != null) {
+          var data = parsedJson['data']['items'] as List;
+          totalPages.value = parsedJson['data']['pages'];
+          if (data.isEmpty || data.length < 10) {
+            scrollController.removeListener(getData);
+          }
+          dataList.addAll(data.map((e) => SingleProductModel.fromJson(e)));
+          paginationLoader.value = false;
+        } else {
+          AppConstant.displaySnackBar('Errors', parsedJson['message']);
+        }
+      }).catchError((e) {
+        CommonFunction.debugPrint(e);
+      });
+    }
+  }
+
   getSingleProductDetails(String id) async {
 
     GlobalVariable.showLoader.value = true;
@@ -101,4 +131,5 @@ class ProductListViewModel extends GetxController {
       AppConstant.displaySnackBar('Error', 'Error fetching product details');
     });
   }
+
 }
