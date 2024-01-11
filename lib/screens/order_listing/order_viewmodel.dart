@@ -14,6 +14,8 @@ class OrderListingViewModel extends GetxController {
   RxList<OrderItem> orderItemList = <OrderItem>[].obs;
   RxBool showSearchTxtField = false.obs;
   String searchUrlValue = '';
+  RxString filterRadioBtn = 'all'.obs;
+  String radioBtnUrlValue = '';
 
   TextEditingController searchController = TextEditingController();
   ScrollController scrollController = ScrollController();
@@ -95,5 +97,14 @@ class OrderListingViewModel extends GetxController {
       searchUrlValue = '?fulfilmentStatus=$value';
     }
     getOrderListing(); // Refresh the listing after applying the filter
+  }
+
+  radioBtnSelection(String value) {
+    filterRadioBtn.value = value;
+    if (value == 'all') {
+      radioBtnUrlValue = '';
+    } else {
+      radioBtnUrlValue = '&status=$value';
+    }
   }
 }
