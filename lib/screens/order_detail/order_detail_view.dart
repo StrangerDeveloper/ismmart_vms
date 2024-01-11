@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:ismmart_vms/helper/theme_helper.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
-import 'package:ismmart_vms/screens/order_detail/cancel_order_view.dart';
 import 'package:ismmart_vms/screens/order_detail/order_detail_viewmodel.dart';
 import 'package:ismmart_vms/widgets/custom_appbar.dart';
 import 'package:ismmart_vms/widgets/custom_cached_network_image.dart';
@@ -15,6 +14,7 @@ import '../../helper/utils/image_constant.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/custom_image_view.dart';
 import '../../widgets/loader_view.dart';
+import '../order_cancel/cancel_order_view.dart';
 import '../return/return_view.dart';
 
 // ignore: must_be_immutable
