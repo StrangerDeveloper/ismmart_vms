@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -59,12 +58,13 @@ class SignUp2View extends StatelessWidget {
                           errorPrompt: 'Store Logo image is required'),
                     ),
                     storeSlug(),
+                    shopLocationField(),
                     storeType1(),
                     //   storeType(),
                     shopAddressField(),
                     // countryField(),
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      padding: const EdgeInsets.symmetric(vertical: 25),
                       child: CustomTextField1(
                         title: 'Country',
                         hintText: 'Select one',
@@ -84,26 +84,23 @@ class SignUp2View extends StatelessWidget {
                         },
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 15),
-                      child: CustomTextField1(
-                        title: 'City',
-                        hintText: 'Select one',
-                        controller: viewModel.cityController,
-                        isDropDown: true,
-                        autoValidateMode: AutovalidateMode.onUserInteraction,
-                        validator: (value) {
-                          if (viewModel.cityController.text == '') {
-                            return Validator.validateDefaultField(value);
-                          }
-                          return null;
-                        },
-                        onTap: () {
-                          viewModel.resetValueCity();
-                          // viewModel.getCityList();
-                          itemsBottomSheetForCity();
-                        },
-                      ),
+                    CustomTextField1(
+                      title: 'City',
+                      hintText: 'Select one',
+                      controller: viewModel.cityController,
+                      isDropDown: true,
+                      autoValidateMode: AutovalidateMode.onUserInteraction,
+                      validator: (value) {
+                        if (viewModel.cityController.text == '') {
+                          return Validator.validateDefaultField(value);
+                        }
+                        return null;
+                      },
+                      onTap: () {
+                        viewModel.resetValueCity();
+                        // viewModel.getCityList();
+                        itemsBottomSheetForCity();
+                      },
                     ),
                     singup2Btn(),
                   ],
@@ -240,6 +237,27 @@ class SignUp2View extends StatelessWidget {
     );
   }
 
+  Widget shopLocationField() {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 25),
+      child: CustomTextField1(
+        inputFormatters: <TextInputFormatter>[
+          FilteringTextInputFormatter.allow(RegExp('[a-zA-Z]')),
+        ],
+        prefixIcon: Icons.location_on_outlined,
+        keyboardType: TextInputType.text,
+        title: 'Store Location',
+        hintText: 'Safa',
+        controller: viewModel.storeLocationController,
+        autoValidateMode: AutovalidateMode.onUserInteraction,
+        validator: (value) {
+          return Validator.validateDefaultField(value,
+              errorMessage: 'Store Location is Required');
+        },
+      ),
+    );
+  }
+
   Widget storeType1() {
     return InkWell(
       onTap: () {
@@ -330,7 +348,7 @@ class SignUp2View extends StatelessWidget {
 
   Widget shopAddressField() {
     return Padding(
-      padding: const EdgeInsets.only(top: 25.0),
+      padding: const EdgeInsets.only(top: 15.0),
       child: CustomTextField1(
         keyboardType: TextInputType.text,
         title: 'Address',

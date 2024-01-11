@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_multi_formatter/formatters/masked_input_formatter.dart';
@@ -17,6 +19,7 @@ import 'package:ismmart_vms/widgets/obscure_suffix_icon.dart';
 
 import '../../../../helper/validator.dart';
 import '../../../../widgets/custom_bottom_sheet.dart';
+import '../../../../widgets/pick_image.dart';
 import '../../login/login_view.dart';
 import 'sign_up_1_viewmodel.dart';
 
@@ -358,7 +361,13 @@ class SignUp1View extends StatelessWidget {
         controller: viewModel.cnicController,
         autoValidateMode: AutovalidateMode.onUserInteraction,
         validator: (value) {
-          return Validator.validateCNIC(value);
+          if (GetUtils.isBlank(value)!) {
+            return "CNIC Required";
+          } else if (value!.length != 15) {
+            return "Enter Valid CNIC";
+          } else {
+            return null;
+          }
         },
       ),
     );
@@ -370,10 +379,13 @@ class SignUp1View extends StatelessWidget {
         title: 'CNIC Front Image',
         filePath: viewModel.cnicFrontImage.value == ''
             ? ''
-            : p.basename(viewModel.cnicFrontImage.value),
+            : p.basename(viewModel.cnicFrontImage.value.path),
         onTap: () async {
-          await viewModel.selectImage(viewModel.cnicFrontImage,
-              viewModel.cnicFrontImageErrorVisibility);
+          viewModel.cnicFrontImage.value =
+              await PickImage().pickSingleImage() ?? File('');
+          if (viewModel.cnicFrontImage.value.path.isNotEmpty) {
+            viewModel.cnicFrontImageErrorVisibility.value = false;
+          }
         },
         errorVisibility: viewModel.cnicFrontImageErrorVisibility.value,
         errorPrompt: 'CNIC Front Image is required',

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1092230170530",
+    "firebase_url": "https://ismmart-vms-default-rtdb.firebaseio.com",
+    "project_id": "ismmart-vms",
+    "storage_bucket": "ismmart-vms.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1092230170530:android:f5eccb975604ccfb5a14fb",
+        "android_client_info": {
+          "package_name": "com.ismmart.ismmart_vms"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1092230170530-ctmmlfhnebhace2343sqs5gr3ilsd1lg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAH_uC_FqKPSpFSmpYXcAg4gr-dQxOFbI0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1092230170530-ctmmlfhnebhace2343sqs5gr3ilsd1lg.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1092230170530-ailqrr8dp34jvirb7166afdq8bbf7c15.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.ismmartVms"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

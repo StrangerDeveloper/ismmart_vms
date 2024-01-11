@@ -53,12 +53,19 @@ class SignUp3ViewModel extends GetxController {
       param['banks[0][iban]'] = bankIBANController.text;
       param['banks[0][accountNumber]'] = bankAccNumberController.text;
       param['step'] = '3';
+      print(param);
       GlobalVariable.showLoader.value = true;
-      var parseJson = await ApiBaseHelper().getMethod(url: Urls.bank);
-      if (parseJson['success'] == true) {
+
+      try {
         finalRegistration(param);
-      } else {
-        GlobalVariable.showLoader.value = false;
+        // var parseJson = await ApiBaseHelper().getMethod(url: Urls.bank);
+        // if (parseJson['success'] == true) {
+        //   finalRegistration(param);
+        // } else {
+        //   GlobalVariable.showLoader.value = false;
+        // }
+      } catch (e) {
+        print(e);
       }
     }
   }
@@ -75,7 +82,7 @@ class SignUp3ViewModel extends GetxController {
     fileList.add(
       await http.MultipartFile.fromPath(
         'cnicImages',
-        viewModel1.cnicFrontImage.value,
+        viewModel1.cnicFrontImage.value.path,
         contentType: MediaType.parse('image/jpeg'),
       ),
     );
@@ -152,14 +159,14 @@ class SignUp3ViewModel extends GetxController {
   void onReady() {
     GlobalVariable.showLoader.value = false;
     getBankList();
-    
+
     super.onReady();
   }
 
   @override
   void onClose() {
     GlobalVariable.showLoader.value = false;
-  
+
     super.onClose();
   }
 }

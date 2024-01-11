@@ -24,7 +24,7 @@ class SignUpScreen1ViewModel extends GetxController {
   TextEditingController cnicController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
-  RxString cnicFrontImage = ''.obs;
+  Rx<File> cnicFrontImage = File('').obs;
   RxString cnicBackImage = ''.obs;
   RxBool cnicFrontImageErrorVisibility = false.obs;
   RxBool cnicBackImageErrorVisibility = false.obs;
@@ -81,15 +81,14 @@ class SignUpScreen1ViewModel extends GetxController {
 
   List<http.MultipartFile> fileList = [];
   void signUpStep1() async {
+    fileList.clear();
     //------    Image Varification and Send To Api ------------
-    imgCheck();
+    await imgCheck();
     if (signUpFormKey1.currentState?.validate() ??
         false ||
             cnicFrontImageErrorVisibility.value ||
             cnicFrontImageErrorVisibility.value) {
       if (isChecked.value == true) {
-        fileList.clear();
-        await imgCheck();
         //------- Social Signup Checks ----------
         String regex =
             r'[^\p{Alphabetic}\p{Mark}\p{Decimal_Number}\p{Connector_Punctuation}\p{Join_Control}\s]+';
@@ -155,11 +154,15 @@ class SignUpScreen1ViewModel extends GetxController {
   }
 
   Future<void> imgCheck() async {
-    if (cnicFrontImage.value.isNotEmpty && cnicBackImage.value.isNotEmpty) {
+    print(fileList.length);
+    print(cnicFrontImage.value);
+    print(cnicBackImage.value);
+    if (cnicFrontImage.value.path.isNotEmpty &&
+        cnicBackImage.value.isNotEmpty) {
       fileList.add(
         await http.MultipartFile.fromPath(
           'cnicImages',
-          cnicFrontImage.value,
+          cnicFrontImage.value.path,
           contentType: MediaType.parse('image/jpeg'),
         ),
       );
@@ -231,5 +234,5 @@ class SignUpScreen1ViewModel extends GetxController {
   //-------- Gender
   TextEditingController genderController = TextEditingController();
   RxInt genderSelectedIndex = 0.obs;
-  List genderList = ['Male', 'Female', 'Other'];
+  List genderList = ['Select Gender', 'Male', 'Female', 'Other'];
 }

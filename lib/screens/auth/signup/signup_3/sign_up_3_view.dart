@@ -48,7 +48,7 @@ class SignUp3View extends StatelessWidget {
                         title: 'Bank Name',
                         hintText: 'e.g Habib Bank',
                         controller: viewModel.bankController,
-                        isDropDown: true,
+                        // isDropDown: true,
                         autoValidateMode: AutovalidateMode.onUserInteraction,
                         validator: (value) {
                           if (viewModel.bankController.text == '') {
@@ -59,10 +59,10 @@ class SignUp3View extends StatelessWidget {
                           }
                         },
                         onTap: () {
-                          viewModel.getBankList();
-                          // viewModel.resetValue();
-
-                          itemsBottomSheet();
+                          // viewModel.getBankList();
+                          // // viewModel.resetValue();
+                          //
+                          // itemsBottomSheet();
                         },
                       ),
                     ),
