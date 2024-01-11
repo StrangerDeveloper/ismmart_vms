@@ -63,6 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '1092230170530',
     projectId: 'ismmart-vms',
     storageBucket: 'ismmart-vms.appspot.com',
+    androidClientId: '1092230170530-dqkto2vcauisc76v2pc61g73q462al1g.apps.googleusercontent.com',
+    iosClientId: '1092230170530-ailqrr8dp34jvirb7166afdq8bbf7c15.apps.googleusercontent.com',
     iosBundleId: 'com.example.ismmartVms',
   );
 }

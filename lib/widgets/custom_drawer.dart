@@ -6,13 +6,13 @@ import 'package:ismmart_vms/helper/global_variables.dart';
 import 'package:ismmart_vms/helper/theme_helper.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/screens/bank_list/bank_list_view.dart';
-import 'package:ismmart_vms/screens/dashboard/dashboard_view.dart';
+import 'package:ismmart_vms/screens/drawer_bottom_nav/drawer_bottom_bar_view.dart';
+import 'package:ismmart_vms/screens/location_list/location_list_view.dart';
 import 'package:ismmart_vms/screens/order_listing/order_view.dart';
 import 'package:ismmart_vms/screens/product_list/product_list_view.dart';
 import 'package:ismmart_vms/screens/product_list/product_list_viewmodel.dart';
 import 'package:ismmart_vms/widgets/custom_cached_network_image.dart';
 import 'package:ismmart_vms/widgets/custom_text.dart';
-import '../screens/add_location/add_location_view.dart';
 import '../screens/dashboard/dashboard_viewmodel.dart';
 import '../screens/store_profile/store_profile_view.dart';
 import '../screens/user_profile/user_profile_view.dart';
@@ -39,7 +39,10 @@ class CustomDrawer extends StatelessWidget {
               mainAxisSize: MainAxisSize.max,
               children: [
                 titleAndBackBtn(
-                    onTap: () => Get.to(() => StoreProfileView()),
+                    onTap: () {
+                      Get.back();
+                      Get.to(() => StoreProfileView());
+                    },
                     iconPath: viewModel.userProfileModel.value.store?.logo,
                     title: viewModel.userProfileModel.value.store?.name ??
                         'ISMMART',
@@ -48,7 +51,8 @@ class CustomDrawer extends StatelessWidget {
                 drawerListItems(
                   'Overview',
                   onTab: () {
-                    Get.to(() => DashboardView());
+                    Get.back();
+                    Get.to(() => DrawerBottomBarView());
                   },
                   iconPath: 'assets/icons/overViewIcon.png',
                 ),
@@ -66,20 +70,18 @@ class CustomDrawer extends StatelessWidget {
                           padding: const EdgeInsets.only(left: 20),
                           child: Column(
                             children: [
-                              drawerListItems(
-                                'Returned',
-                                h: 25,
-                                onTab: () => Get.to(() => OrderView(
+                              drawerListItems('Returned', h: 25, onTab: () {
+                                Get.back();
+                                Get.to(() => OrderView(
                                       callingFor: "Returned",
-                                    )),
-                              ),
-                              drawerListItems(
-                                'Cancelled',
-                                h: 25,
-                                onTab: () => Get.to(() => OrderView(
+                                    ));
+                              }),
+                              drawerListItems('Cancelled', h: 25, onTab: () {
+                                Get.back();
+                                Get.to(() => OrderView(
                                       callingFor: "Cancelled",
-                                    )),
-                              ),
+                                    ));
+                              }),
                             ],
                           ),
                         )
@@ -92,12 +94,17 @@ class CustomDrawer extends StatelessWidget {
                   hasProdCount: true,
 
                   icon: Icons.local_offer_rounded,
-                  onTab: () => Get.to(() => ProductListView()),
+                  onTab: () {
+                    Get.back();
+                    Get.to(() => ProductListView());
+                  },
                 ),
 
-                drawerListItems('Locations',
-                    iconPath: 'assets/icons/pin.png',
-                    onTab: () => Get.to(() => AddLocationView())),
+                drawerListItems('Locations', iconPath: 'assets/icons/pin.png',
+                    onTab: () {
+                  Get.back();
+                  Get.to(() => LocationListView());
+                }),
                 const Divider(
                   color: Color(0xffE5E7EB),
                   thickness: 2,
@@ -122,11 +129,12 @@ class CustomDrawer extends StatelessWidget {
                           child: Column(
                             children: [
                               drawerListItems(
-                                iconPath: 'assets/icons/wallet.png',
-                                'Banking',
-                                h: 25,
-                                onTab: () => Get.to(() => BankListView()),
-                              ),
+                                  iconPath: 'assets/icons/wallet.png',
+                                  'Banking',
+                                  h: 25, onTab: () {
+                                Get.back();
+                                Get.to(() => BankListView());
+                              }),
                             ],
                           ),
                         )
@@ -296,15 +304,20 @@ class CustomDrawer extends StatelessWidget {
               dropDwnIcon ?? false
                   ? IconButton(
                       onPressed: () {
-                        viewModel.moreOption.toggle();
+                        if (icon == Icons.settings) {
+                          viewModel.moreOption.toggle();
+                        } else {
+                          viewModel.orderMoreOption.toggle();
+                        }
                       },
                       icon: const Icon(Icons.arrow_drop_down))
                   : hasProdCount
                       ? Container(
-                          width: 5,
-                          height: 5,
+                          width: 22,
+                          height: 22,
+                          alignment: Alignment.center,
                           decoration: BoxDecoration(
-                            color: Colors.red.withOpacity(0.3),
+                            color: Colors.red.withOpacity(0.4),
                             shape: BoxShape.circle,
                           ),
                           child: CustomText(
@@ -313,6 +326,7 @@ class CustomDrawer extends StatelessWidget {
                                 .length
                                 .toString(),
                             color: Colors.white,
+                            size: 12,
                           ),
                         )
                       : Container(),
