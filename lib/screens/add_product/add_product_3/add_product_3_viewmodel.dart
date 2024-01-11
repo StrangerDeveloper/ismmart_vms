@@ -126,9 +126,9 @@ class AddProduct3ViewModel extends GetxController {
       if(parsedJson['success'] == true) {
         if (cameFromProductList) {
           final ProductListViewModel productListViewModel = Get.find();
-          productListViewModel.productItemsList.clear();
-          await productListViewModel.getProductItems();
-          productListViewModel.productItemsList.refresh();
+          // productListViewModel.dataList.clear();
+          productListViewModel.getDataFunction();
+          // productListViewModel.dataList.refresh();
           Get.close(2);
           AppConstant.displaySnackBar('Success', 'Product Added Successfully');
         } else {

@@ -322,7 +322,7 @@ class CustomDrawer extends StatelessWidget {
                           ),
                           child: CustomText(
                             title: Get.put(ProductListViewModel())
-                                .productItemsList
+                                .dataList
                                 .length
                                 .toString(),
                             color: Colors.white,

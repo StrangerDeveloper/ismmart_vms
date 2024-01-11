@@ -1,15 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ismmart_vms/helper/constants.dart';
-import 'package:ismmart_vms/helper/global_variables.dart';
-import 'package:ismmart_vms/helper/utils/size_utils.dart';
-import 'package:ismmart_vms/helper/resourses/app_colors.dart';
 import 'package:ismmart_vms/screens/add_product/add_product_1/add_product_1_view.dart';
 import 'package:ismmart_vms/screens/product_list/product_list_viewmodel.dart';
-import 'package:ismmart_vms/screens/product_list/multiple_products_model.dart';
 import 'package:ismmart_vms/widgets/custom_button.dart';
 
+import '../../helper/common_function.dart';
+import '../../helper/theme_helper.dart';
+import '../../widgets/circular_progress_bar.dart';
+import '../../widgets/custom_radiobtn.dart';
+import '../../widgets/custom_textfield.dart';
 import '../../widgets/loader_view.dart';
 
 class ProductListView extends StatelessWidget {
@@ -20,55 +21,17 @@ class ProductListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(70.0),
-            child: Column(
-              children: [
-                addProductSection(),
-                filterProductSection(),
-              ],
-            )),
-      ),
       body: Stack(
         children: [
-          listView(),
-          Obx(
-            () => Visibility(
-              visible: viewModel.searchByDropdownVisibility.value,
-              child: Positioned(
-                top: 0,
-                left: 25,
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(
-                          color: newColorLightGrey2.withOpacity(0.3),
-                          width: 0.7),
-                      borderRadius: BorderRadius.circular(10)),
-                  width: Get.width * 0.4,
-                  // height: Get.height * 0.35,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: viewModel.searchFilters.map((e) {
-                      return InkWell(
-                          onTap: () {
-                            viewModel.searchBy.value = e;
-                            viewModel.searchByDropdownVisibility.value = false;
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8.0, vertical: 13),
-                            child: Text(
-                              e,
-                              style: interNormalText,
-                            ),
-                          ));
-                    }).toList(),
-                  ),
-                ),
-              ),
-            ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              addProductBtn(),
+              filtrationBar(),
+              searchTxtField(),
+              pageNoView(),
+              listView(),
+            ],
           ),
           const LoaderView(),
         ],
@@ -76,344 +39,402 @@ class ProductListView extends StatelessWidget {
     );
   }
 
-  Widget addProductSection() {
+  Widget addProductBtn() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 10),
+      child: CustomIconTextBtn(
+        width: double.minPositive,
+        onPressed: () {
+          Get.to(() => AddProduct1View(),
+              arguments: {'cameFromProductList': true});
+        },
+        icon: CupertinoIcons.plus,
+        title: 'Add Product',
+      ),
+    );
+  }
+
+  Widget filtrationBar() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 16, right: 16),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Obx(() => CustomRoundedTextBtn(
-              borderRadius: 12,
-              width: Get.width / 2.5,
-              onPressed: GlobalVariable.showLoader.value == true ? null : () {
-                Get.to(() => AddProduct1View(), arguments: {'cameFromProductList': true});
-                // Get.find<DrawerBottomBarViewModel>().changePage(2);
+          Expanded(
+            child: CustomTextField1(
+              isDropDown: true,
+              filled: false,
+              controller: viewModel.statusController,
+              onTap: () {
+                filterBottomSheet();
               },
-              title: '+ Add Product',
             ),
           ),
           Container(
-            padding: const EdgeInsets.all(5),
+            margin: const EdgeInsets.only(left: 10),
+            padding: const EdgeInsets.all(2),
             decoration: BoxDecoration(
-                border: Border.all(
-                  color: newColorLightGrey2.withOpacity(0.5),
-                  width: 1.2,
-                ),
-                borderRadius: BorderRadius.circular(8)),
-            child: InkWell(
-              onTap: () {},
-              child: const Icon(
-                Icons.more_vert_rounded,
-                size: 22,
-                color: Colors.black,
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(
+                color: ThemeHelper.grey1,
               ),
             ),
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget filterProductSection() {
-    return Padding(
-      padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: InkWell(
-              onTap: () {
-                if (viewModel.dropdownSelectionContainerWidth.value <
-                    viewModel.searchAndFilterContainerWidth.value) {
-                  viewModel.searchAndFilterContainerWidth.value =
-                      Get.width * viewModel.lowerContainerWidth;
-                  viewModel.dropdownSelectionContainerWidth.value =
-                      Get.width * viewModel.higherContainerWidth;
-                  Future.delayed(const Duration(microseconds: 100), () {
-                    viewModel.searchByContainerIconVisibility.value = true;
-                  });
-                } else if (viewModel.searchByDropdownVisibility.value) {
-                  viewModel.searchByDropdownVisibility.value = false;
-                } else {
-                  viewModel.searchByDropdownVisibility.value = true;
-                }
-              },
-              child: Obx(
-                () => AnimatedContainer(
-                  duration: const Duration(milliseconds: 600),
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-                  width: viewModel.dropdownSelectionContainerWidth.value,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(
-                          color: newColorLightGrey2.withOpacity(0.5),
-                          width: 1.2)),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        viewModel.searchBy.value,
-                        style: interNormalText,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      Visibility(
-                        visible:
-                            viewModel.searchByContainerIconVisibility.value,
-                        child: Icon(
-                          viewModel.searchByDropdownVisibility.value
-                              ? Icons.keyboard_arrow_up_rounded
-                              : Icons.keyboard_arrow_down_rounded,
-                          size: 18,
-                          color: Colors.black,
-                        ),
-                      )
-                      //Obx(() =>)
-                    ],
-                  ),
-                ),
+            child: Obx(
+              () => CustomIconBtn2(
+                icon: CupertinoIcons.search,
+                color: viewModel.showSearchTxtField.value
+                    ? ThemeHelper.blue1
+                    : null,
+                onTap: () {
+                  viewModel.showSearchTxtField.value =
+                      !viewModel.showSearchTxtField.value;
+                },
               ),
             ),
           ),
-          SizedBox(width: 10.v),
-          InkWell(
-            onTap: () {
-              viewModel.dropdownSelectionContainerWidth.value =
-                  Get.width * viewModel.lowerContainerWidth;
-              viewModel.searchAndFilterContainerWidth.value =
-                  Get.width * viewModel.higherContainerWidth;
-              viewModel.searchByContainerIconVisibility.value = false;
-            },
-            child: Obx(
-              () => AnimatedContainer(
-                padding: const EdgeInsets.all(8),
-                width: viewModel.searchAndFilterContainerWidth.value,
-                duration: const Duration(milliseconds: 600),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(
-                        color: newColorLightGrey2.withOpacity(0.5),
-                        width: 1.2)),
-                child: Obx(
-                  () => Visibility(
-                    visible: viewModel.searchAndFilterIconVisibility.value,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Icon(
-                          Icons.search,
-                          size: 18,
-                          color: newColorLightGrey2,
-                        ),
-                        InkWell(
-                          onTap: () {
-                            if (viewModel
-                                    .dropdownSelectionContainerWidth.value <
-                                Get.width * viewModel.higherContainerWidth) {
-                              return;
-                            } else {
-                              viewModel.filterDropdownVisibility.value =
-                                  !viewModel.filterDropdownVisibility.value;
-                            }
-                          },
-                          child: const Icon(
-                            Icons.filter_list_rounded,
-                            size: 18,
-                            color: Colors.black,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          )
         ],
       ),
     );
   }
 
-  Widget listView() {
-    return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Obx(() => Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: viewModel.productItemsList.isEmpty
-                    ? [
-                        Center(
-                          child: Text(
-                            'No Products Found',
-                            style: interHeadingSize15.copyWith(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 17),
-                          ),
-                        )
-                      ]
-                    : [
-                        nextPageData(),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 5),
-                          decoration: BoxDecoration(
-                            color: newColorLightGrey2.withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: viewModel.productItemsList.length,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemBuilder: (_, int index) {
-                              ProductsItem items =
-                                  viewModel.productItemsList[index];
-                              return listViewItem(model: items);
-                            },
-                          ),
-                        ),
-                      ],
-              )),
-        ));
+  Widget searchTxtField() {
+    return Obx(
+      () => viewModel.showSearchTxtField.value
+          ? Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+              child: CustomTextField1(
+                controller: viewModel.searchController,
+                filled: false,
+                prefixIcon: CupertinoIcons.search,
+                hintText: 'Filter by name',
+                onChanged: (value) {
+                  CommonFunction.debouncer.call(() {
+                    viewModel.onChangeSearching(value);
+                  });
+                },
+                suffixIconButton: IconButton(
+                  visualDensity: VisualDensity.compact,
+                  onPressed: () {
+                    if (viewModel.searchController.text.isEmpty) return;
+                    viewModel.searchController.clear();
+                    viewModel.onChangeSearching('');
+                  },
+                  icon: const Icon(
+                    Icons.close,
+                    color: ThemeHelper.grey2,
+                  ),
+                ),
+              ),
+            )
+          : const SizedBox(height: 16),
+    );
   }
 
-  Widget listViewItem({ProductsItem? model}) {
-
-    return InkWell(
-      onTap: () {
-        viewModel.getSingleProductDetails(model.id!);
-      },
-      child: Container(
-        padding: const EdgeInsets.only(left: 5, right: 5, top: 5, bottom: 5),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            CachedNetworkImage(
-              height: 45,
-              width: 45,
-              imageUrl: model!.media![0].url!,
-              imageBuilder: (context, imageProvider) {
-                return Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    image: DecorationImage(
-                      image: imageProvider,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                );
-              },
-              errorWidget: (context, url, error) {
-                return Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    image: const DecorationImage(
-                      image: AssetImage('assets/images/no_image_found.jpg'),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                );
-              },
-              placeholder: (context, url) {
-                return const Center(
-                  child: CircularProgressIndicator(strokeWidth: 2.0),
-                );
-              },
-            ),
-            const SizedBox(width: 10),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  '${model.name}',
-                  style: interHeadingSize15.copyWith(color: newColorBlue),
-                ),
-                SizedBox(height: 3.h),
-                Text(
-                  '• Category: ${model.categories![0].name}',
-                  style: interNormalText.copyWith(
-                      color: newColorLightGrey2, fontSize: 11),
-                ),
-                Text(
-                  '• Variants: ${model.variants}',
-                  style: interNormalText.copyWith(
-                      color: newColorLightGrey2, fontSize: 11),
-                ),
-                SizedBox(height: 15.h),
-
-                Container(
-                  padding: const EdgeInsets.all(6),
-                  decoration: BoxDecoration(
-                      color: model.status!.toLowerCase().contains("active")
-                          ? productActiveColor.withOpacity(0.25)
-                          : newColorLightGrey2.withOpacity(0.25),
-                      borderRadius: BorderRadius.circular(15)),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      CircleAvatar(
-                        radius: 5,
-                        backgroundColor:
-                            model.status!.toLowerCase().contains("active")
-                                ? productActiveColor
-                                : newColorLightGrey2,
-                      ),
-                      SizedBox(width: 10.v),
-                      Text(
-                        "${model.status}",
-                        style: interNormalText.copyWith(
-                            color: Colors.black,
-                            fontSize: 10,
-                            fontWeight: FontWeight.w400),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  color: newColorLightGrey2,
-                  height: 2,
-                ),
-              ],
-            ),
-          ],
+  Widget pageNoView() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 16),
+      child: Obx(
+        () => Text(
+          '${viewModel.currentPage.value} of ${viewModel.totalPages.value}',
+          style: const TextStyle(
+            fontSize: 12,
+            color: ThemeHelper.grey2,
+          ),
         ),
       ),
     );
   }
 
-  Widget nextPageData() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Obx(
-            () => Text(
-              '${viewModel.productModel.value.page} - ${viewModel.productModel.value.pages} of ${viewModel.productModel.value.total}',
-              style: interNormalText.copyWith(
-                  color: gray900, fontWeight: FontWeight.w400, fontSize: 11),
-            ),
-          ),
-          Row(
+  Widget listView() {
+    return Expanded(
+      child: Obx(
+        () => viewModel.dataList.isNotEmpty
+            ? Column(
+                children: [
+                  Expanded(
+                    child: ListView.separated(
+                      controller: viewModel.scrollController,
+                      padding: const EdgeInsets.all(16),
+                      itemCount: viewModel.dataList.length,
+                      itemBuilder: (context, int index) {
+                        return listViewItem(index);
+                      },
+                      separatorBuilder: (BuildContext context, int index) {
+                        return const Divider(
+                          color: ThemeHelper.grey1,
+                          thickness: 0.8,
+                          height: 0,
+                        );
+                      },
+                    ),
+                  ),
+                  if (viewModel.paginationLoader.value)
+                    const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: CustomCircularLoader())
+                ],
+              )
+            : viewModel.showListLoader.value
+                ? const CustomCircularLoader()
+                : const Center(
+                    child: Text('No Data Found'),
+                  ),
+      ),
+    );
+  }
+
+  Widget listViewItem(int index) {
+    BorderRadius borderRadius = listBorderRadius(index);
+    return Material(
+      color: ThemeHelper.grey3,
+      borderRadius: borderRadius,
+      child: InkWell(
+        borderRadius: borderRadius,
+        onTap: () {
+          Get.to(() => AddProduct1View(), arguments: {
+            'productDetails': viewModel.dataList[index],
+            'cameFromProductList': true
+          });
+        },
+        child: Padding(
+          padding:
+              const EdgeInsets.only(left: 12, right: 12, top: 10, bottom: 10),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CustomIconBtn(
-                iconSize: 10,
-                enabled: false,
-                icon: Icons.arrow_back_ios_new_rounded,
-                onTap: () {},
+              CachedNetworkImage(
+                height: 40,
+                width: 40,
+                imageUrl: viewModel.dataList[index].media?[0].url ?? '',
+                imageBuilder: (context, imageProvider) {
+                  return Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      image: DecorationImage(
+                        image: imageProvider,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  );
+                },
+                errorWidget: (context, url, error) {
+                  return Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      image: const DecorationImage(
+                        image: AssetImage('assets/images/no_image_found.jpg'),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  );
+                },
+                placeholder: (context, url) {
+                  return const Center(
+                    child: CircularProgressIndicator(strokeWidth: 2.0),
+                  );
+                },
               ),
-              const SizedBox(width: 5),
-              CustomIconBtn(
-                iconSize: 10,
-                enabled: true,
-                icon: Icons.arrow_forward_ios_rounded,
-                onTap: () {},
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      viewModel.dataList[index].name ?? '',
+                      style: const TextStyle(
+                        color: ThemeHelper.blue1,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8, bottom: 12),
+                      child: Wrap(
+                        children: [
+                          Text(
+                            '• Category: ${viewModel.dataList[index].categories?[0].name ?? ''}',
+                            style: const TextStyle(
+                              color: ThemeHelper.grey2,
+                              fontSize: 10,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          Text(
+                            '• Variants: ${viewModel.dataList[index].variants ?? '0'}',
+                            style: const TextStyle(
+                              color: ThemeHelper.grey2,
+                              fontSize: 10,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    status(viewModel.dataList[index].status ?? 'N/A'),
+                  ],
+                ),
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  BorderRadius listBorderRadius(int index) {
+    if (index == 0) {
+      return const BorderRadius.vertical(top: Radius.circular(12));
+    } else if (index == viewModel.dataList.length - 1) {
+      return const BorderRadius.vertical(bottom: Radius.circular(12));
+    } else {
+      return BorderRadius.zero;
+    }
+  }
+
+  Widget status(String value) {
+    Color color = statusColor(value);
+    return Container(
+      margin: const EdgeInsets.only(left: 10),
+      padding: const EdgeInsets.only(left: 4, top: 3, bottom: 3),
+      decoration: BoxDecoration(
+          color: color.withOpacity(0.25),
+          borderRadius: BorderRadius.circular(30)),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            Icons.circle,
+            color: color,
+            size: 10,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Text(
+              value,
+              style: TextStyle(
+                color: statusTxtColor(value),
+                fontSize: 10,
+              ),
+            ),
+          ),
         ],
       ),
+    );
+  }
+
+  Color statusColor(String value) {
+    if (value == 'Active') {
+      return const Color(0xFF06D38F);
+    } else {
+      return const Color(0xFFFE3A30);
+    }
+  }
+
+  Color statusTxtColor(String value) {
+    if (value == 'Active') {
+      return Colors.black;
+    } else {
+      return const Color(0xFFFE3A30);
+    }
+  }
+
+  filterBottomSheet() {
+    showModalBottomSheet(
+      context: Get.context!,
+      isScrollControlled: true,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+      ),
+      builder: (BuildContext context) {
+        return Padding(
+          padding: const EdgeInsets.fromLTRB(16, 10, 10, 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Icon(
+                    Icons.menu,
+                    color: ThemeHelper.blue1,
+                  ),
+                  const SizedBox(width: 10),
+                  const Text(
+                    'Filters',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      color: ThemeHelper.blue1,
+                      fontSize: 16,
+                    ),
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    visualDensity: VisualDensity.compact,
+                    onPressed: () {
+                      Get.back();
+                    },
+                    icon: const Icon(
+                      Icons.close,
+                      color: Colors.red,
+                    ),
+                  ),
+                ],
+              ),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 10),
+                child: Text(
+                  'Product Status',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+              Obx(
+                () => CustomRadioButton2(
+                  title: 'All',
+                  groupValue: viewModel.filterRadioBtn.value,
+                  value: 'all',
+                  onChanged: (value) {
+                    viewModel.radioBtnSelection(value);
+                  },
+                ),
+              ),
+              Obx(
+                () => CustomRadioButton2(
+                  title: 'Active',
+                  groupValue: viewModel.filterRadioBtn.value,
+                  value: 'Active',
+                  onChanged: (value) {
+                    viewModel.radioBtnSelection(value);
+                  },
+                ),
+              ),
+              Obx(
+                () => CustomRadioButton2(
+                  title: 'Inactive',
+                  groupValue: viewModel.filterRadioBtn.value,
+                  value: 'In-Active',
+                  onChanged: (value) {
+                    viewModel.radioBtnSelection(value);
+                  },
+                ),
+              ),
+              const SizedBox(height: 10),
+              CustomTextBtn(
+                title: 'Done',
+                onPressed: () {
+                  Get.back();
+                  viewModel.getDataFunction();
+                },
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

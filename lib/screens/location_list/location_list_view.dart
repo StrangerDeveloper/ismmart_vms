@@ -10,6 +10,7 @@ import 'package:ismmart_vms/widgets/loader_view.dart';
 
 import '../../helper/common_function.dart';
 import '../../widgets/circular_progress_bar.dart';
+import '../../widgets/custom_appbar.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/custom_radiobtn.dart';
 import '../../widgets/custom_textfield.dart';
@@ -22,8 +23,8 @@ class LocationListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Location'),
+      appBar: CustomAppBar2(
+        title: 'Location',
         leading: viewModel.cameFromAddProduct
             ? IconButton(
                 onPressed: () async {
@@ -33,7 +34,7 @@ class LocationListView extends StatelessWidget {
                 },
                 icon: const Icon(
                   Icons.arrow_back_ios_rounded,
-                  size: 22,
+                  size: 16,
                   color: newColorLightGrey3,
                 ))
             : null,
@@ -239,8 +240,7 @@ class LocationListView extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            SizedBox(
-                              width: Get.width * 0.4,
+                            Expanded(
                               child: Text(
                                 viewModel.dataList[index].name ?? 'N/A',
                                 style: const TextStyle(
@@ -274,14 +274,6 @@ class LocationListView extends StatelessWidget {
                             ),
                           ),
                         ),
-                        // Text(
-                        //   viewModel.dataList[index].phone ?? 'N/A',
-                        //   style: const TextStyle(
-                        //     fontWeight: FontWeight.w500,
-                        //     fontSize: 10,
-                        //     color: ThemeHelper.grey2,
-                        //   ),
-                        // ),
                       ],
                     ),
                   )
