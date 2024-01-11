@@ -99,12 +99,12 @@ class SingleProductModel {
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     iV = json['__v'];
-    if (json['variants'] != null) {
-      variants = <Variants>[];
-      json['variants'].forEach((v) {
-        variants!.add(Variants.fromJson(v));
-      });
-    }
+    // if (json['variants'] != null) {
+    //   variants = <Variants>[];
+    //   json['variants'].forEach((v) {
+    //     variants!.add(Variants.fromJson(v));
+    //   });
+    // }
     quantity = json['quantity'];
     price = json['price'];
   }

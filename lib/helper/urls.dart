@@ -31,8 +31,9 @@ class Urls {
   static String forgetPassword = "/auth/forgot";
   static String updateOrder = "/vendor/order/update/status";
   static String resendEmail = "/vendor/auth/resend";
+  static String getProducts = "/vendor/product?limit=10&page=";
   static String addProduct = "/vendor/product/add";
-  static String getSingleProduct = '/vendor/product?id=';
+  // static String getSingleProduct = '/vendor/product?id=';
   static String getVariantInventory = '/vendor/product/inventory?variant=';
 
   ///Dashboard
