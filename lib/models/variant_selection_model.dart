@@ -1,3 +1,5 @@
+import '../screens/order_listing/model/orderModel.dart';
+
 class VariantSelectionModel {
   String? id;
   String? variantName;
@@ -20,9 +22,7 @@ class LocationInventory{
   String? id;
   String? locationName;
   double? weight;
-  int? length;
-  int? width;
-  int? height;
+  Dimensions? dimensions;
   String? sku;
   String? barcode;
   double? price;
@@ -32,9 +32,7 @@ class LocationInventory{
     this.id,
     this.locationName,
     this.weight,
-    this.length,
-    this.width,
-    this.height,
+    this.dimensions,
     this.price,
     this.quantity,
     this.barcode,

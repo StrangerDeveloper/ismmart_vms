@@ -25,30 +25,6 @@ class AddProduct3ViewModel extends GetxController {
   Map<String, String> productDetails = {};
   List<PicturesModel> images = <PicturesModel>[];
 
-  ///Variables for Weight Field
-  TextEditingController weightUnitController = TextEditingController();
-  TextEditingController weightController = TextEditingController();
-  RxInt weightUnitSelectedIndex = 0.obs;
-  List<String> weightUnitList = const <String>['kg', 'lbs', 'oz'];
-
-  ///Variables for Length Field
-  TextEditingController lengthUnitController = TextEditingController();
-  TextEditingController lengthController = TextEditingController();
-  RxInt lengthUnitSelectedIndex = 0.obs;
-  List<String> lengthUnitList = const <String>['in', 'cm', 'meters'];
-
-  ///Variables for Width Field
-  TextEditingController widthUnitController = TextEditingController();
-  TextEditingController widthController = TextEditingController();
-  RxInt widthUnitSelectedIndex = 0.obs;
-  List<String> widthUnitList = const <String>['in', 'cm', 'meters'];
-
-  ///Variables for Height Field
-  TextEditingController heightUnitController = TextEditingController();
-  TextEditingController heightController = TextEditingController();
-  RxInt heightUnitSelectedIndex = 0.obs;
-  List<String> heightUnitList = const <String>['in', 'cm', 'meters'];
-
   ///Variables for Country Field
   TextEditingController countryController = TextEditingController();
   RxInt countrySelected = 0.obs;
@@ -67,7 +43,6 @@ class AddProduct3ViewModel extends GetxController {
 
   @override
   void onReady() {
-    weightUnitController.text = weightUnitList[weightUnitSelectedIndex.value];
     GlobalVariable.showLoader.value = true;
     super.onReady();
   }
@@ -95,14 +70,14 @@ class AddProduct3ViewModel extends GetxController {
     GlobalVariable.showLoader.value = true;
 
     final AddProduct2ViewModel addProduct2ViewModel = Get.find();
-    for(int i = 0; i <= addProduct2ViewModel.finalCombinationsList.length-1 ; i++) {
-      productDetails.addAll({
-        "variants[$i][weight]": weightController.text,
-        // "variants[$i][dimensions][length]": lengthController.text,
-        // "variants[$i][dimensions][width]": widthController.text,
-        // "variants[$i][dimensions][height]": heightController.text,
-      });
-    }
+    // for(int i = 0; i <= addProduct2ViewModel.finalCombinationsList.length-1 ; i++) {
+    //   productDetails.addAll({
+    //     "variants[$i][weight]": weightController.text,
+    //     // "variants[$i][dimensions][length]": lengthController.text,
+    //     // "variants[$i][dimensions][width]": widthController.text,
+    //     // "variants[$i][dimensions][height]": heightController.text,
+    //   });
+    // }
     List<http.MultipartFile> fileList = [];
     for(int i = 0; i<=images.length-1; i++){
 
@@ -129,7 +104,7 @@ class AddProduct3ViewModel extends GetxController {
           productListViewModel.productItemsList.clear();
           await productListViewModel.getProductItems();
           productListViewModel.productItemsList.refresh();
-          Get.close(2);
+          Get.close(3);
           AppConstant.displaySnackBar('Success', 'Product Added Successfully');
         } else {
           GlobalVariable.selectedIndex.value = 0;

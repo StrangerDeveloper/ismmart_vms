@@ -25,14 +25,11 @@ class AddProduct2ViewModel extends GetxController {
   ScrollController scrollController = ScrollController();
   final GlobalKey<FormState> variantsFormKey = GlobalKey<FormState>();
   final GlobalKey<FormState> variantsInventoryFormKey = GlobalKey<FormState>();
-  TextEditingController weightController = TextEditingController();
-  TextEditingController lengthController = TextEditingController();
-  TextEditingController widthController = TextEditingController();
-  TextEditingController heightController = TextEditingController();
 
   /// General Variables
   RxBool trackQuantity = true.obs;
   RxBool variantsChanged = false.obs;
+  RxBool editProduct = false.obs;
 
   /// Variables for handling arguments
   Map<String, String> previousDetails = {};
@@ -40,11 +37,36 @@ class AddProduct2ViewModel extends GetxController {
   SingleProductModel oldDetails = SingleProductModel();
   bool cameFromProductList = false;
 
+  ///Variables for Weight Field
+  TextEditingController weightUnitController = TextEditingController();
+  TextEditingController weightController = TextEditingController();
+  RxInt weightUnitSelectedIndex = 0.obs;
+  List<String> weightUnitList = const <String>['kg', 'lbs', 'oz'];
+
+  ///Variables for Length Field
+  TextEditingController lengthUnitController = TextEditingController();
+  TextEditingController lengthController = TextEditingController();
+  RxInt lengthUnitSelectedIndex = 0.obs;
+  List<String> lengthUnitList = const <String>['in', 'cm', 'meters'];
+
+  ///Variables for Width Field
+  TextEditingController widthUnitController = TextEditingController();
+  TextEditingController widthController = TextEditingController();
+  RxInt widthUnitSelectedIndex = 0.obs;
+  List<String> widthUnitList = const <String>['in', 'cm', 'meters'];
+
+  ///Variables for Height Field
+  TextEditingController heightUnitController = TextEditingController();
+  TextEditingController heightController = TextEditingController();
+  RxInt heightUnitSelectedIndex = 0.obs;
+  List<String> heightUnitList = const <String>['in', 'cm', 'meters'];
+
   @override
   void onInit() {
     previousDetails = Get.arguments['productDetails'];
     cameFromProductList = Get.arguments['cameFromProductList'];
-    if(cameFromProductList){
+    editProduct.value = Get.arguments['editProduct'];
+    if(editProduct.value){
       oldDetails = Get.arguments['oldData'];
       fillData();
     }
@@ -53,6 +75,10 @@ class AddProduct2ViewModel extends GetxController {
 
   @override
   void onReady() {
+    weightUnitController.text = weightUnitList[weightUnitSelectedIndex.value];
+    lengthUnitController.text = lengthUnitList[lengthUnitSelectedIndex.value];
+    widthUnitController.text = widthUnitList[widthUnitSelectedIndex.value];
+    heightUnitController.text = heightUnitList[heightUnitSelectedIndex.value];
     scrollController.addListener(() {
       if (scrollController.offset == scrollController.position.maxScrollExtent) {
         listOfOptionsAdded.refresh();
@@ -64,6 +90,13 @@ class AddProduct2ViewModel extends GetxController {
 
   fillData(){
     for(var option in oldDetails.options!) {
+      finalCombinationsList.add(VariantSelectionModel(
+        id: option.sId,
+        totalInventoryQuantityValue: 0,
+        variantName: option.name,
+        variantValue: 0,
+        locationInventory: <LocationInventory>[]
+      ));
       TextEditingController optionName = TextEditingController();
       optionName.text = option.name!;
       listOfOptionsAdded.add(VariantsOptionsFieldModel(optionName: optionName, optionValues: <TextEditingController>[]));
@@ -73,7 +106,9 @@ class AddProduct2ViewModel extends GetxController {
         listOfOptionsAdded.last.optionValues?.add(value);
         listOfOptionsAdded.refresh();
         if(option == oldDetails.options?.last && optionValue == option.values?.last) {
-          creatingVariants();
+          getInventoryLocations();
+          // showVariantsData.value = true;
+          // print(listOfOptionsAdded.length);
         }
       }
     }
@@ -116,16 +151,16 @@ class AddProduct2ViewModel extends GetxController {
   }
 
   creatingVariants() {
-    if (cameFromProductList) {
-      for(var option in oldDetails.variants!){
-        preBuiltVariants.add(option);
-        preBuiltVariants.refresh();
-        if(option == oldDetails.variants?.last){
-          getVariantInventory();
-          showVariantsData.value = true;
-        }
-      }
-    } else {
+    // if (cameFromProductList) {
+    //   for(var option in oldDetails.variants!){
+    //     preBuiltVariants.add(option);
+    //     preBuiltVariants.refresh();
+    //     if(option == oldDetails.variants?.last){
+    //       getVariantInventory();
+    //       showVariantsData.value = true;
+    //     }
+    //   }
+    // } else {
       combinations.clear();
       if (listOfOptionsAdded.isNotEmpty) {
         if (listOfOptionsAdded.length > 1) {
@@ -144,7 +179,7 @@ class AddProduct2ViewModel extends GetxController {
           });
         }
       }
-    }
+    // }
   }
 
   variantsFunction(int initialIndex, int nextIndex) {
@@ -207,10 +242,13 @@ class AddProduct2ViewModel extends GetxController {
           id: j.sId,
           locationName: j.name,
           weight: double.tryParse(weightController.text),
-          length: int.tryParse(lengthController.text),
-          width: int.tryParse(widthController.text),
-          height: int.tryParse(heightController.text)
+          // dimensions: int.tryParse(lengthController.text),
+          // width: int.tryParse(widthController.text),
+          // height: int.tryParse(heightController.text)
         ));
+        i.locationInventory?.last.dimensions?.length = int.tryParse(lengthController.text);
+        i.locationInventory?.last.dimensions?.width = int.tryParse(widthController.text);
+        i.locationInventory?.last.dimensions?.height = int.tryParse(heightController.text);
         finalCombinationsList.refresh();
       }
     }
@@ -231,7 +269,7 @@ class AddProduct2ViewModel extends GetxController {
   }
 
   createJson() {
-    if(cameFromProductList){
+    if(editProduct.value){
       if (variantsChanged.value) {
         for (int i = 0; i <= listOfOptionsAdded.length - 1; i++) {
           previousDetails.addAll({
@@ -248,7 +286,7 @@ class AddProduct2ViewModel extends GetxController {
         }
         for (int i = 0; i <= finalCombinationsList.length - 1; i++) {
           previousDetails.addAll({
-            "variants[$i][variantId]": "$i",
+            "variants[$i][variantId]": finalCombinationsList[i].id == null ? "$i" : finalCombinationsList[i].id!,
             // "variants[$i][weight]": weightController.text,
             // "variants[$i][dimensions][length]": lengthController.text,
             // "variants[$i][dimensions][width]": widthController.text,
@@ -313,9 +351,7 @@ class AddProduct2ViewModel extends GetxController {
         previousDetails.addAll({
           "options[$i][name]": listOfOptionsAdded[i].optionName!.text,
         });
-        for (int j = 0;
-        j <= listOfOptionsAdded[i].optionValues!.length - 1;
-        j++) {
+        for (int j = 0; j <= listOfOptionsAdded[i].optionValues!.length - 1; j++) {
           previousDetails.addAll({
             "options[$i][values][$j]":
             listOfOptionsAdded[i].optionValues![j].text
@@ -325,10 +361,6 @@ class AddProduct2ViewModel extends GetxController {
       for (int i = 0; i <= finalCombinationsList.length - 1; i++) {
         previousDetails.addAll({
           "variants[$i][variantId]": "$i",
-          // "variants[$i][weight]": weightController.text,
-          // "variants[$i][dimensions][length]": lengthController.text,
-          // "variants[$i][dimensions][width]": widthController.text,
-          // "variants[$i][dimensions][height]": heightController.text,
         });
         final splitted = finalCombinationsList[i].variantName?.split(' - ');
         if (splitted!.length > 1) {
@@ -342,31 +374,12 @@ class AddProduct2ViewModel extends GetxController {
         }
         for (int k = 0; k <= 1; k++) {
           previousDetails.addAll({
-            "inventory[$k][location]":
-            finalCombinationsList[i].locationInventory![k].id!,
-            "inventory[$k][variant]": "$i",
-            "inventory[$k][quantity]": finalCombinationsList[i]
-                .locationInventory?[k]
-                .quantity ==
-                null
-                ? '0'
-                : "${finalCombinationsList[i].locationInventory![k].quantity!}",
-            "inventory[$k][price]": finalCombinationsList[i]
-                .locationInventory?[k]
-                .price ==
-                null
-                ? '0'
-                : "${finalCombinationsList[i].locationInventory?[k].price}",
-            "inventory[$k][sku]":
-            finalCombinationsList[i].locationInventory?[k].sku == null
-                ? '0'
-                : "${finalCombinationsList[i].locationInventory?[k].sku}",
-            "inventory[$k][barcode]": finalCombinationsList[i]
-                .locationInventory?[k]
-                .barcode ==
-                null
-                ? '0'
-                : "${finalCombinationsList[i].locationInventory?[k].barcode}",
+            "inventory[$k][location]": finalCombinationsList[i].locationInventory![k].id!,
+            "inventory[$k][variant]": finalCombinationsList[i].id == null ? '$i' : finalCombinationsList[i].id!,
+            "inventory[$k][quantity]": finalCombinationsList[i].locationInventory?[k].quantity == null ? '0' : "${finalCombinationsList[i].locationInventory![k].quantity!}",
+            "inventory[$k][price]": finalCombinationsList[i].locationInventory?[k].price == null ? '0' : "${finalCombinationsList[i].locationInventory?[k].price}",
+            "inventory[$k][sku]": finalCombinationsList[i].locationInventory?[k].sku == null ? '0' : "${finalCombinationsList[i].locationInventory?[k].sku}",
+            "inventory[$k][barcode]": finalCombinationsList[i].locationInventory?[k].barcode == null ? '0' : "${finalCombinationsList[i].locationInventory?[k].barcode}",
           });
         }
         if (i == finalCombinationsList.length - 1) {

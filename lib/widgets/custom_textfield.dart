@@ -114,6 +114,7 @@ class CustomTextField1 extends StatelessWidget {
                 ),
               ),
         refreshIconVisibility ? Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SizedBox(
               width: Get.width * 0.8,

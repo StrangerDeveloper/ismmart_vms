@@ -7,6 +7,7 @@ import 'package:ismmart_vms/screens/location_list/location_list_view.dart';
 import 'package:ismmart_vms/widgets/custom_button.dart';
 
 import '../../../helper/constants.dart';
+import '../../../widgets/custom_bottom_sheet.dart';
 import '../../../widgets/custom_textfield.dart';
 import '../../../widgets/stepperText.dart';
 import '../../../widgets/widget_models/variant_options_field_model.dart';
@@ -130,8 +131,8 @@ class AddProduct2View extends StatelessWidget {
                           ),
                           InkWell(
                             onTap: () async {
-                              if(viewModel.cameFromProductList) {
-                                // await variantCreationDialog(index: index);
+                              if(viewModel.editProduct.value) {
+
                               } else {
                                 await variantCreationDialog(index: index);
                               }
@@ -195,7 +196,7 @@ class AddProduct2View extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            viewModel.cameFromProductList && viewModel.variantsChanged.value == false ? 'Showing ${viewModel.preBuiltVariants.length} variant(s)' : 'Showing ${viewModel.finalCombinationsList.length} variant(s)',
+            'Showing ${viewModel.finalCombinationsList.length} variant(s)',
             style: interHeadingSize15.copyWith(
               fontSize: 14,
               color: newColorLightGrey2,
@@ -205,7 +206,7 @@ class AddProduct2View extends StatelessWidget {
           const SizedBox(height: 5,),
           Column(
             children: List.generate(
-                viewModel.cameFromProductList && viewModel.variantsChanged.isFalse ? viewModel.preBuiltVariants.length : viewModel.finalCombinationsList.length, (idx) {
+                viewModel.finalCombinationsList.length, (idx) {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -213,7 +214,7 @@ class AddProduct2View extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            viewModel.cameFromProductList && viewModel.variantsChanged.isFalse ? viewModel.preBuiltVariants[idx].name! : viewModel.finalCombinationsList[idx].variantName!,
+                            viewModel.finalCombinationsList[idx].variantName!,
                             style: interHeadingSize15.copyWith(
                               color: Colors.black,
                               fontWeight: FontWeight.w500
@@ -221,7 +222,7 @@ class AddProduct2View extends StatelessWidget {
                           ),
                           TextButton(
                               onPressed: () {
-                                if(viewModel.cameFromProductList){
+                                if(viewModel.editProduct.value){
                                   return;
                                 }
                                 // if(viewModel.cameFromProductList && viewModel.variantsChanged.value == false) {
@@ -252,7 +253,7 @@ class AddProduct2View extends StatelessWidget {
                         ],
                       ),
                       Obx(() => Text(
-                        viewModel.cameFromProductList && viewModel.variantsChanged.isFalse ? '' : viewModel.finalCombinationsList[idx].locationInventory?[0].price == null ? 'Rs 0.00' : 'Rs ${viewModel.finalCombinationsList[idx].locationInventory?[0].price}',
+                        viewModel.finalCombinationsList[idx].locationInventory?[0].price == null ? 'Rs 0.00' : 'Rs ${viewModel.finalCombinationsList[idx].locationInventory?[0].price}',
                           style: interNormalText.copyWith(
                             fontWeight: FontWeight.w400,
                             color: newColorLightGrey2,
@@ -262,7 +263,7 @@ class AddProduct2View extends StatelessWidget {
                       ),
                       const SizedBox(height: 3,),
                       Obx(() => Text(
-                        viewModel.cameFromProductList && viewModel.variantsChanged.isFalse ? '' : '${viewModel.finalCombinationsList[idx].totalInventoryQuantityValue} available at ${viewModel.locationInventoryList.length} locations',
+                        '${viewModel.finalCombinationsList[idx].totalInventoryQuantityValue} available at ${viewModel.locationInventoryList.length} locations',
                           style: interNormalText.copyWith(
                               fontWeight: FontWeight.w400,
                               color: newColorLightGrey2,
@@ -332,7 +333,7 @@ class AddProduct2View extends StatelessWidget {
             optionValues: [TextEditingController()],
           ),
         );
-        if(viewModel.cameFromProductList){
+        if(viewModel.editProduct.value){
           // await variantCreationDialog();
         } else {
           await variantCreationDialog();
@@ -852,7 +853,7 @@ class AddProduct2View extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 5),
           child: InkWell(
             onTap: () {
-              if(viewModel.cameFromProductList){
+              if(viewModel.editProduct.value){
                 return;
               } else{
                 if(viewModel.finalCombinationsList.isEmpty) {
@@ -949,21 +950,27 @@ class AddProduct2View extends StatelessWidget {
                                   IconButton(
                                     visualDensity: VisualDensity.compact,
                                     onPressed: () {
-                                      viewModel.preBuiltVariants.clear();
-                                      if(viewModel.cameFromProductList && viewModel.variantsChanged.isFalse) {
-                                         for(var element in variantTempList!) {
-                                           viewModel.preBuiltVariants.add(element);
-                                         }
-                                         viewModel.finalCombinationsList.refresh();
-                                         Get.back();
-                                      } else {
-                                        viewModel.finalCombinationsList.clear();
-                                        for (var element in tempList!) {
-                                          viewModel.finalCombinationsList.add(element);
-                                        }
-                                        viewModel.finalCombinationsList.refresh();
-                                        Get.back();
+                                      viewModel.finalCombinationsList.clear();
+                                      for (var element in tempList!) {
+                                        viewModel.finalCombinationsList.add(element);
                                       }
+                                      viewModel.finalCombinationsList.refresh();
+                                      Get.back();
+                                      // viewModel.preBuiltVariants.clear();
+                                      // if(viewModel.cameFromProductList && viewModel.variantsChanged.isFalse) {
+                                      //    for(var element in variantTempList!) {
+                                      //      viewModel.preBuiltVariants.add(element);
+                                      //    }
+                                      //    viewModel.finalCombinationsList.refresh();
+                                      //    Get.back();
+                                      // } else {
+                                      //   viewModel.finalCombinationsList.clear();
+                                      //   for (var element in tempList!) {
+                                      //     viewModel.finalCombinationsList.add(element);
+                                      //   }
+                                      //   viewModel.finalCombinationsList.refresh();
+                                      //   Get.back();
+                                      // }
                                     },
                                     icon: const Icon(
                                       Icons.close,
@@ -1011,7 +1018,7 @@ class AddProduct2View extends StatelessWidget {
                                         const Divider(),
                                         Column(
                                           children: List.generate(
-                                              viewModel.cameFromProductList && viewModel.variantsChanged.isFalse ? viewModel.preBuiltVariants.length : viewModel.finalCombinationsList.length, (idx) {
+                                              viewModel.finalCombinationsList.length, (idx) {
                                             int locationIndexInInventory = viewModel.finalCombinationsList[idx].locationInventory!.indexWhere((element) => element.locationName == viewModel.locationInventoryList[index].name);
                                             return Column(
                                               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -1055,6 +1062,7 @@ class AddProduct2View extends StatelessWidget {
                                                           initialValue: viewModel.finalCombinationsList[idx].locationInventory?[locationIndexInInventory].quantity == null ? '' : "${viewModel.finalCombinationsList[idx].locationInventory?[locationIndexInInventory].quantity}",
                                                           onChanged: (value) {
                                                             viewModel.finalCombinationsList[idx].locationInventory?[locationIndexInInventory].quantity = int.parse(value);
+                                                            viewModel.finalCombinationsList[index].totalInventoryQuantityValue += int.parse(value);
                                                             viewModel.finalCombinationsList.refresh();
                                                           },
                                                           hintText: '0',
@@ -1068,6 +1076,7 @@ class AddProduct2View extends StatelessWidget {
                                                     ],
                                                   ),
                                                 ),
+                                                dimensionsSection(idx, locationIndexInInventory),
                                                 const SizedBox(height: 20,),
                                                 CustomTextField2(
                                                   initialValue: viewModel.finalCombinationsList[idx].locationInventory?[locationIndexInInventory].sku ?? '',
@@ -1167,21 +1176,21 @@ class AddProduct2View extends StatelessWidget {
                                   IconButton(
                                     visualDensity: VisualDensity.compact,
                                       onPressed: (){
-                                        viewModel.preBuiltVariants.clear();
-                                        if(viewModel.cameFromProductList && viewModel.variantsChanged.isFalse) {
-                                          for(var element in variantTempList!) {
-                                            viewModel.preBuiltVariants.add(element);
-                                          }
-                                          viewModel.finalCombinationsList.refresh();
-                                          Get.back();
-                                        } else {
-                                          viewModel.finalCombinationsList.clear();
-                                          for (var element in tempList!) {
-                                            viewModel.finalCombinationsList.add(element);
-                                          }
-                                          viewModel.finalCombinationsList.refresh();
-                                          Get.back();
+                                        // viewModel.preBuiltVariants.clear();
+                                        // if(viewModel.cameFromProductList && viewModel.variantsChanged.isFalse) {
+                                        //   for(var element in variantTempList!) {
+                                        //     viewModel.preBuiltVariants.add(element);
+                                        //   }
+                                        //   viewModel.finalCombinationsList.refresh();
+                                        //   Get.back();
+                                        // } else {
+                                        // }
+                                        viewModel.finalCombinationsList.clear();
+                                        for (var element in tempList!) {
+                                          viewModel.finalCombinationsList.add(element);
                                         }
+                                        viewModel.finalCombinationsList.refresh();
+                                        Get.back();
                                       },
                                       icon: const Icon(
                                         Icons.close,
@@ -1256,6 +1265,7 @@ class AddProduct2View extends StatelessWidget {
                                                           initialValue: viewModel.finalCombinationsList[index].locationInventory?[idx].quantity == null ? '' : "${viewModel.finalCombinationsList[index].locationInventory?[idx].quantity}",
                                                           onChanged: (value) {
                                                             viewModel.finalCombinationsList[index].locationInventory?[idx].quantity = int.parse(value);
+                                                            viewModel.finalCombinationsList[index].totalInventoryQuantityValue += int.parse(value);
                                                             viewModel.finalCombinationsList.refresh();
                                                           },
                                                           hintText: '0',
@@ -1269,6 +1279,7 @@ class AddProduct2View extends StatelessWidget {
                                                     ],
                                                   ),
                                                 ),
+                                                SizedBox(width: Get.width * 0.8, child: dimensionsSection(index, idx)),
                                                 const SizedBox(height: 20,),
                                                 CustomTextField2(
                                                   initialValue: viewModel.finalCombinationsList[index].locationInventory?[idx].sku ?? '',
@@ -1330,6 +1341,80 @@ class AddProduct2View extends StatelessWidget {
           }
       );
     }
+  }
+
+  Widget weightTxtField(int productIndex, int locationIndex) {
+    return CustomTextField5(
+      title: 'Weight',
+      hintText: '0.0',
+      keyboardType: const TextInputType.numberWithOptions(decimal: true),
+      inputFormatters: [
+        FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
+      ],
+      onChanged: (value) {
+        viewModel.finalCombinationsList[productIndex].locationInventory?[locationIndex].weight = double.parse(value);
+        viewModel.finalCombinationsList.refresh();
+      },
+    );
+  }
+
+  Widget dimensionsSection(int productIndex, int locationIndex) {
+    return Column(
+      children: [
+        weightTxtField(productIndex, locationIndex),
+        lengthTxtField(productIndex, locationIndex),
+        widthTxtField(productIndex, locationIndex),
+        heightTxtField(productIndex, locationIndex),
+      ],
+    );
+  }
+
+  Widget lengthTxtField(int productIndex, int locationIndex) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 5.0),
+      child: CustomTextField5(
+       title: 'Length',
+        hintText: '0',
+        keyboardType: TextInputType.number,
+        inputFormatters: [
+          FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+        ],
+        onChanged: (value) {
+          viewModel.finalCombinationsList[productIndex].locationInventory?[locationIndex].dimensions?.length = int.parse(value);
+          viewModel.finalCombinationsList.refresh();
+        },
+      ),
+    );
+  }
+
+  Widget widthTxtField(int productIndex, int locationIndex) {
+    return CustomTextField5(
+      title: 'Width',
+      hintText: '0',
+      keyboardType: TextInputType.number,
+      inputFormatters: [
+        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+      ],
+      onChanged: (value) {
+        viewModel.finalCombinationsList[productIndex].locationInventory?[locationIndex].dimensions?.width = int.parse(value);
+        viewModel.finalCombinationsList.refresh();
+      },
+    );
+  }
+
+  Widget heightTxtField(int productIndex, int locationIndex) {
+    return CustomTextField5(
+      title: 'Height',
+      hintText: '0',
+      keyboardType: TextInputType.number,
+      inputFormatters: [
+        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+      ],
+      onChanged: (value) {
+        viewModel.finalCombinationsList[productIndex].locationInventory?[locationIndex].dimensions?.height = int.parse(value);
+        viewModel.finalCombinationsList.refresh();
+      },
+    );
   }
 
   Widget textContainer(int flexValue, String text, bool centerTitle) {

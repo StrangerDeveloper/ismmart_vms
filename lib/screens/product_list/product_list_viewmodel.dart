@@ -89,7 +89,8 @@ class ProductListViewModel extends GetxController {
       if(parsedJson['success'] == true) {
         Get.to(() => AddProduct1View(), arguments: {
           'productDetails': SingleProductModel.fromJson(parsedJson['data']['items'][0]),
-          'cameFromProductList': true
+          'cameFromProductList': true,
+          'editProduct': true,
         });
       } else {
         AppConstant.displaySnackBar('Error', 'Product details couldn\'t be fetched');

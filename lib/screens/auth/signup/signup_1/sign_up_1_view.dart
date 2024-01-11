@@ -187,7 +187,7 @@ class SignUp1View extends StatelessWidget {
       padding: const EdgeInsets.only(top: 32, bottom: 15),
       child: CustomTextField1(
         inputFormatters: <TextInputFormatter>[
-          FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+          FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),
         ],
         keyboardType: TextInputType.text,
         prefixIcon: Icons.person,

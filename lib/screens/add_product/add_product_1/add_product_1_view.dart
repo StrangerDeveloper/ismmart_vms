@@ -73,7 +73,7 @@ class AddProduct1View extends StatelessWidget {
             color: newColorLightGrey2,
           )),
       title: Text(
-        viewModel.cameFromProductList.value ? 'Edit Product' : 'Add Product',
+        viewModel.editProduct.value ? 'Edit Product' : 'Add Product',
         style: dmSerifDisplay1.copyWith(fontSize: 20),
       ),
       centerTitle: true,
@@ -448,6 +448,7 @@ class AddProduct1View extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 18),
       child: Obx(() => CustomTextField1(
           refreshIconVisibility: viewModel.typeRefreshCheck.value,
+          onIconTap: () => viewModel.fetchTypes(),
           title: 'Type',
           validator: (value) {
             if(value == null || value == '' || value.isEmpty) {
@@ -480,6 +481,9 @@ class AddProduct1View extends StatelessWidget {
       children: [
         Obx(() => CustomTextField1(
           refreshIconVisibility: viewModel.categoryRefreshCheck.value,
+            onIconTap: () {
+              viewModel.fetchCategories();
+            },
             title: 'Category',
             hintText: 'Select one or more product category',
             isDropDown: true,

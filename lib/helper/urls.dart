@@ -34,6 +34,8 @@ class Urls {
   static String addProduct = "/vendor/product/add";
   static String getSingleProduct = '/vendor/product?id=';
   static String getVariantInventory = '/vendor/product/inventory?variant=';
+  static String getCategories = '/public/category?limit=0';
+  static String getTypes = '/public/type?limit=0';
 
   ///Dashboard
   static String getProductSummary = "/vendor/dashboard/summary/product?duration=";

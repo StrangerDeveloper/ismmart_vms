@@ -47,10 +47,10 @@ class AddProduct3View extends StatelessWidget {
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                      checkBox('This is a physical product', viewModel.checkBoxIsPhysicalProduct),
-                      weightTxtField(),
+                      // checkBox('This is a physical product', viewModel.checkBoxIsPhysicalProduct),
+                      // weightTxtField(),
                       // dimensionsSection(),
-                      const Divider(),
+                      // const Divider(),
                       countryRegionTxtField(),
                       hsCodeTxtField(),
                       checkBox('Continue selling when out-of-stock', viewModel.checkBoxContinueSelling),
@@ -171,207 +171,162 @@ class AddProduct3View extends StatelessWidget {
     );
   }
 
-  Widget dimensionTxtField({
-    required String inputFieldTitle,
-    required String inputFieldHintText,
-    required String unitFieldHintText,
-    required TextEditingController inputFieldController,
-    required TextEditingController unitFieldController,
-    required RxInt selectedIndex,
-    required List<String> unitList,
-    required
-  }) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        Expanded(
-          flex: 4,
-          child: CustomTextField5(
-            controller: inputFieldController,
-            title: inputFieldTitle,
-            hintText: inputFieldHintText,
-          ),
-        ),
-        const SizedBox(width: 8),
-        Expanded(
-          flex: 2,
-          child: CustomTextField5(
-            controller: unitFieldController,
-            hintText: unitFieldHintText,
-            suffixIcon: Icons.unfold_more,
-            readOnly: true,
-            onTap: () {
-              CustomBottomSheet1(
-                selectedIndex: selectedIndex.value,
-                list: viewModel.weightUnitList,
-                onValueSelected: (value) {
-                  viewModel.weightUnitSelectedIndex.value = value;
-                  viewModel.weightUnitController.text = viewModel.weightUnitList[value];
-                },
-              ).show();
-            },
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget weightTxtField() {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        Expanded(
-          flex: 4,
-          child: CustomTextField5(
-            controller: viewModel.weightController,
-            title: 'Weight',
-            hintText: '0.0',
-            keyboardType: const TextInputType.numberWithOptions(decimal: true),
-            inputFormatters: [
-              FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
-            ],
-          ),
-        ),
-        const SizedBox(width: 8),
-        Expanded(
-          flex: 2,
-          child: CustomTextField5(
-            controller: viewModel.weightUnitController,
-            hintText: 'Unit',
-            suffixIcon: Icons.unfold_more,
-            readOnly: true,
-            onTap: () {
-              CustomBottomSheet1(
-                selectedIndex: viewModel.weightUnitSelectedIndex.value,
-                list: viewModel.weightUnitList,
-                onValueSelected: (value) {
-                  viewModel.weightUnitSelectedIndex.value = value;
-                  viewModel.weightUnitController.text = viewModel.weightUnitList[value];
-                },
-              ).show();
-            },
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget dimensionsSection() {
-    return SizedBox(
-      width: Get.width * 0.8,
-      height: 200,
-      child: Row(
-        children: [
-          lengthTxtField(),
-          widthTxtField(),
-          heightTxtField(),
-        ],
-      ),
-    );
-  }
-
-  Widget lengthTxtField() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        CustomTextField5(
-          controller: viewModel.lengthController,
-          title: 'Length',
-          hintText: '0.0',
-        ),
-        const SizedBox(width: 8),
-        CustomTextField5(
-          controller: viewModel.lengthUnitController,
-          hintText: 'Unit',
-          suffixIcon: Icons.unfold_more,
-          readOnly: true,
-          onTap: () {
-            CustomBottomSheet1(
-              selectedIndex: viewModel.lengthUnitSelectedIndex.value,
-              list: viewModel.lengthUnitList,
-              onValueSelected: (value) {
-                viewModel.lengthUnitSelectedIndex.value = value;
-                viewModel.lengthUnitController.text = viewModel.lengthUnitList[value];
-              },
-            ).show();
-          },
-        ),
-      ],
-    );
-  }
-
-  Widget widthTxtField() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        CustomTextField5(
-          controller: viewModel.widthController,
-          title: 'Width',
-          hintText: '0.0',
-        ),
-        const SizedBox(width: 8),
-        Expanded(
-          flex: 2,
-          child: CustomTextField5(
-            controller: viewModel.widthUnitController,
-            hintText: 'Unit',
-            suffixIcon: Icons.unfold_more,
-            readOnly: true,
-            onTap: () {
-              CustomBottomSheet1(
-                selectedIndex: viewModel.widthUnitSelectedIndex.value,
-                list: viewModel.widthUnitList,
-                onValueSelected: (value) {
-                  viewModel.widthUnitSelectedIndex.value = value;
-                  viewModel.widthUnitController.text = viewModel.widthUnitList[value];
-                },
-              ).show();
-            },
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget heightTxtField() {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        Expanded(
-          flex: 4,
-          child: CustomTextField5(
-            controller: viewModel.heightController,
-            title: 'Height',
-            hintText: '0.0',
-          ),
-        ),
-        const SizedBox(width: 8),
-        Expanded(
-          flex: 2,
-          child: CustomTextField5(
-            controller: viewModel.heightUnitController,
-            hintText: 'Unit',
-            suffixIcon: Icons.unfold_more,
-            readOnly: true,
-            onTap: () {
-              CustomBottomSheet1(
-                selectedIndex: viewModel.heightUnitSelectedIndex.value,
-                list: viewModel.heightUnitList,
-                onValueSelected: (value) {
-                  viewModel.heightUnitSelectedIndex.value = value;
-                  viewModel.heightUnitController.text = viewModel.heightUnitList[value];
-                },
-              ).show();
-            },
-          ),
-        ),
-      ],
-    );
-  }
+  // Widget weightTxtField() {
+  //   return Row(
+  //     crossAxisAlignment: CrossAxisAlignment.end,
+  //     children: [
+  //       Expanded(
+  //         flex: 4,
+  //         child: CustomTextField5(
+  //           controller: viewModel.weightController,
+  //           title: 'Weight',
+  //           hintText: '0.0',
+  //           keyboardType: const TextInputType.numberWithOptions(decimal: true),
+  //           inputFormatters: [
+  //             FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
+  //           ],
+  //         ),
+  //       ),
+  //       const SizedBox(width: 8),
+  //       Expanded(
+  //         flex: 2,
+  //         child: CustomTextField5(
+  //           controller: viewModel.weightUnitController,
+  //           hintText: 'Unit',
+  //           suffixIcon: Icons.unfold_more,
+  //           readOnly: true,
+  //           onTap: () {
+  //             CustomBottomSheet1(
+  //               selectedIndex: viewModel.weightUnitSelectedIndex.value,
+  //               list: viewModel.weightUnitList,
+  //               onValueSelected: (value) {
+  //                 viewModel.weightUnitSelectedIndex.value = value;
+  //                 viewModel.weightUnitController.text = viewModel.weightUnitList[value];
+  //               },
+  //             ).show();
+  //           },
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
+  //
+  // Widget dimensionsSection() {
+  //   return SizedBox(
+  //     width: Get.width * 0.8,
+  //     height: 200,
+  //     child: Row(
+  //       children: [
+  //         lengthTxtField(),
+  //         widthTxtField(),
+  //         heightTxtField(),
+  //       ],
+  //     ),
+  //   );
+  // }
+  //
+  // Widget lengthTxtField() {
+  //   return Column(
+  //     crossAxisAlignment: CrossAxisAlignment.end,
+  //     children: [
+  //       CustomTextField5(
+  //         controller: viewModel.lengthController,
+  //         title: 'Length',
+  //         hintText: '0.0',
+  //       ),
+  //       const SizedBox(width: 8),
+  //       CustomTextField5(
+  //         controller: viewModel.lengthUnitController,
+  //         hintText: 'Unit',
+  //         suffixIcon: Icons.unfold_more,
+  //         readOnly: true,
+  //         onTap: () {
+  //           CustomBottomSheet1(
+  //             selectedIndex: viewModel.lengthUnitSelectedIndex.value,
+  //             list: viewModel.lengthUnitList,
+  //             onValueSelected: (value) {
+  //               viewModel.lengthUnitSelectedIndex.value = value;
+  //               viewModel.lengthUnitController.text = viewModel.lengthUnitList[value];
+  //             },
+  //           ).show();
+  //         },
+  //       ),
+  //     ],
+  //   );
+  // }
+  //
+  // Widget widthTxtField() {
+  //   return Column(
+  //     crossAxisAlignment: CrossAxisAlignment.end,
+  //     children: [
+  //       CustomTextField5(
+  //         controller: viewModel.widthController,
+  //         title: 'Width',
+  //         hintText: '0.0',
+  //       ),
+  //       const SizedBox(width: 8),
+  //       Expanded(
+  //         flex: 2,
+  //         child: CustomTextField5(
+  //           controller: viewModel.widthUnitController,
+  //           hintText: 'Unit',
+  //           suffixIcon: Icons.unfold_more,
+  //           readOnly: true,
+  //           onTap: () {
+  //             CustomBottomSheet1(
+  //               selectedIndex: viewModel.widthUnitSelectedIndex.value,
+  //               list: viewModel.widthUnitList,
+  //               onValueSelected: (value) {
+  //                 viewModel.widthUnitSelectedIndex.value = value;
+  //                 viewModel.widthUnitController.text = viewModel.widthUnitList[value];
+  //               },
+  //             ).show();
+  //           },
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
+  //
+  // Widget heightTxtField() {
+  //   return Row(
+  //     crossAxisAlignment: CrossAxisAlignment.end,
+  //     children: [
+  //       Expanded(
+  //         flex: 4,
+  //         child: CustomTextField5(
+  //           controller: viewModel.heightController,
+  //           title: 'Height',
+  //           hintText: '0.0',
+  //         ),
+  //       ),
+  //       const SizedBox(width: 8),
+  //       Expanded(
+  //         flex: 2,
+  //         child: CustomTextField5(
+  //           controller: viewModel.heightUnitController,
+  //           hintText: 'Unit',
+  //           suffixIcon: Icons.unfold_more,
+  //           readOnly: true,
+  //           onTap: () {
+  //             CustomBottomSheet1(
+  //               selectedIndex: viewModel.heightUnitSelectedIndex.value,
+  //               list: viewModel.heightUnitList,
+  //               onValueSelected: (value) {
+  //                 viewModel.heightUnitSelectedIndex.value = value;
+  //                 viewModel.heightUnitController.text = viewModel.heightUnitList[value];
+  //               },
+  //             ).show();
+  //           },
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
 
   Widget countryRegionTxtField() {
     return Padding(
-      padding: const EdgeInsets.only(top: 4, bottom: 15),
+      padding: const EdgeInsets.only(top: 10, bottom: 15),
       child: CustomTextField5(
         title: 'Country/Region of origin',
         hintText: 'Select Country',
