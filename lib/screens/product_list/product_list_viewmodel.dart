@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/global_variables.dart';
-import 'package:ismmart_vms/screens/product_list/multiple_products_model.dart';
 import 'package:ismmart_vms/screens/product_list/single_product_model.dart';
 
 import '../../helper/api_base_helper.dart';
@@ -29,6 +28,7 @@ class ProductListViewModel extends GetxController {
 
   @override
   Future<void> onReady() async {
+    statusController.text = 'all';
     getDataFunction();
   }
 
@@ -107,38 +107,4 @@ class ProductListViewModel extends GetxController {
     }
   }
 
-  // Future<void> getProductItems() async {
-  //   await ApiBaseHelper()
-  //       .getMethod(url: "/vendor/product?page=${page.value}&limit=$limit")
-  //       .then((parsedJson) {
-  //     final data = parsedJson['data'];
-  //     if (data != null) {
-  //       productModel.value = MultipleProductsModel.fromJson(data);
-  //       productItemsList.addAll(productModel.value.items!);
-  //     }
-  //   }).catchError((e) {
-  //     debugPrint("GetProductList: $e");
-  //   });
-  // }
-  
-  // getSingleProductDetails(String id) async {
-  //
-  //   GlobalVariable.showLoader.value = true;
-  //
-  //   ApiBaseHelper().getMethod(url: Urls.getSingleProduct + id).then((parsedJson) {
-  //     GlobalVariable.showLoader.value = false;
-  //     if(parsedJson['success'] == true) {
-  //       Get.to(() => AddProduct1View(), arguments: {
-  //         'productDetails': SingleProductModel.fromJson(parsedJson['data']['items'][0]),
-  //         'cameFromProductList': true
-  //       });
-  //     } else {
-  //       AppConstant.displaySnackBar('Error', 'Product details couldn\'t be fetched');
-  //     }
-  //   }).catchError((e) {
-  //     GlobalVariable.showLoader.value = false;
-  //     print(e);
-  //     AppConstant.displaySnackBar('Error', 'Error fetching product details');
-  //   });
-  // }
 }
