@@ -11,6 +11,7 @@ import 'package:ismmart_vms/widgets/scrollable_column.dart';
 import 'package:ismmart_vms/helper/languages/translations_key.dart';
 
 import '../../../../helper/constants.dart';
+import '../../../../widgets/custom_appbar.dart';
 
 class SingupMethodsView extends StatelessWidget {
   SingupMethodsView({super.key});
@@ -21,6 +22,10 @@ class SingupMethodsView extends StatelessWidget {
     return SafeArea(
       top: false,
       child: Scaffold(
+        appBar: CustomAppBar2(
+          title: 'Sign Up',
+          titleTextStyle: appbarFontStyle,
+        ),
         backgroundColor: Colors.white,
         body: Stack(
           children: [
@@ -29,14 +34,14 @@ class SingupMethodsView extends StatelessWidget {
               child: ScrollableColumn(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(
-                    height: 50,
-                  ),
-                  titleAndBackBtn(),
-                  const Divider(
-                    color: Color(0xffEEEEEE),
-                    thickness: 1,
-                  ),
+                  // const SizedBox(
+                  //   height: 50,
+                  // ),
+                  // titleAndBackBtn(),
+                  // const Divider(
+                  //   color: Color(0xffEEEEEE),
+                  //   thickness: 1,
+                  // ),
                   Padding(
                     padding: const EdgeInsets.only(top: 52, bottom: 10),
                     child: CustomText(

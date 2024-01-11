@@ -221,6 +221,12 @@ var newFontStyleSize20DM = GoogleFonts.dmSerifText(
   height: 0.06,
   letterSpacing: -0.24,
 );
+var appbarFontStyle = GoogleFonts.inter(
+  fontSize: 24,
+  fontWeight: FontWeight.w700,
+  color: newColorBlue,
+  letterSpacing: -0.24,
+);
 
 var stepperTextStyle = GoogleFonts.inter(
     color: newColorBlue, fontWeight: FontWeight.w500, fontSize: 13);

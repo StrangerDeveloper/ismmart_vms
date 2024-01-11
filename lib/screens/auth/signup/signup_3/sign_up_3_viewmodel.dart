@@ -31,7 +31,7 @@ class SignUp3ViewModel extends GetxController {
   @override
   void onInit() {
     // params.value = Get.arguments['shopDetails'];
-    getBankList();
+    // getBankList();
     super.onInit();
   }
 
@@ -52,7 +52,7 @@ class SignUp3ViewModel extends GetxController {
       param['banks[0][title]'] = bankAccTitleController.text;
       param['banks[0][iban]'] = bankIBANController.text;
       param['banks[0][accountNumber]'] = bankAccNumberController.text;
-      param['step'] = '3';
+      //  param['step'] = '3';
       print(param);
       GlobalVariable.showLoader.value = true;
 
@@ -112,53 +112,53 @@ class SignUp3ViewModel extends GetxController {
     }
   }
 
-  //-----------------Bank Field Data------------
+  // //-----------------Bank Field Data------------
   TextEditingController bankController = TextEditingController();
-  TextEditingController searchController = TextEditingController();
-  List<String> allBankist = [];
-  List bankIdList = [];
-  RxList<String> filteredBankList = <String>[].obs;
-
-  Future<void> getBankList() async {
-    GlobalVariable.showLoader.value = true;
-    filteredBankList.clear();
-    allBankist.clear();
-    var parseJson = await ApiBaseHelper().getMethod(url: Urls.bank);
-    if (parseJson['success'] == true) {
-      allBankist.clear();
-      filteredBankList.clear();
-      List rawList = parseJson['data']['items'];
-
-      for (var e in rawList) {
-        allBankist.add(e['name'].toString());
-        bankIdList.add(e['_id'].toString());
-      }
-      GlobalVariable.showLoader.value = false;
-      //print country with Id for Test------
-      //print(allBankist);
-      //print(bankIdList);
-    } else {
-      GlobalVariable.showLoader.value = false;
-    }
-  }
-
-  onSearch(String value) {
-    filteredBankList.clear();
-    filteredBankList.addAll(
-        allBankist.where((e) => e.toLowerCase().contains(value.toLowerCase())));
-  }
-
-  resetValue() {
-    searchController.text = '';
-    filteredBankList.clear();
-    allBankist.clear();
-    filteredBankList.addAll(allBankist);
-  }
+  // TextEditingController searchController = TextEditingController();
+  // List<String> allBankist = [];
+  // List bankIdList = [];
+  // RxList<String> filteredBankList = <String>[].obs;
+  //
+  // Future<void> getBankList() async {
+  //   GlobalVariable.showLoader.value = true;
+  //   filteredBankList.clear();
+  //   allBankist.clear();
+  //   var parseJson = await ApiBaseHelper().getMethod(url: Urls.bank);
+  //   if (parseJson['success'] == true) {
+  //     allBankist.clear();
+  //     filteredBankList.clear();
+  //     List rawList = parseJson['data']['items'];
+  //
+  //     for (var e in rawList) {
+  //       allBankist.add(e['name'].toString());
+  //       bankIdList.add(e['_id'].toString());
+  //     }
+  //     GlobalVariable.showLoader.value = false;
+  //     //print country with Id for Test------
+  //     //print(allBankist);
+  //     //print(bankIdList);
+  //   } else {
+  //     GlobalVariable.showLoader.value = false;
+  //   }
+  // }
+  //
+  // onSearch(String value) {
+  //   filteredBankList.clear();
+  //   filteredBankList.addAll(
+  //       allBankist.where((e) => e.toLowerCase().contains(value.toLowerCase())));
+  // }
+  //
+  // resetValue() {
+  //   searchController.text = '';
+  //   filteredBankList.clear();
+  //   allBankist.clear();
+  //   filteredBankList.addAll(allBankist);
+  // }
 
   @override
   void onReady() {
     GlobalVariable.showLoader.value = false;
-    getBankList();
+    // getBankList();
 
     super.onReady();
   }

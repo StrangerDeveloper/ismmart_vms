@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_multi_formatter/formatters/masked_input_formatter.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
+import 'package:ismmart_vms/widgets/custom_appbar.dart';
 import 'package:ismmart_vms/widgets/loader_view.dart';
 import 'package:path/path.dart' as p;
 import 'package:percent_indicator/circular_percent_indicator.dart';
@@ -31,6 +33,7 @@ class SignUp1View extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: CustomAppBar2(title: 'Sign Up', titleTextStyle: appbarFontStyle),
       backgroundColor: Colors.white,
       body: Stack(
         children: [
@@ -41,15 +44,15 @@ class SignUp1View extends StatelessWidget {
                   key: viewModel.signUpFormKey1,
                   child: Padding(
                     padding: const EdgeInsets.only(
-                      top: 60,
+                      top: 10,
                       left: 20,
                       right: 20,
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        titleAndBackBtn(),
-                        divider(),
+                        // titleAndBackBtn(),
+                        // divider(),
                         Padding(
                           padding: const EdgeInsets.only(top: 60),
                           child: Text(
@@ -189,9 +192,6 @@ class SignUp1View extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 32, bottom: 15),
       child: CustomTextField1(
-        inputFormatters: <TextInputFormatter>[
-          FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
-        ],
         keyboardType: TextInputType.text,
         prefixIcon: Icons.person,
         title: 'Full Name',
@@ -260,7 +260,7 @@ class SignUp1View extends StatelessWidget {
   Widget genderTextField() {
     return CustomTextField1(
       title: 'Gender',
-      hintText: 'Male',
+      hintText: 'Select Gender',
       isDropDown: true,
       controller: viewModel.genderController,
       validator: (value) {
@@ -381,6 +381,7 @@ class SignUp1View extends StatelessWidget {
             ? ''
             : p.basename(viewModel.cnicFrontImage.value.path),
         onTap: () async {
+          viewModel.myfocus.requestFocus();
           viewModel.cnicFrontImage.value =
               await PickImage().pickSingleImage() ?? File('');
           if (viewModel.cnicFrontImage.value.path.isNotEmpty) {
@@ -540,119 +541,6 @@ class SignUp1View extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-
-  //Google Button
-  Widget googlelogInBtn() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-      child: CustomRoundedTextBtn(
-        borderSide: const BorderSide(
-          //color: newColorDarkBlack, // your color here
-          width: 1,
-        ),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(50.0),
-              child: Image.asset(
-                'assets/logo/google_logo.png',
-                width: 36,
-                height: 36,
-              ),
-            ),
-            const SizedBox(
-              width: 5,
-            ),
-            const Text(
-              "Continue in with Google",
-              //style: newFontStyle3,
-            ),
-          ],
-        ),
-        onPressed: () {
-          viewModel.googleLogIn();
-        },
-      ),
-
-      // Obx(
-      //       () => GlobalVariable.showLoader.value
-      //       ? CustomLoading(isItBtn: true)
-      //       :
-      //
-      //       CustomRoundedTextBtn(
-      //     borderSide:  BorderSide(
-      //       color: newColorDarkBlack, // your color here
-      //       width: 1,
-      //     ),
-      //     backgroundColor: kWhiteColor,
-      //     foregroundColor: newColorDarkBlack,
-      //     child: Row(
-      //       mainAxisAlignment: MainAxisAlignment.center,
-      //       children: [
-      //         ClipRRect(
-      //           child: Image.asset(
-      //             'assets/logo/google_logo.png',
-      //             width: 36,
-      //             height: 36,
-      //           ),
-      //           borderRadius: BorderRadius.circular(50.0),
-      //         ),
-      //         SizedBox(
-      //           width:5,
-      //         ),
-      //         Text(
-      //           "Continue in with Google",
-      //           style: newFontStyle3,
-      //         ),
-      //       ],),
-      //     onPressed: () {
-      //       viewModel.signInWithApple();
-      //     },
-      //   ),
-      //
-      // ),
-      //
-    );
-  }
-
-  Widget applelogInBtn() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 10, 20, 25),
-      child: CustomRoundedTextBtn(
-        borderSide: const BorderSide(
-          color: Colors.black, // your color here
-          width: 1,
-        ),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(50.0),
-              child: Image.asset(
-                'assets/logo/apple_logo.png',
-                width: 36,
-                height: 36,
-              ),
-            ),
-            const SizedBox(
-              width: 5,
-            ),
-            const Text(
-              "Continue with Apple ID",
-            ),
-          ],
-        ),
-        onPressed: () {
-          viewModel.appleSignin();
-        },
-      ),
     );
   }
 }

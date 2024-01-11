@@ -167,7 +167,8 @@ class SignUp2ViewModel extends GetxController {
 
   Future<void> getCountryList() async {
     GlobalVariable.showLoader(true);
-    var parseJson = await ApiBaseHelper().getMethod(url: Urls.country);
+    var parseJson = await ApiBaseHelper()
+        .getMethod(url: '/places/countries?limit=0&sort[name]=1');
     if (parseJson['success'] == true) {
       GlobalVariable.showLoader(false);
       allCountryList.clear();

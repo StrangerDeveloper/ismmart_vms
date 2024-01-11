@@ -16,8 +16,6 @@ class SignupMehtodsViewModel extends GetxController {
 
   //----------Google singin---------
   final googleSignin = GoogleSignIn();
-  GoogleSignInAccount? _user;
-  GoogleSignInAccount get user => _user!;
   Future googleLogIn() async {
     GlobalVariable.showLoader.value = true;
     GoogleSignIn googleSignin = GoogleSignIn(
@@ -33,20 +31,12 @@ class SignupMehtodsViewModel extends GetxController {
       credential = await googleSignin.signIn();
       GlobalVariable.showLoader.value = false;
       // credential?.authentication.ignore();
-      credential?.authentication.then((value) async {
-        socialName.value = credential?.displayName ?? "";
-        socialEmail.value = credential?.email ?? "";
-        socialToken.value = '${value.accessToken}';
-        socialPlatform.value = 'Google';
-        GlobalVariable.showLoader.value = false;
-        Get.to(() => SignUp1View());
-        // Map<dynamic, dynamic> param = {
-        //   "social": {
-        //     "name": "Google",
-        //     "token": '${value.accessToken}',
-        //   }
-        // };
-      });
+      socialName.value = credential?.displayName ?? "";
+      socialEmail.value = credential?.email ?? "";
+      socialPlatform.value = 'Google';
+      GlobalVariable.showLoader.value = false;
+
+      Get.to(() => SignUp1View());
     } catch (error) {
       GlobalVariable.showLoader.value = false;
       debugPrint("$error");
@@ -82,7 +72,7 @@ class SignupMehtodsViewModel extends GetxController {
   @override
   void onClose() {
     GlobalVariable.showLoader.value = false;
-   
+
     super.onClose();
   }
 }

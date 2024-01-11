@@ -4,12 +4,15 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/screens/auth/login/login_view.dart';
 import 'package:ismmart_vms/screens/auth/signup/signup_4/sign_up_4_viewmodel.dart';
+import 'package:ismmart_vms/widgets/custom_appbar.dart';
 import 'package:ismmart_vms/widgets/loader_view.dart';
 import 'package:ismmart_vms/widgets/scrollable_column.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 import '../../../../helper/constants.dart';
+import '../../../../helper/theme_helper.dart';
 import '../../../../widgets/custom_button.dart';
+import '../../../../widgets/custom_text.dart';
 
 class SignUp4View extends StatelessWidget {
   SignUp4View({super.key});
@@ -20,6 +23,59 @@ class SignUp4View extends StatelessWidget {
     return SafeArea(
       top: false,
       child: Scaffold(
+        appBar: CustomAppBar2(
+          leading: Image.asset(
+            'assets/icons/ismmart_logo.png',
+            height: 40,
+            width: 40,
+          ),
+          title: 'ISMMART',
+          actions: [
+            PopupMenuButton(
+              color: ThemeHelper.grey3,
+              itemBuilder: (context) => [
+                PopupMenuItem(
+                  value: 1,
+                  child: Row(
+                    children: [
+                      const Icon(Icons.logout_outlined),
+                      SizedBox(width: 8.h),
+                      const Text(
+                        "Logout",
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                // PopupMenuItem(
+                //   value: 2,
+                //   child: Row(
+                //     children: [
+                //       const Icon(Icons.cancel_outlined),
+                //       SizedBox(width: 8.h),
+                //       const Text(
+                //         "Cancel Order",
+                //         style: TextStyle(fontSize: 16),
+                //       ),
+                //     ],
+                //   ),
+                // ),
+              ],
+              onSelected: (value) {
+                if (value == 1) {
+                  Get.offAll(() => LogInView());
+                  //Get.back();
+                }
+              },
+              child: Icon(
+                Icons.more_vert_rounded,
+                size: 16.fSize,
+              ),
+            ),
+          ],
+        ),
         backgroundColor: Colors.white,
         body: Stack(
           children: [
@@ -27,7 +83,7 @@ class SignUp4View extends StatelessWidget {
               padding: const EdgeInsets.only(top: 30, left: 25, right: 25),
               child: ScrollableColumn(
                 children: [
-                  titleAndBackBtn(),
+                  //  titleAndBackBtn(),
                   subtitle(),
                   progress(),
                   SizedBox(height: 50.v),
@@ -47,9 +103,15 @@ class SignUp4View extends StatelessWidget {
   Widget titleAndBackBtn() {
     return SizedBox(
       width: double.infinity,
-      child: Stack(
-        alignment: Alignment.centerLeft,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        // alignment: Alignment.centerLeft,
         children: [
+          Image.asset(
+            'assets/icons/ismmart_logo.png',
+            height: 40,
+            width: 40,
+          ),
           Align(
             alignment: Alignment.center,
             child: Text(
@@ -61,11 +123,49 @@ class SignUp4View extends StatelessWidget {
               ),
             ),
           ),
-          Image.asset(
-            'assets/icons/ismmart_logo.png',
-            height: 40,
-            width: 40,
-          )
+          PopupMenuButton(
+            color: ThemeHelper.grey3,
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                value: 1,
+                child: Row(
+                  children: [
+                    const Icon(Icons.logout_outlined),
+                    SizedBox(width: 8.h),
+                    const Text(
+                      "Logout",
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              // PopupMenuItem(
+              //   value: 2,
+              //   child: Row(
+              //     children: [
+              //       const Icon(Icons.cancel_outlined),
+              //       SizedBox(width: 8.h),
+              //       const Text(
+              //         "Cancel Order",
+              //         style: TextStyle(fontSize: 16),
+              //       ),
+              //     ],
+              //   ),
+              // ),
+            ],
+            onSelected: (value) {
+              if (value == 1) {
+                Get.offAll(() => LogInView());
+                //Get.back();
+              }
+            },
+            child: Icon(
+              Icons.more_vert_rounded,
+              size: 16.fSize,
+            ),
+          ),
         ],
       ),
     );
@@ -331,7 +431,7 @@ class SignUp4View extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.only(top: 8.0),
           child: Text(
-            'Go to Login ',
+            'Logout',
             style: newFontStyleSize14.copyWith(
                 fontWeight: FontWeight.w500, color: kWhiteColor),
           ),

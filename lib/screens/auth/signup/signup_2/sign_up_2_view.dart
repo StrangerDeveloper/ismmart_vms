@@ -12,6 +12,7 @@ import '../../../../helper/global_variables.dart';
 import '../../../../helper/theme_helper.dart';
 import 'package:path/path.dart' as p;
 import '../../../../helper/validator.dart';
+import '../../../../widgets/custom_appbar.dart';
 import '../../../../widgets/custom_checkbox_list_tile.dart';
 import 'sign_up_2_viewmodel.dart';
 
@@ -21,6 +22,10 @@ class SignUp2View extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: CustomAppBar2(
+        title: 'Sign Up',
+        titleTextStyle: appbarFontStyle,
+      ),
       backgroundColor: Colors.white,
       body: Stack(
         children: [
@@ -32,12 +37,6 @@ class SignUp2View extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    titleAndBackBtn(),
-                    const Divider(
-                      color: Color(0xffEEEEEE),
-                      thickness: 1,
-                      height: 20,
-                    ),
                     createAVendorAccount(),
                     progress(),
                     shopNameField(),
@@ -79,7 +78,6 @@ class SignUp2View extends StatelessWidget {
                         },
                         onTap: () {
                           viewModel.resetValue();
-                          viewModel.getCountryList();
                           itemsBottomSheet();
                         },
                       ),
@@ -201,9 +199,6 @@ class SignUp2View extends StatelessWidget {
 
   Widget shopNameField() {
     return CustomTextField1(
-      inputFormatters: <TextInputFormatter>[
-        FilteringTextInputFormatter.allow(RegExp('[a-zA-Z]')),
-      ],
       prefixIcon: Icons.store,
       keyboardType: TextInputType.text,
       title: 'Store Name',
@@ -221,6 +216,9 @@ class SignUp2View extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 10, bottom: 25),
       child: CustomTextField1(
+        // inputFormatters: <TextInputFormatter>[
+        //   FilteringTextInputFormatter.allow(RegExp('[a-zA-Z]')),
+        // ],
         keyboardType: TextInputType.text,
         title: 'Store Slug (non repeatable)',
         hintText: 'Al-Jannat Shopping Mall',
@@ -241,9 +239,6 @@ class SignUp2View extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 25),
       child: CustomTextField1(
-        inputFormatters: <TextInputFormatter>[
-          FilteringTextInputFormatter.allow(RegExp('[a-zA-Z]')),
-        ],
         prefixIcon: Icons.location_on_outlined,
         keyboardType: TextInputType.text,
         title: 'Store Location',

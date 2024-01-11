@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "1092230170530-jtatbkm1ltnii7mue1d3ij6rgtdm8qft.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ismmart.ismmart_vms",
+            "certificate_hash": "d3b00127ed40c5adea94b141757d45b336429546"
+          }
+        },
+        {
           "client_id": "1092230170530-ctmmlfhnebhace2343sqs5gr3ilsd1lg.apps.googleusercontent.com",
           "client_type": 3
         }

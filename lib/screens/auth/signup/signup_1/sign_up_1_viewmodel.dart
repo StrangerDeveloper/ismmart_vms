@@ -35,6 +35,7 @@ class SignUpScreen1ViewModel extends GetxController {
   RxString countryCode = '+92'.obs;
   RxBool changeView = false.obs;
   RxBool isChecked = false.obs;
+  FocusNode myfocus = FocusNode();
 
   validatorPhoneNumber(String? value) {
     if (GetUtils.isBlank(value)!) {
@@ -182,57 +183,57 @@ class SignUpScreen1ViewModel extends GetxController {
       // );
     }
   }
+  //
+  // //Google singin
+  // RxString socialSignUpId = ''.obs;
+  // RxString socialSignUpName = ''.obs;
+  // RxString socialsignUpEmail = ''.obs;
+  // RxString socialSignUPimgUrl = ''.obs;
+  //
+  // final googleSignin = GoogleSignIn();
+  // GoogleSignInAccount? _user;
+  // GoogleSignInAccount get user => _user!;
+  // Future googleLogIn() async {
+  //   GoogleSignIn googleSignIn = GoogleSignIn(
+  //     scopes: [
+  //       'email',
+  //       'https://www.googleapis.com/auth/contacts.readonly',
+  //     ],
+  //   );
+  //
+  //   try {
+  //     GoogleSignInAccount? credential = await googleSignIn.signIn();
+  //     //print(credential);
+  //     socialSignUpId.value = credential?.id ?? "";
+  //     socialSignUpName.value = credential?.displayName ?? "";
+  //     socialsignUpEmail.value = credential?.email ?? "";
+  //     socialSignUPimgUrl.value = credential?.photoUrl ?? "";
+  //   } catch (error) {
+  //     debugPrint("$error");
+  //   }
+  //   //update();
+  //   //  var a = credential['GoogleSignInAccount']['displayName'];
+  // }
 
-  //Google singin
-  RxString socialSignUpId = ''.obs;
-  RxString socialSignUpName = ''.obs;
-  RxString socialsignUpEmail = ''.obs;
-  RxString socialSignUPimgUrl = ''.obs;
-
-  final googleSignin = GoogleSignIn();
-  GoogleSignInAccount? _user;
-  GoogleSignInAccount get user => _user!;
-  Future googleLogIn() async {
-    GoogleSignIn googleSignIn = GoogleSignIn(
-      scopes: [
-        'email',
-        'https://www.googleapis.com/auth/contacts.readonly',
-      ],
-    );
-
-    try {
-      GoogleSignInAccount? credential = await googleSignIn.signIn();
-      //print(credential);
-      socialSignUpId.value = credential?.id ?? "";
-      socialSignUpName.value = credential?.displayName ?? "";
-      socialsignUpEmail.value = credential?.email ?? "";
-      socialSignUPimgUrl.value = credential?.photoUrl ?? "";
-    } catch (error) {
-      debugPrint("$error");
-    }
-    //update();
-    //  var a = credential['GoogleSignInAccount']['displayName'];
-  }
-
-//apple login
-  appleSignin() async {
-    if (Platform.isIOS) {
-      final credential = await SignInWithApple.getAppleIDCredential(
-        scopes: [
-          AppleIDAuthorizationScopes.email,
-          AppleIDAuthorizationScopes.fullName,
-        ],
-      );
-
-      debugPrint("apple login====>>>  $credential");
-
-      // Now send the credential (especially `credential.authorizationCode`) to your server to create a session
-      // after they have been validated with Apple (see `Integration` section for more information on how to do this)
-    }
-  }
+// //apple login
+//   appleSignin() async {
+//     if (Platform.isIOS) {
+//       final credential = await SignInWithApple.getAppleIDCredential(
+//         scopes: [
+//           AppleIDAuthorizationScopes.email,
+//           AppleIDAuthorizationScopes.fullName,
+//         ],
+//       );
+//
+//       debugPrint("apple login====>>>  $credential");
+//
+//       // Now send the credential (especially `credential.authorizationCode`) to your server to create a session
+//       // after they have been validated with Apple (see `Integration` section for more information on how to do this)
+//     }
+//   }
 
   //-------- Gender
   TextEditingController genderController = TextEditingController();
   RxInt genderSelectedIndex = 0.obs;
-  List genderList = ['Select Gender', 'Male', 'Female', 'Other'];
+  List genderList = ['Male', 'Female', 'Other'];
 }
