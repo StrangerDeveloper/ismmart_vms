@@ -240,8 +240,7 @@ class LocationListView extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            SizedBox(
-                              width: Get.width * 0.4,
+                            Expanded(
                               child: Text(
                                 viewModel.dataList[index].name ?? 'N/A',
                                 style: const TextStyle(
@@ -275,14 +274,6 @@ class LocationListView extends StatelessWidget {
                             ),
                           ),
                         ),
-                        // Text(
-                        //   viewModel.dataList[index].phone ?? 'N/A',
-                        //   style: const TextStyle(
-                        //     fontWeight: FontWeight.w500,
-                        //     fontSize: 10,
-                        //     color: ThemeHelper.grey2,
-                        //   ),
-                        // ),
                       ],
                     ),
                   )

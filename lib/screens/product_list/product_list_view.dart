@@ -2,8 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ismmart_vms/helper/constants.dart';
-import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/screens/add_product/add_product_1/add_product_1_view.dart';
 import 'package:ismmart_vms/screens/product_list/product_list_viewmodel.dart';
 import 'package:ismmart_vms/widgets/custom_button.dart';
@@ -135,7 +133,7 @@ class ProductListView extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 16),
       child: Obx(
-            () => Text(
+        () => Text(
           '${viewModel.currentPage.value} of ${viewModel.totalPages.value}',
           style: const TextStyle(
             fontSize: 12,
@@ -185,111 +183,158 @@ class ProductListView extends StatelessWidget {
   }
 
   Widget listViewItem(int index) {
-    return InkWell(
-      onTap: () {
-        Get.to(() => AddProduct1View(), arguments: {
-          'productDetails': viewModel.dataList[index],
-          'cameFromProductList': true
-        });
-      },
-      child: Container(
-        padding: const EdgeInsets.only(left: 5, right: 5, top: 5, bottom: 5),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            CachedNetworkImage(
-              height: 45,
-              width: 45,
-              imageUrl: viewModel.dataList[index].media?[0].url ?? '',
-              imageBuilder: (context, imageProvider) {
-                return Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    image: DecorationImage(
-                      image: imageProvider,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                );
-              },
-              errorWidget: (context, url, error) {
-                return Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    image: const DecorationImage(
-                      image: AssetImage('assets/images/no_image_found.jpg'),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                );
-              },
-              placeholder: (context, url) {
-                return const Center(
-                  child: CircularProgressIndicator(strokeWidth: 2.0),
-                );
-              },
-            ),
-            const SizedBox(width: 10),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  viewModel.dataList[index].name ?? '',
-                  style: interHeadingSize15.copyWith(color: newColorBlue),
-                ),
-                SizedBox(height: 3.h),
-                Text(
-                  '• Category: ${viewModel.dataList[index].categories?[0].name ?? ''}',
-                  style: interNormalText.copyWith(
-                      color: newColorLightGrey2, fontSize: 11),
-                ),
-                Text(
-                  '• Variants: ${viewModel.dataList[index].variants}',
-                  style: interNormalText.copyWith(
-                      color: newColorLightGrey2, fontSize: 11),
-                ),
-                SizedBox(height: 15.h),
-                Container(
-                  padding: const EdgeInsets.all(6),
-                  decoration: BoxDecoration(
-                      color: viewModel.dataList[index].status!
-                              .toLowerCase()
-                              .contains("active")
-                          ? productActiveColor.withOpacity(0.25)
-                          : newColorLightGrey2.withOpacity(0.25),
-                      borderRadius: BorderRadius.circular(15)),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      CircleAvatar(
-                        radius: 5,
-                        backgroundColor: viewModel.dataList[index].status!
-                                .toLowerCase()
-                                .contains("active")
-                            ? productActiveColor
-                            : newColorLightGrey2,
+    BorderRadius borderRadius = listBorderRadius(index);
+    return Material(
+      color: ThemeHelper.grey3,
+      borderRadius: borderRadius,
+      child: InkWell(
+        borderRadius: borderRadius,
+        onTap: () {
+          Get.to(() => AddProduct1View(), arguments: {
+            'productDetails': viewModel.dataList[index],
+            'cameFromProductList': true
+          });
+        },
+        child: Padding(
+          padding:
+              const EdgeInsets.only(left: 12, right: 12, top: 10, bottom: 10),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CachedNetworkImage(
+                height: 40,
+                width: 40,
+                imageUrl: viewModel.dataList[index].media?[0].url ?? '',
+                imageBuilder: (context, imageProvider) {
+                  return Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      image: DecorationImage(
+                        image: imageProvider,
+                        fit: BoxFit.cover,
                       ),
-                      SizedBox(width: 10.v),
-                      Text(
-                        viewModel.dataList[index].status ?? 'N/A',
-                        style: interNormalText.copyWith(
-                            color: Colors.black,
-                            fontSize: 10,
-                            fontWeight: FontWeight.w400),
+                    ),
+                  );
+                },
+                errorWidget: (context, url, error) {
+                  return Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      image: const DecorationImage(
+                        image: AssetImage('assets/images/no_image_found.jpg'),
+                        fit: BoxFit.cover,
                       ),
-                    ],
-                  ),
+                    ),
+                  );
+                },
+                placeholder: (context, url) {
+                  return const Center(
+                    child: CircularProgressIndicator(strokeWidth: 2.0),
+                  );
+                },
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      viewModel.dataList[index].name ?? '',
+                      style: const TextStyle(
+                        color: ThemeHelper.blue1,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8, bottom: 12),
+                      child: Wrap(
+                        children: [
+                          Text(
+                            '• Category: ${viewModel.dataList[index].categories?[0].name ?? ''}',
+                            style: const TextStyle(
+                              color: ThemeHelper.grey2,
+                              fontSize: 10,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          Text(
+                            '• Variants: ${viewModel.dataList[index].variants ?? '0'}',
+                            style: const TextStyle(
+                              color: ThemeHelper.grey2,
+                              fontSize: 10,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    status(viewModel.dataList[index].status ?? 'N/A'),
+                  ],
                 ),
-                Container(
-                  color: newColorLightGrey2,
-                  height: 2,
-                ),
-              ],
-            ),
-          ],
+              ),
+            ],
+          ),
         ),
       ),
     );
+  }
+
+  BorderRadius listBorderRadius(int index) {
+    if (index == 0) {
+      return const BorderRadius.vertical(top: Radius.circular(12));
+    } else if (index == viewModel.dataList.length - 1) {
+      return const BorderRadius.vertical(bottom: Radius.circular(12));
+    } else {
+      return BorderRadius.zero;
+    }
+  }
+
+  Widget status(String value) {
+    Color color = statusColor(value);
+    return Container(
+      margin: const EdgeInsets.only(left: 10),
+      padding: const EdgeInsets.only(left: 4, top: 3, bottom: 3),
+      decoration: BoxDecoration(
+          color: color.withOpacity(0.25),
+          borderRadius: BorderRadius.circular(30)),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            Icons.circle,
+            color: color,
+            size: 10,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Text(
+              value,
+              style: TextStyle(
+                color: statusTxtColor(value),
+                fontSize: 10,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Color statusColor(String value) {
+    if (value == 'Active') {
+      return const Color(0xFF06D38F);
+    } else {
+      return const Color(0xFFFE3A30);
+    }
+  }
+
+  Color statusTxtColor(String value) {
+    if (value == 'Active') {
+      return Colors.black;
+    } else {
+      return const Color(0xFFFE3A30);
+    }
   }
 
   filterBottomSheet() {
