@@ -14,7 +14,7 @@ class Urls {
   static String storeType = "/public/storeType";
   static String getPayout = "/vendor/payout?limit=10&page=";
   static String getLocation = "/vendor/location?limit=10&page=";
-  static String getInventoryLocation = '/vendor/location';
+  static String getInventoryLocation = '/vendor/location?limit=0';
   static String getCities = "/places/cities?limit=0&country=";
   static String getCountries = "/places/countries?limit=0";
   static String addLocation = "/vendor/location/add";
@@ -32,6 +32,8 @@ class Urls {
   static String updateOrder = "/vendor/order/update/status";
   static String resendEmail = "/vendor/auth/resend";
   static String addProduct = "/vendor/product/add";
+  static String getSingleProduct = '/vendor/product?id=';
+  static String getVariantInventory = '/vendor/product/inventory?variant=';
 
   ///Dashboard
   static String getProductSummary = "/vendor/dashboard/summary/product?duration=";

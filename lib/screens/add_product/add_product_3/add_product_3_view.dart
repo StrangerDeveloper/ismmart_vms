@@ -27,9 +27,9 @@ class AddProduct3View extends StatelessWidget {
           SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                stepperText(3),
+                Center(child: stepperText(3)),
                 Container(
                   margin: const EdgeInsets.only(top: 10, bottom: 10),
                   padding: const EdgeInsets.only(
@@ -57,7 +57,7 @@ class AddProduct3View extends StatelessWidget {
                     ],
                   ),
                 ),
-                searchEngineListing(),
+                // searchEngineListing(),
                 productStatus(),
                 const Padding(
                   padding: EdgeInsets.only(top: 10, bottom: 15),

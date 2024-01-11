@@ -111,7 +111,7 @@ class AddProduct3ViewModel extends GetxController {
           contentType: MediaType.parse('image/*')
       ));
       productDetails.addAll({
-        'media[$i][thumbnail]': "${images[i].isThumbnail}"
+        'media[$i][thumbnail]': "${images[i].thumbnail}"
       });
     }
     productDetails.addAll({
@@ -132,6 +132,7 @@ class AddProduct3ViewModel extends GetxController {
           Get.close(2);
           AppConstant.displaySnackBar('Success', 'Product Added Successfully');
         } else {
+          GlobalVariable.selectedIndex.value = 0;
           Get.close(2);
           AppConstant.displaySnackBar('Success', 'Product Added Successfully');
         }

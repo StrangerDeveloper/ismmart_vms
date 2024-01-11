@@ -33,11 +33,11 @@ class OrderListingViewModel extends GetxController {
 
   @override
   void onInit() {
-   // GlobalVariable.showLoader.value = false;
+    // GlobalVariable.showLoader.value = false;
     // scrollController.addListener(() {
     //   getOrderListing();
     // });
-    
+
     super.onInit();
   }
 
@@ -62,7 +62,7 @@ class OrderListingViewModel extends GetxController {
   }
 
   Future<void> getOrderListing() async {
-    //GlobalVariable.showLoader.value = true;
+    GlobalVariable.showLoader.value = true;
 
     await ApiBaseHelper()
         .getMethod(url: '${Urls.getOrders}$searchUrlValue')
