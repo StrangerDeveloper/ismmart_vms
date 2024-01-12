@@ -1,44 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:ismmart_vms/screens/auth/login/login_view.dart';
-import 'package:ismmart_vms/screens/auth/signup/account_status/account_status_view.dart';
+import 'package:ismmart_vms/screens/splashscreen/splash_screen_viewmodel.dart';
 
-import '../drawer_bottom_nav/drawer_bottom_bar_view.dart';
-
-class SplashScreenView extends StatefulWidget {
-  const SplashScreenView({super.key});
-
-  @override
-  State<SplashScreenView> createState() => _SplashScreenViewState();
-}
-
-class _SplashScreenViewState extends State<SplashScreenView> {
-  final box = GetStorage();
-  bool islogin = false;
-
-  @override
-  void initState() {
-    String userStatus = GetStorage().read('status');
-    islogin = box.read('islogin') ?? false;
-    Future.delayed(const Duration(seconds: 4), () {
-      if (userStatus != 'Approved') {
-        Get.offAll(() => AccountStatusView());
-      } else {
-        Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) {
-          if (islogin) {
-            return DrawerBottomBarView();
-          } else {
-            return LogInView();
-          }
-        }), (Route<dynamic> route) => false);
-      }
-    });
-    // TODO: implement initState
-    super.initState();
-  }
+class SplashScreenView extends StatelessWidget {
+  SplashScreenView({super.key});
+  final SplashScreenViewModel viewModel = Get.put(SplashScreenViewModel());
 
   @override
   Widget build(BuildContext context) {
@@ -52,22 +19,22 @@ class _SplashScreenViewState extends State<SplashScreenView> {
                 backgroundColor: Colors.black,
               )
                   .animate()
-                  .slideY(begin: -0.9, end: 0.5, duration: 0.9.seconds)
-                  .then(delay: 200.milliseconds)
+                  .slideY(begin: -0.9, end: 0.5, duration: NumDurationExtensions(0.9).seconds)
+                  .then(delay: NumDurationExtensions(200).milliseconds)
                   // .slideY(end: -0.5, duration: 0.9.seconds)
                   // .then(delay: 200.milliseconds)
-                  .slideY(end: -0.5, duration: 0.5.seconds)
-                  .then(delay: 1.seconds)
-                  .scaleXY(end: 20, duration: 2.seconds)
-                  .then(delay: 2.seconds),
+                  .slideY(end: -0.5, duration: NumDurationExtensions(0.5).seconds)
+                  .then(delay: NumDurationExtensions(1).seconds)
+                  .scaleXY(end: 20, duration: NumDurationExtensions(2).seconds)
+                  .then(delay: NumDurationExtensions(2).seconds),
             ),
           ),
           Align(
             alignment: Alignment.center,
             child: Image.asset("assets/images/ismartsplashscreen.png")
                 .animate()
-                .fadeIn(delay: 2.seconds, duration: 900.milliseconds)
-                .slideX(begin: 3, duration: .5.seconds),
+                .fadeIn(delay: NumDurationExtensions(2).seconds, duration: NumDurationExtensions(900).milliseconds)
+                .slideX(begin: 3, duration: NumDurationExtensions(500).milliseconds),
           ),
         ],
       ),

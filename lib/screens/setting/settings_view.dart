@@ -107,22 +107,26 @@ class SettingsView extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  viewModel.userProfileModel.value.name ?? 'N/A',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
+                Obx(
+                  () => Text(
+                    viewModel.userProfileModel.value.name ?? 'N/A',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
-                Text(
-                  viewModel.userProfileModel.value.status ?? 'N/A',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500,
+                Obx(
+                  () => Text(
+                    viewModel.userProfileModel.value.status ?? 'N/A',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                )
+                ),
               ],
             ),
           )

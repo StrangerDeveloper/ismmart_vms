@@ -62,7 +62,7 @@ class Routes {
   static final pages = [
     GetPage(
       name: initRoute,
-      page: () => const SplashScreenView(),
+      page: () => SplashScreenView(),
       //binding: BaseBindings(),
     ),
     // GetPage(

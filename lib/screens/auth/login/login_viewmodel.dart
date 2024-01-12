@@ -42,10 +42,9 @@ class LogInViewModel extends GetxController {
           .then((parsedJson) async {
         if (parsedJson['success'] == true) {
           GlobalVariable.showLoader.value = false;
-          GlobalVariable.token = parsedJson['data']['token'];
-          GetStorage().write('islogin', true);
+          GetStorage().write('token', parsedJson['data']['token']);
           GetStorage().write('status', parsedJson['data']['status']);
-          // GlobalVariable.userStatus = parsedJson['data']['status'];
+          GlobalVariable.token = parsedJson['data']['token'];
           String status = parsedJson['data']['status'] ?? "";
           accountStatusCheck(status, emailController.text);
         } else if (parsedJson['message'] == 'Invalid credentials') {

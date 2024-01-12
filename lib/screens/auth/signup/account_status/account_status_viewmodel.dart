@@ -7,9 +7,8 @@ import '../../../../helper/errors.dart';
 import '../../../../helper/global_variables.dart';
 import '../../../../helper/urls.dart';
 import '../../../user_profile/user_profile_model.dart';
-import '../../login/login_view.dart';
 
-class AccountStatusViewModel extends GetxController{
+class AccountStatusViewModel extends GetxController {
   Rx<UserProfileModel> userProfileModel = UserProfileModel().obs;
 
   @override
@@ -28,11 +27,14 @@ class AccountStatusViewModel extends GetxController{
     GlobalVariable.showLoader.value = true;
     await ApiBaseHelper().getMethod(url: Urls.getUserData).then((parsedJson) {
       GlobalVariable.showLoader.value = false;
-      if (parsedJson['success'] == true && parsedJson['message'] == "Profile fetched successuflly") {
+      if (parsedJson['success'] == true &&
+          parsedJson['message'] == "Profile fetched successuflly") {
         userProfileModel.value = UserProfileModel.fromJson(parsedJson['data']);
-      } else if (parsedJson['success'] == false && parsedJson['message'].toString().toLowerCase() == AppErrors.sessionException.toLowerCase()) {
+      } else if (parsedJson['success'] == false &&
+          parsedJson['message'].toString().toLowerCase() ==
+              AppErrors.sessionException.toLowerCase()) {
         AppConstant.displaySnackBar('error', AppErrors.sessionException);
-        Future.delayed(const Duration(seconds: 2), (){
+        Future.delayed(const Duration(seconds: 2), () {
           CommonFunction.logout();
         });
       }
@@ -41,5 +43,22 @@ class AccountStatusViewModel extends GetxController{
     });
   }
 
+  void resentEmail() async {
+    Map<String, dynamic> param = {"email": userProfileModel.value.email};
+    GlobalVariable.showLoader.value = true;
 
+    await ApiBaseHelper()
+        .postMethod(url: Urls.resendEmail, body: param)
+        .then((parsedJson) {
+      GlobalVariable.showLoader.value = false;
+      if (parsedJson['success'] == true) {
+        AppConstant.displaySnackBar(
+            "success", "Reset Password Link send to your Email");
+      } else {
+        AppConstant.displaySnackBar("Error", "Failed To Send Email");
+      }
+    }).catchError((e) {
+      CommonFunction.debugPrint(e);
+    });
+  }
 }
