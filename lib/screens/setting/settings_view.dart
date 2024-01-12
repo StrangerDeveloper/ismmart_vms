@@ -1,341 +1,185 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ismmart_vms/helper/utils/image_constant.dart';
-import 'package:ismmart_vms/helper/utils/size_utils.dart';
+import 'package:ismmart_vms/helper/theme_helper.dart';
 import 'package:ismmart_vms/screens/bank_list/bank_list_view.dart';
-import 'package:ismmart_vms/screens/shippings/shippings_view.dart';
+import 'package:ismmart_vms/screens/setting/settings_viewmodel.dart';
 import 'package:ismmart_vms/screens/store_profile/store_profile_view.dart';
 import 'package:ismmart_vms/screens/user_profile/user_profile_view.dart';
+import 'package:ismmart_vms/widgets/custom_appbar.dart';
+import 'package:ismmart_vms/widgets/custom_button.dart';
+import 'package:ismmart_vms/widgets/scrollable_column.dart';
 
-import '../../helper/constants.dart';
-import '../dashboard/dashboard_viewmodel.dart';
-import '../location_list/location_list_view.dart';
+import '../../helper/common_function.dart';
+import '../../widgets/custom_cached_network_image.dart';
 
 class SettingsView extends StatelessWidget {
   SettingsView({super.key});
-  final DashboardViewModel viewModel = Get.put(DashboardViewModel());
+
+  final SettingViewModel viewModel = Get.put(SettingViewModel());
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        titleAndBackBtn(
-            iconPath: 'assets/images/ismmart_logo.png',
-            title: 'ISMMART',
-            hasMenu: true),
-
-        SizedBox(
-          height: 30.h,
+    return SafeArea(
+      child: Scaffold(
+        appBar: const CustomAppBar2(title: 'Settings'),
+        body: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+          child: ScrollableColumn(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              gradientContainer(),
+              const Text(
+                'User Personalization',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 17,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              const SizedBox(height: 13),
+              settingItem(
+                icon: Icons.perm_identity_rounded,
+                title: 'User Profile',
+                startRadius: true,
+                onTap: () {
+                  Get.to(() => UserProfileView());
+                },
+              ),
+              customDivider(),
+              settingItem(
+                icon: Icons.storefront_sharp,
+                title: 'Shop Profile',
+                onTap: () {
+                  Get.to(() => StoreProfileView());
+                },
+              ),
+              customDivider(),
+              settingItem(
+                icon: Icons.account_balance_wallet_outlined,
+                title: 'Bank List',
+                endRadius: true,
+                onTap: () {
+                  Get.to(() => BankListView());
+                },
+              ),
+              const Spacer(),
+              CustomIconTextBtn(
+                foregroundColor: ThemeHelper.blue1,
+                backgroundColor: const Color(0xFFF7F7F7),
+                radius: 30,
+                height: 50,
+                onPressed: () {
+                  CommonFunction.logout();
+                },
+                title: 'Logout',
+                icon: Icons.logout_rounded,
+              ),
+            ],
+          ),
         ),
-        // drawerHeader(),
-        drawerListItems(
-          'Store',
-          onTab: () {
-            //viewModel.isTab.value = !viewModel.isTab.value;
-            Get.to(StoreProfileView());
-          },
-          iconPath: 'assets/images/overViewIcon.png',
-        ),
-
-        // drawerListItems(
-        //   'Collections',
-        //   iconPath: 'assets/images/layers.png',
-        //   onTab: () => Get.to(CollectionView()),
-        // ),
-
-        drawerListItems(
-          'Locations',
-          iconPath: 'assets/images/pin.png',
-          onTab: () => Get.to(() => LocationListView()),
-        ),
-
-        const Divider(
-          color: Color(0xffE5E7EB),
-          thickness: 2,
-          indent: 15,
-          endIndent: 15,
-          // height: 20
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        // drawerListItems('Payouts',
-        //     iconPath: 'assets/images/credit-card.png',
-        //     onTab: () => Get.to(PayoutListView())),
-        drawerListItems(
-            //iconPath: 'assets/images/settingIcon.png',
-            onTab: () {
-          viewModel.moreOption.toggle();
-        }, 'Settings', dropDwnIcon: true),
-
-        Obx(
-          () => viewModel.moreOption.value
-              ? Padding(
-                  padding: const EdgeInsets.only(left: 20),
-                  child: Column(
-                    children: [
-                      drawerListItems(
-                        iconPath: 'assets/images/wallet.png',
-                        'Banking',
-                        h: 45,
-                        onTab: () => Get.to(() => BankListView()),
-                      ),
-                      drawerListItems(
-                          iconPath: 'assets/images/Vector.png',
-                          'Shipping',
-                          h: 45,
-                          onTab: () => Get.to(() => ShippingMethodsView())),
-                      // drawerListItems(
-                      //     iconPath: 'assets/images/edit-user.png',
-                      //     'Users & Permissions',
-                      //     h: 45,
-                      //     onTab: () => Get.to(AddUserView())),
-                    ],
-                  ),
-                )
-              : const SizedBox(),
-        ),
-
-        InkWell(
-          onTap: () => Get.to(() => UserProfileView()),
-          child: titleAndBackBtn(
-              iconPath: ImageConstant.imgAvatar, title: 'User Name'),
-        ),
-
-        drawerListItems('Logout', iconPath: 'assets/images/settingIcon.png',
-            onTab: () async {
-          viewModel.logout();
-        })
-      ],
+      ),
     );
   }
 
-  Widget drawerHeader() {
-    return Padding(
-      padding: const EdgeInsets.only(left: 20, top: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+  Widget gradientContainer() {
+    return Container(
+      margin: const EdgeInsets.only(top: 20, bottom: 50),
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          gradient: const LinearGradient(
+            colors: [Color(0xff6d8ac5), Color(0xff3669c9), Color(0xff6895e8)],
+            stops: [0.25, 0.40, 0.87],
+            begin: Alignment.bottomRight,
+            end: Alignment.topLeft,
+          )),
+      child: Row(
         children: [
-          CachedNetworkImage(
-            height: 75,
-            width: 75,
-            imageUrl: AppConstant.defaultImgUrl,
-            imageBuilder: (context, imageProvider) {
-              return Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                    image: imageProvider,
-                    fit: BoxFit.fill,
-                  ),
-                ),
-              );
-            },
-            errorWidget: (context, url, error) {
-              return CircleAvatar(
-                  radius: 35,
-                  backgroundColor: Colors.grey.shade300,
-                  child: const Icon(
-                    Icons.person,
-                    size: 45,
-                    color: Colors.grey,
-                  ));
-            },
-            placeholder: (context, url) {
-              return const Center(
-                child: CircularProgressIndicator(strokeWidth: 0.5),
-              );
-            },
-          ),
-          const SizedBox(height: 20),
-          const Padding(
-            padding: EdgeInsets.only(left: 2),
-            child: Text(
-              'Abc UserNAme',
-              style: TextStyle(
-                fontSize: 18,
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-              ),
+          Obx(
+            () => CustomCachedNetworkImage(
+              imageUrl: viewModel.userProfileModel.value.image ?? '',
+              height: 30,
+              width: 30,
             ),
           ),
-          const Divider(height: 30),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  viewModel.userProfileModel.value.name ?? 'N/A',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                Text(
+                  viewModel.userProfileModel.value.status ?? 'N/A',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                  ),
+                )
+              ],
+            ),
+          )
         ],
       ),
     );
   }
 
-  Widget drawerItem({
-    String title = '',
+  Widget settingItem({
     required IconData icon,
-    double iconSize = 22,
-    required GestureTapCallback onTap,
+    required String title,
+    bool startRadius = false,
+    bool endRadius = false,
+    required void Function() onTap,
   }) {
-    return ListTile(
-      onTap: onTap,
-      horizontalTitleGap: 2,
-      dense: true,
-      contentPadding: const EdgeInsets.only(left: 22, top: 10, bottom: 10),
-      leading: Icon(
-        icon,
-        size: iconSize,
-        color: Colors.grey.shade500,
-        //color: Get.theme.primaryColor.withOpacity(0.7),
-      ),
-      title: Text(
-        title,
-        style: const TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w500,
-        ),
-      ),
+    BorderRadius borderRadius = BorderRadius.vertical(
+      top: startRadius == true ? const Radius.circular(10) : Radius.zero,
+      bottom: endRadius == true ? const Radius.circular(10) : Radius.zero,
     );
-  }
-
-//   Widget drawerExpandableItem(
-//       {String title = '',
-//       required IconData icon,
-//       double iconSize = 19,
-//       required List<Widget> children}) {
-//     return ListTileTheme(
-//       horizontalTitleGap: -14,
-//       dense: true,
-//       child: ExpansionTile(
-// // textColor: Color(0xff622260),
-// // iconColor: Color(0xff622260),
-//         tilePadding: EdgeInsets.only(left: 10, right: 20),
-//         title: Text(
-//           title,
-//           style: TextStyle(
-//             fontSize: 16,
-//             fontFamily: 'Roboto-Regular',
-// //fontWeight: FontWeight.w00
-//           ),
-//         ),
-//         leading: Container(
-//           child: Icon(
-//             icon,
-//             size: iconSize,
-//             color: Colors.grey,
-//           ),
-//         ),
-//         children: children,
-//       ),
-//     );
-//   }
-
-  Widget titleAndBackBtn({iconPath, title, hasMenu = false}) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 60, left: 15, bottom: 5, right: 15),
-      child: Container(
-        height: 54,
-        padding: const EdgeInsets.all(8),
-        decoration: ShapeDecoration(
-          color: const Color(0xFFEFF5FB),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Image.asset(
-                  iconPath,
-                  height: 40,
-                  width: 40,
-                ),
-                SizedBox(
-                  width: 30.v,
-                ),
-                Text(
-                  title,
-                  style:
-                      newFontStyleSize12.copyWith(fontWeight: FontWeight.w700),
-                ),
-                // Align(
-                //   alignment: Alignment.,
-                //   child:
-                // ),
-                const SizedBox(
-                  width: 40,
-                ),
-              ],
-            ),
-            if (hasMenu)
-              IconButton(
-                  onPressed: () {}, icon: const Icon(Icons.more_vert_outlined))
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget drawerListItems(String title,
-      {String? iconPath,
-      bool? dropDwnIcon,
-      double h = 54.0,
-      void Function()? onTab}) {
-    //bool isTab = false;
-    return Padding(
-      padding: const EdgeInsets.only(left: 15, bottom: 13, right: 15),
-      child: GestureDetector(
-        onTap: onTab,
-        child: Container(
-          //width: double.infinity,
-          height: h,
-          padding: const EdgeInsets.all(5),
-          decoration: ShapeDecoration(
-            //color: const Color(0xFFEFF5FB),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
+    return Material(
+      color: const Color(0xFFF7F7F7),
+      borderRadius: borderRadius,
+      child: InkWell(
+        borderRadius: borderRadius,
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  iconPath != null
-                      ? Obx(() => Image.asset(
-                            iconPath,
-                            height: 24,
-                            width: 24,
-                            color: viewModel.isTab.value
-                                ? newColorBlue
-                                : newColorLightGrey2,
-                          ))
-                      : Container(),
-                  SizedBox(width: 15.h),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10.0),
-                    child: Text(
-                      title,
-                      style: newFontStyleSize16,
-                    ),
-                  ),
-                  // SizedBox(
-                  //   width: Get.width * 0.55,
-                  // ),
-                ],
+              Icon(
+                icon,
+                color: ThemeHelper.blue1,
+                size: 21,
               ),
-              dropDwnIcon ?? false
-                  ? IconButton(
-                      onPressed: () {
-                        viewModel.moreOption.toggle();
-                      },
-                      icon: const Icon(Icons.arrow_drop_down))
-                  : Container(),
+              const SizedBox(width: 12),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 2.5),
+                child: Text(
+                  title,
+                  style: const TextStyle(
+                    color: Color(0xFF393939),
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              )
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget customDivider() {
+    return const Divider(
+      height: 0,
+      color: Color(0xFFE3E3E3),
     );
   }
 }
