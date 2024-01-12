@@ -79,15 +79,21 @@ class AddProduct3ViewModel extends GetxController {
     //   });
     // }
     List<http.MultipartFile> fileList = [];
-    for(int i = 0; i<=images.length-1; i++){
-
-      fileList.add(await http.MultipartFile.fromPath(
-        'media[$i][file]', images[i].filePath!,
-          contentType: MediaType.parse('image/*')
-      ));
-      productDetails.addAll({
-        'media[$i][thumbnail]': "${images[i].thumbnail}"
-      });
+    for(int i = 0; i<=images.length-1; i++) {
+      if (images[i].url != null) {
+        productDetails.addAll({
+          'media[$i][_id]': images[i].id!,
+          'media[$i][thumbnail]' : "${images[i].thumbnail}",
+        });
+      } else {
+        fileList.add(await http.MultipartFile.fromPath(
+            'media[$i][file]', images[i].filePath!,
+            contentType: MediaType.parse('image/*')
+        ));
+        productDetails.addAll({
+          'media[$i][thumbnail]': "${images[i].thumbnail}"
+        });
+      }
     }
     productDetails.addAll({
       'collections[0]': '657aa46a0f11b2ac3fc9285d'
@@ -101,9 +107,11 @@ class AddProduct3ViewModel extends GetxController {
       if(parsedJson['success'] == true) {
         if (cameFromProductList) {
           final ProductListViewModel productListViewModel = Get.find();
-          productListViewModel.productItemsList.clear();
-          await productListViewModel.getProductItems();
-          productListViewModel.productItemsList.refresh();
+          productListViewModel.dataList.clear();
+          productListViewModel.pageNo = 0;
+          productListViewModel.currentPage.value = 0;
+          await productListViewModel.getData();
+          productListViewModel.dataList.refresh();
           Get.close(3);
           AppConstant.displaySnackBar('Success', 'Product Added Successfully');
         } else {

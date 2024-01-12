@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/global_variables.dart';
+import 'package:ismmart_vms/screens/product_list/multiple_products_model.dart';
 import 'package:ismmart_vms/screens/product_list/single_product_model.dart';
 
 import '../../helper/api_base_helper.dart';
 import '../../helper/common_function.dart';
 import '../../helper/constants.dart';
 import '../../helper/urls.dart';
+import '../add_product/add_product_1/add_product_1_view.dart';
 
 class ProductListViewModel extends GetxController {
   RxString searchBy = 'All'.obs;
@@ -23,14 +25,24 @@ class ProductListViewModel extends GetxController {
   RxInt currentPage = 0.obs;
   int pageNo = 0;
   RxBool paginationLoader = false.obs;
-  dynamic arguments;
-  bool cameFromAddProduct = false;
+  Map<String, dynamic> arguments = {};
+  RxBool cameFromSideBar = false.obs;
   RxBool showListLoader = false.obs;
-  RxList<SingleProductModel> dataList = <SingleProductModel>[].obs;
+  RxList<MultipleProductModel> dataList = <MultipleProductModel>[].obs;
+
+  @override
+  void onInit() {
+    print(Get.arguments);
+    if(Get.arguments != null) {
+      print('Side Bar');
+      cameFromSideBar.value = Get.arguments['cameFromSideBar'];
+    }
+    super.onInit();
+  }
 
   @override
   Future<void> onReady() async {
-    statusController.text = 'all';
+    statusController.text = 'All';
     getDataFunction();
   }
 
@@ -99,7 +111,7 @@ class ProductListViewModel extends GetxController {
           if (data.isEmpty || data.length < 10) {
             scrollController.removeListener(getData);
           }
-          dataList.addAll(data.map((e) => SingleProductModel.fromJson(e)));
+          dataList.addAll(data.map((e) => MultipleProductModel.fromJson(e)));
           paginationLoader.value = false;
         } else {
           AppConstant.displaySnackBar('Errors', parsedJson['message']);
@@ -127,7 +139,6 @@ class ProductListViewModel extends GetxController {
       }
     }).catchError((e) {
       GlobalVariable.showLoader.value = false;
-      print(e);
       AppConstant.displaySnackBar('Error', 'Error fetching product details');
     });
   }

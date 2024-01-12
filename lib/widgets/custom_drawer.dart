@@ -26,7 +26,7 @@ class CustomDrawer extends StatelessWidget {
     return SafeArea(
       top: false,
       child: Drawer(
-        width: Get.width * 0.7,
+        width: Get.width * 0.75,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -96,7 +96,7 @@ class CustomDrawer extends StatelessWidget {
                   icon: Icons.local_offer_rounded,
                   onTab: () {
                     Get.back();
-                    Get.to(() => ProductListView());
+                    GlobalVariable.selectedIndex.value = 3;
                   },
                 ),
 
