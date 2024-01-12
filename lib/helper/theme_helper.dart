@@ -13,6 +13,7 @@ class ThemeHelper {
   static const red1 = Color(0xFFFE3A30);
   static const lightGrey = Color(0xff929AAB);
   static const fadedBlue = Color(0xff5D738A);
+  static const darkblue = Color(0xFF0E1216);
 
   static const MaterialColor plattet1 =
       MaterialColor(_platter1PrimaryValue, <int, Color>{
@@ -29,9 +30,6 @@ class ThemeHelper {
   });
   static const int _platter1PrimaryValue = 0xFF3669C9;
 
-
-
-
   //main Theme Setting
   static ThemeData lightTheme = ThemeData(
     scaffoldBackgroundColor: Colors.white,
@@ -45,11 +43,9 @@ class ThemeHelper {
           fontSize: 20,
           fontWeight: FontWeight.w400,
         ),
-
         iconTheme: const IconThemeData(color: Colors.black),
         centerTitle: true,
         elevation: 3,
         shadowColor: Colors.black12),
   );
-
 }
