@@ -3,11 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_workers/utils/debouncer.dart';
 import 'package:intl/intl.dart';
+import 'package:ismmart_vms/helper/global_variables.dart';
+import 'package:ismmart_vms/screens/auth/login/login_view.dart';
 
 class CommonFunction {
+  static logout() {
+    Get.offAll(() => LogInView());
+    GlobalVariable.token = '';
+  }
 
-  static final Debouncer debouncer = Debouncer(delay: const Duration(milliseconds: 800));
-
+  static final Debouncer debouncer =
+      Debouncer(delay: const Duration(milliseconds: 800));
 
   // static DateTime convertStringToDate(String stringDate) {
   //   return DateFormat("yyyy-MM-dd hh:mm:ss").parse(stringDate);
@@ -23,13 +29,15 @@ class CommonFunction {
   //   return DateFormat('yyyy-MM-dd hh:mm a').format(date);
   // }
 
-static String formattedDataTime(String customFormat, DateTime timestamp) {
+  static String formattedDataTime(String customFormat, DateTime timestamp) {
     var date =
         DateTime.fromMicrosecondsSinceEpoch(timestamp.microsecondsSinceEpoch);
 
     return DateFormat(customFormat).format(date);
   }
-  static String convertDateFormat(String stringDate, {format = 'dd MMM, yyyy'}) {
+
+  static String convertDateFormat(String stringDate,
+      {format = 'dd MMM, yyyy'}) {
     DateTime inputDate = DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
         .parseUtc(stringDate)
         .toLocal();

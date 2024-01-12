@@ -3,17 +3,20 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ismmart_vms/helper/theme_helper.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
+import 'package:ismmart_vms/screens/auth/signup/account_status/account_status_viewmodel.dart';
 import 'package:ismmart_vms/screens/auth/signup/signup_4/sign_up_4_viewmodel.dart';
+import 'package:ismmart_vms/screens/setting/settings_view.dart';
 import 'package:ismmart_vms/widgets/custom_drawer.dart';
 import 'package:ismmart_vms/widgets/loader_view.dart';
 import 'package:ismmart_vms/widgets/scrollable_column.dart';
 
-import '../../../../helper/constants.dart';
-import '../../../../widgets/custom_button.dart';
+import '../../../../../helper/constants.dart';
+import '../../../../../widgets/custom_button.dart';
 
 class AccountStatusView extends StatelessWidget {
   AccountStatusView({super.key});
   final SignUp4ViewModel viewModel = Get.put(SignUp4ViewModel());
+  final AccountStatusViewModel viewModel2 = Get.put(AccountStatusViewModel());
 
   @override
   Widget build(BuildContext context) {
@@ -271,7 +274,7 @@ class AccountStatusView extends StatelessWidget {
                   ],
                 ),
                 onPressed: () {
-                  Get.offAll(() => CustomDrawer(), arguments: 'rejected');
+                  Get.to(()=>SettingsView());
                 },
               )
             : viewModel.status['status'] == 'Not Verified'

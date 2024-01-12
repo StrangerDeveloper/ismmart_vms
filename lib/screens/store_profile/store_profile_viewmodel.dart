@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:ismmart_vms/helper/errors.dart';
-import 'package:ismmart_vms/screens/auth/login/login_view.dart';
 import 'package:ismmart_vms/screens/store_profile/store_type_model.dart';
 
 import '../../helper/api_base_helper.dart';
@@ -89,8 +88,9 @@ class StoreProfileViewModel extends GetxController {
           parsedJson['message'].toString().toLowerCase() ==
               AppErrors.sessionException.toLowerCase()) {
         AppConstant.displaySnackBar('error', AppErrors.sessionException);
-        Future.delayed(
-            const Duration(seconds: 2), () => Get.offAll(() => LogInView()));
+        Future.delayed(const Duration(seconds: 2), () {
+          CommonFunction.logout();
+        });
       }
     }).catchError((e) {
       CommonFunction.debugPrint(e);

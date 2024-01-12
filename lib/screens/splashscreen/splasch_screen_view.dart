@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:ismmart_vms/screens/auth/login/login_view.dart';
+import 'package:ismmart_vms/screens/auth/signup/account_status/account_status_view.dart';
 
 import '../drawer_bottom_nav/drawer_bottom_bar_view.dart';
 
@@ -15,19 +17,25 @@ class SplashScreenView extends StatefulWidget {
 class _SplashScreenViewState extends State<SplashScreenView> {
   final box = GetStorage();
   bool islogin = false;
+
   @override
   void initState() {
+    String userStatus = GetStorage().read('status');
     islogin = box.read('islogin') ?? false;
-    Future.delayed(
-        const Duration(seconds: 4),
-        () => Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(builder: (context) {
-              if (islogin) {
-                return DrawerBottomBarView();
-              } else {
-                return LogInView();
-              }
-            }), (Route<dynamic> route) => false));
+    Future.delayed(const Duration(seconds: 4), () {
+      if (userStatus != 'Approved') {
+        Get.offAll(() => AccountStatusView());
+      } else {
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) {
+          if (islogin) {
+            return DrawerBottomBarView();
+          } else {
+            return LogInView();
+          }
+        }), (Route<dynamic> route) => false);
+      }
+    });
     // TODO: implement initState
     super.initState();
   }
