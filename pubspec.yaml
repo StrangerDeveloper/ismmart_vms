@@ -56,6 +56,9 @@ dependencies:
   permission_handler: ^11.1.0
   quill_html_editor: ^2.2.7
   sign_in_with_apple: ^5.0.0
+  flutter_local_notifications: ^16.1.0
+  device_info_plus: ^9.0.3
+  app_settings: ^5.0.0
 
 dev_dependencies:
 
