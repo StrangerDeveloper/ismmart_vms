@@ -7,7 +7,6 @@ import 'package:ismmart_vms/helper/constants.dart';
 import 'package:ismmart_vms/helper/global_variables.dart';
 import 'package:ismmart_vms/models/country_model.dart';
 import 'package:ismmart_vms/screens/add_product/add_product_1/model/pictures_model.dart';
-import 'package:ismmart_vms/screens/add_product/add_product_2/add_product_2_viewmodel.dart';
 import 'package:ismmart_vms/screens/product_list/product_list_viewmodel.dart';
 import '../../../helper/urls.dart';
 
@@ -69,15 +68,6 @@ class AddProduct3ViewModel extends GetxController {
 
     GlobalVariable.showLoader.value = true;
 
-    final AddProduct2ViewModel addProduct2ViewModel = Get.find();
-    // for(int i = 0; i <= addProduct2ViewModel.finalCombinationsList.length-1 ; i++) {
-    //   productDetails.addAll({
-    //     "variants[$i][weight]": weightController.text,
-    //     // "variants[$i][dimensions][length]": lengthController.text,
-    //     // "variants[$i][dimensions][width]": widthController.text,
-    //     // "variants[$i][dimensions][height]": heightController.text,
-    //   });
-    // }
     List<http.MultipartFile> fileList = [];
     for(int i = 0; i<=images.length-1; i++) {
       if (images[i].url != null) {

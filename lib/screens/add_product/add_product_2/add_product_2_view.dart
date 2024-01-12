@@ -9,11 +9,9 @@ import 'package:ismmart_vms/widgets/custom_button.dart';
 import 'package:ismmart_vms/widgets/loader_view.dart';
 
 import '../../../helper/constants.dart';
-import '../../../widgets/custom_bottom_sheet.dart';
 import '../../../widgets/custom_textfield.dart';
 import '../../../widgets/stepperText.dart';
 import '../../../widgets/widget_models/variant_options_field_model.dart';
-import '../../product_list/single_product_model.dart';
 
 class AddProduct2View extends StatelessWidget {
   AddProduct2View({super.key});

@@ -1,4 +1,4 @@
-import '../screens/order_listing/model/orderModel.dart';
+import '../screens/Order/order_listing/model/orderModel.dart';
 
 class VariantSelectionModel {
   String? id;
