@@ -14,6 +14,10 @@ import '../order_listing/order_view.dart';
 import '../product_list/product_list_view.dart';
 
 class DrawerBottomBarViewModel extends GetxController {
+
+   /// for Drawer open and close
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+  
   final box = GetStorage();
 
   Rx<UserProfileModel> userProfileModel = UserProfileModel().obs;

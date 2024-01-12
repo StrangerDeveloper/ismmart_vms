@@ -6,7 +6,7 @@ import 'package:ismmart_vms/helper/global_variables.dart';
 import 'package:ismmart_vms/helper/theme_helper.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/screens/bank_list/bank_list_view.dart';
-import 'package:ismmart_vms/screens/drawer_bottom_nav/drawer_bottom_bar_view.dart';
+import 'package:ismmart_vms/screens/drawer_bottom_nav/drawer_bottom_bar_viewmodel.dart';
 import 'package:ismmart_vms/screens/location_list/location_list_view.dart';
 import 'package:ismmart_vms/screens/order_listing/order_view.dart';
 import 'package:ismmart_vms/screens/product_list/product_list_view.dart';
@@ -20,7 +20,8 @@ import '../screens/user_profile/user_profile_view.dart';
 class CustomDrawer extends StatelessWidget {
   CustomDrawer({super.key});
   final DashboardViewModel viewModel = Get.put(DashboardViewModel());
-
+  final DrawerBottomBarViewModel drawerViewModel =
+      Get.put(DrawerBottomBarViewModel());
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -40,7 +41,8 @@ class CustomDrawer extends StatelessWidget {
               children: [
                 titleAndBackBtn(
                     onTap: () {
-                      Get.back();
+                      //Get.back();
+                      drawerViewModel.scaffoldKey.currentState!.closeDrawer();
                       Get.to(() => StoreProfileView());
                     },
                     iconPath: viewModel.userProfileModel.value.store?.logo,
@@ -51,8 +53,8 @@ class CustomDrawer extends StatelessWidget {
                 drawerListItems(
                   'Overview',
                   onTab: () {
-                    Get.back();
-                    Get.to(() => DrawerBottomBarView());
+                    drawerViewModel.scaffoldKey.currentState!.closeDrawer();
+                    //Get.to(() => DrawerBottomBarView());
                   },
                   iconPath: 'assets/icons/overViewIcon.png',
                 ),
@@ -71,13 +73,15 @@ class CustomDrawer extends StatelessWidget {
                           child: Column(
                             children: [
                               drawerListItems('Returned', h: 25, onTab: () {
-                                Get.back();
+                                drawerViewModel.scaffoldKey.currentState!
+                                    .closeDrawer();
                                 Get.to(() => OrderView(
                                       callingFor: "Returned",
                                     ));
                               }),
                               drawerListItems('Cancelled', h: 25, onTab: () {
-                                Get.back();
+                                drawerViewModel.scaffoldKey.currentState!
+                                    .closeDrawer();
                                 Get.to(() => OrderView(
                                       callingFor: "Cancelled",
                                     ));
@@ -95,14 +99,14 @@ class CustomDrawer extends StatelessWidget {
 
                   icon: Icons.local_offer_rounded,
                   onTab: () {
-                    Get.back();
+                    drawerViewModel.scaffoldKey.currentState!.closeDrawer();
                     Get.to(() => ProductListView());
                   },
                 ),
 
                 drawerListItems('Locations', iconPath: 'assets/icons/pin.png',
                     onTab: () {
-                  Get.back();
+                  drawerViewModel.scaffoldKey.currentState!.closeDrawer();
                   Get.to(() => LocationListView());
                 }),
                 const Divider(
@@ -132,7 +136,8 @@ class CustomDrawer extends StatelessWidget {
                                   iconPath: 'assets/icons/wallet.png',
                                   'Banking',
                                   h: 25, onTab: () {
-                                Get.back();
+                                drawerViewModel.scaffoldKey.currentState!
+                                    .closeDrawer();
                                 Get.to(() => BankListView());
                               }),
                             ],
@@ -152,7 +157,7 @@ class CustomDrawer extends StatelessWidget {
                       if (viewModel.rejected.value == 'rejected') {
                         Get.to(() => UserProfileView());
                       } else {
-                        Get.back();
+                        drawerViewModel.scaffoldKey.currentState!.closeDrawer();
                         GlobalVariable.selectedIndex.value = 4;
                       }
                     },

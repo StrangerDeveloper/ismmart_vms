@@ -23,6 +23,7 @@ class DrawerBottomBarView extends StatelessWidget {
         viewModel.onBackPressed(context);
       },
       child: Scaffold(
+        key: viewModel.scaffoldKey,
         appBar: AppBar(
           title: Obx(
             () => Text(
