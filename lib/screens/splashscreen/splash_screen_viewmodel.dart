@@ -13,19 +13,14 @@ class SplashScreenViewModel extends GetxController {
   @override
   void onReady() {
     Future.delayed(const Duration(seconds: 4), () {
-      print('object1111');
       navigateToNextScreen();
     });
     super.onReady();
   }
 
   navigateToNextScreen() {
-    print('object');
     String userStatus = GetStorage().read('status') ?? '';
     GlobalVariable.token = GetStorage().read('token') ?? '';
-    print('object');
-    print(userStatus);
-    print(GlobalVariable.token);
 
     if (userStatus != 'Approved' && GlobalVariable.token != '') {
       Get.offAll(() => AccountStatusView());

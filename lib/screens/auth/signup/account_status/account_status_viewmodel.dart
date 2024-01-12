@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 import '../../../../helper/api_base_helper.dart';
 import '../../../../helper/common_function.dart';
@@ -10,6 +11,13 @@ import '../../../user_profile/user_profile_model.dart';
 
 class AccountStatusViewModel extends GetxController {
   Rx<UserProfileModel> userProfileModel = UserProfileModel().obs;
+  RxString accountIsPending = ''.obs;
+
+  @override
+  void onInit() {
+    accountIsPending.value = GetStorage().read('status');
+    super.onInit();
+  }
 
   @override
   void onReady() {
@@ -30,9 +38,7 @@ class AccountStatusViewModel extends GetxController {
       if (parsedJson['success'] == true &&
           parsedJson['message'] == "Profile fetched successuflly") {
         userProfileModel.value = UserProfileModel.fromJson(parsedJson['data']);
-      } else if (parsedJson['success'] == false &&
-          parsedJson['message'].toString().toLowerCase() ==
-              AppErrors.sessionException.toLowerCase()) {
+      } else if (parsedJson['success'] == false && parsedJson['message'].toString().toLowerCase() == AppErrors.sessionException.toLowerCase()) {
         AppConstant.displaySnackBar('error', AppErrors.sessionException);
         Future.delayed(const Duration(seconds: 2), () {
           CommonFunction.logout();

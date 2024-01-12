@@ -10,6 +10,7 @@ import 'package:ismmart_vms/widgets/scrollable_column.dart';
 
 import '../../../../../helper/constants.dart';
 import '../../../../../widgets/custom_button.dart';
+import '../../../../helper/common_function.dart';
 
 class AccountStatusView extends StatelessWidget {
   AccountStatusView({super.key});
@@ -33,11 +34,21 @@ class AccountStatusView extends StatelessWidget {
                   progress(),
                   SizedBox(height: 50.h),
                   waitingVerificationText(),
-                  const SizedBox(
-                    height: 50,
-                  ),
+                  const SizedBox(height: 50),
                   emailVerifyText(),
-                  requestBtn()
+                  requestBtn(),
+                  const SizedBox(height: 20),
+                  CustomIconTextBtn(
+                    foregroundColor: ThemeHelper.blue1,
+                    backgroundColor: const Color(0xFFF7F7F7),
+                    radius: 30,
+                    height: 50,
+                    onPressed: () {
+                      CommonFunction.logout();
+                    },
+                    title: 'Logout',
+                    icon: Icons.logout_rounded,
+                  ),
                 ],
               ),
             ),
@@ -131,7 +142,7 @@ class AccountStatusView extends StatelessWidget {
                           style: newFontStyleSize14,
                         ),
                         TextSpan(
-                            text: viewModel.userProfileModel.value.status,
+                            text: viewModel.userProfileModel.value.status ?? viewModel.accountIsPending.value ,
                             style: newFontStyleSize14.copyWith(
                                 color: ThemeHelper.red1)),
                       ],

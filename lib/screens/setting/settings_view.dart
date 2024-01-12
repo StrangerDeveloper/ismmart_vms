@@ -42,7 +42,7 @@ class SettingsView extends StatelessWidget {
                 title: 'User Profile',
                 startRadius: true,
                 onTap: () {
-                  Get.to(() => UserProfileView());
+                  Get.to(() => UserProfileView(), arguments: {'showAppBar' : true});
                 },
               ),
               customDivider(),

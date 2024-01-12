@@ -42,6 +42,7 @@ class LogInViewModel extends GetxController {
           .then((parsedJson) async {
         if (parsedJson['success'] == true) {
           GlobalVariable.showLoader.value = false;
+          print(parsedJson['data']['token']);
           GetStorage().write('token', parsedJson['data']['token']);
           GetStorage().write('status', parsedJson['data']['status']);
           GlobalVariable.token = parsedJson['data']['token'];

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/screens/edit_user_profile/edit_user_profile_view.dart';
 import 'package:ismmart_vms/screens/user_profile/user_profile_viewmodel.dart';
+import 'package:ismmart_vms/widgets/custom_appbar.dart';
 import 'package:ismmart_vms/widgets/custom_cached_network_image.dart';
 import 'package:ismmart_vms/widgets/loader_view.dart';
 
@@ -16,6 +17,11 @@ class UserProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: viewModel.showAppBar
+          ? CustomAppBar2(
+              title: 'User Profile',
+            )
+          : null,
       body: Stack(
         children: [
           SingleChildScrollView(

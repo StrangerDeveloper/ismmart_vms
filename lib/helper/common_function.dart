@@ -2,14 +2,16 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_workers/utils/debouncer.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:ismmart_vms/helper/global_variables.dart';
 import 'package:ismmart_vms/screens/auth/login/login_view.dart';
 
 class CommonFunction {
   static logout() {
+    GetStorage().write('token', '');
+    GetStorage().write('status', '');
     Get.offAll(() => LogInView());
-    GlobalVariable.token = '';
   }
 
   static final Debouncer debouncer =

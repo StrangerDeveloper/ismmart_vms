@@ -14,6 +14,7 @@ import '../../helper/urls.dart';
 import '../user_profile/user_profile_model.dart';
 
 class StoreProfileViewModel extends GetxController {
+
   Rx<UserProfileModel> userProfileModel = UserProfileModel().obs;
   Rx<File> storeProfileImage = File('').obs;
   GlobalKey<FormState> storeFormKey = GlobalKey<FormState>();
