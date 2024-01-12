@@ -6,6 +6,7 @@ import 'package:ismmart_vms/helper/global_variables.dart';
 import 'package:ismmart_vms/helper/urls.dart';
 import 'package:ismmart_vms/screens/add_product/add_product_2/location_inventory_model.dart';
 import 'package:ismmart_vms/screens/add_product/add_product_3/add_product_3_view.dart';
+import 'package:ismmart_vms/screens/location_list/location_model.dart';
 import 'package:ismmart_vms/screens/product_list/single_product_model.dart';
 import '../../../models/variant_selection_model.dart';
 import '../../../widgets/widget_models/variant_options_field_model.dart';
@@ -17,22 +18,22 @@ class AddProduct2ViewModel extends GetxController {
   List<String> combinations2 = [];
   RxBool showVariantsData = false.obs;
   RxList<VariantSelectionModel> finalCombinationsList = <VariantSelectionModel>[].obs;
+  RxList<VariantSelectionModel> tempListForVariantCheck = <VariantSelectionModel>[].obs;
   RxList<VariantsOptionsFieldModel> listOfOptionsAdded = <VariantsOptionsFieldModel>[].obs;
-  RxList<LocationInventoryModel> locationInventoryList = <LocationInventoryModel>[].obs;
+  List<VariantsOptionsFieldModel> tempListOfOptionsAdded = <VariantsOptionsFieldModel>[];
+  RxList<LocationModel> locationsList = <LocationModel>[].obs;
+  RxList<LocationInventoryModel> inventoryLocation = <LocationInventoryModel>[].obs;
   RxList<Variants> preBuiltVariants = <Variants>[].obs;
 
   /// Controllers and Global Form Keys
   ScrollController scrollController = ScrollController();
   final GlobalKey<FormState> variantsFormKey = GlobalKey<FormState>();
   final GlobalKey<FormState> variantsInventoryFormKey = GlobalKey<FormState>();
-  TextEditingController weightController = TextEditingController();
-  TextEditingController lengthController = TextEditingController();
-  TextEditingController widthController = TextEditingController();
-  TextEditingController heightController = TextEditingController();
 
   /// General Variables
   RxBool trackQuantity = true.obs;
   RxBool variantsChanged = false.obs;
+  RxBool editProduct = false.obs;
 
   /// Variables for handling arguments
   Map<String, String> previousDetails = {};
@@ -40,11 +41,36 @@ class AddProduct2ViewModel extends GetxController {
   SingleProductModel oldDetails = SingleProductModel();
   bool cameFromProductList = false;
 
+  ///Variables for Weight Field
+  TextEditingController weightUnitController = TextEditingController();
+  TextEditingController weightController = TextEditingController();
+  RxInt weightUnitSelectedIndex = 0.obs;
+  List<String> weightUnitList = const <String>['kg', 'lbs', 'oz'];
+
+  ///Variables for Length Field
+  TextEditingController lengthUnitController = TextEditingController();
+  TextEditingController lengthController = TextEditingController();
+  RxInt lengthUnitSelectedIndex = 0.obs;
+  List<String> lengthUnitList = const <String>['in', 'cm', 'meters'];
+
+  ///Variables for Width Field
+  TextEditingController widthUnitController = TextEditingController();
+  TextEditingController widthController = TextEditingController();
+  RxInt widthUnitSelectedIndex = 0.obs;
+  List<String> widthUnitList = const <String>['in', 'cm', 'meters'];
+
+  ///Variables for Height Field
+  TextEditingController heightUnitController = TextEditingController();
+  TextEditingController heightController = TextEditingController();
+  RxInt heightUnitSelectedIndex = 0.obs;
+  List<String> heightUnitList = const <String>['in', 'cm', 'meters'];
+
   @override
   void onInit() {
     previousDetails = Get.arguments['productDetails'];
     cameFromProductList = Get.arguments['cameFromProductList'];
-    if(cameFromProductList){
+    editProduct.value = Get.arguments['editProduct'];
+    if (editProduct.value) {
       oldDetails = Get.arguments['oldData'];
       fillData();
     }
@@ -53,8 +79,13 @@ class AddProduct2ViewModel extends GetxController {
 
   @override
   void onReady() {
+    weightUnitController.text = weightUnitList[weightUnitSelectedIndex.value];
+    lengthUnitController.text = lengthUnitList[lengthUnitSelectedIndex.value];
+    widthUnitController.text = widthUnitList[widthUnitSelectedIndex.value];
+    heightUnitController.text = heightUnitList[heightUnitSelectedIndex.value];
     scrollController.addListener(() {
-      if (scrollController.offset == scrollController.position.maxScrollExtent) {
+      if (scrollController.offset ==
+          scrollController.position.maxScrollExtent) {
         listOfOptionsAdded.refresh();
       }
     });
@@ -62,49 +93,75 @@ class AddProduct2ViewModel extends GetxController {
     super.onReady();
   }
 
-  fillData(){
+  fillData() {
+    for (var option in oldDetails.variants!) {
+      finalCombinationsList.add(VariantSelectionModel(
+          id: option.sId,
+          totalInventoryQuantityValue: 0,
+          variantName: option.name,
+          locationInventory: <LocationInventory>[]
+      ));
+    }
     for(var option in oldDetails.options!) {
       TextEditingController optionName = TextEditingController();
       optionName.text = option.name!;
-      listOfOptionsAdded.add(VariantsOptionsFieldModel(optionName: optionName, optionValues: <TextEditingController>[]));
-      for(var optionValue in  option.values!) {
+      listOfOptionsAdded.add(VariantsOptionsFieldModel(
+          optionName: optionName, optionValues: <TextEditingController>[]));
+      for (var optionValue in option.values!) {
         TextEditingController value = TextEditingController();
         value.text = optionValue;
         listOfOptionsAdded.last.optionValues?.add(value);
         listOfOptionsAdded.refresh();
-        if(option == oldDetails.options?.last && optionValue == option.values?.last) {
-          creatingVariants();
+        if (option == oldDetails.options?.last &&
+            optionValue == option.values?.last) {
+          for (var element in listOfOptionsAdded) {
+            tempListOfOptionsAdded.add(element);
+          }
+          // showVariantsData.value = true;
+          // print(listOfOptionsAdded.length);
         }
       }
     }
   }
 
   getVariantInventory() {
-    for(var variant in preBuiltVariants){
-      ApiBaseHelper().getMethod(url: Urls.getVariantInventory + variant.sId!).then((parsedJson) {
-        if(parsedJson['success'] == true){
-
-        }
-    }).catchError((e) {
-
-    });
-    }
-  }
-  
-  getInventoryLocations() {
 
     GlobalVariable.showLoader.value = true;
 
-    locationInventoryList.clear();
+    for (int i = 0 ; i <= finalCombinationsList.length - 1 ; i++) {
 
-    ApiBaseHelper().getMethod(url: Urls.getInventoryLocation).then((parsedJson) {
-      if(parsedJson['success'] == true) {
+      ApiBaseHelper()
+          .getMethod(url: Urls.getVariantInventory + finalCombinationsList[i].id!)
+          .then((parsedJson) async {
+        if (parsedJson['success'] == true) {
+          inventoryLocation.clear();
+          final data = parsedJson['data']['items'] as List;
+          inventoryLocation.addAll(data.map((e) => LocationInventoryModel.fromJson(e)));
+          await assignInventoryToVariant(i);
+        }
+      }).catchError((e) {
+        GlobalVariable.showLoader.value = false;
+      });
+    }
+  }
+
+  getInventoryLocations() {
+    GlobalVariable.showLoader.value = true;
+
+    locationsList.clear();
+
+    ApiBaseHelper().getMethod(url: Urls.getInventoryLocation).then((
+        parsedJson) {
+      if (parsedJson['success'] == true) {
         GlobalVariable.showLoader.value = false;
         final data = parsedJson['data']['items'] as List;
-        if(data.isNotEmpty) {
-          for(var element in data){
-            if(element['status'] == 'Active') {
-              locationInventoryList.add(LocationInventoryModel.fromJson(element));
+        if (data.isNotEmpty) {
+          for (var element in data) {
+            if (element['status'] == 'Active') {
+              locationsList.add(LocationModel.fromJson(element));
+              if(element == data.last && editProduct.value) {
+                createVariantInventory();
+              }
             }
           }
         }
@@ -115,36 +172,98 @@ class AddProduct2ViewModel extends GetxController {
     });
   }
 
-  creatingVariants() {
-    if (cameFromProductList) {
-      for(var option in oldDetails.variants!){
-        preBuiltVariants.add(option);
-        preBuiltVariants.refresh();
-        if(option == oldDetails.variants?.last){
-          getVariantInventory();
-          showVariantsData.value = true;
-        }
-      }
-    } else {
-      combinations.clear();
-      if (listOfOptionsAdded.isNotEmpty) {
-        if (listOfOptionsAdded.length > 1) {
-          variantsFunction(0, 1);
-        } else {
-          combinations.clear();
-          finalCombinationsList.clear();
-          listOfOptionsAdded[0].optionValues?.forEach((element) {
-            finalCombinationsList.add(VariantSelectionModel(
-                variantName: element.text, variantSelected: false));
-            finalCombinationsList.refresh();
-            if (element == listOfOptionsAdded[0].optionValues?.last) {
-              showVariantsData.value = true;
-              assignInventoryToVariants();
-            }
-          });
-        }
+  creatingVariantsForEdit() {
+    combinations.clear();
+    if (listOfOptionsAdded.isNotEmpty) {
+      if (listOfOptionsAdded.length > 1) {
+        variantsFunctionForEdit(0, 1);
+      } else {
+        combinations.clear();
+        finalCombinationsList.clear();
+        listOfOptionsAdded[0].optionValues?.forEach((element) {
+          finalCombinationsList.add(VariantSelectionModel(
+              variantName: element.text, variantSelected: false));
+          finalCombinationsList.refresh();
+          if (element == listOfOptionsAdded[0].optionValues?.last) {
+            showVariantsData.value = true;
+            createVariantInventoryWhenEdited();
+          }
+        });
       }
     }
+  }
+
+  variantsFunctionForEdit(int initialIndex, int nextIndex) {
+    List<String> tempCombinations = <String>[];
+    combinations.clear();
+    combinations.addAll(combinations2.map((e) => e));
+    combinations2.clear();
+    if (initialIndex == 0) {
+      listOfOptionsAdded[0].optionValues?.forEach((element) {
+        String name = element.text;
+        listOfOptionsAdded[1].optionValues?.forEach((element2) {
+          name = "${element.text} - ${element2.text}";
+          combinations2.add(name);
+          if (element == listOfOptionsAdded[0].optionValues?.last &&
+              element2 == listOfOptionsAdded[1].optionValues?.last &&
+              nextIndex != listOfOptionsAdded.length - 1) {
+            variantsFunctionForEdit(initialIndex + 1, nextIndex + 1);
+          } else {
+            finalCombinationsList.clear();
+            finalCombinationsList.addAll(combinations2.map((e) =>
+                VariantSelectionModel(variantSelected: false, variantName: e)));
+            finalCombinationsList.refresh();
+            showVariantsData.value = true;
+            createVariantInventoryWhenEdited();
+          }
+        });
+      });
+    } else {
+      for (var element in combinations) {
+        String name = element;
+        listOfOptionsAdded[nextIndex].optionValues?.forEach((listElement) {
+          name = '$element - ${listElement.text}';
+          tempCombinations.add(name);
+          if (element == combinations.last &&
+              listElement == listOfOptionsAdded[nextIndex].optionValues?.last) {
+            combinations2.addAll(tempCombinations.map((e) => e));
+            if (nextIndex != listOfOptionsAdded.length - 1) {
+              variantsFunctionForEdit(initialIndex + 1, nextIndex + 1);
+            } else {
+              finalCombinationsList.clear();
+              finalCombinationsList.addAll(tempCombinations.map((e) =>
+                  VariantSelectionModel(
+                      variantName: e, variantSelected: false)));
+              finalCombinationsList.refresh();
+              showVariantsData.value = true;
+              createVariantInventoryWhenEdited();
+            }
+          }
+        });
+      }
+    }
+  }
+
+  creatingVariants() {
+    combinations.clear();
+    if (listOfOptionsAdded.isNotEmpty) {
+      if (listOfOptionsAdded.length > 1) {
+        variantsFunction(0, 1);
+      } else {
+        combinations.clear();
+        finalCombinationsList.clear();
+        listOfOptionsAdded[0].optionValues?.forEach((element) {
+          finalCombinationsList.add(VariantSelectionModel(
+              variantName: element.text, variantSelected: false));
+          finalCombinationsList.refresh();
+          if (element == listOfOptionsAdded[0].optionValues?.last) {
+            showVariantsData.value = true;
+            createVariantInventory();
+          }
+        });
+      }
+    }
+    // }
   }
 
   variantsFunction(int initialIndex, int nextIndex) {
@@ -168,7 +287,7 @@ class AddProduct2ViewModel extends GetxController {
                 VariantSelectionModel(variantSelected: false, variantName: e)));
             finalCombinationsList.refresh();
             showVariantsData.value = true;
-            assignInventoryToVariants();
+            createVariantInventory();
           }
         });
       });
@@ -190,7 +309,7 @@ class AddProduct2ViewModel extends GetxController {
                       variantName: e, variantSelected: false)));
               finalCombinationsList.refresh();
               showVariantsData.value = true;
-              assignInventoryToVariants();
+              createVariantInventory();
             }
           }
         });
@@ -198,23 +317,66 @@ class AddProduct2ViewModel extends GetxController {
     }
   }
 
-  assignInventoryToVariants(){
-    for(var i in finalCombinationsList){
+  createVariantInventoryWhenEdited() {
+    for(var i in finalCombinationsList) {
+      int index = tempListForVariantCheck.indexWhere((element) => element.variantName == i.variantName);
+      if(index == -1) {
+        i.locationInventory = [];
+        finalCombinationsList.refresh();
+        for (var j in locationsList) {
+          i.locationInventory?.add(LocationInventory(
+            id: j.sId,
+            locationName: j.name,
+          ));
+          finalCombinationsList.refresh();
+        }
+      } else {
+        i = tempListForVariantCheck[index];
+        print(i.id);
+      }
+    }
+  }
+
+  createVariantInventory() {
+    for (var i in finalCombinationsList) {
       i.locationInventory = [];
       finalCombinationsList.refresh();
-      for(var j in locationInventoryList) {
+      for (var j in locationsList) {
         i.locationInventory?.add(LocationInventory(
           id: j.sId,
           locationName: j.name,
-          weight: double.tryParse(weightController.text),
-          length: int.tryParse(lengthController.text),
-          width: int.tryParse(widthController.text),
-          height: int.tryParse(heightController.text)
         ));
         finalCombinationsList.refresh();
       }
     }
+    if(editProduct.value) {
+      getVariantInventory();
+    }
   }
+
+  assignInventoryToVariant(int i) {
+      for(var j in inventoryLocation) {
+          for (var k in finalCombinationsList[i].locationInventory!) {
+            if(j.location?.sId == k.id) {
+              k.price = j.price;
+              k.barcode = j.barcode;
+              k.sku = j.sku;
+              k.quantity = j.quantity;
+              // print(finalCombinationsList[i].variantName);
+              finalCombinationsList[i].totalInventoryQuantityValue += k.quantity!;
+              // print(finalCombinationsList[i].totalInventoryQuantityValue);
+              finalCombinationsList.refresh();
+            }
+          }
+      }
+      if(finalCombinationsList[i] == finalCombinationsList.last){
+        GlobalVariable.showLoader.value = false;
+        showVariantsData.value = true;
+        for (var element in finalCombinationsList) {
+          tempListForVariantCheck.add(element);
+        }
+      }
+    }
 
   checkAndClearVariantBottomSheet(List<int> indexes) {
     if(indexes.isEmpty){
@@ -231,28 +393,20 @@ class AddProduct2ViewModel extends GetxController {
   }
 
   createJson() {
-    if(cameFromProductList){
-      if (variantsChanged.value) {
+    if(editProduct.value){
         for (int i = 0; i <= listOfOptionsAdded.length - 1; i++) {
-          previousDetails.addAll({
-            "options[$i][name]": listOfOptionsAdded[i].optionName!.text,
-          });
-          for (int j = 0;
-              j <= listOfOptionsAdded[i].optionValues!.length - 1;
-              j++) {
-            previousDetails.addAll({
-              "options[$i][values][$j]":
-                  listOfOptionsAdded[i].optionValues![j].text
-            });
+          previousDetails.addAll({"options[$i][name]": listOfOptionsAdded[i].optionName!.text,});
+          for (int j = 0; j <= listOfOptionsAdded[i].optionValues!.length - 1; j++) {
+            previousDetails.addAll({"options[$i][values][$j]": listOfOptionsAdded[i].optionValues![j].text});
           }
         }
         for (int i = 0; i <= finalCombinationsList.length - 1; i++) {
           previousDetails.addAll({
-            "variants[$i][variantId]": "$i",
-            // "variants[$i][weight]": weightController.text,
-            // "variants[$i][dimensions][length]": lengthController.text,
-            // "variants[$i][dimensions][width]": widthController.text,
-            // "variants[$i][dimensions][height]": heightController.text,
+            "variants[$i][variantId]": finalCombinationsList[i].id == null ? "$i" : finalCombinationsList[i].id!,
+            "variants[$i][weight]": finalCombinationsList[i].weight == null ? '0' : '${finalCombinationsList[i].weight}',
+            "variants[$i][dimensions][length]": finalCombinationsList[i].dimensions?.length == null ? '0' : '${finalCombinationsList[i].dimensions?.length}',
+            "variants[$i][dimensions][width]": finalCombinationsList[i].dimensions?.width == null ? '0' : '${finalCombinationsList[i].dimensions?.width}',
+            "variants[$i][dimensions][height]": finalCombinationsList[i].dimensions?.height == null ? '0' : '${finalCombinationsList[i].dimensions?.height}'
           });
           final splitted = finalCombinationsList[i].variantName?.split(' - ');
           if (splitted!.length > 1) {
@@ -264,33 +418,14 @@ class AddProduct2ViewModel extends GetxController {
           } else {
             previousDetails.addAll({'variants[$i][options][0]': splitted[0]});
           }
-          for (int k = 0; k <= 1; k++) {
+          for (int k = 0; k <= finalCombinationsList[i].locationInventory!.length - 1; k++) {
             previousDetails.addAll({
-              "inventory[$k][location]":
-                  finalCombinationsList[i].locationInventory![k].id!,
+              "inventory[$k][location]": finalCombinationsList[i].locationInventory![k].id!,
               "inventory[$k][variant]": "$i",
-              "inventory[$k][quantity]": finalCombinationsList[i]
-                          .locationInventory?[k]
-                          .quantity ==
-                      null
-                  ? '0'
-                  : "${finalCombinationsList[i].locationInventory![k].quantity!}",
-              "inventory[$k][price]": finalCombinationsList[i]
-                          .locationInventory?[k]
-                          .price ==
-                      null
-                  ? '0'
-                  : "${finalCombinationsList[i].locationInventory?[k].price}",
-              "inventory[$k][sku]":
-                  finalCombinationsList[i].locationInventory?[k].sku == null
-                      ? '0'
-                      : "${finalCombinationsList[i].locationInventory?[k].sku}",
-              "inventory[$k][barcode]": finalCombinationsList[i]
-                          .locationInventory?[k]
-                          .barcode ==
-                      null
-                  ? '0'
-                  : "${finalCombinationsList[i].locationInventory?[k].barcode}",
+              "inventory[$k][quantity]": finalCombinationsList[i].locationInventory?[k].quantity == null ? '0' : "${finalCombinationsList[i].locationInventory![k].quantity!}",
+              "inventory[$k][price]": finalCombinationsList[i].locationInventory?[k].price == null ? '0' : "${finalCombinationsList[i].locationInventory?[k].price}",
+              "inventory[$k][sku]": finalCombinationsList[i].locationInventory?[k].sku == null ? '0' : "${finalCombinationsList[i].locationInventory?[k].sku}",
+              "inventory[$k][barcode]": finalCombinationsList[i].locationInventory?[k].barcode == null ? '0' : "${finalCombinationsList[i].locationInventory?[k].barcode}",
             });
           }
           if (i == finalCombinationsList.length - 1) {
@@ -301,21 +436,12 @@ class AddProduct2ViewModel extends GetxController {
             });
           }
         }
-      } else {
-        Get.to(() => AddProduct3View(), arguments: {
-          'productDetails': previousDetails,
-          'productImages': Get.arguments['productImages'],
-          'cameFromProductList': cameFromProductList,
-        });
-      }
     } else {
       for (int i = 0; i <= listOfOptionsAdded.length - 1; i++) {
         previousDetails.addAll({
           "options[$i][name]": listOfOptionsAdded[i].optionName!.text,
         });
-        for (int j = 0;
-        j <= listOfOptionsAdded[i].optionValues!.length - 1;
-        j++) {
+        for (int j = 0; j <= listOfOptionsAdded[i].optionValues!.length - 1; j++) {
           previousDetails.addAll({
             "options[$i][values][$j]":
             listOfOptionsAdded[i].optionValues![j].text
@@ -325,10 +451,10 @@ class AddProduct2ViewModel extends GetxController {
       for (int i = 0; i <= finalCombinationsList.length - 1; i++) {
         previousDetails.addAll({
           "variants[$i][variantId]": "$i",
-          // "variants[$i][weight]": weightController.text,
-          // "variants[$i][dimensions][length]": lengthController.text,
-          // "variants[$i][dimensions][width]": widthController.text,
-          // "variants[$i][dimensions][height]": heightController.text,
+          "variants[$i][weight]": finalCombinationsList[i].weight == null ? '0' : '${finalCombinationsList[i].weight}',
+          "variants[$i][dimensions][length]": finalCombinationsList[i].dimensions?.length == null ? '0' : '${finalCombinationsList[i].dimensions?.length}',
+          "variants[$i][dimensions][width]": finalCombinationsList[i].dimensions?.width == null ? '0' : '${finalCombinationsList[i].dimensions?.width}',
+          "variants[$i][dimensions][height]": finalCombinationsList[i].dimensions?.height == null ? '0' : '${finalCombinationsList[i].dimensions?.height}'
         });
         final splitted = finalCombinationsList[i].variantName?.split(' - ');
         if (splitted!.length > 1) {
@@ -340,33 +466,14 @@ class AddProduct2ViewModel extends GetxController {
         } else {
           previousDetails.addAll({'variants[$i][options][0]': splitted[0]});
         }
-        for (int k = 0; k <= 1; k++) {
+        for (int k = 0; k <= finalCombinationsList[i].locationInventory!.length - 1; k++) {
           previousDetails.addAll({
-            "inventory[$k][location]":
-            finalCombinationsList[i].locationInventory![k].id!,
-            "inventory[$k][variant]": "$i",
-            "inventory[$k][quantity]": finalCombinationsList[i]
-                .locationInventory?[k]
-                .quantity ==
-                null
-                ? '0'
-                : "${finalCombinationsList[i].locationInventory![k].quantity!}",
-            "inventory[$k][price]": finalCombinationsList[i]
-                .locationInventory?[k]
-                .price ==
-                null
-                ? '0'
-                : "${finalCombinationsList[i].locationInventory?[k].price}",
-            "inventory[$k][sku]":
-            finalCombinationsList[i].locationInventory?[k].sku == null
-                ? '0'
-                : "${finalCombinationsList[i].locationInventory?[k].sku}",
-            "inventory[$k][barcode]": finalCombinationsList[i]
-                .locationInventory?[k]
-                .barcode ==
-                null
-                ? '0'
-                : "${finalCombinationsList[i].locationInventory?[k].barcode}",
+            "inventory[$k][location]": finalCombinationsList[i].locationInventory![k].id!,
+            "inventory[$k][variant]": finalCombinationsList[i].id == null ? '$i' : finalCombinationsList[i].id!,
+            "inventory[$k][quantity]": finalCombinationsList[i].locationInventory?[k].quantity == null ? '0' : "${finalCombinationsList[i].locationInventory![k].quantity!}",
+            "inventory[$k][price]": finalCombinationsList[i].locationInventory?[k].price == null ? '0' : "${finalCombinationsList[i].locationInventory?[k].price}",
+            "inventory[$k][sku]": finalCombinationsList[i].locationInventory?[k].sku == null ? '0' : "${finalCombinationsList[i].locationInventory?[k].sku}",
+            "inventory[$k][barcode]": finalCombinationsList[i].locationInventory?[k].barcode == null ? '0' : "${finalCombinationsList[i].locationInventory?[k].barcode}",
           });
         }
         if (i == finalCombinationsList.length - 1) {

@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/global_variables.dart';
@@ -73,7 +76,7 @@ class AddProduct1View extends StatelessWidget {
             color: newColorLightGrey2,
           )),
       title: Text(
-        viewModel.cameFromProductList.value ? 'Edit Product' : 'Add Product',
+        viewModel.editProduct.value ? 'Edit Product' : 'Add Product',
         style: dmSerifDisplay1.copyWith(fontSize: 20),
       ),
       centerTitle: true,
@@ -158,271 +161,177 @@ class AddProduct1View extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         Obx(() => Container(
-          padding: viewModel.productImagesList.isEmpty ? null : const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
+          width: Get.width,
+          // padding: viewModel.productImagesList.isEmpty ? null : const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
             border: Border.all(
-              color: viewModel.productImagesUploadCheck.value || viewModel.imagesThumbnailCheck.value ? Colors.red.shade700 : ThemeHelper.grey1,
+              color: viewModel.productImagesUploadCheck.value || viewModel.imagesThumbnailCheck.value ? Colors.red.shade700 : viewModel.productImagesList.isNotEmpty ? Colors.white : ThemeHelper.grey1,
               width: 1,
             ),
           ),
-          child: viewModel.productImagesList.isEmpty ? Row(
-              children: [
-                Expanded(
-                  flex: 2,
-                  child: Container(
-                    alignment: Alignment.center,
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    decoration: BoxDecoration(
-                      color: ThemeHelper.grey2,
-                      border: Border.all(
-                        color: ThemeHelper.grey1,
-                      ),
-                      borderRadius: const BorderRadius.horizontal(
-                        left: Radius.circular(8),
-                      ),
-                    ),
-                    child: InkWell(
-                      onTap: () async {
-                        final images = await PickImage().pickMultipleImage();
-                        if(images.isNotEmpty) {
-                          viewModel.imagesThumbnailCheck.value = false;
-                          viewModel.productImagesUploadCheck.value = false;
-                        for (var element in images) {
-                          final splitted = element.path.split('/');
-                          if (viewModel.productImagesList.isEmpty) {
-                            viewModel.productImagesList.add(
-                                PicturesModel(
-                                  fileName: splitted.last,
-                                  filePath: element.path,
-                                  thumbnail: true,
-                                )
-                            );
-                            viewModel.productImagesList.refresh();
-                          } else {
-                            viewModel.productImagesList.add(
-                                PicturesModel(
-                                  fileName: splitted.last,
-                                  filePath: element.path,
-                                  thumbnail: false,
-                                )
-                            );
-                            viewModel.productImagesList.refresh();
-                            viewModel.imagesChanged = true;
-                          }
-                        }
-                        }
-                      },
-                      child: const Text(
-                        'Choose file',
-                        style: TextStyle(
-                          color: Colors.white,
-                          decoration: TextDecoration.underline,
-                          fontWeight: FontWeight.w500,
-                          decorationColor: Colors.white,
-                        ),
-                      ),
-                    )
-                  ),
-                ),
-                Expanded(
-                  flex: 3,
-                  child: Container(
-                    padding: const EdgeInsets.only(left: 10, top: 10, bottom: 10),
-                    decoration: BoxDecoration(
-                      color: ThemeHelper.grey3,
-                      border: Border.all(
-                        color: ThemeHelper.grey1,
-                      ),
-                      borderRadius: const BorderRadius.horizontal(
-                        right: Radius.circular(8),
-                      ),
-                    ),
-                    child: const Text('No file chosen'),
-                  ),
-                ),
-              ]
-            ) : Column(
-              children: [
-            Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start ,
             children: [
-              Expanded(
-                flex: 2,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Expanded(
-                      child: Center(
-                        child: Text(
-                          'Remove',
-                          style: interNormalText.copyWith(
-                              color: newColorLightGrey2,
-                              fontSize: 11,
-                              fontWeight: FontWeight.w600
+                      flex: 2,
+                      child: Container(
+                        alignment: Alignment.center,
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        decoration: BoxDecoration(
+                          color: ThemeHelper.grey2,
+                          border: Border.all(
+                            color: ThemeHelper.grey1,
+                          ),
+                          borderRadius: const BorderRadius.horizontal(
+                            left: Radius.circular(8),
                           ),
                         ),
+                        child: InkWell(
+                          onTap: () async {
+                            final images = await PickImage().pickMultipleImage();
+                            if(images.isNotEmpty) {
+                              viewModel.imagesThumbnailCheck.value = false;
+                              viewModel.productImagesUploadCheck.value = false;
+                            for (var element in images) {
+                              final splitted = element.path.split('/');
+                              if (viewModel.productImagesList.isEmpty) {
+                                viewModel.productImagesList.add(
+                                    PicturesModel(
+                                      fileName: splitted.last,
+                                      filePath: element.path,
+                                      thumbnail: true,
+                                    )
+                                );
+                                viewModel.productImagesList.refresh();
+                              } else {
+                                viewModel.productImagesList.add(
+                                    PicturesModel(
+                                      fileName: splitted.last,
+                                      filePath: element.path,
+                                      thumbnail: false,
+                                    )
+                                );
+                                viewModel.productImagesList.refresh();
+                                viewModel.imagesChanged = true;
+                              }
+                            }
+                            }
+                          },
+                          child: const Text(
+                            'Choose file',
+                            style: TextStyle(
+                              color: Colors.white,
+                              decoration: TextDecoration.underline,
+                              fontWeight: FontWeight.w500,
+                              decorationColor: Colors.white,
+                            ),
+                          ),
+                        )
                       ),
                     ),
-                    const SizedBox(width: 15,),
                     Expanded(
-                      child: Center(
-                        child: Text(
-                          'Thumbnail',
-                          style: interNormalText.copyWith(
-                              color: newColorLightGrey2,
-                              fontSize: 11,
-                              fontWeight: FontWeight.w600
+                      flex: 3,
+                      child: Container(
+                        padding: const EdgeInsets.only(left: 10, top: 10, bottom: 10),
+                        decoration: BoxDecoration(
+                          color: ThemeHelper.grey3,
+                          border: Border.all(
+                            color: ThemeHelper.grey1,
+                          ),
+                          borderRadius: const BorderRadius.horizontal(
+                            right: Radius.circular(8),
                           ),
                         ),
+                        child: const Text('No file chosen'),
                       ),
-                    )
-                  ],
+                    ),
+                  ]
                 ),
-              ),
-              Expanded(
-                flex: 3,
-                child: Center(
-                  child: Text(
-                      'Filename',
-                      style: interNormalText.copyWith(
-                          color: newColorLightGrey2,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 11
-                      )
-                  ),
-                ),
-              )
-            ],
-          ),
-                const SizedBox(height: 8,),
-                Column (
-                children: List.generate(
-                    viewModel.productImagesList.length,
-                        (idx) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 4.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              Row(
+              SizedBox(height: viewModel.productImagesList.isEmpty ? 0 : 5,),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Wrap(
+                    children: List.generate(
+                        viewModel.productImagesList.length,
+                            (idx) {
+                          return Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 4.0),
+                              child: Stack(
                                 children: [
-                                  Expanded(
-                                    flex: 2,
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                          child: InkWell(
-                                            onTap: () {
-                                              if(viewModel.productImagesList[idx].url != null) {
-                                                viewModel.productImagesList.removeAt(idx);
-                                                viewModel.productImagesList.refresh();
-                                                viewModel.imagesChanged = true;
-                                              } else {
-                                                viewModel.productImagesList.removeAt(idx);
-                                                viewModel.productImagesList.refresh();
-                                              }
-                                            },
-                                            enableFeedback: false,
-                                            child: const Icon(
-                                              Icons.delete_outline_rounded,
-                                              size: 20,
-                                              color: Colors.red,
-                                            ),
-                                          ),
-                                        ),
-                                        const SizedBox(width: 15,),
-                                        Expanded(
-                                          child: InkWell(
-                                            enableFeedback: false,
-                                            onTap: () {
-                                              viewModel.imagesThumbnailCheck.value = false;
-                                              for (var element in viewModel.productImagesList) {
-                                                element.thumbnail = false;
-                                              }
-                                              viewModel.productImagesList[idx].thumbnail = !viewModel.productImagesList[idx].thumbnail!;
-                                              viewModel.productImagesList.refresh();
-                                              viewModel.imagesChanged = true;
-                                            },
-                                            child: AnimatedContainer(
-                                              height: 17,
-                                              width: 17,
-                                              decoration: BoxDecoration(
-                                                  color: viewModel.productImagesList[idx].thumbnail! ? newColorBlue : Colors.white,
-                                                  shape: BoxShape.circle,
-                                                  border: Border.all(
-                                                      color: viewModel.productImagesList[idx].thumbnail! ? newColorBlue : newColorLightGrey3,
-                                                      width: 0.8
-                                                  )
-                                              ),
-                                              duration: const Duration(milliseconds: 200),
-                                              child: viewModel.productImagesList[idx].thumbnail! ? const Icon(
-                                                Icons.check,
-                                                color: Colors.white,
-                                                size: 14,
-                                              ) : const SizedBox(),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
+                                  viewModel.productImagesList[idx].url == null ? Container(
+                                    height: 55,
+                                    width: 55,
+                                    margin: const EdgeInsets.symmetric(horizontal: 3),
+                                    padding: const EdgeInsets.all(4),
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(fit: BoxFit.fill, image: FileImage(File(viewModel.productImagesList[idx].filePath!))),
+                                      borderRadius: BorderRadius.circular(10),
                                     ),
-                                  ),
-                                  Expanded(
-                                    flex: 3,
-                                    child: Center(
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                                        child: Text(
-                                          viewModel.productImagesList[idx].fileName!,
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: const TextStyle(
-                                              color: Colors.red,
-                                              decoration: TextDecoration.underline,
-                                              fontSize: 11,
-                                              decorationColor: Colors.red,
-                                              fontWeight: FontWeight.w400
+                                  ) : CachedNetworkImage(
+                                    height: 55,
+                                    width: 55,
+                                    imageUrl: viewModel.productImagesList[idx].url != null ? '${viewModel.productImagesList[idx].url}' : '',
+                                    imageBuilder: (context, imageProvider) {
+                                      return Container(
+                                        margin: const EdgeInsets.symmetric(horizontal: 3),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10),
+                                          image: DecorationImage(
+                                            image: imageProvider,
+                                            fit: BoxFit.cover,
                                           ),
+                                        ),
+                                      );
+                                    },
+                                    errorWidget: (context, url, error) {
+                                      return Container(
+                                        margin: const EdgeInsets.symmetric(horizontal: 3),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(20),
+                                          image: const DecorationImage(
+                                            image: AssetImage('assets/logo/logo_new.png'),
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    placeholder: (context, url) {
+                                      return const Center(
+                                        child: CircularProgressIndicator(strokeWidth: 2.0),
+                                      );
+                                    },
+                                  ),
+                                  Positioned(
+                                    top: 0,
+                                    right: 0,
+                                    child: InkWell(
+                                      onTap: () {},
+                                      child: CircleAvatar(
+                                        radius: 6,
+                                        backgroundColor: Colors.grey.shade300,
+                                        child: const Icon(
+                                          Icons.close,
+                                          size: 8,
+                                          color: Colors.black,
                                         ),
                                       ),
                                     ),
                                   )
                                 ],
-                              ),
-                              idx == viewModel.productImagesList.length - 1 ? InkWell(
-                                onTap: () async {
-                                  final images = await PickImage().pickMultipleImage();
-                                  for (var element in images) {
-                                    int index = viewModel.productImagesList.indexWhere((element1) => element1.filePath == element.path);
-                                    if(index == -1){
-                                      final split = element.path.split("/");
-                                      viewModel.productImagesList.add(PicturesModel(
-                                          filePath: element.path,
-                                          fileName: split.last,
-                                          thumbnail: false
-                                      ));
-                                    }
-                                  }
-                                },
-                                child: Container(
-                                  margin: const EdgeInsets.only(top: 15),
-                                  height: 25,
-                                  width: 25,
-                                  decoration: const BoxDecoration(
-                                    color: newColorLightGrey3,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: const Icon(Icons.add_rounded, size: 18, color: Colors.white,),
-                                ),
-                              ) : const Divider(thickness: 1.2, color: newColorLightGrey2,)
-                            ],
-                          ),
-                        );
-                      }
-                ),
-                          ),
-              ],
-            ),
+                              )
+                          );
+                        }
+                    ),
+                  )
+                ],
+              ),
+            ],
+          )
         ),
         ),
         Obx(() => viewModel.imagesThumbnailCheck.value ? Text(
@@ -448,6 +357,7 @@ class AddProduct1View extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 18),
       child: Obx(() => CustomTextField1(
           refreshIconVisibility: viewModel.typeRefreshCheck.value,
+          onIconTap: () => viewModel.fetchTypes(),
           title: 'Type',
           validator: (value) {
             if(value == null || value == '' || value.isEmpty) {
@@ -480,6 +390,9 @@ class AddProduct1View extends StatelessWidget {
       children: [
         Obx(() => CustomTextField1(
           refreshIconVisibility: viewModel.categoryRefreshCheck.value,
+            onIconTap: () {
+              viewModel.fetchCategories();
+            },
             title: 'Category',
             hintText: 'Select one or more product category',
             isDropDown: true,

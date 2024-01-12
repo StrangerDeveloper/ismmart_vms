@@ -86,7 +86,7 @@ class Validator {
   static String? validateCNIC(String? value) {
     if (GetUtils.isBlank(value)!) {
       return "CNIC Required";
-    } else if (value!.length != 13) {
+    } else if (value!.length != 15) {
       return "Enter Valid CNIC";
     } else {
       return null;

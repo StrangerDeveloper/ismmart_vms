@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ismmart_vms/helper/constants.dart';
 import 'package:ismmart_vms/screens/add_product/add_product_1/add_product_1_view.dart';
 import 'package:ismmart_vms/screens/product_list/product_list_viewmodel.dart';
 import 'package:ismmart_vms/widgets/custom_button.dart';
@@ -21,6 +22,21 @@ class ProductListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: viewModel.cameFromSideBar.value ? AppBar(
+        centerTitle: true,
+        leading: IconButton(
+            onPressed: () => Get.back(),
+            icon: const Icon(
+              Icons.arrow_back_ios_rounded,
+              color: newColorLightGrey3,
+            ),
+        ),
+        title: Obx(
+              () => const Text(
+            'Products',
+          ),
+        ),
+      ) : null,
       body: Stack(
         children: [
           Column(
@@ -190,10 +206,7 @@ class ProductListView extends StatelessWidget {
       child: InkWell(
         borderRadius: borderRadius,
         onTap: () {
-          Get.to(() => AddProduct1View(), arguments: {
-            'productDetails': viewModel.dataList[index],
-            'cameFromProductList': true
-          });
+          viewModel.getSingleProductDetails(viewModel.dataList[index].sId!);
         },
         child: Padding(
           padding:

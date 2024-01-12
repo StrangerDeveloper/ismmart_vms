@@ -27,7 +27,7 @@ class CustomDrawer extends StatelessWidget {
     return SafeArea(
       top: false,
       child: Drawer(
-        width: Get.width * 0.7,
+        width: Get.width * 0.75,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
