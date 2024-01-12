@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import '../../helper/global_variables.dart';
+import '../../../helper/global_variables.dart';
 import '../order_listing/model/orderModel.dart';
 
 class OrderDetailViewModel extends GetxController {

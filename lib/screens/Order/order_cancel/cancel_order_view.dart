@@ -3,16 +3,16 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:ismmart_vms/helper/theme_helper.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
-import 'package:ismmart_vms/screens/order_detail/cancel_order_viewmodel.dart';
+import 'package:ismmart_vms/screens/Order/order_cancel/cancel_order_viewmodel.dart';
 import 'package:ismmart_vms/widgets/custom_image_view.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
-import '../../helper/constants.dart';
-import '../../helper/utils/image_constant.dart';
-import '../../widgets/custom_appbar.dart';
-import '../../widgets/custom_button.dart';
-import '../../widgets/custom_text.dart';
-import '../../widgets/loader_view.dart';
+import '../../../helper/constants.dart';
+import '../../../helper/utils/image_constant.dart';
+import '../../../widgets/custom_appbar.dart';
+import '../../../widgets/custom_button.dart';
+import '../../../widgets/custom_text.dart';
+import '../../../widgets/loader_view.dart';
 
 class CancelOrderView extends StatelessWidget {
   final CancelORderViewMOdel viewModel = Get.put(CancelORderViewMOdel());

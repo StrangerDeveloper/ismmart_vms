@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/theme_helper.dart';
 import 'package:ismmart_vms/screens/drawer_bottom_nav/drawer_bottom_bar_viewmodel.dart';
+import 'package:ismmart_vms/screens/notification/notification_view.dart';
 import 'package:ismmart_vms/widgets/custom_cached_network_image.dart';
 import 'package:ismmart_vms/widgets/custom_drawer.dart';
 
@@ -23,6 +24,7 @@ class DrawerBottomBarView extends StatelessWidget {
         viewModel.onBackPressed(context);
       },
       child: Scaffold(
+        key: viewModel.scaffoldKey,
         appBar: AppBar(
           title: Obx(
             () => Text(
@@ -48,7 +50,9 @@ class DrawerBottomBarView extends StatelessWidget {
     return Obx(
       () => GlobalVariable.selectedIndex.value == 0
           ? IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Get.to(() => NotificationView());
+              },
               icon: const Icon(Icons.notifications),
             )
           : const SizedBox(),

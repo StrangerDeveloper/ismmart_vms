@@ -51,20 +51,22 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyAH_uC_FqKPSpFSmpYXcAg4gr-dQxOFbI0',
-    appId: '1:1092230170530:android:a560a71ab37f9e345a14fb',
+    appId: '1:1092230170530:android:f5eccb975604ccfb5a14fb',
     messagingSenderId: '1092230170530',
     projectId: 'ismmart-vms',
+    databaseURL: 'https://ismmart-vms-default-rtdb.firebaseio.com',
     storageBucket: 'ismmart-vms.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDMrZPUF09uVAUhJGgZL2X-Afm3JS9EL-A',
-    appId: '1:1092230170530:ios:08465a8d6f9fdbb95a14fb',
+    appId: '1:1092230170530:ios:326c9d865da37a205a14fb',
     messagingSenderId: '1092230170530',
     projectId: 'ismmart-vms',
+    databaseURL: 'https://ismmart-vms-default-rtdb.firebaseio.com',
     storageBucket: 'ismmart-vms.appspot.com',
     androidClientId: '1092230170530-dqkto2vcauisc76v2pc61g73q462al1g.apps.googleusercontent.com',
-    iosClientId: '1092230170530-ailqrr8dp34jvirb7166afdq8bbf7c15.apps.googleusercontent.com',
-    iosBundleId: 'com.example.ismmartVms',
+    iosClientId: '1092230170530-qvg7isodscflmojqjusd0v6bhikacirh.apps.googleusercontent.com',
+    iosBundleId: 'com.ismmart.ismmartVms',
   );
 }

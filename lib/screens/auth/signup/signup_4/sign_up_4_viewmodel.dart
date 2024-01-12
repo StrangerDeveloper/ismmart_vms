@@ -7,22 +7,22 @@ import '../../../../helper/global_variables.dart';
 import '../../../../helper/urls.dart';
 
 class SignUp4ViewModel extends GetxController {
-
   RxMap<String, String> status = <String, String>{}.obs;
   TextEditingController emailController = TextEditingController();
   Map<String, dynamic> parsedJson = {};
 
   @override
   void onInit() async {
-    status.value = Get.arguments ?? {''};
+    status.value = Get.arguments ?? {};
     super.onInit();
-    }
+  }
 
   void resentEmail() async {
     try {
       Map<String, dynamic> param = {"email": "${status['email']}"};
       GlobalVariable.showLoader.value = true;
-      parsedJson = await ApiBaseHelper().postMethod(url: Urls.resendEmail, body: param);
+      parsedJson =
+          await ApiBaseHelper().postMethod(url: Urls.resendEmail, body: param);
 
       if (parsedJson['success'] == true) {
         GlobalVariable.showLoader.value = false;

@@ -42,22 +42,22 @@ class ApiBaseHelper {
       debugPrint("$e");
       GlobalVariable.showLoader.value = false;
       CustomSnackBar.showSnackBar(
-          title: 'Error', message: Errors.noInternetError);
-      throw Errors.noInternetError;
+          title: 'Error', message: AppErrors.noInternetError);
+      throw AppErrors.noInternetError;
     } on TimeoutException catch (_) {
       GlobalVariable.showLoader.value = false;
       CustomSnackBar.showSnackBar(
-          title: 'Error', message: Errors.timeOutException);
-      throw Errors.timeOutException;
+          title: 'Error', message: AppErrors.timeOutException);
+      throw AppErrors.timeOutException;
     } on FormatException catch (_) {
       GlobalVariable.showLoader.value = false;
       CustomSnackBar.showSnackBar(
-          title: 'Error', message: Errors.formatException);
-      throw Errors.formatException;
+          title: 'Error', message: AppErrors.formatException);
+      throw AppErrors.formatException;
     } catch (e) {
       GlobalVariable.showLoader.value = false;
       CustomSnackBar.showSnackBar(
-          title: 'Error', message: Errors.generalApiError);
+          title: 'Error', message: AppErrors.generalApiError);
       throw e.toString();
     }
   }
@@ -86,22 +86,22 @@ class ApiBaseHelper {
       debugPrint("$e");
       GlobalVariable.showLoader.value = false;
       CustomSnackBar.showSnackBar(
-          title: 'Error', message: Errors.noInternetError);
-      throw Errors.noInternetError;
+          title: 'Error', message: AppErrors.noInternetError);
+      throw AppErrors.noInternetError;
     } on TimeoutException catch (_) {
       GlobalVariable.showLoader.value = false;
       CustomSnackBar.showSnackBar(
-          title: 'Error', message: Errors.timeOutException);
-      throw Errors.timeOutException;
+          title: 'Error', message: AppErrors.timeOutException);
+      throw AppErrors.timeOutException;
     } on FormatException catch (_) {
       GlobalVariable.showLoader.value = false;
       CustomSnackBar.showSnackBar(
-          title: 'Error', message: Errors.formatException);
-      throw Errors.formatException;
+          title: 'Error', message: AppErrors.formatException);
+      throw AppErrors.formatException;
     } catch (e) {
       GlobalVariable.showLoader.value = false;
       CustomSnackBar.showSnackBar(
-          title: 'Error', message: Errors.generalApiError);
+          title: 'Error', message: AppErrors.generalApiError);
       throw e.toString();
     }
   }
@@ -136,22 +136,22 @@ class ApiBaseHelper {
     } on SocketException catch (_) {
       GlobalVariable.showLoader.value = false;
       CustomSnackBar.showSnackBar(
-          title: 'Error', message: Errors.noInternetError);
-      throw Errors.noInternetError;
+          title: 'Error', message: AppErrors.noInternetError);
+      throw AppErrors.noInternetError;
     } on TimeoutException catch (_) {
       GlobalVariable.showLoader.value = false;
       CustomSnackBar.showSnackBar(
-          title: 'Error', message: Errors.timeOutException);
-      throw Errors.timeOutException;
+          title: 'Error', message: AppErrors.timeOutException);
+      throw AppErrors.timeOutException;
     } on FormatException catch (_) {
       GlobalVariable.showLoader.value = false;
       CustomSnackBar.showSnackBar(
-          title: 'Error', message: Errors.formatException);
-      throw Errors.formatException;
+          title: 'Error', message: AppErrors.formatException);
+      throw AppErrors.formatException;
     } catch (e) {
       GlobalVariable.showLoader.value = false;
       CustomSnackBar.showSnackBar(
-          title: 'Error', message: Errors.generalApiError);
+          title: 'Error', message: AppErrors.generalApiError);
       throw e.toString();
     }
   }
@@ -186,22 +186,22 @@ class ApiBaseHelper {
     } on SocketException catch (_) {
       GlobalVariable.showLoader.value = false;
       CustomSnackBar.showSnackBar(
-          title: 'Error', message: Errors.noInternetError);
-      throw Errors.noInternetError;
+          title: 'Error', message: AppErrors.noInternetError);
+      throw AppErrors.noInternetError;
     } on TimeoutException catch (_) {
       GlobalVariable.showLoader.value = false;
       CustomSnackBar.showSnackBar(
-          title: 'Error', message: Errors.timeOutException);
-      throw Errors.timeOutException;
+          title: 'Error', message: AppErrors.timeOutException);
+      throw AppErrors.timeOutException;
     } on FormatException catch (_) {
       GlobalVariable.showLoader.value = false;
       CustomSnackBar.showSnackBar(
-          title: 'Error', message: Errors.formatException);
-      throw Errors.formatException;
+          title: 'Error', message: AppErrors.formatException);
+      throw AppErrors.formatException;
     } catch (e) {
       GlobalVariable.showLoader.value = false;
       CustomSnackBar.showSnackBar(
-          title: 'Error', message: Errors.generalApiError);
+          title: 'Error', message: AppErrors.generalApiError);
       throw e.toString();
     }
   }
@@ -240,19 +240,19 @@ class ApiBaseHelper {
     } on SocketException catch (_) {
       GlobalVariable.showLoader.value = false;
       GlobalVariable.noInternet(true);
-      //AppConstant.displaySnackBar(titlege)(title, message: Errors.noInternetError);
-      throw Errors.noInternetError;
+      //AppConstant.displaySnackBar(titlege)(title, message: AppErrors.noInternetError);
+      throw AppErrors.noInternetError;
     } on TimeoutException catch (_) {
       GlobalVariable.showLoader.value = false;
-      AppConstant.displaySnackBar('Error', Errors.timeOutException);
-      throw Errors.timeOutException;
+      AppConstant.displaySnackBar('Error', AppErrors.timeOutException);
+      throw AppErrors.timeOutException;
     } on FormatException catch (_) {
       GlobalVariable.showLoader.value = false;
-      AppConstant.displaySnackBar('Error', Errors.formatException);
-      throw Errors.formatException;
+      AppConstant.displaySnackBar('Error', AppErrors.formatException);
+      throw AppErrors.formatException;
     } catch (e) {
       GlobalVariable.showLoader.value = false;
-      AppConstant.displaySnackBar('Error', Errors.generalApiError);
+      AppConstant.displaySnackBar('Error', AppErrors.generalApiError);
       throw e.toString();
     }
   }
@@ -285,19 +285,19 @@ class ApiBaseHelper {
     } on SocketException catch (_) {
       GlobalVariable.showLoader.value = false;
       GlobalVariable.noInternet(true);
-      //AppConstant.displaySnackBar(titlege)(title, message: Errors.noInternetError);
-      throw Errors.noInternetError;
+      //AppConstant.displaySnackBar(titlege)(title, message: AppErrors.noInternetError);
+      throw AppErrors.noInternetError;
     } on TimeoutException catch (_) {
       GlobalVariable.showLoader.value = false;
-      AppConstant.displaySnackBar('Error', Errors.timeOutException);
-      throw Errors.timeOutException;
+      AppConstant.displaySnackBar('Error', AppErrors.timeOutException);
+      throw AppErrors.timeOutException;
     } on FormatException catch (_) {
       GlobalVariable.showLoader.value = false;
-      AppConstant.displaySnackBar('Error', Errors.formatException);
-      throw Errors.formatException;
+      AppConstant.displaySnackBar('Error', AppErrors.formatException);
+      throw AppErrors.formatException;
     } catch (e) {
       GlobalVariable.showLoader.value = false;
-      AppConstant.displaySnackBar('Error', Errors.generalApiError);
+      AppConstant.displaySnackBar('Error', AppErrors.generalApiError);
       throw e.toString();
     }
   }
@@ -338,19 +338,19 @@ class ApiBaseHelper {
   //   } on SocketException catch (_) {
   //     GlobalVariable.showLoader.value = false;
   //     GlobalVariable.internetErr(true);
-  //     //AppConstant.displaySnackBar(titlege)(title, message: Errors.noInternetError);
-  //    // throw Errors.noInternetError;
+  //     //AppConstant.displaySnackBar(titlege)(title, message: AppErrors.noInternetError);
+  //    // throw AppErrors.noInternetError;
   //   } on TimeoutException catch (_) {
   //     GlobalVariable.showLoader.value = false;
-  //     AppConstant.displaySnackBar('Error', Errors.timeOutException);
-  //     throw Errors.timeOutException;
+  //     AppConstant.displaySnackBar('Error', AppErrors.timeOutException);
+  //     throw AppErrors.timeOutException;
   //   } on FormatException catch (_) {
   //     GlobalVariable.showLoader.value = false;
-  //     AppConstant.displaySnackBar('Error', Errors.formatException);
-  //     throw Errors.formatException;
+  //     AppConstant.displaySnackBar('Error', AppErrors.formatException);
+  //     throw AppErrors.formatException;
   //   } catch (e) {
   //     GlobalVariable.showLoader.value = false;
-  //     AppConstant.displaySnackBar('Error', Errors.generalApiError);
+  //     AppConstant.displaySnackBar('Error', AppErrors.generalApiError);
   //     throw e.toString();
   //   }
   // }

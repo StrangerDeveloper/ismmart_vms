@@ -114,6 +114,7 @@ class LogInViewModel extends GetxController {
         });
       });
     } catch (error) {
+      print(error);
       GlobalVariable.showLoader.value = false;
       //  debugPrint("$error");
     }

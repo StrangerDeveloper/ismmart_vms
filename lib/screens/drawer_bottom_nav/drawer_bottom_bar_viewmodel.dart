@@ -10,10 +10,14 @@ import 'package:ismmart_vms/screens/user_profile/user_profile_view.dart';
 import '../../helper/global_variables.dart';
 import '../add_product/add_product_1/add_product_1_view.dart';
 import '../dashboard/dashboard_view.dart';
-import '../order_listing/order_view.dart';
+import '../Order/order_listing/order_view.dart';
 import '../product_list/product_list_view.dart';
 
 class DrawerBottomBarViewModel extends GetxController {
+
+   /// for Drawer open and close
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+  
   final box = GetStorage();
 
   Rx<UserProfileModel> userProfileModel = UserProfileModel().obs;

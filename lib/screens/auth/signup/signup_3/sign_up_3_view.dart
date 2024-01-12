@@ -48,7 +48,7 @@ class SignUp3View extends StatelessWidget {
                         title: 'Bank Name',
                         hintText: 'e.g Habib Bank',
                         controller: viewModel.bankController,
-                        isDropDown: true,
+                        // isDropDown: true,
                         autoValidateMode: AutovalidateMode.onUserInteraction,
                         validator: (value) {
                           if (viewModel.bankController.text == '') {
@@ -59,10 +59,10 @@ class SignUp3View extends StatelessWidget {
                           }
                         },
                         onTap: () {
-                          viewModel.getBankList();
-                          // viewModel.resetValue();
-
-                          itemsBottomSheet();
+                          // viewModel.getBankList();
+                          // // viewModel.resetValue();
+                          //
+                          // itemsBottomSheet();
                         },
                       ),
                     ),
@@ -73,7 +73,7 @@ class SignUp3View extends StatelessWidget {
                     // Obx(() => branchCodeTextField()),
                     const SizedBox(height: 20),
 
-                    addNewBankBtn(),
+                    //  addNewBankBtn(),
                     // addAccountBtn(),
                     singup3Btn(),
                   ],
@@ -384,7 +384,7 @@ class SignUp3View extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text(
-              "Next",
+              'Submit',
               // style: newFontStyleSize14.copyWith(
               //     fontWeight: FontWeight.w500, color: kWhiteColor),kWhiteColor
             ),
@@ -404,178 +404,178 @@ class SignUp3View extends StatelessWidget {
     );
   }
 
-  Widget checkBoxTermCondition() {
-    return Obx(
-      () => Padding(
-        padding: const EdgeInsets.only(bottom: 25, top: 5),
-        child: CustomCheckBox2(
-          value: viewModel.termAndCondition.value,
-          onChanged: (value) {
-            viewModel.termAndCondition.value = value;
-          },
-          text: Padding(
-            padding: const EdgeInsets.only(top: 6),
-            child: InkWell(
-              onTap: () {
-                // showTermsAndConditionDialog();
-              },
-              child: RichText(
-                text: TextSpan(
-                  style: newFontStyleSize14.copyWith(
-                    color: newColorLightGrey2,
-                  ),
-                  children: [
-                    const TextSpan(
-                      text:
-                          'By clicking ‘Create Account’, you’ve read and agreed to our ',
-                    ),
-                    TextSpan(
-                      text: 'Terms and Conditions',
-                      style: newFontStyleSize14.copyWith(
-                        decoration: TextDecoration.underline,
-                        color: newColorLightGrey2,
-                      ),
-                    ),
-                    const TextSpan(
-                      text:
-                          ' and for my personal data to be processed according to',
-                    ),
-                    TextSpan(
-                      text: ' ISMMART ',
-                      style: newFontStyleSize14.copyWith(
-                        color: newColorBlue2,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    const TextSpan(text: 'Privacy Policy'),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  itemsBottomSheet() {
-    showModalBottomSheet(
-      context: Get.context!,
-      isScrollControlled: true,
-      backgroundColor: Colors.white,
-      shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-      constraints: BoxConstraints(maxHeight: Get.height * 0.9),
-      builder: (BuildContext context) {
-        return Stack(
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 10, 10, 3),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Icon(
-                        Icons.menu,
-                        color: ThemeHelper.blue1,
-                      ),
-                      const SizedBox(width: 10),
-                      const Text(
-                        'Select Bank',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          color: ThemeHelper.blue1,
-                          fontSize: 16,
-                        ),
-                      ),
-                      const Spacer(),
-                      IconButton(
-                        onPressed: () {
-                          Get.back();
-                        },
-                        icon: const Icon(
-                          Icons.close,
-                          color: Colors.red,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  CustomTextField1(
-                    hintText: 'Search Bank...',
-                    controller: viewModel.searchController,
-                    onChanged: (value) {
-                      viewModel.onSearch(value);
-                    },
-                  ),
-                  Obx(() => (viewModel.filteredBankList.isNotEmpty)
-                          ? Expanded(
-                              child: ListView.separated(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 10),
-                                itemCount: viewModel.filteredBankList.length,
-                                itemBuilder: (context, index) {
-                                  return InkWell(
-                                    borderRadius: BorderRadius.circular(8),
-                                    onTap: () {
-                                      viewModel.bankController.text =
-                                          viewModel.filteredBankList[index];
-
-                                      Get.back();
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(12),
-                                      child: Text(
-                                          viewModel.filteredBankList[index]),
-                                    ),
-                                  );
-                                },
-                                separatorBuilder: (context, index) {
-                                  return const SizedBox(height: 3);
-                                },
-                              ),
-                            )
-                          : Expanded(
-                              child: ListView.separated(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 10),
-                                itemCount: viewModel.allBankist.length,
-                                itemBuilder: (context, index) {
-                                  return InkWell(
-                                    borderRadius: BorderRadius.circular(8),
-                                    onTap: () {
-                                      viewModel.bankController.text =
-                                          viewModel.allBankist[index];
-                                      Get.back();
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(12),
-                                      child: Text(viewModel.allBankist[index]),
-                                    ),
-                                  );
-                                },
-                                separatorBuilder: (context, index) {
-                                  return const SizedBox(height: 3);
-                                },
-                              ),
-                            )
-
-                      // const Padding(
-                      //         padding: EdgeInsets.only(top: 30),
-                      //         child: Text('No Country Found'),
-                      //       ),
-                      )
-                ],
-              ),
-            ),
-            const LoaderView()
-          ],
-        );
-      },
-    );
-  }
+  // Widget checkBoxTermCondition() {
+  //   return Obx(
+  //     () => Padding(
+  //       padding: const EdgeInsets.only(bottom: 25, top: 5),
+  //       child: CustomCheckBox2(
+  //         value: viewModel.termAndCondition.value,
+  //         onChanged: (value) {
+  //           viewModel.termAndCondition.value = value;
+  //         },
+  //         text: Padding(
+  //           padding: const EdgeInsets.only(top: 6),
+  //           child: InkWell(
+  //             onTap: () {
+  //               // showTermsAndConditionDialog();
+  //             },
+  //             child: RichText(
+  //               text: TextSpan(
+  //                 style: newFontStyleSize14.copyWith(
+  //                   color: newColorLightGrey2,
+  //                 ),
+  //                 children: [
+  //                   const TextSpan(
+  //                     text:
+  //                         'By clicking ‘Create Account’, you’ve read and agreed to our ',
+  //                   ),
+  //                   TextSpan(
+  //                     text: 'Terms and Conditions',
+  //                     style: newFontStyleSize14.copyWith(
+  //                       decoration: TextDecoration.underline,
+  //                       color: newColorLightGrey2,
+  //                     ),
+  //                   ),
+  //                   const TextSpan(
+  //                     text:
+  //                         ' and for my personal data to be processed according to',
+  //                   ),
+  //                   TextSpan(
+  //                     text: ' ISMMART ',
+  //                     style: newFontStyleSize14.copyWith(
+  //                       color: newColorBlue2,
+  //                       fontWeight: FontWeight.w700,
+  //                     ),
+  //                   ),
+  //                   const TextSpan(text: 'Privacy Policy'),
+  //                 ],
+  //               ),
+  //             ),
+  //           ),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
+  //
+  // itemsBottomSheet() {
+  //   showModalBottomSheet(
+  //     context: Get.context!,
+  //     isScrollControlled: true,
+  //     backgroundColor: Colors.white,
+  //     shape: const RoundedRectangleBorder(
+  //         borderRadius: BorderRadius.only(
+  //             topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+  //     constraints: BoxConstraints(maxHeight: Get.height * 0.9),
+  //     builder: (BuildContext context) {
+  //       return Stack(
+  //         children: [
+  //           Padding(
+  //             padding: const EdgeInsets.fromLTRB(16, 10, 10, 3),
+  //             child: Column(
+  //               children: [
+  //                 Row(
+  //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                   children: [
+  //                     const Icon(
+  //                       Icons.menu,
+  //                       color: ThemeHelper.blue1,
+  //                     ),
+  //                     const SizedBox(width: 10),
+  //                     const Text(
+  //                       'Select Bank',
+  //                       style: TextStyle(
+  //                         fontWeight: FontWeight.w600,
+  //                         color: ThemeHelper.blue1,
+  //                         fontSize: 16,
+  //                       ),
+  //                     ),
+  //                     const Spacer(),
+  //                     IconButton(
+  //                       onPressed: () {
+  //                         Get.back();
+  //                       },
+  //                       icon: const Icon(
+  //                         Icons.close,
+  //                         color: Colors.red,
+  //                       ),
+  //                     ),
+  //                   ],
+  //                 ),
+  //                 const SizedBox(height: 10),
+  //                 CustomTextField1(
+  //                   hintText: 'Search Bank...',
+  //                   controller: viewModel.searchController,
+  //                   onChanged: (value) {
+  //                     viewModel.onSearch(value);
+  //                   },
+  //                 ),
+  //                 Obx(() => (viewModel.filteredBankList.isNotEmpty)
+  //                         ? Expanded(
+  //                             child: ListView.separated(
+  //                               padding:
+  //                                   const EdgeInsets.symmetric(vertical: 10),
+  //                               itemCount: viewModel.filteredBankList.length,
+  //                               itemBuilder: (context, index) {
+  //                                 return InkWell(
+  //                                   borderRadius: BorderRadius.circular(8),
+  //                                   onTap: () {
+  //                                     viewModel.bankController.text =
+  //                                         viewModel.filteredBankList[index];
+  //
+  //                                     Get.back();
+  //                                   },
+  //                                   child: Padding(
+  //                                     padding: const EdgeInsets.all(12),
+  //                                     child: Text(
+  //                                         viewModel.filteredBankList[index]),
+  //                                   ),
+  //                                 );
+  //                               },
+  //                               separatorBuilder: (context, index) {
+  //                                 return const SizedBox(height: 3);
+  //                               },
+  //                             ),
+  //                           )
+  //                         : Expanded(
+  //                             child: ListView.separated(
+  //                               padding:
+  //                                   const EdgeInsets.symmetric(vertical: 10),
+  //                               itemCount: viewModel.allBankist.length,
+  //                               itemBuilder: (context, index) {
+  //                                 return InkWell(
+  //                                   borderRadius: BorderRadius.circular(8),
+  //                                   onTap: () {
+  //                                     viewModel.bankController.text =
+  //                                         viewModel.allBankist[index];
+  //                                     Get.back();
+  //                                   },
+  //                                   child: Padding(
+  //                                     padding: const EdgeInsets.all(12),
+  //                                     child: Text(viewModel.allBankist[index]),
+  //                                   ),
+  //                                 );
+  //                               },
+  //                               separatorBuilder: (context, index) {
+  //                                 return const SizedBox(height: 3);
+  //                               },
+  //                             ),
+  //                           )
+  //
+  //                     // const Padding(
+  //                     //         padding: EdgeInsets.only(top: 30),
+  //                     //         child: Text('No Country Found'),
+  //                     //       ),
+  //                     )
+  //               ],
+  //             ),
+  //           ),
+  //           const LoaderView()
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
 
   Widget addNewBankBtn() {
     return Padding(

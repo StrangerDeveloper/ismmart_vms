@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:ismmart_vms/screens/order_listing/model/orderModel.dart';
+import 'package:ismmart_vms/screens/Order/order_listing/model/orderModel.dart';
 //import 'package:ism_mart/exports/exports_model.dart';
 //import 'package:ism_mart/helper/languages/translations_key.dart' as langKey;
 
@@ -219,6 +219,12 @@ var newFontStyleSize20DM = GoogleFonts.dmSerifText(
   fontWeight: FontWeight.w400,
   color: newColorDarkBlack3,
   height: 0.06,
+  letterSpacing: -0.24,
+);
+var appbarFontStyle = GoogleFonts.inter(
+  fontSize: 24,
+  fontWeight: FontWeight.w700,
+  color: newColorBlue,
   letterSpacing: -0.24,
 );
 

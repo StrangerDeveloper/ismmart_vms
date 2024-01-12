@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/api_base_helper.dart';
 import 'package:ismmart_vms/helper/global_variables.dart';
-import 'package:ismmart_vms/screens/order_listing/model/orderModel.dart';
+import 'package:ismmart_vms/screens/Order/order_listing/model/orderModel.dart';
 
-import '../../helper/constants.dart';
-import '../../helper/urls.dart';
+import '../../../helper/constants.dart';
+import '../../../helper/urls.dart';
 
 class OrderListingViewModel extends GetxController {
   // OrderListingViewModel(this.callingFrom);
