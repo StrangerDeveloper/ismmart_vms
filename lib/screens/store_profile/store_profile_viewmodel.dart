@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:ismmart_vms/helper/errors.dart';
 import 'package:ismmart_vms/screens/store_profile/store_type_model.dart';
 
 import '../../helper/api_base_helper.dart';
@@ -13,6 +14,7 @@ import '../../helper/urls.dart';
 import '../user_profile/user_profile_model.dart';
 
 class StoreProfileViewModel extends GetxController {
+
   Rx<UserProfileModel> userProfileModel = UserProfileModel().obs;
   Rx<File> storeProfileImage = File('').obs;
   GlobalKey<FormState> storeFormKey = GlobalKey<FormState>();
@@ -83,6 +85,13 @@ class StoreProfileViewModel extends GetxController {
             storeTypeList[index] = model;
           }
         });
+      } else if (parsedJson['success'] == false &&
+          parsedJson['message'].toString().toLowerCase() ==
+              AppErrors.sessionException.toLowerCase()) {
+        AppConstant.displaySnackBar('error', AppErrors.sessionException);
+        Future.delayed(const Duration(seconds: 2), () {
+          CommonFunction.logout();
+        });
       }
     }).catchError((e) {
       CommonFunction.debugPrint(e);
@@ -127,8 +136,6 @@ class StoreProfileViewModel extends GetxController {
           param["storeTypes[${index++}]"] = storeTypeList[i].sId!;
         }
       }
-
-    
 
       GlobalVariable.showLoader.value = true;
       await ApiBaseHelper()

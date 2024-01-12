@@ -1,6 +1,3 @@
-import 'dart:io';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/common_function.dart';
@@ -13,7 +10,6 @@ import 'package:ismmart_vms/widgets/custom_text.dart';
 import 'package:ismmart_vms/widgets/custom_textfield.dart';
 import 'package:ismmart_vms/widgets/loader_view.dart';
 import 'package:ismmart_vms/widgets/obscure_suffix_icon.dart';
-
 import '../../../helper/constants.dart';
 import '../signup/signup_methods/singup_methods_view.dart';
 import 'login_viewmodel.dart';

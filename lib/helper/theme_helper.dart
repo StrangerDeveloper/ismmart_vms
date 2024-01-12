@@ -35,6 +35,7 @@ class ThemeHelper {
   //main Theme Setting
   static ThemeData lightTheme = ThemeData(
     scaffoldBackgroundColor: Colors.white,
+    textTheme: GoogleFonts.interTextTheme(),
     primarySwatch: ThemeHelper.plattet1,
     useMaterial3: false,
     appBarTheme: AppBarTheme(
@@ -44,6 +45,7 @@ class ThemeHelper {
           fontSize: 20,
           fontWeight: FontWeight.w400,
         ),
+
         iconTheme: const IconThemeData(color: Colors.black),
         centerTitle: true,
         elevation: 3,

@@ -1,6 +1,6 @@
 import 'package:ismmart_vms/screens/add_product/add_product_1/model/bottom_sheet_item_model.dart';
 
-class SingleProductModel {
+class MultipleProductModel {
   String? sId;
   String? name;
   String? description;
@@ -20,11 +20,11 @@ class SingleProductModel {
   String? createdAt;
   String? updatedAt;
   int? iV;
-  List<Variants>? variants;
+  int? variants;
   int? quantity;
   int? price;
 
-  SingleProductModel(
+  MultipleProductModel(
       {this.sId,
         this.name,
         this.description,
@@ -48,7 +48,7 @@ class SingleProductModel {
         this.quantity,
         this.price});
 
-  SingleProductModel.fromJson(Map<String, dynamic> json) {
+  MultipleProductModel.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     name = json['name'];
     description = json['description'];
@@ -98,12 +98,7 @@ class SingleProductModel {
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     iV = json['__v'];
-    if (json['variants'] != null) {
-      variants = <Variants>[];
-      json['variants'].forEach((v) {
-        variants!.add(Variants.fromJson(v));
-      });
-    }
+    variants = json['variants'];
     quantity = json['quantity'];
     price = json['price'];
   }
@@ -147,9 +142,10 @@ class SingleProductModel {
     data['createdAt'] = createdAt;
     data['updatedAt'] = updatedAt;
     data['__v'] = iV;
-    if (variants != null) {
-      data['variants'] = variants!.map((v) => v.toJson()).toList();
-    }
+    data['variants'] = variants;
+    // if (variants != null) {
+    //   data['variants'] = variants!.map((v) => v.toJson()).toList();
+    // }
     data['quantity'] = quantity;
     data['price'] = price;
     return data;

@@ -9,6 +9,13 @@ import '../../helper/urls.dart';
 class UserProfileViewModel extends GetxController {
   Rx<UserProfileModel> userProfileModel = UserProfileModel().obs;
 
+  bool showAppBar = false;
+  @override
+  void onInit() {
+    showAppBar = Get.arguments !=null ? Get.arguments['showAppBar'] : false;
+    super.onInit();
+  }
+
   @override
   void onReady() {
     getData();

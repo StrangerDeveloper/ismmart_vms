@@ -1,8 +1,11 @@
+import '../screens/Order/order_listing/model/orderModel.dart';
+
 class VariantSelectionModel {
   String? id;
   String? variantName;
+  double? weight;
+  Dimensions? dimensions;
   bool? variantSelected;
-  double? variantValue;
   List<LocationInventory>? locationInventory;
   int totalInventoryQuantityValue;
 
@@ -11,30 +14,23 @@ class VariantSelectionModel {
     this.variantSelected,
     this.totalInventoryQuantityValue = 0,
     this.variantName,
-    this.variantValue,
     this.locationInventory,
+    this.weight,
+    this.dimensions,
   });
 }
 
 class LocationInventory{
   String? id;
   String? locationName;
-  double? weight;
-  int? length;
-  int? width;
-  int? height;
   String? sku;
   String? barcode;
-  double? price;
+  int? price;
   int? quantity;
 
   LocationInventory({
     this.id,
     this.locationName,
-    this.weight,
-    this.length,
-    this.width,
-    this.height,
     this.price,
     this.quantity,
     this.barcode,

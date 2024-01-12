@@ -1,17 +1,12 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-
 import 'package:ismmart_vms/helper/global_variables.dart';
 import 'package:ismmart_vms/helper/urls.dart';
 import 'package:ismmart_vms/screens/auth/signup/signup_2/sign_up_2_view.dart';
 import 'package:ismmart_vms/widgets/pick_image.dart';
-
 import '../../../../helper/api_base_helper.dart';
 import '../../../../helper/constants.dart';
 import '../signup_methods/signup_mehods_viewmodel.dart';

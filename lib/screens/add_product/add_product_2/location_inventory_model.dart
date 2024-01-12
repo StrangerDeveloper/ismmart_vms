@@ -1,81 +1,120 @@
 class LocationInventoryModel {
   String? sId;
+  int? quantity;
+  int? price;
+  String? sku;
+  String? barcode;
+  Shipping? shipping;
   String? vendor;
-  String? name;
-  String? status;
-  String? address;
-  City? city;
-  City? country;
+  String? product;
+  String? variant;
+  Location? location;
   bool? deleted;
+  int? iV;
   String? createdAt;
   String? updatedAt;
-  int? iV;
 
-  LocationInventoryModel({
-    this.sId,
-    this.vendor,
-    this.name,
-    this.status,
-    this.address,
-    this.city,
-    this.country,
-    this.deleted,
-    this.createdAt,
-    this.updatedAt,
-    this.iV
-  });
+  LocationInventoryModel(
+      {this.sId,
+        this.quantity,
+        this.price,
+        this.sku,
+        this.barcode,
+        this.shipping,
+        this.vendor,
+        this.product,
+        this.variant,
+        this.location,
+        this.deleted,
+        this.iV,
+        this.createdAt,
+        this.updatedAt});
 
   LocationInventoryModel.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
+    quantity = json['quantity'];
+    price = json['price'];
+    sku = json['sku'];
+    barcode = json['barcode'];
+    shipping = json['shipping'] != null
+        ? Shipping.fromJson(json['shipping'])
+        : null;
     vendor = json['vendor'];
-    name = json['name'];
-    status = json['status'];
-    address = json['address'];
-    city = json['city'] != null ? City.fromJson(json['city']) : null;
-    country =
-    json['country'] != null ? City.fromJson(json['country']) : null;
+    product = json['product'];
+    variant = json['variant'];
+    location = json['location'] != null
+        ? Location.fromJson(json['location'])
+        : null;
     deleted = json['deleted'];
+    iV = json['__v'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
-    iV = json['__v'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['_id'] = sId;
-    data['vendor'] = vendor;
-    data['name'] = name;
-    data['status'] = status;
-    data['address'] = address;
-    if (city != null) {
-      data['city'] = city!.toJson();
+    data['quantity'] = quantity;
+    data['price'] = price;
+    data['sku'] = sku;
+    data['barcode'] = barcode;
+    if (shipping != null) {
+      data['shipping'] = shipping!.toJson();
     }
-    if (country != null) {
-      data['country'] = country!.toJson();
+    data['vendor'] = vendor;
+    data['product'] = product;
+    data['variant'] = variant;
+    if (location != null) {
+      data['location'] = location!.toJson();
     }
     data['deleted'] = deleted;
+    data['__v'] = iV;
     data['createdAt'] = createdAt;
     data['updatedAt'] = updatedAt;
-    data['__v'] = iV;
     return data;
   }
 }
 
-class City {
+class Shipping {
+  String? overwrite;
+  int? rate;
+
+  Shipping({this.overwrite, this.rate});
+
+  Shipping.fromJson(Map<String, dynamic> json) {
+    overwrite = json['overwrite'];
+    rate = json['rate'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['overwrite'] = overwrite;
+    data['rate'] = rate;
+    return data;
+  }
+}
+
+class Location {
   String? sId;
-  String? name;
+  String? address;
+  String? city;
+  String? country;
 
-  City({this.sId, this.name});
+  Location({this.sId, this.address, this.city, this.country});
 
-  City.fromJson(Map<String, dynamic> json) {
+  Location.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
-    name = json['name'];
+    address = json['address'];
+    city = json['city'];
+    country = json['country'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['_id'] = sId;
-    data['name'] = name;
+    data['address'] = address;
+    data['city'] = city;
+    data['country'] = country;
     return data;
   }
 }

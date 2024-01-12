@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/models/bank_details_model.dart';
 import 'package:ismmart_vms/screens/auth/signup/signup_3/sign_up_3_viewmodel.dart';
-import 'package:ismmart_vms/widgets/custom_checkbox.dart';
 import 'package:ismmart_vms/widgets/loader_view.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:ismmart_vms/helper/constants.dart';

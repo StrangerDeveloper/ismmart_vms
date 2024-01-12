@@ -9,9 +9,12 @@ import 'package:ismmart_vms/screens/add_product/add_product_2/add_product_2_view
 import 'package:ismmart_vms/screens/product_list/single_product_model.dart';
 import 'package:quill_html_editor/quill_html_editor.dart';
 
+import '../../../helper/urls.dart';
+
 class AddProduct1ViewModel extends GetxController {
 
   /// Variables for handling arguments
+  RxBool editProduct = false.obs;
   RxBool cameFromProductList = false.obs;
   Map<String, dynamic> arguments = {};
   Rx<SingleProductModel> productDetails = SingleProductModel().obs;
@@ -72,6 +75,9 @@ class AddProduct1ViewModel extends GetxController {
       arguments = Get.arguments;
       if(arguments.containsKey('cameFromProductList')){
         cameFromProductList.value = arguments['cameFromProductList'];
+      }
+      if(arguments.containsKey('editProduct')){
+        editProduct.value = true;
       }
       if(arguments.containsKey('productDetails')){
         productDetails.value = arguments['productDetails'];
@@ -137,9 +143,19 @@ class AddProduct1ViewModel extends GetxController {
   }
 
   void fetchTypes() async {
+
+    if(typeRefreshCheck.isTrue) {
+      GlobalVariable.showLoader.value = true;
+    }
+
+    productCategoryList.clear();
+
     typeList.clear();
+
     await ApiBaseHelper().getMethod(url: '/public/type').then((parsedJson) {
+      GlobalVariable.showLoader.value = false;
       if (parsedJson['success'] == true) {
+        typeRefreshCheck.value = false;
         var data = parsedJson['data']['items'] as List;
         if(data.isNotEmpty) {
           typeList.addAll(data.map((e) => BottomSheetItemModel.fromJson(e)));
@@ -154,20 +170,30 @@ class AddProduct1ViewModel extends GetxController {
         }
       }
     }).catchError((e) {
+      GlobalVariable.showLoader.value = false;
       typeRefreshCheck.value = true;
       AppConstant.displaySnackBar('Error', 'Product type couldn\'t be fetched');
     });
   }
 
   void fetchCategories() async {
+
+    if(categoryRefreshCheck.isTrue) {
+      GlobalVariable.showLoader.value = true;
+    }
+
     productCategoryList.clear();
-    await ApiBaseHelper().getMethod(url: '/public/category').then((parsedJson) {
+
+    await ApiBaseHelper().getMethod(url: Urls.getCategories).then((parsedJson) {
+      GlobalVariable.showLoader.value = false;
       if (parsedJson['success'] == true) {
+        categoryRefreshCheck.value = false;
         final data = parsedJson['data']['items'] as List;
         if(data.isNotEmpty) {
           productCategoryList.addAll(data.map((e) => BottomSheetItemModel.fromJson(e)));
           tagsList.addAll(data.map((e) => BottomSheetItemModel.fromJson(e)));
-          if(cameFromProductList.value) {
+          if(editProduct.value) {
+            chosenCategoriesList.clear();
             productDetails.value.categories?.forEach((element) {
               int index = productCategoryList.indexWhere((element1) => element1.id == element.id);
               chosenCategoriesList.add(BottomSheetItemModel(
@@ -194,7 +220,7 @@ class AddProduct1ViewModel extends GetxController {
         if(index == -1){
           imagesThumbnailCheck.value = true;
         } else {
-          if (cameFromProductList.value) {
+          if (editProduct.value) {
             Map<String, String> data = {};
 
             data.addAll({'id': productDetails.value.sId!});
@@ -226,6 +252,7 @@ class AddProduct1ViewModel extends GetxController {
                       'productImages': productImagesList,
                       'cameFromProductList': cameFromProductList.value,
                       'oldData': productDetails.value,
+                      'editProduct': editProduct.value
                     });
                   }
                 }
@@ -236,6 +263,7 @@ class AddProduct1ViewModel extends GetxController {
                 'productImages': productImagesList,
                 'cameFromProductList': cameFromProductList.value,
                 'oldData': productDetails.value,
+                'editProduct': editProduct.value
               });
             }
           } else {
@@ -264,6 +292,7 @@ class AddProduct1ViewModel extends GetxController {
                     'productDetails': data,
                     'productImages': productImagesList,
                     'cameFromProductList': cameFromProductList.value,
+                    'editProduct': editProduct.value
                   });
                 }
               }
@@ -272,6 +301,7 @@ class AddProduct1ViewModel extends GetxController {
                 'productDetails': data,
                 'productImages': productImagesList,
                 'cameFromProductList': cameFromProductList.value,
+                'editProduct': editProduct.value
               });
             }
           }

@@ -8,11 +8,9 @@ import 'package:ismmart_vms/widgets/custom_appbar.dart';
 import 'package:ismmart_vms/widgets/loader_view.dart';
 import 'package:ismmart_vms/widgets/scrollable_column.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-
 import '../../../../helper/constants.dart';
 import '../../../../helper/theme_helper.dart';
 import '../../../../widgets/custom_button.dart';
-import '../../../../widgets/custom_text.dart';
 
 class SignUp4View extends StatelessWidget {
   SignUp4View({super.key});

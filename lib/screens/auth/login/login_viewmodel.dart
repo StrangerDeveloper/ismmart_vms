@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
@@ -10,7 +11,7 @@ import '../../../helper/constants.dart';
 import '../../../helper/global_variables.dart';
 import '../../../helper/urls.dart';
 import '../../drawer_bottom_nav/drawer_bottom_bar_view.dart';
-import '../signup/account_status_view.dart';
+import '../signup/account_status/account_status_view.dart';
 
 class LogInViewModel extends GetxController {
   TextEditingController emailController = TextEditingController();
@@ -41,6 +42,9 @@ class LogInViewModel extends GetxController {
           .then((parsedJson) async {
         if (parsedJson['success'] == true) {
           GlobalVariable.showLoader.value = false;
+          print(parsedJson['data']['token']);
+          GetStorage().write('token', parsedJson['data']['token']);
+          GetStorage().write('status', parsedJson['data']['status']);
           GlobalVariable.token = parsedJson['data']['token'];
           String status = parsedJson['data']['status'] ?? "";
           accountStatusCheck(status, emailController.text);

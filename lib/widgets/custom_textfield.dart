@@ -114,6 +114,7 @@ class CustomTextField1 extends StatelessWidget {
                 ),
               ),
         refreshIconVisibility ? Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SizedBox(
               width: Get.width * 0.8,
@@ -288,6 +289,7 @@ class CustomTextField5 extends StatelessWidget {
   final String? errorText;
   final Color fillColor;
   final bool filled;
+  final String? initialValue;
   final bool isDropDown;
   final IconData? suffixIcon;
   final Widget? suffixIconButton;
@@ -335,6 +337,7 @@ class CustomTextField5 extends StatelessWidget {
     this.isDropDown = false,
     this.prefixIcon,
     this.suffixIconButton,
+    this.initialValue,
     this.inputFormatters,
   });
 
@@ -372,6 +375,7 @@ class CustomTextField5 extends StatelessWidget {
         TextFormField(
           inputFormatters: inputFormatters,
           controller: controller,
+          initialValue: initialValue,
           keyboardType: keyboardType,
           minLines: minLines,
           maxLines: maxLines,
