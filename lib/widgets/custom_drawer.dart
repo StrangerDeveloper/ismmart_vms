@@ -8,7 +8,7 @@ import 'package:ismmart_vms/helper/utils/size_utils.dart';
 import 'package:ismmart_vms/screens/bank_list/bank_list_view.dart';
 import 'package:ismmart_vms/screens/drawer_bottom_nav/drawer_bottom_bar_viewmodel.dart';
 import 'package:ismmart_vms/screens/location_list/location_list_view.dart';
-import 'package:ismmart_vms/screens/order_listing/order_view.dart';
+import 'package:ismmart_vms/screens/Order/order_listing/order_view.dart';
 import 'package:ismmart_vms/screens/product_list/product_list_view.dart';
 import 'package:ismmart_vms/screens/product_list/product_list_viewmodel.dart';
 import 'package:ismmart_vms/widgets/custom_cached_network_image.dart';

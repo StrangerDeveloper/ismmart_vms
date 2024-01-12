@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -13,6 +12,7 @@ import '../../../../helper/global_variables.dart';
 import '../../../../helper/theme_helper.dart';
 import 'package:path/path.dart' as p;
 import '../../../../helper/validator.dart';
+import '../../../../widgets/custom_appbar.dart';
 import '../../../../widgets/custom_checkbox_list_tile.dart';
 import 'sign_up_2_viewmodel.dart';
 
@@ -22,6 +22,10 @@ class SignUp2View extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: CustomAppBar2(
+        title: 'Sign Up',
+        titleTextStyle: appbarFontStyle,
+      ),
       backgroundColor: Colors.white,
       body: Stack(
         children: [
@@ -33,12 +37,6 @@ class SignUp2View extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    titleAndBackBtn(),
-                    const Divider(
-                      color: Color(0xffEEEEEE),
-                      thickness: 1,
-                      height: 20,
-                    ),
                     createAVendorAccount(),
                     progress(),
                     shopNameField(),
@@ -59,12 +57,13 @@ class SignUp2View extends StatelessWidget {
                           errorPrompt: 'Store Logo image is required'),
                     ),
                     storeSlug(),
+                    shopLocationField(),
                     storeType1(),
                     //   storeType(),
                     shopAddressField(),
                     // countryField(),
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      padding: const EdgeInsets.symmetric(vertical: 25),
                       child: CustomTextField1(
                         title: 'Country',
                         hintText: 'Select one',
@@ -79,31 +78,27 @@ class SignUp2View extends StatelessWidget {
                         },
                         onTap: () {
                           viewModel.resetValue();
-                          viewModel.getCountryList();
                           itemsBottomSheet();
                         },
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 15),
-                      child: CustomTextField1(
-                        title: 'City',
-                        hintText: 'Select one',
-                        controller: viewModel.cityController,
-                        isDropDown: true,
-                        autoValidateMode: AutovalidateMode.onUserInteraction,
-                        validator: (value) {
-                          if (viewModel.cityController.text == '') {
-                            return Validator.validateDefaultField(value);
-                          }
-                          return null;
-                        },
-                        onTap: () {
-                          viewModel.resetValueCity();
-                          // viewModel.getCityList();
-                          itemsBottomSheetForCity();
-                        },
-                      ),
+                    CustomTextField1(
+                      title: 'City',
+                      hintText: 'Select one',
+                      controller: viewModel.cityController,
+                      isDropDown: true,
+                      autoValidateMode: AutovalidateMode.onUserInteraction,
+                      validator: (value) {
+                        if (viewModel.cityController.text == '') {
+                          return Validator.validateDefaultField(value);
+                        }
+                        return null;
+                      },
+                      onTap: () {
+                        viewModel.resetValueCity();
+                        // viewModel.getCityList();
+                        itemsBottomSheetForCity();
+                      },
                     ),
                     singup2Btn(),
                   ],
@@ -204,9 +199,6 @@ class SignUp2View extends StatelessWidget {
 
   Widget shopNameField() {
     return CustomTextField1(
-      inputFormatters: <TextInputFormatter>[
-        FilteringTextInputFormatter.allow(RegExp('[a-zA-Z]')),
-      ],
       prefixIcon: Icons.store,
       keyboardType: TextInputType.text,
       title: 'Store Name',
@@ -224,6 +216,9 @@ class SignUp2View extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 10, bottom: 25),
       child: CustomTextField1(
+        // inputFormatters: <TextInputFormatter>[
+        //   FilteringTextInputFormatter.allow(RegExp('[a-zA-Z]')),
+        // ],
         keyboardType: TextInputType.text,
         title: 'Store Slug (non repeatable)',
         hintText: 'Al-Jannat Shopping Mall',
@@ -235,6 +230,24 @@ class SignUp2View extends StatelessWidget {
           } else {
             return Validator.validateDefaultField(value);
           }
+        },
+      ),
+    );
+  }
+
+  Widget shopLocationField() {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 25),
+      child: CustomTextField1(
+        prefixIcon: Icons.location_on_outlined,
+        keyboardType: TextInputType.text,
+        title: 'Store Location',
+        hintText: 'Safa',
+        controller: viewModel.storeLocationController,
+        autoValidateMode: AutovalidateMode.onUserInteraction,
+        validator: (value) {
+          return Validator.validateDefaultField(value,
+              errorMessage: 'Store Location is Required');
         },
       ),
     );
@@ -330,7 +343,7 @@ class SignUp2View extends StatelessWidget {
 
   Widget shopAddressField() {
     return Padding(
-      padding: const EdgeInsets.only(top: 25.0),
+      padding: const EdgeInsets.only(top: 15.0),
       child: CustomTextField1(
         keyboardType: TextInputType.text,
         title: 'Address',

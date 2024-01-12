@@ -1,13 +1,13 @@
 // ignore: file_names
 import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/constants.dart';
-import '../../helper/api_base_helper.dart';
-import '../../helper/global_variables.dart';
-import '../../helper/urls.dart';
+import '../../../helper/api_base_helper.dart';
+import '../../../helper/global_variables.dart';
+import '../../../helper/urls.dart';
+import '../order_detail/order_detail_view.dart';
+import '../order_detail/order_detail_viewmodel.dart';
 import '../order_listing/model/orderModel.dart';
 import '../order_listing/order_viewmodel.dart';
-import 'order_detail_view.dart';
-import 'order_detail_viewmodel.dart';
 
 class CancelORderViewMOdel extends GetxController {
   OrderListingViewModel orderListingViewModel = Get.find();

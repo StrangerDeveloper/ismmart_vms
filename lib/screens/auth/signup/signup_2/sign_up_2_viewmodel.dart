@@ -17,6 +17,7 @@ class SignUp2ViewModel extends GetxController {
   GlobalKey<FormState> vendorSignUp2FormKey = GlobalKey<FormState>();
   TextEditingController storeNameController = TextEditingController();
   TextEditingController storeSlugController = TextEditingController();
+  TextEditingController storeLocationController = TextEditingController();
   TextEditingController storeTypeController = TextEditingController();
   TextEditingController storeAddressController = TextEditingController();
   RxString shopLogoImage = ''.obs;
@@ -52,6 +53,7 @@ class SignUp2ViewModel extends GetxController {
       Map<String, String> param = Get.arguments;
       param['storeName'] = storeNameController.text;
       param['storeSlug'] = storeSlugController.text;
+      param['locationName'] = storeLocationController.text;
       int index = 0;
       for (int i = 0; i < storeTypeList.length; i++) {
         if (storeTypeList[i].isSelected == true) {
@@ -69,7 +71,7 @@ class SignUp2ViewModel extends GetxController {
         fileList.add(
           await http.MultipartFile.fromPath(
             'cnicImages',
-            viewModel.cnicFrontImage.value,
+            viewModel.cnicFrontImage.value.path,
             contentType: MediaType.parse('image/jpeg'),
           ),
         );
@@ -165,7 +167,8 @@ class SignUp2ViewModel extends GetxController {
 
   Future<void> getCountryList() async {
     GlobalVariable.showLoader(true);
-    var parseJson = await ApiBaseHelper().getMethod(url: Urls.country);
+    var parseJson = await ApiBaseHelper()
+        .getMethod(url: '/places/countries?limit=0&sort[name]=1');
     if (parseJson['success'] == true) {
       GlobalVariable.showLoader(false);
       allCountryList.clear();
@@ -257,14 +260,14 @@ class SignUp2ViewModel extends GetxController {
     GlobalVariable.showLoader.value = false;
     getCountryList();
     getStoreTypes();
-  
+
     super.onReady();
   }
 
   @override
   void onClose() {
     GlobalVariable.showLoader.value = false;
-   
+
     super.onClose();
   }
 }
