@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:ismmart_vms/helper/api_base_helper.dart';
 import 'package:ismmart_vms/helper/constants.dart';
 import 'package:ismmart_vms/helper/global_variables.dart';
-import 'package:ismmart_vms/helper/languages/translations_key.dart';
 import 'package:ismmart_vms/helper/urls.dart';
 import 'package:ismmart_vms/screens/add_product/add_product_2/location_inventory_model.dart';
 import 'package:ismmart_vms/screens/add_product/add_product_3/add_product_3_view.dart';
