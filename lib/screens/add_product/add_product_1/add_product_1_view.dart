@@ -256,7 +256,7 @@ class AddProduct1View extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Wrap(
-                    children: List.generate(
+                    children: viewModel.productImagesList.isNotEmpty ? List.generate(
                         viewModel.productImagesList.length,
                             (idx) {
                           return Padding(
@@ -274,7 +274,7 @@ class AddProduct1View extends StatelessWidget {
                                     ),
                                   ) : CachedNetworkImage(
                                     height: 55,
-                                    width: 55,
+                                    width: 60,
                                     imageUrl: viewModel.productImagesList[idx].url != null ? '${viewModel.productImagesList[idx].url}' : '',
                                     imageBuilder: (context, imageProvider) {
                                       return Container(
@@ -283,7 +283,7 @@ class AddProduct1View extends StatelessWidget {
                                           borderRadius: BorderRadius.circular(10),
                                           image: DecorationImage(
                                             image: imageProvider,
-                                            fit: BoxFit.cover,
+                                            fit: BoxFit.fill,
                                           ),
                                         ),
                                       );
@@ -295,7 +295,7 @@ class AddProduct1View extends StatelessWidget {
                                           borderRadius: BorderRadius.circular(20),
                                           image: const DecorationImage(
                                             image: AssetImage('assets/logo/logo_new.png'),
-                                            fit: BoxFit.cover,
+                                            fit: BoxFit.fill,
                                           ),
                                         ),
                                       );
@@ -310,7 +310,10 @@ class AddProduct1View extends StatelessWidget {
                                     top: 0,
                                     right: 0,
                                     child: InkWell(
-                                      onTap: () {},
+                                      onTap: () {
+                                        viewModel.productImagesList.removeAt(idx);
+                                        viewModel.productImagesList.refresh();
+                                      },
                                       child: CircleAvatar(
                                         radius: 6,
                                         backgroundColor: Colors.grey.shade300,
@@ -326,7 +329,7 @@ class AddProduct1View extends StatelessWidget {
                               )
                           );
                         }
-                    ),
+                    ) : [],
                   )
                 ],
               ),

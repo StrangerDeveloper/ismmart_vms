@@ -131,6 +131,7 @@ class AddProduct1ViewModel extends GetxController {
       productCategoryList.refresh();
     }
     for(var image in productDetails.value.media!) {
+      print(image.url);
       productImagesList.add(PicturesModel(
         id: image.sId,
         url: image.url,
@@ -139,6 +140,7 @@ class AddProduct1ViewModel extends GetxController {
         fileName: image.url
       ));
       productImagesList.refresh();
+      print('Images Length: ${productImagesList.length}');
     }
   }
 
@@ -232,18 +234,15 @@ class AddProduct1ViewModel extends GetxController {
               data.addAll({'description': description});
             }
 
-            if(categoriesChanged) {
               for (int i = 0; i <= chosenCategoriesList.length - 1; i++) {
                 data.addAll({
                   'categories[$i]': "${chosenCategoriesList[i].id}",
                 });
               }
-            }
 
             data.addAll({'type': typeList[typeSelectedIndex.value].id != productDetails.value.type?.id ? typeList[typeSelectedIndex.value].id! : productDetails.value.type!.id!});
 
             if (chosenTagsList.isNotEmpty) {
-              if(tagsChanged) {
                 for (int i = 0; i <= chosenTagsList.length - 1; i++) {
                   data.addAll({"tags[$i]": "${chosenTagsList[i].name}"});
                   if (i == chosenTagsList.length - 1) {
@@ -255,7 +254,6 @@ class AddProduct1ViewModel extends GetxController {
                       'editProduct': editProduct.value
                     });
                   }
-                }
               }
             } else {
               Get.to(() => AddProduct2View(), arguments: {

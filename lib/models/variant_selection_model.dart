@@ -21,7 +21,8 @@ class VariantSelectionModel {
 }
 
 class LocationInventory{
-  String? id;
+  String? inventoryId;
+  String? locationId;
   String? locationName;
   String? sku;
   String? barcode;
@@ -29,7 +30,8 @@ class LocationInventory{
   int? quantity;
 
   LocationInventory({
-    this.id,
+    this.inventoryId,
+    this.locationId,
     this.locationName,
     this.price,
     this.quantity,

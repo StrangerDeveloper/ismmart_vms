@@ -100,7 +100,7 @@ class CustomDrawer extends StatelessWidget {
                   icon: Icons.local_offer_rounded,
                   onTab: () {
                     drawerViewModel.scaffoldKey.currentState!.closeDrawer();
-                    Get.to(() => ProductListView());
+                    GlobalVariable.selectedIndex.value = 3;
                   },
                 ),
 

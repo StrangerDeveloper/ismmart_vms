@@ -8,6 +8,7 @@ import 'package:ismmart_vms/helper/global_variables.dart';
 import 'package:ismmart_vms/models/country_model.dart';
 import 'package:ismmart_vms/screens/add_product/add_product_1/model/pictures_model.dart';
 import 'package:ismmart_vms/screens/product_list/product_list_viewmodel.dart';
+import 'package:ismmart_vms/screens/product_list/single_product_model.dart';
 import '../../../helper/urls.dart';
 
 class AddProduct3ViewModel extends GetxController {
@@ -21,29 +22,44 @@ class AddProduct3ViewModel extends GetxController {
   RxBool productActiveStatusSwitch = true.obs;
 
   ///Data from previous screen
-  Map<String, String> productDetails = {};
-  List<PicturesModel> images = <PicturesModel>[];
+  Map<String, String> productDetailsToBeSent = {};
+  List<PicturesModel> imagesToBeSent = <PicturesModel>[];
 
   ///Variables for Country Field
   TextEditingController countryController = TextEditingController();
+  TextEditingController hsCodeController = TextEditingController();
   RxInt countrySelected = 0.obs;
   RxList<CountryModel> countryList = <CountryModel>[].obs;
-
+  
+  /// General Variables
+  Map<String, dynamic> arguments = {};
   bool cameFromProductList = false;
+  SingleProductModel oldDetails = SingleProductModel();
+  RxBool editProduct = false.obs;
 
   @override
   void onInit() {
-    productDetails = Get.arguments['productDetails'];
-    images = Get.arguments['productImages'];
-    cameFromProductList = Get.arguments['cameFromProductList'];
-    getCountries();
-    super.onInit();
+    if(Get.arguments != null) {
+      arguments = Get.arguments;
+      productDetailsToBeSent = Get.arguments['productDetails'];
+      imagesToBeSent = Get.arguments['productImages'];
+      cameFromProductList = Get.arguments['cameFromProductList'];
+      if(arguments.containsKey('oldDetails')){
+        oldDetails = arguments['oldDetails'];
+        editProduct.value = true;
+      }
+      getCountries();
+      super.onInit();
+    }
   }
 
   @override
   void onReady() {
     GlobalVariable.showLoader.value = true;
     super.onReady();
+  }
+
+  fillData() {
   }
 
   getCountries() {
@@ -69,50 +85,86 @@ class AddProduct3ViewModel extends GetxController {
     GlobalVariable.showLoader.value = true;
 
     List<http.MultipartFile> fileList = [];
-    for(int i = 0; i<=images.length-1; i++) {
-      if (images[i].url != null) {
-        productDetails.addAll({
-          'media[$i][_id]': images[i].id!,
-          'media[$i][thumbnail]' : "${images[i].thumbnail}",
+    for(int i = 0; i<=imagesToBeSent.length-1; i++) {
+      if (imagesToBeSent[i].url != null) {
+        productDetailsToBeSent.addAll({
+          'media[$i][_id]': imagesToBeSent[i].id!,
+          'media[$i][thumbnail]' : "${imagesToBeSent[i].thumbnail}",
+          'media[$i][url]': imagesToBeSent[i].url!,
         });
       } else {
         fileList.add(await http.MultipartFile.fromPath(
-            'media[$i][file]', images[i].filePath!,
+            'media[$i][file]', imagesToBeSent[i].filePath!,
             contentType: MediaType.parse('image/*')
         ));
-        productDetails.addAll({
-          'media[$i][thumbnail]': "${images[i].thumbnail}"
+        productDetailsToBeSent.addAll({
+          'media[$i][thumbnail]': "${imagesToBeSent[i].thumbnail}"
         });
       }
     }
-    productDetails.addAll({
+    productDetailsToBeSent.addAll({
       'collections[0]': '657aa46a0f11b2ac3fc9285d'
     });
 
-    await ApiBaseHelper().postMethodForImage(
-        url: Urls.addProduct,
-        files: fileList,
-        fields: productDetails).then((parsedJson) async {
-      GlobalVariable.showLoader.value = false;
-      if(parsedJson['success'] == true) {
-        if (cameFromProductList) {
-          final ProductListViewModel productListViewModel = Get.find();
-          productListViewModel.dataList.clear();
-          productListViewModel.pageNo = 0;
-          productListViewModel.currentPage.value = 0;
-          await productListViewModel.getData();
-          productListViewModel.dataList.refresh();
-          Get.close(3);
-          AppConstant.displaySnackBar('Success', 'Product Added Successfully');
-        } else {
-          GlobalVariable.selectedIndex.value = 0;
-          Get.close(2);
-          AppConstant.displaySnackBar('Success', 'Product Added Successfully');
-        }
-      }
-    }).catchError((e) {
-      GlobalVariable.showLoader.value = false;
-      AppConstant.displaySnackBar('Error', e);
+    productDetailsToBeSent.addAll({
+      'country': countryController.text,
     });
+
+    productDetailsToBeSent.addAll({
+      'hsCode': hsCodeController.text
+    });
+
+    if(editProduct.value){
+
+      GlobalVariable.showLoader.value = false;
+
+      await ApiBaseHelper().putMethodForImage(
+          url: Urls.updateProduct + oldDetails.sId!,
+          files: fileList,
+          fields: productDetailsToBeSent
+      ).then((parsedJson) async {
+          if(parsedJson['success'] == true) {
+            final ProductListViewModel productListViewModel = Get.find();
+            productListViewModel.dataList.clear();
+            productListViewModel.pageNo = 0;
+            productListViewModel.currentPage.value = 0;
+            await productListViewModel.getData();
+            GlobalVariable.showLoader.value = false;
+            productListViewModel.dataList.refresh();
+            Get.close(3);
+            AppConstant.displaySnackBar('Success', 'Product Added Successfully');
+          }
+      }).catchError((e) {
+        print(e);
+        GlobalVariable.showLoader.value = false;
+      });
+    } else {
+      await ApiBaseHelper().postMethodForImage(
+          url: Urls.addProduct,
+          files: fileList,
+          fields: productDetailsToBeSent).then((parsedJson) async {
+        if(parsedJson['success'] == true) {
+          if (cameFromProductList) {
+            final ProductListViewModel productListViewModel = Get.find();
+            productListViewModel.dataList.clear();
+            productListViewModel.pageNo = 0;
+            productListViewModel.currentPage.value = 0;
+            await productListViewModel.getData();
+            GlobalVariable.showLoader.value = false;
+            productListViewModel.dataList.refresh();
+            Get.close(3);
+            AppConstant.displaySnackBar('Success', 'Product Added Successfully');
+          } else {
+            GlobalVariable.showLoader.value = false;
+            GlobalVariable.selectedIndex.value = 0;
+            Get.close(2);
+            AppConstant.displaySnackBar('Success', 'Product Added Successfully');
+          }
+        }
+      }).catchError((e) {
+        GlobalVariable.showLoader.value = false;
+        AppConstant.displaySnackBar('Error', e);
+      });
+    }
+    }
   }
-}
