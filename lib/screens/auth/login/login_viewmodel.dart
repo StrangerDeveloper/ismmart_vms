@@ -1,9 +1,13 @@
 import 'dart:io';
 
+import 'package:app_settings/app_settings.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:ismmart_vms/screens/notification/notification_servicesl.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../../../helper/api_base_helper.dart';
@@ -18,6 +22,19 @@ class LogInViewModel extends GetxController {
   TextEditingController passwordController = TextEditingController();
   GlobalKey<FormState> signInFormKey = GlobalKey<FormState>();
   RxBool obscurePassword = true.obs;
+
+  @override
+  void onReady() async {
+    NotificationsServices.permissonRequest();
+    NotificationsServices.firebaseInit(Get.context!);
+    NotificationsServices.setupInteractMessage(Get.context!);
+    NotificationsServices.forgroundMessage();
+    NotificationsServices.tokenRefresh();
+    NotificationsServices.getToken();
+
+    // TODO: implement onReady
+    super.onReady();
+  }
 
   @override
   void onClose() {
