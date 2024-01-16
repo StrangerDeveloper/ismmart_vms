@@ -71,8 +71,6 @@ class CancelOrderView extends StatelessWidget {
               style: TextStyle(fontSize: 16, color: ThemeHelper.blue1)),
           CustomImageView(
             imagePath: ImageConstant.imgIconsArrowForward,
-            // height: 18.adaptSize,
-            // width: 8.adaptSize,
             margin: EdgeInsets.only(
               left: 8.adaptSize,
               right: 8.adaptSize,
