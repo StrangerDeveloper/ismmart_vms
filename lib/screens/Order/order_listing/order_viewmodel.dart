@@ -32,9 +32,6 @@ class OrderListingViewModel extends GetxController {
 
   @override
   void onInit() {
-    //   getOrderListing();
-    // });
-
     super.onInit();
   }
 
