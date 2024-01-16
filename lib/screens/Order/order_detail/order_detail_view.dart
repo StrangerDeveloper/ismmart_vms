@@ -384,9 +384,6 @@ class OrderDetailView extends StatelessWidget {
                         size: 5,
                       ),
                     ),
-                    // _customField2(DateFormat("y MMM d").format(DateTime.parse(
-                    //     viewModel.orderItemModel.value.createdAt ??
-                    //         "2021-09-09T09:09:09.000Z"))),
                     _customField2(
                         "${DateFormat("y MMM d").format(DateTime.parse(viewModel.orderItemModel.value.createdAt!))} at ${DateFormat("h:mm a").format(DateTime.parse(viewModel.orderItemModel.value.createdAt!))}"),
                     SizedBox(width: 8.h),
