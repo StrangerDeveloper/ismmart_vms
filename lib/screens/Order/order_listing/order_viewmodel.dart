@@ -82,7 +82,7 @@ class OrderListingViewModel extends GetxController {
     } else {
       searchUrlValue = '?fulfilmentStatus=$value';
     }
-    getOrderListing(); // Refresh the listing after applying the filter
+    getOrderListing();
   }
 
   radioBtnSelection(String value) {
