@@ -488,7 +488,7 @@ class CancelOrderView extends StatelessWidget {
       case "COD Verified":
         return const Color(0xFFBDE9DA);
       default:
-        return const Color(0xFFFE3A30); // Default color for unknown statuses
+        return const Color(0xFFFE3A30);
     }
   }
 
