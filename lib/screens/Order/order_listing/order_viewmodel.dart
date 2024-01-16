@@ -39,7 +39,6 @@ class OrderListingViewModel extends GetxController {
   void onReady() {
     super.onReady();
 
-    //   } else if (callingFor!.toLowerCase().contains('cancelled')) {
     //     viewModel.fieldSelection("Cancelled");
     //   }
     // });
