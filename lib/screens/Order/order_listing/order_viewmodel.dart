@@ -32,7 +32,6 @@ class OrderListingViewModel extends GetxController {
 
   @override
   void onInit() {
-    // scrollController.addListener(() {
     //   getOrderListing();
     // });
 
