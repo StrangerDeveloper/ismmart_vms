@@ -185,9 +185,7 @@ class OrderDetailView extends StatelessWidget {
               ),
             ],
             onSelected: (value) {
-              if (value == 1) {
-                //Get.back();
-              }
+              if (value == 1) {}
               if (value == 2) {
                 bool hasUnfulfilledItem = viewModel.lineItemList
                     .any((item) => item.fulfilmentStatus == "Unfulfilled");
