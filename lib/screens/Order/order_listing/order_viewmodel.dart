@@ -39,7 +39,6 @@ class OrderListingViewModel extends GetxController {
   void onReady() {
     super.onReady();
 
-    //     viewModel.fieldSelection("Cancelled");
     //   }
     // });
     GlobalVariable.showLoader.value = true;
