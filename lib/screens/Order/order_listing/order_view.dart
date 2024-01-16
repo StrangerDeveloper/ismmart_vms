@@ -471,7 +471,6 @@ class OrderView extends StatelessWidget {
                 title: 'Done',
                 onPressed: () {
                   Get.back();
-                  //viewModel.getDataFunction();
                 },
               ),
             ],
