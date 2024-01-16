@@ -39,8 +39,6 @@ class OrderListingViewModel extends GetxController {
   void onReady() {
     super.onReady();
 
-    //   }
-    // });
     GlobalVariable.showLoader.value = true;
     getOrderListing();
   }
