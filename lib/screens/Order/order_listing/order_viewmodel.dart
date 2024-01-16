@@ -38,9 +38,7 @@ class OrderListingViewModel extends GetxController {
   @override
   void onReady() {
     super.onReady();
-    // Future.delayed(const Duration(seconds: 1), () {
-    //   if (callingFor!.toLowerCase().contains('returned')) {
-    //     viewModel.fieldSelection("Returned");
+
     //   } else if (callingFor!.toLowerCase().contains('cancelled')) {
     //     viewModel.fieldSelection("Cancelled");
     //   }
