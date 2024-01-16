@@ -523,10 +523,6 @@ class OrderDetailView extends StatelessWidget {
                                         ),
                                         _customField2(
                                             "SKU: ${viewModel.orderItemModel.value.lineitems?[index].sku.toString() ?? "1"}"),
-
-                                        // SizedBox(
-                                        //   height: 12.h,
-                                        // )
                                       ],
                                     ),
                                   ],
