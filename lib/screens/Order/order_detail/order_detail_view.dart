@@ -389,10 +389,6 @@ class OrderDetailView extends StatelessWidget {
                     SizedBox(width: 8.h),
                   ],
                 ),
-                // _customField2(viewModel
-                //         .orderItemModel.value.orderDetails?.market
-                //         .toString() ??
-                //     "market"),
                 _customField2(viewModel
                             .orderItemModel.value.orderDetails?.market !=
                         null
