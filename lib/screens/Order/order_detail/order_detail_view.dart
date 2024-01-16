@@ -505,32 +505,6 @@ class OrderDetailView extends StatelessWidget {
                                         boxShape: BoxShape.rectangle,
                                         assetsImage: const AssetImage(
                                             'assets/images/image_not_found.png')),
-                                    // ClipRRect(
-                                    //   borderRadius: BorderRadius.circular(
-                                    //     8,
-                                    //   ),
-                                    //   child: SizedBox(
-                                    //     width: 40,
-                                    //     height: 40,
-                                    //     child: Image(
-                                    //       image: viewModel
-                                    //                   .orderItemModel
-                                    //                   .value
-                                    //                   .lineitems?[index]
-                                    //                   .media !=
-                                    //               null
-                                    //           ? NetworkImage(viewModel
-                                    //               .orderItemModel
-                                    //               .value
-                                    //               .lineitems![index]
-                                    //               .media!)
-                                    //           : const AssetImage(
-                                    //                   "assets/images/image_not_found.png")
-                                    //               as ImageProvider,
-                                    //       fit: BoxFit.cover,
-                                    //     ),
-                                    //   ),
-                                    // ),
                                     SizedBox(width: 16.h),
                                     Column(
                                       crossAxisAlignment:
