@@ -554,7 +554,6 @@ class OrderDetailView extends StatelessWidget {
             Container(
               decoration: const BoxDecoration(
                 color: ThemeHelper.grey3,
-                //borderRadius: BorderRadius.circular(5),
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(5),
                   bottomRight: Radius.circular(5),
