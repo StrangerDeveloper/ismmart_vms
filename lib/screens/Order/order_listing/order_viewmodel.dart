@@ -8,9 +8,6 @@ import '../../../helper/constants.dart';
 import '../../../helper/urls.dart';
 
 class OrderListingViewModel extends GetxController {
-  // OrderListingViewModel(this.callingFrom);
-  // String? callingFrom;
-  //Rx<OrderItem> orderItemModel = OrderItem().obs;
   RxList<OrderItem> orderItemList = <OrderItem>[].obs;
   RxBool showSearchTxtField = false.obs;
   String searchUrlValue = '';
