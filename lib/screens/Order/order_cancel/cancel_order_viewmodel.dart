@@ -90,7 +90,13 @@ class CancelORderViewMOdel extends GetxController {
         AppConstant.displaySnackBar(
             'Error', 'You can not cancel fulfilled item');
       }
-    } catch (error) {}
+    } catch (error) {
+      AppConstant.displaySnackBar(
+        "Error",
+        error.toString(),
+      );
+      GlobalVariable.showLoader.value = false;
+    }
   }
 
   selectAllItems() {
