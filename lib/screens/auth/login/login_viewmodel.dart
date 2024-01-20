@@ -20,12 +20,12 @@ class LogInViewModel extends GetxController {
 
   @override
   void onReady() async {
-    NotificationsServices.permissonRequest();
-    NotificationsServices.firebaseInit(Get.context!);
-    NotificationsServices.setupInteractMessage(Get.context!);
-    NotificationsServices.forgroundMessage();
-    NotificationsServices.tokenRefresh();
-    NotificationsServices.getToken();
+    // NotificationsServices.permissonRequest();
+    // NotificationsServices.firebaseInit(Get.context!);
+    // NotificationsServices.setupInteractMessage(Get.context!);
+    // NotificationsServices.forgroundMessage();
+    // NotificationsServices.tokenRefresh();
+    // NotificationsServices.getToken();
 
     // TODO: implement onReady
     super.onReady();
