@@ -185,9 +185,7 @@ class OrderDetailView extends StatelessWidget {
               ),
             ],
             onSelected: (value) {
-              if (value == 1) {
-                //Get.back();
-              }
+              if (value == 1) {}
               if (value == 2) {
                 bool hasUnfulfilledItem = viewModel.lineItemList
                     .any((item) => item.fulfilmentStatus == "Unfulfilled");
@@ -356,7 +354,7 @@ class OrderDetailView extends StatelessWidget {
       case "COD Verified":
         return const Color(0xFFBDE9DA);
       default:
-        return const Color(0xFFFE3A30); // Default color for unknown statuses
+        return const Color(0xFFFE3A30);
     }
   }
 
@@ -386,18 +384,11 @@ class OrderDetailView extends StatelessWidget {
                         size: 5,
                       ),
                     ),
-                    // _customField2(DateFormat("y MMM d").format(DateTime.parse(
-                    //     viewModel.orderItemModel.value.createdAt ??
-                    //         "2021-09-09T09:09:09.000Z"))),
                     _customField2(
                         "${DateFormat("y MMM d").format(DateTime.parse(viewModel.orderItemModel.value.createdAt!))} at ${DateFormat("h:mm a").format(DateTime.parse(viewModel.orderItemModel.value.createdAt!))}"),
                     SizedBox(width: 8.h),
                   ],
                 ),
-                // _customField2(viewModel
-                //         .orderItemModel.value.orderDetails?.market
-                //         .toString() ??
-                //     "market"),
                 _customField2(viewModel
                             .orderItemModel.value.orderDetails?.market !=
                         null
@@ -514,32 +505,6 @@ class OrderDetailView extends StatelessWidget {
                                         boxShape: BoxShape.rectangle,
                                         assetsImage: const AssetImage(
                                             'assets/images/image_not_found.png')),
-                                    // ClipRRect(
-                                    //   borderRadius: BorderRadius.circular(
-                                    //     8,
-                                    //   ),
-                                    //   child: SizedBox(
-                                    //     width: 40,
-                                    //     height: 40,
-                                    //     child: Image(
-                                    //       image: viewModel
-                                    //                   .orderItemModel
-                                    //                   .value
-                                    //                   .lineitems?[index]
-                                    //                   .media !=
-                                    //               null
-                                    //           ? NetworkImage(viewModel
-                                    //               .orderItemModel
-                                    //               .value
-                                    //               .lineitems![index]
-                                    //               .media!)
-                                    //           : const AssetImage(
-                                    //                   "assets/images/image_not_found.png")
-                                    //               as ImageProvider,
-                                    //       fit: BoxFit.cover,
-                                    //     ),
-                                    //   ),
-                                    // ),
                                     SizedBox(width: 16.h),
                                     Column(
                                       crossAxisAlignment:
@@ -558,10 +523,6 @@ class OrderDetailView extends StatelessWidget {
                                         ),
                                         _customField2(
                                             "SKU: ${viewModel.orderItemModel.value.lineitems?[index].sku.toString() ?? "1"}"),
-
-                                        // SizedBox(
-                                        //   height: 12.h,
-                                        // )
                                       ],
                                     ),
                                   ],
@@ -593,7 +554,6 @@ class OrderDetailView extends StatelessWidget {
             Container(
               decoration: const BoxDecoration(
                 color: ThemeHelper.grey3,
-                //borderRadius: BorderRadius.circular(5),
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(5),
                   bottomRight: Radius.circular(5),

@@ -71,8 +71,6 @@ class CancelOrderView extends StatelessWidget {
               style: TextStyle(fontSize: 16, color: ThemeHelper.blue1)),
           CustomImageView(
             imagePath: ImageConstant.imgIconsArrowForward,
-            // height: 18.adaptSize,
-            // width: 8.adaptSize,
             margin: EdgeInsets.only(
               left: 8.adaptSize,
               right: 8.adaptSize,
@@ -490,7 +488,7 @@ class CancelOrderView extends StatelessWidget {
       case "COD Verified":
         return const Color(0xFFBDE9DA);
       default:
-        return const Color(0xFFFE3A30); // Default color for unknown statuses
+        return const Color(0xFFFE3A30);
     }
   }
 

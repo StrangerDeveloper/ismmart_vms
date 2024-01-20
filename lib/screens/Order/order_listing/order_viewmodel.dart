@@ -8,9 +8,6 @@ import '../../../helper/constants.dart';
 import '../../../helper/urls.dart';
 
 class OrderListingViewModel extends GetxController {
-  // OrderListingViewModel(this.callingFrom);
-  // String? callingFrom;
-  //Rx<OrderItem> orderItemModel = OrderItem().obs;
   RxList<OrderItem> orderItemList = <OrderItem>[].obs;
   RxBool showSearchTxtField = false.obs;
   String searchUrlValue = '';
@@ -35,24 +32,13 @@ class OrderListingViewModel extends GetxController {
 
   @override
   void onInit() {
-    // GlobalVariable.showLoader.value = false;
-    // scrollController.addListener(() {
-    //   getOrderListing();
-    // });
-
     super.onInit();
   }
 
   @override
   void onReady() {
     super.onReady();
-    // Future.delayed(const Duration(seconds: 1), () {
-    //   if (callingFor!.toLowerCase().contains('returned')) {
-    //     viewModel.fieldSelection("Returned");
-    //   } else if (callingFor!.toLowerCase().contains('cancelled')) {
-    //     viewModel.fieldSelection("Cancelled");
-    //   }
-    // });
+
     GlobalVariable.showLoader.value = true;
     getOrderListing();
   }
@@ -96,7 +82,7 @@ class OrderListingViewModel extends GetxController {
     } else {
       searchUrlValue = '?fulfilmentStatus=$value';
     }
-    getOrderListing(); // Refresh the listing after applying the filter
+    getOrderListing();
   }
 
   radioBtnSelection(String value) {

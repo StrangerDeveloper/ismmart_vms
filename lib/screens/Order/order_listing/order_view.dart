@@ -123,9 +123,7 @@ class OrderView extends StatelessWidget {
                   height: 16.adaptSize,
                   width: 16.adaptSize,
                   margin: EdgeInsets.only(right: 5.h),
-                  onTap: () {
-                    //statusBottomSheet();
-                  },
+                  onTap: () {},
                 ),
               ),
               Expanded(
@@ -473,7 +471,6 @@ class OrderView extends StatelessWidget {
                 title: 'Done',
                 onPressed: () {
                   Get.back();
-                  //viewModel.getDataFunction();
                 },
               ),
             ],
