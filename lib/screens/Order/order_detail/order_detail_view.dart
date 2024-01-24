@@ -211,7 +211,9 @@ class OrderDetailView extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 8.h, vertical: 12.v),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: ThemeHelper.grey1),
+                border: Border.all(
+                  color: ThemeHelper.grey1,
+                ),
               ),
               child: Row(
                 children: [
@@ -272,7 +274,8 @@ class OrderDetailView extends StatelessWidget {
               _customField2(
                   viewModel.orderItemModel.value.customer?.name ?? "name"),
               _customField2(
-                  "${viewModel.orderItemModel.value.address?.billing?.address ?? "address"}\n${viewModel.orderItemModel.value.address?.billing?.city ?? "city"}, ${viewModel.orderItemModel.value.address?.billing?.country ?? "country"}"),
+                "${viewModel.orderItemModel.value.address?.billing?.address ?? "address"}\n${viewModel.orderItemModel.value.address?.billing?.city ?? "city"}, ${viewModel.orderItemModel.value.address?.billing?.country ?? "country"}",
+              ),
               _customField2(
                   viewModel.orderItemModel.value.address?.billing?.phone ??
                       "phone"),
@@ -314,7 +317,12 @@ class OrderDetailView extends StatelessWidget {
     return FittedBox(
       fit: BoxFit.contain,
       child: Container(
-        padding: const EdgeInsets.only(left: 4, top: 3, bottom: 3, right: 6),
+        padding: const EdgeInsets.only(
+          left: 4,
+          top: 3,
+          bottom: 3,
+          right: 6,
+        ),
         decoration: BoxDecoration(
             color: color.withOpacity(0.25),
             borderRadius: BorderRadius.circular(30)),
