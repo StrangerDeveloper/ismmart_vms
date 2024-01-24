@@ -324,8 +324,9 @@ class OrderDetailView extends StatelessWidget {
           right: 6,
         ),
         decoration: BoxDecoration(
-            color: color.withOpacity(0.25),
-            borderRadius: BorderRadius.circular(30)),
+          color: color.withOpacity(0.25),
+          borderRadius: BorderRadius.circular(30),
+        ),
         child: Row(
           children: [
             Icon(
