@@ -84,7 +84,8 @@ class OrderDetailView extends StatelessWidget {
                         text: viewModel.orderItemModel.value.deliveryStatus ??
                             "status",
                         style: newFontStyleSize14.copyWith(
-                            color: newColorLightGrey2),
+                          color: newColorLightGrey2,
+                        ),
                       ),
                     ],
                   ),
@@ -138,7 +139,9 @@ class OrderDetailView extends StatelessWidget {
             title: statusTextMap[
                     viewModel.orderItemModel.value.fulfilmentStatus] ??
                 "",
-            style: const TextStyle(color: ThemeHelper.blue1),
+            style: const TextStyle(
+              color: ThemeHelper.blue1,
+            ),
           ),
           CustomImageView(
             imagePath: ImageConstant.imgIconsArrowForward,
@@ -149,7 +152,9 @@ class OrderDetailView extends StatelessWidget {
           ),
           CustomText(
             title: viewModel.orderItemModel.value.orderId ?? "id",
-            style: newFontStyleSize12Grey2.copyWith(color: newColorLightGrey2),
+            style: newFontStyleSize12Grey2.copyWith(
+              color: newColorLightGrey2,
+            ),
           ),
           const Spacer(),
           PopupMenuButton(
