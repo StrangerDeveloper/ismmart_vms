@@ -196,8 +196,10 @@ class OrderDetailView extends StatelessWidget {
                     .any((item) => item.fulfilmentStatus == "Unfulfilled");
 
                 if (hasUnfulfilledItem) {
-                  Get.to(() => CancelOrderView(),
-                      arguments: {"model": viewModel.orderItemModel.value});
+                  Get.to(
+                    () => CancelOrderView(),
+                    arguments: {"model": viewModel.orderItemModel.value},
+                  );
                 } else {
                   AppConstant.displaySnackBar('Error',
                       'You can\'t cancel the order other than unfulfilled');
