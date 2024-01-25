@@ -584,7 +584,9 @@ class OrderDetailView extends StatelessWidget {
                   bottomRight: Radius.circular(5),
                 ),
               ),
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(
+                8.0,
+              ),
               child: Column(
                 children: [
                   Row(
