@@ -639,7 +639,9 @@ class OrderDetailView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       _customField3("Total Amount"),
-                      SizedBox(width: 8.h),
+                      SizedBox(
+                        width: 8.h,
+                      ),
                       _customField2(
                           "Rs. ${viewModel.orderItemModel.value.totals?.total?.toStringAsFixed(2) ?? "0"}"),
                     ],
