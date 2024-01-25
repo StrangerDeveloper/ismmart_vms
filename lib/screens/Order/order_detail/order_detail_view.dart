@@ -524,7 +524,9 @@ class OrderDetailView extends StatelessWidget {
                                         boxShape: BoxShape.rectangle,
                                         assetsImage: const AssetImage(
                                             'assets/images/image_not_found.png')),
-                                    SizedBox(width: 16.h),
+                                    SizedBox(
+                                      width: 16.h,
+                                    ),
                                     Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
