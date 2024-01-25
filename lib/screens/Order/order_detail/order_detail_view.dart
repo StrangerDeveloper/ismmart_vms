@@ -491,7 +491,9 @@ class OrderDetailView extends StatelessWidget {
                           viewModel.orderItemModel.value.orderId ?? "id"),
                     ],
                   ),
-                  SizedBox(height: 10.v),
+                  SizedBox(
+                    height: 10.v,
+                  ),
                   Obx(
                     () => ListView.builder(
                       shrinkWrap: true,
