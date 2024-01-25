@@ -467,7 +467,7 @@ class OrderDetailView extends StatelessWidget {
                 SizedBox(width: 8.h),
                 _customField1(viewModel.orderItemModel.value.lineitems?.length
                         .toString() ??
-                    "length"),
+                    "length")
               ],
             ),
             const Divider(),
