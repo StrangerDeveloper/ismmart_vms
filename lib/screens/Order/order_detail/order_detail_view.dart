@@ -649,7 +649,9 @@ class OrderDetailView extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: 17.v),
+            SizedBox(
+              height: 17.v,
+            ),
             _customField1("Delivery Details"),
             const Divider(),
             Container(
