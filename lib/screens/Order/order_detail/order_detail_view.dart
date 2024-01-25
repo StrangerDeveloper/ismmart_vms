@@ -451,9 +451,8 @@ class OrderDetailView extends StatelessWidget {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 8, bottom: 8),
-              child: _status("COD Verified"),
-            ),
+                padding: const EdgeInsets.only(top: 8, bottom: 8),
+                child: _status("COD Verified")),
             _customField1("Location"),
             Padding(
               padding: const EdgeInsets.only(top: 8, bottom: 8),
