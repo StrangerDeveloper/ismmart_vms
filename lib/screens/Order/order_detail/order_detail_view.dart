@@ -550,7 +550,9 @@ class OrderDetailView extends StatelessWidget {
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(
-                                      top: 16.0, left: 56.0),
+                                    top: 16.0,
+                                    left: 56.0,
+                                  ),
                                   child: _customField2(
                                       "Rs. ${viewModel.orderItemModel.value.lineitems?[index].totals?.total.toString()}  x ${viewModel.orderItemModel.value.lineitems?[index].qty?.toString()}"),
                                 ),
