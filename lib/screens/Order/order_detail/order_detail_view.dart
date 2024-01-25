@@ -511,7 +511,9 @@ class OrderDetailView extends StatelessWidget {
                                 _status(viewModel.orderItemModel.value
                                         .lineitems?[index].fulfilmentStatus ??
                                     "status"),
-                                const SizedBox(height: 8),
+                                const SizedBox(
+                                  height: 8,
+                                ),
                                 Row(
                                   children: [
                                     CustomCachedNetworkImage(
