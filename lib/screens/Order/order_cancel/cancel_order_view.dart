@@ -441,10 +441,16 @@ class CancelOrderView extends StatelessWidget {
     return FittedBox(
       fit: BoxFit.contain,
       child: Container(
-        padding: const EdgeInsets.only(left: 4, top: 3, bottom: 3, right: 6),
+        padding: const EdgeInsets.only(
+          left: 4,
+          top: 3,
+          bottom: 3,
+          right: 6,
+        ),
         decoration: BoxDecoration(
-            color: color.withOpacity(0.25),
-            borderRadius: BorderRadius.circular(30)),
+          color: color.withOpacity(0.25),
+          borderRadius: BorderRadius.circular(30),
+        ),
         child: Row(
           children: [
             Icon(
@@ -527,8 +533,10 @@ class CancelOrderView extends StatelessWidget {
                       fontSize: 18.fSize,
                     ),
                   ),
-                  content: Obx(() => Text(
-                      "This can't be undone. Are you sure you want to cancel the item SKU: from Order# ${viewModel.orderItemModel.value.orderId} ?")),
+                  content: Obx(
+                    () => Text(
+                        "This can't be undone. Are you sure you want to cancel the item SKU: from Order# ${viewModel.orderItemModel.value.orderId} ?"),
+                  ),
                   actions: [
                     CustomTextBtn(
                       backgroundColor: Colors.grey.shade200,
