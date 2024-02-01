@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ismmart_vms/helper/api_base_helper.dart';
-import 'package:ismmart_vms/helper/global_variables.dart';
-import 'package:ismmart_vms/screens/Order/order_listing/model/orderModel.dart';
 
+import '../../../helper/api_base_helper.dart';
+import '../../../helper/global_variables.dart';
+import '../../../screens/Order/order_listing/model/orderModel.dart';
 import '../../../helper/constants.dart';
 import '../../../helper/urls.dart';
 
